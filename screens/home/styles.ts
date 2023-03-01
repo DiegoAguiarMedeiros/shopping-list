@@ -15,6 +15,24 @@ export const ContainerList = styled.View`
     padding:1px;
     overflow:hidden;
 `;
+export const ContainerListEmpty = styled.View`
+    height: 76%;
+    padding:1px;
+    overflow:hidden;
+`;
+export const ContainerListEmptyInner = styled.View`
+    flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+export const ListEmptyTitle = styled.Text<{
+    text: string,
+}>`
+    color:${(props: { text: any; }) => props.text}; 
+    fontSize: 25;
+    text-align: center;
+    font-weight: bold;
+`;
 export const ContainerTotal = styled.View<{
     border: string,
 }>`

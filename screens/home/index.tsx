@@ -30,18 +30,30 @@ export default function Home() {
 
 
   return (
+
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
       {open && <ModalAddItem setItems={setItemInArray} openClose={closeOpen} />}
-      <Styled.ContainerList >
-        <SafeAreaView >
-          <ScrollView >
-            <ItemList items={items} />
-          </ScrollView>
-        </SafeAreaView>
-      </Styled.ContainerList>
-      <Styled.ContainerTotal border={Colors[colorScheme ?? 'light'].border}>
-        <TotalBar items={items} />
-      </Styled.ContainerTotal>
+      {items.length === 0 ?
+        <Styled.ContainerListEmpty >
+          <Styled.ContainerListEmptyInner >
+            <Styled.ListEmptyTitle text={Colors[colorScheme ?? 'light'].text}>
+              Lista Vazia!
+            </Styled.ListEmptyTitle>
+          </Styled.ContainerListEmptyInner>
+        </Styled.ContainerListEmpty>
+        :
+        <>
+          <Styled.ContainerList >
+            <SafeAreaView >
+              <ScrollView >
+                <ItemList items={items} />
+              </ScrollView>
+            </SafeAreaView>
+          </Styled.ContainerList>
+          <Styled.ContainerTotal border={Colors[colorScheme ?? 'light'].border}>
+            <TotalBar items={items} />
+          </Styled.ContainerTotal>
+        </>}
       <Styled.ContainerButtonAdd>
         <Button text='Adicionar' background={Colors[colorScheme ?? 'light'].buttonBackground} onPress={closeOpen} />
       </Styled.ContainerButtonAdd>
