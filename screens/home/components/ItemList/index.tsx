@@ -1,23 +1,31 @@
 import { FontAwesome } from '@expo/vector-icons';
-import { Pressable, useColorScheme } from 'react-native';
+import { GestureResponderEvent, Pressable, useColorScheme } from 'react-native';
 import Colors from '../../../../constants/Colors';
 import * as Styled from './styles';
+import { itemInterface } from '../../../../types/types';
 
 interface itemProps {
-  items: string[];
+  items: itemInterface[],
+  removeFromList: (id: number) => void,
 }
 
 
 
-export default function ItemList({ items }: itemProps) {
+export default function ItemList({ items, removeFromList }: itemProps) {
   const colorScheme = useColorScheme();
 
-  const createList = (items: String[]) => {
-    return items.map((item,index) => (
+  const remove = (id: number) => {
+    removeFromList(id);
+    console.log('saiu')
+    return null
+  }
+
+  const createList = (items: itemInterface[]) => {
+    return items.map((item, index) => (
       <Styled.listItem border={Colors[colorScheme ?? 'light'].border} key={`listItem_${index}`} background={Colors[colorScheme ?? 'light'].backgroundLighter}>
         <Styled.listItemIconText>
           <Styled.titleList text={Colors[colorScheme ?? 'light'].text}>
-            {item}
+            {item.item}
           </Styled.titleList >
         </Styled.listItemIconText>
         <Styled.listItemIconOk>
@@ -36,7 +44,7 @@ export default function ItemList({ items }: itemProps) {
         </Styled.listItemIconOk>
         <Styled.listItemIconNotOk>
           <Styled.Text>
-            <Pressable>
+            <Pressable onPress={() => remove(item.id)}>
               {({ pressed }) => (
                 <FontAwesome
                   name="times"

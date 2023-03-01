@@ -10,8 +10,10 @@ import TotalBar from './components/TotalBar';
 import ModalAddItem from './components/modalAddItem';
 import { useState } from 'react';
 import Button from '../../components/Button';
+import { itemInterface } from '../../types/types';
 
-const itemsArr: string[] = []
+
+const itemsArr: itemInterface[] = []
 
 export default function Home() {
   const [items, setItems] = useState(itemsArr);
@@ -20,19 +22,23 @@ export default function Home() {
   const colorScheme = useColorScheme();
 
 
-  const setItemInArray = (newItem: string) => {
+  const setItemInArray = (newItem: itemInterface) => {
     setItems([...items, newItem]);
     setOpen(!open);
   }
   const closeOpen = (event: GestureResponderEvent) => {
     setOpen(!open);
   }
-
+  const removeFromList = (id: number) => {
+    const newItemsArr = items.filter((item) => item.id !== id);
+    setItems(newItemsArr);
+    return null;
+  }
 
   return (
 
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
-      {open && <ModalAddItem setItems={setItemInArray} openClose={closeOpen} />}
+      {open && <ModalAddItem itemsList={items} setItems={setItemInArray} openClose={closeOpen} />}
       {items.length === 0 ?
         <Styled.ContainerListEmpty >
           <Styled.ContainerListEmptyInner >
@@ -46,7 +52,7 @@ export default function Home() {
           <Styled.ContainerList >
             <SafeAreaView >
               <ScrollView >
-                <ItemList items={items} />
+                <ItemList items={items} removeFromList={removeFromList} />
               </ScrollView>
             </SafeAreaView>
           </Styled.ContainerList>

@@ -6,19 +6,27 @@ import InputText from '../../../../components/InputText';
 import Colors from '../../../../constants/Colors';
 import * as Styled from './styles';
 
+import { itemInterface } from '../../../../types/types';
+
 interface itemProps {
-    setItems: (newItem: string) => void
+    itemsList: itemInterface[]
+    setItems: (newItem: itemInterface) => void
     openClose: (event: GestureResponderEvent) => void,
 }
 
 
 
-export default function ModalAddItem({ setItems,  openClose }: itemProps) {
+export default function ModalAddItem({ itemsList, setItems, openClose }: itemProps) {
     const [newItem, setNewItem] = useState('');
     const colorScheme = useColorScheme();
 
     const addItem = () => {
-        setItems(newItem);
+        const item = {
+            id: itemsList.length,
+            item: newItem,
+            active: false,
+        }
+        setItems(item);
     }
 
     return (
@@ -36,7 +44,7 @@ export default function ModalAddItem({ setItems,  openClose }: itemProps) {
                         </Styled.ModalTitle>
                     </Styled.ModalHeader>
                     <Styled.ModalBodyInner border={Colors[colorScheme ?? 'light'].border}>
-                        <InputText placeholder='item...' onChangeText={(item) => { setNewItem(item);}} value={newItem} />
+                        <InputText placeholder='item...' onChangeText={(item) => { setNewItem(item); }} value={newItem} />
                     </Styled.ModalBodyInner>
 
                     <Styled.ContainerButtonAdd border={Colors[colorScheme ?? 'light'].border}>
