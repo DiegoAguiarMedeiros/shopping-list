@@ -47,3 +47,10 @@ export const titleList = styled.Text<{
     margin-top: 20px;
     font-size: 20px;
 `;
+export const price = styled.Text<{
+    text: string,
+}>`
+    color:${(props: { text: any; }) => props.text};
+    margin-top: 20px;
+    font-size: 20px;
+`;

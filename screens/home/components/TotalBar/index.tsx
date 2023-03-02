@@ -6,23 +6,18 @@ import { itemInterface } from '../../../../types/types';
 import { useEffect, useState } from 'react';
 
 interface itemProps {
-  items: itemInterface[];
+  totalAmount: String,
+  totalActive: String,
+  totalItems: String,
 }
 
 
 
-export default function TotalBar({ items }: itemProps) {
-  const [itemQuantity, setItemQuantity] = useState(0);
+export default function TotalBar({ totalAmount,totalActive,totalItems }: itemProps) {
+
   const colorScheme = useColorScheme();
 
-  const activeItems = () => {
-    const active = items.filter((item) => item.active)
-    setItemQuantity(active.length)
-  }
 
-  useEffect(() => {
-    activeItems()
-  }, [items.length]);
 
 
   return (
@@ -32,12 +27,12 @@ export default function TotalBar({ items }: itemProps) {
     >
       <Styled.TotalView>
         <Styled.Text text={Colors[colorScheme ?? 'light'].text}>
-          Itens {itemQuantity}/{items.length}
+          Itens {totalActive}/{totalItems}
         </Styled.Text>
       </Styled.TotalView>
       <Styled.TotalPriceView>
         <Styled.Text text={Colors[colorScheme ?? 'light'].text}>
-          total: $0,00
+          total: R${totalAmount}
         </Styled.Text>
       </Styled.TotalPriceView>
     </Styled.listItem>
