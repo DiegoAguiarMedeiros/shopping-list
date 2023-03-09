@@ -4,4 +4,5 @@ export interface itemInterface {
     amount?: number,
     active: Boolean,
     quantity?: number,
+    unit?: string,
 }

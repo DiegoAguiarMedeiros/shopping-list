@@ -12,7 +12,7 @@ import ModalConfirmItem from './components/ModalConfirmItem';
 import { useEffect, useState } from 'react';
 import Button from '../../components/Button';
 import { itemInterface } from '../../types/types';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const itemsArr: itemInterface[] = []
 
@@ -27,10 +27,21 @@ export default function Home() {
   const colorScheme = useColorScheme();
 
 
+  const setStorage = () => {
+    const objString = JSON.stringify(items);
+    AsyncStorage.setItem('items', objString);
+  }
+  const getStorage = async () => {
+    const objString = await AsyncStorage.getItem('items');
+    if (objString != undefined) setItems(JSON.parse(objString))
+    return objString;
+  }
+
   const setItemInArray = (newItem: itemInterface) => {
     activeItems();
     setItems([...items, newItem]);
     setOpenModalAddItem(!openModalAddItem);
+    setStorage();
   }
   const editItemInArray = (newItem: itemInterface) => {
     const listItems = items;
@@ -43,6 +54,7 @@ export default function Home() {
     totalAmout();
     setItems(listItems);
     setOpenModalConfirmItem(!openModalAddItem);
+    setStorage();
   }
   const closeOpenModalAddItem = () => {
     setOpenModalAddItem(!openModalAddItem);
@@ -54,10 +66,11 @@ export default function Home() {
     setOpenModalConfirmItem(!openModalConfirmItem);
   }
   const removeFromList = (id: number) => {
-    activeItems();
-    totalAmout();
+
     const newItemsArr = items.filter((item) => item.id !== id);
     setItems(newItemsArr);
+    setStorage();
+    refreshTotalBar();
     return null;
   }
 
@@ -66,6 +79,10 @@ export default function Home() {
     return itemSelected[0];
   }
 
+  const refreshTotalBar = () => {
+    activeItems();
+    totalAmout();
+  }
 
   const activeItems = () => {
     const active = items.filter((item) => item.active)
@@ -74,16 +91,19 @@ export default function Home() {
   }
   const totalAmout = () => {
     const result = items.reduce(function (acumulador, objetoAtual) {
-      const amount = objetoAtual.amount != undefined ? objetoAtual.amount : 0;
+      const amount = objetoAtual.amount != undefined && objetoAtual.quantity != undefined ? Number(objetoAtual.amount) * Number(objetoAtual.quantity) : 0;
       return acumulador + amount;
     }, 0);
-    setItemAmountTotal(result)
+    setItemAmountTotal(Number(result))
   }
 
   useEffect(() => {
-  
+    refreshTotalBar();
   }, [items]);
 
+  useEffect(() => {
+    getStorage();
+  }, []);
 
   return (
 
@@ -108,7 +128,7 @@ export default function Home() {
             </SafeAreaView>
           </Styled.ContainerList>
           <Styled.ContainerTotal border={Colors[colorScheme ?? 'light'].border}>
-            <TotalBar totalAmount={String(itemAmountTotal)} totalActive={String(itemTotalActive)} totalItems={String(itemQuantity)} />
+            <TotalBar totalAmount={String(itemAmountTotal.toFixed(2))} totalActive={String(itemTotalActive)} totalItems={String(itemQuantity)} />
           </Styled.ContainerTotal>
         </>}
       <Styled.ContainerButtonAdd>

@@ -20,7 +20,7 @@ export const Container = styled.View<{
     background:${(props: { background: any; }) => props.background};
     position:absolute;
     width: ${Dimensions.get('window').width};
-    height: 30%;
+    height: 40%;
     z-index:999;
     margin: 100px 0 0 0;
 
@@ -43,7 +43,7 @@ export const ModalHeader = styled.View<{
 }>`
     border: 1px solid ${(props: { border: any; }) => props.border};
     width: 100%;
-    height: 30%;
+    height: 20%;
     padding:15px;
     `;
 export const ModalBodyInner = styled.View<{
@@ -51,7 +51,7 @@ export const ModalBodyInner = styled.View<{
 }>`
     border: 1px solid ${(props: { border: any; }) => props.border};
     width: 100%;
-    height: 50%;
+    height: 65%;
     padding:15px;
     `;
 export const ModalTitle = styled.Text<{
@@ -72,12 +72,21 @@ export const Text = styled.Text<{
 export const ContainerButtonAdd = styled.View<{
     border: string,
 }>`
-    border: 1px solid ${(props: { border: any; }) => props.border};
+    padding:2px;
     display: flex;
     flex-direction: row;
     width: 100%;
     `;
-    
+
 export const ContainerButtonAddInner = styled.View`
+    width: 50%;
+`;
+
+export const ContainerInputQauntity = styled.View`
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+`;
+export const ContainerInputQauntityInner = styled.View`
     width: 50%;
 `;

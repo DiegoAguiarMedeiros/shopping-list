@@ -1,5 +1,5 @@
 import { FontAwesome } from '@expo/vector-icons';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { GestureResponderEvent, Pressable, useColorScheme } from 'react-native';
 import Button from '../../../../components/Button';
 import Select from '../../../../components/InputSelect';
@@ -19,26 +19,42 @@ interface itemProps {
 
 export default function ModalAddItem({ itemsList, setItems, openClose, itemActiveOnModal }: itemProps) {
     const [amountItem, setAmountItem] = useState('');
+    const [quantityItem, setQuantity] = useState('');
     const [selectedValue, setSelectedValue] = useState('1');
     const colorScheme = useColorScheme();
 
     const unitSelect = [
-        { label: 'un', value: '1' },
+        { label: 'Un', value: '1' },
         { label: 'kg', value: '2' },
     ];
 
     const addAmountItem = () => {
+        const selected = Number(selectedValue) - 1;
         const item = { ...itemsList }
         item.active = true;
-        item.quantity = 1;
+        item.quantity = Number(quantityItem);
         item.amount = Number(amountItem);
+        item.unit = unitSelect[selected].label;
         setItems(item);
         openClose();
     }
 
-    const handleValueChange = (itemValue: unknown, itemIndex: number) => {
-        console.log('a')
-    }
+    const handleValueChange = (itemValue: string, itemIndex: number) => {
+        setSelectedValue(itemValue);
+    };
+
+    useEffect(() => {
+        const amount = itemsList.amount ? itemsList.amount : '';
+        const quantity = itemsList.quantity ? itemsList.quantity : '';
+        setAmountItem(amount.toString());
+        setQuantity(quantity.toString());
+
+        if (itemsList.unit !== undefined) {
+            const units = unitSelect.filter((u) => u.label === itemsList.unit!)
+            const unit = units.length > 0 ? units[0].value : '0';
+            setSelectedValue(unit);
+        }
+    }, []);
 
     return (
         <>
@@ -54,13 +70,21 @@ export default function ModalAddItem({ itemsList, setItems, openClose, itemActiv
                             {itemsList.item}
                         </Styled.ModalTitle>
                     </Styled.ModalHeader>
-                    <Select
-                        items={unitSelect}
-                        selectedValue={selectedValue}
-                        onValueChange={handleValueChange}
-                    />
                     <Styled.ModalBodyInner border={Colors[colorScheme ?? 'light'].border}>
-                        <InputText placeholder='Valor...' keyboardType="numeric" onChangeText={(amount) => { setAmountItem(amount); }} value={amountItem} />
+                        <Styled.ContainerInputQauntity>
+                            <Styled.ContainerInputQauntityInner>
+
+                                <InputText placeholder='Quantidade...' keyboardType="numeric" onChangeText={(quantity) => { setQuantity(quantity.replace(',', '.')); }} value={quantityItem} />
+                            </Styled.ContainerInputQauntityInner>
+                            <Styled.ContainerInputQauntityInner>
+                                <Select
+                                    items={unitSelect}
+                                    selectedValue={selectedValue}
+                                    onValueChange={handleValueChange}
+                                />
+                            </Styled.ContainerInputQauntityInner>
+                        </Styled.ContainerInputQauntity>
+                        <InputText placeholder='Valor...' keyboardType="numeric" onChangeText={(amount) => { setAmountItem(amount.replace(',', '.')); }} value={amountItem} />
                     </Styled.ModalBodyInner>
 
                     <Styled.ContainerButtonAdd border={Colors[colorScheme ?? 'light'].border}>

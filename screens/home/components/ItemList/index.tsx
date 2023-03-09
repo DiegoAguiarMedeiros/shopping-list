@@ -27,48 +27,59 @@ export default function ItemList({ items, removeFromList, openClose, setItemActi
     return null
   }
 
+  
+
   const createList = (items: itemInterface[]) => {
     return items.map((item, index) => (
       <Styled.listItem border={Colors[colorScheme ?? 'light'].border} key={`listItem_${index}`} background={Colors[colorScheme ?? 'light'].backgroundLighter}>
-        <Styled.listItemIconText>
-          <Styled.titleList text={Colors[colorScheme ?? 'light'].text}>
-            {item.item}
-          </Styled.titleList >
-        </Styled.listItemIconText>
-        <Styled.listItemIconOk>
-          <Styled.Text>
-            {item.active ?
-              <Styled.price text={Colors[colorScheme ?? 'light'].text}>
-                R$ {item.amount}
-              </Styled.price>
-              : <Pressable onPress={() => openModal(item.id)}>
+        <Styled.listItemIconView>
+          <Styled.listItemIconViewInner>
+            <Styled.listItemIconViewInnerItemFirst>
+              <Styled.titleList text={Colors[colorScheme ?? 'light'].text}>
+                {item.item}
+              </Styled.titleList >
+            </Styled.listItemIconViewInnerItemFirst>
+            <Styled.listItemIconViewInnerItem>
+              <Pressable onPress={() => openModal(item.id)}>
                 {({ pressed }) => (
                   <FontAwesome
-                    name="check"
+                    name={item.active ? "pencil" :"check"}
                     size={30}
-                    color={Colors[colorScheme ?? 'light'].success}
+                    color={item.active ? Colors[colorScheme ?? 'light'].edit : Colors[colorScheme ?? 'light'].success }
                     style={{ opacity: pressed ? 0.5 : 1 }}
                   />
                 )}
-              </Pressable>}
+              </Pressable>
+            </Styled.listItemIconViewInnerItem>
+            <Styled.listItemIconViewInnerItem>
+              <Pressable onPress={() => remove(item.id)}>
+                {({ pressed }) => (
+                  <FontAwesome
+                    name="times"
+                    size={30}
+                    color={Colors[colorScheme ?? 'light'].error}
+                    style={{ opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            </Styled.listItemIconViewInnerItem>
+          </Styled.listItemIconViewInner>
+          {item.active ?
+            <Styled.listItemIconViewInnerPrice>
+              <Styled.TextQTD text={Colors[colorScheme ?? 'light'].text}>
+                QTD: {item.quantity}
+              </Styled.TextQTD >
+              <Styled.TextValue text={Colors[colorScheme ?? 'light'].text}>
+                R$ {item.amount} {item.unit}
+              </Styled.TextValue >
+              <Styled.TextValueTotal text={Colors[colorScheme ?? 'light'].text}>
+                Total: R$ {Number(item.amount! * item.quantity!).toFixed(2)}
+              </Styled.TextValueTotal>
+            </Styled.listItemIconViewInnerPrice>
+            : <></>}
 
-          </Styled.Text>
-        </Styled.listItemIconOk>
-        <Styled.listItemIconNotOk>
-          <Styled.Text>
-            <Pressable onPress={() => remove(item.id)}>
-              {({ pressed }) => (
-                <FontAwesome
-                  name="times"
-                  size={30}
-                  color={Colors[colorScheme ?? 'light'].error}
-                  style={{ opacity: pressed ? 0.5 : 1 }}
-                />
-              )}
-            </Pressable>
-          </Styled.Text>
-        </Styled.listItemIconNotOk>
-      </Styled.listItem>
+        </Styled.listItemIconView>
+      </Styled.listItem >
     ))
   }
 

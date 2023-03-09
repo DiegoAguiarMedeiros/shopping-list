@@ -22,11 +22,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.diegoamdeiros.shoppinglist"
     },
     "web": {
       "bundler": "metro",
       "favicon": "./assets/images/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6f223da9-31f2-4e9e-aa0f-54d84b26a9b6"
+      }
     }
   }
 }

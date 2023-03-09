@@ -21,10 +21,10 @@ export const listItem = styled.View<{
 `;
 
 export const TotalView = styled.View`
-    width: 60%;
+    width: 55%;
 `;
 export const TotalPriceView = styled.View`
-    width: 40%;
+    width: 45%;
 `;
 
 export const Text = styled.Text<{
