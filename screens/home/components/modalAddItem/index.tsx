@@ -21,8 +21,10 @@ export default function ModalAddItem({ itemsList, setItems, openClose }: itemPro
     const colorScheme = useColorScheme();
 
     const addItem = () => {
+
+        const id = itemsList.length > 0 ? itemsList[itemsList.length - 1].id + 1 : 0;
         const item = {
-            id: itemsList.length,
+            id: id,
             item: newItem,
             active: false,
         }
