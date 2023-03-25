@@ -8,6 +8,7 @@ import * as Styled from './styles';
 import { useEffect, useState } from 'react';
 import Button from '../../../components/Button';
 import { itemInterface } from '../../../types/types';
+import { Link } from 'expo-router';
 
 
 
@@ -43,7 +44,9 @@ export default function EmptyList() {
             Você não tem nenhuma lista criada
           </Styled.ListEmptyTextmessage>
           <Styled.ContainerButtonAdd>
-            <Button text='Adicionar' background={Colors['light'].buttonBackground} icon="plus"/>
+            <Link href="/modal" asChild>
+              <Button text='Adicionar' background={Colors['light'].buttonBackground} icon="plus" />
+            </Link>
           </Styled.ContainerButtonAdd>
         </Styled.ContainerListEmptyInner>
       </Styled.ContainerListEmpty>

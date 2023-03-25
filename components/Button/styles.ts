@@ -8,7 +8,7 @@ export const Button = styled.TouchableOpacity<{
   background:${(props: { background: any; }) => props.background};
   border: 1px solid ${(props: { border: any; }) => props.border};
   border-radius: 100px;
-  padding: 12px 20px;
+  padding: 5px 15px;
   flex-direction: row;
   align-items: center;
 `;
