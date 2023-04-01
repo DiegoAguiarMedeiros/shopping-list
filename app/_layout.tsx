@@ -60,6 +60,8 @@ function RootLayoutNav() {
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: "Adicionar" }} />
+          <Stack.Screen name="iTems" options={{headerShown: false, title: "Adicionar2" }} />
+          <Stack.Screen name="modalAdd" options={{headerShown: false, title: "Adicionar3" }} />
         </Stack>
       </ThemeProvider>
     </>
