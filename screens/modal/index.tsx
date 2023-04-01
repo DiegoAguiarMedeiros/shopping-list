@@ -24,14 +24,14 @@ const img: Image =
 
 const itemsArr: itemInterface[] = []
 
-export default function EmptyList() {
+export default function Modal() {
   const [newItem, setNewItem] = useState('');
   const colorScheme = useColorScheme();
   return (
 
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
       <Styled.InputContainer>
-        <InputText placeholder='Nome da sua lista...' onChangeText={(item) => { setNewItem(item); }} value={newItem} />
+        <InputText placeholder='Nome da sua lista222...' onChangeText={(item) => { setNewItem(item); }} value={newItem} />
       </Styled.InputContainer>
 
       <Styled.ButtonsContainer>
