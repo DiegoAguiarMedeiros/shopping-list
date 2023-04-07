@@ -1,4 +1,4 @@
-export interface itemInterface {
+interface itemInterface {
     id: number,
     item: string,
     amount?: number,
@@ -6,4 +6,16 @@ export interface itemInterface {
     quantity?: number,
     unit?: string,
 }
+
+interface listInterface {
+    name: number,
+    items: listInterface[],
+}
+type listType = listInterface[];
+
+export {
+    listType,
+    listInterface,
+    itemInterface,
+};
 

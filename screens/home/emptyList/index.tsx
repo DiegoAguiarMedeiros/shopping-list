@@ -30,7 +30,6 @@ export default function EmptyList() {
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
       <Styled.ContainerListEmpty >
         <Styled.ContainerListEmptyInner>
-
         </Styled.ContainerListEmptyInner>
         <Styled.ContainerListEmptyInner>
           <Styled.SlideContainerInnerImage>
@@ -42,7 +41,7 @@ export default function EmptyList() {
             Você não tem nenhuma lista criada
           </Styled.ListEmptyTextmessage>
           <Styled.ContainerButtonAdd>
-            <Link href="/iTems" asChild>
+            <Link href="/modal" asChild>
               <Button text='Adicionar' background={Colors['light'].buttonBackground} icon="plus" />
             </Link>
           </Styled.ContainerButtonAdd>

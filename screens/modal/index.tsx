@@ -8,19 +8,7 @@ import * as Styled from './styles';
 import { useEffect, useState } from 'react';
 import Button from '../../components/Button';
 import { itemInterface } from '../../types/types';
-import { Link } from 'expo-router';
 import InputText from '../../components/InputText';
-
-
-
-interface Image {
-  image: any;
-}
-
-const img: Image =
-{
-  image: require('../../assets/images/empty.png'),
-};
 
 const itemsArr: itemInterface[] = []
 
@@ -31,7 +19,7 @@ export default function Modal() {
 
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
       <Styled.InputContainer>
-        <InputText placeholder='Nome da sua lista222...' onChangeText={(item) => { setNewItem(item); }} value={newItem} />
+        <InputText placeholder='Nome da sua lista...' onChangeText={(item) => { setNewItem(item); }} value={newItem} />
       </Styled.InputContainer>
 
       <Styled.ButtonsContainer>

@@ -1,24 +1,30 @@
-import {
-  useColorScheme, SafeAreaView,
-  ScrollView,
-  GestureResponderEvent,
-} from 'react-native';
-import Colors from '../../constants/Colors';
-import * as Styled from './styles';
-import { useEffect, useState } from 'react';
-import Button from '../../components/Button';
-import { itemInterface } from '../../types/types';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import EmptyList from './emptyList'
-import List from './list'
+import ListComponent from './list'
+import ListStorage from '../../utils/list'
+import { listType } from '../../types/types'
+import { useEffect, useState } from 'react'
 
-const itemsArr: itemInterface[] = []
+
+const getListFromStorage = async (): Promise<listType | null> => {
+  const list = await ListStorage.getListArchived()
+  return list;
+}
 
 export default function Home() {
-  const colorScheme = useColorScheme();
+
+  const [list, setList] = useState<listType | null>(null);
+
+  const loadList = async (): Promise<void> => {
+    const listArr = await getListFromStorage();
+    setList(listArr);
+  }
+
+  useEffect(() => {
+    loadList()
+  }, []);
+
   return (
-    <EmptyList />
-    // <List />
+    list ? <ListComponent /> : <EmptyList />
   );
 }
 

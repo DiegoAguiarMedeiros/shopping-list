@@ -29,7 +29,8 @@ export default function EmptyList() {
 
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
       <Styled.ContainerListEmpty >
-
+        <Styled.ContainerListEmptyInner>
+        </Styled.ContainerListEmptyInner>
         <Styled.ContainerListEmptyInner>
           <Styled.SlideContainerInnerImage>
             <Styled.SlideImage source={img.image} />
