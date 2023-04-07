@@ -29,9 +29,7 @@ export default function EmptyList() {
 
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
       <Styled.ContainerListEmpty >
-        <Styled.ContainerListEmptyInner>
 
-        </Styled.ContainerListEmptyInner>
         <Styled.ContainerListEmptyInner>
           <Styled.SlideContainerInnerImage>
             <Styled.SlideImage source={img.image} />
@@ -39,13 +37,8 @@ export default function EmptyList() {
         </Styled.ContainerListEmptyInner>
         <Styled.ContainerListEmptyInner>
           <Styled.ListEmptyTextmessage text={Colors[colorScheme ?? 'light'].text2}>
-            Você não tem nenhuma lista criada
+            Você não tem nenhuma lista arquivada
           </Styled.ListEmptyTextmessage>
-          <Styled.ContainerButtonAdd>
-            <Link href="/iTems" asChild>
-              <Button text='Adicionar' background={Colors['light'].buttonBackground} icon="plus" />
-            </Link>
-          </Styled.ContainerButtonAdd>
         </Styled.ContainerListEmptyInner>
       </Styled.ContainerListEmpty>
 

@@ -7,19 +7,21 @@ export const Container = styled.View<{
     background:${(props: { background: any; }) => props.background};
     width: ${Dimensions.get('window').width};
     height: ${Dimensions.get('window').height};
-    padding:60px 0 60px 0;
-    margin: 10px 0;
-    `;
+    padding:10px;
+`;
 
-export const ContainerListInner = styled.View`
+export const ContainerList = styled.View`
+    height: 76%;
+    overflow:hidden;
+`;
+export const ContainerListEmpty = styled.View`
+    height: 100%;
+    padding:1px;
+    overflow:hidden;
+        `;
+export const ContainerListEmptyInner = styled.View`
+
     flex: 1;
-    flex-gorw:1;
-    justify-content: center;
-    align-items: center;
-    `;
-export const ContainerListList = styled.View`
-    padding:0 15px;
-    flex: 8;
     flex-gorw:1;
     justify-content: center;
     align-items: center;
@@ -38,14 +40,14 @@ height: 200px;
 `;
 
 
-export const ListTitle = styled.Text<{
+export const ListEmptyTitle = styled.Text<{
     text: string,
 }>`
     color:${(props: { text: any; }) => props.text}; 
     fontSize: 20;
     text-align: center;
 `;
-export const ListTextmessage = styled.Text<{
+export const ListEmptyTextmessage = styled.Text<{
     text: string,
 }>`
     color:${(props: { text: any; }) => props.text}; 
@@ -61,5 +63,6 @@ export const ContainerTotal = styled.View<{
     height: 5%;
     `;
 export const ContainerButtonAdd = styled.View`
-    height: 60%;
+    margin-top: 10%;
+    height: 50%;
 `;

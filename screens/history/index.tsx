@@ -14,7 +14,7 @@ import List from './list'
 
 const itemsArr: itemInterface[] = []
 
-export default function Home() {
+export default function History() {
   const colorScheme = useColorScheme();
   return (
     <EmptyList />
