@@ -10,14 +10,15 @@ import Button from '../../components/Button';
 import { itemInterface } from '../../types/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import EmptyList from './emptyList'
+import List from './list'
 
 const itemsArr: itemInterface[] = []
 
 export default function Home() {
   const colorScheme = useColorScheme();
   return (
-
-    <EmptyList />
+    // <EmptyList />
+    <List />
   );
 }
 

@@ -11,9 +11,9 @@ import Button from '../../components/Button';
 import { itemInterface } from '../../types/types';
 import { Link } from 'expo-router';
 import InputText from '../../components/InputText';
-import * as Progress from 'react-native-progress';
 import EmptyList from './emptyList';
 import ListGrid from './listGrid';
+import CircleProgress from '../../components/CircleProgress';
 
 
 interface Image {
@@ -50,15 +50,11 @@ export default function List() {
           </Styled.ListTitle>
         </Styled.ContainerHeaderInnerText>
         <Styled.ContainerHeaderInnerProgress >
-          <Progress.Circle
-            progress={0.5}
-            size={80}
-            unfilledColor={Colors[colorScheme ?? 'light'].secondary}
-            color={Colors[colorScheme ?? 'light'].primary}
-            showsText={true}
-            formatText={() => formatText(1)}
-            strokeCap="round"
-            allowFontScaling={true} />
+          <CircleProgress
+            filled={2}
+            progress={0.66}
+            total={3}
+            size={80} />
         </Styled.ContainerHeaderInnerProgress>
       </Styled.ContainerHeader>
       <Styled.ContainerBody >

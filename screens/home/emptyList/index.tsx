@@ -44,7 +44,7 @@ export default function EmptyList() {
             Você não tem nenhuma lista criada
           </Styled.ListEmptyTextmessage>
           <Styled.ContainerButtonAdd>
-            <Link href="/modal" asChild>
+            <Link href="/iTems" asChild>
               <Button text='Adicionar' background={Colors['light'].buttonBackground} icon="plus" />
             </Link>
           </Styled.ContainerButtonAdd>
