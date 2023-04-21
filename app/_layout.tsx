@@ -5,6 +5,8 @@ import { SplashScreen, Stack } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useColorScheme } from 'react-native';
 import OnboardingScreen from '../screens/onboarding'
+import { ShoppingListProvider } from '../context/ShoppingList';
+
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -43,10 +45,12 @@ export default function RootLayout() {
 
   return (
     <>
-      {/* Keep the splash screen open until the assets have loaded. In the future, we should just support async font loading with a native version of font-display. */}
-      {!loaded && <SplashScreen />}
-      {active && <OnboardingScreen closeOnboarding={closeOnboarding} />}
-      {loaded && !active && <RootLayoutNav />}
+      <ShoppingListProvider>
+        {/* Keep the splash screen open until the assets have loaded. In the future, we should just support async font loading with a native version of font-display. */}
+        {!loaded && <SplashScreen />}
+        {active && <OnboardingScreen closeOnboarding={closeOnboarding} />}
+        {loaded && !active && <RootLayoutNav />}
+      </ShoppingListProvider >
     </>
   );
 }
@@ -60,8 +64,8 @@ function RootLayoutNav() {
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: "Adicionar" }} />
-          <Stack.Screen name="iTems" options={{headerShown: false, title: "Adicionar2" }} />
-          <Stack.Screen name="modalAdd" options={{headerShown: false, title: "Adicionar3" }} />
+          <Stack.Screen name="iTems" options={{ headerShown: false, title: "Adicionar2" }} />
+          <Stack.Screen name="modalAdd" options={{ headerShown: false, title: "Adicionar3" }} />
         </Stack>
       </ThemeProvider>
     </>

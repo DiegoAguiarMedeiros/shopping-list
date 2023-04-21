@@ -8,7 +8,7 @@ import * as Styled from './styles';
 import { useEffect, useState } from 'react';
 import Button from '../../../components/Button';
 import { itemInterface } from '../../../types/types';
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 
 
 
@@ -22,8 +22,9 @@ const img: Image =
 };
 
 const itemsArr: itemInterface[] = []
-
+const data = { name: 'John', age: 30 };
 export default function EmptyList() {
+  const router = useRouter();
   const colorScheme = useColorScheme();
   return (
 
@@ -41,14 +42,14 @@ export default function EmptyList() {
             Você não tem nenhuma lista criada
           </Styled.ListEmptyTextmessage>
           <Styled.ContainerButtonAdd>
-            <Link href="/modal" asChild>
-              <Button text='Adicionar' background={Colors['light'].buttonBackground} icon="plus" />
-            </Link>
+            <Button text='Adicionar' background={Colors['light'].buttonBackground} icon="plus" onPress={() => {
+              router.push("/modal?myPage=home");
+            }} />
           </Styled.ContainerButtonAdd>
         </Styled.ContainerListEmptyInner>
       </Styled.ContainerListEmpty>
 
-    </Styled.Container>
+    </Styled.Container >
   );
 }
 

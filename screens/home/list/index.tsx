@@ -7,17 +7,23 @@ import Colors from '../../../constants/Colors';
 import * as Styled from './styles';
 import { useEffect, useState } from 'react';
 import Button from '../../../components/Button';
-import { itemInterface } from '../../../types/types';
+import { listType } from '../../../types/types';
 import { Link } from 'expo-router';
 import ListGrid from './listGrid';
 
-export default function List() {
+
+interface itemProps {
+  items: listType
+}
+
+
+export default function List({ items }: itemProps) {
   const colorScheme = useColorScheme();
   return (
 
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
       <Styled.ContainerListList>
-        <ListGrid />
+        <ListGrid items={items} />
       </Styled.ContainerListList>
       <Styled.ContainerListInner>
         <Styled.ContainerButtonAdd>

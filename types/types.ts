@@ -1,5 +1,5 @@
 interface itemInterface {
-    id: number,
+    uuid: string,
     item: string,
     amount?: number,
     active: Boolean,
@@ -8,8 +8,9 @@ interface itemInterface {
 }
 
 interface listInterface {
-    name: number,
-    items: listInterface[],
+    uuid: string,
+    name: string,
+    items: itemInterface[],
 }
 type listType = listInterface[];
 

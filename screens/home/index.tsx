@@ -1,30 +1,14 @@
 import EmptyList from './emptyList'
 import ListComponent from './list'
-import ListStorage from '../../utils/list'
-import { listType } from '../../types/types'
-import { useEffect, useState } from 'react'
+import {  useShoppingListContext } from '../../context/ShoppingList';
 
-
-const getListFromStorage = async (): Promise<listType | null> => {
-  const list = await ListStorage.getListArchived()
-  return list;
-}
 
 export default function Home() {
-
-  const [list, setList] = useState<listType | null>(null);
-
-  const loadList = async (): Promise<void> => {
-    const listArr = await getListFromStorage();
-    setList(listArr);
-  }
-
-  useEffect(() => {
-    loadList()
-  }, []);
+  
+  const { value, setValue } = useShoppingListContext();
 
   return (
-    list ? <ListComponent /> : <EmptyList />
+    value ? <ListComponent items={value} /> : <EmptyList />
   );
 }
 

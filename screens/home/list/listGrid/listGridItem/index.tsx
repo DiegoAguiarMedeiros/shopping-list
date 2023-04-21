@@ -7,17 +7,24 @@ import {
 import Colors from '../../../../../constants/Colors';
 import * as Styled from './styles';
 import { useEffect, useState } from 'react';
-import { itemInterface } from '../../../../../types/types';
+import { itemInterface, listInterface } from '../../../../../types/types';
 import { Link } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import CircleProgress from '../../../../../components/CircleProgress';
 
-export default function ListGridItem() {
+
+interface itemProps {
+  item: listInterface
+}
+
+export default function ListGridItem({ item }: itemProps) {
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
   const [active, setActive] = useState(false);
-
+  const [total, setTotal] = useState(item.items.length);
+  const [totalFilled, setTotalFilled] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
 
 
   const handlePressIn = () => {
@@ -37,19 +44,19 @@ export default function ListGridItem() {
         onPressOut={handlePressOut} /> */}
       <Styled.ContainerListItemHead>
         <Styled.ContainerItemTextTitle text={Colors[colorScheme ?? 'light'].textButton}>
-          Bread
+          {item.name}
         </Styled.ContainerItemTextTitle>
         <Styled.ContainerItemCircleProgress text={Colors[colorScheme ?? 'light'].textButton}>
           <CircleProgress
-            filled={2}
-            progress={0.66}
-            total={3}
+            filled={totalFilled}
+            progress={total > 0 ? totalFilled / total : 0}
+            total={total}
             size={50} />
         </Styled.ContainerItemCircleProgress>
       </Styled.ContainerListItemHead>
       <Styled.ContainerListItemBody>
         <Styled.ContainerItemTextPriceTotal text={Colors[colorScheme ?? 'light'].textButton}>
-          Total: R$ 2000,00
+          Total: R$ {item.uuid}
         </Styled.ContainerItemTextPriceTotal>
 
       </Styled.ContainerListItemBody>

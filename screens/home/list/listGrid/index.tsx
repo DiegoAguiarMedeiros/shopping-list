@@ -7,12 +7,14 @@ import Colors from '../../../../constants/Colors';
 import * as Styled from './styles';
 import { useEffect, useState } from 'react';
 import Button from '../../../../components/Button';
-import { itemInterface } from '../../../../types/types';
+import { itemInterface, listInterface, listType } from '../../../../types/types';
 import { Link } from 'expo-router';
 import ListGridItem from './listGridItem'
 
-
-export default function ListGrid() {
+interface itemProps {
+  items: listType
+}
+export default function ListGrid({ items }: itemProps) {
   const colorScheme = useColorScheme();
   return (
 
@@ -20,25 +22,12 @@ export default function ListGrid() {
       <Styled.ContainerList >
         <Styled.ContainerListInner>
           <Styled.ContainerListItemList>
-            <SafeAreaView >
-              <ScrollView >
+            <SafeAreaView>
+              <ScrollView>
                 <Styled.ContainerListItemListItem>
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
+                  {items.map((item: listInterface) =>
+                    <ListGridItem item={item} />
+                  )}
                 </Styled.ContainerListItemListItem>
               </ScrollView>
             </SafeAreaView>

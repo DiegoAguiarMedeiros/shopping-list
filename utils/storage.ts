@@ -26,6 +26,7 @@ const getShoppingList = async (): Promise<listType | null> => {
 
 
 const setShoppingArchivedList = (value: listType) => {
+  console.log('value',value)
   AsyncStorage.setItem("SLARCHIVEDSHOPPINGLIST", JSON.stringify(value));
 };
 const getShoppingArchivedList = async (): Promise<listType | null> => {

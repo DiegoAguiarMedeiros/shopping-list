@@ -1,9 +1,11 @@
 import Storage from "./storage";
-import { listType } from '../types/types';
+import { listType, listInterface } from '../types/types';
+
 
 const getList = () => Storage.getShoppingList();
 
 const setList = (list: listType) => {
+
     Storage.setShoppingList(list);
 };
 const getListArchived = () => Storage.getShoppingArchivedList();
