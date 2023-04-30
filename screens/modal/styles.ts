@@ -18,13 +18,12 @@ export const Title = styled.Text<{
 }>`
     color:${(props: { text: any; }) => props.text}; 
     padding: 15px;
-    fontSize: 26;
-    
+    font-size: 26;
     width:100%;
     `;
 
 export const InputContainer = styled.View`
-    padding: 15px;
+    padding: 5px 15px;
     width:100%;
     flex-direction: row;
     

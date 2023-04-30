@@ -58,7 +58,7 @@ export const ModalTitle = styled.Text<{
     text: string,
 }>`
     color:${(props: { text: any; }) => props.text}; 
-    fontSize: 25;
+    font-size: 25;
     `;
 
 export const Text = styled.Text<{

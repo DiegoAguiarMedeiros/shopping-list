@@ -42,7 +42,7 @@ export const ContainerListItemList = styled.View`
 export const ContainerListItemListItem = styled.View`
     width:100%;
     flex: 1;
-    height: 50%;
+    height: 100%;
     padding: 0 0 15px 0;
 `;
 export const ContainerButtonAdd = styled.View`
@@ -54,7 +54,7 @@ export const ContainerItemTotalUnitText = styled.Text<{
 }>`
     
     color:${(props: { text: any; }) => props.text}; 
-    fontSize: 18;
+    font-size: 18;
     flex:1;
     text-align: left;
     `;
@@ -63,7 +63,7 @@ export const ContainerItemTotalText = styled.Text<{
 }>`
     
     color:${(props: { text: any; }) => props.text}; 
-    fontSize: 18;
+    font-size: 18;
     flex:1;
     text-align: right;
     `;

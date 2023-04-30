@@ -28,7 +28,7 @@ export const ListEmptyTitle = styled.Text<{
     text: string,
 }>`
     color:${(props: { text: any; }) => props.text}; 
-    fontSize: 25;
+    font-size: 25;
     text-align: center;
     font-weight: bold;
 `;

@@ -12,7 +12,13 @@ import { Link } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-export default function ListGridItem() {
+
+interface listProps {
+  item: itemInterface,
+}
+
+
+export default function ListGridItem({ item }: listProps) {
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
   const [active, setActive] = useState(false);
@@ -31,16 +37,12 @@ export default function ListGridItem() {
 
 
     <Styled.ContainerListItemListItem background={active ? Colors[colorScheme ?? 'light'].backgroundLighterActive : Colors[colorScheme ?? 'light'].backgroundLighter}>
-      <Link href={`/modalAdd`}
-        onPress={handlePressIn}
-        onPressOut={handlePressOut}>
         <Styled.ContainerListItemListItemHead>
           <Styled.ContainerItemTextTitle text={Colors[colorScheme ?? 'light'].textButton}>
-            Bread
+            {item.item}
           </Styled.ContainerItemTextTitle>
           <Styled.ContainerItemTextIcon text={Colors[colorScheme ?? 'light'].textButton}>
-            <FontAwesome size={28} style={{ marginBottom: -3 }} name={'check-square-o'} color={Colors[colorScheme ?? 'light'].primary} />
-            {/* <FontAwesome size={28} style={{ marginBottom: -3 }} name={'square-o'} color={Colors[colorScheme ?? 'light'].secondary} /> */}
+            <FontAwesome size={28} style={{ marginBottom: -3 }} name={item.active ? 'check-square-o' : 'square-o'} color={item.active ? Colors[colorScheme ?? 'light'].primary : Colors[colorScheme ?? 'light'].secondary} />
           </Styled.ContainerItemTextIcon>
         </Styled.ContainerListItemListItemHead>
         <Styled.ContainerListItemListItemBody>
@@ -55,8 +57,6 @@ export default function ListGridItem() {
           </Styled.ContainerItemTextPriceTotal>
 
         </Styled.ContainerListItemListItemBody>
-      </Link>
-
     </ Styled.ContainerListItemListItem>
   );
 }

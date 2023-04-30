@@ -5,13 +5,13 @@ export const ContainerListItemListItem = styled.Pressable<{
 }>`
     background:${(props: { background: string }) => props.background};
     width:100%;
-    height:6%;
+    height:80;
     border-radius: 15px;
     margin: 5px 0;
 `;
 export const ContainerListItemListItemHead = styled.View`   
     display: flex;
-    flex:10;
+    flex:2;
     flex-direction: row;
     width:100%;
     height:50%;

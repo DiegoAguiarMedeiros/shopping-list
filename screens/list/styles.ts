@@ -16,7 +16,7 @@ export const Title = styled.Text<{
 }>`
     color:${(props: { text: any; }) => props.text}; 
     padding: 15px;
-    fontSize: 26;
+    font-size: 26;
     width:100%;
 `;
 
@@ -51,7 +51,7 @@ export const ListTitle = styled.Text<{
 }>`
     
     color:${(props: { text: any; }) => props.text}; 
-    fontSize: 25;
+    font-size: 25;
     text-align: center;
     font-weight: bold;
 `;

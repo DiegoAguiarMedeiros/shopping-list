@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import Button from '../../../components/Button';
 import { itemInterface } from '../../../types/types';
 import { Link } from 'expo-router';
-
+import { useRouter } from "expo-router";
 
 
 interface Image {
@@ -23,8 +23,19 @@ const img: Image =
 
 const itemsArr: itemInterface[] = []
 
-export default function EmptyList() {
+interface listProps {
+  list: string,
+}
+
+export default function EmptyList({ list }: listProps) {
   const colorScheme = useColorScheme();
+  const router = useRouter();
+
+  const handleOpenList = () => {
+    router.push({ pathname: "/modal", params: { listId: list } });
+  }
+
+
   return (
 
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
@@ -39,9 +50,7 @@ export default function EmptyList() {
             Você não tem nenhuma item na lista
           </Styled.ListEmptyTextmessage>
           <Styled.ContainerButtonAdd>
-            <Link href="/iTems" asChild>
-              <Button text='Adicionar' background={Colors['light'].buttonBackground} icon="plus" />
-            </Link>
+            <Button text='Adicionar' onPress={handleOpenList} background={Colors['light'].buttonBackground} icon="plus" />
           </Styled.ContainerButtonAdd>
         </Styled.ContainerListEmptyInner>
       </Styled.ContainerListEmpty>

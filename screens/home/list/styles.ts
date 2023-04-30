@@ -42,14 +42,14 @@ export const ListTitle = styled.Text<{
     text: string,
 }>`
     color:${(props: { text: any; }) => props.text}; 
-    fontSize: 20;
+    font-size: 20;
     text-align: center;
 `;
 export const ListTextmessage = styled.Text<{
     text: string,
 }>`
     color:${(props: { text: any; }) => props.text}; 
-    fontSize: 16;
+    font-size: 16;
     text-align: center;
     flex: 1;
     margin-top: 10%;

@@ -6,13 +6,12 @@ import {
 } from 'react-native';
 import Colors from '../../../../../constants/Colors';
 import * as Styled from './styles';
-import { useEffect, useState } from 'react';
-import { itemInterface, listInterface } from '../../../../../types/types';
-import { Link } from 'expo-router';
+import { useState } from 'react';
+import { listInterface } from '../../../../../types/types';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import CircleProgress from '../../../../../components/CircleProgress';
-
+import { useRouter } from "expo-router";
 
 interface itemProps {
   item: listInterface
@@ -21,11 +20,16 @@ interface itemProps {
 export default function ListGridItem({ item }: itemProps) {
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
+  const router = useRouter();
   const [active, setActive] = useState(false);
   const [total, setTotal] = useState(item.items.length);
   const [totalFilled, setTotalFilled] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
 
+
+  const handleOpenList = () => {
+    router.push({ pathname: "/iTems", params: { listId: item.uuid } });
+  }
 
   const handlePressIn = () => {
     setActive(!active)
@@ -61,7 +65,7 @@ export default function ListGridItem({ item }: itemProps) {
 
       </Styled.ContainerListItemBody>
       {active && <Styled.ContainerListItemBottom>
-        <Styled.ContainerItemBottomButtonTouchableOpacity text={Colors[colorScheme ?? 'light'].textButton}>
+        <Styled.ContainerItemBottomButtonTouchableOpacity text={Colors[colorScheme ?? 'light'].textButton} onPress={handleOpenList}>
           <Styled.ContainerItemBottomButton text={Colors[colorScheme ?? 'light'].textButton}>
             <FontAwesome size={28} style={{ marginBottom: -3 }} name="folder-open" />
           </Styled.ContainerItemBottomButton>
