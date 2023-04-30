@@ -8,7 +8,7 @@ import Colors from '../../../../constants/Colors';
 import * as Styled from './styles';
 import { useEffect, useState } from 'react';
 import { itemInterface } from '../../../../types/types';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
@@ -22,21 +22,19 @@ export default function ListGridItem({ item }: listProps) {
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
   const [active, setActive] = useState(false);
+  const router = useRouter();
 
 
-
-  const handlePressIn = () => {
-    console.log('aaaasda')
-    setActive(true)
+  const handleOpenItem = () => {
+    console.log('aqui')
+    router.push({ pathname: "/modalAdd", params: { listId: item.uuid } });
   }
-  const handlePressOut = () => {
-    setActive(false)
-  }
+
 
   return (
 
 
-    <Styled.ContainerListItemListItem background={active ? Colors[colorScheme ?? 'light'].backgroundLighterActive : Colors[colorScheme ?? 'light'].backgroundLighter}>
+    <Styled.ContainerListItemListItem onPress={handleOpenItem} background={active ? Colors[colorScheme ?? 'light'].backgroundLighterActive : Colors[colorScheme ?? 'light'].backgroundLighter}>
         <Styled.ContainerListItemListItemHead>
           <Styled.ContainerItemTextTitle text={Colors[colorScheme ?? 'light'].textButton}>
             {item.item}

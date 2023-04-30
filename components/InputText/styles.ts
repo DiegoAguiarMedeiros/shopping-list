@@ -11,4 +11,5 @@ export const Input = styled.TextInput<{
   padding: 10px;
   font-size: 20px;
   width:100%;
+  height:100%;
 `;

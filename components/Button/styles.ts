@@ -11,6 +11,7 @@ export const Button = styled.TouchableOpacity<{
   padding: 5px 15px;
   flex-direction: row;
   align-items: center;
+  height: 100%;
 `;
 
 export const Text = styled.Text<{

@@ -13,6 +13,8 @@ import { Link } from 'expo-router';
 import InputText from '../../components/InputText';
 import Select from '../../components/InputSelect';
 import Switch from '../../components/Switch';
+import ListPriceGrid from "./listPriceGrid";
+import { useNavigation } from '@react-navigation/native';
 
 
 const unitSelect = [
@@ -31,6 +33,13 @@ export default function ModalAddPriceUnit() {
   const onValueChange = () => {
     setSelectedValueSwitch(!selectedValueSwitch)
   }
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: 'My New Title'
+    });
+  }, []);
   return (
 
     // <Styled.Container background={Colors[colorScheme ?? 'light'].backgroundLighter}>
@@ -70,30 +79,40 @@ export default function ModalAddPriceUnit() {
     //     </Styled.ContainerButtonAdd>
     //   </Styled.ModalBody>
     // </Styled.Container >
+    // {/* <Styled.InputContainer>
+    //   <InputText placeholder='Quantidade' onChangeText={(item) => { setNewItem(item); }} value={newItem} />
+    // </Styled.InputContainer>
+    // <Styled.InputContainer>
+    //   <Switch
+    //     value={selectedValueSwitch}
+    //     onValueChange={onValueChange}
+    //     label={{ on: 'Kilograma', off: 'Unidade' }}
+    //   />
+    // </Styled.InputContainer>
+    // <Styled.InputContainer>
+    //   <InputText placeholder='Valor' onChangeText={(item) => { setNewItem(item); }} value={newItem} />
+    // </Styled.InputContainer>
+
+    // <Styled.ButtonsContainer>
+    //   <Styled.ButtonWrapper>
+    //     <Button text='Cancelar' background={Colors['light'].cancelButtonBackground} />
+    //   </Styled.ButtonWrapper>
+    //   <Styled.ButtonWrapper>
+    //     <Button text='Adicionar' background={Colors['light'].buttonBackground} />
+    //   </Styled.ButtonWrapper>
+    // </Styled.ButtonsContainer> */}
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
-      <Styled.InputContainer>
-        <InputText placeholder='Quantidade' onChangeText={(item) => { setNewItem(item); }} value={newItem} />
-      </Styled.InputContainer>
-      <Styled.InputContainer>
-        <Switch
-          value={selectedValueSwitch}
-          onValueChange={onValueChange}
-          label={{ on: 'Kilograma', off: 'Unidade' }}
-        />
-      </Styled.InputContainer>
-      <Styled.InputContainer>
-        <InputText placeholder='Valor' onChangeText={(item) => { setNewItem(item); }} value={newItem} />
-      </Styled.InputContainer>
-
-      <Styled.ButtonsContainer>
-        <Styled.ButtonWrapper>
-          <Button text='Cancelar' background={Colors['light'].cancelButtonBackground} />
-        </Styled.ButtonWrapper>
-        <Styled.ButtonWrapper>
-          <Button text='Adicionar' background={Colors['light'].buttonBackground} />
-        </Styled.ButtonWrapper>
-      </Styled.ButtonsContainer>
-
+      <Styled.WrapperGrid>
+        <ListPriceGrid />
+      </Styled.WrapperGrid>
+      <Styled.WrapperInput>
+        <Styled.WrapperInputInner>
+          <InputText placeholder='Valor' onChangeText={(item) => { setNewItem(item); }} value={newItem} />
+        </Styled.WrapperInputInner>
+        <Styled.WrapperButton>
+          <Button icon='send' background={Colors['light'].buttonBackground} />
+        </Styled.WrapperButton>
+      </Styled.WrapperInput>
     </Styled.Container>
   );
 }

@@ -9,7 +9,7 @@ import * as Styled from './styles';
 import React, { useEffect, useState } from 'react';
 import Button from '../../components/Button';
 import { itemInterface, listInterface } from '../../types/types';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import InputText from '../../components/InputText';
 import EmptyList from './emptyList';
 import ListGrid from './listGrid';
@@ -32,7 +32,7 @@ export default function List() {
   const { value, setValue } = useShoppingListContext();
   const [newItem, setNewItem] = useState('');
   const { listId } = useSearchParams();
-
+  const router = useRouter();
   const  list = value.filter(({ uuid }) => (uuid === listId))[0]
   console.log('list', list)
   const colorScheme = useColorScheme();
@@ -43,28 +43,29 @@ export default function List() {
   const percentage = 66;
 
 
+
   const formatText = (progress: number) => {
     return `${progress}/2`;
   }
   return (
 
-    <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
+    <Styled.Container background={Colors[colorScheme ?? 'light'].background} >
       <Styled.ContainerHeader >
         <Styled.ContainerHeaderInnerText >
           <Styled.ListTitle text={Colors[colorScheme ?? 'light'].text}>
-            {list.name}
+            {list && list.name}
           </Styled.ListTitle>
         </Styled.ContainerHeaderInnerText>
         <Styled.ContainerHeaderInnerProgress >
           <CircleProgress
-            filled={list.items.length}
-            progress={list.items.length}
-            total={list.items.length}
+            filled={list &&  list.items.length}
+            progress={list &&  list.items.length}
+            total={list &&  list.items.length}
             size={80} />
         </Styled.ContainerHeaderInnerProgress>
       </Styled.ContainerHeader>
       <Styled.ContainerBody >
-        {list.items.length ? <ListGrid list={list} />:<EmptyList list={list.uuid}/>}
+        {list && list.items.length ? <ListGrid list={list && list} />:<EmptyList list={list && list.uuid}/>}
       </Styled.ContainerBody>
     </Styled.Container >
   )

@@ -12,23 +12,8 @@ export const Container = styled.View<{
     align-items: center;
     `;
 
-
-export const WrapperGrid = styled.View`
-    width: 100%;
-    flex: 15;
-`;
-export const WrapperInput = styled.View`
-    display:flex;
-    flex-direction: row;
-    width: 100%;
+export const ContainerListPriceItem = styled.View`
+    width:${Dimensions.get('window').width};
     flex: 1;
-    padding: 25px 5px;
-`;
-export const WrapperInputInner = styled.View`
-    width: 100%;
-    flex: 5;
-`;
-export const WrapperButton = styled.View`
-    width: 100%;
-    flex: 1;
-`;
+    height: 50%;
+`;    

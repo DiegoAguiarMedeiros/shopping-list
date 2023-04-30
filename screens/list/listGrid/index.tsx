@@ -21,9 +21,10 @@ export default function ListGrid({ list }: listProps) {
   const handleOpenList = () => {
     router.push({ pathname: "/modal", params: { listId: list.uuid } });
   }
+
   return (
 
-    <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
+    <Styled.Container background={Colors[colorScheme ?? 'light'].background} >
       <Styled.ContainerList >
         <Styled.ContainerListInner>
 
