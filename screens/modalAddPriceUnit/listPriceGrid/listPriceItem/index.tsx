@@ -15,6 +15,7 @@ import Select from '../../../../components/InputSelect';
 import Switch from '../../../../components/Switch';
 import { useNavigation } from '@react-navigation/native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import AddQtd from './addQtd'
 
 export default function ListPriceGrid() {
   const [newItem, setNewItem] = useState('');
@@ -31,7 +32,11 @@ export default function ListPriceGrid() {
         </Styled.Price>
       </Styled.ContainerPrice>
       <Styled.ContainerQtd>
-        <InputText placeholder='QTD...' onChangeText={(item) => { setNewItem(item); }} value={newItem} />
+        {selectedValueSwitch ?
+          <InputText placeholder='0.000' onChangeText={(item) => { setNewItem(item); }} value={newItem} />
+          :
+          <AddQtd />
+        }
       </Styled.ContainerQtd>
       <Styled.ContainerInput>
         <Switch

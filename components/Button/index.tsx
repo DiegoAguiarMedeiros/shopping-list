@@ -17,7 +17,7 @@ const Button: React.FC<ButtonProps> = ({ text, icon, background, children, onPre
             border={Colors[colorScheme ?? 'light'].border}
             background={background}
         >
-            {icon !== undefined ? <FontAwesome size={28} style={{ marginBottom: -3 }} name={icon} color={Colors[colorScheme ?? 'light'].textButton} /> : null}
+            {icon !== undefined ? <FontAwesome size={25} style={{ marginBottom: -3 }} name={icon} color={Colors[colorScheme ?? 'light'].textButton} /> : null}
             {text !== undefined ? <Styled.Text text={Colors[colorScheme ?? 'light'].textButton}>{text}</Styled.Text> : null}
             
         </Styled.Button>
