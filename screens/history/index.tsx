@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { itemInterface, listType } from '../../types/types';
+import { listType } from '../../types/types';
 import ListStorage from '../../utils/list'
 import EmptyList from './emptyList'
 import ListComponent from './list'

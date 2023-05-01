@@ -15,19 +15,24 @@ import { useNavigation } from '@react-navigation/native';
 
 interface listProps {
   item: itemInterface,
+  listId: string,
+  deleteItemList: (uuid: string) => void
+  
 }
 
 
-export default function ListGridItem({ item }: listProps) {
+export default function ListGridItem({ item, listId,deleteItemList }: listProps) {
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
   const [active, setActive] = useState(false);
   const router = useRouter();
 
-
+  const deleteItem = () => {
+    console.log('listId',item.uuid)
+    deleteItemList(item.uuid)
+  }
   const handleOpenItem = () => {
-    console.log('aqui')
-    router.push({ pathname: "/modalAdd", params: { listId: item.uuid } });
+    router.push({ pathname: "/modalAdd", params: { listId: listId, listItemId: item.uuid } });
   }
 
 
@@ -35,26 +40,20 @@ export default function ListGridItem({ item }: listProps) {
 
 
     <Styled.ContainerListItemListItem onPress={handleOpenItem} background={active ? Colors[colorScheme ?? 'light'].backgroundLighterActive : Colors[colorScheme ?? 'light'].backgroundLighter}>
-        <Styled.ContainerListItemListItemHead>
-          <Styled.ContainerItemTextTitle text={Colors[colorScheme ?? 'light'].textButton}>
-            {item.item}
-          </Styled.ContainerItemTextTitle>
-          <Styled.ContainerItemTextIcon text={Colors[colorScheme ?? 'light'].textButton}>
-            <FontAwesome size={28} style={{ marginBottom: -3 }} name={item.active ? 'check-square-o' : 'square-o'} color={item.active ? Colors[colorScheme ?? 'light'].primary : Colors[colorScheme ?? 'light'].secondary} />
-          </Styled.ContainerItemTextIcon>
-        </Styled.ContainerListItemListItemHead>
-        <Styled.ContainerListItemListItemBody>
-          <Styled.ContainerItemTextQtd text={Colors[colorScheme ?? 'light'].textButton}>
-            QTD: 2000
-          </Styled.ContainerItemTextQtd>
-          <Styled.ContainerItemTextPriceUnit text={Colors[colorScheme ?? 'light'].textButton}>
-            Un: R$ 1000,00
-          </Styled.ContainerItemTextPriceUnit>
-          <Styled.ContainerItemTextPriceTotal text={Colors[colorScheme ?? 'light'].textButton}>
-            Total: R$ 2000,00
-          </Styled.ContainerItemTextPriceTotal>
+      <Styled.ContainerListItemListItemHead>
+        <Styled.ContainerItemTextTitle text={Colors[colorScheme ?? 'light'].textButton}>
+          {item.item}
+        </Styled.ContainerItemTextTitle>
+        <Styled.ContainerItemTextIcon text={Colors[colorScheme ?? 'light'].textButton} onPress={deleteItem}>
+          <FontAwesome size={28} style={{ marginBottom: -3 }} name={'trash'} color={Colors[colorScheme ?? 'light'].primary} />
+        </Styled.ContainerItemTextIcon>
+      </Styled.ContainerListItemListItemHead>
+      <Styled.ContainerListItemListItemBody>
+        <Styled.ContainerItemTextPriceTotal text={Colors[colorScheme ?? 'light'].textButton}>
+          Total: R$ 2000,00
+        </Styled.ContainerItemTextPriceTotal>
 
-        </Styled.ContainerListItemListItemBody>
+      </Styled.ContainerListItemListItemBody>
     </ Styled.ContainerListItemListItem>
   );
 }

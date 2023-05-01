@@ -7,7 +7,6 @@ import Colors from '../../../../constants/Colors';
 import * as Styled from './styles';
 import { useEffect, useState } from 'react';
 import Button from '../../../../components/Button';
-import { itemInterface } from '../../../../types/types';
 import { Link } from 'expo-router';
 import ListGridItem from './listGridItem'
 

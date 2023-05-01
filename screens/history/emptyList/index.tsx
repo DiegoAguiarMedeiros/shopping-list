@@ -7,7 +7,6 @@ import Colors from '../../../constants/Colors';
 import * as Styled from './styles';
 import { useEffect, useState } from 'react';
 import Button from '../../../components/Button';
-import { itemInterface } from '../../../types/types';
 import { Link } from 'expo-router';
 
 
@@ -21,7 +20,6 @@ const img: Image =
   image: require('../../../assets/images/empty.png'),
 };
 
-const itemsArr: itemInterface[] = []
 
 export default function EmptyList() {
   const colorScheme = useColorScheme();

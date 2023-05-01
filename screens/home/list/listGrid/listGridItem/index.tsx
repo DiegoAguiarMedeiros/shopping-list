@@ -14,10 +14,11 @@ import CircleProgress from '../../../../../components/CircleProgress';
 import { useRouter } from "expo-router";
 
 interface itemProps {
-  item: listInterface
+  item: listInterface,
+  deleteFromList: (uuid: string) => void
 }
 
-export default function ListGridItem({ item }: itemProps) {
+export default function ListGridItem({ item, deleteFromList }: itemProps) {
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
   const router = useRouter();
@@ -34,8 +35,8 @@ export default function ListGridItem({ item }: itemProps) {
   const handlePressIn = () => {
     setActive(!active)
   }
-  const handlePressOut = () => {
-    setActive(false)
+  const handleDelete = () => {
+    deleteFromList(item.uuid)
   }
 
   return (
@@ -76,7 +77,7 @@ export default function ListGridItem({ item }: itemProps) {
           </Styled.ContainerItemBottomButton>
         </Styled.ContainerItemBottomButtonTouchableOpacity>
         <Styled.ContainerItemBottomButtonTouchableOpacity text={Colors[colorScheme ?? 'light'].textButton}>
-          <Styled.ContainerItemBottomButton text={Colors[colorScheme ?? 'light'].textButton}>
+          <Styled.ContainerItemBottomButton text={Colors[colorScheme ?? 'light'].textButton} onPress={handleDelete}>
             <FontAwesome size={28} style={{ marginBottom: -3 }} name="trash" />
           </Styled.ContainerItemBottomButton>
         </Styled.ContainerItemBottomButtonTouchableOpacity>

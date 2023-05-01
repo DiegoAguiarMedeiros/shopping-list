@@ -10,12 +10,14 @@ import Button from '../../../components/Button';
 import { itemInterface, listInterface } from '../../../types/types';
 import { Link, useRouter } from 'expo-router';
 import ListGridItem from './listGridItem'
+import { useShoppingListContext } from '../../../context/ShoppingList';
 
 interface listProps {
   list: listInterface,
+  deleteItemList: (uuid: string) => void
 }
 
-export default function ListGrid({ list }: listProps) {
+export default function ListGrid({ list,deleteItemList }: listProps) {
   const colorScheme = useColorScheme();
   const router = useRouter();
   const handleOpenList = () => {
@@ -42,7 +44,7 @@ export default function ListGrid({ list }: listProps) {
               <ScrollView>
                 <Styled.ContainerListItemListItem>
                   {list.items.map((item: itemInterface) => (
-                    <ListGridItem item={item} />
+                    <ListGridItem deleteItemList={deleteItemList} item={item} listId={list.uuid}/>
                   ))}
                 </Styled.ContainerListItemListItem>
               </ScrollView>

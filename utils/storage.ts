@@ -6,7 +6,7 @@ const _retrieveData = async (key: string) => {
     const data = await AsyncStorage.getItem(key);
     return data;
   } catch (error) {
-    console.log(error);
+    console.log('error', error);
   }
 }
 
@@ -26,7 +26,6 @@ const getShoppingList = async (): Promise<listType | null> => {
 
 
 const setShoppingArchivedList = (value: listType) => {
-  console.log('value',value)
   AsyncStorage.setItem("SLARCHIVEDSHOPPINGLIST", JSON.stringify(value));
 };
 const getShoppingArchivedList = async (): Promise<listType | null> => {

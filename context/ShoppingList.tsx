@@ -25,10 +25,8 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({ children })
   const [list, setList] = useState<listType | null>(null);
   const loadList = async (): Promise<void> => {
     const listArr = await getListFromStorage();
-    console.log('list', list)
     setList(listArr);
   }
-
 
   useEffect(() => {
     loadList()

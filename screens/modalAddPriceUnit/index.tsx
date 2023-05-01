@@ -8,109 +8,76 @@ import Colors from '../../constants/Colors';
 import * as Styled from './styles';
 import { useEffect, useState } from 'react';
 import Button from '../../components/Button';
-import { itemInterface } from '../../types/types';
-import { Link } from 'expo-router';
+import { itemAmountInterface, itemInterface } from '../../types/types';
+import { Link, useRouter, useSearchParams } from 'expo-router';
 import InputText from '../../components/InputText';
 import Select from '../../components/InputSelect';
 import Switch from '../../components/Switch';
 import ListPriceGrid from "./listPriceGrid";
 import { useNavigation } from '@react-navigation/native';
+import { useShoppingListContext } from '../../context/ShoppingList';
+import UUIDGenerator from 'react-native-uuid';
 
-
-const unitSelect = [
-  { label: 'Un', value: '1' },
-  { label: 'kg', value: '2' },
-];
 export default function ModalAddPriceUnit() {
-
-  const [selectedValue, setSelectedValue] = useState('1');
-  const [selectedValueSwitch, setSelectedValueSwitch] = useState(true);
+  const { value, setValue } = useShoppingListContext();
   const [newItem, setNewItem] = useState('');
   const colorScheme = useColorScheme();
-  const handleValueChange = (itemValue: string, itemIndex: number) => {
-    setSelectedValue(itemValue);
-  };
-  const onValueChange = () => {
-    setSelectedValueSwitch(!selectedValueSwitch)
-  }
+  const router = useRouter();
+  const { listId, listItemId } = useSearchParams();
   const navigation = useNavigation();
+
+
+  const list = value.filter(({ uuid }) => (uuid === listId))[0]
+  const listItem = list.items.filter(({ uuid }) => (uuid === listItemId))[0]
+
+  const returnNewItemAmount = (): itemAmountInterface => {
+    const item: itemAmountInterface = {
+      uuid: String(UUIDGenerator.v4()),
+      amount: newItem,
+      type: false,
+    }
+    return item;
+  }
+
+  const returnNewItemAfterDelete = (uuid: string): itemAmountInterface[] => {
+    const newAmount: itemAmountInterface[] = listItem.amount.filter((item) => item.uuid !== uuid)
+    return newAmount;
+  }
+
+  const handleDeleteAmountInList = (AmountUuid: string): void => {
+    
+    console.log('ads')
+    const newList = value.map((item) => {
+      item.uuid === listId ? item.items.map((i) =>  i.amount = returnNewItemAfterDelete(AmountUuid)) : item;
+      return item;
+    })
+    setValue(newList);
+  }
+  const handleSetItemInList = (): void => {
+
+    const newList = value.map((item) => {
+      item.uuid == listId ? item.items.map((i) => i.uuid === listItem.uuid ? i.amount.push(returnNewItemAmount()) : i) : item;
+      return item;
+    })
+    setValue(newList);
+  }
 
   useEffect(() => {
     navigation.setOptions({
-      title: 'My New Title'
+      title: listItem.item
     });
   }, []);
   return (
-
-    // <Styled.Container background={Colors[colorScheme ?? 'light'].backgroundLighter}>
-    //   <Styled.ModalBody
-    //     border={Colors[colorScheme ?? 'light'].border}
-    //     background={Colors[colorScheme ?? 'light'].backgroundLighter}
-    //   >
-    //     <Styled.ModalHeader border={Colors[colorScheme ?? 'light'].border}>
-    //       <Styled.ModalTitle text={Colors[colorScheme ?? 'light'].text}>
-    //         {'a'}
-    //       </Styled.ModalTitle>
-    //     </Styled.ModalHeader>
-    //     <Styled.ModalBodyInner border={Colors[colorScheme ?? 'light'].border}>
-    //       <Styled.ContainerInputQauntity>
-    //         <Styled.ContainerInputQauntityInner>
-
-    //           <InputText placeholder='Quantidade...' keyboardType="numeric" value={'1'} />
-    //         </Styled.ContainerInputQauntityInner>
-    //         <Styled.ContainerInputQauntityInner>
-    //           <Select
-    //             items={unitSelect}
-    //             selectedValue={selectedValue}
-    //             onValueChange={handleValueChange}
-    //           />
-    //         </Styled.ContainerInputQauntityInner>
-    //       </Styled.ContainerInputQauntity>
-    //       <InputText placeholder='Valor...' keyboardType="numeric" value={'2'} />
-    //     </Styled.ModalBodyInner>
-
-    //     <Styled.ContainerButtonAdd border={Colors[colorScheme ?? 'light'].border}>
-    //       <Styled.ContainerButtonAddInner>
-    //         <Button text='Cancelar' background={Colors[colorScheme ?? 'light'].cancelButtonBackground} />
-    //       </Styled.ContainerButtonAddInner>
-    //       <Styled.ContainerButtonAddInner>
-    //         <Button text='Adicionar' background={Colors[colorScheme ?? 'light'].buttonBackground} />
-    //       </Styled.ContainerButtonAddInner>
-    //     </Styled.ContainerButtonAdd>
-    //   </Styled.ModalBody>
-    // </Styled.Container >
-    // {/* <Styled.InputContainer>
-    //   <InputText placeholder='Quantidade' onChangeText={(item) => { setNewItem(item); }} value={newItem} />
-    // </Styled.InputContainer>
-    // <Styled.InputContainer>
-    //   <Switch
-    //     value={selectedValueSwitch}
-    //     onValueChange={onValueChange}
-    //     label={{ on: 'Kilograma', off: 'Unidade' }}
-    //   />
-    // </Styled.InputContainer>
-    // <Styled.InputContainer>
-    //   <InputText placeholder='Valor' onChangeText={(item) => { setNewItem(item); }} value={newItem} />
-    // </Styled.InputContainer>
-
-    // <Styled.ButtonsContainer>
-    //   <Styled.ButtonWrapper>
-    //     <Button text='Cancelar' background={Colors['light'].cancelButtonBackground} />
-    //   </Styled.ButtonWrapper>
-    //   <Styled.ButtonWrapper>
-    //     <Button text='Adicionar' background={Colors['light'].buttonBackground} />
-    //   </Styled.ButtonWrapper>
-    // </Styled.ButtonsContainer> */}
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
       <Styled.WrapperGrid>
-        <ListPriceGrid />
+        <ListPriceGrid item={listItem} deleteFromAmount={handleDeleteAmountInList} />
       </Styled.WrapperGrid>
       <Styled.WrapperInput>
         <Styled.WrapperInputInner>
-          <InputText placeholder='Valor' onChangeText={(item) => { setNewItem(item); }} value={newItem} />
+          <InputText placeholder='Valor' onChangeText={(item) => { setNewItem(item); }} keyboardType='numeric' value={newItem} />
         </Styled.WrapperInputInner>
         <Styled.WrapperButton>
-          <Button icon='send' background={Colors['light'].buttonBackground} />
+          <Button icon='send' background={Colors['light'].buttonBackground} onPress={handleSetItemInList} />
         </Styled.WrapperButton>
       </Styled.WrapperInput>
     </Styled.Container>

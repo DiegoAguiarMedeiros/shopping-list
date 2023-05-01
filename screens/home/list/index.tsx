@@ -13,17 +13,18 @@ import ListGrid from './listGrid';
 
 
 interface itemProps {
-  items: listType
+  items: listType,
+  deleteFromList: (uuid: string) => void
 }
 
 
-export default function List({ items }: itemProps) {
+export default function List({ items, deleteFromList }: itemProps) {
   const colorScheme = useColorScheme();
   return (
 
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
       <Styled.ContainerListList>
-        <ListGrid items={items} />
+        <ListGrid items={items} deleteFromList={deleteFromList} />
       </Styled.ContainerListList>
       <Styled.ContainerListInner>
         <Styled.ContainerButtonAdd>

@@ -28,8 +28,7 @@ export default function Modal() {
 
 
   const handleSetList = (): void => {
-    setValue([returnNewList(), ...value])
-    router.push('/(tabs)');
+    value ? setValue([returnNewList(), ...value]) : setValue([returnNewList()]);
   }
 
   const returnNewList = (): listInterface => {
@@ -46,18 +45,19 @@ export default function Modal() {
       uuid: String(UUIDGenerator.v4()),
       item: newItem.item,
       active: false,
-      tags: newItem.tag
+      tags: newItem.tag,
+      amount: []
     }
     return item;
   }
 
   const handleSetItemInList = (): void => {
-    console.log('value', value)
+
     const newList = value.map((item, index) => {
       item.uuid == listId ? item.items.push(returnNewItem()) : item;
       return item;
     })
-    console.log('newList', newList)
+
     setValue(newList);
     router.push({ pathname: "/iTems", params: { listId: listId } });
   }

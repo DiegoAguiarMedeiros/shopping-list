@@ -1,7 +1,12 @@
+interface itemAmountInterface {
+    uuid: string,
+    amount: string,
+    type: boolean,
+}
 interface itemInterface {
     uuid: string,
     item: string,
-    amount?: number,
+    amount: itemAmountInterface[],
     active: Boolean,
     quantity?: number,
     unit?: string,
@@ -20,5 +25,6 @@ export {
     listType,
     listInterface,
     itemInterface,
+    itemAmountInterface
 };
 

@@ -8,7 +8,7 @@ import Colors from '../../../../constants/Colors';
 import * as Styled from './styles';
 import { useEffect, useState } from 'react';
 import Button from '../../../../components/Button';
-import { itemInterface } from '../../../../types/types';
+import { itemAmountInterface, itemInterface } from '../../../../types/types';
 import { Link } from 'expo-router';
 import InputText from '../../../../components/InputText';
 import Select from '../../../../components/InputSelect';
@@ -17,18 +17,27 @@ import { useNavigation } from '@react-navigation/native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import AddQtd from './addQtd'
 
-export default function ListPriceGrid() {
+
+interface listProps {
+  itemAmount: itemAmountInterface,
+  deleteFromAmount: (AmountUuid: string) => void,
+}
+
+export default function ListPriceGrid({ itemAmount, deleteFromAmount }: listProps) {
   const [newItem, setNewItem] = useState('');
-  const [selectedValueSwitch, setSelectedValueSwitch] = useState(true);
+  const [selectedValueSwitch, setSelectedValueSwitch] = useState(itemAmount.type);
   const colorScheme = useColorScheme();
   const onValueChange = () => {
     setSelectedValueSwitch(!selectedValueSwitch)
+  }
+  const deleteAmount = () => {
+    deleteFromAmount(itemAmount.uuid)
   }
   return (
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
       <Styled.ContainerPrice>
         <Styled.Price text={Colors[colorScheme ?? 'light'].textButton}>
-          R$ 25,40
+          R$ {itemAmount.amount}
         </Styled.Price>
       </Styled.ContainerPrice>
       <Styled.ContainerQtd>
@@ -46,7 +55,7 @@ export default function ListPriceGrid() {
         />
       </Styled.ContainerInput>
       <Styled.ContainerTrash>
-        <FontAwesome size={28} style={{ marginBottom: -3 }} name={'trash'} color={Colors[colorScheme ?? 'light'].textButton} />
+        <FontAwesome size={28} style={{ marginBottom: -3 }} name={'trash'} color={Colors[colorScheme ?? 'light'].primary} onPress={deleteAmount} />
       </Styled.ContainerTrash>
     </Styled.Container >
   );

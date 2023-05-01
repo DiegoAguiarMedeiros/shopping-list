@@ -11,7 +11,6 @@ export const Container = styled.View<{
     justify-content: center;
     align-items: center;
     padding: 15px;
-    
     `;
 export const Title = styled.Text<{
     text: string,
@@ -25,12 +24,13 @@ export const Title = styled.Text<{
 export const InputContainer = styled.View`
     padding: 5px 15px;
     width:100%;
+    height:65px;
     flex-direction: row;
-    
     `;
 export const ButtonsContainer = styled.View`
     padding: 0 15px;
     width:100%;
+    height:45px;
     flex-direction: row;
     justify-content: space-between;
     

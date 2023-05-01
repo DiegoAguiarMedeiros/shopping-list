@@ -9,44 +9,29 @@ import * as Styled from './styles';
 import ListPriceItem from './listPriceItem'
 import { useEffect, useState } from 'react';
 import Button from '../../../components/Button';
-import { itemInterface } from '../../../types/types';
-import { Link } from 'expo-router';
+import { itemInterface, itemAmountInterface } from '../../../types/types';
+import { Link, useRouter, useSearchParams } from 'expo-router';
 import InputText from '../../../components/InputText';
 import Select from '../../../components/InputSelect';
 import Switch from '../../../components/Switch';
 import { useNavigation } from '@react-navigation/native';
 
-export default function ListPriceGrid() {
+interface listProps {
+  item: itemInterface,
+  deleteFromAmount: (AmountUuid: string) => void,
+}
+
+export default function ListPriceGrid({ item, deleteFromAmount }: listProps) {
   const colorScheme = useColorScheme();
+
   return (
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
       <SafeAreaView >
         <ScrollView >
           <Styled.ContainerListPriceItem>
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
-            <ListPriceItem />
+            {item.amount.map((itemAmount: itemAmountInterface) =>
+              <ListPriceItem itemAmount={itemAmount} key={itemAmount.uuid} deleteFromAmount={deleteFromAmount} />
+            )}
           </Styled.ContainerListPriceItem>
         </ScrollView>
       </SafeAreaView >

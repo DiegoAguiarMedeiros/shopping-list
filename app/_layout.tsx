@@ -39,7 +39,6 @@ export default function RootLayout() {
   }, [error]);
 
   const closeOnboarding = () => {
-    console.log('aaaa')
     setActive(false);
   }
 

@@ -7,14 +7,15 @@ import Colors from '../../../../constants/Colors';
 import * as Styled from './styles';
 import { useEffect, useState } from 'react';
 import Button from '../../../../components/Button';
-import { itemInterface, listInterface, listType } from '../../../../types/types';
+import { listInterface, listType } from '../../../../types/types';
 import { Link } from 'expo-router';
 import ListGridItem from './listGridItem'
 
 interface itemProps {
-  items: listType
+  items: listType,
+  deleteFromList: (uuid: string) => void
 }
-export default function ListGrid({ items }: itemProps) {
+export default function ListGrid({ items, deleteFromList }: itemProps) {
   const colorScheme = useColorScheme();
   return (
 
@@ -26,7 +27,7 @@ export default function ListGrid({ items }: itemProps) {
               <ScrollView>
                 <Styled.ContainerListItemListItem>
                   {items.map((item: listInterface) =>
-                    <ListGridItem item={item} />
+                    <ListGridItem item={item} deleteFromList={deleteFromList} />
                   )}
                 </Styled.ContainerListItemListItem>
               </ScrollView>

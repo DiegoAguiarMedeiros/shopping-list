@@ -7,7 +7,6 @@ import {
 import Colors from '../../../../../constants/Colors';
 import * as Styled from './styles';
 import { useEffect, useState } from 'react';
-import { itemInterface } from '../../../../../types/types';
 import { Link } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';

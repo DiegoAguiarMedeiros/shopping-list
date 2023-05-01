@@ -64,5 +64,5 @@ export const ContainerTotal = styled.View<{
     `;
 export const ContainerButtonAdd = styled.View`
     margin-top: 10%;
-    height: 50%;
+    height: 65px;
 `;
