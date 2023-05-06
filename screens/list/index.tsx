@@ -16,6 +16,7 @@ import CircleProgress from '../../components/CircleProgress';
 import { useSearchParams } from "expo-router";
 import { useShoppingListContext } from '../../context/ShoppingList';
 import { itemInterface } from '../../types/types';
+import { removeItem } from '../../utils/functions';
 interface Image {
   image: any;
 }
@@ -40,16 +41,8 @@ export default function List() {
   };
   const percentage = 66;
 
-  const returnNewItemAfterDelete = (uuid: string): itemInterface[] => {
-    const newItem: itemInterface[] = list.items.filter((item) => item.uuid !== uuid)
-    return newItem;
-  }
-
   const handleDeleteItemList = (uuid: string): void => {
-    const newList = value.map((item) => {
-      item.items = returnNewItemAfterDelete(uuid);
-      return item;
-    })
+    const newList = removeItem(value, list.uuid, uuid)
     setValue(newList);
   }
 

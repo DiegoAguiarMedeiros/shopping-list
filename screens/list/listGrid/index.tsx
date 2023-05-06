@@ -11,32 +11,30 @@ import { itemInterface, listInterface } from '../../../types/types';
 import { Link, useRouter } from 'expo-router';
 import ListGridItem from './listGridItem'
 import { useShoppingListContext } from '../../../context/ShoppingList';
+import { getTotal, getTotalUn } from '../../../utils/functions';
 
 interface listProps {
   list: listInterface,
   deleteItemList: (uuid: string) => void
 }
 
-export default function ListGrid({ list,deleteItemList }: listProps) {
+export default function ListGrid({ list, deleteItemList }: listProps) {
   const colorScheme = useColorScheme();
   const router = useRouter();
   const handleOpenList = () => {
     router.push({ pathname: "/modal", params: { listId: list.uuid } });
   }
-
   return (
 
     <Styled.Container background={Colors[colorScheme ?? 'light'].background} >
       <Styled.ContainerList >
         <Styled.ContainerListInner>
-
-
           <Styled.ContainerListTotal>
             <Styled.ContainerItemTotalUnitText text={Colors[colorScheme ?? 'light'].text}>
-              Total Items: {list.items.length}
+              Total Items: {getTotalUn(list.items)}
             </Styled.ContainerItemTotalUnitText>
             <Styled.ContainerItemTotalText text={Colors[colorScheme ?? 'light'].text}>
-              Total : R$ 10000
+              Total : R$ {getTotal(list.items).toFixed(2)}
             </Styled.ContainerItemTotalText>
           </Styled.ContainerListTotal>
           <Styled.ContainerListItemList>
@@ -44,7 +42,7 @@ export default function ListGrid({ list,deleteItemList }: listProps) {
               <ScrollView>
                 <Styled.ContainerListItemListItem>
                   {list.items.map((item: itemInterface) => (
-                    <ListGridItem deleteItemList={deleteItemList} item={item} listId={list.uuid}/>
+                    <ListGridItem deleteItemList={deleteItemList} item={item} total={getTotal(list.items)} listId={list.uuid} />
                   ))}
                 </Styled.ContainerListItemListItem>
               </ScrollView>

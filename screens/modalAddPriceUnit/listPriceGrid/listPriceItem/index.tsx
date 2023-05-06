@@ -20,19 +20,21 @@ import AddQtd from './addQtd'
 
 interface listProps {
   itemAmount: itemAmountInterface,
-  deleteFromAmount: (AmountUuid: string) => void,
+  removeAmount: (itemAmountUuid: string) => void
 }
 
-export default function ListPriceGrid({ itemAmount, deleteFromAmount }: listProps) {
+export default function ListPriceGrid({ itemAmount, removeAmount }: listProps) {
   const [newItem, setNewItem] = useState('');
   const [selectedValueSwitch, setSelectedValueSwitch] = useState(itemAmount.type);
   const colorScheme = useColorScheme();
   const onValueChange = () => {
     setSelectedValueSwitch(!selectedValueSwitch)
   }
-  const deleteAmount = () => {
-    deleteFromAmount(itemAmount.uuid)
+  const handleRemoveAmount = (): void => {
+    removeAmount(itemAmount.uuid);
   }
+
+
   return (
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
       <Styled.ContainerPrice>
@@ -55,7 +57,7 @@ export default function ListPriceGrid({ itemAmount, deleteFromAmount }: listProp
         />
       </Styled.ContainerInput>
       <Styled.ContainerTrash>
-        <FontAwesome size={28} style={{ marginBottom: -3 }} name={'trash'} color={Colors[colorScheme ?? 'light'].primary} onPress={deleteAmount} />
+        <FontAwesome size={28} style={{ marginBottom: -3 }} name={'trash'} color={Colors[colorScheme ?? 'light'].primary} onPress={handleRemoveAmount} />
       </Styled.ContainerTrash>
     </Styled.Container >
   );

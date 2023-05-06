@@ -2,6 +2,7 @@ import EmptyList from './emptyList'
 import ListComponent from './list'
 import { useShoppingListContext } from '../../context/ShoppingList';
 import { itemInterface } from '../../types/types';
+import { removeList } from '../../utils/functions';
 
 
 export default function Home() {
@@ -10,8 +11,7 @@ export default function Home() {
 
 
   const handleDeleteItemList = (uuid: string): void => {
-    console.log('uuid',uuid)
-    const newList = value.filter((item) => item.uuid !== uuid)
+    const newList = removeList(value, uuid)
     setValue(newList);
   }
 

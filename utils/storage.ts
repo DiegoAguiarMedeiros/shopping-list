@@ -6,7 +6,7 @@ const _retrieveData = async (key: string) => {
     const data = await AsyncStorage.getItem(key);
     return data;
   } catch (error) {
-    console.log('error', error);
+    console.error('_retrieveData', error);
   }
 }
 

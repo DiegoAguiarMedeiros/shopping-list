@@ -17,6 +17,7 @@ import ListPriceGrid from "./listPriceGrid";
 import { useNavigation } from '@react-navigation/native';
 import { useShoppingListContext } from '../../context/ShoppingList';
 import UUIDGenerator from 'react-native-uuid';
+import { removeItemAmount } from '../../utils/functions';
 
 export default function ModalAddPriceUnit() {
   const { value, setValue } = useShoppingListContext();
@@ -39,18 +40,17 @@ export default function ModalAddPriceUnit() {
     return item;
   }
 
-  const returnNewItemAfterDelete = (uuid: string): itemAmountInterface[] => {
-    const newAmount: itemAmountInterface[] = listItem.amount.filter((item) => item.uuid !== uuid)
-    return newAmount;
-  }
 
-  const handleDeleteAmountInList = (AmountUuid: string): void => {
-    
-    console.log('ads')
-    const newList = value.map((item) => {
-      item.uuid === listId ? item.items.map((i) =>  i.amount = returnNewItemAfterDelete(AmountUuid)) : item;
-      return item;
-    })
+
+  // const returnNewItemAfterDelete = (uuid: string): itemAmountInterface[] => {
+  //   console.log('uuid', uuid)
+  //   console.log('listItem', listItem)
+  //   const newAmount: itemAmountInterface[] = listItem.amount.filter((item) => item.uuid !== uuid)
+  //   return newAmount;
+  // }
+
+  const handleDeleteAmountInList = (itemUuid: string, itemAmountUuid: string): void => {
+    const newList = removeItemAmount(value, list.uuid, itemUuid, itemAmountUuid)
     setValue(newList);
   }
   const handleSetItemInList = (): void => {
@@ -70,7 +70,7 @@ export default function ModalAddPriceUnit() {
   return (
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
       <Styled.WrapperGrid>
-        <ListPriceGrid item={listItem} deleteFromAmount={handleDeleteAmountInList} />
+        <ListPriceGrid item={listItem} removeAmount={handleDeleteAmountInList} />
       </Styled.WrapperGrid>
       <Styled.WrapperInput>
         <Styled.WrapperInputInner>

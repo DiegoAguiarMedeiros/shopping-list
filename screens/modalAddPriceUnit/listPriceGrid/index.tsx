@@ -15,14 +15,17 @@ import InputText from '../../../components/InputText';
 import Select from '../../../components/InputSelect';
 import Switch from '../../../components/Switch';
 import { useNavigation } from '@react-navigation/native';
-
+import { useShoppingListContext } from '../../../context/ShoppingList';
 interface listProps {
   item: itemInterface,
-  deleteFromAmount: (AmountUuid: string) => void,
+  removeAmount: (itemUuid: string, itemAmountUuid: string) => void
 }
 
-export default function ListPriceGrid({ item, deleteFromAmount }: listProps) {
+export default function ListPriceGrid({ item, removeAmount }: listProps) {
   const colorScheme = useColorScheme();
+  const handleRemoveAmount = (itemAmountUuid: string): void => {
+    removeAmount(item.uuid, itemAmountUuid);
+  }
 
   return (
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
@@ -30,7 +33,7 @@ export default function ListPriceGrid({ item, deleteFromAmount }: listProps) {
         <ScrollView >
           <Styled.ContainerListPriceItem>
             {item.amount.map((itemAmount: itemAmountInterface) =>
-              <ListPriceItem itemAmount={itemAmount} key={itemAmount.uuid} deleteFromAmount={deleteFromAmount} />
+              <ListPriceItem removeAmount={handleRemoveAmount} itemAmount={itemAmount} key={itemAmount.uuid} />
             )}
           </Styled.ContainerListPriceItem>
         </ScrollView>

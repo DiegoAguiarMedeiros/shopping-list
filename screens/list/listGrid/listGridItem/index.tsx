@@ -11,30 +11,30 @@ import { itemInterface } from '../../../../types/types';
 import { Link, useRouter } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { getTotal } from '../../../../utils/functions';
 
 
 interface listProps {
   item: itemInterface,
   listId: string,
+  total: number,
   deleteItemList: (uuid: string) => void
-  
+
 }
 
 
-export default function ListGridItem({ item, listId,deleteItemList }: listProps) {
+export default function ListGridItem({ item, total, listId, deleteItemList }: listProps) {
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
   const [active, setActive] = useState(false);
   const router = useRouter();
 
   const deleteItem = () => {
-    console.log('listId',item.uuid)
     deleteItemList(item.uuid)
   }
   const handleOpenItem = () => {
     router.push({ pathname: "/modalAdd", params: { listId: listId, listItemId: item.uuid } });
   }
-
 
   return (
 
@@ -50,7 +50,7 @@ export default function ListGridItem({ item, listId,deleteItemList }: listProps)
       </Styled.ContainerListItemListItemHead>
       <Styled.ContainerListItemListItemBody>
         <Styled.ContainerItemTextPriceTotal text={Colors[colorScheme ?? 'light'].textButton}>
-          Total: R$ 2000,00
+          Total: R$ {total.toFixed(2)}
         </Styled.ContainerItemTextPriceTotal>
 
       </Styled.ContainerListItemListItemBody>
