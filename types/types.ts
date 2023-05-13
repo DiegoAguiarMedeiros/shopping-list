@@ -13,10 +13,15 @@ interface itemInterface {
     tags: string,
 }
 
+interface tagsIterface {
+    id: string,
+    name: string,
+    active: boolean
+}
 interface listInterface {
     uuid: string,
     name: string,
-    tags: string[],
+    tags: tagsIterface[],
     items: itemInterface[],
 }
 type listType = listInterface[];
@@ -35,6 +40,7 @@ export {
     listInterface,
     itemInterface,
     itemAmountInterface,
-    BottomSheetProps
+    BottomSheetProps,
+    tagsIterface
 };
 

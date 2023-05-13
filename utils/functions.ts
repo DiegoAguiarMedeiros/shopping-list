@@ -1,12 +1,25 @@
-import { itemAmountInterface, itemInterface, listType } from "../types/types"
+import { itemAmountInterface, itemInterface, listType, tagsIterface } from "../types/types"
 
 function removeDuplicates<T>(arr: T[]): T[] {
     return Array.from(new Set(arr));
 }
 
-const getTags = (items: itemInterface[]): string[] => {
-    const arr = items.map(item => item.tags)
-    return removeDuplicates(arr);
+const getTags = (items: itemInterface[]): tagsIterface[] => {
+    const arr = removeDuplicates(items.map(item => item.tags))
+    let count = 1;
+    const tagsArr: tagsIterface[] = arr.map(tag => {
+        return {
+            id: String(count++),
+            name: tag,
+            active: false
+        }
+    })
+    tagsArr.unshift({
+        id: '0',
+        name: 'Todos',
+        active: true
+    })
+    return tagsArr;
 }
 
 const getTotalAmount = (items: itemAmountInterface[]): number => {
@@ -25,6 +38,7 @@ const getTotal = (items: itemInterface[]): number => {
     });
     return total
 }
+
 const getTotalAmountUn = (items: itemAmountInterface[]): number => {
     let total: number = 0
     items.forEach(itemList => {

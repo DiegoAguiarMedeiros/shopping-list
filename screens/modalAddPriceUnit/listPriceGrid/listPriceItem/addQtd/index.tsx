@@ -27,13 +27,13 @@ export default function ListPriceGrid() {
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
 
       <Styled.ContainerMinusPlus >
-        <Button icon='minus' invertSide={true} background={Colors['light'].buttonBackground} />
+        <Button icon='minus' invertSide={true} background={Colors[colorScheme ?? 'light'].buttonBackground} />
       </Styled.ContainerMinusPlus >
       <Styled.ContainerQtd >
         <InputText placeholder='Valor' onChangeText={(item) => { setNewItem(item); }} value={newItem} />
       </Styled.ContainerQtd >
       <Styled.ContainerMinusPlus >
-        <Button icon='plus' background={Colors['light'].buttonBackground} />
+        <Button icon='plus' background={Colors[colorScheme ?? 'light'].buttonBackground} />
       </Styled.ContainerMinusPlus >
     </Styled.Container >
   );

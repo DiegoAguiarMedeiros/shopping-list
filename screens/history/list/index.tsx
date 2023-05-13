@@ -21,7 +21,7 @@ export default function List() {
       <Styled.ContainerListInner>
         <Styled.ContainerButtonAdd>
           <Link href="/modal" asChild>
-            <Button text='Criar' background={Colors['light'].buttonBackground} icon="plus" />
+            <Button text='Criar' background={Colors[colorScheme ?? 'light'].buttonBackground} icon="plus" />
           </Link>
         </Styled.ContainerButtonAdd>
       </Styled.ContainerListInner>

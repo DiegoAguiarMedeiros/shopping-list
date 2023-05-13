@@ -18,6 +18,7 @@ import { useRouter } from "expo-router";
 
 import { Swipeable } from 'react-native-gesture-handler';
 import BottomSheetComponent from '../../../../../components/BottomSheetComponent';
+import { getTotal, getTotalUn, getTotalWithAmount } from '../../../../../utils/functions';
 
 interface itemProps {
   item: listInterface,
@@ -31,11 +32,10 @@ export default function ListGridItem({ item, deleteFromList, setBottomSheetProps
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
   const router = useRouter();
-  const [total, setTotal] = useState(item.items.length);
-  const [totalFilled, setTotalFilled] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
 
-
+  const total = item.items ? getTotal(item.items) : 0;
+  const totalWithAmount = item.items ? getTotalWithAmount(item.items) : 0;
+  const totalUn = item.items ? getTotalUn(item.items) : 0;
   const handleOpenList = () => {
     router.push({ pathname: "/iTems", params: { listId: item.uuid } });
   }
@@ -95,15 +95,15 @@ export default function ListGridItem({ item, deleteFromList, setBottomSheetProps
             </Styled.ContainerItemTextTitle>
             <Styled.ContainerItemCircleProgress text={Colors[colorScheme ?? 'light'].textButton}>
               <CircleProgress
-                filled={totalFilled}
-                progress={total > 0 ? totalFilled / total : 0}
-                total={total}
+                filled={totalWithAmount}
+                progress={totalUn && totalWithAmount ? Number(totalWithAmount / totalUn) : 0}
+                total={totalUn}
                 size={50} />
             </Styled.ContainerItemCircleProgress>
           </Styled.ContainerListItemHead>
           <Styled.ContainerListItemBody>
             <Styled.ContainerItemTextPriceTotal text={Colors[colorScheme ?? 'light'].textButton}>
-              Total: R$ {item.uuid}
+              Total: R$ {total}
             </Styled.ContainerItemTextPriceTotal>
 
           </Styled.ContainerListItemBody>

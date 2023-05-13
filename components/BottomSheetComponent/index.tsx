@@ -87,10 +87,10 @@ import { useShoppingListContext } from '../../context/ShoppingList';
 
 //   <Styled.ButtonsContainer>
 //     <Styled.ButtonWrapper>
-//       <Button text='Cancelar' background={Colors['light'].cancelButtonBackground} />
+//       <Button text='Cancelar' background={Colors[colorScheme ?? 'light'].cancelButtonBackground} />
 //     </Styled.ButtonWrapper>
 //     <Styled.ButtonWrapper>
-//       <Button text='Adicionar' background={Colors['light'].buttonBackground} onPress={listId ? handleSetItemInList : handleSetList} />
+//       <Button text='Adicionar' background={Colors[colorScheme ?? 'light'].buttonBackground} onPress={listId ? handleSetItemInList : handleSetList} />
 //     </Styled.ButtonWrapper>
 //   </Styled.ButtonsContainer>
 
@@ -100,6 +100,7 @@ import { useShoppingListContext } from '../../context/ShoppingList';
 
 import React, { useRef } from 'react';
 import { StyleSheet, Animated, TouchableOpacity, Text } from 'react-native';
+import { getTags } from '../../utils/functions';
 
 
 
@@ -164,7 +165,6 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({ items, isVisible, ch
     const newList = value.map((item) => {
       if (item.uuid === listId) {
         const newItemList = item.items.map((itemList) => {
-          console.log('itemList.uuid === items?.uuid', itemList.uuid === items?.uuid)
           if (itemList.uuid === items?.uuid) {
             return {
               ...itemList,
@@ -175,8 +175,12 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({ items, isVisible, ch
             return itemList;
           }
         })
+        console.log('newItemList', newItemList)
+        console.log('item.tags', item.tags)
+        console.log('getTags(newItemList)', getTags(newItemList))
         return {
           ...item,
+          tags: getTags(newItemList),
           items: newItemList,
         };
       } else {
@@ -189,8 +193,11 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({ items, isVisible, ch
 
   const handleAddListItem = (): void => {
     handleHideBottomSheet()
-    const newList = value.map((item, index) => {
-      item.uuid == listId ? item.items.unshift(returnNewItem()) : item;
+    const newList = value.map((item) => {
+      if (item.uuid == listId) {
+        item.items.unshift(returnNewItem())
+        item.tags = getTags(item.items);
+      }
       return item;
     })
 
@@ -292,10 +299,10 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({ items, isVisible, ch
 
           <Styled.ButtonsContainer>
             <Styled.ButtonWrapper>
-              <Button text='Cancelar' background={Colors['light'].cancelButtonBackground} onPress={handleHideBottomSheet} />
+              <Button text='Cancelar' background={Colors[colorScheme ?? 'light'].cancelButtonBackground} onPress={handleHideBottomSheet} />
             </Styled.ButtonWrapper>
             <Styled.ButtonWrapper>
-              <Button text={items?.name ? newItem.edit ? 'Editar' : 'Abrir' : 'Adicionar'} background={Colors['light'].buttonBackground} onPress={items?.name ? newItem.edit ? functions[action] : handleOpenList : functions[action]} />
+              <Button text={items?.name ? newItem.edit ? 'Editar' : 'Abrir' : 'Adicionar'} background={Colors[colorScheme ?? 'light'].buttonBackground} onPress={items?.name ? newItem.edit ? functions[action] : handleOpenList : functions[action]} />
             </Styled.ButtonWrapper>
           </Styled.ButtonsContainer>
 

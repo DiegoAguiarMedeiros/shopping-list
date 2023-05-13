@@ -45,7 +45,7 @@ export default function EmptyList() {
         </Styled.ContainerListEmptyInner>
         <Styled.ContainerListEmptyInnerButton>
           <Styled.ContainerButtonAdd>
-            <Button text='Adicionar' background={Colors['light'].buttonBackground} icon="plus" onPress={() => setBottomSheetProps({ ...bottomSheetProps, isVisible: true })} />
+            <Button text='Adicionar' background={Colors[colorScheme ?? 'light'].buttonBackground} icon="plus" onPress={() => setBottomSheetProps({ ...bottomSheetProps, isVisible: true })} />
           </Styled.ContainerButtonAdd>
         </Styled.ContainerListEmptyInnerButton>
       </Styled.ContainerListEmpty>

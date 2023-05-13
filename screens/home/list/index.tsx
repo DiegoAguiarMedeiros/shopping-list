@@ -37,7 +37,7 @@ export default function List({ items, deleteFromList }: itemProps) {
       <Styled.ContainerListInner>
         <Styled.ContainerButtonAdd>
           {/* <Link href="/modal" asChild> */}
-          <Button text='Criar' onPress={() => setBottomSheetProps({ ...bottomSheetProps, isVisible: true })} background={Colors['light'].buttonBackground} icon="plus" />
+          <Button text='Criar' onPress={() => setBottomSheetProps({ ...bottomSheetProps, isVisible: true })} background={Colors[colorScheme ?? 'light'].buttonBackground} icon="plus" />
           {/* </Link> */}
         </Styled.ContainerButtonAdd>
       </Styled.ContainerListInner>

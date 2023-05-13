@@ -75,7 +75,7 @@ export default function ModalAddPriceUnit() {
           <InputText placeholder='Valor' onChangeText={(item) => { setNewItem(item); }} keyboardType='numeric' value={newItem} />
         </Styled.WrapperInputInner>
         <Styled.WrapperButton>
-          <Button icon='send' background={Colors['light'].buttonBackground} onPress={handleSetItemInList} />
+          <Button icon='send' background={Colors[colorScheme ?? 'light'].buttonBackground} onPress={handleSetItemInList} />
         </Styled.WrapperButton>
       </Styled.WrapperInput>
     </Styled.Container>

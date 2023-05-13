@@ -16,7 +16,8 @@ import CircleProgress from '../../components/CircleProgress';
 import { useSearchParams } from "expo-router";
 import { useShoppingListContext } from '../../context/ShoppingList';
 import { itemInterface } from '../../types/types';
-import { getTotalUn, getTotalWithAmount, removeItem } from '../../utils/functions';
+import { getTags, getTotalUn, getTotalWithAmount, removeItem } from '../../utils/functions';
+import FilterButtons from '../../components/FilterButtons';
 interface Image {
   image: any;
 }
@@ -48,9 +49,6 @@ export default function List() {
     setValue(newList);
   }
 
-  const formatText = (progress: number) => {
-    return `${progress}/2`;
-  }
   return (
 
     <Styled.Container background={Colors[colorScheme ?? 'light'].background} >
@@ -68,6 +66,9 @@ export default function List() {
             size={80} />
         </Styled.ContainerHeaderInnerProgress>
       </Styled.ContainerHeader>
+      <Styled.ContainerHeaderInnerFilterButtons>
+        <FilterButtons tags={list.tags} />
+      </Styled.ContainerHeaderInnerFilterButtons>
       <Styled.ContainerBody >
         {list.items.length ? <ListGrid list={list} deleteItemList={handleDeleteItemList} /> : <EmptyList list={list.uuid} />}
       </Styled.ContainerBody>

@@ -15,7 +15,6 @@ export default function Home() {
     const newList = removeList(value, uuid)
     setValue(newList);
   }
-  console.log('value', value)
   return (
     <KeyboardAvoidingView behavior="padding">
       {value && value.length > 0 ? <ListComponent items={value} deleteFromList={handleDeleteItemList} /> : <EmptyList />}

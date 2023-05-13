@@ -86,10 +86,10 @@ export default function Modal() {
 
       <Styled.ButtonsContainer>
         <Styled.ButtonWrapper>
-          <Button text='Cancelar' background={Colors['light'].cancelButtonBackground} />
+          <Button text='Cancelar' background={Colors[colorScheme ?? 'light'].cancelButtonBackground} />
         </Styled.ButtonWrapper>
         <Styled.ButtonWrapper>
-          <Button text='Adicionar' background={Colors['light'].buttonBackground} onPress={listId ? handleSetItemInList : handleSetList} />
+          <Button text='Adicionar' background={Colors[colorScheme ?? 'light'].buttonBackground} onPress={listId ? handleSetItemInList : handleSetList} />
         </Styled.ButtonWrapper>
       </Styled.ButtonsContainer>
 

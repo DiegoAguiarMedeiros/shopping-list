@@ -49,7 +49,7 @@ export default function ListGrid({ list, deleteItemList }: listProps) {
               <ScrollView>
                 <Styled.ContainerListItemListItem>
                   {list.items.map((item: itemInterface) => (
-                    <ListGridItem setBottomSheetProps={setBottomSheetProps} deleteItemList={deleteItemList} item={item} listId={list.uuid} />
+                    <ListGridItem key={'ListGridItem-' + item.uuid} setBottomSheetProps={setBottomSheetProps} deleteItemList={deleteItemList} item={item} listId={list.uuid} />
                   ))}
                 </Styled.ContainerListItemListItem>
               </ScrollView>
@@ -57,7 +57,7 @@ export default function ListGrid({ list, deleteItemList }: listProps) {
 
           </Styled.ContainerListItemList>
           <Styled.ContainerButtonAdd>
-            <Button text='Adicionar' onPress={() => setBottomSheetProps({ ...bottomSheetProps, isVisible: true })} background={Colors['light'].buttonBackground} icon="plus" />
+            <Button text='Adicionar' onPress={() => setBottomSheetProps({ ...bottomSheetProps, isVisible: true })} background={Colors[colorScheme ?? 'light'].buttonBackground} icon="plus" />
           </Styled.ContainerButtonAdd>
         </Styled.ContainerListInner >
       </Styled.ContainerList >
