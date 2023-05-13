@@ -9,7 +9,6 @@ export const Container = styled.View<{
     height: ${Dimensions.get('window').height};
     flex: 1;
     justify-content: flex-start;
-    padding: 15px;
 `;
 export const Title = styled.Text<{
     text: string,
@@ -25,16 +24,16 @@ export const ContainerHeader = styled.View`
     flex: 1;
     flex-direction: row;
     align-items: center;
+    padding: 15px 0 0 0;
     `;
 export const ContainerBody = styled.View`
     width:100%;
     flex: 6;
     flex-direction: row;
     align-items: center;
-    
     `;
 export const ContainerHeaderInnerText = styled.View`
-    width:75%;
+  width:75%;
   justify-content: center;
   align-items: center;
   

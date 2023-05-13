@@ -8,6 +8,8 @@ import * as Styled from './styles';
 import { useEffect, useState } from 'react';
 import Button from '../../../components/Button';
 import { useRouter } from 'expo-router';
+import BottomSheetComponent from '../../../components/BottomSheetComponent';
+import { BottomSheetProps } from '../../../types/types';
 
 
 
@@ -24,6 +26,11 @@ const data = { name: 'John', age: 30 };
 export default function EmptyList() {
   const router = useRouter();
   const colorScheme = useColorScheme();
+  const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
+    action: 'addList',
+    isVisible: false,
+    onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
+  });
   return (
 
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
@@ -38,13 +45,11 @@ export default function EmptyList() {
         </Styled.ContainerListEmptyInner>
         <Styled.ContainerListEmptyInnerButton>
           <Styled.ContainerButtonAdd>
-            <Button text='Adicionar' background={Colors['light'].buttonBackground} icon="plus" onPress={() => {
-              router.push("/modal?myPage=home");
-            }} />
+            <Button text='Adicionar' background={Colors['light'].buttonBackground} icon="plus" onPress={() => setBottomSheetProps({ ...bottomSheetProps, isVisible: true })} />
           </Styled.ContainerButtonAdd>
         </Styled.ContainerListEmptyInnerButton>
       </Styled.ContainerListEmpty>
-
+      <BottomSheetComponent {...bottomSheetProps} />
     </Styled.Container >
   );
 }

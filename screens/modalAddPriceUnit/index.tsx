@@ -43,8 +43,6 @@ export default function ModalAddPriceUnit() {
 
 
   // const returnNewItemAfterDelete = (uuid: string): itemAmountInterface[] => {
-  //   console.log('uuid', uuid)
-  //   console.log('listItem', listItem)
   //   const newAmount: itemAmountInterface[] = listItem.amount.filter((item) => item.uuid !== uuid)
   //   return newAmount;
   // }
@@ -64,7 +62,7 @@ export default function ModalAddPriceUnit() {
 
   useEffect(() => {
     navigation.setOptions({
-      title: listItem.item
+      title: listItem.name
     });
   }, []);
   return (

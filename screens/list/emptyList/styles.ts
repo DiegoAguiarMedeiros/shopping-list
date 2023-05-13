@@ -16,13 +16,13 @@ export const ContainerList = styled.View`
 `;
 export const ContainerListEmpty = styled.View`
     height: 100%;
-    padding:1px;
+    padding:10px 10px;
     overflow:hidden;
         `;
 export const ContainerListEmptyInner = styled.View`
 
     flex: 1;
-    flex-gorw:1;
+    flex-grow:1;
     justify-content: center;
     align-items: center;
         `;

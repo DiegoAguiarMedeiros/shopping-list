@@ -5,7 +5,7 @@ export default {
   light: {
     text: '#000',
     text2: '#777676',
-    textButton: '#FFFFFF',
+    textButton: '#000',
     inputBackground: '#4F4E4E',
     inputTextColor: '#FFFFFF',
     buttonBackground: '#43BCAE',

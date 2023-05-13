@@ -16,7 +16,7 @@ import CircleProgress from '../../components/CircleProgress';
 import { useSearchParams } from "expo-router";
 import { useShoppingListContext } from '../../context/ShoppingList';
 import { itemInterface } from '../../types/types';
-import { removeItem } from '../../utils/functions';
+import { getTotalUn, getTotalWithAmount, removeItem } from '../../utils/functions';
 interface Image {
   image: any;
 }
@@ -40,6 +40,8 @@ export default function List() {
     marginRight: 3,
   };
   const percentage = 66;
+  const totalWithAmount = list.items ? getTotalWithAmount(list.items) : 0;
+  const totalUn = list.items ? getTotalUn(list.items) : 0;
 
   const handleDeleteItemList = (uuid: string): void => {
     const newList = removeItem(value, list.uuid, uuid)
@@ -53,16 +55,16 @@ export default function List() {
 
     <Styled.Container background={Colors[colorScheme ?? 'light'].background} >
       <Styled.ContainerHeader >
-        <Styled.ContainerHeaderInnerText >
+        <Styled.ContainerHeaderInnerText>
           <Styled.ListTitle text={Colors[colorScheme ?? 'light'].text}>
             {list.name}
           </Styled.ListTitle>
         </Styled.ContainerHeaderInnerText>
         <Styled.ContainerHeaderInnerProgress >
           <CircleProgress
-            filled={list.items.length}
-            progress={list.items.length}
-            total={list.items.length}
+            filled={totalWithAmount}
+            progress={totalUn && totalWithAmount ? Number(totalWithAmount / totalUn) : 0}
+            total={totalUn}
             size={80} />
         </Styled.ContainerHeaderInnerProgress>
       </Styled.ContainerHeader>

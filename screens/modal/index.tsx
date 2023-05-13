@@ -43,7 +43,7 @@ export default function Modal() {
   const returnNewItem = (): itemInterface => {
     const item: itemInterface = {
       uuid: String(UUIDGenerator.v4()),
-      item: newItem.item,
+      name: newItem.item,
       active: false,
       tags: newItem.tag,
       amount: []

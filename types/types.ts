@@ -6,7 +6,7 @@ interface itemAmountInterface {
 }
 interface itemInterface {
     uuid: string,
-    item: string,
+    name: string,
     amount: itemAmountInterface[],
     active: Boolean,
     unit?: string,
@@ -21,10 +21,20 @@ interface listInterface {
 }
 type listType = listInterface[];
 
+interface BottomSheetProps {
+    items?: listInterface | itemInterface,
+    listId?: string,
+    action: 'addList' | 'editList' | 'addListItem' | 'editListItem',
+    isVisible: boolean;
+    onClose: (item: BottomSheetProps) => void;
+    children?: React.ReactNode
+}
+
 export {
     listType,
     listInterface,
     itemInterface,
-    itemAmountInterface
+    itemAmountInterface,
+    BottomSheetProps
 };
 

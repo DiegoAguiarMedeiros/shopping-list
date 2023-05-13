@@ -7,11 +7,12 @@ import Colors from '../../../constants/Colors';
 import * as Styled from './styles';
 import { useEffect, useState } from 'react';
 import Button from '../../../components/Button';
-import { itemInterface, listInterface } from '../../../types/types';
+import { BottomSheetProps, itemInterface, listInterface } from '../../../types/types';
 import { Link, useRouter } from 'expo-router';
 import ListGridItem from './listGridItem'
 import { useShoppingListContext } from '../../../context/ShoppingList';
 import { getTotal, getTotalUn } from '../../../utils/functions';
+import BottomSheetComponent from '../../../components/BottomSheetComponent';
 
 interface listProps {
   list: listInterface,
@@ -21,6 +22,12 @@ interface listProps {
 export default function ListGrid({ list, deleteItemList }: listProps) {
   const colorScheme = useColorScheme();
   const router = useRouter();
+  const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
+    listId: list.uuid,
+    action: 'addListItem',
+    isVisible: false,
+    onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
+  });
   const handleOpenList = () => {
     router.push({ pathname: "/modal", params: { listId: list.uuid } });
   }
@@ -42,7 +49,7 @@ export default function ListGrid({ list, deleteItemList }: listProps) {
               <ScrollView>
                 <Styled.ContainerListItemListItem>
                   {list.items.map((item: itemInterface) => (
-                    <ListGridItem deleteItemList={deleteItemList} item={item} total={getTotal(list.items)} listId={list.uuid} />
+                    <ListGridItem setBottomSheetProps={setBottomSheetProps} deleteItemList={deleteItemList} item={item} listId={list.uuid} />
                   ))}
                 </Styled.ContainerListItemListItem>
               </ScrollView>
@@ -50,11 +57,11 @@ export default function ListGrid({ list, deleteItemList }: listProps) {
 
           </Styled.ContainerListItemList>
           <Styled.ContainerButtonAdd>
-            <Button text='Adicionar' onPress={handleOpenList} background={Colors['light'].buttonBackground} icon="plus" />
+            <Button text='Adicionar' onPress={() => setBottomSheetProps({ ...bottomSheetProps, isVisible: true })} background={Colors['light'].buttonBackground} icon="plus" />
           </Styled.ContainerButtonAdd>
         </Styled.ContainerListInner >
       </Styled.ContainerList >
-
+      <BottomSheetComponent {...bottomSheetProps} />
     </Styled.Container >
   );
 }

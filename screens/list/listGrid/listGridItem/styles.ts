@@ -31,7 +31,7 @@ export const ContainerItemTextTitle = styled.Text<{
     font-size: 22px;
     margin: 5px 0px;
     padding: 5px 10px;
-    `;
+`;
 export const ContainerItemTextIcon = styled.Text<{
     text: string,
 }>`
@@ -48,7 +48,7 @@ export const ContainerItemTextQtd = styled.Text<{
     flex:1;
     font-size: 12px;
     padding: 0px 10px;
-    marginBottom:2px;
+    margin-bottom:2px;
 
 `;
 export const ContainerItemTextPriceUnit = styled.Text<{
@@ -58,7 +58,7 @@ export const ContainerItemTextPriceUnit = styled.Text<{
     flex:2;
     font-size: 12px;
     padding: 0px 10px;
-    marginBottom:2px;
+    margin-bottom:2px;
 
 `;
 export const ContainerItemTextPriceTotal = styled.Text<{
@@ -68,6 +68,6 @@ export const ContainerItemTextPriceTotal = styled.Text<{
     flex:2;
     font-size: 12px;
     padding: 0px 10px;
-    marginBottom:2px;
+    margin-bottom:2px;
 
 `;

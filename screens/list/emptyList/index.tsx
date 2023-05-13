@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 import Button from '../../../components/Button';
 import { Link } from 'expo-router';
 import { useRouter } from "expo-router";
+import { BottomSheetProps } from '../../../types/types';
+import BottomSheetComponent from '../../../components/BottomSheetComponent';
 
 
 interface Image {
@@ -28,7 +30,12 @@ interface listProps {
 export default function EmptyList({ list }: listProps) {
   const colorScheme = useColorScheme();
   const router = useRouter();
-
+  const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
+    listId: list,
+    action: 'addListItem',
+    isVisible: false,
+    onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
+  });
   const handleOpenList = () => {
     router.push({ pathname: "/modal", params: { listId: list } });
   }
@@ -48,11 +55,11 @@ export default function EmptyList({ list }: listProps) {
             Você não tem nenhuma item na lista
           </Styled.ListEmptyTextmessage>
           <Styled.ContainerButtonAdd>
-            <Button text='Adicionar' onPress={handleOpenList} background={Colors['light'].buttonBackground} icon="plus" />
+            <Button text='Adicionar' onPress={() => setBottomSheetProps({ ...bottomSheetProps, isVisible: true })} background={Colors['light'].buttonBackground} icon="plus" />
           </Styled.ContainerButtonAdd>
         </Styled.ContainerListEmptyInner>
       </Styled.ContainerListEmpty>
-
+      <BottomSheetComponent {...bottomSheetProps} />
     </Styled.Container>
   );
 }

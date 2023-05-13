@@ -1,17 +1,23 @@
 import { Dimensions } from 'react-native';
 import { Link } from 'expo-router';
 import styled, { css } from 'styled-components/native';
-export const ContainerListItem = styled.TouchableOpacity<{
+
+
+
+
+export const ContainerListItem = styled.TouchableWithoutFeedback``;
+export const ContainerListItemInner = styled.View<{
     background: string
-    active: boolean
 }>`
     background:${(props: { background: string }) => props.background};
     width:100%;
-    height:${(props: { active: boolean }) => props.active ? '140px' : '100px'};
+    height:100px;
     border-radius: 15px;
     margin: 5px 0;
     position:relative;
     `;
+
+
 export const LinkStyled = styled(Link)`  
     z-index:99;
     position:absolute;
@@ -69,7 +75,7 @@ export const ContainerItemTextQtd = styled.Text<{
     flex:1;
     font-size: 12px;
     padding: 0px 10px;
-    marginBottom:2px;
+    margin-bottom:2px;
 
 `;
 export const ContainerItemBottomButtonTouchableOpacity = styled.TouchableOpacity<{
@@ -77,7 +83,7 @@ export const ContainerItemBottomButtonTouchableOpacity = styled.TouchableOpacity
 }>`
     flex:1;
     font-size: 12px;
-    marginBottom:2px;
+    margin-bottom:2px;
     justify-content: center;
     align-items: center;
 `;
@@ -94,8 +100,8 @@ export const ContainerItemTextPriceUnit = styled.Text<{
     flex:2;
     font-size: 12px;
     padding: 0px 10px;
-    marginBottom:2px;
-
+    margin-bottom:2px;
+    
 `;
 export const ContainerItemTextPriceTotal = styled.Text<{
     text: string,
@@ -104,6 +110,35 @@ export const ContainerItemTextPriceTotal = styled.Text<{
     flex:2;
     font-size: 12px;
     padding: 0px 10px;
-    marginBottom:2px;
+    margin-bottom:2px;
 
 `;
+
+export const ButtonView = styled.View`   
+    display: flex;
+    flex-direction: row;
+    width:100%;
+    height:100%;
+    `;
+export const ButtonInner = styled.View`   
+    width:50%;
+    height:100%;
+    `;
+export const ButtonTextIcon = styled.Text<{
+    text: string,
+}>`
+        color:${(props: { text: any; }) => props.text}; 
+        flex:10;
+        margin: 5px 0;
+        padding: 15px 10px 0 10px;
+        text-align: center;
+    `;
+export const ButtonText = styled.Text<{
+    text: string,
+}>`
+        color:${(props: { text: any; }) => props.text}; 
+        flex:10;
+        font-size: 18px;
+        padding: 0px 10px;
+        text-align: center;
+    `;

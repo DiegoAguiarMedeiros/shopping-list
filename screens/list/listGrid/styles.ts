@@ -7,13 +7,12 @@ export const Container = styled.View<{
     background:${(props: { background: any; }) => props.background};
     width: 100%;
     height: 100%;
-    padding:10px;
 `;
 
 
 export const ContainerList = styled.View`
 height: 100%;
-padding:1px;
+padding:15px 10px;
 overflow:hidden;
 `;
 export const ContainerListInner = styled.View`
