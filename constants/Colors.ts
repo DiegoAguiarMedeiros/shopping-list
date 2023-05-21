@@ -22,6 +22,7 @@ export default {
     tint: tintColorLight,
     tabIconDefault: '#ccc',
     tabIconSelected: tintColorLight,
+    backgroundTouchableHighlight: '#43BCAE',
   },
   dark: {
     text: '#D2C2C2',
@@ -43,5 +44,6 @@ export default {
     tint: tintColorDark,
     tabIconDefault: '#ccc',
     tabIconSelected: tintColorDark,
+    backgroundTouchableHighlight: '#43BCAE',
   },
 };

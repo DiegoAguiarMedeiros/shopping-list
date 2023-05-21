@@ -1,113 +1,17 @@
-import {
-  useColorScheme, SafeAreaView,
-  ScrollView,
-  GestureResponderEvent,
-  KeyboardAvoidingView
-} from 'react-native';
+import React, { useRef, useEffect, useState } from 'react';
+import { StyleSheet, Animated, TouchableOpacity, useColorScheme } from 'react-native';
 import Colors from '../../constants/Colors';
 import * as Styled from './styles';
-import { useEffect, useState } from 'react';
 import Button from '../Button';
 import InputText from '../InputText';
-import { useRouter, useSearchParams } from "expo-router";
-
-import { BottomSheetProps, itemInterface, listInterface, listType } from '../../types/types';
+import { BottomSheetProps, itemInterface, listInterface } from '../../types/types';
 import UUIDGenerator from 'react-native-uuid';
 import { useShoppingListContext } from '../../context/ShoppingList';
-
-
-
-// export default function Modal() {
-// const { value, setValue } = useShoppingListContext();
-// const { listId } = useSearchParams();
-// const [newItem, setNewItem] = useState({
-//   item: '',
-//   tag: '',
-// });
-// const router = useRouter();//back
-// const colorScheme = useColorScheme();
-
-
-// const handleSetList = (): void => {
-//   value ? setValue([returnNewList(), ...value]) : setValue([returnNewList()]);
-// }
-
-// const returnNewList = (): listInterface => {
-//   const item: listInterface = {
-//     uuid: String(UUIDGenerator.v4()),
-//     name: newItem.item,
-//     tags: [],
-//     items: []
-//   }
-//   return item;
-// }
-// const returnNewItem = (): itemInterface => {
-//   const item: itemInterface = {
-//     uuid: String(UUIDGenerator.v4()),
-//     item: newItem.item,
-//     active: false,
-//     tags: newItem.tag,
-//     amount: []
-//   }
-//   return item;
-// }
-
-// const handleSetItemInList = (): void => {
-
-//   const newList = value.map((item, index) => {
-//     item.uuid == listId ? item.items.push(returnNewItem()) : item;
-//     return item;
-//   })
-
-//   setValue(newList);
-//   router.push({ pathname: "/iTems", params: { listId: listId } });
-// }
-
-// //   return (
-
-// <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
-
-//   <Styled.InputContainer>
-//     <InputText placeholder={listId ? 'Nome do item...' : 'Nome da sua lista...'} onChangeText={(item) => {
-//       setNewItem({
-//         item: item,
-//         tag: newItem.tag,
-//       });
-//     }} value={newItem.item} />
-//   </Styled.InputContainer>
-//   {listId ? <Styled.InputContainer>
-//     <InputText placeholder='Nome da categoria...' onChangeText={(tag) => {
-//       setNewItem({
-//         item: newItem.item,
-//         tag: tag,
-//       });
-//     }} value={newItem.tag} />
-//   </Styled.InputContainer> : null}
-
-
-//   <Styled.ButtonsContainer>
-//     <Styled.ButtonWrapper>
-//       <Button text='Cancelar' background={Colors[colorScheme ?? 'light'].cancelButtonBackground} />
-//     </Styled.ButtonWrapper>
-//     <Styled.ButtonWrapper>
-//       <Button text='Adicionar' background={Colors[colorScheme ?? 'light'].buttonBackground} onPress={listId ? handleSetItemInList : handleSetList} />
-//     </Styled.ButtonWrapper>
-//   </Styled.ButtonsContainer>
-
-// </Styled.Container>
-//   );
-// }
-
-import React, { useRef } from 'react';
-import { StyleSheet, Animated, TouchableOpacity, Text } from 'react-native';
 import { getTags } from '../../utils/functions';
-
-
-
 
 const AnimatedBottomSheet = Animated.createAnimatedComponent(Styled.BottomSheet);
 
-const BottomSheetComponent: React.FC<BottomSheetProps> = ({ items, isVisible, children, onClose, action, listId }) => {
+const BottomSheetComponent: React.FC<BottomSheetProps> = ({ items, isVisible, children, onClose, action, listId, buttonText }) => {
   const animation = useRef(new Animated.Value(0)).current;
   const colorScheme = useColorScheme();
   const { value, setValue } = useShoppingListContext();
@@ -116,7 +20,6 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({ items, isVisible, ch
     tag: items && !Array.isArray(items.tags) ? items.tags : '',
     edit: false,
   });
-  const router = useRouter();//back
   //TODO enviar essas função para o arquivo de funcções
   const returnNewList = (): listInterface => {
     const item: listInterface = {
@@ -145,7 +48,6 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({ items, isVisible, ch
 
 
   const handleEditList = (): void => {
-
     handleHideBottomSheet();
     const newList = value.map((item) => {
       if (item.uuid === items?.uuid) {
@@ -160,7 +62,6 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({ items, isVisible, ch
     setValue(newList);
   }
   const handleEditListItem = (): void => {
-
     handleHideBottomSheet();
     const newList = value.map((item) => {
       if (item.uuid === listId) {
@@ -175,9 +76,6 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({ items, isVisible, ch
             return itemList;
           }
         })
-        console.log('newItemList', newItemList)
-        console.log('item.tags', item.tags)
-        console.log('getTags(newItemList)', getTags(newItemList))
         return {
           ...item,
           tags: getTags(newItemList),
@@ -205,11 +103,37 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({ items, isVisible, ch
 
   }
 
+  const handleCopyListItem = (): void => {
+    handleHideBottomSheet()
+    const copiedObject: listInterface = JSON.parse(JSON.stringify(items));
+
+    // Generate new UUID for the main object
+    copiedObject.uuid = String(UUIDGenerator.v4());
+    copiedObject.name = newItem.item;
+    // Generate new UUIDs for each nested item
+    const newList = copiedObject.items.map(item => {
+      return {
+        ...item,
+        uuid: String(UUIDGenerator.v4()),
+        amount: [],
+      };
+    })
+    copiedObject.items = newList;
+    setValue([copiedObject, ...value])
+  }
+
+  const buttonTextArr = {
+    add: 'Adicionar',
+    edit: 'Editar',
+    copy: 'Copiar',
+  }
+
   const functions = {
     addList: handleAddList,
     editList: handleEditList,
     addListItem: handleAddListItem,
     editListItem: handleEditListItem,
+    copyList: handleCopyListItem,
   }
 
 
@@ -229,6 +153,7 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({ items, isVisible, ch
   const close = () => {
     onClose({
       action,
+      buttonText,
       isVisible: false,
       onClose
     });
@@ -260,14 +185,7 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({ items, isVisible, ch
       edit: false,
     })
   }
-  const handleOpenList = () => {
-    handleHideBottomSheet()
-    listId ?
-      router.push({ pathname: "/modalAdd", params: { listId: listId, listItemId: items?.uuid } })
-      :
-      router.push({ pathname: "/iTems", params: { listId: items?.uuid } })
 
-  }
 
   return (
     <TouchableOpacity style={StyleSheet.absoluteFillObject} onPress={handleHideBottomSheet}>
@@ -302,7 +220,7 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({ items, isVisible, ch
               <Button text='Cancelar' background={Colors[colorScheme ?? 'light'].cancelButtonBackground} onPress={handleHideBottomSheet} />
             </Styled.ButtonWrapper>
             <Styled.ButtonWrapper>
-              <Button text={items?.name ? newItem.edit ? 'Editar' : 'Abrir' : 'Adicionar'} background={Colors[colorScheme ?? 'light'].buttonBackground} onPress={items?.name ? newItem.edit ? functions[action] : handleOpenList : functions[action]} />
+              <Button text={buttonTextArr[buttonText]} background={Colors[colorScheme ?? 'light'].buttonBackground} onPress={functions[action]} />
             </Styled.ButtonWrapper>
           </Styled.ButtonsContainer>
 

@@ -24,10 +24,10 @@ const img: Image =
 
 const data = { name: 'John', age: 30 };
 export default function EmptyList() {
-  const router = useRouter();
   const colorScheme = useColorScheme();
   const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
     action: 'addList',
+    buttonText: 'add',
     isVisible: false,
     onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
   });

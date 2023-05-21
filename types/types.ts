@@ -29,7 +29,8 @@ type listType = listInterface[];
 interface BottomSheetProps {
     items?: listInterface | itemInterface,
     listId?: string,
-    action: 'addList' | 'editList' | 'addListItem' | 'editListItem',
+    buttonText: 'add' | 'edit' | 'copy',
+    action: 'addList' | 'editList' | 'addListItem' | 'editListItem' | 'copyList',
     isVisible: boolean;
     onClose: (item: BottomSheetProps) => void;
     children?: React.ReactNode

@@ -1,29 +1,24 @@
-import {
-  useColorScheme, SafeAreaView,
-  ScrollView,
-  GestureResponderEvent,
-} from 'react-native';
+import { useColorScheme } from 'react-native';
 import Colors from '../../../constants/Colors';
 import * as Styled from './styles';
-import { useEffect, useState } from 'react';
-import { Text } from 'react-native';
+import { useState } from 'react';
 import Button from '../../../components/Button';
-import { BottomSheetProps, itemInterface, listInterface, listType } from '../../../types/types';
-import { Link } from 'expo-router';
+import { BottomSheetProps, listType } from '../../../types/types';
 import ListGrid from './listGrid';
 import BottomSheetComponent from '../../../components/BottomSheetComponent';
 
-interface itemProps {
+interface ItemProps {
   items: listType,
   deleteFromList: (uuid: string) => void
 }
 
 
 
-export default function List({ items, deleteFromList }: itemProps) {
+export default function List({ items, deleteFromList }: ItemProps) {
   const colorScheme = useColorScheme();
   const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
     action: 'addList',
+    buttonText: 'add',
     isVisible: false,
     onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
   });

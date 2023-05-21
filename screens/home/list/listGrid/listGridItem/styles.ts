@@ -5,8 +5,7 @@ import styled, { css } from 'styled-components/native';
 
 
 
-export const ContainerListItem = styled.TouchableWithoutFeedback``;
-export const ContainerListItemInner = styled.View<{
+export const ContainerListItem = styled.TouchableHighlight<{
     background: string
 }>`
     background:${(props: { background: string }) => props.background};
@@ -14,7 +13,12 @@ export const ContainerListItemInner = styled.View<{
     height:100px;
     border-radius: 15px;
     margin: 5px 0;
+    
+`;
+export const ContainerListItemInner = styled.View`
     position:relative;
+    width:100%;
+    height:100%;
     `;
 
 
@@ -120,8 +124,9 @@ export const ButtonView = styled.View`
     width:100%;
     height:100%;
     `;
-export const ButtonInner = styled.View`   
-    width:50%;
+export const ButtonInner = styled.TouchableHighlight`   
+border-radius: 15px;
+    width:33%;
     height:100%;
     `;
 export const ButtonTextIcon = styled.Text<{
@@ -138,7 +143,7 @@ export const ButtonText = styled.Text<{
 }>`
         color:${(props: { text: any; }) => props.text}; 
         flex:10;
-        font-size: 18px;
+        font-size: 10px;
         padding: 0px 10px;
         text-align: center;
     `;

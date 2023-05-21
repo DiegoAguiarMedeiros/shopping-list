@@ -32,6 +32,7 @@ export default function EmptyList({ list }: listProps) {
   const router = useRouter();
   const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
     listId: list,
+    buttonText: 'add',
     action: 'addListItem',
     isVisible: false,
     onClose: (item: BottomSheetProps) => setBottomSheetProps(item),

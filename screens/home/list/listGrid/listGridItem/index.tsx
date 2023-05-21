@@ -1,26 +1,19 @@
 import {
-  useColorScheme, SafeAreaView,
-  ScrollView,
-  GestureResponderEvent,
-  Linking,
-  View,
-  Text,
+  useColorScheme,
   Animated
 } from 'react-native';
 import Colors from '../../../../../constants/Colors';
 import * as Styled from './styles';
-import { useState } from 'react';
+import { useCallback } from 'react';
 import { BottomSheetProps, listInterface } from '../../../../../types/types';
 import { FontAwesome } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
 import CircleProgress from '../../../../../components/CircleProgress';
 import { useRouter } from "expo-router";
 
 import { Swipeable } from 'react-native-gesture-handler';
-import BottomSheetComponent from '../../../../../components/BottomSheetComponent';
 import { getTotal, getTotalUn, getTotalWithAmount } from '../../../../../utils/functions';
 
-interface itemProps {
+interface ItemProps {
   item: listInterface,
   deleteFromList: (uuid: string) => void,
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>,
@@ -28,31 +21,43 @@ interface itemProps {
 
 
 
-export default function ListGridItem({ item, deleteFromList, setBottomSheetProps }: itemProps) {
+export default function ListGridItem({ item, deleteFromList, setBottomSheetProps }: ItemProps) {
   const colorScheme = useColorScheme();
-  const navigation = useNavigation();
   const router = useRouter();
 
   const total = item.items ? getTotal(item.items) : 0;
   const totalWithAmount = item.items ? getTotalWithAmount(item.items) : 0;
   const totalUn = item.items ? getTotalUn(item.items) : 0;
-  const handleOpenList = () => {
-    router.push({ pathname: "/iTems", params: { listId: item.uuid } });
-  }
 
-  const handlePressIn = () => {
+  const handleOpenList = useCallback(() => {
+    router.push({ pathname: "/iTems", params: { listId: item.uuid } });
+  }, [item.uuid, router]);
+
+  const handleEdit = useCallback(() => {
     setBottomSheetProps({
       items: item,
-      action: 'editListItem',
+      buttonText: 'edit',
+      action: 'editList',
       isVisible: true,
       onClose: (item: BottomSheetProps) => setBottomSheetProps(item)
     })
-  }
-  const handleDelete = () => {
-    deleteFromList(item.uuid)
-  }
+  }, [item, setBottomSheetProps]);
 
-  function LeftRightSwipe(progress: any, dragX: { interpolate: (arg0: { inputRange: number[]; outputRange: number[] }) => any }) {
+  const handleCopy = useCallback(() => {
+    setBottomSheetProps({
+      items: item,
+      buttonText: 'copy',
+      action: 'copyList',
+      isVisible: true,
+      onClose: (item: BottomSheetProps) => setBottomSheetProps(item)
+    })
+  }, [item, setBottomSheetProps]);
+
+  const handleDelete = useCallback(() => {
+    deleteFromList(item.uuid);
+  }, [item.uuid, deleteFromList]);
+
+  const LeftRightSwipe = useCallback((progress: any, dragX: { interpolate: (arg0: { inputRange: number[]; outputRange: number[] }) => any }) => {
 
     return (
       <Animated.View style={{
@@ -61,34 +66,50 @@ export default function ListGridItem({ item, deleteFromList, setBottomSheetProps
         overflow: 'hidden',
       }}>
         <Styled.ButtonView>
-          <Styled.ButtonInner>
-            <Styled.ButtonTextIcon text={Colors[colorScheme ?? 'light'].textButton}>
-              <FontAwesome size={28} style={{ marginBottom: -3 }} name="trash" />
-            </Styled.ButtonTextIcon>
-            <Styled.ButtonText text={Colors[colorScheme ?? 'light'].textButton} onPress={handleDelete}>
-              Deletar
-            </Styled.ButtonText>
+          <Styled.ButtonInner underlayColor={Colors[colorScheme ?? 'light'].backgroundTouchableHighlight} onPress={handleEdit}>
+            <>
+              <Styled.ButtonTextIcon text={Colors[colorScheme ?? 'light'].textButton}>
+                <FontAwesome size={24} style={{ marginBottom: -3 }} name="pencil" />
+              </Styled.ButtonTextIcon>
+              <Styled.ButtonText text={Colors[colorScheme ?? 'light'].textButton} >
+                Editar
+              </Styled.ButtonText>
+            </>
           </Styled.ButtonInner>
-          <Styled.ButtonInner>
-            <Styled.ButtonTextIcon text={Colors[colorScheme ?? 'light'].textButton}>
-              <FontAwesome size={28} style={{ marginBottom: -3 }} name="copy" />
-            </Styled.ButtonTextIcon>
-            <Styled.ButtonText text={Colors[colorScheme ?? 'light'].textButton}>
-              Copiar
-            </Styled.ButtonText>
+          <Styled.ButtonInner underlayColor={Colors[colorScheme ?? 'light'].backgroundTouchableHighlight} onPress={handleDelete}>
+            <>
+              <Styled.ButtonTextIcon text={Colors[colorScheme ?? 'light'].textButton}>
+                <FontAwesome size={24} style={{ marginBottom: -3 }} name="trash" />
+              </Styled.ButtonTextIcon>
+              <Styled.ButtonText text={Colors[colorScheme ?? 'light'].textButton} >
+                Deletar
+              </Styled.ButtonText>
+            </>
+          </Styled.ButtonInner>
+          <Styled.ButtonInner underlayColor={Colors[colorScheme ?? 'light'].backgroundTouchableHighlight} onPress={handleCopy}>
+            <>
+              <Styled.ButtonTextIcon text={Colors[colorScheme ?? 'light'].textButton}>
+                <FontAwesome size={24} style={{ marginBottom: -3 }} name="copy" />
+              </Styled.ButtonTextIcon>
+              <Styled.ButtonText text={Colors[colorScheme ?? 'light'].textButton}>
+                Copiar
+              </Styled.ButtonText>
+            </>
           </Styled.ButtonInner>
         </Styled.ButtonView>
       </Animated.View >
     )
-  }
+  }, []);
 
   return (
 
     <Swipeable renderLeftActions={LeftRightSwipe} renderRightActions={LeftRightSwipe} leftThreshold={100}>
 
       <Styled.ContainerListItem
-        onPress={handlePressIn}>
-        <Styled.ContainerListItemInner background={Colors[colorScheme ?? 'light'].backgroundLighter}>
+        underlayColor={Colors[colorScheme ?? 'light'].backgroundTouchableHighlight}
+        background={Colors[colorScheme ?? 'light'].backgroundLighter}
+        onPress={handleOpenList}>
+        <Styled.ContainerListItemInner>
           <Styled.ContainerListItemHead>
             <Styled.ContainerItemTextTitle text={Colors[colorScheme ?? 'light'].textButton}>
               {item.name}

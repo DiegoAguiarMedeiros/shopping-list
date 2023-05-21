@@ -8,14 +8,19 @@ import { tagsIterface } from '../../types/types';
 
 interface FilterButtonsProps {
     tags: tagsIterface[],
+    filter: string,
+    setFilter: React.Dispatch<React.SetStateAction<string>>,
 }
 
-const FilterButtons = ({ tags }: FilterButtonsProps) => {
+const FilterButtons = ({ tags, filter, setFilter }: FilterButtonsProps) => {
     const colorScheme = useColorScheme();
     const renderButton = ({ item }: any) => {
+        const handlePress = () => {
+            setFilter(item.name)
+        }
         return (
             <Styled.ButtonContainer>
-                <Button background={item.active ? Colors[colorScheme ?? 'light'].buttonBackground : Colors[colorScheme ?? 'light'].cancelButtonBackground} text={item.name} />
+                <Button onPress={handlePress} background={filter === item.name ? Colors[colorScheme ?? 'light'].buttonBackground : Colors[colorScheme ?? 'light'].cancelButtonBackground} text={item.name} />
             </Styled.ButtonContainer>
         );
     };
