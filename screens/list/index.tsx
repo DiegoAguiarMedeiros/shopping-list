@@ -31,18 +31,12 @@ const img: Image =
 
 export default function List() {
   const { value, setValue } = useShoppingListContext();
-  const router = useRouter();
   const { listId } = useSearchParams();
   const list = value.filter(({ uuid }) => (uuid === listId))[0]
   const [filteredList, setFilteredList] = useState<itemInterface[]>()
   const [filter, setFilter] = useState('Todos');
 
   const colorScheme = useColorScheme();
-  const styleDot = {
-    backgroundColor: '#000000',
-    marginRight: 3,
-  };
-  const percentage = 66;
   const totalWithAmount = list.items ? getTotalWithAmount(filteredList !== undefined && filteredList.length > 0 ? filteredList : list.items) : 0;
   const totalUn = list.items ? getTotalUn(filteredList !== undefined && filteredList.length > 0 ? filteredList : list.items) : 0;
 
@@ -53,7 +47,7 @@ export default function List() {
 
   useEffect(() => {
     const newFilteredList = list.items.filter((item: itemInterface) => item.tags === filter)
-    setFilteredList(newFilteredList!)
+    setFilteredList(newFilteredList)
   }, [filter])
 
   return (

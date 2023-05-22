@@ -20,11 +20,12 @@ import AddQtd from './addQtd'
 
 interface listProps {
   itemAmount: itemAmountInterface,
-  removeAmount: (itemAmountUuid: string) => void
+  removeAmount: (itemAmountUuid: string) => void;
+  editItemsAmount: (id: string, amount: string, type: boolean) => void;
 }
 
-export default function ListPriceGrid({ itemAmount, removeAmount }: listProps) {
-  const [newItem, setNewItem] = useState('');
+export default function ListPriceGrid({ itemAmount, editItemsAmount, removeAmount }: listProps) {
+  const [newItemAmountQtd, setNewItemAmountQtd] = useState(String(itemAmount.quantity));
   const [selectedValueSwitch, setSelectedValueSwitch] = useState(itemAmount.type);
   const colorScheme = useColorScheme();
   const onValueChange = () => {
@@ -34,6 +35,28 @@ export default function ListPriceGrid({ itemAmount, removeAmount }: listProps) {
     removeAmount(itemAmount.uuid);
   }
 
+  const handleChangeAMount = (): void => {
+    editItemsAmount(itemAmount.uuid, newItemAmountQtd, selectedValueSwitch)
+  }
+
+  const formatInput = (value: string) => {
+    console.log('value', value)
+    // Remove any non-digit characters from the input
+    const numericValue = (Number(value.replace(/\D/g, '').replace('.', '')) / 1000).toFixed(3);
+    console.log('numericValue', numericValue)
+    return numericValue;
+  };
+
+  const handleInputChange = (value: string) => {
+    console.log('value', value)
+    const formattedValue = formatInput(value);
+    console.log('formattedValue', formattedValue)
+    setNewItemAmountQtd(formattedValue);
+  };
+  useEffect(() => {
+    console.log('newItemAmountQtd', newItemAmountQtd)
+    handleChangeAMount();
+  }, [newItemAmountQtd])
 
   return (
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
@@ -44,9 +67,9 @@ export default function ListPriceGrid({ itemAmount, removeAmount }: listProps) {
       </Styled.ContainerPrice>
       <Styled.ContainerQtd>
         {selectedValueSwitch ?
-          <InputText placeholder='0.000' onChangeText={(item) => { setNewItem(item); }} value={newItem} />
+          <InputText keyboardType='decimal-pad' placeholder='0.000' onChangeText={handleInputChange} value={newItemAmountQtd} />
           :
-          <AddQtd />
+          <AddQtd setNewItemAmount={setNewItemAmountQtd} amount={newItemAmountQtd} />
         }
       </Styled.ContainerQtd>
       <Styled.ContainerInput>

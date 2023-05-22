@@ -2,7 +2,7 @@ interface itemAmountInterface {
     uuid: string,
     amount: string,
     type: boolean,
-    quantity?: number,
+    quantity: string,
 }
 interface itemInterface {
     uuid: string,

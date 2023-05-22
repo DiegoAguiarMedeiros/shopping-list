@@ -17,7 +17,10 @@ import ListPriceGrid from "./listPriceGrid";
 import { useNavigation } from '@react-navigation/native';
 import { useShoppingListContext } from '../../context/ShoppingList';
 import UUIDGenerator from 'react-native-uuid';
-import { removeItemAmount } from '../../utils/functions';
+import { editItemAmount, removeItemAmount } from '../../utils/functions';
+
+
+
 
 export default function ModalAddPriceUnit() {
   const { value, setValue } = useShoppingListContext();
@@ -36,20 +39,17 @@ export default function ModalAddPriceUnit() {
       uuid: String(UUIDGenerator.v4()),
       amount: newItem,
       type: false,
+      quantity: '1'
     }
     return item;
   }
 
-
-
-  // const returnNewItemAfterDelete = (uuid: string): itemAmountInterface[] => {
-  //   const newAmount: itemAmountInterface[] = listItem.amount.filter((item) => item.uuid !== uuid)
-  //   return newAmount;
-  // }
-
   const handleDeleteAmountInList = (itemUuid: string, itemAmountUuid: string): void => {
     const newList = removeItemAmount(value, list.uuid, itemUuid, itemAmountUuid)
     setValue(newList);
+  }
+  const handleEditItemsAmount = (id: string, amount: string, type: boolean): void => {
+    setValue(editItemAmount(value, list.uuid, listItem.uuid, id, amount, type));
   }
   const handleSetItemInList = (): void => {
 
@@ -68,7 +68,7 @@ export default function ModalAddPriceUnit() {
   return (
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
       <Styled.WrapperGrid>
-        <ListPriceGrid item={listItem} removeAmount={handleDeleteAmountInList} />
+        <ListPriceGrid item={listItem} removeAmount={handleDeleteAmountInList} editItemsAmount={handleEditItemsAmount} />
       </Styled.WrapperGrid>
       <Styled.WrapperInput>
         <Styled.WrapperInputInner>

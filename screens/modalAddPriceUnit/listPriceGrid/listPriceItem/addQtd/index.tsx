@@ -16,24 +16,35 @@ import Switch from '../../../../../components/Switch';
 import { useNavigation } from '@react-navigation/native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
-export default function ListPriceGrid() {
-  const [newItem, setNewItem] = useState('1');
-  const [selectedValueSwitch, setSelectedValueSwitch] = useState(true);
+interface ListPriceGridProps {
+  amount: string;
+  setNewItemAmount: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export default function ListPriceGrid({ setNewItemAmount, amount }: ListPriceGridProps) {
+
   const colorScheme = useColorScheme();
-  const onValueChange = () => {
-    setSelectedValueSwitch(!selectedValueSwitch)
+
+
+  const minusAMount = (): void => {
+    if (amount === '1') setNewItemAmount(String(Number(amount) - 1));
   }
+  const plusAMount = (): void => {
+    setNewItemAmount(String(Number(amount) + 1));
+  }
+
+
   return (
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
 
       <Styled.ContainerMinusPlus >
-        <Button icon='minus' invertSide={true} background={Colors[colorScheme ?? 'light'].buttonBackground} />
+        <Button icon='minus' invertSide={true} background={Colors[colorScheme ?? 'light'].buttonBackground} onPress={minusAMount} />
       </Styled.ContainerMinusPlus >
       <Styled.ContainerQtd >
-        <InputText placeholder='Valor' onChangeText={(item) => { setNewItem(item); }} value={newItem} />
+        <InputText placeholder='Valor' value={amount} />
       </Styled.ContainerQtd >
       <Styled.ContainerMinusPlus >
-        <Button icon='plus' background={Colors[colorScheme ?? 'light'].buttonBackground} />
+        <Button icon='plus' background={Colors[colorScheme ?? 'light'].buttonBackground} onPress={plusAMount} />
       </Styled.ContainerMinusPlus >
     </Styled.Container >
   );
