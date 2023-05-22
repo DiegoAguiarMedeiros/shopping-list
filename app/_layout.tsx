@@ -19,7 +19,7 @@ export const unstable_settings = {
 };
 
 export default function RootLayout() {
-  const [active, setActive] = useState(true);
+  const [active, setActive] = useState(false);
   const [loaded, error] = useFonts({
     InterBlack: require('../assets/fonts/static/Inter-Black.ttf'),
     InterBold: require('../assets/fonts/static/Inter-Bold.ttf'),
