@@ -4,11 +4,11 @@
     "slug": "smart-list",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.jpeg",
+    "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#1E1E1E"
     },
@@ -20,10 +20,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/icon.jpeg",
+        "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#1E1E1E"
       },
-      "package": "com.diegoamdeiros.shoppinglist"
+      "package": "com.diegoamdeiros.smartList"
     },
     "web": {
       "bundler": "metro",
@@ -31,7 +31,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "6f223da9-31f2-4e9e-aa0f-54d84b26a9b6"
+        "projectId": "fdb89e50-65eb-4c2a-a499-67b1c2f41499"
       }
     }
   }
