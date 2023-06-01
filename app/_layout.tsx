@@ -2,9 +2,9 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { lazy, useEffect, useState } from 'react';
 import { useColorScheme } from 'react-native';
-import OnboardingScreen from '../screens/onboarding'
+const OnboardingScreen = lazy(() => import('../screens/onboarding'));
 import { ShoppingListProvider } from '../context/ShoppingList';
 
 
@@ -64,7 +64,6 @@ function RootLayoutNav() {
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: "Adicionar" }} />
           <Stack.Screen name="iTems" options={{ headerShown: false, title: "Adicionar2" }} />
-          <Stack.Screen name="modalAdd" options={{ title: "Adicionar3" }} />
         </Stack>
       </ThemeProvider>
     </>

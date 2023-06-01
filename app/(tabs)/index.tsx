@@ -1,7 +1,8 @@
+import { lazy } from 'react';
 import { StyleSheet } from 'react-native';
 
-import Home from '../../screens/home';
-import { View } from '../../components/Themed';
+const Home = lazy(() => import('../../screens/home'));
+const View = lazy(() => import('../../components/Themed'));
 
 export default function TabOneScreen() {
   return (

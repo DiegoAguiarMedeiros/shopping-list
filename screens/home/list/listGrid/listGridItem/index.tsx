@@ -4,15 +4,15 @@ import {
 } from 'react-native';
 import Colors from '../../../../../constants/Colors';
 import * as Styled from './styles';
-import { useCallback } from 'react';
+import { lazy, useCallback } from 'react';
 import { BottomSheetProps, listInterface } from '../../../../../types/types';
 import { FontAwesome } from '@expo/vector-icons';
-import CircleProgress from '../../../../../components/CircleProgress';
 import { useRouter } from "expo-router";
 
 import { Swipeable } from 'react-native-gesture-handler';
 import { getTotal, getTotalUn, getTotalWithAmount } from '../../../../../utils/functions';
 import { Title, Text } from '../../../../../components/Text';
+const CircleProgress = lazy(() => import('../../../../../components/CircleProgress'));
 
 interface ItemProps {
   item: listInterface,

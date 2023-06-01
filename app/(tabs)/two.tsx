@@ -1,8 +1,8 @@
+import { lazy } from 'react';
 import { StyleSheet } from 'react-native';
 
-import EditScreenInfo from '../../components/EditScreenInfo';
-import History from '../../screens/history';
-import { Text, View } from '../../components/Themed';
+const History = lazy(() => import('../../screens/history'));
+const View = lazy(() => import('../../components/Themed'));
 
 export default function TabTwoScreen() {
   return (

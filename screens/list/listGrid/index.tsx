@@ -1,17 +1,17 @@
 import {
-  useColorScheme, SafeAreaView,
-  ScrollView,
-  StyleSheet
+  useColorScheme,
+  SafeAreaView,
+  ScrollView
 } from 'react-native';
 import Colors from '../../../constants/Colors';
 import * as Styled from './styles';
-import { useEffect, useState } from 'react';
-import Button from '../../../components/Button';
+import { lazy, useEffect, useState } from 'react';
 import { BottomSheetProps, itemInterface, listInterface } from '../../../types/types';
 import ListGridItem from './listGridItem'
 import { getTotal, getTotalUn } from '../../../utils/functions';
-import BottomSheetComponent from '../../../components/BottomSheetComponent';
 
+const Button = lazy(() => import('../../../components/Button'));
+const BottomSheetComponent = lazy(() => import('../../../components/BottomSheetComponent'));
 interface ListProps {
   filter: string;
   list: listInterface;

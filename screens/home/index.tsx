@@ -1,9 +1,9 @@
-import EmptyList from './emptyList'
-import ListComponent from './list'
+import { lazy } from 'react';
 import { useShoppingListContext } from '../../context/ShoppingList';
-import { itemInterface } from '../../types/types';
 import { removeList } from '../../utils/functions';
 import { KeyboardAvoidingView } from 'react-native'
+const EmptyList = lazy(() => import('./emptyList'));
+const ListComponent = lazy(() => import('./list'));
 
 
 export default function Home() {

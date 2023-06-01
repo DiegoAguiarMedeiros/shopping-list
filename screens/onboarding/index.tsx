@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useColorScheme } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import Button from '../../components/Button';
 import Colors from '../../constants/Colors';
 import * as Styled from './styles';
 

@@ -1,25 +1,19 @@
 import {
-  useColorScheme, SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  GestureResponderEvent,
-  Linking,
+  useColorScheme,
   Animated,
-  View,
 } from 'react-native';
 import Colors from '../../../../constants/Colors';
 import * as Styled from './styles';
-import React, { useEffect, useState } from 'react';
-import { BottomSheetProps, itemAmountInterface, itemInterface } from '../../../../types/types';
-import { Link, useRouter } from 'expo-router';
+import React, { lazy, useState } from 'react';
+import { BottomSheetProps, itemInterface } from '../../../../types/types';
 import { FontAwesome } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
 import { getTotalAmount, getTotalAmountUn } from '../../../../utils/functions';
 import { Swipeable } from 'react-native-gesture-handler';
-import AddPriceUnit from '../../../modalAddPriceUnit';
 import { Title } from '../../../../components/Text';
 
-interface listProps {
+const AddPriceUnit = lazy(() => import('../../../modalAddPriceUnit'));
+
+interface ListProps {
   item: itemInterface,
   listId: string,
   deleteItemList: (uuid: string) => void,
@@ -28,11 +22,9 @@ interface listProps {
 }
 
 
-function ListGridItem({ item, listId, deleteItemList, setBottomSheetProps }: listProps) {
+function ListGridItem({ item, listId, deleteItemList, setBottomSheetProps }: ListProps) {
   const colorScheme = useColorScheme();
-  const navigation = useNavigation();
   const [active, setActive] = useState(false);
-  const router = useRouter();
 
   const deleteItem = () => {
     deleteItemList(item.uuid)
@@ -83,12 +75,6 @@ function ListGridItem({ item, listId, deleteItemList, setBottomSheetProps }: lis
         </Styled.ButtonView>
       </Animated.View >
     )
-  }
-  const handleRemoveAmount = (itemAmountUuid: string): void => {
-    // removeAmount(item.uuid, itemAmountUuid);
-  }
-  const editItemsAmount = (itemAmountUuid: string): void => {
-    // removeAmount(item.uuid, itemAmountUuid);
   }
 
   return (

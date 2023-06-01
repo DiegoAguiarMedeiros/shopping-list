@@ -1,16 +1,10 @@
-import {
-  useColorScheme, SafeAreaView,
-  ScrollView,
-  GestureResponderEvent,
-} from 'react-native';
+import { useColorScheme } from 'react-native';
 import Colors from '../../../constants/Colors';
 import * as Styled from './styles';
-import { useEffect, useState } from 'react';
-import Button from '../../../components/Button';
-import { Link } from 'expo-router';
-import { useRouter } from "expo-router";
+import { lazy, useState } from 'react';
 import { BottomSheetProps } from '../../../types/types';
-import BottomSheetComponent from '../../../components/BottomSheetComponent';
+const Button = lazy(() => import('../../../components/Button'));
+const BottomSheetComponent = lazy(() => import('../../../components/BottomSheetComponent'));
 
 
 interface Image {
@@ -23,13 +17,12 @@ const img: Image =
 };
 
 
-interface listProps {
+interface ListProps {
   list: string,
 }
 
-export default function EmptyList({ list }: listProps) {
+export default function EmptyList({ list }: ListProps) {
   const colorScheme = useColorScheme();
-  const router = useRouter();
   const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
     listId: list,
     buttonText: 'add',
@@ -37,10 +30,6 @@ export default function EmptyList({ list }: listProps) {
     isVisible: false,
     onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
   });
-  const handleOpenList = () => {
-    router.push({ pathname: "/modal", params: { listId: list } });
-  }
-
 
   return (
 

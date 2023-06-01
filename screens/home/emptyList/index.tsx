@@ -1,17 +1,10 @@
-import {
-  useColorScheme, SafeAreaView,
-  ScrollView,
-  GestureResponderEvent,
-} from 'react-native';
+import { useColorScheme } from 'react-native';
 import Colors from '../../../constants/Colors';
 import * as Styled from './styles';
-import { useEffect, useState } from 'react';
-import Button from '../../../components/Button';
-import { useRouter } from 'expo-router';
-import BottomSheetComponent from '../../../components/BottomSheetComponent';
+import { lazy, useState } from 'react';
 import { BottomSheetProps } from '../../../types/types';
-
-
+const Button = lazy(() => import('../../../components/Button'));
+const BottomSheetComponent = lazy(() => import('../../../components/BottomSheetComponent'));
 
 interface Image {
   image: any;
@@ -22,7 +15,6 @@ const img: Image =
   image: require('../../../assets/images/empty.png'),
 };
 
-const data = { name: 'John', age: 30 };
 export default function EmptyList() {
   const colorScheme = useColorScheme();
   const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({

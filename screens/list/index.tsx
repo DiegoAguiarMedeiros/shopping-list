@@ -1,23 +1,17 @@
-import {
-  useColorScheme, SafeAreaView,
-  ScrollView,
-  GestureResponderEvent,
-  View,
-} from 'react-native';
+import { useColorScheme } from 'react-native';
 import Colors from '../../constants/Colors';
 import * as Styled from './styles';
-import React, { useEffect, useState } from 'react';
-import Button from '../../components/Button';
-import { Link, useRouter } from 'expo-router';
-import InputText from '../../components/InputText';
-import EmptyList from './emptyList';
-import ListGrid from './listGrid';
-import CircleProgress from '../../components/CircleProgress';
+import React, { lazy, useEffect, useState } from 'react';
 import { useSearchParams } from "expo-router";
 import { useShoppingListContext } from '../../context/ShoppingList';
-import { itemInterface, tagsIterface } from '../../types/types';
-import { getTags, getTotalUn, getTotalWithAmount, removeItem } from '../../utils/functions';
-import FilterButtons from '../../components/FilterButtons';
+import { itemInterface } from '../../types/types';
+import { getTotalUn, getTotalWithAmount, removeItem } from '../../utils/functions';
+
+const EmptyList = lazy(() => import('./emptyList'));
+const ListGrid = lazy(() => import('./listGrid'));
+const CircleProgress = lazy(() => import('../../components/CircleProgress'));
+const FilterButtons = lazy(() => import('../../components/FilterButtons'));
+
 interface Image {
   image: any;
 }
