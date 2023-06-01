@@ -31,7 +31,6 @@ export default function ListGrid({ filter, list, deleteItemList }: ListProps) {
   useEffect(() => {
     const newFilteredList = list.items.filter((item: itemInterface) => item.tags === filter)
     setFilteredList(newFilteredList)
-    console.log('filter', filter === 'Todos' ? `${list.items.length * 100 + 410}` : `${filteredList!.length * 100 + 410}`)
   }, [filter])
 
   return (

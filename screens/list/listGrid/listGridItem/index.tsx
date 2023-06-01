@@ -29,7 +29,6 @@ interface listProps {
 
 
 function ListGridItem({ item, listId, deleteItemList, setBottomSheetProps }: listProps) {
-  console.log('amount.length', item)
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
   const [active, setActive] = useState(false);
