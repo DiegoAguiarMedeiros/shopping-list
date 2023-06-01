@@ -44,14 +44,14 @@ export const ListEmptyTitle = styled.Text<{
     text: string,
 }>`
     color:${(props: { text: any; }) => props.text}; 
-    font-size: 20;
+    font-size: 20px;
     text-align: center;
 `;
 export const ListEmptyTextmessage = styled.Text<{
     text: string,
 }>`
     color:${(props: { text: any; }) => props.text}; 
-    font-size: 16;
+    font-size: 16px;
     text-align: center;
     flex: 1;
     margin-top: 10%;

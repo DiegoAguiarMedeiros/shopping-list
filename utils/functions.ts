@@ -19,7 +19,7 @@ const getTags = (items: itemInterface[]): tagsIterface[] => {
         name: 'Todos',
         active: true
     })
-    return tagsArr;
+    return tagsArr.filter(({name}) => name !== '');
 }
 
 const getTotalAmount = (items: itemAmountInterface[]): number => {
@@ -40,7 +40,6 @@ const getTotal = (items: itemInterface[]): number => {
 }
 
 const getTotalAmountUn = (items: itemAmountInterface[]): number => {
-    console.log('getTotalAmountUn', items)
     let total: number = 0
     items.forEach(itemList => {
         total = itemList.type ? total + 1 : total + Number(itemList.quantity);
@@ -67,27 +66,22 @@ const getTotalWithAmount = (items: itemInterface[]): number => {
 }
 
 const editItemAmount = (items: listType, listUuid: string, itemUuid: string, itemAmountUuid: string, amountQtd: string, amountType: boolean): listType => {
-    console.log('items', items)
     return items.map((list) => {
         if (list.uuid !== listUuid) {
-            console.log('list', list)
             return list;
         }
         return {
             ...list,
             items: list.items.map((item) => {
                 if (item.uuid !== itemUuid) {
-                    console.log('item', item)
                     return item;
                 }
                 return {
                     ...item,
                     amount: item.amount.map((amount) => {
                         if (amount.uuid === itemAmountUuid) {
-                            console.log('{ ...amount, type: amountType, quantity: amountQtd }', { ...amount, type: amountType, quantity: amountQtd })
                             return { ...amount, type: amountType, quantity: amountQtd }
                         }
-                        console.log('amount', amount)
                         return amount;
                     }),
                 };

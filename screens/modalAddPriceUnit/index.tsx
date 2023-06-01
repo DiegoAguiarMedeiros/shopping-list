@@ -2,6 +2,7 @@ import {
   useColorScheme, SafeAreaView,
   ScrollView,
   GestureResponderEvent,
+  StyleSheet,
   Switch as RNSwitch
 } from 'react-native';
 import Colors from '../../constants/Colors';
@@ -20,14 +21,17 @@ import UUIDGenerator from 'react-native-uuid';
 import { editItemAmount, removeItemAmount } from '../../utils/functions';
 
 
+interface AddPriceUnitProps {
+  listId: string,
+  listItemId: string,
+}
 
 
-export default function ModalAddPriceUnit() {
+
+export default function AddPriceUnit({ listId, listItemId }: AddPriceUnitProps) {
   const { value, setValue } = useShoppingListContext();
   const [newItem, setNewItem] = useState('');
   const colorScheme = useColorScheme();
-  const router = useRouter();
-  const { listId, listItemId } = useSearchParams();
   const navigation = useNavigation();
 
 
@@ -66,10 +70,20 @@ export default function ModalAddPriceUnit() {
     });
   }, []);
   return (
-    <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
-      <Styled.WrapperGrid>
-        <ListPriceGrid item={listItem} removeAmount={handleDeleteAmountInList} editItemsAmount={handleEditItemsAmount} />
-      </Styled.WrapperGrid>
+    <Styled.Container>
+      {listItem.amount.length > 0
+        ?
+        <Styled.WrapperGrid>
+          <ScrollView nestedScrollEnabled>
+            <Styled.WrapperGridInner>
+              <ListPriceGrid item={listItem} removeAmount={handleDeleteAmountInList} editItemsAmount={handleEditItemsAmount} />
+            </Styled.WrapperGridInner>
+          </ScrollView>
+        </Styled.WrapperGrid>
+        :
+        <></>
+      }
+
       <Styled.WrapperInput>
         <Styled.WrapperInputInner>
           <InputText placeholder='Valor' onChangeText={(item) => { setNewItem(item); }} keyboardType='numeric' value={newItem} />
@@ -78,7 +92,24 @@ export default function ModalAddPriceUnit() {
           <Button icon='send' background={Colors[colorScheme ?? 'light'].buttonBackground} onPress={handleSetItemInList} />
         </Styled.WrapperButton>
       </Styled.WrapperInput>
-    </Styled.Container>
+    </Styled.Container >
   );
 }
 
+const styles = StyleSheet.create({
+  scrollView: {
+    // Custom styles for ScrollView
+    borderWidth: 1,
+    borderStyle: 'solid',
+    height: '100%'
+    // ...other styles
+  },
+  scrollView2: {
+    // Custom styles for ScrollView
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#fff',
+    height: 100
+    // ...other styles
+  },
+});

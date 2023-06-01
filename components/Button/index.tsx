@@ -3,7 +3,7 @@ import { TouchableOpacityProps, useColorScheme } from 'react-native';
 import Colors from '../../constants/Colors';
 import * as Styled from './styles';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-
+import { Text } from '../Text/'
 interface ButtonProps extends TouchableOpacityProps {
     text?: string;
     background: string;
@@ -16,10 +16,11 @@ const Button: React.FC<ButtonProps> = ({ text, icon, background, children, onPre
         <Styled.Button onPress={onPress} {...rest}
             border={Colors[colorScheme ?? 'light'].border}
             background={background}
+            height={text === undefined ? '45px' : '35px'}
         >
-            {icon !== undefined ? <FontAwesome size={25} style={{ marginBottom: -3 }} name={icon} color={Colors[colorScheme ?? 'light'].textButton} /> : null}
-            {text !== undefined ? <Styled.Text text={Colors[colorScheme ?? 'light'].textButton}>{text}</Styled.Text> : null}
-            
+            {icon !== undefined ? <FontAwesome size={20} style={{ marginBottom: -3, marginRight: 10 }} name={icon} color={Colors[colorScheme ?? 'light'].textButton} /> : null}
+            {text !== undefined ? <Text>{text}</Text> : null}
+
         </Styled.Button>
     );
 };

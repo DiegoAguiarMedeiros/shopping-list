@@ -1,17 +1,34 @@
 import { Dimensions } from 'react-native';
 import styled, { css } from 'styled-components/native';
 export const ContainerListItemListItem = styled.TouchableHighlight<{
-    background: string
+    background: string,
+    height: string,
 }>`
     background:${(props: { background: string }) => props.background};
     width:100%;
-    height:80;
+    height:${(props: { height: string }) => props.height + 'px'};
+    max-height: 410px;
     border-radius: 15px;
     margin: 5px 0;
 `;
+export const ContainerListItemListItemAMount = styled.View<{
+    background: string,
+    height: string,
+}>`
+    background:${(props: { background: string }) => props.background};
+    height:${(props: { height: string }) => props.height + 'px'};
+    min-height: 50px;
+    max-height: 320px;
+    border-radius: 15px;
+    margin:5px;
+`;
 export const Container = styled.View``
     ;
-export const ContainerListItemListItemHead = styled.View`   
+export const ContainerListItemListItemInner = styled.View`   
+    height:80px;
+    width:100%;
+    `;
+export const ContainerListItemListItemHead = styled.View`  
     display: flex;
     flex:2;
     flex-direction: row;
@@ -25,23 +42,15 @@ export const ContainerListItemListItemBody = styled.View`
     width:100%;
     height:50%;
     `;
-export const ContainerItemTextTitle = styled.Text<{
-    text: string,
-}>`
-    color:${(props: { text: any; }) => props.text}; 
+export const ContainerItemTextTitle = styled.View`
     flex:10;
-    font-size: 22px;
     margin: 5px 0px;
     padding: 5px 10px;
     `;
-export const ContainerItemTextIcon = styled.Text<{
-    text: string,
-}>`
-    color:${(props: { text: any; }) => props.text}; 
+export const ContainerItemTextIcon = styled.View`
+    justify-content: flex-end;
+    height: 100%;
     flex:1;
-    font-size: 22px;
-    margin: 28px 0 0 0;
-    text-align: center;
     padding: 0;
 `;
 export const ContainerItemTextQtd = styled.Text<{
@@ -103,3 +112,10 @@ export const ButtonText = styled.Text<{
         padding: 0px 10px;
         text-align: center;
     `;
+
+export const ContainerListPriceItem = styled.View`
+width:100%;
+flex: 1;
+height: 50%;
+padding: 0;
+`; 

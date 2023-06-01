@@ -6,11 +6,3 @@ export const Container = styled.View`
     padding: 0 5px;
     align-items: center;
 `;
-
-export const Label = styled.Text<{
-    color: string,
-}>`
-  color:${(props: { color: string; }) => props.color};
-  font-size: 18px;
-  margin-right: 10px;
-`;

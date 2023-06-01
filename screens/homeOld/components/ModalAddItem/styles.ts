@@ -5,7 +5,7 @@ export const ContainerOpacity = styled.View<{
 }>`
     background:${(props: { background: any; }) => props.background};
     position:absolute;
-    width: ${Dimensions.get('window').width};
+    width: ${Dimensions.get('window').width + 'px'};
     height: ${Dimensions.get('window').width};
     height: 100%;
     opacity: 0.8;
@@ -19,7 +19,7 @@ export const Container = styled.View<{
     border: 1px solid ${(props: { border: any; }) => props.border};
     background:${(props: { background: any; }) => props.background};
     position:absolute;
-    width: ${Dimensions.get('window').width};
+    width: ${Dimensions.get('window').width + 'px'};
     height: 30%;
     z-index:999;
     margin: 100px 0 0 0;
@@ -58,7 +58,7 @@ export const ModalTitle = styled.Text<{
     text: string,
 }>`
     color:${(props: { text: any; }) => props.text}; 
-    font-size: 25;
+    font-size: 25px;
     `;
 
 export const Text = styled.Text<{

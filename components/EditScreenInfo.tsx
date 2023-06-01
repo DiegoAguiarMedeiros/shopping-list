@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
   getStartedText: {
-    font-size: 17,
+    fontSize: 17,
     lineHeight: 24,
     textAlign: 'center',
   },

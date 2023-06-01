@@ -3,7 +3,9 @@ import styled from 'styled-components/native';
 import { Switch as RNSwitch, useColorScheme } from 'react-native';
 import * as Styled from './styles';
 import Colors from '../../constants/Colors';
-interface labelOnOff {
+import { Text } from '../Text';
+
+interface LabelOnOff {
     on: string;
     off: string;
 }
@@ -11,14 +13,14 @@ interface labelOnOff {
 interface SwitchProps {
     value: boolean;
     onValueChange: (value: boolean) => void;
-    label: labelOnOff;
+    label: LabelOnOff;
 }
 
 const Switch: React.FC<SwitchProps> = ({ value, onValueChange, label }) => {
     const colorScheme = useColorScheme();
     return (
         <Styled.Container>
-            <Styled.Label color={Colors[colorScheme ?? 'light'].inputTextColor}>{label[value ? 'on' : 'off']}</Styled.Label>
+            <Text>{label[value ? 'on' : 'off']}</Text>
             <RNSwitch
                 value={value}
                 onValueChange={onValueChange}

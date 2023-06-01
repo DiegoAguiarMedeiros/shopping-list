@@ -37,14 +37,13 @@ export const ContainerListItemHead = styled.View`
     flex-direction: row;
     width:100%;
     flex:8;
-    
 `;
 export const ContainerListItemBody = styled.View`   
     display: flex;
     flex:2;
     flex-direction: row;
-    width:100%;
-    
+    padding: 5px 10px;
+    margin:  0 0 10px 0;
 `;
 export const ContainerListItemBottom = styled.View`   
     border-top-width: 1px;
@@ -55,14 +54,11 @@ export const ContainerListItemBottom = styled.View`
     flex:4;
     width:100%;
 `;
-export const ContainerItemTextTitle = styled.Text<{
-    text: string,
-}>`
-    color:${(props: { text: any; }) => props.text}; 
+export const ContainerItemTitle = styled.View`
     flex:6;
-    font-size: 22px;
-    margin: 5px 0px;
-    padding: 5px 10px;
+    padding: 15px 10px;
+    justify-content: flex-start;
+    align-items: flex-start;
     `;
 export const ContainerItemCircleProgress = styled.Text<{
     text: string,

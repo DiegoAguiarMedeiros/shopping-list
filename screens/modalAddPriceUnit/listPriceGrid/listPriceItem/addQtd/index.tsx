@@ -35,7 +35,7 @@ export default function ListPriceGrid({ setNewItemAmount, amount }: ListPriceGri
 
 
   return (
-    <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
+    <Styled.Container>
 
       <Styled.ContainerMinusPlus >
         <Button icon='minus' invertSide={true} background={Colors[colorScheme ?? 'light'].buttonBackground} onPress={minusAMount} />

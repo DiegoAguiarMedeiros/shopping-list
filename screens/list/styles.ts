@@ -5,8 +5,8 @@ export const Container = styled.View<{
     background: string,
 }>`
     background:${(props: { background: any; }) => props.background};
-    width: ${Dimensions.get('window').width};
-    height: ${Dimensions.get('window').height};
+    width: ${Dimensions.get('window').width + 'px'};
+    height: ${Dimensions.get('window').height + 'px'};
     flex: 1;
     justify-content: flex-start;
 `;
@@ -15,7 +15,7 @@ export const Title = styled.Text<{
 }>`
     color:${(props: { text: any; }) => props.text}; 
     padding: 15px;
-    font-size: 26;
+    font-size: 26px;
     width:100%;
 `;
 
@@ -58,7 +58,7 @@ export const ListTitle = styled.Text<{
 }>`
     
     color:${(props: { text: any; }) => props.text}; 
-    font-size: 25;
+    font-size: 25px;
     text-align: center;
     font-weight: bold;
 `;

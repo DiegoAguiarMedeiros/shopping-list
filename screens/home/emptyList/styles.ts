@@ -5,8 +5,8 @@ export const Container = styled.View<{
     background: string,
 }>`
     background:${(props: { background: any; }) => props.background};
-    width: ${Dimensions.get('window').width};
-    height: ${Dimensions.get('window').height};
+    width: ${Dimensions.get('window').width + 'px'};
+    height: ${Dimensions.get('window').height + 'px'};
     padding:10px;
 `;
 
@@ -48,19 +48,19 @@ export const ListEmptyTitle = styled.Text<{
 }>`
     color:${(props: { text: any; }) => props.text}; 
     
-    font-size: 20;
+    font-size: 20px;
     text-align: center;
 `;
 export const ListEmptyTextmessage = styled.Text<{
     text: string,
 }>`
     color:${(props: { text: any; }) => props.text}; 
-    font-size: 16;
+    font-size: 16px;
     text-align: center;
     margin-top: 20%;
     `;
 
 export const ContainerButtonAdd = styled.View`
     margin-top: 10%;
-    height: 55;
+    height: 55px;
 `;

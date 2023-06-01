@@ -40,26 +40,21 @@ export default function ListPriceGrid({ itemAmount, editItemsAmount, removeAmoun
   }
 
   const formatInput = (value: string) => {
-    console.log('value', value)
     // Remove any non-digit characters from the input
     const numericValue = (Number(value.replace(/\D/g, '').replace('.', '')) / 1000).toFixed(3);
-    console.log('numericValue', numericValue)
     return numericValue;
   };
 
   const handleInputChange = (value: string) => {
-    console.log('value', value)
     const formattedValue = formatInput(value);
-    console.log('formattedValue', formattedValue)
     setNewItemAmountQtd(formattedValue);
   };
   useEffect(() => {
-    console.log('newItemAmountQtd', newItemAmountQtd)
     handleChangeAMount();
   }, [newItemAmountQtd])
 
   return (
-    <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
+    <Styled.Container>
       <Styled.ContainerPrice>
         <Styled.Price text={Colors[colorScheme ?? 'light'].textButton}>
           R$ {itemAmount.amount}

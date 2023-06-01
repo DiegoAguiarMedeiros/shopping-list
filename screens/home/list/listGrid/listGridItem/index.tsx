@@ -12,6 +12,7 @@ import { useRouter } from "expo-router";
 
 import { Swipeable } from 'react-native-gesture-handler';
 import { getTotal, getTotalUn, getTotalWithAmount } from '../../../../../utils/functions';
+import { Title, Text } from '../../../../../components/Text';
 
 interface ItemProps {
   item: listInterface,
@@ -111,9 +112,11 @@ export default function ListGridItem({ item, deleteFromList, setBottomSheetProps
         onPress={handleOpenList}>
         <Styled.ContainerListItemInner>
           <Styled.ContainerListItemHead>
-            <Styled.ContainerItemTextTitle text={Colors[colorScheme ?? 'light'].textButton}>
-              {item.name}
-            </Styled.ContainerItemTextTitle>
+            <Styled.ContainerItemTitle>
+              <Title>
+                {item.name}
+              </Title>
+            </Styled.ContainerItemTitle>
             <Styled.ContainerItemCircleProgress text={Colors[colorScheme ?? 'light'].textButton}>
               <CircleProgress
                 filled={totalWithAmount}
@@ -123,9 +126,9 @@ export default function ListGridItem({ item, deleteFromList, setBottomSheetProps
             </Styled.ContainerItemCircleProgress>
           </Styled.ContainerListItemHead>
           <Styled.ContainerListItemBody>
-            <Styled.ContainerItemTextPriceTotal text={Colors[colorScheme ?? 'light'].textButton}>
+            <Text>
               Total: R$ {total}
-            </Styled.ContainerItemTextPriceTotal>
+            </Text>
 
           </Styled.ContainerListItemBody>
         </Styled.ContainerListItemInner>

@@ -1,6 +1,7 @@
 import {
   useColorScheme, SafeAreaView,
   ScrollView,
+  StyleSheet
 } from 'react-native';
 import Colors from '../../../constants/Colors';
 import * as Styled from './styles';
@@ -27,11 +28,12 @@ export default function ListGrid({ filter, list, deleteItemList }: ListProps) {
     isVisible: false,
     onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
   });
-  console.log('filter', filter)
   useEffect(() => {
     const newFilteredList = list.items.filter((item: itemInterface) => item.tags === filter)
     setFilteredList(newFilteredList)
+    console.log('filter', filter === 'Todos' ? `${list.items.length * 100 + 410}` : `${filteredList!.length * 100 + 410}`)
   }, [filter])
+
   return (
 
     <Styled.Container background={Colors[colorScheme ?? 'light'].background} >
@@ -47,8 +49,8 @@ export default function ListGrid({ filter, list, deleteItemList }: ListProps) {
           </Styled.ContainerListTotal>
           <Styled.ContainerListItemList>
             <SafeAreaView >
-              <ScrollView>
-                <Styled.ContainerListItemListItem>
+              <ScrollView style={[{ height: '100%' }]} nestedScrollEnabled>
+                <Styled.ContainerListItemListItem height={filter === 'Todos' ? `${list.items.length * 100 + 410}` : `${filteredList!.length * 100 + 410}`}>
                   {filter === 'Todos' ?
                     list.items.map((item: itemInterface) => (
                       <ListGridItem key={'ListGridItem-' + item.uuid} setBottomSheetProps={setBottomSheetProps} deleteItemList={deleteItemList} item={item} listId={list.uuid} />
@@ -72,4 +74,3 @@ export default function ListGrid({ filter, list, deleteItemList }: ListProps) {
     </Styled.Container >
   );
 }
-

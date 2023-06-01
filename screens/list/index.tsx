@@ -64,7 +64,7 @@ export default function List() {
             filled={totalWithAmount}
             progress={totalUn && totalWithAmount ? Number(totalWithAmount / totalUn) : 0}
             total={totalUn}
-            size={80} />
+            size={60} />
         </Styled.ContainerHeaderInnerProgress>
       </Styled.ContainerHeader>
       <Styled.ContainerHeaderInnerFilterButtons>

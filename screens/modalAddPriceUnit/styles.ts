@@ -1,12 +1,8 @@
 import { Dimensions } from 'react-native';
 import styled, { css } from 'styled-components/native';
 
-export const Container = styled.View<{
-    background: string,
-}>`
-    background:${(props: { background: any; }) => props.background};
-    width: ${Dimensions.get('window').width};
-    height: ${Dimensions.get('window').height};
+export const Container = styled.View`
+    height: 100%;
     flex: 1;
     justify-content: center;
     align-items: center;
@@ -14,15 +10,19 @@ export const Container = styled.View<{
 
 
 export const WrapperGrid = styled.View`
-    width: 100%;
     flex: 15;
+`;
+export const WrapperGridInner = styled.View`
+    width:100%;
+    height:100%;
+    padding:5px;
 `;
 export const WrapperInput = styled.View`
     display:flex;
     flex-direction: row;
     width: 100%;
-    flex: 1;
-    padding: 25px 5px;
+    flex: 2;
+    padding: 0 0 10px 0;
 `;
 export const WrapperInputInner = styled.View`
     width: 100%;

@@ -1,10 +1,7 @@
 import { Dimensions } from 'react-native';
 import styled, { css } from 'styled-components/native';
 
-export const Container = styled.View<{
-    background: string,
-}>`
-    background:${(props: { background: any; }) => props.background};
+export const Container = styled.View`
     width: 100%;
     height: 100%;
     display:flex;
@@ -24,7 +21,7 @@ export const ContainerQtd = styled.View`
 export const Button = styled.TouchableOpacity<{
     border: string,
     background: string,
-  }>`
+}>`
     background:${(props: { background: any; }) => props.background};
     border: 1px solid ${(props: { border: any; }) => props.border};
     border-radius: 100px;

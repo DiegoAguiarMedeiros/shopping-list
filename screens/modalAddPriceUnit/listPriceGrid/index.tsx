@@ -2,7 +2,8 @@ import {
   useColorScheme, SafeAreaView,
   ScrollView,
   GestureResponderEvent,
-  Switch as RNSwitch
+  Switch as RNSwitch,
+  StyleSheet
 } from 'react-native';
 import Colors from '../../../constants/Colors';
 import * as Styled from './styles';
@@ -29,16 +30,12 @@ export default function ListPriceGrid({ item, editItemsAmount, removeAmount }: l
   }
 
   return (
-    <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
-      <SafeAreaView >
-        <ScrollView >
+    <Styled.Container>
           <Styled.ContainerListPriceItem>
             {item.amount.map((itemAmount: itemAmountInterface) =>
               <ListPriceItem removeAmount={handleRemoveAmount} itemAmount={itemAmount} key={itemAmount.uuid} editItemsAmount={editItemsAmount} />
             )}
           </Styled.ContainerListPriceItem>
-        </ScrollView>
-      </SafeAreaView >
     </Styled.Container>
   );
 }

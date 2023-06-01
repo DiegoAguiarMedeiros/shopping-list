@@ -48,7 +48,7 @@ export const ContainerItemTotalUnitText = styled.Text<{
 }>`
     
     color:${(props: { text: any; }) => props.text}; 
-    font-size: 18;
+    font-size: 18px;
     flex:1;
     text-align: left;
     `;
@@ -57,7 +57,7 @@ export const ContainerItemTotalText = styled.Text<{
 }>`
     
     color:${(props: { text: any; }) => props.text}; 
-    font-size: 18;
+    font-size: 18px;
     flex:1;
     text-align: right;
     `;

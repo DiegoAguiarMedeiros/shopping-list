@@ -5,8 +5,8 @@ export const Container = styled.View<{
     background: string,
 }>`
     background:${(props: { background: any; }) => props.background};
-    width: ${Dimensions.get('window').width};
-    height: ${Dimensions.get('window').height};
+    width: ${Dimensions.get('window').width + 'px'};
+    height: ${Dimensions.get('window').height + 'px'};
     padding:10px;
 `;
 

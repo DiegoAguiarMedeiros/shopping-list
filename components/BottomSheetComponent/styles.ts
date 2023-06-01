@@ -2,7 +2,7 @@ import { Dimensions } from 'react-native';
 import styled, { css } from 'styled-components/native';
 
 export const Container = styled.View`
-    width: ${Dimensions.get('window').width};
+    width: ${Dimensions.get('window').width + 'px'};
     flex: 1;
     padding: 25px 0;
     `;
@@ -16,14 +16,6 @@ border-top-left-radius: 20px;
 border-top-right-radius: 20px;
 
 `;
-export const Title = styled.Text<{
-    text: string,
-}>`
-    color:${(props: { text: any; }) => props.text}; 
-    font-size: 26;
-    width:100%;
-    `;
-
 export const InputContainer = styled.View`
 
     padding: 5px 15px;

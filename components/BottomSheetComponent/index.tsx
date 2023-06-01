@@ -152,6 +152,7 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({ items, isVisible, ch
 
   const close = () => {
     onClose({
+      listId,
       action,
       buttonText,
       isVisible: false,
