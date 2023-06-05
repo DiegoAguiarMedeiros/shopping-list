@@ -1,14 +1,16 @@
-import { lazy } from 'react';
+import { lazy, Suspense } from 'react';
 import { StyleSheet } from 'react-native';
-
+import { Text } from '../../components/Text'
 const Home = lazy(() => import('../../screens/home'));
 const View = lazy(() => import('../../components/Themed'));
 
 export default function TabOneScreen() {
   return (
-    <View style={styles.container}>
-      <Home />
-    </View>
+    <Suspense fallback={<Text>Loading...</Text>}>
+      <View style={styles.container}>
+        <Home />
+      </View>
+    </Suspense>
   );
 }
 
