@@ -10,10 +10,9 @@ import { BottomSheetProps, listInterface, listType } from '../../../../types/typ
 const ListGridItem = lazy(() => import('./listGridItem'));
 interface ItemProps {
   items: listType,
-  deleteFromList: (uuid: string) => void,
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>,
 }
-export default function ListGrid({ items, deleteFromList, setBottomSheetProps }: ItemProps) {
+export default function ListGrid({ items, setBottomSheetProps }: ItemProps) {
   const colorScheme = useColorScheme();
   return (
 
@@ -25,7 +24,7 @@ export default function ListGrid({ items, deleteFromList, setBottomSheetProps }:
               <ScrollView>
                 <Styled.ContainerListItemListItem>
                   {items.map((item: listInterface) =>
-                    <ListGridItem setBottomSheetProps={setBottomSheetProps} key={'ListGridItem-' + item.uuid} item={item} deleteFromList={deleteFromList} />
+                    <ListGridItem setBottomSheetProps={setBottomSheetProps} key={'ListGridItem-' + item.uuid} item={item} />
                   )}
                 </Styled.ContainerListItemListItem>
               </ScrollView>

@@ -10,19 +10,21 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useRouter } from "expo-router";
 
 import { Swipeable } from 'react-native-gesture-handler';
-import { getTotal, getTotalUn, getTotalWithAmount } from '../../../../../utils/functions';
+import { getTotal, getTotalUn, getTotalWithAmount, removeList } from '../../../../../utils/functions';
 import { Title, Text } from '../../../../../components/Text';
+import { useShoppingListArchivedContext, useShoppingListContext } from '../../../../../context/ShoppingList';
 const CircleProgress = lazy(() => import('../../../../../components/CircleProgress'));
 
 interface ItemProps {
   item: listInterface,
-  deleteFromList: (uuid: string) => void,
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>,
 }
 
 
 
-export default function ListGridItem({ item, deleteFromList, setBottomSheetProps }: ItemProps) {
+export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
+  const { value, setValue } = useShoppingListContext();
+  const { archived, setArchived } = useShoppingListArchivedContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
 
@@ -54,11 +56,16 @@ export default function ListGridItem({ item, deleteFromList, setBottomSheetProps
     })
   }, [item, setBottomSheetProps]);
 
-  const handleDelete = useCallback(() => {
-    deleteFromList(item.uuid);
-  }, [item.uuid, deleteFromList]);
+  const handleDelete = () => {
+    setValue(removeList(value, item.uuid));
+  }
 
-  const LeftRightSwipe = useCallback((progress: any, dragX: { interpolate: (arg0: { inputRange: number[]; outputRange: number[] }) => any }) => {
+  const handleArchived = () => {
+    setValue(removeList(value, item.uuid));
+    setArchived([item, ...archived])
+  }
+
+  const RightSwipe = useCallback((progress: any, dragX: { interpolate: (arg0: { inputRange: number[]; outputRange: number[] }) => any }) => {
 
     return (
       <Animated.View style={{
@@ -77,16 +84,6 @@ export default function ListGridItem({ item, deleteFromList, setBottomSheetProps
               </Styled.ButtonText>
             </>
           </Styled.ButtonInner>
-          <Styled.ButtonInner underlayColor={Colors[colorScheme ?? 'light'].backgroundTouchableHighlight} onPress={handleDelete}>
-            <>
-              <Styled.ButtonTextIcon text={Colors[colorScheme ?? 'light'].textButton}>
-                <FontAwesome size={24} style={{ marginBottom: -3 }} name="trash" />
-              </Styled.ButtonTextIcon>
-              <Styled.ButtonText text={Colors[colorScheme ?? 'light'].textButton} >
-                Deletar
-              </Styled.ButtonText>
-            </>
-          </Styled.ButtonInner>
           <Styled.ButtonInner underlayColor={Colors[colorScheme ?? 'light'].backgroundTouchableHighlight} onPress={handleCopy}>
             <>
               <Styled.ButtonTextIcon text={Colors[colorScheme ?? 'light'].textButton}>
@@ -101,10 +98,43 @@ export default function ListGridItem({ item, deleteFromList, setBottomSheetProps
       </Animated.View >
     )
   }, []);
+  const LeftSwipe = useCallback((progress: any, dragX: { interpolate: (arg0: { inputRange: number[]; outputRange: number[] }) => any }) => {
+
+    return (
+      <Animated.View style={{
+        width: 200,
+        height: 100,
+        overflow: 'hidden',
+      }}>
+        <Styled.ButtonView>
+          <Styled.ButtonInner underlayColor={Colors[colorScheme ?? 'light'].backgroundTouchableHighlight} onPress={handleArchived}>
+            <>
+              <Styled.ButtonTextIcon text={Colors[colorScheme ?? 'light'].textButton}>
+                <FontAwesome size={24} style={{ marginBottom: -3 }} name="archive" />
+              </Styled.ButtonTextIcon>
+              <Styled.ButtonText text={Colors[colorScheme ?? 'light'].textButton} >
+                Arquivar
+              </Styled.ButtonText>
+            </>
+          </Styled.ButtonInner>
+          <Styled.ButtonInner underlayColor={Colors[colorScheme ?? 'light'].backgroundTouchableHighlight} onPress={handleDelete}>
+            <>
+              <Styled.ButtonTextIcon text={Colors[colorScheme ?? 'light'].textButton}>
+                <FontAwesome size={24} style={{ marginBottom: -3 }} name="trash" />
+              </Styled.ButtonTextIcon>
+              <Styled.ButtonText text={Colors[colorScheme ?? 'light'].textButton}>
+                Deletar
+              </Styled.ButtonText>
+            </>
+          </Styled.ButtonInner>
+        </Styled.ButtonView>
+      </Animated.View >
+    )
+  }, []);
 
   return (
 
-    <Swipeable renderLeftActions={LeftRightSwipe} renderRightActions={LeftRightSwipe} leftThreshold={100}>
+    <Swipeable renderLeftActions={RightSwipe} renderRightActions={LeftSwipe} leftThreshold={100}>
 
       <Styled.ContainerListItem
         underlayColor={Colors[colorScheme ?? 'light'].backgroundTouchableHighlight}

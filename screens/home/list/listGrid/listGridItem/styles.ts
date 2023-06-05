@@ -122,7 +122,7 @@ export const ButtonView = styled.View`
     `;
 export const ButtonInner = styled.TouchableHighlight`   
 border-radius: 15px;
-    width:33%;
+    width:50%;
     height:100%;
     `;
 export const ButtonTextIcon = styled.Text<{

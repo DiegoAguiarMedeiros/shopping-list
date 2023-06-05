@@ -13,14 +13,12 @@ export const Container = styled.View<{
 
 export const ContainerListInner = styled.View`
     flex: 1;
-    flex-grow:1;
     justify-content: center;
     align-items: center;
     `;
 export const ContainerListList = styled.View`
-    padding:0 15px;
+    padding:15px;
     flex: 8;
-    flex-grow:1;
     justify-content: center;
     align-items: center;
         `;
