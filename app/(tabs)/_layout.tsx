@@ -1,6 +1,6 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable, useColorScheme } from 'react-native';
+import { Link, Tabs, } from 'expo-router';
+import { Pressable, useColorScheme, Text } from 'react-native';
 
 import Colors from '../../constants/Colors';
 
@@ -25,8 +25,13 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Shopping List',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: '',
+          tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
+          headerLeft: () => (
+            <Text style={{ color: Colors[colorScheme ?? 'light'].text, marginLeft: 15, fontSize: 25 }}>
+              Listas de compras
+            </Text>
+          ),
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
@@ -46,8 +51,13 @@ export default function TabLayout() {
       <Tabs.Screen
         name="two"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: '',
+          headerLeft: () => (
+            <Text style={{ color: Colors[colorScheme ?? 'light'].text, marginLeft: 15, fontSize: 25 }}>
+             Arquivadas
+            </Text>
+          ),
+          tabBarIcon: ({ color }) => <TabBarIcon name="history" color={color} />,
         }}
       />
     </Tabs>
