@@ -157,7 +157,7 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
           </Styled.ContainerListItemHead>
           <Styled.ContainerListItemBody>
             <Text>
-              Total: R$ {total}
+              Total: R$ {total.toFixed(2)}
             </Text>
 
           </Styled.ContainerListItemBody>
