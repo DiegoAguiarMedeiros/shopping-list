@@ -28,7 +28,6 @@ const getListArchivedFromStorage = async (): Promise<listType | null> => {
 }
 
 const setListArchivedFromStorage = (newList: listType): void => {
-  console.log('newList', newList)
   ListStorage.setListArchived([...newList])
 }
 
