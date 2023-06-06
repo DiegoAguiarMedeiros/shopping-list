@@ -2,11 +2,10 @@ import { Dimensions } from 'react-native';
 import styled, { css } from 'styled-components/native';
 export const ContainerListItemListItem = styled.TouchableHighlight<{
     background: string,
-    height: string,
 }>`
     background:${(props: { background: string }) => props.background};
     width:100%;
-    height:${(props: { height: string }) => props.height + 'px'};
+    min-height: 100px;
     max-height: 410px;
     border-radius: 15px;
     margin: 5px 0;

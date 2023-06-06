@@ -10,7 +10,7 @@ export const Container = styled.View`
 
 
 export const WrapperGrid = styled.View`
-    flex: 15;
+    flex: 2;
 `;
 export const WrapperGridInner = styled.View`
     width:100%;
@@ -21,8 +21,8 @@ export const WrapperInput = styled.View`
     display:flex;
     flex-direction: row;
     width: 100%;
-    flex: 2;
-    padding: 0 0 10px 0;
+    padding: 5px;
+    height: 50px;
 `;
 export const WrapperInputInner = styled.View`
     width: 100%;

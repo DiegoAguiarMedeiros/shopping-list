@@ -83,7 +83,6 @@ function ListGridItem({ item, listId, deleteItemList, setBottomSheetProps }: Lis
 
       ?
       < Styled.ContainerListItemListItem
-        height={`${item.amount.length * 90 + 60 + 80}`}
         underlayColor={Colors[colorScheme ?? 'light'].backgroundTouchableHighlight}
         background={active ? Colors[colorScheme ?? 'light'].backgroundLighterActive : Colors[colorScheme ?? 'light'].backgroundLighter} >
         <>
@@ -108,7 +107,7 @@ function ListGridItem({ item, listId, deleteItemList, setBottomSheetProps }: Lis
 
           </Styled.ContainerListItemListItemInner>
           <Styled.ContainerListItemListItemAMount
-            height={`${item.amount.length * 90}`}
+            height={`${item.amount.length * 55 + 60}`}
             background={Colors[colorScheme ?? 'light'].backgroundLighterActive}>
             <AddPriceUnit listId={listId} listItemId={item.uuid} />
           </Styled.ContainerListItemListItemAMount>
@@ -118,7 +117,6 @@ function ListGridItem({ item, listId, deleteItemList, setBottomSheetProps }: Lis
 
       <Swipeable renderLeftActions={LeftRightSwipe} renderRightActions={LeftRightSwipe} leftThreshold={100}>
         < Styled.ContainerListItemListItem
-          height='80'
           underlayColor={Colors[colorScheme ?? 'light'].backgroundTouchableHighlight}
 
           background={active ? Colors[colorScheme ?? 'light'].backgroundLighterActive : Colors[colorScheme ?? 'light'].backgroundLighter} >

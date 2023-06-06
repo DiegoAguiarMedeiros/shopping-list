@@ -2,7 +2,7 @@ import { Dimensions } from 'react-native';
 import styled, { css } from 'styled-components/native';
 
 export const Container = styled.View`
-    height: 60px;
+    height: 50px;
     padding: 5px 0;
     display:flex;
     flex-direction: row;
