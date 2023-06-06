@@ -1,30 +1,25 @@
-import {
-  useColorScheme, SafeAreaView,
-  ScrollView,
-  GestureResponderEvent,
-} from 'react-native';
+import { useColorScheme } from 'react-native';
 import Colors from '../../../constants/Colors';
 import * as Styled from './styles';
-import { useEffect, useState } from 'react';
-import Button from '../../../components/Button';
-import { Link } from 'expo-router';
-import ListGrid from './listGrid';
+import { lazy, useState } from 'react';
+import { BottomSheetProps, listType } from '../../../types/types';
+const Button = lazy(() => import('../../../components/Button'));
+const ListGrid = lazy(() => import('./listGrid'));
+const BottomSheetComponent = lazy(() => import('../../../components/BottomSheetComponent'));
+interface ItemProps {
+  items: listType,
+}
 
-export default function List() {
+
+
+export default function List({ items }: ItemProps) {
   const colorScheme = useColorScheme();
   return (
 
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
       <Styled.ContainerListList>
-        <ListGrid />
+        <ListGrid items={items} />
       </Styled.ContainerListList>
-      <Styled.ContainerListInner>
-        <Styled.ContainerButtonAdd>
-          <Link href="/modal" asChild>
-            <Button text='Criar' background={Colors[colorScheme ?? 'light'].buttonBackground} icon="plus" />
-          </Link>
-        </Styled.ContainerButtonAdd>
-      </Styled.ContainerListInner>
     </Styled.Container>
   );
 }

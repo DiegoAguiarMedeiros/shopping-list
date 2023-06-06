@@ -19,7 +19,7 @@ const getTags = (items: itemInterface[]): tagsIterface[] => {
         name: 'Todos',
         active: true
     })
-    return tagsArr.filter(({name}) => name !== '');
+    return tagsArr.filter(({ name }) => name !== '');
 }
 
 const getTotalAmount = (items: itemAmountInterface[]): number => {
@@ -122,6 +122,8 @@ const removeItem = (items: listType, listUuid: string, itemUuid: string): listTy
 const removeList = (items: listType, listUuid: string): listType => {
     return items.filter((list) => list.uuid !== listUuid);
 }
+
+
 
 export {
     getTags,

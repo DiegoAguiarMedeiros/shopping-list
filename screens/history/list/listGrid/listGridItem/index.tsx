@@ -1,79 +1,119 @@
 import {
-  useColorScheme, SafeAreaView,
-  ScrollView,
-  GestureResponderEvent,
-  Linking,
+  useColorScheme,
+  Animated
 } from 'react-native';
 import Colors from '../../../../../constants/Colors';
 import * as Styled from './styles';
-import { useEffect, useState } from 'react';
-import { Link } from 'expo-router';
+import { lazy, useCallback } from 'react';
+import { BottomSheetProps, listInterface } from '../../../../../types/types';
 import { FontAwesome } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import CircleProgress from '../../../../../components/CircleProgress';
+import { useRouter } from "expo-router";
 
-export default function ListGridItem() {
+import { Swipeable } from 'react-native-gesture-handler';
+import { getTotal, getTotalUn, getTotalWithAmount, removeList } from '../../../../../utils/functions';
+import { Title, Text } from '../../../../../components/Text';
+import { useShoppingListArchivedContext, useShoppingListContext } from '../../../../../context/ShoppingList';
+const CircleProgress = lazy(() => import('../../../../../components/CircleProgress'));
+
+interface ItemProps {
+  item: listInterface,
+}
+
+
+
+export default function ListGridItem({ item }: ItemProps) {
+  const { value, setValue } = useShoppingListContext();
+  const { archived, setArchived } = useShoppingListArchivedContext();
   const colorScheme = useColorScheme();
-  const navigation = useNavigation();
-  const [active, setActive] = useState(false);
+  const router = useRouter();
+
+  const total = item.items ? getTotal(item.items) : 0;
+  const totalWithAmount = item.items ? getTotalWithAmount(item.items) : 0;
+  const totalUn = item.items ? getTotalUn(item.items) : 0;
+
+  const handleOpenList = useCallback(() => {
+    router.push({ pathname: "/iTems", params: { listId: item.uuid } });
+  }, [item.uuid, router]);
 
 
 
-  const handlePressIn = () => {
-    setActive(!active)
+
+  const handleDelete = () => {
+    setArchived(removeList(archived, item.uuid));
   }
-  const handlePressOut = () => {
-    setActive(false)
+
+  const handleCopy = () => {
+    setArchived(removeList(archived, item.uuid));
+    setValue([item, ...value])
   }
+
+  const LeftRightSwipe = useCallback((progress: any, dragX: { interpolate: (arg0: { inputRange: number[]; outputRange: number[] }) => any }) => {
+
+    return (
+      <Animated.View style={{
+        width: 200,
+        height: 100,
+        overflow: 'hidden',
+      }}>
+        <Styled.ButtonView>
+          <Styled.ButtonInner underlayColor={Colors[colorScheme ?? 'light'].backgroundTouchableHighlight} onPress={handleCopy}>
+            <>
+              <Styled.ButtonTextIcon text={Colors[colorScheme ?? 'light'].textButton}>
+                <FontAwesome size={24} style={{ marginBottom: -3 }} name="copy" />
+              </Styled.ButtonTextIcon>
+              <Styled.ButtonText text={Colors[colorScheme ?? 'light'].textButton}>
+                Copiar
+              </Styled.ButtonText>
+            </>
+          </Styled.ButtonInner>
+          <Styled.ButtonInner underlayColor={Colors[colorScheme ?? 'light'].backgroundTouchableHighlight} onPress={handleDelete}>
+            <>
+              <Styled.ButtonTextIcon text={Colors[colorScheme ?? 'light'].textButton}>
+                <FontAwesome size={24} style={{ marginBottom: -3 }} name="trash" />
+              </Styled.ButtonTextIcon>
+              <Styled.ButtonText text={Colors[colorScheme ?? 'light'].textButton}>
+                Deletar
+              </Styled.ButtonText>
+            </>
+          </Styled.ButtonInner>
+        </Styled.ButtonView>
+      </Animated.View >
+    )
+  }, []);
 
   return (
 
+    <Swipeable renderLeftActions={LeftRightSwipe} renderRightActions={LeftRightSwipe} leftThreshold={100}>
 
-    <Styled.ContainerListItem active={active} background={active ? Colors[colorScheme ?? 'light'].backgroundLighterActive : Colors[colorScheme ?? 'light'].backgroundLighter}
-      onPress={handlePressIn}>
-      {/* <Styled.LinkStyled href={`/modalAdd`}
-        onPress={handlePressIn}
-        onPressOut={handlePressOut} /> */}
-      <Styled.ContainerListItemHead>
-        <Styled.ContainerItemTextTitle text={Colors[colorScheme ?? 'light'].textButton}>
-          Bread
-        </Styled.ContainerItemTextTitle>
-        <Styled.ContainerItemCircleProgress text={Colors[colorScheme ?? 'light'].textButton}>
-          <CircleProgress
-            filled={2}
-            progress={0.66}
-            total={3}
-            size={50} />
-        </Styled.ContainerItemCircleProgress>
-      </Styled.ContainerListItemHead>
-      <Styled.ContainerListItemBody>
-        <Styled.ContainerItemTextPriceTotal text={Colors[colorScheme ?? 'light'].textButton}>
-          Total: R$ 2000,00
-        </Styled.ContainerItemTextPriceTotal>
+      <Styled.ContainerListItem
+        underlayColor={Colors[colorScheme ?? 'light'].backgroundTouchableHighlight}
+        background={Colors[colorScheme ?? 'light'].backgroundLighter}
+        onPress={handleOpenList}>
+        <Styled.ContainerListItemInner>
+          <Styled.ContainerListItemHead>
+            <Styled.ContainerItemTitle>
+              <Title>
+                {item.name}
+              </Title>
+            </Styled.ContainerItemTitle>
+            <Styled.ContainerItemCircleProgress text={Colors[colorScheme ?? 'light'].textButton}>
+              <CircleProgress
+                filled={totalWithAmount}
+                progress={totalUn && totalWithAmount ? Number(totalWithAmount / totalUn) : 0}
+                total={totalUn}
+                size={50} />
+            </Styled.ContainerItemCircleProgress>
+          </Styled.ContainerListItemHead>
+          <Styled.ContainerListItemBody>
+            <Text>
+              Total: R$ {total}
+            </Text>
 
-      </Styled.ContainerListItemBody>
-      {active && <Styled.ContainerListItemBottom>
-        <Styled.ContainerItemBottomButtonTouchableOpacity text={Colors[colorScheme ?? 'light'].textButton}>
-          <Styled.ContainerItemBottomButton text={Colors[colorScheme ?? 'light'].textButton}>
-            <FontAwesome size={28} style={{ marginBottom: -3 }} name="folder-open" />
-          </Styled.ContainerItemBottomButton>
-        </Styled.ContainerItemBottomButtonTouchableOpacity>
-        <Styled.ContainerItemBottomButtonTouchableOpacity text={Colors[colorScheme ?? 'light'].textButton}>
-          <Styled.ContainerItemBottomButton text={Colors[colorScheme ?? 'light'].textButton}>
-            <FontAwesome size={28} style={{ marginBottom: -3 }} name="copy" />
-          </Styled.ContainerItemBottomButton>
-        </Styled.ContainerItemBottomButtonTouchableOpacity>
-        <Styled.ContainerItemBottomButtonTouchableOpacity text={Colors[colorScheme ?? 'light'].textButton}>
-          <Styled.ContainerItemBottomButton text={Colors[colorScheme ?? 'light'].textButton}>
-            <FontAwesome size={28} style={{ marginBottom: -3 }} name="trash" />
-          </Styled.ContainerItemBottomButton>
-        </Styled.ContainerItemBottomButtonTouchableOpacity>
+          </Styled.ContainerListItemBody>
+        </Styled.ContainerListItemInner>
 
-      </Styled.ContainerListItemBottom>}
-
-
-
-    </ Styled.ContainerListItem >
+      </ Styled.ContainerListItem >
+    </Swipeable>
   );
 }
 

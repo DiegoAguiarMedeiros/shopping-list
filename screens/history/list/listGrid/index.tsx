@@ -1,17 +1,17 @@
 import {
   useColorScheme, SafeAreaView,
   ScrollView,
-  GestureResponderEvent,
 } from 'react-native';
 import Colors from '../../../../constants/Colors';
 import * as Styled from './styles';
-import { useEffect, useState } from 'react';
-import Button from '../../../../components/Button';
-import { Link } from 'expo-router';
-import ListGridItem from './listGridItem'
+import { lazy, } from 'react';
+import { BottomSheetProps, listInterface, listType } from '../../../../types/types';
 
-
-export default function ListGrid() {
+const ListGridItem = lazy(() => import('./listGridItem'));
+interface ItemProps {
+  items: listType,
+}
+export default function ListGrid({ items }: ItemProps) {
   const colorScheme = useColorScheme();
   return (
 
@@ -19,25 +19,12 @@ export default function ListGrid() {
       <Styled.ContainerList >
         <Styled.ContainerListInner>
           <Styled.ContainerListItemList>
-            <SafeAreaView >
-              <ScrollView >
+            <SafeAreaView>
+              <ScrollView>
                 <Styled.ContainerListItemListItem>
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
-                  <ListGridItem />
+                  {items.map((item: listInterface) =>
+                    <ListGridItem key={'ListGridItem-' + item.uuid} item={item} />
+                  )}
                 </Styled.ContainerListItemListItem>
               </ScrollView>
             </SafeAreaView>

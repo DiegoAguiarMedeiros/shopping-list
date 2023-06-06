@@ -1,29 +1,20 @@
-import { useEffect, useState } from 'react';
-import { listType } from '../../types/types';
-import ListStorage from '../../utils/list'
-import EmptyList from './emptyList'
-import ListComponent from './list'
+import { lazy } from 'react';
+import { useShoppingListArchivedContext } from '../../context/ShoppingList';
+import { KeyboardAvoidingView } from 'react-native'
+const EmptyList = lazy(() => import('./emptyList'));
+const ListComponent = lazy(() => import('./list'));
 
-
-const getListFromStorage = async (): Promise<listType | null> => {
-  const list = await ListStorage.getList()
-  return list;
-}
 
 export default function Home() {
 
-  const [list, setList] = useState<listType | null>(null);
+  const { archived } = useShoppingListArchivedContext();
 
-  const loadList = async (): Promise<void> => {
-    const listArr = await getListFromStorage();
-    setList(listArr);
-  }
-
-  useEffect(() => {
-    loadList()
-  }, []);
+  console.log('archived', archived)
 
   return (
-    list ? <ListComponent /> : <EmptyList />
+    <KeyboardAvoidingView behavior="padding">
+      {archived && archived.length > 0 ? <ListComponent items={archived} /> : <EmptyList />}
+    </KeyboardAvoidingView>
   );
 }
+

@@ -6,6 +6,7 @@ import { BottomSheetProps } from '../../../types/types';
 const Button = lazy(() => import('../../../components/Button'));
 const BottomSheetComponent = lazy(() => import('../../../components/BottomSheetComponent'));
 
+
 interface Image {
   image: any;
 }
@@ -15,14 +16,21 @@ const img: Image =
   image: require('../../../assets/images/emptyList.png'),
 };
 
-export default function EmptyList() {
+
+interface ListProps {
+  list: string,
+}
+
+export default function EmptyList({ list }: ListProps) {
   const colorScheme = useColorScheme();
   const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
-    action: 'addList',
+    listId: list,
     buttonText: 'add',
+    action: 'addListItem',
     isVisible: false,
     onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
   });
+
   return (
 
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
@@ -31,18 +39,18 @@ export default function EmptyList() {
           <Styled.SlideContainerInnerImage>
             <Styled.SlideImage source={img.image} />
           </Styled.SlideContainerInnerImage>
-          <Styled.ListEmptyTextmessage text={Colors[colorScheme ?? 'light'].text2}>
-            Você não tem nenhuma lista criada
-          </Styled.ListEmptyTextmessage>
         </Styled.ContainerListEmptyInner>
-        <Styled.ContainerListEmptyInnerButton>
+        <Styled.ContainerListEmptyInner>
+          <Styled.ListEmptyTextmessage text={Colors[colorScheme ?? 'light'].text2}>
+            Você não tem nenhuma item na lista
+          </Styled.ListEmptyTextmessage>
           <Styled.ContainerButtonAdd>
-            <Button text='Adicionar' background={Colors[colorScheme ?? 'light'].buttonBackground} icon="plus" onPress={() => setBottomSheetProps({ ...bottomSheetProps, isVisible: true })} />
+            <Button text='Adicionar' onPress={() => setBottomSheetProps({ ...bottomSheetProps, isVisible: true })} background={Colors[colorScheme ?? 'light'].buttonBackground} icon="plus" />
           </Styled.ContainerButtonAdd>
-        </Styled.ContainerListEmptyInnerButton>
+        </Styled.ContainerListEmptyInner>
       </Styled.ContainerListEmpty>
       <BottomSheetComponent {...bottomSheetProps} />
-    </Styled.Container >
+    </Styled.Container>
   );
 }
 

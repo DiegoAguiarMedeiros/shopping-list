@@ -8,12 +8,11 @@ const ListGrid = lazy(() => import('./listGrid'));
 const BottomSheetComponent = lazy(() => import('../../../components/BottomSheetComponent'));
 interface ItemProps {
   items: listType,
-  deleteFromList: (uuid: string) => void
 }
 
 
 
-export default function List({ items, deleteFromList }: ItemProps) {
+export default function List({ items }: ItemProps) {
   const colorScheme = useColorScheme();
   const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
     action: 'addList',
@@ -26,7 +25,7 @@ export default function List({ items, deleteFromList }: ItemProps) {
 
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
       <Styled.ContainerListList>
-        <ListGrid items={items} setBottomSheetProps={setBottomSheetProps} deleteFromList={deleteFromList} />
+        <ListGrid items={items} setBottomSheetProps={setBottomSheetProps} />
       </Styled.ContainerListList>
       <Styled.ContainerListInner>
         <Styled.ContainerButtonAdd>

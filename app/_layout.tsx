@@ -5,7 +5,7 @@ import { SplashScreen, Stack } from 'expo-router';
 import { lazy, useEffect, useState } from 'react';
 import { useColorScheme } from 'react-native';
 const OnboardingScreen = lazy(() => import('../screens/onboarding'));
-import { ShoppingListProvider } from '../context/ShoppingList';
+import { ShoppingListProvider, ShoppingListArchivedProvider } from '../context/ShoppingList';
 
 
 export {
@@ -45,10 +45,12 @@ export default function RootLayout() {
   return (
     <>
       <ShoppingListProvider>
-        {/* Keep the splash screen open until the assets have loaded. In the future, we should just support async font loading with a native version of font-display. */}
-        {!loaded && <SplashScreen />}
-        {active && <OnboardingScreen closeOnboarding={closeOnboarding} />}
-        {loaded && !active && <RootLayoutNav />}
+        <ShoppingListArchivedProvider>
+          {/* Keep the splash screen open until the assets have loaded. In the future, we should just support async font loading with a native version of font-display. */}
+          {!loaded && <SplashScreen />}
+          {active && <OnboardingScreen closeOnboarding={closeOnboarding} />}
+          {loaded && !active && <RootLayoutNav />}
+        </ShoppingListArchivedProvider >
       </ShoppingListProvider >
     </>
   );
