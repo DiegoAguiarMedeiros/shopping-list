@@ -97,7 +97,7 @@ function ListGridItem({ item, listId, deleteItemList, setBottomSheetProps }: Lis
             </Styled.ContainerListItemListItemHead>
             <Styled.ContainerListItemListItemBody>
               <Styled.ContainerItemTextPriceTotal text={Colors[colorScheme ?? 'light'].textButton}>
-                Total: R$ {getTotalAmount(item.amount)}
+                Total: R$ {getTotalAmount(item.amount).toFixed(2)}
               </Styled.ContainerItemTextPriceTotal>
               <Styled.ContainerItemTextPriceTotal text={Colors[colorScheme ?? 'light'].textButton}>
                 Un: {getTotalAmountUn(item.amount)}
