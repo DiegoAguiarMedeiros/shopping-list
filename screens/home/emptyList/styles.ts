@@ -38,8 +38,8 @@ export const SlideContainerInnerImage = styled.View`
 `;
 
 export const SlideImage = styled.Image`
-width: 200px;
-height: 200px;
+width: 300px;
+height: 300px;
 `;
 
 

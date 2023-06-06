@@ -10,7 +10,7 @@ interface Image {
 
 const img: Image =
 {
-  image: require('../../../assets/images/empty.png'),
+  image: require('../../../assets/images/emptyList.png'),
 };
 
 export default function EmptyList() {
