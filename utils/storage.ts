@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { listType } from '../types/types';
+import { ItemAmountInterface, ListItemAmountInterface, ListItemInterface, ListType } from '../types/types';
 
 const _retrieveData = async (key: string) => {
   try {
@@ -10,29 +10,55 @@ const _retrieveData = async (key: string) => {
   }
 }
 
-const setShoppingList = (value: listType) => {
+const setShoppingList = (value: ListType) => {
   AsyncStorage.setItem("SLSHOPPINGLIST", JSON.stringify(value));
 };
-const getShoppingList = async (): Promise<listType | null> => {
+const setShoppingListItem = (value: ListItemInterface) => {
+  AsyncStorage.setItem("SLSHOPPINGLISTITEM", JSON.stringify(value));
+};
+const setShoppingItemAmount = (value: ListItemAmountInterface) => {
+  AsyncStorage.setItem("SLSHOPPINGITEMAMOUNT", JSON.stringify(value));
+};
+const getShoppingList = async (): Promise<ListType | null> => {
   const listPromise: string | null | undefined = await _retrieveData("SLSHOPPINGLIST");
 
   if (listPromise) {
-    const list: listType = JSON.parse(listPromise);
+    const list: ListType = JSON.parse(listPromise);
     return list;
+  }
+
+  return null;
+};
+const getShoppingListItem = async (): Promise<ListItemInterface | null> => {
+  const listItemPromise: string | null | undefined = await _retrieveData("SLSHOPPINGLISTITEM");
+
+  if (listItemPromise) {
+    const listItem: ListItemInterface = JSON.parse(listItemPromise);
+    return listItem;
+  }
+
+  return null;
+};
+const getShoppingItemAmount = async (): Promise<ListItemAmountInterface | null> => {
+  const itemAmountPromise: string | null | undefined = await _retrieveData("SLSHOPPINGITEMAMOUNT");
+
+  if (itemAmountPromise) {
+    const itemAmount: ListItemAmountInterface = JSON.parse(itemAmountPromise);
+    return itemAmount;
   }
 
   return null;
 };
 
 
-const setShoppingArchivedList = (value: listType) => {
+const setShoppingArchivedList = (value: ListType) => {
   AsyncStorage.setItem("SLARCHIVEDSHOPPINGLIST", JSON.stringify(value));
 };
-const getShoppingArchivedList = async (): Promise<listType | null> => {
+const getShoppingArchivedList = async (): Promise<ListType | null> => {
   const listPromise: string | null | undefined = await _retrieveData("SLARCHIVEDSHOPPINGLIST");
 
   if (listPromise) {
-    const list: listType = JSON.parse(listPromise);
+    const list: ListType = JSON.parse(listPromise);
     return list;
   }
 
@@ -45,6 +71,10 @@ const getShoppingArchivedList = async (): Promise<listType | null> => {
 export default {
   getShoppingList,
   setShoppingList,
+  getShoppingListItem,
+  setShoppingListItem,
   getShoppingArchivedList,
   setShoppingArchivedList,
+  getShoppingItemAmount,
+  setShoppingItemAmount,
 };

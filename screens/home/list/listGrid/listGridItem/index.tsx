@@ -5,7 +5,7 @@ import {
 import Colors from '../../../../../constants/Colors';
 import * as Styled from './styles';
 import { lazy, useCallback } from 'react';
-import { BottomSheetProps, listInterface } from '../../../../../types/types';
+import { BottomSheetProps, ListType, listInterface } from '../../../../../types/types';
 import { FontAwesome } from '@expo/vector-icons';
 import { useRouter } from "expo-router";
 
@@ -23,14 +23,14 @@ interface ItemProps {
 
 
 export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
-  const { value, setValue } = useShoppingListContext();
+  const { list, setList } = useShoppingListContext();
   const { archived, setArchived } = useShoppingListArchivedContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
 
-  const total = item.items ? getTotal(item.items) : 0;
-  const totalWithAmount = item.items ? getTotalWithAmount(item.items) : 0;
-  const totalUn = item.items ? getTotalUn(item.items) : 0;
+  const total = item.items ? /*getTotal(item.items)*/1 : 0;
+  const totalWithAmount = item.items ? /*getTotalWithAmount(item.items)*/1 : 0;
+  const totalUn = item.items ? /*getTotalUn(item.items)*/1 : 0;
 
   const handleOpenList = useCallback(() => {
     router.push({ pathname: "/iTems", params: { listId: item.uuid } });
@@ -57,11 +57,17 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
   }, [item, setBottomSheetProps]);
 
   const handleDelete = () => {
-    setValue(removeList(value, item.uuid));
+    const updatedList = Object.keys(list).reduce((result: ListType, key: string) => {
+      if (list[key].uuid !== item.uuid) {
+        result[key] = list[key];
+      }
+      return result;
+    }, {});
+    setList(updatedList);
   }
 
   const handleArchived = () => {
-    setValue(removeList(value, item.uuid));
+    setList(removeList(list, item.uuid));
     archived ? setArchived([item, ...archived]) : setValue([item]);
   }
 

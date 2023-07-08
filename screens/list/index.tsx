@@ -1,73 +1,124 @@
-import { useColorScheme } from 'react-native';
-import Colors from '../../constants/Colors';
-import * as Styled from './styles';
-import React, { lazy, useEffect, useState } from 'react';
+import { useColorScheme } from "react-native";
+import Colors from "../../constants/Colors";
+import * as Styled from "./styles";
+import React, { lazy, useEffect, useState } from "react";
 import { useSearchParams } from "expo-router";
-import { useShoppingListContext } from '../../context/ShoppingList';
-import { itemInterface } from '../../types/types';
-import { getTotalUn, getTotalWithAmount, removeItem } from '../../utils/functions';
+import { useShoppingListContext } from "../../context/ShoppingList";
+import { ItemInterface, TotalType } from "../../types/types";
+import {
+  getTotalUn,
+  getTotalWithAmount,
+  removeItem,
+  removeUndefinedFromArray,
+} from "../../utils/functions";
 
-const EmptyList = lazy(() => import('./emptyList'));
-const ListGrid = lazy(() => import('./listGrid'));
-const CircleProgress = lazy(() => import('../../components/CircleProgress'));
-const FilterButtons = lazy(() => import('../../components/FilterButtons'));
-
-interface Image {
-  image: any;
-}
-
-const img: Image =
-{
-  image: require('../../assets/images/empty.png'),
-};
-
-
+const EmptyList = lazy(() => import("./emptyList"));
+const ListGrid = lazy(() => import("./listGrid"));
+const CircleProgress = lazy(() => import("../../components/CircleProgress"));
+const FilterButtons = lazy(() => import("../../components/FilterButtons"));
 
 export default function List() {
-  const { value, setValue } = useShoppingListContext();
+  const {
+    list,
+    setList,
+    listItem,
+    setListItem,
+    getListItemsOfList,
+    getAmountOfListItems,
+  } = useShoppingListContext();
   const { listId } = useSearchParams();
-  const list = value.filter(({ uuid }) => (uuid === listId))[0]
-  const [filteredList, setFilteredList] = useState<itemInterface[]>()
-  const [filter, setFilter] = useState('Todos');
+  const [filteredList, setFilteredList] = useState<ItemInterface[]>();
+  const [filter, setFilter] = useState("Todos");
+  const listArr = list[Array.isArray(listId) ? "" : listId!];
+  const listArrItems = getListItemsOfList(listArr.items);
+
+  const total: TotalType = {
+    amount: 0,
+    un: 0,
+  };
+
+  const getTotalAmount = () => {
+    total.amount = listArrItems
+      .map((item) =>
+        getTotalWithAmount(
+          removeUndefinedFromArray(getAmountOfListItems(item.amount))
+        )
+      )
+      .reduce((accumulator, currentValue) => {
+        return currentValue
+          ? accumulator + 1
+          : accumulator + Number(currentValue);
+      }, 0);
+  };
+  const getTotalUnity = () => {
+    total.un = listArrItems
+      .map((item) =>
+        getTotalUn(removeUndefinedFromArray(getAmountOfListItems(item.amount)))
+      )
+      .reduce((accumulator, currentValue) => {
+        return currentValue
+          ? accumulator + 1
+          : accumulator + Number(currentValue);
+      }, 0);
+  };
 
   const colorScheme = useColorScheme();
-  const totalWithAmount = list.items ? getTotalWithAmount(filteredList !== undefined && filteredList.length > 0 ? filteredList : list.items) : 0;
-  const totalUn = list.items ? getTotalUn(filteredList !== undefined && filteredList.length > 0 ? filteredList : list.items) : 0;
+  // const totalWithAmount = listArr.items ? getTotalWithAmount(filteredList !== undefined && filteredList.length > 0 ? filteredList : listArrItems) : 0;
+  // const totalUn = listArr.items ? getTotalUn(filteredList !== undefined && filteredList.length > 0 ? filteredList : listArrItems) : 0;
 
   const handleDeleteItemList = (uuid: string): void => {
-    const newList = removeItem(value, list.uuid, uuid)
-    setValue(newList);
-  }
+    const newList = removeItem(list, listArr.uuid, uuid);
+    setList(newList);
+  };
 
   useEffect(() => {
-    const newFilteredList = list.items.filter((item: itemInterface) => item.tags === filter)
-    setFilteredList(newFilteredList)
-  }, [filter])
+    getTotalAmount();
+    getTotalUnity();
+  }, []);
+  useEffect(() => {
+    const newFilteredList = listArrItems.filter(
+      (item: ItemInterface) => item.tags === filter
+    );
+    setFilteredList(newFilteredList);
+  }, [filter]);
 
   return (
-
-    <Styled.Container background={Colors[colorScheme ?? 'light'].background} >
-      <Styled.ContainerHeader >
+    <Styled.Container background={Colors[colorScheme ?? "light"].background}>
+      <Styled.ContainerHeader>
         <Styled.ContainerHeaderInnerText>
-          <Styled.ListTitle text={Colors[colorScheme ?? 'light'].text}>
-            {list.name}
+          <Styled.ListTitle text={Colors[colorScheme ?? "light"].text}>
+            {listArr.name}
           </Styled.ListTitle>
         </Styled.ContainerHeaderInnerText>
-        <Styled.ContainerHeaderInnerProgress >
+        <Styled.ContainerHeaderInnerProgress>
           <CircleProgress
-            filled={totalWithAmount}
-            progress={totalUn && totalWithAmount ? Number(totalWithAmount / totalUn) : 0}
-            total={totalUn}
-            size={60} />
+            filled={total.amount}
+            progress={
+              total.un && total.amount ? Number(total.amount / total.un) : 0
+            }
+            total={total.un}
+            size={60}
+          />
         </Styled.ContainerHeaderInnerProgress>
       </Styled.ContainerHeader>
       <Styled.ContainerHeaderInnerFilterButtons>
-        <FilterButtons tags={list.tags} filter={filter} setFilter={setFilter} />
+        <FilterButtons
+          tags={listArr.tags}
+          filter={filter}
+          setFilter={setFilter}
+        />
       </Styled.ContainerHeaderInnerFilterButtons>
-      <Styled.ContainerBody >
-        {list.items.length ? <ListGrid filter={filter} list={list} deleteItemList={handleDeleteItemList} /> : <EmptyList list={list.uuid} />}
+      <Styled.ContainerBody>
+        {listArr.items.length ? (
+          <ListGrid
+            filter={filter}
+            listId={Array.isArray(listId) ? "" : listId!}
+            deleteItemList={handleDeleteItemList}
+          />
+        ) : (
+          <EmptyList list={listArr.uuid} />
+        )}
       </Styled.ContainerBody>
-    </Styled.Container >
-  )
+    </Styled.Container>
+  );
 }
-

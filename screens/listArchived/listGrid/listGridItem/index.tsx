@@ -10,8 +10,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { getTotalAmount, getTotalAmountUn } from '../../../../utils/functions';
 import { Swipeable } from 'react-native-gesture-handler';
 import { Title } from '../../../../components/Text';
-
-const AddPriceUnit = lazy(() => import('../../../modalAddPriceUnit'));
+import AddPriceUnit from '../../../addPriceUnit';
 
 interface ListProps {
   item: itemInterface,
@@ -83,7 +82,7 @@ function ListGridItem({ item, listId, deleteItemList, setBottomSheetProps }: Lis
 
       ?
       < Styled.ContainerListItemListItem
-        height={`${item.amount.length * 90 + 60 + 80}`}
+        height={/*`${item.amount.length * 90 + 60 + 80}`*/'50'}
         underlayColor={Colors[colorScheme ?? 'light'].backgroundTouchableHighlight}
         background={active ? Colors[colorScheme ?? 'light'].backgroundLighterActive : Colors[colorScheme ?? 'light'].backgroundLighter} >
         <>
@@ -108,7 +107,7 @@ function ListGridItem({ item, listId, deleteItemList, setBottomSheetProps }: Lis
 
           </Styled.ContainerListItemListItemInner>
           <Styled.ContainerListItemListItemAMount
-            height={`${item.amount.length * 90}`}
+            height={/*`${item.amount.length * 90}`*/'90'}
             background={Colors[colorScheme ?? 'light'].backgroundLighterActive}>
             <AddPriceUnit listId={listId} listItemId={item.uuid} />
           </Styled.ContainerListItemListItemAMount>

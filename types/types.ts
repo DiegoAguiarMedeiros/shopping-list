@@ -1,34 +1,44 @@
-interface itemAmountInterface {
+interface ItemAmountInterface {
     uuid: string,
     amount: string,
     type: boolean,
     quantity: string,
 }
-interface itemInterface {
+interface ListItemAmountInterface {
+    [key: string]: ItemAmountInterface;
+}
+interface ItemInterface {
     uuid: string,
     name: string,
-    amount: itemAmountInterface[],
-    active: Boolean,
+    amount: string[],
+    active: boolean,
     unit?: string,
     tags: string,
 }
 
-interface tagsIterface {
+interface TagsIterface {
     id: string,
     name: string,
     active: boolean
 }
-interface listInterface {
+
+interface ListItemInterface {
+    [key: string]: ItemInterface;
+}
+interface ListInterface {
     uuid: string,
     name: string,
-    tags: tagsIterface[],
-    items: itemInterface[],
+    tags: TagsIterface[],
+    items: string[],
 }
-type listType = listInterface[];
+
+interface ListType {
+    [key: string]: ListInterface;
+}
 
 interface BottomSheetProps {
-    items?: listInterface | itemInterface,
-    listId?: string,
+    items?: ListInterface | ItemInterface,
+    listId: string,
     buttonText: 'add' | 'edit' | 'copy',
     action: 'addList' | 'editList' | 'addListItem' | 'editListItem' | 'copyList',
     isVisible: boolean;
@@ -36,12 +46,19 @@ interface BottomSheetProps {
     children?: React.ReactNode
 }
 
+interface TotalType {
+    amount: number;
+    un: number;
+}
 export {
-    listType,
-    listInterface,
-    itemInterface,
-    itemAmountInterface,
+    ListType,
+    ListItemInterface,
+    ListItemAmountInterface,
+    ListInterface,
+    ItemInterface,
+    ItemAmountInterface,
     BottomSheetProps,
-    tagsIterface
+    TagsIterface,
+    TotalType
 };
 

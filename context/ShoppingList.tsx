@@ -1,58 +1,133 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import ListStorage from '../utils/list'
-import { listType } from '../types/types'
+import React, { createContext, useContext, useEffect, useState } from "react";
+import ListStorage from "../utils/list";
+import {
+  ListInterface,
+  ItemInterface,
+  ListItemInterface,
+  ListType,
+  ItemAmountInterface,
+  ListItemAmountInterface,
+} from "../types/types";
 type ShoppingListProviderProps = {
   children: React.ReactNode;
-}
+};
 
 type ShoppingListContextType = {
-  value: listType;
-  setValue: React.Dispatch<React.SetStateAction<listType | null>>
-}
+  list: ListType;
+  setList: React.Dispatch<React.SetStateAction<ListType | null>>;
+  listItem: ListItemInterface;
+  setListItem: React.Dispatch<React.SetStateAction<ListItemInterface | null>>;
+  itemAmountList: ListItemAmountInterface;
+  setItemAmountList: React.Dispatch<
+    React.SetStateAction<ListItemAmountInterface | null>
+  >;
+  getListItemsOfList: (listItems: string[]) => ItemInterface[];
+  getAmountOfListItems: (listItemsArr: string[]) => ItemAmountInterface[];
+};
 type ShoppingListArchivedContextType = {
-  archived: listType;
-  setArchived: React.Dispatch<React.SetStateAction<listType | null>>
-}
+  archived: ListType;
+  setArchived: React.Dispatch<React.SetStateAction<ListType | null>>;
+};
 
-const getListFromStorage = async (): Promise<listType | null> => {
-  const list = await ListStorage.getList()
+const getListFromStorage = async (): Promise<ListType | null> => {
+  const list = await ListStorage.getList();
   return list;
-}
+};
+const getListItemFromStorage = async (): Promise<ListItemInterface | null> => {
+  const listItem = await ListStorage.getListItem();
+  return listItem;
+};
+const getItemAmountFromStorage =
+  async (): Promise<ListItemAmountInterface | null> => {
+    const itemAmountList = await ListStorage.getItemAmount();
+    return itemAmountList;
+  };
 
-const setListFromStorage = (newList: listType): void => {
-  ListStorage.setList([...newList])
-}
-const getListArchivedFromStorage = async (): Promise<listType | null> => {
-  const list = await ListStorage.getListArchived()
+const setListFromStorage = (newList: ListType): void => {
+  ListStorage.setList(newList);
+};
+const setListItemFromStorage = (newList: ListItemInterface): void => {
+  ListStorage.setListItem(newList);
+};
+const setItemAmountFromStorage = (newList: ListItemAmountInterface): void => {
+  ListStorage.setItemAmount(newList);
+};
+const getListArchivedFromStorage = async (): Promise<ListType | null> => {
+  const list = await ListStorage.getListArchived();
   return list;
-}
+};
 
-const setListArchivedFromStorage = (newList: listType): void => {
-  ListStorage.setListArchived([...newList])
-}
+const setListArchivedFromStorage = (newList: ListType): void => {
+  ListStorage.setListArchived(newList);
+};
 
-const ShoppingListContext = createContext<ShoppingListContextType | undefined>(undefined);
+const ShoppingListContext = createContext<ShoppingListContextType | undefined>(
+  undefined
+);
 
-
-const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({ children }) => {
-  const [list, setList] = useState<listType | null>(null);
+const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
+  children,
+}) => {
+  const [list, setList] = useState<ListType | null>(null);
+  const [listItem, setListItem] = useState<ListItemInterface | null>(null);
+  const [itemAmountList, setItemAmountList] =
+    useState<ListItemAmountInterface | null>(null);
 
   const loadList = async (): Promise<void> => {
     const listArr = await getListFromStorage();
     setList(listArr);
-  }
+  };
+  const loadListItem = async (): Promise<void> => {
+    const listItemArr = await getListItemFromStorage();
+    setListItem(listItemArr);
+  };
+  const loadItemAmount = async (): Promise<void> => {
+    const itemAmountListArr = await getItemAmountFromStorage();
+    setItemAmountList(itemAmountListArr);
+  };
+
+  const getListItemsOfList = (listItemsArr: string[]): ItemInterface[] => {
+    const returnListItemsArr: ItemInterface[] = [];
+    listItemsArr.forEach((item: string) => {
+      returnListItemsArr.push(listItem![item]);
+    });
+    return returnListItemsArr;
+  };
+  const getAmountOfListItems = (
+    amountItemList: string[]
+  ): ItemAmountInterface[] => {
+    const returnAmountItemList: ItemAmountInterface[] = [];
+    amountItemList.forEach((item: string) => {
+      returnAmountItemList.push(itemAmountList![item]);
+    });
+    return returnAmountItemList;
+  };
 
   useEffect(() => {
-    loadList()
-
+    loadList();
+    loadListItem();
+    loadItemAmount();
   }, []);
 
   useEffect(() => {
-    list && setListFromStorage(list!)
-  }, [list]);
+    list && setListFromStorage(list);
+    listItem && setListItemFromStorage(listItem);
+    itemAmountList && setItemAmountFromStorage(itemAmountList);
+  }, [list, listItem, itemAmountList]);
 
   return (
-    <ShoppingListContext.Provider value={{ value: list!, setValue: setList }}>
+    <ShoppingListContext.Provider
+      value={{
+        list: list!,
+        setList: setList,
+        listItem: listItem!,
+        setListItem: setListItem,
+        itemAmountList: itemAmountList!,
+        setItemAmountList: setItemAmountList,
+        getListItemsOfList: getListItemsOfList,
+        getAmountOfListItems: getAmountOfListItems,
+      }}
+    >
       {children}
     </ShoppingListContext.Provider>
   );
@@ -61,46 +136,59 @@ const useShoppingListContext = () => {
   const context = useContext(ShoppingListContext);
 
   if (!context) {
-    throw new Error('useShoppingListContext must be used within a ShoppingListProvider');
+    throw new Error(
+      "useShoppingListContext must be used within a ShoppingListProvider"
+    );
   }
 
   return context;
-}
+};
 
-const ShoppingListArchivedContext = createContext<ShoppingListArchivedContextType | undefined>(undefined);
+const ShoppingListArchivedContext = createContext<
+  ShoppingListArchivedContextType | undefined
+>(undefined);
 
-const ShoppingListArchivedProvider: React.FC<ShoppingListProviderProps> = ({ children }) => {
-  const [list, setList] = useState<listType | null>(null);
+const ShoppingListArchivedProvider: React.FC<ShoppingListProviderProps> = ({
+  children,
+}) => {
+  const [list, setList] = useState<ListType | null>(null);
 
   const loadList = async (): Promise<void> => {
     const listArr = await getListArchivedFromStorage();
     setList(listArr);
-  }
+  };
 
   useEffect(() => {
-    loadList()
-
+    loadList();
   }, []);
   useEffect(() => {
-    list && setListArchivedFromStorage(list!)
+    list && setListArchivedFromStorage(list!);
   }, [list]);
 
   return (
-    <ShoppingListArchivedContext.Provider value={{ archived: list!, setArchived: setList }}>
+    <ShoppingListArchivedContext.Provider
+      value={{ archived: list!, setArchived: setList }}
+    >
       {children}
     </ShoppingListArchivedContext.Provider>
   );
 };
 
-
 const useShoppingListArchivedContext = () => {
   const context = useContext(ShoppingListArchivedContext);
 
   if (!context) {
-    throw new Error('useShoppingListContext must be used within a ShoppingListProvider');
+    throw new Error(
+      "useShoppingListContext must be used within a ShoppingListProvider"
+    );
   }
 
   return context;
-}
+};
 
-export { ShoppingListProvider, useShoppingListContext, ShoppingListArchivedProvider, useShoppingListArchivedContext };
+export {
+  ShoppingListProvider,
+  useShoppingListContext,
+  ShoppingListArchivedProvider,
+  useShoppingListArchivedContext,
+};

@@ -5,15 +5,16 @@ import {
 import Colors from '../../../../constants/Colors';
 import * as Styled from './styles';
 import { lazy, } from 'react';
-import { BottomSheetProps, listInterface, listType } from '../../../../types/types';
+import { BottomSheetProps, ListInterface, ListType } from '../../../../types/types';
 
 const ListGridItem = lazy(() => import('./listGridItem'));
 interface ItemProps {
-  items: listType,
+  items: ListInterface[],
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>,
 }
 export default function ListGrid({ items, setBottomSheetProps }: ItemProps) {
   const colorScheme = useColorScheme();
+
   return (
 
     <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
@@ -23,7 +24,7 @@ export default function ListGrid({ items, setBottomSheetProps }: ItemProps) {
             <SafeAreaView>
               <ScrollView>
                 <Styled.ContainerListItemListItem>
-                  {items.map((item: listInterface) =>
+                  {items.map((item: ListInterface) =>
                     <ListGridItem setBottomSheetProps={setBottomSheetProps} key={'ListGridItem-' + item.uuid} item={item} />
                   )}
                 </Styled.ContainerListItemListItem>

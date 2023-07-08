@@ -40,16 +40,16 @@ export default function ListGrid({ filter, list, deleteItemList }: ListProps) {
         <Styled.ContainerListInner>
           <Styled.ContainerListTotal>
             <Styled.ContainerItemTotalUnitText text={Colors[colorScheme ?? 'light'].text}>
-              Total Items: {getTotalUn(filteredList !== undefined && filteredList.length > 0 ? filteredList : list.items)}
+              Total Items: {1/*getTotalUn(filteredList !== undefined && filteredList.length > 0 ? filteredList : list.items)*/}
             </Styled.ContainerItemTotalUnitText>
             <Styled.ContainerItemTotalText text={Colors[colorScheme ?? 'light'].text}>
-              Total : R$ {getTotal(filteredList !== undefined && filteredList.length > 0 ? filteredList : list.items).toFixed(2)}
+              Total : R$ {1/*getTotal(filteredList !== undefined && filteredList.length > 0 ? filteredList : list.items).toFixed(2)*/}
             </Styled.ContainerItemTotalText>
           </Styled.ContainerListTotal>
           <Styled.ContainerListItemList>
             <SafeAreaView >
               <ScrollView style={[{ height: '100%' }]} nestedScrollEnabled>
-                <Styled.ContainerListItemListItem height={filter === 'Todos' ? `${list.items.length * 100 + 410}` : `${filteredList!.length * 100 + 410}`}>
+                <Styled.ContainerListItemListItem height={/*filter === 'Todos' ? `${list.items.length * 100 + 410}` : `${filteredList!.length * 100 + 410}`*/'150'}>
                   {filter === 'Todos' ?
                     list.items.map((item: itemInterface) => (
                       <ListGridItem key={'ListGridItem-' + item.uuid} setBottomSheetProps={setBottomSheetProps} deleteItemList={deleteItemList} item={item} listId={list.uuid} />

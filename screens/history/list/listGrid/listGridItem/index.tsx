@@ -5,7 +5,7 @@ import {
 import Colors from '../../../../../constants/Colors';
 import * as Styled from './styles';
 import { lazy, useCallback } from 'react';
-import { BottomSheetProps, listInterface } from '../../../../../types/types';
+import { BottomSheetProps, ListInterface } from '../../../../../types/types';
 import { FontAwesome } from '@expo/vector-icons';
 import { useRouter } from "expo-router";
 
@@ -16,7 +16,7 @@ import { useShoppingListArchivedContext, useShoppingListContext } from '../../..
 const CircleProgress = lazy(() => import('../../../../../components/CircleProgress'));
 
 interface ItemProps {
-  item: listInterface,
+  item: ListInterface,
 }
 
 
