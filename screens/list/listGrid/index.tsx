@@ -8,7 +8,7 @@ import {
   ListInterface,
 } from "../../../types/types";
 import ListGridItem from "./listGridItem";
-import { getTotal, getTotalUn } from "../../../utils/functions";
+import { getTotal, getTotalUn, removeUndefinedFromArray } from "../../../utils/functions";
 import { useShoppingListContext } from "../../../context/ShoppingList";
 
 const Button = lazy(() => import("../../../components/Button"));
@@ -18,10 +18,9 @@ const BottomSheetComponent = lazy(
 interface ListProps {
   filter: string;
   listId: string;
-  deleteItemList: (uuid: string) => void;
 }
 
-function ListGrid({ filter, listId, deleteItemList }: ListProps) {
+function ListGrid({ filter, listId }: ListProps) {
   const { list, getListItemsOfList } = useShoppingListContext();
   const colorScheme = useColorScheme();
   const [filteredList, setFilteredList] = useState<ItemInterface[]>();
@@ -33,7 +32,9 @@ function ListGrid({ filter, listId, deleteItemList }: ListProps) {
     onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
   });
   const listArr = list[Array.isArray(listId) ? "" : listId];
-  const listArrItems = getListItemsOfList(listArr.items);
+  const listArrItems = removeUndefinedFromArray(
+    getListItemsOfList(listArr.items)
+  );
   useEffect(() => {
     const newFilteredList = listArrItems.filter(
       (item: ItemInterface) => item.tags === filter
@@ -82,7 +83,6 @@ function ListGrid({ filter, listId, deleteItemList }: ListProps) {
                         <ListGridItem
                           key={"ListGridItem-" + item.uuid}
                           setBottomSheetProps={setBottomSheetProps}
-                          deleteItemList={deleteItemList}
                           item={item}
                           listId={listId}
                         />
@@ -91,7 +91,6 @@ function ListGrid({ filter, listId, deleteItemList }: ListProps) {
                         <ListGridItem
                           key={"ListGridItem-" + item.uuid}
                           setBottomSheetProps={setBottomSheetProps}
-                          deleteItemList={deleteItemList}
                           item={item}
                           listId={listId}
                         />

@@ -1,6 +1,7 @@
 import {
   ItemAmountInterface,
   ItemInterface,
+  ListInterface,
   ListType,
   TagsIterface,
 } from "../types/types";
@@ -78,9 +79,8 @@ const getTotalWithAmount = (items: ItemAmountInterface[]): number => {
   return total;
 };
 
-const removeUndefinedFromArray = (
-  arr: ItemAmountInterface[]
-): ItemAmountInterface[] => {
+const removeUndefinedFromArray = <T>(arr: T[]): T[] => {
+  console.log("arr", arr);
   return arr.filter((item) => item !== undefined);
 };
 

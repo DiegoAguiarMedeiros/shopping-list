@@ -2,7 +2,13 @@ import { useColorScheme, Animated } from "react-native";
 import Colors from "../../../../constants/Colors";
 import * as Styled from "./styles";
 import React, { lazy, useState } from "react";
-import { BottomSheetProps, ItemInterface } from "../../../../types/types";
+import {
+  BottomSheetProps,
+  ItemInterface,
+  ListItemAmountInterface,
+  ListItemInterface,
+  ListType,
+} from "../../../../types/types";
 import { FontAwesome } from "@expo/vector-icons";
 import { getTotalAmount, getTotalAmountUn } from "../../../../utils/functions";
 import { Swipeable } from "react-native-gesture-handler";
@@ -14,22 +20,47 @@ const AddPriceUnit = lazy(() => import("../../../addPriceUnit"));
 interface ListProps {
   item: ItemInterface;
   listId: string;
-  deleteItemList: (uuid: string) => void;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
 }
 
-function ListGridItem({
-  item,
-  listId,
-  deleteItemList,
-  setBottomSheetProps,
-}: ListProps) {
+function ListGridItem({ item, listId, setBottomSheetProps }: ListProps) {
   const colorScheme = useColorScheme();
   const [active, setActive] = useState(false);
-  const { list, getAmountOfListItems } = useShoppingListContext();
+  const {
+    list,
+    setList,
+    listItem,
+    setListItem,
+    setItemAmountList,
+    itemAmountList,
+  } = useShoppingListContext();
   const deleteItem = () => {
-    deleteItemList(item.uuid);
+    const updatedList: ListItemInterface = JSON.parse(JSON.stringify(listItem));
+    handleDeleteAmountInList(updatedList[item.uuid].amount);
+    delete updatedList[item.uuid];
+    setListItem(updatedList);
   };
+  const handleDeleteAmountInList = (itemAmountUuid: string[]): void => {
+    itemAmountUuid.forEach((i) => {
+      const updatedList: ListItemAmountInterface = JSON.parse(
+        JSON.stringify(itemAmountList)
+      );
+      delete updatedList[i];
+      handleDeleteItemListFromList();
+      setItemAmountList(updatedList);
+    });
+  };
+  const handleDeleteItemListFromList = (): void => {
+    const updatedList: ListType = JSON.parse(JSON.stringify(list));
+    const item = updatedList[listId];
+    if (item) {
+      item.items.push(item.uuid);
+      const newArray = item.items.filter((i) => i !== item.uuid);
+      item.items = newArray;
+      setList(updatedList);
+    }
+  };
+
   const handleEdit = () => {
     setBottomSheetProps({
       listId: item.uuid,

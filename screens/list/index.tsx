@@ -30,7 +30,14 @@ export default function List() {
   const [filteredList, setFilteredList] = useState<ItemInterface[]>();
   const [filter, setFilter] = useState("Todos");
   const listArr = list[Array.isArray(listId) ? "" : listId!];
-  const listArrItems = getListItemsOfList(listArr.items);
+  console.log(
+    "getListItemsOfList(listArr.items)",
+    getListItemsOfList(listArr.items)
+  );
+  const listArrItems = removeUndefinedFromArray(
+    getListItemsOfList(listArr.items)
+  );
+  console.log("listArrItems", listArrItems);
 
   const total: TotalType = {
     amount: 0,
@@ -66,11 +73,6 @@ export default function List() {
   // const totalWithAmount = listArr.items ? getTotalWithAmount(filteredList !== undefined && filteredList.length > 0 ? filteredList : listArrItems) : 0;
   // const totalUn = listArr.items ? getTotalUn(filteredList !== undefined && filteredList.length > 0 ? filteredList : listArrItems) : 0;
 
-  const handleDeleteItemList = (uuid: string): void => {
-    const newList = removeItem(list, listArr.uuid, uuid);
-    setList(newList);
-  };
-
   useEffect(() => {
     getTotalAmount();
     getTotalUnity();
@@ -81,6 +83,11 @@ export default function List() {
     );
     setFilteredList(newFilteredList);
   }, [filter]);
+
+  console.log(
+    "listArr.items.length && listArr.items.length > 0",
+    listArr.items.length && listArr.items.length > 0
+  );
 
   return (
     <Styled.Container background={Colors[colorScheme ?? "light"].background}>
@@ -109,11 +116,10 @@ export default function List() {
         />
       </Styled.ContainerHeaderInnerFilterButtons>
       <Styled.ContainerBody>
-        {listArr.items.length ? (
+        {listArrItems.length > 0 ? (
           <ListGrid
             filter={filter}
             listId={Array.isArray(listId) ? "" : listId!}
-            deleteItemList={handleDeleteItemList}
           />
         ) : (
           <EmptyList list={listArr.uuid} />
