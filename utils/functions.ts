@@ -55,7 +55,6 @@ const getTotalAmountUn = (items: ItemAmountInterface[]): number => {
   return 1;
 };
 const getTotalUn = (items: ItemAmountInterface[]): number => {
-  console.log("items getTotalUn ", items);
   const total: number =
     items.length > 0
       ? items.reduce((accumulator, currentValue) => {
@@ -67,7 +66,6 @@ const getTotalUn = (items: ItemAmountInterface[]): number => {
   return total;
 };
 const getTotalWithAmount = (items: ItemAmountInterface[]): number => {
-  console.log("items getTotalWithAmount ", items);
   const total: number =
     items.length > 0
       ? items.reduce((accumulator, currentValue) => {
@@ -80,7 +78,6 @@ const getTotalWithAmount = (items: ItemAmountInterface[]): number => {
 };
 
 const removeUndefinedFromArray = <T>(arr: T[]): T[] => {
-  console.log("arr", arr);
   return arr.filter((item) => item !== undefined);
 };
 

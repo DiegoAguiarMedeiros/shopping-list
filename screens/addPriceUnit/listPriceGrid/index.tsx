@@ -14,12 +14,11 @@ export default function ListPriceGrid({ item }: ListProps) {
   const amountOfListItems = removeUndefinedFromArray(
     getAmountOfListItems(item.amount)
   );
-  console.log("amountOfListItems", amountOfListItems);
+  
   return (
     <Styled.Container>
       <Styled.ContainerListPriceItem>
         {amountOfListItems.map((itemAmount: ItemAmountInterface) => {
-          console.log("itemAmount", itemAmount);
           return itemAmount ? (
             <ListPriceItem
               itemAmount={itemAmount}

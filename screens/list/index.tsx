@@ -30,14 +30,9 @@ export default function List() {
   const [filteredList, setFilteredList] = useState<ItemInterface[]>();
   const [filter, setFilter] = useState("Todos");
   const listArr = list[Array.isArray(listId) ? "" : listId!];
-  console.log(
-    "getListItemsOfList(listArr.items)",
-    getListItemsOfList(listArr.items)
-  );
   const listArrItems = removeUndefinedFromArray(
     getListItemsOfList(listArr.items)
   );
-  console.log("listArrItems", listArrItems);
 
   const total: TotalType = {
     amount: 0,
@@ -83,11 +78,6 @@ export default function List() {
     );
     setFilteredList(newFilteredList);
   }, [filter]);
-
-  console.log(
-    "listArr.items.length && listArr.items.length > 0",
-    listArr.items.length && listArr.items.length > 0
-  );
 
   return (
     <Styled.Container background={Colors[colorScheme ?? "light"].background}>
