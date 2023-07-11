@@ -3,11 +3,11 @@ import { FlatList, Dimensions, useColorScheme } from 'react-native';
 import Button from '../Button';
 import Colors from '../../constants/Colors';
 import * as Styled from './styles';
-import { tagsIterface } from '../../types/types';
+import { TagsIterface } from '../../types/types';
 
 
 interface FilterButtonsProps {
-    tags: tagsIterface[],
+    tags: TagsIterface[],
     filter: string,
     setFilter: React.Dispatch<React.SetStateAction<string>>,
 }

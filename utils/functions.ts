@@ -10,6 +10,11 @@ function removeDuplicates<T>(arr: T[]): T[] {
   return Array.from(new Set(arr));
 }
 
+
+const removeUndefinedFromArray = <T>(arr: T[]): T[] => {
+  return arr.filter((item) => item !== undefined);
+};
+
 const getTags = (items: ItemInterface[]): TagsIterface[] => {
   const arr = removeDuplicates(items.map((item) => item.tags));
   let count = 1;
@@ -77,9 +82,6 @@ const getTotalWithAmount = (items: ItemAmountInterface[]): number => {
   return total;
 };
 
-const removeUndefinedFromArray = <T>(arr: T[]): T[] => {
-  return arr.filter((item) => item !== undefined);
-};
 
 const editItemAmount = (
   items: ListType,

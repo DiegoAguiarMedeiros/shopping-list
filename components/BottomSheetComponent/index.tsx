@@ -18,7 +18,7 @@ import {
 } from "../../types/types";
 import UUIDGenerator from "react-native-uuid";
 import { useShoppingListContext } from "../../context/ShoppingList";
-import { getTags } from "../../utils/functions";
+import { getTags, removeUndefinedFromArray } from "../../utils/functions";
 
 const AnimatedBottomSheet = Animated.createAnimatedComponent(
   Styled.BottomSheet
@@ -35,13 +35,14 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
 }) => {
   const animation = useRef(new Animated.Value(0)).current;
   const colorScheme = useColorScheme();
-  const { list, setList, listItem, setListItem } = useShoppingListContext();
+  const { list, setList, listItem, setListItem, getListItemsOfList } =
+    useShoppingListContext();
   const [newItem, setNewItem] = useState({
     item: items ? items.name : "",
     tag: items && !Array.isArray(items.tags) ? items.tags : "",
     edit: false,
   });
-  const entries = list ? Object.values(list) : [];
+
   //TODO enviar essas função para o arquivo de funcções
   const returnNewList = (): ListInterface => {
     const item: ListInterface = {
@@ -101,17 +102,31 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
       ...newValue,
       [newListItem.uuid]: newListItem,
     }));
-    handleAddListItemInList(listId, newListItem.uuid);
+    console.log("newListItem", newListItem);
+    handleAddListItemInList(listId, newListItem);
   };
 
   const handleAddListItemInList = (
     listId: string,
-    listItemId: string
+    newListItem: ItemInterface
   ): void => {
     const updatedList: ListType = JSON.parse(JSON.stringify(list));
     const item = updatedList[listId];
     if (item) {
-      item.items.push(listItemId);
+      const listArrItems: ItemInterface[] = removeUndefinedFromArray(
+        getListItemsOfList(item.items)
+      );
+      item.items.push(newListItem.uuid);
+      item.tags = getTags(listArrItems);
+      item.tags.push({
+        id: `${item.tags.length++}`,
+        name: newListItem.tags,
+        active: false,
+      });
+      console.log("listArrItems", listArrItems);
+      console.log("item.items", item.items);
+      console.log("item.tags", item.tags);
+      console.log("updatedList", updatedList);
       setList(updatedList);
     }
   };

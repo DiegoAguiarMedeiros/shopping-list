@@ -79,6 +79,8 @@ export default function List() {
     setFilteredList(newFilteredList);
   }, [filter]);
 
+  console.log("listArr", listArr);
+
   return (
     <Styled.Container background={Colors[colorScheme ?? "light"].background}>
       <Styled.ContainerHeader>
@@ -100,7 +102,7 @@ export default function List() {
       </Styled.ContainerHeader>
       <Styled.ContainerHeaderInnerFilterButtons>
         <FilterButtons
-          tags={listArr.tags}
+          tags={removeUndefinedFromArray(listArr.tags)}
           filter={filter}
           setFilter={setFilter}
         />

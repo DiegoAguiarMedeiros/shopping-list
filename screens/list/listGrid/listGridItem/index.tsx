@@ -10,7 +10,12 @@ import {
   ListType,
 } from "../../../../types/types";
 import { FontAwesome } from "@expo/vector-icons";
-import { getTotalAmount, getTotalAmountUn } from "../../../../utils/functions";
+import {
+  getTags,
+  getTotalAmount,
+  getTotalAmountUn,
+  removeUndefinedFromArray,
+} from "../../../../utils/functions";
 import { Swipeable } from "react-native-gesture-handler";
 import { Title } from "../../../../components/Text";
 import { useShoppingListContext } from "../../../../context/ShoppingList";
@@ -33,9 +38,12 @@ function ListGridItem({ item, listId, setBottomSheetProps }: ListProps) {
     setListItem,
     setItemAmountList,
     itemAmountList,
+    getListItemsOfList,
   } = useShoppingListContext();
   const deleteItem = () => {
     const updatedList: ListItemInterface = JSON.parse(JSON.stringify(listItem));
+    console.log("updatedList", updatedList);
+    console.log("item.uuid", item.uuid);
     handleDeleteAmountInList(updatedList[item.uuid].amount);
     delete updatedList[item.uuid];
     setListItem(updatedList);
@@ -52,11 +60,15 @@ function ListGridItem({ item, listId, setBottomSheetProps }: ListProps) {
   };
   const handleDeleteItemListFromList = (): void => {
     const updatedList: ListType = JSON.parse(JSON.stringify(list));
+
     const item = updatedList[listId];
     if (item) {
-      item.items.push(item.uuid);
+      const listArrItems = removeUndefinedFromArray(
+        getListItemsOfList(item.items)
+      );
       const newArray = item.items.filter((i) => i !== item.uuid);
       item.items = newArray;
+      item.tags = getTags(listArrItems);
       setList(updatedList);
     }
   };
