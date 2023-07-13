@@ -102,7 +102,6 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
       ...newValue,
       [newListItem.uuid]: newListItem,
     }));
-    console.log("newListItem", newListItem);
     handleAddListItemInList(listId, newListItem);
   };
 
@@ -123,10 +122,6 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
         name: newListItem.tags,
         active: false,
       });
-      console.log("listArrItems", listArrItems);
-      console.log("item.items", item.items);
-      console.log("item.tags", item.tags);
-      console.log("updatedList", updatedList);
       setList(updatedList);
     }
   };

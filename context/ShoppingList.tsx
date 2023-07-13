@@ -23,6 +23,9 @@ type ShoppingListContextType = {
   >;
   getListItemsOfList: (listItems: string[]) => ItemInterface[];
   getAmountOfListItems: (listItemsArr: string[]) => ItemAmountInterface[];
+  getTotalWithAmount: (listItemsArr: ItemInterface[]) => number;
+  getTotal: (listItemsArr: ItemInterface[]) => number;
+  getTotalUn: (listItemsArr: ItemInterface[]) => number;
 };
 type ShoppingListArchivedContextType = {
   archived: ListType;
@@ -89,7 +92,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   const getListItemsOfList = (listItemsArr: string[]): ItemInterface[] => {
     const returnListItemsArr: ItemInterface[] = [];
     listItemsArr.forEach((item: string) => {
-      returnListItemsArr.push(listItem![item]);
+      if (listItem != null) returnListItemsArr.push(listItem[item]);
     });
     return returnListItemsArr;
   };
@@ -103,6 +106,45 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     return returnAmountItemList;
   };
 
+  const getTotal = (items: ItemInterface[]): number => {
+    let total: number = 0;
+    items.forEach((itemList) => {
+      total =
+        itemList.amount.length > 0
+          ? total + 1
+          : total + Number(itemList.amount.length);
+    });
+    return total;
+  };
+
+  const getTotalWithAmount = (items: ItemInterface[]): number => {
+    let total: number = 0;
+    items.forEach((itemList) => {
+      const amount = getAmountOfListItems(itemList.amount);
+      total =
+        total +
+        amount.reduce((accumulator, currentValue) => {
+          return (
+            accumulator +
+            Number(currentValue.amount) * Number(currentValue.quantity)
+          );
+        }, 0);
+    });
+    return total;
+  };
+
+  const getTotalUn = (items: ItemInterface[]): number => {
+    let total: number = 0;
+    items.forEach((itemList) => {
+      const amount = getAmountOfListItems(itemList.amount);
+      total =
+        total +
+        amount.reduce((accumulator, currentValue) => {
+          return accumulator + Number(currentValue.quantity);
+        }, 1);
+    });
+    return total;
+  };
   useEffect(() => {
     loadList();
     loadListItem();
@@ -126,6 +168,9 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         setItemAmountList: setItemAmountList,
         getListItemsOfList: getListItemsOfList,
         getAmountOfListItems: getAmountOfListItems,
+        getTotalWithAmount: getTotalWithAmount,
+        getTotal: getTotal,
+        getTotalUn: getTotalUn,
       }}
     >
       {children}

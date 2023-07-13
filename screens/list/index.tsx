@@ -79,8 +79,6 @@ export default function List() {
     setFilteredList(newFilteredList);
   }, [filter]);
 
-  console.log("listArr", listArr);
-
   return (
     <Styled.Container background={Colors[colorScheme ?? "light"].background}>
       <Styled.ContainerHeader>

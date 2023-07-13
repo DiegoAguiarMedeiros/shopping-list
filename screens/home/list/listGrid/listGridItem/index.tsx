@@ -9,17 +9,14 @@ import {
   ListItemAmountInterface,
   ListItemInterface,
   ListType,
-  listInterface,
 } from "../../../../../types/types";
 import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
 import { Swipeable } from "react-native-gesture-handler";
 import {
-  getTotal,
-  getTotalUn,
-  getTotalWithAmount,
   removeList,
+  removeUndefinedFromArray,
 } from "../../../../../utils/functions";
 import { Title, Text } from "../../../../../components/Text";
 import {
@@ -31,7 +28,7 @@ const CircleProgress = lazy(
 );
 
 interface ItemProps {
-  item: listInterface;
+  item: ListInterface;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
 }
 
@@ -43,14 +40,18 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
     setListItem,
     itemAmountList,
     setItemAmountList,
+    getListItemsOfList,
+    getTotalWithAmount,
+    getTotal,
+    getTotalUn,
   } = useShoppingListContext();
   const { archived, setArchived } = useShoppingListArchivedContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
-
-  const total = item.items ? /*getTotal(item.items)*/ 1 : 0;
-  const totalWithAmount = item.items ? /*getTotalWithAmount(item.items)*/ 1 : 0;
-  const totalUn = item.items ? /*getTotalUn(item.items)*/ 1 : 0;
+  const items = removeUndefinedFromArray(getListItemsOfList(item.items));
+  const total = item.items.length > 0 ? getTotal(items) : 0;
+  const totalWithAmount = item.items.length > 0 ? getTotalWithAmount(items) : 0;
+  const totalUn = item.items.length > 0 ? getTotalUn(items) : 0;
 
   const handleOpenList = useCallback(() => {
     router.push({ pathname: "/iTems", params: { listId: item.uuid } });
@@ -86,14 +87,10 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
   };
 
   const handleDeleteListItem = (listUuid: string[]): void => {
-    console.log("listUuid", listUuid);
     listUuid.forEach((i) => {
       const updatedList: ListItemInterface = JSON.parse(
         JSON.stringify(listItem)
       );
-      console.log("i", i);
-      console.log("updatedList", updatedList);
-      console.log("updatedList[i].amount", updatedList[i].amount);
       handleDeleteAmountInList(updatedList[i].amount);
       delete updatedList[i];
       setListItem(updatedList);

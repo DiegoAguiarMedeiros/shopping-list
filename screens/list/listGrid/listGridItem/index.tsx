@@ -42,8 +42,6 @@ function ListGridItem({ item, listId, setBottomSheetProps }: ListProps) {
   } = useShoppingListContext();
   const deleteItem = () => {
     const updatedList: ListItemInterface = JSON.parse(JSON.stringify(listItem));
-    console.log("updatedList", updatedList);
-    console.log("item.uuid", item.uuid);
     handleDeleteAmountInList(updatedList[item.uuid].amount);
     delete updatedList[item.uuid];
     setListItem(updatedList);

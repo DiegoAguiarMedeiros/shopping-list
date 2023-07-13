@@ -10,9 +10,8 @@ function removeDuplicates<T>(arr: T[]): T[] {
   return Array.from(new Set(arr));
 }
 
-
 const removeUndefinedFromArray = <T>(arr: T[]): T[] => {
-  return arr.filter((item) => item !== undefined);
+  return arr.filter((item) => item !== null && item !== undefined);
 };
 
 const getTags = (items: ItemInterface[]): TagsIterface[] => {
@@ -40,36 +39,16 @@ const getTotalAmount = (items: ItemAmountInterface[]): number => {
   });
   return total;
 };
-const getTotal = (items: ItemInterface[]): number => {
-  // let total: number = 0
-  // items.forEach(itemList => {
-  //     total = total + itemList.amount.reduce((accumulator, currentValue) => {
-  //         return accumulator + Number(currentValue.amount) * Number(currentValue.quantity);
-  //     }, 0);
-  // });
-  // return total
-  return 1;
-};
+
 
 const getTotalAmountUn = (items: ItemAmountInterface[]): number => {
-  // let total: number = 0
-  // items.forEach(itemList => {
-  //     total = itemList.type ? total + 1 : total + Number(itemList.quantity);
-  // });
-  // return total
-  return 1;
-};
-const getTotalUn = (items: ItemAmountInterface[]): number => {
-  const total: number =
-    items.length > 0
-      ? items.reduce((accumulator, currentValue) => {
-          return currentValue.type
-            ? accumulator + 1
-            : accumulator + Number(currentValue.quantity);
-        }, 0)
-      : 1;
+  let total: number = 0;
+  items.forEach((itemList) => {
+    total = itemList.type ? total + 1 : total + Number(itemList.quantity);
+  });
   return total;
 };
+
 const getTotalWithAmount = (items: ItemAmountInterface[]): number => {
   const total: number =
     items.length > 0
@@ -81,7 +60,6 @@ const getTotalWithAmount = (items: ItemAmountInterface[]): number => {
       : 0;
   return total;
 };
-
 
 const editItemAmount = (
   items: ListType,
@@ -162,8 +140,6 @@ const removeList = (items: ListType, listUuid: string): ListType => {
 export {
   getTags,
   getTotalAmount,
-  getTotal,
-  getTotalUn,
   getTotalAmountUn,
   getTotalWithAmount,
   removeItemAmount,
