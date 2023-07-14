@@ -100,24 +100,14 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     amountItemList: string[]
   ): ItemAmountInterface[] => {
     const returnAmountItemList: ItemAmountInterface[] = [];
-    amountItemList.forEach((item: string) => {
-      returnAmountItemList.push(itemAmountList![item]);
-    });
+    itemAmountList &&
+      amountItemList.forEach((item: string) => {
+        returnAmountItemList.push(itemAmountList[item]);
+      });
     return returnAmountItemList;
   };
 
   const getTotal = (items: ItemInterface[]): number => {
-    let total: number = 0;
-    items.forEach((itemList) => {
-      total =
-        itemList.amount.length > 0
-          ? total + 1
-          : total + Number(itemList.amount.length);
-    });
-    return total;
-  };
-
-  const getTotalWithAmount = (items: ItemInterface[]): number => {
     let total: number = 0;
     items.forEach((itemList) => {
       const amount = getAmountOfListItems(itemList.amount);
@@ -133,15 +123,28 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     return total;
   };
 
+  const getTotalWithAmount = (items: ItemInterface[]): number => {
+    let total: number = 0;
+    items.forEach((itemList) => {
+      total =
+        itemList.amount.length > 0
+          ? total + 1
+          : total + Number(itemList.amount.length);
+    });
+    return total;
+  };
+
   const getTotalUn = (items: ItemInterface[]): number => {
     let total: number = 0;
     items.forEach((itemList) => {
       const amount = getAmountOfListItems(itemList.amount);
       total =
-        total +
-        amount.reduce((accumulator, currentValue) => {
-          return accumulator + Number(currentValue.quantity);
-        }, 1);
+        amount.length > 0
+          ? total +
+            amount.reduce((accumulator, currentValue) => {
+              return accumulator + Number(currentValue.quantity);
+            }, 0)
+          : total + 1;
     });
     return total;
   };

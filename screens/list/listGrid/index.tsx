@@ -8,7 +8,7 @@ import {
   ListInterface,
 } from "../../../types/types";
 import ListGridItem from "./listGridItem";
-import { getTotal, getTotalUn, removeUndefinedFromArray } from "../../../utils/functions";
+import { removeUndefinedFromArray } from "../../../utils/functions";
 import { useShoppingListContext } from "../../../context/ShoppingList";
 
 const Button = lazy(() => import("../../../components/Button"));
@@ -21,7 +21,8 @@ interface ListProps {
 }
 
 function ListGrid({ filter, listId }: ListProps) {
-  const { list, getListItemsOfList } = useShoppingListContext();
+  const { list, getListItemsOfList, getTotal, getTotalUn } =
+    useShoppingListContext();
   const colorScheme = useColorScheme();
   const [filteredList, setFilteredList] = useState<ItemInterface[]>();
   const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
@@ -51,11 +52,11 @@ function ListGrid({ filter, listId }: ListProps) {
               text={Colors[colorScheme ?? "light"].text}
             >
               Total Items:{" "}
-              {/* {getTotalUn(
+              {getTotalUn(
                 filteredList !== undefined && filteredList.length > 0
                   ? filteredList
                   : listArrItems
-              )} */}
+              )}
             </Styled.ContainerItemTotalUnitText>
             <Styled.ContainerItemTotalText
               text={Colors[colorScheme ?? "light"].text}

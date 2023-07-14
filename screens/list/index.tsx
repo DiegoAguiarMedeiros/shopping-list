@@ -4,18 +4,17 @@ import * as Styled from "./styles";
 import React, { lazy, useEffect, useState } from "react";
 import { useSearchParams } from "expo-router";
 import { useShoppingListContext } from "../../context/ShoppingList";
-import { ItemInterface, TotalType } from "../../types/types";
-import {
-  getTotalUn,
-  getTotalWithAmount,
-  removeItem,
-  removeUndefinedFromArray,
-} from "../../utils/functions";
+import { ItemInterface } from "../../types/types";
+import { removeItem, removeUndefinedFromArray } from "../../utils/functions";
 
 const EmptyList = lazy(() => import("./emptyList"));
 const ListGrid = lazy(() => import("./listGrid"));
 const CircleProgress = lazy(() => import("../../components/CircleProgress"));
 const FilterButtons = lazy(() => import("../../components/FilterButtons"));
+type TotalType = {
+  amount: number;
+  un: number;
+};
 
 export default function List() {
   const {
@@ -25,57 +24,35 @@ export default function List() {
     setListItem,
     getListItemsOfList,
     getAmountOfListItems,
+    getTotalWithAmount,
+    getTotalUn,
   } = useShoppingListContext();
   const { listId } = useSearchParams();
   const [filteredList, setFilteredList] = useState<ItemInterface[]>();
   const [filter, setFilter] = useState("Todos");
   const listArr = list[Array.isArray(listId) ? "" : listId!];
+  const colorScheme = useColorScheme();
   const listArrItems = removeUndefinedFromArray(
     getListItemsOfList(listArr.items)
   );
 
-  const total: TotalType = {
-    amount: 0,
-    un: 0,
+  const [total, setTotal] = useState<TotalType>({
+    amount: getTotalWithAmount(listArrItems),
+    un: getTotalUn(listArrItems),
+  });
+  const getTotalAmountAndUnity = (list: ItemInterface[]) => {
+    setTotal({
+      un: getTotalUn(list),
+      amount: getTotalWithAmount(list),
+    });
   };
-
-  const getTotalAmount = () => {
-    total.amount = listArrItems
-      .map((item) =>
-        getTotalWithAmount(
-          removeUndefinedFromArray(getAmountOfListItems(item.amount))
-        )
-      )
-      .reduce((accumulator, currentValue) => {
-        return currentValue
-          ? accumulator + 1
-          : accumulator + Number(currentValue);
-      }, 0);
-  };
-  const getTotalUnity = () => {
-    total.un = listArrItems
-      .map((item) =>
-        getTotalUn(removeUndefinedFromArray(getAmountOfListItems(item.amount)))
-      )
-      .reduce((accumulator, currentValue) => {
-        return currentValue
-          ? accumulator + 1
-          : accumulator + Number(currentValue);
-      }, 0);
-  };
-
-  const colorScheme = useColorScheme();
-  // const totalWithAmount = listArr.items ? getTotalWithAmount(filteredList !== undefined && filteredList.length > 0 ? filteredList : listArrItems) : 0;
-  // const totalUn = listArr.items ? getTotalUn(filteredList !== undefined && filteredList.length > 0 ? filteredList : listArrItems) : 0;
-
-  useEffect(() => {
-    getTotalAmount();
-    getTotalUnity();
-  }, []);
   useEffect(() => {
     const newFilteredList = listArrItems.filter(
       (item: ItemInterface) => item.tags === filter
     );
+    newFilteredList.length > 0
+      ? getTotalAmountAndUnity(newFilteredList)
+      : getTotalAmountAndUnity(listArrItems);
     setFilteredList(newFilteredList);
   }, [filter]);
 

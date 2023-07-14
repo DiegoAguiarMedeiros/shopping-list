@@ -14,7 +14,7 @@ export default function ListPriceGrid({ item }: ListProps) {
   const amountOfListItems = removeUndefinedFromArray(
     getAmountOfListItems(item.amount)
   );
-  
+
   return (
     <Styled.Container>
       <Styled.ContainerListPriceItem>
