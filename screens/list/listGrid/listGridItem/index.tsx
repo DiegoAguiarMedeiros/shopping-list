@@ -39,6 +39,7 @@ function ListGridItem({ item, listId, setBottomSheetProps }: ListProps) {
     setItemAmountList,
     itemAmountList,
     getListItemsOfList,
+    getAmountOfListItems
   } = useShoppingListContext();
   const deleteItem = () => {
     const updatedList: ListItemInterface = JSON.parse(JSON.stringify(listItem));
@@ -187,12 +188,13 @@ function ListGridItem({ item, listId, setBottomSheetProps }: ListProps) {
             <Styled.ContainerItemTextPriceTotal
               text={Colors[colorScheme ?? "light"].textButton}
             >
-              Total: R$ {/*getTotalAmount(item.amount).toFixed(2)*/}
+              Total: R${" "}
+              {getTotalAmount(getAmountOfListItems(item.amount)).toFixed(2)}
             </Styled.ContainerItemTextPriceTotal>
             <Styled.ContainerItemTextPriceTotal
               text={Colors[colorScheme ?? "light"].textButton}
             >
-              Un: {/*getTotalAmountUn(item.amount)*/}
+              Un: {getTotalAmountUn(getAmountOfListItems(item.amount))}
             </Styled.ContainerItemTextPriceTotal>
           </Styled.ContainerListItemListItemBody>
         </Styled.ContainerListItemListItemInner>
@@ -240,12 +242,12 @@ function ListGridItem({ item, listId, setBottomSheetProps }: ListProps) {
             <Styled.ContainerItemTextPriceTotal
               text={Colors[colorScheme ?? "light"].textButton}
             >
-              Total: R$ {/*getTotalAmount(item.amount).toFixed(2)*/}
+              Total: R$ {getTotalAmount(getAmountOfListItems(item.amount)).toFixed(2)}
             </Styled.ContainerItemTextPriceTotal>
             <Styled.ContainerItemTextPriceTotal
               text={Colors[colorScheme ?? "light"].textButton}
             >
-              Un: {/*getTotalAmountUn(item.amount)*/}
+              Un: {getTotalAmountUn(getAmountOfListItems(item.amount))}
             </Styled.ContainerItemTextPriceTotal>
           </Styled.ContainerListItemListItemBody>
         </>
