@@ -2,10 +2,9 @@ import { useColorScheme } from "react-native";
 import Colors from "../../constants/Colors";
 import * as Styled from "./styles";
 import React, { lazy, useEffect, useState } from "react";
-import { useSearchParams } from "expo-router";
 import { useShoppingListContext } from "../../context/ShoppingList";
 import { ItemInterface } from "../../types/types";
-import { removeItem, removeUndefinedFromArray } from "../../utils/functions";
+import { removeUndefinedFromArray } from "../../utils/functions";
 
 const EmptyList = lazy(() => import("./emptyList"));
 const ListGrid = lazy(() => import("./listGrid"));
@@ -16,22 +15,16 @@ type TotalType = {
   un: number;
 };
 
-export default function List() {
-  const {
-    list,
-    setList,
-    listItem,
-    setListItem,
-    getListItemsOfList,
-    getAmountOfListItems,
-    getTotalWithAmount,
-    getTotalUn,
-  } = useShoppingListContext();
-  const { listId } = useSearchParams();
-  const [filteredList, setFilteredList] = useState<ItemInterface[]>();
-  const [filter, setFilter] = useState("Todos");
-  const listArr = list[Array.isArray(listId) ? "" : listId!];
+interface ListProps {
+  listId: string;
+}
+
+export default function List({ listId }: ListProps) {
   const colorScheme = useColorScheme();
+  const { list, getListItemsOfList, getTotalWithAmount, getTotalUn } =
+    useShoppingListContext();
+  const [filter, setFilter] = useState("Todos");
+  const listArr = list[listId];
   const listArrItems = removeUndefinedFromArray(
     getListItemsOfList(listArr.items)
   );
@@ -53,7 +46,6 @@ export default function List() {
     newFilteredList.length > 0
       ? getTotalAmountAndUnity(newFilteredList)
       : getTotalAmountAndUnity(listArrItems);
-    setFilteredList(newFilteredList);
   }, [filter]);
 
   return (

@@ -108,7 +108,7 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
 
   const handleArchived = () => {
     setList(removeList(list, item.uuid));
-    archived ? setArchived([item, ...archived]) : setValue([item]);
+    // archived ? setArchived([item, ...archived]) : setValue([item]);
   };
 
   const RightSwipe = useCallback(
