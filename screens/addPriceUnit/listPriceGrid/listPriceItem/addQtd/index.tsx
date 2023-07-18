@@ -45,28 +45,22 @@ export default function ListPriceGrid({
   };
 
   const minusAmount = (): void => {
-    console.log("plusAmount");
     const updatedList: ListItemAmountInterface = JSON.parse(
       JSON.stringify(itemAmountList)
     );
     const newItemAMount: ItemAmountInterface = updatedList[newItemAmount.uuid];
-    console.log("plusAmount ", newItemAMount);
     if (newItemAMount && Number(newItemAmount.quantity) > 1) {
-      console.log("plusAmount if");
       newItemAMount.quantity = String(Number(newItemAmount.quantity) - 1);
       setNewItemAmount(newItemAMount);
       setItemAmountList(updatedList);
     }
   };
   const plusAmount = (): void => {
-    console.log("plusAmount");
     const updatedList: ListItemAmountInterface = JSON.parse(
       JSON.stringify(itemAmountList)
     );
     const newItemAMount: ItemAmountInterface = updatedList[newItemAmount.uuid];
-    console.log("plusAmount ", newItemAMount);
     if (newItemAMount) {
-      console.log("plusAmount if");
       newItemAMount.quantity = String(Number(newItemAmount.quantity) + 1);
       setNewItemAmount(newItemAMount);
       setItemAmountList(updatedList);

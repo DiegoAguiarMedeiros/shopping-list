@@ -21,8 +21,13 @@ interface ListProps {
 
 export default function List({ listId }: ListProps) {
   const colorScheme = useColorScheme();
-  const { list, getListItemsOfList, getTotalWithAmount, getTotalUn } =
-    useShoppingListContext();
+  const {
+    list,
+    itemAmountList,
+    getListItemsOfList,
+    getTotalWithAmount,
+    getTotalUn,
+  } = useShoppingListContext();
   const [filter, setFilter] = useState("Todos");
   const listArr = list[listId];
   const listArrItems = removeUndefinedFromArray(
@@ -39,6 +44,7 @@ export default function List({ listId }: ListProps) {
       amount: getTotalWithAmount(list),
     });
   };
+
   useEffect(() => {
     const newFilteredList = listArrItems.filter(
       (item: ItemInterface) => item.tags === filter
@@ -46,7 +52,7 @@ export default function List({ listId }: ListProps) {
     newFilteredList.length > 0
       ? getTotalAmountAndUnity(newFilteredList)
       : getTotalAmountAndUnity(listArrItems);
-  }, [filter]);
+  }, [filter, itemAmountList]);
 
   return (
     <Styled.Container background={Colors[colorScheme ?? "light"].background}>
@@ -76,10 +82,7 @@ export default function List({ listId }: ListProps) {
       </Styled.ContainerHeaderInnerFilterButtons>
       <Styled.ContainerBody>
         {listArrItems.length > 0 ? (
-          <ListGrid
-            filter={filter}
-            listId={Array.isArray(listId) ? "" : listId!}
-          />
+          <ListGrid filter={filter} listId={listId} />
         ) : (
           <EmptyList list={listArr.uuid} />
         )}
