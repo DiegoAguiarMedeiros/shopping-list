@@ -18,7 +18,11 @@ import {
 } from "../../types/types";
 import UUIDGenerator from "react-native-uuid";
 import { useShoppingListContext } from "../../context/ShoppingList";
-import { getTags, removeUndefinedFromArray } from "../../utils/functions";
+import {
+  checkTags,
+  getTags,
+  removeUndefinedFromArray,
+} from "../../utils/functions";
 
 const AnimatedBottomSheet = Animated.createAnimatedComponent(
   Styled.BottomSheet
@@ -117,11 +121,17 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
       );
       item.items.push(newListItem.uuid);
       item.tags = getTags(listArrItems);
-      item.tags.push({
-        id: `${item.tags.length++}`,
-        name: newListItem.tags,
-        active: false,
-      });
+      console.log(
+        "checkTags(newListItem.name, item.tags)",
+        checkTags(newListItem.tags, item.tags)
+      );
+      if (!checkTags(newListItem.tags, item.tags)) {
+        item.tags.push({
+          id: `${item.tags.length++}`,
+          name: newListItem.tags,
+          active: false,
+        });
+      }
       setList(updatedList);
     }
   };

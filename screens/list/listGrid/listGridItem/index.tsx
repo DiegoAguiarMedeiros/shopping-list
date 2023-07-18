@@ -12,6 +12,7 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import {
   getTags,
+  getTagsFromListItemInterface,
   getTotalAmount,
   getTotalAmountUn,
   removeUndefinedFromArray,
@@ -39,13 +40,15 @@ function ListGridItem({ item, listId, setBottomSheetProps }: ListProps) {
     setItemAmountList,
     itemAmountList,
     getListItemsOfList,
-    getAmountOfListItems
+    getAmountOfListItems,
   } = useShoppingListContext();
+
   const deleteItem = () => {
     const updatedList: ListItemInterface = JSON.parse(JSON.stringify(listItem));
     handleDeleteAmountInList(updatedList[item.uuid].amount);
     delete updatedList[item.uuid];
     setListItem(updatedList);
+    handleDeleteItemListFromList(updatedList);
   };
   const handleDeleteAmountInList = (itemAmountUuid: string[]): void => {
     itemAmountUuid.forEach((i) => {
@@ -53,22 +56,25 @@ function ListGridItem({ item, listId, setBottomSheetProps }: ListProps) {
         JSON.stringify(itemAmountList)
       );
       delete updatedList[i];
-      handleDeleteItemListFromList();
       setItemAmountList(updatedList);
     });
   };
-  const handleDeleteItemListFromList = (): void => {
-    const updatedList: ListType = JSON.parse(JSON.stringify(list));
+  const handleDeleteItemListFromList = (
+    updatedList: ListItemInterface
+  ): void => {
+    const updatedListItem: ListType = JSON.parse(JSON.stringify(list));
 
-    const item = updatedList[listId];
+    const item = updatedListItem[listId];
     if (item) {
       const listArrItems = removeUndefinedFromArray(
         getListItemsOfList(item.items)
       );
+      console.log("updatedList", updatedList);
+      console.log("listArrItems", listArrItems);
       const newArray = item.items.filter((i) => i !== item.uuid);
       item.items = newArray;
-      item.tags = getTags(listArrItems);
-      setList(updatedList);
+      item.tags = getTagsFromListItemInterface(updatedList);
+      setList(updatedListItem);
     }
   };
 
@@ -242,7 +248,8 @@ function ListGridItem({ item, listId, setBottomSheetProps }: ListProps) {
             <Styled.ContainerItemTextPriceTotal
               text={Colors[colorScheme ?? "light"].textButton}
             >
-              Total: R$ {getTotalAmount(getAmountOfListItems(item.amount)).toFixed(2)}
+              Total: R${" "}
+              {getTotalAmount(getAmountOfListItems(item.amount)).toFixed(2)}
             </Styled.ContainerItemTextPriceTotal>
             <Styled.ContainerItemTextPriceTotal
               text={Colors[colorScheme ?? "light"].textButton}

@@ -2,6 +2,7 @@ import {
   ItemAmountInterface,
   ItemInterface,
   ListInterface,
+  ListItemInterface,
   ListType,
   TagsIterface,
 } from "../types/types";
@@ -14,8 +15,19 @@ const removeUndefinedFromArray = <T>(arr: T[]): T[] => {
   return arr.filter((item) => item !== null && item !== undefined);
 };
 
+const checkTags = (tag: string, tags: TagsIterface[]): boolean => {
+  console.log("checkTags tag", tag);
+  console.log("checkTags tags", tags);
+  let returnBoolean = false;
+  tags.forEach((t) => {
+    if (tag === t.name) returnBoolean = true;
+  });
+  return returnBoolean;
+};
+
 const getTags = (items: ItemInterface[]): TagsIterface[] => {
   const arr = removeDuplicates(items.map((item) => item.tags));
+  console.log("arr", arr);
   let count = 1;
   const tagsArr: TagsIterface[] = arr.map((tag) => {
     return {
@@ -32,6 +44,26 @@ const getTags = (items: ItemInterface[]): TagsIterface[] => {
   return tagsArr.filter(({ name }) => name !== "");
 };
 
+const getTagsFromListItemInterface = (
+  obj: ListItemInterface
+): TagsIterface[] => {
+  const tagsArr: TagsIterface[] = [];
+  let count = 1;
+  for (const key in obj) {
+    tagsArr.push({
+      id: String(count++),
+      name: obj[key].tags,
+      active: false,
+    });
+  }
+  tagsArr.unshift({
+    id: "0",
+    name: "Todos",
+    active: true,
+  });
+  return tagsArr;
+};
+
 const getTotalAmount = (items: ItemAmountInterface[]): number => {
   let total: number = 0;
   items.forEach((itemList) => {
@@ -39,7 +71,6 @@ const getTotalAmount = (items: ItemAmountInterface[]): number => {
   });
   return total;
 };
-
 
 const getTotalAmountUn = (items: ItemAmountInterface[]): number => {
   let total: number = 0;
@@ -147,4 +178,6 @@ export {
   removeList,
   editItemAmount,
   removeUndefinedFromArray,
+  getTagsFromListItemInterface,
+  checkTags,
 };
