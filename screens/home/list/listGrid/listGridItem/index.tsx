@@ -1,7 +1,7 @@
 import { useColorScheme, Animated } from "react-native";
 import Colors from "../../../../../constants/Colors";
 import * as Styled from "./styles";
-import { lazy, useCallback } from "react";
+import { lazy, useCallback, useRef } from "react";
 import {
   BottomSheetProps,
   ItemInterface,
@@ -57,7 +57,13 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
     router.push({ pathname: "/iTems", params: { listId: item.uuid } });
   }, [item.uuid, router]);
 
+  const HandleClose = () => {
+    const swipeable = useRef<Swipeable>();
+    swipeable.current?.close();
+  };
+
   const handleEdit = useCallback(() => {
+    HandleClose();
     return setBottomSheetProps({
       listId: item.uuid,
       items: item,

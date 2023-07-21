@@ -121,10 +121,6 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
       );
       item.items.push(newListItem.uuid);
       item.tags = getTags(listArrItems);
-      console.log(
-        "checkTags(newListItem.name, item.tags)",
-        checkTags(newListItem.tags, item.tags)
-      );
       if (!checkTags(newListItem.tags, item.tags)) {
         item.tags.push({
           id: `${item.tags.length++}`,
@@ -249,7 +245,7 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
               value={newItem.item}
             />
           </Styled.InputContainer>
-          {listId ? (
+          {action === "addListItem" || listId === "editListItem" ? (
             <Styled.InputContainer>
               <InputText
                 placeholder="Nome da categoria..."

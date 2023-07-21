@@ -91,9 +91,11 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
 
   const getListItemsOfList = (listItemsArr: string[]): ItemInterface[] => {
     const returnListItemsArr: ItemInterface[] = [];
-    listItemsArr.forEach((item: string) => {
-      if (listItem != null) returnListItemsArr.push(listItem[item]);
-    });
+    if (listItemsArr) {
+      listItemsArr.forEach((item: string) => {
+        if (listItem != null) returnListItemsArr.push(listItem[item]);
+      });
+    }
     return returnListItemsArr;
   };
   const getAmountOfListItems = (

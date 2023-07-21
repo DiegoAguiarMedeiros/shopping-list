@@ -69,8 +69,6 @@ function ListGridItem({ item, listId, setBottomSheetProps }: ListProps) {
       const listArrItems = removeUndefinedFromArray(
         getListItemsOfList(item.items)
       );
-      console.log("updatedList", updatedList);
-      console.log("listArrItems", listArrItems);
       const newArray = item.items.filter((i) => i !== item.uuid);
       item.items = newArray;
       item.tags = getTagsFromListItemInterface(updatedList);

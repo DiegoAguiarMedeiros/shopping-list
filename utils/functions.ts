@@ -16,8 +16,6 @@ const removeUndefinedFromArray = <T>(arr: T[]): T[] => {
 };
 
 const checkTags = (tag: string, tags: TagsIterface[]): boolean => {
-  console.log("checkTags tag", tag);
-  console.log("checkTags tags", tags);
   let returnBoolean = false;
   tags.forEach((t) => {
     if (tag === t.name) returnBoolean = true;
@@ -27,7 +25,6 @@ const checkTags = (tag: string, tags: TagsIterface[]): boolean => {
 
 const getTags = (items: ItemInterface[]): TagsIterface[] => {
   const arr = removeDuplicates(items.map((item) => item.tags));
-  console.log("arr", arr);
   let count = 1;
   const tagsArr: TagsIterface[] = arr.map((tag) => {
     return {
