@@ -1,10 +1,12 @@
-import { useColorScheme } from "react-native";
+import { TouchableOpacity, useColorScheme } from "react-native";
 import Colors from "../../constants/Colors";
 import * as Styled from "./styles";
 import React, { lazy, useEffect, useState } from "react";
 import { useShoppingListContext } from "../../context/ShoppingList";
 import { ItemInterface } from "../../types/types";
 import { removeUndefinedFromArray } from "../../utils/functions";
+import { useRouter } from "expo-router";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 const EmptyList = lazy(() => import("./emptyList"));
 const ListGrid = lazy(() => import("./listGrid"));
@@ -44,7 +46,7 @@ export default function List({ listId }: ListProps) {
       amount: getTotalWithAmount(list),
     });
   };
-
+  const router = useRouter();
   useEffect(() => {
     const newFilteredList = listArrItems.filter(
       (item: ItemInterface) => item.tags === filter
@@ -57,6 +59,15 @@ export default function List({ listId }: ListProps) {
   return (
     <Styled.Container background={Colors[colorScheme ?? "light"].background}>
       <Styled.ContainerHeader>
+        <Styled.ContainerHeaderInnerIconBack>
+          <TouchableOpacity onPress={() => router.back()}>
+            <FontAwesome
+              name="angle-left"
+              size={35}
+              color={Colors[colorScheme ?? "light"].text}
+            />
+          </TouchableOpacity>
+        </Styled.ContainerHeaderInnerIconBack>
         <Styled.ContainerHeaderInnerText>
           <Styled.ListTitle text={Colors[colorScheme ?? "light"].text}>
             {listArr.name}

@@ -32,8 +32,14 @@ export const ContainerBody = styled.View`
     flex-direction: row;
     align-items: center;
     `;
+export const ContainerHeaderInnerIconBack = styled.View`
+  width:15%;
+  justify-content: center;
+  align-items: center;
+  
+  `;
 export const ContainerHeaderInnerText = styled.View`
-  width:75%;
+  width:60%;
   justify-content: center;
   align-items: center;
   

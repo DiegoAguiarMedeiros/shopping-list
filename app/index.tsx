@@ -10,7 +10,7 @@ import {
 import { useFonts } from "expo-font";
 import { SplashScreen, useRouter } from "expo-router";
 import { lazy, useCallback, useEffect, useState } from "react";
-import { useColorScheme, View } from "react-native";
+import { TouchableOpacity, useColorScheme, View } from "react-native";
 import BottomNavigation from "./bottomNavigation";
 
 import Colors from "../constants/Colors";
@@ -81,12 +81,13 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
-
+  const router = useRouter();
   const [activeRoute, setActiveRoute] = useState<string>("home");
   const routes: RoutesProps[] = [
     { name: "home", icon: "home" },
     { name: "history", icon: "history" },
   ];
+
   return (
     <>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
@@ -101,6 +102,7 @@ function RootLayoutNav() {
             component={home}
             options={{
               headerTitle: "Listas de compras",
+              
             }}
           />
           <Stack.Screen
