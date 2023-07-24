@@ -11,5 +11,5 @@ export const Container = styled.View`
 export const ContainerListPriceItem = styled.View`
     width: ${Dimensions.get('window').width + 'px'};
     flex: 1;
-    padding: 15px 30px;
+    padding: 0px 30px;
 `;    
