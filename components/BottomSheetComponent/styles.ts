@@ -20,7 +20,7 @@ export const InputContainer = styled.View`
 
     padding: 5px 15px;
     width:100%;
-    height:65px;
+    height:55px;
     flex-direction: row;
     `;
 export const ButtonsContainer = styled.View`

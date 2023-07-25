@@ -128,9 +128,13 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   const getTotalWithAmount = (items: ItemInterface[]): number => {
     let total: number = 0;
     items.forEach((itemList) => {
+      const amount = getAmountOfListItems(itemList.amount);
       total =
         itemList.amount.length > 0
-          ? total + 1
+          ? total +
+            amount.reduce((accumulator, currentValue) => {
+              return accumulator + Number(currentValue.quantity);
+            }, 0)
           : total + Number(itemList.amount.length);
     });
     return total;
