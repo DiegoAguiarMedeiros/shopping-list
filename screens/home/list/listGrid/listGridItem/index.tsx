@@ -45,7 +45,6 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
     getTotal,
     getTotalUn,
   } = useShoppingListContext();
-  const { archived, setArchived } = useShoppingListArchivedContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
   const items = removeUndefinedFromArray(getListItemsOfList(item.items));

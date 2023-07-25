@@ -7,7 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function Home() {
   const { list } = useShoppingListContext();
   const entries = list ? Object.values(list) : [];
-  // AsyncStorage.clear()
+  // AsyncStorage.clear();
   return (
     <KeyboardAvoidingView behavior="padding">
       {entries && entries.length > 0 ? (

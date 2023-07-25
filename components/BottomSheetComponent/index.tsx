@@ -15,6 +15,7 @@ import {
   ListInterface,
   ListItemInterface,
   ListType,
+  TagsIterface,
 } from "../../types/types";
 import UUIDGenerator from "react-native-uuid";
 import { useShoppingListContext } from "../../context/ShoppingList";
@@ -132,23 +133,44 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
     }
   };
 
-  const handleCopyListItem = (): void => {
-    handleHideBottomSheet();
-    const copiedObject: ListInterface = JSON.parse(JSON.stringify(items));
+  interface returnHandleCopyListItem {
+    items: string[];
+    tags: TagsIterface[];
+  }
 
-    // Generate new UUID for the main object
-    copiedObject.uuid = String(UUIDGenerator.v4());
-    copiedObject.name = newItem.item;
-    // Generate new UUIDs for each nested item
-    const newList = copiedObject.items.map((item) => {
-      return {
-        ...item,
-        uuid: String(UUIDGenerator.v4()),
-        amount: [],
-      };
-    });
-    copiedObject.items = newList;
-    setList([copiedObject, ...value]);
+  const handleCopyListItem = (
+    listItems: string[]
+  ): returnHandleCopyListItem => {
+    const copyListItem: ItemInterface[] = JSON.parse(
+      JSON.stringify(removeUndefinedFromArray(getListItemsOfList(listItems)))
+    );
+    return {
+      items: copyListItem.map((item) => {
+        item.amount = [];
+        item.uuid = String(UUIDGenerator.v4());
+        setListItem((newValue) => ({
+          ...newValue,
+          [item.uuid]: item,
+        }));
+        return item.uuid;
+      }),
+      tags: getTags(copyListItem),
+    };
+  };
+
+  const handleCopyList = (): void => {
+    handleHideBottomSheet();
+    const newItem = returnNewList();
+    const itemCopy: ListInterface = JSON.parse(
+      JSON.stringify(list[items?.uuid!])
+    );
+    const returnHandleCopyListItem = handleCopyListItem(itemCopy.items);
+    newItem.items = returnHandleCopyListItem.items;
+    newItem.tags = returnHandleCopyListItem.tags;
+    setList((newValue) => ({
+      ...newValue,
+      [newItem.uuid]: newItem,
+    }));
   };
 
   const buttonTextArr = {
@@ -162,7 +184,7 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
     editList: handleEditList,
     addListItem: handleAddListItem,
     editListItem: handleEditListItem,
-    copyList: handleCopyListItem,
+    copyList: handleCopyList,
   };
 
   useEffect(() => {

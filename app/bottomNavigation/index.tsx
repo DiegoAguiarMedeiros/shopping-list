@@ -14,7 +14,7 @@ const BottomNavigation: React.FC<RoutesType> = ({
   const colorScheme = useColorScheme();
   const router = useRouter();
 
-  console.log("BottomNavigation routes ", routes);
+  // console.log("BottomNavigation routes ", routes);
   return (
     <Styled.Container
       background={Colors[colorScheme ?? "light"].backgroundLighter}
