@@ -27,10 +27,6 @@ type ShoppingListContextType = {
   getTotal: (listItemsArr: ItemInterface[]) => number;
   getTotalUn: (listItemsArr: ItemInterface[]) => number;
 };
-type ShoppingListArchivedContextType = {
-  archived: ListType;
-  setArchived: React.Dispatch<React.SetStateAction<ListType | null>>;
-};
 
 const getListFromStorage = async (): Promise<ListType | null> => {
   const list = await ListStorage.getList();
@@ -46,22 +42,40 @@ const getItemAmountFromStorage =
     return itemAmountList;
   };
 
-const setListFromStorage = (newList: ListType): void => {
+const setListOnStorage = (newList: ListType): void => {
   ListStorage.setList(newList);
 };
-const setListItemFromStorage = (newList: ListItemInterface): void => {
+const setListItemOnStorage = (newList: ListItemInterface): void => {
   ListStorage.setListItem(newList);
 };
-const setItemAmountFromStorage = (newList: ListItemAmountInterface): void => {
+const setItemAmountOnStorage = (newList: ListItemAmountInterface): void => {
   ListStorage.setItemAmount(newList);
 };
 const getListArchivedFromStorage = async (): Promise<ListType | null> => {
   const list = await ListStorage.getListArchived();
   return list;
 };
+const getListItemArchivedFromStorage =
+  async (): Promise<ListItemInterface | null> => {
+    const listItem = await ListStorage.getListItemArchived();
+    return listItem;
+  };
+const getItemAmountArchivedFromStorage =
+  async (): Promise<ListItemAmountInterface | null> => {
+    const itemAmountList = await ListStorage.getItemAmountArchived();
+    return itemAmountList;
+  };
 
-const setListArchivedFromStorage = (newList: ListType): void => {
+const setListArchivedOnStorage = (newList: ListType): void => {
   ListStorage.setListArchived(newList);
+};
+const setListItemArchivedOnStorage = (newList: ListItemInterface): void => {
+  ListStorage.setListItemArchived(newList);
+};
+const setItemAmountArchivedOnStorage = (
+  newList: ListItemAmountInterface
+): void => {
+  ListStorage.setItemAmountArchived(newList);
 };
 
 const ShoppingListContext = createContext<ShoppingListContextType | undefined>(
@@ -133,7 +147,10 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         itemList.amount.length > 0
           ? total +
             amount.reduce((accumulator, currentValue) => {
-              return accumulator + Number(currentValue.quantity);
+              return (
+                accumulator +
+                Number(currentValue.type ? "1" : currentValue.quantity)
+              );
             }, 0)
           : total + Number(itemList.amount.length);
     });
@@ -148,7 +165,10 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         amount.length > 0
           ? total +
             amount.reduce((accumulator, currentValue) => {
-              return accumulator + Number(currentValue.quantity);
+              return (
+                accumulator +
+                Number(currentValue.type ? "1" : currentValue.quantity)
+              );
             }, 0)
           : total + 1;
     });
@@ -161,9 +181,9 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   }, []);
 
   useEffect(() => {
-    list && setListFromStorage(list);
-    listItem && setListItemFromStorage(listItem);
-    itemAmountList && setItemAmountFromStorage(itemAmountList);
+    list && setListOnStorage(list);
+    listItem && setListItemOnStorage(listItem);
+    itemAmountList && setItemAmountOnStorage(itemAmountList);
   }, [list, listItem, itemAmountList]);
 
   return (
@@ -198,6 +218,26 @@ const useShoppingListContext = () => {
   return context;
 };
 
+type ShoppingListArchivedContextType = {
+  listArchived: ListType;
+  setListArchived: React.Dispatch<React.SetStateAction<ListType | null>>;
+  listItemArchived: ListItemInterface;
+  setListItemArchived: React.Dispatch<
+    React.SetStateAction<ListItemInterface | null>
+  >;
+  itemAmountListArchived: ListItemAmountInterface;
+  setItemAmountListArchived: React.Dispatch<
+    React.SetStateAction<ListItemAmountInterface | null>
+  >;
+  getListItemsOfListArchived: (listItems: string[]) => ItemInterface[];
+  getAmountOfListItemsArchived: (
+    listItemsArr: string[]
+  ) => ItemAmountInterface[];
+  getTotalWithAmountArchived: (listItemsArr: ItemInterface[]) => number;
+  getTotalArchived: (listItemsArr: ItemInterface[]) => number;
+  getTotalUnArchived: (listItemsArr: ItemInterface[]) => number;
+};
+
 const ShoppingListArchivedContext = createContext<
   ShoppingListArchivedContextType | undefined
 >(undefined);
@@ -205,23 +245,127 @@ const ShoppingListArchivedContext = createContext<
 const ShoppingListArchivedProvider: React.FC<ShoppingListProviderProps> = ({
   children,
 }) => {
-  const [list, setList] = useState<ListType | null>(null);
+  const [listArchived, setListArchived] = useState<ListType | null>(null);
+  const [listItemArchived, setListItemArchived] =
+    useState<ListItemInterface | null>(null);
+  const [itemAmountListArchived, setItemAmountListArchived] =
+    useState<ListItemAmountInterface | null>(null);
 
-  const loadList = async (): Promise<void> => {
+  const loadListArchived = async (): Promise<void> => {
     const listArr = await getListArchivedFromStorage();
-    setList(listArr);
+    setListArchived(listArr);
+  };
+  const loadListItemArchived = async (): Promise<void> => {
+    const listItemArr = await getListItemArchivedFromStorage();
+    setListItemArchived(listItemArr);
+  };
+  const loadItemAmountArchived = async (): Promise<void> => {
+    const itemAmountListArr = await getItemAmountArchivedFromStorage();
+    setItemAmountListArchived(itemAmountListArr);
+  };
+
+  const getListItemsOfListArchived = (
+    listItemsArr: string[]
+  ): ItemInterface[] => {
+    const returnListItemsArr: ItemInterface[] = [];
+    if (listItemsArr) {
+      listItemsArr.forEach((item: string) => {
+        if (listItemArchived != null)
+          returnListItemsArr.push(listItemArchived[item]);
+      });
+    }
+    return returnListItemsArr;
+  };
+  const getAmountOfListItemsArchived = (
+    amountItemList: string[]
+  ): ItemAmountInterface[] => {
+    const returnAmountItemList: ItemAmountInterface[] = [];
+    itemAmountListArchived &&
+      amountItemList.forEach((item: string) => {
+        returnAmountItemList.push(itemAmountListArchived[item]);
+      });
+    return returnAmountItemList;
+  };
+  const getTotalArchived = (items: ItemInterface[]): number => {
+    let total: number = 0;
+    items.forEach((itemList) => {
+      const amount = getAmountOfListItemsArchived(itemList.amount);
+      total =
+        total +
+        amount.reduce((accumulator, currentValue) => {
+          return (
+            accumulator +
+            Number(currentValue.amount) * Number(currentValue.quantity)
+          );
+        }, 0);
+    });
+    return total;
+  };
+
+  const getTotalWithAmountArchived = (items: ItemInterface[]): number => {
+    let total: number = 0;
+    items.forEach((itemList) => {
+      const amount = getAmountOfListItemsArchived(itemList.amount);
+      total =
+        itemList.amount.length > 0
+          ? total +
+            amount.reduce((accumulator, currentValue) => {
+              return (
+                accumulator +
+                Number(currentValue.type ? "1" : currentValue.quantity)
+              );
+            }, 0)
+          : total + Number(itemList.amount.length);
+    });
+    return total;
+  };
+
+  const getTotalUnArchived = (items: ItemInterface[]): number => {
+    let total: number = 0;
+    items.forEach((itemList) => {
+      const amount = getAmountOfListItemsArchived(itemList.amount);
+      total =
+        amount.length > 0
+          ? total +
+            amount.reduce((accumulator, currentValue) => {
+              return (
+                accumulator +
+                Number(currentValue.type ? "1" : currentValue.quantity)
+              );
+            }, 0)
+          : total + 1;
+    });
+    return total;
   };
 
   useEffect(() => {
-    loadList();
+    loadListArchived();
+    loadListItemArchived();
+    loadItemAmountArchived();
   }, []);
+
   useEffect(() => {
-    list && setListArchivedFromStorage(list!);
-  }, [list]);
+    listArchived && setListArchivedOnStorage(listArchived);
+    listItemArchived && setListItemArchivedOnStorage(listItemArchived);
+    itemAmountListArchived &&
+      setItemAmountArchivedOnStorage(itemAmountListArchived);
+  }, [listArchived, listItemArchived, itemAmountListArchived]);
 
   return (
     <ShoppingListArchivedContext.Provider
-      value={{ archived: list!, setArchived: setList }}
+      value={{
+        listArchived: listArchived!,
+        setListArchived: setListArchived,
+        listItemArchived: listItemArchived!,
+        setListItemArchived: setListItemArchived,
+        itemAmountListArchived: itemAmountListArchived!,
+        setItemAmountListArchived: setItemAmountListArchived,
+        getListItemsOfListArchived: getListItemsOfListArchived,
+        getTotalArchived: getTotalArchived,
+        getTotalWithAmountArchived: getTotalWithAmountArchived,
+        getTotalUnArchived: getTotalUnArchived,
+        getAmountOfListItemsArchived: getAmountOfListItemsArchived,
+      }}
     >
       {children}
     </ShoppingListArchivedContext.Provider>

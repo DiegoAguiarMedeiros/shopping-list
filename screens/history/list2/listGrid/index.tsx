@@ -14,7 +14,6 @@ interface ItemProps {
 }
 export default function ListGrid({ items }: ItemProps) {
   const colorScheme = useColorScheme();
-
   return (
     <Styled.Container background={Colors[colorScheme ?? "light"].background}>
       <Styled.ContainerList>

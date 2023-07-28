@@ -89,91 +89,69 @@ const getTotalWithAmount = (items: ItemAmountInterface[]): number => {
   return total;
 };
 
-const editItemAmount = (
-  items: ListType,
-  listUuid: string,
-  itemUuid: string,
-  itemAmountUuid: string,
-  amountQtd: string,
-  amountType: boolean
-): ListType => {
-  return items.map((list) => {
-    if (list.uuid !== listUuid) {
-      return list;
-    }
-    return {
-      ...list,
-      items: list.items.map((item) => {
-        if (item.uuid !== itemUuid) {
-          return item;
-        }
-        return {
-          ...item,
-          amount: item.amount.map((amount) => {
-            if (amount.uuid === itemAmountUuid) {
-              return { ...amount, type: amountType, quantity: amountQtd };
-            }
-            return amount;
-          }),
-        };
-      }),
-    };
-  });
-};
-const removeItemAmount = (
-  items: ListType,
-  listUuid: string,
-  itemUuid: string,
-  itemAmountUuid: string
-): ListType => {
-  return items.map((list) => {
-    if (list.uuid !== listUuid) {
-      return list;
-    }
-    return {
-      ...list,
-      items: list.items.map((item) => {
-        if (item.uuid !== itemUuid) {
-          return item;
-        }
-        return {
-          ...item,
-          amount: item.amount.filter(
-            (amount) => amount.uuid !== itemAmountUuid
-          ),
-        };
-      }),
-    };
-  });
-};
-const removeItem = (
-  items: ListType,
-  listUuid: string,
-  itemUuid: string
-): ListType => {
-  return items.map((list) => {
-    if (list.uuid !== listUuid) {
-      return list;
-    }
-    return {
-      ...list,
-      items: list.items.filter((item) => item.uuid !== itemUuid),
-    };
-  });
-};
-const removeList = (items: ListType, listUuid: string): ListType => {
-  return items.filter((list) => list.uuid !== listUuid);
-};
+// const editItemAmount = (
+//   items: ListType,
+//   listUuid: string,
+//   itemUuid: string,
+//   itemAmountUuid: string,
+//   amountQtd: string,
+//   amountType: boolean
+// ): ListType => {
+//   return items.map((list) => {
+//     if (list.uuid !== listUuid) {
+//       return list;
+//     }
+//     return {
+//       ...list,
+//       items: list.items.map((item) => {
+//         if (item.uuid !== itemUuid) {
+//           return item;
+//         }
+//         return {
+//           ...item,
+//           amount: item.amount.map((amount) => {
+//             if (amount.uuid === itemAmountUuid) {
+//               return { ...amount, type: amountType, quantity: amountQtd };
+//             }
+//             return amount;
+//           }),
+//         };
+//       }),
+//     };
+//   });
+// };
+// const removeItemAmount = (
+//   items: ListType,
+//   listUuid: string,
+//   itemUuid: string,
+//   itemAmountUuid: string
+// ): ListType => {
+//   return items.map((list) => {
+//     if (list.uuid !== listUuid) {
+//       return list;
+//     }
+//     return {
+//       ...list,
+//       items: list.items.map((item) => {
+//         if (item.uuid !== itemUuid) {
+//           return item;
+//         }
+//         return {
+//           ...item,
+//           amount: item.amount.filter(
+//             (amount) => amount.uuid !== itemAmountUuid
+//           ),
+//         };
+//       }),
+//     };
+//   });
+// };
 
 export {
   getTags,
   getTotalAmount,
   getTotalAmountUn,
   getTotalWithAmount,
-  removeItemAmount,
-  removeItem,
-  removeList,
-  editItemAmount,
   removeUndefinedFromArray,
   getTagsFromListItemInterface,
   checkTags,

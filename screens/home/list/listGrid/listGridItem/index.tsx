@@ -15,7 +15,6 @@ import { useRouter } from "expo-router";
 
 import { Swipeable } from "react-native-gesture-handler";
 import {
-  removeList,
   removeUndefinedFromArray,
 } from "../../../../../utils/functions";
 import { Title, Text } from "../../../../../components/Text";
@@ -45,6 +44,14 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
     getTotal,
     getTotalUn,
   } = useShoppingListContext();
+  const {
+    listArchived,
+    setListArchived,
+    listItemArchived,
+    setListItemArchived,
+    itemAmountListArchived,
+    setItemAmountListArchived,
+  } = useShoppingListArchivedContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
   const items = removeUndefinedFromArray(getListItemsOfList(item.items));
@@ -53,7 +60,7 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
   const totalUn = item.items.length > 0 ? getTotalUn(items) : 0;
 
   const handleOpenList = useCallback(() => {
-    router.push({ pathname: "/iTems", params: { listId: item.uuid } });
+    router.push({ pathname: "/Items", params: { listId: item.uuid } });
   }, [item.uuid, router]);
 
   const HandleClose = () => {
@@ -112,9 +119,46 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
     });
   };
 
-  const handleArchived = () => {
-    setList(removeList(list, item.uuid));
-    // archived ? setArchived([item, ...archived]) : setValue([item]);
+  const handleArchivedItemList = (items: string[]): void => {
+    items.forEach((item) => {
+      const archivedItemList: ListItemInterface = JSON.parse(
+        JSON.stringify(listItem)
+      );
+      const itemsArchived = archivedItemList[item];
+      if (itemsArchived) {
+        handleArchivedItemListAmount(itemsArchived.amount);
+        setListItemArchived((newValue) => ({
+          ...newValue,
+          [itemsArchived.uuid]: itemsArchived,
+        }));
+      }
+    });
+  };
+  const handleArchivedItemListAmount = (amounts: string[]): void => {
+    amounts.forEach((amount) => {
+      const archivedItemAmountList: ListItemAmountInterface = JSON.parse(
+        JSON.stringify(itemAmountList)
+      );
+      const itemsAmountArchived = archivedItemAmountList[amount];
+      if (itemsAmountArchived) {
+        setItemAmountListArchived((newValue) => ({
+          ...newValue,
+          [itemsAmountArchived.uuid]: itemsAmountArchived,
+        }));
+      }
+    });
+  };
+  const handleArchived = (): void => {
+    const archivedList: ListType = JSON.parse(JSON.stringify(list));
+    const itemsArchived = archivedList[item.uuid];
+    if (itemsArchived) {
+      handleArchivedItemList(itemsArchived.items);
+      setListArchived((newValue) => ({
+        ...newValue,
+        [itemsArchived.uuid]: itemsArchived,
+      }));
+      handleDelete();
+    }
   };
 
   const RightSwipe = useCallback(

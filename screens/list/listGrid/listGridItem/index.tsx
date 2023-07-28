@@ -91,7 +91,7 @@ function ListGridItem({ item, listId, setBottomSheetProps }: ListProps) {
     setActive(!active);
   };
 
-  function LeftRightSwipe(
+  function RightSwipe(
     progress: any,
     dragX: {
       interpolate: (arg0: {
@@ -212,9 +212,8 @@ function ListGridItem({ item, listId, setBottomSheetProps }: ListProps) {
     </Styled.ContainerListItemListItem>
   ) : (
     <Swipeable
-      renderLeftActions={LeftRightSwipe}
-      renderRightActions={LeftRightSwipe}
-      leftThreshold={100}
+      renderRightActions={RightSwipe}
+      rightThreshold={100}
     >
       <Styled.ContainerListItemListItem
         underlayColor={

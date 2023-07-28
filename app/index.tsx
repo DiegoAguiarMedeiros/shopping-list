@@ -26,7 +26,8 @@ import {
 
 import Button from "../components/Button";
 import home from "./home";
-import iTems from "./iTems";
+import Items from "./Items";
+import ItemsArchived from "./ItemsArchived";
 import history from "./history";
 import { RoutesProps, RoutesType } from "../types/types";
 
@@ -84,7 +85,7 @@ function RootLayoutNav() {
   const router = useRouter();
   const [activeRoute, setActiveRoute] = useState<string>("home");
   const routes: RoutesProps[] = [
-    { name: "home", icon: "home" },
+    { name: "home", icon: "th-list" },
     { name: "history", icon: "history" },
   ];
 
@@ -93,8 +94,7 @@ function RootLayoutNav() {
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack.Navigator
           screenOptions={{
-            cardStyleInterpolator:
-              CardStyleInterpolators.forRevealFromBottomAndroid, // Add the transition animation here
+            cardStyleInterpolator: CardStyleInterpolators.forBottomSheetAndroid, // Add the transition animation here
           }}
         >
           <Stack.Screen
@@ -102,12 +102,18 @@ function RootLayoutNav() {
             component={home}
             options={{
               headerTitle: "Listas de compras",
-              
             }}
           />
           <Stack.Screen
-            name="iTems"
-            component={iTems}
+            name="Items"
+            component={Items}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="ItemsArchived"
+            component={ItemsArchived}
             options={{
               headerShown: false,
             }}
@@ -116,7 +122,8 @@ function RootLayoutNav() {
             name="history"
             component={history}
             options={{
-              headerShown: false,
+              headerTitle: "Histórico",
+              headerLeft: () => null,
             }}
           />
         </Stack.Navigator>

@@ -12,7 +12,6 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import InputText from "../../../../components/InputText";
 import Switch from "../../../../components/Switch";
 import AddQtd from "./addQtd";
-import { editItemAmount, removeItemAmount } from "../../../../utils/functions";
 import { useShoppingListContext } from "../../../../context/ShoppingList";
 
 interface ListProps {
@@ -29,7 +28,9 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
     itemAmountList,
     setItemAmountList,
   } = useShoppingListContext();
-  const [selectedValueSwitch, setSelectedValueSwitch] = useState(false);
+  const [selectedValueSwitch, setSelectedValueSwitch] = useState(
+    itemAmount.type
+  );
   const listArrItems = listItem[Array.isArray(listItemId) ? "" : listItemId];
   const colorScheme = useColorScheme();
   const handleDeleteAmountInList = (): void => {

@@ -36,12 +36,20 @@ export default function ListPriceGrid({
     itemAmountList[Array.isArray(amountId) ? "" : amountId!]
   );
 
-  const formatInput = (list: string) => {
-    // Remove any non-digit characters from the input
-    const numericValue = (
-      Number(list.replace(/\D/g, "").replace(".", "")) / 1000
-    ).toFixed(3);
-    return numericValue;
+  const formatInput = (value: string): string => {
+    let newValue = value.replace(".", "");
+    let newValueNUmber = Number(newValue);
+    newValue = String(newValueNUmber);
+    if (newValue.length == 1) {
+      newValue = "0.00" + newValue;
+    } else if (newValue.length == 2) {
+      newValue = "0.0" + newValue;
+    } else if (newValue.length == 3) {
+      newValue = "0." + newValue;
+    } else if (newValue.length >= 4) {
+      newValue = (Number(newValue) / 1000).toFixed(3);
+    }
+    return newValue;
   };
 
   const minusAmount = (): void => {
@@ -67,13 +75,13 @@ export default function ListPriceGrid({
     }
   };
 
-  const handleInputChange = () => {
+  const handleInputChange = (value: string) => {
     const updatedList: ListItemAmountInterface = JSON.parse(
-      JSON.stringify(newItemAmount)
+      JSON.stringify(itemAmountList)
     );
     const newItemAMount: ItemAmountInterface = updatedList[newItemAmount.uuid];
     if (newItemAMount) {
-      const formattedValue = formatInput(newItemAmount.quantity);
+      const formattedValue = formatInput(value);
       newItemAMount.quantity = formattedValue;
       setNewItemAmount(newItemAMount);
       setItemAmountList(updatedList);
@@ -86,7 +94,7 @@ export default function ListPriceGrid({
         <InputText
           keyboardType="decimal-pad"
           placeholder="0.000"
-          onChangeText={handleInputChange}
+          onChangeText={(value) => handleInputChange(value)}
           value={newItemAmount.quantity}
         />
       ) : (

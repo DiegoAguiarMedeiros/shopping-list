@@ -1,73 +1,89 @@
-import { useColorScheme } from 'react-native';
-import Colors from '../../constants/Colors';
-import * as Styled from './styles';
-import React, { lazy, useEffect, useState } from 'react';
-import { useSearchParams } from "expo-router";
-import { useShoppingListContext } from '../../context/ShoppingList';
-import { itemInterface } from '../../types/types';
-import { getTotalUn, getTotalWithAmount, removeItem } from '../../utils/functions';
+import { TouchableOpacity, useColorScheme } from "react-native";
+import Colors from "../../constants/Colors";
+import * as Styled from "./styles";
+import React, { lazy, useEffect, useState } from "react";
+import {
+  useShoppingListArchivedContext,
+  useShoppingListContext,
+} from "../../context/ShoppingList";
+import { ItemInterface } from "../../types/types";
+import { removeUndefinedFromArray } from "../../utils/functions";
+import { useRouter } from "expo-router";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-const EmptyList = lazy(() => import('./emptyList'));
-const ListGrid = lazy(() => import('./listGrid'));
-const CircleProgress = lazy(() => import('../../components/CircleProgress'));
-const FilterButtons = lazy(() => import('../../components/FilterButtons'));
-
-interface Image {
-  image: any;
-}
-
-const img: Image =
-{
-  image: require('../../assets/images/empty.png'),
+const EmptyList = lazy(() => import("./emptyList"));
+const ListGrid = lazy(() => import("./listGrid"));
+const CircleProgress = lazy(() => import("../../components/CircleProgress"));
+const FilterButtons = lazy(() => import("../../components/FilterButtons"));
+type TotalType = {
+  amount: number;
+  un: number;
 };
 
+interface ListProps {
+  listId: string;
+}
 
-
-export default function List() {
-  const { list, setList } = useShoppingListContext();
-  const { listId } = useSearchParams();
-  const listArr = list[Array.isArray(listId) ? '' : listId!]
-  const [filteredList, setFilteredList] = useState<itemInterface[]>()
-  const [filter, setFilter] = useState('Todos');
-
+export default function List({ listId }: ListProps) {
   const colorScheme = useColorScheme();
-  // const totalWithAmount = list.items ? getTotalWithAmount(filteredList !== undefined && filteredList.length > 0 ? filteredList : list.items) : 0;
-  // const totalUn = list.items ? getTotalUn(filteredList !== undefined && filteredList.length > 0 ? filteredList : list.items) : 0;
+  const {
+    listArchived,
+    itemAmountListArchived,
+    getListItemsOfListArchived,
+    getTotalWithAmountArchived,
+    getTotalUnArchived,
+  } = useShoppingListArchivedContext();
+  const [filter, setFilter] = useState("Todos");
+  const listArr = listArchived[listId];
+  const listArrItems = removeUndefinedFromArray(
+    getListItemsOfListArchived(listArr.items)
+  );
 
-  const handleDeleteItemList = (uuid: string): void => {
-    const newList = removeItem(list, listArr.uuid, uuid)
-    setList(newList);
-  }
-
+  const [total, setTotal] = useState<TotalType>({
+    amount: getTotalWithAmountArchived(listArrItems),
+    un: getTotalUnArchived(listArrItems),
+  });
+  const getTotalAmountAndUnity = (list: ItemInterface[]) => {
+    setTotal({
+      un: getTotalUnArchived(list),
+      amount: getTotalWithAmountArchived(list),
+    });
+  };
+  const router = useRouter();
   useEffect(() => {
-    const newFilteredList = listArr.items.filter((item: itemInterface) => item.tags === filter)
-    setFilteredList(newFilteredList)
-  }, [filter])
+    const newFilteredList = listArrItems.filter(
+      (item: ItemInterface) => item.tags === filter
+    );
+    newFilteredList.length > 0
+      ? getTotalAmountAndUnity(newFilteredList)
+      : getTotalAmountAndUnity(listArrItems);
+  }, [filter, itemAmountListArchived]);
 
   return (
-
-    <Styled.Container background={Colors[colorScheme ?? 'light'].background} >
-      <Styled.ContainerHeader >
+    <Styled.Container background={Colors[colorScheme ?? "light"].background}>
+      <Styled.ContainerHeader>
+        <Styled.ContainerHeaderInnerIconBack>
+          <TouchableOpacity onPress={() => router.back()}>
+            <FontAwesome
+              name="angle-left"
+              size={35}
+              color={Colors[colorScheme ?? "light"].text}
+            />
+          </TouchableOpacity>
+        </Styled.ContainerHeaderInnerIconBack>
         <Styled.ContainerHeaderInnerText>
-          <Styled.ListTitle text={Colors[colorScheme ?? 'light'].text}>
+          <Styled.ListTitle text={Colors[colorScheme ?? "light"].text}>
             {listArr.name}
           </Styled.ListTitle>
         </Styled.ContainerHeaderInnerText>
-        <Styled.ContainerHeaderInnerProgress >
-          <CircleProgress
-            filled={/*totalWithAmount*/1}
-            progress={1/*totalUn && totalWithAmount ? Number(totalWithAmount / totalUn) : 0*/}
-            total={1/*totalUn*/}
-            size={60} />
-        </Styled.ContainerHeaderInnerProgress>
       </Styled.ContainerHeader>
-      <Styled.ContainerHeaderInnerFilterButtons>
-        <FilterButtons tags={listArr.tags} filter={filter} setFilter={setFilter} />
-      </Styled.ContainerHeaderInnerFilterButtons>
-      <Styled.ContainerBody >
-        {listArr.items ? <ListGrid filter={filter} list={listArr} deleteItemList={handleDeleteItemList} /> : <EmptyList list={listArr.uuid} />}
+      <Styled.ContainerBody>
+        {listArrItems.length > 0 ? (
+          <ListGrid filter={filter} listId={listId} />
+        ) : (
+          <EmptyList list={listArr.uuid} />
+        )}
       </Styled.ContainerBody>
-    </Styled.Container >
-  )
+    </Styled.Container>
+  );
 }
-

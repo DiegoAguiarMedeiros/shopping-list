@@ -5,11 +5,9 @@ import { lazy, useState } from "react";
 import {
   ItemAmountInterface,
   ItemInterface,
-  ListItemInterface,
 } from "../../types/types";
 import { useShoppingListContext } from "../../context/ShoppingList";
 import UUIDGenerator from "react-native-uuid";
-import { editItemAmount, removeItemAmount } from "../../utils/functions";
 
 import InputText from "../../components/InputText";
 import Button from "../../components/Button";

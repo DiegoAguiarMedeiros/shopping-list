@@ -1,55 +1,72 @@
 import { Dimensions } from 'react-native';
+import { Link } from 'expo-router';
 import styled, { css } from 'styled-components/native';
-export const ContainerListItemListItem = styled.TouchableHighlight<{
-    background: string,
+
+
+
+
+export const ContainerListItem = styled.TouchableHighlight<{
+    background: string
 }>`
     background:${(props: { background: string }) => props.background};
     width:100%;
-    min-height: 70px;
+    height:100px;
     border-radius: 15px;
     margin: 5px 0;
+    
 `;
-export const ContainerListItemListItemAMount = styled.View<{
-    background: string,
-    height: string,
-}>`
-    background:${(props: { background: string }) => props.background};
-    height:${(props: { height: string }) => props.height + 'px'};
-    min-height: 50px;
-    max-height: 320px;
-    border-radius: 15px;
-    margin:5px;
-`;
-export const Container = styled.View``
-    ;
-export const ContainerListItemListItemInner = styled.View`   
-    height:80px;
+export const ContainerListItemInner = styled.View`
+    position:relative;
     width:100%;
+    height:100%;
     `;
-export const ContainerListItemListItemHead = styled.View`  
+
+
+export const LinkStyled = styled(Link)`  
+    z-index:99;
+    position:absolute;
+    width:100%;
+    height:100%;
+    display: flex;
+    flex-direction: row;
+    margin:0;
+    padding:0;
+`;
+export const ContainerListItemHead = styled.View`  
+    display: flex;
+    flex-direction: row;
+    width:100%;
+    flex:8;
+`;
+export const ContainerListItemBody = styled.View`   
     display: flex;
     flex:2;
     flex-direction: row;
-    width:100%;
-    height:50%;
-    `;
-export const ContainerListItemListItemBody = styled.View`   
+    padding: 5px 10px;
+    margin:  0 0 10px 0;
+`;
+export const ContainerListItemBottom = styled.View`   
+    border-top-width: 1px;
+    border-top-style : solid;
+    border-top-color : #fff;
     display: flex;
-    flex:1;
     flex-direction: row;
+    flex:4;
     width:100%;
-    height:50%;
+`;
+export const ContainerItemTitle = styled.View`
+    flex:6;
+    padding: 15px 10px;
+    justify-content: flex-start;
+    align-items: flex-start;
     `;
-export const ContainerItemTextTitle = styled.View`
-    flex:10;
+export const ContainerItemCircleProgress = styled.Text<{
+    text: string,
+}>`
+    flex:1;
+    font-size: 22px;
     margin: 5px 0px;
     padding: 5px 10px;
-    `;
-export const ContainerItemTextIcon = styled.View`
-    justify-content: flex-end;
-    height: 100%;
-    flex:1;
-    padding: 0;
 `;
 export const ContainerItemTextQtd = styled.Text<{
     text: string,
@@ -61,6 +78,21 @@ export const ContainerItemTextQtd = styled.Text<{
     margin-bottom:2px;
 
 `;
+export const ContainerItemBottomButtonTouchableOpacity = styled.TouchableOpacity<{
+    text: string,
+}>`
+    flex:1;
+    font-size: 12px;
+    margin-bottom:2px;
+    justify-content: center;
+    align-items: center;
+`;
+export const ContainerItemBottomButton = styled.Text<{
+    text: string,
+}>`
+    color:${(props: { text: any; }) => props.text}; 
+    text-align: center;
+`;
 export const ContainerItemTextPriceUnit = styled.Text<{
     text: string,
 }>`
@@ -69,7 +101,7 @@ export const ContainerItemTextPriceUnit = styled.Text<{
     font-size: 12px;
     padding: 0px 10px;
     margin-bottom:2px;
-
+    
 `;
 export const ContainerItemTextPriceTotal = styled.Text<{
     text: string,
@@ -81,6 +113,7 @@ export const ContainerItemTextPriceTotal = styled.Text<{
     margin-bottom:2px;
 
 `;
+
 export const ButtonView = styled.View`   
     display: flex;
     flex-direction: row;
@@ -88,7 +121,7 @@ export const ButtonView = styled.View`
     height:100%;
     `;
 export const ButtonInner = styled.TouchableHighlight`   
-    border-radius: 15px;
+border-radius: 15px;
     width:50%;
     height:100%;
     `;
@@ -110,10 +143,3 @@ export const ButtonText = styled.Text<{
         padding: 0px 10px;
         text-align: center;
     `;
-
-export const ContainerListPriceItem = styled.View`
-width:100%;
-flex: 1;
-height: 50%;
-padding: 0;
-`; 

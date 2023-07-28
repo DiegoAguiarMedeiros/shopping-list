@@ -21,7 +21,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 
 import tabs from "./(tabs)/index";
-import iTems from "./iTems";
+import Items from "./Items";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -94,7 +94,7 @@ function RootLayoutNav() {
           />
           <Stack.Screen
             name="iTems"
-            component={iTems}
+            component={Items}
             options={{
               headerShown: false,
             }}

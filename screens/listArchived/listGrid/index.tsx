@@ -1,75 +1,96 @@
+import { useColorScheme, SafeAreaView, ScrollView } from "react-native";
+import Colors from "../../../constants/Colors";
+import * as Styled from "./styles";
+import React, { lazy, useEffect, useState } from "react";
 import {
-  useColorScheme,
-  SafeAreaView,
-  ScrollView
-} from 'react-native';
-import Colors from '../../../constants/Colors';
-import * as Styled from './styles';
-import { lazy, useEffect, useState } from 'react';
-import { BottomSheetProps, itemInterface, listInterface } from '../../../types/types';
-import ListGridItem from './listGridItem'
-import { getTotal, getTotalUn } from '../../../utils/functions';
+  BottomSheetProps,
+  ItemInterface,
+  ListInterface,
+} from "../../../types/types";
+import ListGridItem from "./listGridItem";
+import { removeUndefinedFromArray } from "../../../utils/functions";
+import {
+  useShoppingListArchivedContext,
+  useShoppingListContext,
+} from "../../../context/ShoppingList";
 
-const Button = lazy(() => import('../../../components/Button'));
-const BottomSheetComponent = lazy(() => import('../../../components/BottomSheetComponent'));
+const Button = lazy(() => import("../../../components/Button"));
+const BottomSheetComponent = lazy(
+  () => import("../../../components/BottomSheetComponent")
+);
 interface ListProps {
   filter: string;
-  list: listInterface;
-  deleteItemList: (uuid: string) => void;
+  listId: string;
 }
 
-export default function ListGrid({ filter, list, deleteItemList }: ListProps) {
+function ListGrid({ filter, listId }: ListProps) {
+  const {
+    listArchived,
+    getListItemsOfListArchived,
+    getTotalArchived,
+    getTotalUnArchived,
+  } = useShoppingListArchivedContext();
   const colorScheme = useColorScheme();
-  const [filteredList, setFilteredList] = useState<itemInterface[]>()
-  const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
-    listId: list.uuid,
-    buttonText: 'add',
-    action: 'addListItem',
-    isVisible: false,
-    onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
-  });
+  const [filteredList, setFilteredList] = useState<ItemInterface[]>();
+
+  const listArr = listArchived[Array.isArray(listId) ? "" : listId];
+  const listArrItems = removeUndefinedFromArray(
+    getListItemsOfListArchived(listArr.items)
+  );
   useEffect(() => {
-    const newFilteredList = list.items.filter((item: itemInterface) => item.tags === filter)
-    setFilteredList(newFilteredList)
-  }, [filter])
+    const newFilteredList = listArrItems.filter(
+      (item: ItemInterface) => item.tags === filter
+    );
+    setFilteredList(newFilteredList);
+  }, [filter]);
 
   return (
-
-    <Styled.Container background={Colors[colorScheme ?? 'light'].background} >
-      <Styled.ContainerList >
+    <Styled.Container background={Colors[colorScheme ?? "light"].background}>
+      <Styled.ContainerList>
         <Styled.ContainerListInner>
-          <Styled.ContainerListTotal>
-            <Styled.ContainerItemTotalUnitText text={Colors[colorScheme ?? 'light'].text}>
-              Total Items: {1/*getTotalUn(filteredList !== undefined && filteredList.length > 0 ? filteredList : list.items)*/}
-            </Styled.ContainerItemTotalUnitText>
-            <Styled.ContainerItemTotalText text={Colors[colorScheme ?? 'light'].text}>
-              Total : R$ {1/*getTotal(filteredList !== undefined && filteredList.length > 0 ? filteredList : list.items).toFixed(2)*/}
-            </Styled.ContainerItemTotalText>
-          </Styled.ContainerListTotal>
           <Styled.ContainerListItemList>
-            <SafeAreaView >
-              <ScrollView style={[{ height: '100%' }]} nestedScrollEnabled>
-                <Styled.ContainerListItemListItem height={/*filter === 'Todos' ? `${list.items.length * 100 + 410}` : `${filteredList!.length * 100 + 410}`*/'150'}>
-                  {filter === 'Todos' ?
-                    list.items.map((item: itemInterface) => (
-                      <ListGridItem key={'ListGridItem-' + item.uuid} setBottomSheetProps={setBottomSheetProps} deleteItemList={deleteItemList} item={item} listId={list.uuid} />
-                    ))
-                    :
-                    filteredList?.map((item: itemInterface) => (
-                      <ListGridItem key={'ListGridItem-' + item.uuid} setBottomSheetProps={setBottomSheetProps} deleteItemList={deleteItemList} item={item} listId={list.uuid} />
-                    ))
-                  }
+            <SafeAreaView>
+              <ScrollView style={[{ height: "100%" }]} nestedScrollEnabled>
+                <Styled.ContainerListItemListItem
+                  height={`${listArrItems.length * 100 + 410}`}
+                >
+                  {listArrItems.map((item: ItemInterface) => (
+                    <ListGridItem
+                      key={"ListGridItem-" + item.uuid}
+                      item={item}
+                      listId={listId}
+                    />
+                  ))}
                 </Styled.ContainerListItemListItem>
               </ScrollView>
             </SafeAreaView>
-
           </Styled.ContainerListItemList>
-          <Styled.ContainerButtonAdd>
-            <Button text='Adicionar' onPress={() => setBottomSheetProps({ ...bottomSheetProps, isVisible: true })} background={Colors[colorScheme ?? 'light'].buttonBackground} icon="plus" />
-          </Styled.ContainerButtonAdd>
-        </Styled.ContainerListInner >
-      </Styled.ContainerList >
-      <BottomSheetComponent {...bottomSheetProps} />
-    </Styled.Container >
+          <Styled.ContainerListTotal>
+            <Styled.ContainerItemTotalUnitText
+              text={Colors[colorScheme ?? "light"].text}
+            >
+              Total Items:{" "}
+              {getTotalUnArchived(
+                filteredList !== undefined && filteredList.length > 0
+                  ? filteredList
+                  : listArrItems
+              )}
+            </Styled.ContainerItemTotalUnitText>
+            <Styled.ContainerItemTotalText
+              text={Colors[colorScheme ?? "light"].text}
+            >
+              Total : R${" "}
+              {getTotalArchived(
+                filteredList !== undefined && filteredList.length > 0
+                  ? filteredList
+                  : listArrItems
+              ).toFixed(2)}
+            </Styled.ContainerItemTotalText>
+          </Styled.ContainerListTotal>
+        </Styled.ContainerListInner>
+      </Styled.ContainerList>
+    </Styled.Container>
   );
 }
+
+export default React.memo(ListGrid);
