@@ -25,8 +25,6 @@ import {
   useShoppingListContext,
 } from "../../../../context/ShoppingList";
 
-const AddPriceUnit = lazy(() => import("../../../addPriceUnitArchived"));
-
 interface ListProps {
   item: ItemInterface;
   listId: string;
