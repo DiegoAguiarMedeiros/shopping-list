@@ -10,7 +10,7 @@ import {
 import { useFonts } from "expo-font";
 import { SplashScreen, useRouter } from "expo-router";
 import { lazy, useCallback, useEffect, useState } from "react";
-import { TouchableOpacity, useColorScheme, View } from "react-native";
+import { TouchableOpacity, useColorScheme, Text } from "react-native";
 import BottomNavigation from "./bottomNavigation";
 
 import Colors from "../constants/Colors";
@@ -25,10 +25,10 @@ import {
 } from "@react-navigation/stack";
 
 import Button from "../components/Button";
-import home from "./home";
+import Home from "./home";
 import Items from "./Items";
 import ItemsArchived from "./ItemsArchived";
-import history from "./history";
+import History from "./history";
 import { RoutesProps, RoutesType } from "../types/types";
 
 const Stack = createStackNavigator();
@@ -82,7 +82,6 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
-  const router = useRouter();
   const [activeRoute, setActiveRoute] = useState<string>("home");
   const routes: RoutesProps[] = [
     { name: "home", icon: "th-list" },
@@ -92,14 +91,14 @@ function RootLayoutNav() {
   return (
     <>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack.Navigator
+                <Stack.Navigator
           screenOptions={{
             cardStyleInterpolator: CardStyleInterpolators.forBottomSheetAndroid, // Add the transition animation here
           }}
         >
-          <Stack.Screen
+           <Stack.Screen
             name={"home"}
-            component={home}
+            component={Home}
             options={{
               headerTitle: "Listas de compras",
             }}
@@ -110,7 +109,7 @@ function RootLayoutNav() {
             options={{
               headerShown: false,
             }}
-          />
+          /> 
           <Stack.Screen
             name="ItemsArchived"
             component={ItemsArchived}
@@ -120,7 +119,7 @@ function RootLayoutNav() {
           />
           <Stack.Screen
             name="history"
-            component={history}
+            component={History}
             options={{
               headerTitle: "Histórico",
               headerLeft: () => null,
