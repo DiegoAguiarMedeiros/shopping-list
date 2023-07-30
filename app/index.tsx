@@ -26,7 +26,7 @@ import {
 
 import Button from "../components/Button";
 import Home from "./home";
-import Items from "./Items";
+import Items from "./ems";
 import ItemsArchived from "./ItemsArchived";
 import History from "./history";
 import { RoutesProps, RoutesType } from "../types/types";
