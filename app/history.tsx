@@ -1,16 +1,14 @@
-import { lazy, Suspense } from "react";
 import { StyleSheet } from "react-native";
 import { Text } from "../components/Text";
-const History = lazy(() => import("../screens/history"));
-const View = lazy(() => import("../components/Themed"));
+import History from "../screens/history";
+import View from "../components/Themed";
 
 export default function TabThreeScreen() {
   return (
-    <Suspense fallback={<Text>Loading...</Text>}>
-      <View style={styles.container}>
-        <History />
-      </View>
-    </Suspense>
+    <View style={styles.container}>
+      <Text>Loading...</Text>
+      {/* <History /> */}
+    </View>
   );
 }
 

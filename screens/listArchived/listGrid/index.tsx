@@ -1,7 +1,7 @@
 import { useColorScheme, SafeAreaView, ScrollView } from "react-native";
 import Colors from "../../../constants/Colors";
 import * as Styled from "./styles";
-import React, { lazy, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BottomSheetProps,
   ItemInterface,
@@ -14,10 +14,8 @@ import {
   useShoppingListContext,
 } from "../../../context/ShoppingList";
 
-const Button = lazy(() => import("../../../components/Button"));
-const BottomSheetComponent = lazy(
-  () => import("../../../components/BottomSheetComponent")
-);
+import Button from "../../../components/Button";
+import BottomSheetComponent from "../../../components/BottomSheetComponent";
 interface ListProps {
   filter: string;
   listId: string;

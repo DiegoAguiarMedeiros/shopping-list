@@ -1,8 +1,7 @@
-import { lazy } from "react";
 import { useShoppingListArchivedContext } from "../../context/ShoppingList";
 import { KeyboardAvoidingView } from "react-native";
-const EmptyList = lazy(() => import("./emptyList"));
-const ListComponent = lazy(() => import("./list"));
+import EmptyList from "./emptyList";
+import ListComponent from "./list";
 
 export default function History() {
   const { listArchived } = useShoppingListArchivedContext();

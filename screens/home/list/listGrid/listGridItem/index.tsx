@@ -1,7 +1,7 @@
 import { useColorScheme, Animated } from "react-native";
 import Colors from "../../../../../constants/Colors";
 import * as Styled from "./styles";
-import { lazy, useCallback, useRef } from "react";
+import { useCallback, useRef } from "react";
 import {
   BottomSheetProps,
   ItemInterface,
@@ -14,17 +14,13 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
 import { Swipeable } from "react-native-gesture-handler";
-import {
-  removeUndefinedFromArray,
-} from "../../../../../utils/functions";
+import { removeUndefinedFromArray } from "../../../../../utils/functions";
 import { Title, Text } from "../../../../../components/Text";
 import {
   useShoppingListArchivedContext,
   useShoppingListContext,
 } from "../../../../../context/ShoppingList";
-const CircleProgress = lazy(
-  () => import("../../../../../components/CircleProgress")
-);
+import CircleProgress from "../../../../../components/CircleProgress";
 
 interface ItemProps {
   item: ListInterface;

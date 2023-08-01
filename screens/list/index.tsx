@@ -1,17 +1,17 @@
 import { TouchableOpacity, useColorScheme } from "react-native";
 import Colors from "../../constants/Colors";
 import * as Styled from "./styles";
-import React, { lazy, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { useShoppingListContext } from "../../context/ShoppingList";
 import { ItemInterface } from "../../types/types";
 import { removeUndefinedFromArray } from "../../utils/functions";
 import { useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-const EmptyList = lazy(() => import("./emptyList"));
-const ListGrid = lazy(() => import("./listGrid"));
-const CircleProgress = lazy(() => import("../../components/CircleProgress"));
-const FilterButtons = lazy(() => import("../../components/FilterButtons"));
+import EmptyList from "./emptyList";
+import ListGrid from "./listGrid";
+import CircleProgress from "../../components/CircleProgress";
+import FilterButtons from "../../components/FilterButtons";
 type TotalType = {
   amount: number;
   un: number;

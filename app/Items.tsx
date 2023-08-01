@@ -1,7 +1,7 @@
-import { lazy } from "react";
 import { useSearchParams } from "expo-router";
+import { Text } from "../components/Text";
 
-const List = lazy(() => import("../screens/list"));
+import List from "../screens/list";
 export default function Items() {
   const { listId } = useSearchParams();
   return listId ? (

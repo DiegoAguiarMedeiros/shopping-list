@@ -1,7 +1,7 @@
 import { useColorScheme, Animated } from "react-native";
 import Colors from "../../../../../constants/Colors";
 import * as Styled from "./styles";
-import { lazy, useCallback, useRef } from "react";
+import { useCallback, useRef } from "react";
 import {
   BottomSheetProps,
   ItemInterface,
@@ -20,9 +20,7 @@ import {
   useShoppingListArchivedContext,
   useShoppingListContext,
 } from "../../../../../context/ShoppingList";
-const CircleProgress = lazy(
-  () => import("../../../../../components/CircleProgress")
-);
+import CircleProgress from "../../../../../components/CircleProgress";
 
 interface ItemProps {
   item: ListInterface;

@@ -1,11 +1,8 @@
 import { useColorScheme, ScrollView } from "react-native";
 import Colors from "../../constants/Colors";
 import * as Styled from "./styles";
-import { lazy, useState } from "react";
-import {
-  ItemAmountInterface,
-  ItemInterface,
-} from "../../types/types";
+import { useState } from "react";
+import { ItemAmountInterface, ItemInterface } from "../../types/types";
 import { useShoppingListContext } from "../../context/ShoppingList";
 import UUIDGenerator from "react-native-uuid";
 

@@ -1,7 +1,7 @@
 import { useColorScheme, Animated } from "react-native";
 import Colors from "../../../../constants/Colors";
 import * as Styled from "./styles";
-import React, { lazy, useState } from "react";
+import React, { useState } from "react";
 import {
   BottomSheetProps,
   ItemAmountInterface,

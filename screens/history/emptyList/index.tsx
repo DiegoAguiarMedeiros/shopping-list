@@ -1,8 +1,6 @@
 import { useColorScheme } from 'react-native';
 import Colors from '../../../constants/Colors';
 import * as Styled from './styles';
-import { lazy, useState } from 'react';
-import { BottomSheetProps } from '../../../types/types';
 
 interface Image {
   image: any;

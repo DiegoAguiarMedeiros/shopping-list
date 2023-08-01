@@ -1,7 +1,7 @@
 import { useColorScheme, Animated } from "react-native";
 import Colors from "../../../../constants/Colors";
 import * as Styled from "./styles";
-import React, { lazy, useState } from "react";
+import React, { useState } from "react";
 import {
   BottomSheetProps,
   ItemInterface,
@@ -21,7 +21,7 @@ import { Swipeable } from "react-native-gesture-handler";
 import { Title } from "../../../../components/Text";
 import { useShoppingListContext } from "../../../../context/ShoppingList";
 
-const AddPriceUnit = lazy(() => import("../../../addPriceUnit"));
+import AddPriceUnit from "../../../addPriceUnit";
 
 interface ListProps {
   item: ItemInterface;
@@ -211,10 +211,7 @@ function ListGridItem({ item, listId, setBottomSheetProps }: ListProps) {
       </>
     </Styled.ContainerListItemListItem>
   ) : (
-    <Swipeable
-      renderRightActions={RightSwipe}
-      rightThreshold={100}
-    >
+    <Swipeable renderRightActions={RightSwipe} rightThreshold={100}>
       <Styled.ContainerListItemListItem
         underlayColor={
           Colors[colorScheme ?? "light"].backgroundTouchableHighlight

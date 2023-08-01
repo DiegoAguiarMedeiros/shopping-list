@@ -1,17 +1,8 @@
 import { useColorScheme } from "react-native";
 import Colors from "../../../constants/Colors";
 import * as Styled from "./styles";
-import { lazy, useState } from "react";
-import {
-  BottomSheetProps,
-  ListInterface,
-  ListType,
-} from "../../../types/types";
-const Button = lazy(() => import("../../../components/Button"));
-const ListGrid = lazy(() => import("./listGrid"));
-const BottomSheetComponent = lazy(
-  () => import("../../../components/BottomSheetComponent")
-);
+import { ListInterface } from "../../../types/types";
+import ListGrid from "./listGrid";
 interface ItemProps {
   items: ListInterface[];
 }

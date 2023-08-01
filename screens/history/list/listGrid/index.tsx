@@ -1,14 +1,13 @@
 import { useColorScheme, SafeAreaView, ScrollView } from "react-native";
 import Colors from "../../../../constants/Colors";
 import * as Styled from "./styles";
-import { lazy } from "react";
 import {
   BottomSheetProps,
   ListInterface,
   ListType,
 } from "../../../../types/types";
 
-const ListGridItem = lazy(() => import("./listGridItem"));
+import ListGridItem from "./listGridItem";
 interface ItemProps {
   items: ListInterface[];
 }
