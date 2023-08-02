@@ -59,13 +59,9 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
     router.push({ pathname: "/Items", params: { listId: item.uuid } });
   }, [item.uuid, router]);
 
-  const HandleClose = () => {
-    const swipeable = useRef<Swipeable>();
-    swipeable.current?.close();
-  };
 
   const handleEdit = useCallback(() => {
-    HandleClose();
+    console.log("handleEdit 2");
     return setBottomSheetProps({
       listId: item.uuid,
       items: item,
