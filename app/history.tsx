@@ -6,8 +6,7 @@ import View from "../components/Themed";
 export default function TabThreeScreen() {
   return (
     <View style={styles.container}>
-      <Text>Loading...</Text>
-      {/* <History /> */}
+      <History />
     </View>
   );
 }

@@ -78,12 +78,14 @@ const Stack = createStackNavigator();
 // }
 
 import React, { useCallback, useEffect, useState } from "react";
-import { Text, View, useColorScheme } from "react-native";
+import { StatusBar, Text, View, useColorScheme } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 import { FontAwesome } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
+
+import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 import Home from "./home";
 import Items from "./Items";
 import ItemsArchived from "./ItemsArchived";
@@ -94,6 +96,7 @@ import {
   ShoppingListArchivedProvider,
   ShoppingListProvider,
 } from "../context/ShoppingList";
+import Colors from "../constants/Colors";
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
@@ -101,7 +104,7 @@ export default function App() {
   const [active, setActive] = useState(false);
   const [appIsReady, setAppIsReady] = useState(false);
   const [activeRoute, setActiveRoute] = useState<string>("home");
-
+  const colorScheme = useColorScheme();
   useEffect(() => {
     async function prepare() {
       try {
@@ -152,6 +155,9 @@ export default function App() {
   };
   return (
     <>
+      <StatusBar
+        backgroundColor={Colors[colorScheme ?? "light"].backgroundHeader}
+      />
       <ShoppingListProvider>
         <ShoppingListArchivedProvider>
           {/* Keep the splash screen open until the assets have loaded. In the future, we should just support async font loading with a native version of font-display. */}
@@ -176,7 +182,12 @@ function RootLayoutNav() {
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack.Navigator
           screenOptions={{
-            cardStyleInterpolator: CardStyleInterpolators.forBottomSheetAndroid, // Add the transition animation here
+            cardStyleInterpolator: CardStyleInterpolators.forBottomSheetAndroid,
+            headerStyle: {
+              backgroundColor: Colors[colorScheme ?? "light"].backgroundHeader,
+            },
+            headerTintColor:
+              Colors[colorScheme ?? "light"].backgroundTextHeader,
           }}
         >
           <Stack.Screen
