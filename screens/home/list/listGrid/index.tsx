@@ -18,23 +18,19 @@ export default function ListGrid({ items, setBottomSheetProps }: ItemProps) {
   return (
     <Styled.Container background={Colors[colorScheme ?? "light"].background}>
       <Styled.ContainerList>
-        <Styled.ContainerListInner>
-          <Styled.ContainerListItemList>
-            <SafeAreaView>
-              <ScrollView>
-                <Styled.ContainerListItemListItem>
-                  {items.map((item: ListInterface) => (
-                    <ListGridItem
-                      setBottomSheetProps={setBottomSheetProps}
-                      key={"ListGridItem-" + item.uuid}
-                      item={item}
-                    />
-                  ))}
-                </Styled.ContainerListItemListItem>
-              </ScrollView>
-            </SafeAreaView>
-          </Styled.ContainerListItemList>
-        </Styled.ContainerListInner>
+        <SafeAreaView>
+          <ScrollView>
+            <Styled.ContainerListItemListItem>
+              {items.map((item: ListInterface) => (
+                <ListGridItem
+                  setBottomSheetProps={setBottomSheetProps}
+                  key={"ListGridItem-" + item.uuid}
+                  item={item}
+                />
+              ))}
+            </Styled.ContainerListItemListItem>
+          </ScrollView>
+        </SafeAreaView>
       </Styled.ContainerList>
     </Styled.Container>
   );

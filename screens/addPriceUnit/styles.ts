@@ -19,7 +19,7 @@ export const WrapperInput = styled.View`
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 50px;
+  height: 40px;
 `;
 export const WrapperInputInner = styled.View`
   width: 100%;

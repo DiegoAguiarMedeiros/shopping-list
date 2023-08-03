@@ -165,6 +165,12 @@ function ListGridItem({ item, listId, setBottomSheetProps }: ListProps) {
       underlayColor={
         Colors[colorScheme ?? "light"].backgroundTouchableHighlight
       }
+      height={
+        item.amount.length > 5
+          ? `${item.amount.length * 50 + 90}`
+          : `${item.amount.length * 50 + 110}`
+      }
+      borderColor={Colors[colorScheme ?? "light"].backgroundHeader}
       background={
         active
           ? Colors[colorScheme ?? "light"].backgroundLighterActive
@@ -173,37 +179,52 @@ function ListGridItem({ item, listId, setBottomSheetProps }: ListProps) {
     >
       <>
         <Styled.ContainerListItemListItemInner>
+          <Styled.ContainerItemTextIcon>
+            <Title>
+              <FontAwesome
+                onPress={handleOpen}
+                size={28}
+                style={{ marginBottom: -3 }}
+                color={
+                  item.amount.length > 0
+                    ? Colors[colorScheme ?? "light"].primary
+                    : Colors[colorScheme ?? "light"].secondary
+                }
+                name={item.amount.length > 0 ? "check-circle-o" : "circle-o"}
+              />
+            </Title>
+          </Styled.ContainerItemTextIcon>
           <Styled.ContainerListItemListItemHead>
             <Styled.ContainerItemTextTitle>
               <Title>{item.name}</Title>
             </Styled.ContainerItemTextTitle>
-            <Styled.ContainerItemTextIcon>
-              <Title>
-                <FontAwesome
-                  onPress={handleOpen}
-                  size={28}
-                  style={{ marginBottom: -3 }}
-                  name="angle-up"
-                />
-              </Title>
-            </Styled.ContainerItemTextIcon>
+            <Styled.ContainerListItemListItemBody>
+              <Styled.ContainerItemTextPriceTotal
+                text={Colors[colorScheme ?? "light"].textButton}
+              >
+                Total: R${" "}
+                {getTotalAmount(getAmountOfListItems(item.amount)).toFixed(2)}
+              </Styled.ContainerItemTextPriceTotal>
+              <Styled.ContainerItemTextPriceTotal
+                text={Colors[colorScheme ?? "light"].textButton}
+              >
+                Un: {getTotalAmountUn(getAmountOfListItems(item.amount))}
+              </Styled.ContainerItemTextPriceTotal>
+            </Styled.ContainerListItemListItemBody>
           </Styled.ContainerListItemListItemHead>
-          <Styled.ContainerListItemListItemBody>
-            <Styled.ContainerItemTextPriceTotal
-              text={Colors[colorScheme ?? "light"].textButton}
-            >
-              Total: R${" "}
-              {getTotalAmount(getAmountOfListItems(item.amount)).toFixed(2)}
-            </Styled.ContainerItemTextPriceTotal>
-            <Styled.ContainerItemTextPriceTotal
-              text={Colors[colorScheme ?? "light"].textButton}
-            >
-              Un: {getTotalAmountUn(getAmountOfListItems(item.amount))}
-            </Styled.ContainerItemTextPriceTotal>
-          </Styled.ContainerListItemListItemBody>
+          <Styled.ContainerItemTextIcon>
+            <Title>
+              <FontAwesome
+                onPress={handleOpen}
+                size={28}
+                style={{ marginBottom: -3 }}
+                name="angle-up"
+              />
+            </Title>
+          </Styled.ContainerItemTextIcon>
         </Styled.ContainerListItemListItemInner>
         <Styled.ContainerListItemListItemAMount
-          height={`${item.amount.length * 55 + 60}`}
+          height={`${item.amount.length * 50 + 40}`}
           background={Colors[colorScheme ?? "light"].backgroundLighterActive}
         >
           <AddPriceUnit listId={listId} listItemId={item.uuid} />
@@ -213,45 +234,62 @@ function ListGridItem({ item, listId, setBottomSheetProps }: ListProps) {
   ) : (
     <Swipeable renderRightActions={RightSwipe} rightThreshold={100}>
       <Styled.ContainerListItemListItem
+        height="60"
         underlayColor={
           Colors[colorScheme ?? "light"].backgroundTouchableHighlight
         }
+        borderColor={Colors[colorScheme ?? "light"].backgroundHeader}
         background={
           active
             ? Colors[colorScheme ?? "light"].backgroundLighterActive
             : Colors[colorScheme ?? "light"].backgroundLighter
         }
       >
-        <>
+        <Styled.ContainerListItemListItemInner>
+          <Styled.ContainerItemTextIcon>
+            <Title>
+              <FontAwesome
+                onPress={handleOpen}
+                size={28}
+                style={{ marginBottom: -3 }}
+                color={
+                  item.amount.length > 0
+                    ? Colors[colorScheme ?? "light"].primary
+                    : Colors[colorScheme ?? "light"].secondary
+                }
+                name={item.amount.length > 0 ? "check-circle-o" : "circle-o"}
+              />
+            </Title>
+          </Styled.ContainerItemTextIcon>
           <Styled.ContainerListItemListItemHead>
             <Styled.ContainerItemTextTitle>
               <Title>{item.name}</Title>
             </Styled.ContainerItemTextTitle>
-            <Styled.ContainerItemTextIcon>
-              <Title>
-                <FontAwesome
-                  onPress={handleOpen}
-                  size={28}
-                  style={{ marginBottom: -3 }}
-                  name="angle-down"
-                />
-              </Title>
-            </Styled.ContainerItemTextIcon>
+            <Styled.ContainerListItemListItemBody>
+              <Styled.ContainerItemTextPriceTotal
+                text={Colors[colorScheme ?? "light"].textButton}
+              >
+                Total: R${" "}
+                {getTotalAmount(getAmountOfListItems(item.amount)).toFixed(2)}
+              </Styled.ContainerItemTextPriceTotal>
+              <Styled.ContainerItemTextPriceTotal
+                text={Colors[colorScheme ?? "light"].textButton}
+              >
+                Un: {getTotalAmountUn(getAmountOfListItems(item.amount))}
+              </Styled.ContainerItemTextPriceTotal>
+            </Styled.ContainerListItemListItemBody>
           </Styled.ContainerListItemListItemHead>
-          <Styled.ContainerListItemListItemBody>
-            <Styled.ContainerItemTextPriceTotal
-              text={Colors[colorScheme ?? "light"].textButton}
-            >
-              Total: R${" "}
-              {getTotalAmount(getAmountOfListItems(item.amount)).toFixed(2)}
-            </Styled.ContainerItemTextPriceTotal>
-            <Styled.ContainerItemTextPriceTotal
-              text={Colors[colorScheme ?? "light"].textButton}
-            >
-              Un: {getTotalAmountUn(getAmountOfListItems(item.amount))}
-            </Styled.ContainerItemTextPriceTotal>
-          </Styled.ContainerListItemListItemBody>
-        </>
+          <Styled.ContainerItemTextIcon>
+            <Title>
+              <FontAwesome
+                onPress={handleOpen}
+                size={28}
+                style={{ marginBottom: -3 }}
+                name="angle-down"
+              />
+            </Title>
+          </Styled.ContainerItemTextIcon>
+        </Styled.ContainerListItemListItemInner>
       </Styled.ContainerListItemListItem>
     </Swipeable>
   );

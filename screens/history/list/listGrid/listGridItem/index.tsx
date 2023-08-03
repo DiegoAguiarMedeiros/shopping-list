@@ -50,6 +50,7 @@ export default function ListGridItem({ item }: ItemProps) {
   const totalUn = item.items.length > 0 ? getTotalUnArchived(items) : 0;
 
   const handleOpenList = useCallback(() => {
+    console.log("handleOpenList");
     router.push({ pathname: "/ItemsArchived", params: { listId: item.uuid } });
   }, [item.uuid, router]);
 
@@ -85,7 +86,6 @@ export default function ListGridItem({ item }: ItemProps) {
       setItemAmountListArchived(updatedList);
     });
   };
-
 
   const RightSwipe = useCallback(
     (
@@ -148,6 +148,7 @@ export default function ListGridItem({ item }: ItemProps) {
           Colors[colorScheme ?? "light"].backgroundTouchableHighlight
         }
         background={Colors[colorScheme ?? "light"].backgroundLighter}
+        borderColor={Colors[colorScheme ?? "light"].backgroundHeader}
         onPress={handleOpenList}
       >
         <Styled.ContainerListItemInner>
@@ -155,24 +156,18 @@ export default function ListGridItem({ item }: ItemProps) {
             <Styled.ContainerItemTitle>
               <Title>{item.name}</Title>
             </Styled.ContainerItemTitle>
-            <Styled.ContainerItemCircleProgress
-              text={Colors[colorScheme ?? "light"].textButton}
-            >
-              <CircleProgress
-                filled={totalWithAmount}
-                progress={
-                  totalUn && totalWithAmount
-                    ? Number(totalWithAmount / totalUn)
-                    : 0
-                }
-                total={totalUn}
-                size={50}
-              />
-            </Styled.ContainerItemCircleProgress>
+            <Styled.ContainerListItemBody>
+              <Text>Total: R$ {total.toFixed(2)}</Text>
+            </Styled.ContainerListItemBody>
           </Styled.ContainerListItemHead>
-          <Styled.ContainerListItemBody>
-            <Text>Total: R$ {total.toFixed(2)}</Text>
-          </Styled.ContainerListItemBody>
+          <Styled.ContainerItemCircleProgress>
+            <CircleProgress
+              filled={totalWithAmount}
+              progress={totalUn && totalWithAmount ? totalWithAmount : 0}
+              total={totalUn}
+              size={30}
+            />
+          </Styled.ContainerItemCircleProgress>
         </Styled.ContainerListItemInner>
       </Styled.ContainerListItem>
     </Swipeable>

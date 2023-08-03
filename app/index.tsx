@@ -60,8 +60,6 @@ const Stack = createStackNavigator();
 //   const closeOnboarding = () => {
 //     setActive(false);
 //   };
-//   console.log("active", active);
-//   console.log("loaded", loaded);
 //   return (
 //     <>
 //       <Text>Loading...</Text>

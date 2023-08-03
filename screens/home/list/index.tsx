@@ -5,7 +5,6 @@ import {  useState } from "react";
 import {
   BottomSheetProps,
   ListInterface,
-  ListType,
 } from "../../../types/types";
 import Button from "../../../components/Button";
 import ListGrid from "./listGrid";

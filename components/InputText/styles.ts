@@ -7,7 +7,7 @@ export const Input = styled.TextInput<{
   background: ${(props: { background: string }) => props.background};
   color: ${(props: { color: string }) => props.color};
   border: 1px solid ${(props: { background: string }) => props.background};
-  border-radius: 300px;
+  border-radius: 10px;
   padding: 10px;
   font-size: 14px;
   width: 100%;

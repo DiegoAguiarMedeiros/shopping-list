@@ -1,7 +1,7 @@
 import { TouchableOpacity, useColorScheme } from "react-native";
 import Colors from "../../constants/Colors";
 import * as Styled from "./styles";
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useShoppingListContext } from "../../context/ShoppingList";
 import { ItemInterface } from "../../types/types";
 import { removeUndefinedFromArray } from "../../utils/functions";
@@ -32,6 +32,7 @@ export default function List({ listId }: ListProps) {
   } = useShoppingListContext();
   const [filter, setFilter] = useState("Todos");
   const listArr = list[listId];
+  if (!listArr) return null;
   const listArrItems = removeUndefinedFromArray(
     getListItemsOfList(listArr.items)
   );
@@ -57,7 +58,9 @@ export default function List({ listId }: ListProps) {
   }, [filter, itemAmountList]);
 
   return (
-    <Styled.Container background={Colors[colorScheme ?? "light"].background}>
+    <Styled.Container
+      background={Colors[colorScheme ?? "light"].backgroundHeader}
+    >
       <Styled.ContainerHeader>
         <Styled.ContainerHeaderInnerIconBack>
           <TouchableOpacity onPress={() => router.back()}>
@@ -76,11 +79,9 @@ export default function List({ listId }: ListProps) {
         <Styled.ContainerHeaderInnerProgress>
           <CircleProgress
             filled={total.amount}
-            progress={
-              total.un && total.amount ? Number(total.amount / total.un) : 0
-            }
+            progress={total.un && total.amount ? total.amount : 0}
             total={total.un}
-            size={60}
+            size={40}
           />
         </Styled.ContainerHeaderInnerProgress>
       </Styled.ContainerHeader>

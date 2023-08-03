@@ -4,15 +4,16 @@ import styled, { css } from "styled-components/native";
 
 export const ContainerListItem = styled.TouchableHighlight<{
   background: string;
+  borderColor: string;
 }>`
   background: ${(props: { background: string }) => props.background};
   width: 100%;
   height: 100px;
-  border-radius: 15px;
-  margin: 5px 0;
+  border: 1px solid ${(props: { borderColor: string }) => props.borderColor};
 `;
 export const ContainerListItemInner = styled.View`
   position: relative;
+  flex-direction: row;
   width: 100%;
   height: 100%;
 `;
@@ -28,16 +29,14 @@ export const LinkStyled = styled(Link)`
   padding: 0;
 `;
 export const ContainerListItemHead = styled.View`
-  display: flex;
-  flex-direction: row;
   width: 100%;
-  flex: 8;
+  flex: 5;
+  flex-direction: column;
 `;
 export const ContainerListItemBody = styled.View`
-  display: flex;
   flex: 2;
   flex-direction: row;
-  padding: 5px 10px;
+  padding: 0px 10px;
   margin: 0 0 10px 0;
 `;
 export const ContainerListItemBottom = styled.View`
@@ -50,18 +49,16 @@ export const ContainerListItemBottom = styled.View`
   width: 100%;
 `;
 export const ContainerItemTitle = styled.View`
-  flex: 6;
+  flex: 3;
   padding: 15px 10px;
   justify-content: flex-start;
   align-items: flex-start;
 `;
-export const ContainerItemCircleProgress = styled.Text<{
-  text: string;
-}>`
+export const ContainerItemCircleProgress = styled.View`
+  height: 100%;
   flex: 1;
-  font-size: 22px;
-  margin: 5px 0px;
-  padding: 5px 10px;
+  justify-content: center;
+  align-items: center;
 `;
 export const ContainerItemTextQtd = styled.Text<{
   text: string;
@@ -114,7 +111,7 @@ export const ButtonView = styled.View`
 `;
 export const ButtonInner = styled.TouchableHighlight`
   border-radius: 15px;
-  width: 100%;
+  width: 50%;
   height: 100%;
 `;
 export const ButtonTextIcon = styled.Text<{

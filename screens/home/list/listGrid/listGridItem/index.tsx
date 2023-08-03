@@ -59,9 +59,7 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
     router.push({ pathname: "/Items", params: { listId: item.uuid } });
   }, [item.uuid, router]);
 
-
   const handleEdit = useCallback(() => {
-    console.log("handleEdit 2");
     return setBottomSheetProps({
       listId: item.uuid,
       items: item,
@@ -306,6 +304,7 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
         underlayColor={
           Colors[colorScheme ?? "light"].backgroundTouchableHighlight
         }
+        borderColor={Colors[colorScheme ?? "light"].backgroundHeader}
         background={Colors[colorScheme ?? "light"].backgroundLighter}
         onPress={handleOpenList}
       >
@@ -314,24 +313,18 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
             <Styled.ContainerItemTitle>
               <Title>{item.name}</Title>
             </Styled.ContainerItemTitle>
-            <Styled.ContainerItemCircleProgress
-              text={Colors[colorScheme ?? "light"].textButton}
-            >
-              <CircleProgress
-                filled={totalWithAmount}
-                progress={
-                  totalUn && totalWithAmount
-                    ? Number(totalWithAmount / totalUn)
-                    : 0
-                }
-                total={totalUn}
-                size={50}
-              />
-            </Styled.ContainerItemCircleProgress>
+            <Styled.ContainerListItemBody>
+              <Text>Total: R$ {total.toFixed(2)}</Text>
+            </Styled.ContainerListItemBody>
           </Styled.ContainerListItemHead>
-          <Styled.ContainerListItemBody>
-            <Text>Total: R$ {total.toFixed(2)}</Text>
-          </Styled.ContainerListItemBody>
+          <Styled.ContainerItemCircleProgress>
+            <CircleProgress
+              filled={totalWithAmount}
+              progress={totalUn && totalWithAmount ? totalWithAmount : 0}
+              total={totalUn}
+              size={30}
+            />
+          </Styled.ContainerItemCircleProgress>
         </Styled.ContainerListItemInner>
       </Styled.ContainerListItem>
     </Swipeable>

@@ -24,7 +24,8 @@ interface ListProps {
   listId: string;
 }
 
-export default function List({ listId }: ListProps) {
+export default function ListArchived({ listId }: ListProps) {
+  console.log("ListArchived");
   const colorScheme = useColorScheme();
   const {
     listArchived,
