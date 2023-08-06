@@ -138,9 +138,7 @@ export default function ListGridItem({ item }: ItemProps) {
   return (
     <Swipeable
       renderRightActions={RightSwipe}
-      rightThreshold={100}
-      friction={2} // Adjust the friction to control how far it can be swiped (default is 1)
-      overshootFriction={8} // Adjust the overshootFriction to control overshooting (default is 1)
+      rightThreshold={50}
     >
       <Styled.ContainerListItem
         underlayColor={

@@ -110,7 +110,6 @@ export const ButtonView = styled.View`
   height: 100%;
 `;
 export const ButtonInner = styled.TouchableHighlight`
-  border-radius: 15px;
   width: 50%;
   height: 100%;
 `;
