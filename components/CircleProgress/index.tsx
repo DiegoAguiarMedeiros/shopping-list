@@ -31,7 +31,7 @@ const CircleProgress = ({
       duration={2000}
       activeStrokeColor={Colors[colorScheme ?? "light"].primary}
       maxValue={100}
-      titleColor={"white"}
+      titleColor={Colors[colorScheme ?? "light"].text}
     />
   );
 };

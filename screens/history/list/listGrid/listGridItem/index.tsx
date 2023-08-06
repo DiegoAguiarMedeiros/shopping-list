@@ -136,10 +136,7 @@ export default function ListGridItem({ item }: ItemProps) {
   );
 
   return (
-    <Swipeable
-      renderRightActions={RightSwipe}
-      rightThreshold={50}
-    >
+    <Swipeable renderRightActions={RightSwipe} rightThreshold={50}>
       <Styled.ContainerListItem
         underlayColor={
           Colors[colorScheme ?? "light"].backgroundTouchableHighlight
@@ -151,7 +148,7 @@ export default function ListGridItem({ item }: ItemProps) {
         <Styled.ContainerListItemInner>
           <Styled.ContainerListItemHead>
             <Styled.ContainerItemTitle>
-              <Title>{item.name}</Title>
+              <Title dark>{item.name}</Title>
             </Styled.ContainerItemTitle>
             <Styled.ContainerListItemBody>
               <Text>Total: R$ {total.toFixed(2)}</Text>

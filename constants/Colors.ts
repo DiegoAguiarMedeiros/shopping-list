@@ -9,22 +9,30 @@ const primaryDarkColor = "#1E1E1E";
 const secondaryDarkColor = "#202020";
 const tertiaryDarkColor = "#D9D9D9";
 
-const primaryDarkFontColor = "#ffffff98";
+const primaryDarkFontColor = "#fff";
 const secondaryDarkFontColor = "#ffffff88";
 const tertiaryDarkFontColor = "#ffffff78";
 
 const primaryLightColor = "#f5f5f5";
 const secondaryLightColor = "#fffafa";
-const tertiaryLightColor = "#f8f8ff";
-const primaryLightFontColor = "#00000098";
+const tertiaryLightColor = "#cccccc";
+
+const white = "#fff";
+const primaryTitleLightFontColor = "#ffffff";
+const primaryLightFontColor = "#000000";
 const secondaryLightFontColor = "#00000088";
 const tertiaryLightFontColor = "#00000078";
 
 export default {
   light: {
-    text: "#000",
-    text2: "#777676",
-    textButton: "#000",
+    text: primaryLightFontColor,
+    title: primaryTitleLightFontColor,
+    titleDark: primaryLightFontColor,
+    subTitle: primaryTitleLightFontColor,
+    subTitleDark: primaryLightFontColor,
+    text2: tertiaryLightFontColor,
+    textButton: primaryLightFontColor,
+    white: white,
     inputBackground: "#4F4E4E",
     inputTextColor: "#FFFFFF",
     buttonBackground: "#43BCAE",
@@ -35,9 +43,9 @@ export default {
     border: "#DCDCDC",
     background: "#fff",
     backgroundLighter: "#fafafa",
-    backgroundLighterActive: "#303030",
-    primary: "#D9D9D9",
-    secondary: "#43BCAE",
+    backgroundLighterActive: primaryColor,
+    primary: primaryColor,
+    secondary: secondaryColor,
     tint: tintColorLight,
     tabIconDefault: "#ccc",
     tabIconSelected: tintColorLight,
@@ -46,9 +54,15 @@ export default {
     backgroundTextHeader: "#43BCAE",
   },
   dark: {
-    text: "#D2C2C2",
+    text: "#fff",
+    textDark: "#D2C2C2",
+    title: "#D2C2C2",
+    titleDark: "#D2C2C2",
+    subTitle: "#D2C2C2",
+    subTitleDark: "#D2C2C2",
     text2: "#777676",
-    textButton: "#FFFFFF",
+    textButton: "#fff",
+    white: white,
     inputBackground: "#4F4E4E",
     inputTextColor: "#FFFFFF",
     buttonBackground: "#43BCAE",

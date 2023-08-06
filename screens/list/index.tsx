@@ -128,24 +128,28 @@ export default function List({ listId }: ListProps) {
           </TouchableOpacity>
         </Styled.ContainerHeaderInnerIconBack>
         <Styled.ContainerHeaderInnerText>
-          <Title>{listArr.name}</Title>
+          <Title dark>{listArr.name}</Title>
         </Styled.ContainerHeaderInnerText>
+
         <Styled.ContainerHeaderInnerProgress>
           <CircleProgress
             filled={total.amount}
             progress={total.un && total.amount ? total.amount : 0}
             total={total.un}
-            size={40}
+            size={30}
           />
         </Styled.ContainerHeaderInnerProgress>
       </Styled.ContainerHeader>
-      <Styled.ContainerHeaderInnerFilterButtons>
-        <FilterButtons
-          tags={removeUndefinedFromArray(listArr.tags)}
-          filter={filter}
-          setFilter={setFilter}
-        />
-      </Styled.ContainerHeaderInnerFilterButtons>
+      {listArr.tags.length > 0 ? (
+        <Styled.ContainerHeaderInnerFilterButtons>
+          <FilterButtons
+            tags={removeUndefinedFromArray(listArr.tags)}
+            filter={filter}
+            setFilter={setFilter}
+          />
+        </Styled.ContainerHeaderInnerFilterButtons>
+      ) : null}
+
       <Styled.ContainerBody>
         {listArrItems.length > 0 ? (
           <ListGrid

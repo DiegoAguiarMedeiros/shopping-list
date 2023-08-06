@@ -818,7 +818,7 @@ const Button: React.FC<ButtonProps> = ({
           size={20}
           style={{ marginBottom: -3, marginRight: 10 }}
           name={icon}
-          color={Colors[colorScheme ?? "light"].textButton}
+          color={Colors[colorScheme ?? "light"].white}
         />
       ) : null}
       {text !== undefined ? <Text>{text}</Text> : null}
