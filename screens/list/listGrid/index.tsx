@@ -14,11 +14,12 @@ import { useShoppingListContext } from "../../../context/ShoppingList";
 import Button from "../../../components/Button";
 import BottomSheetComponent from "../../../components/BottomSheetComponent";
 interface ListProps {
-  filter: string;
   listId: string;
+  listArrItems: ItemInterface[];
+  deleteItem: (item: ItemInterface) => void;
 }
 
-function ListGrid({ filter, listId }: ListProps) {
+function ListGrid({ listArrItems, listId, deleteItem }: ListProps) {
   const { list, getListItemsOfList, getTotal, getTotalUn } =
     useShoppingListContext();
   const colorScheme = useColorScheme();
@@ -31,15 +32,6 @@ function ListGrid({ filter, listId }: ListProps) {
     onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
   });
   const listArr = list[Array.isArray(listId) ? "" : listId];
-  const listArrItems = removeUndefinedFromArray(
-    getListItemsOfList(listArr.items)
-  );
-  useEffect(() => {
-    const newFilteredList = listArrItems.filter(
-      (item: ItemInterface) => item.tags === filter
-    );
-    setFilteredList(newFilteredList);
-  }, [filter]);
 
   return (
     <Styled.Container background={Colors[colorScheme ?? "light"].background}>
@@ -49,51 +41,29 @@ function ListGrid({ filter, listId }: ListProps) {
             <Styled.ContainerItemTotalUnitText
               text={Colors[colorScheme ?? "light"].text}
             >
-              Total Items:{" "}
-              {getTotalUn(
-                filteredList !== undefined && filteredList.length > 0
-                  ? filteredList
-                  : listArrItems
-              )}
+              Total Items: {getTotalUn(listArrItems)}
             </Styled.ContainerItemTotalUnitText>
             <Styled.ContainerItemTotalText
               text={Colors[colorScheme ?? "light"].text}
             >
-              Total : R${" "}
-              {getTotal(
-                filteredList !== undefined && filteredList.length > 0
-                  ? filteredList
-                  : listArrItems
-              ).toFixed(2)}
+              Total : R$ {getTotal(listArrItems).toFixed(2)}
             </Styled.ContainerItemTotalText>
           </Styled.ContainerListTotal>
           <Styled.ContainerListItemList>
             <SafeAreaView>
               <ScrollView style={[{ height: "100%" }]} nestedScrollEnabled>
                 <Styled.ContainerListItemListItem
-                  height={
-                    filter === "Todos"
-                      ? `${listArrItems.length * 100 + 410}`
-                      : `${filteredList!.length * 100 + 410}`
-                  }
+                  height={`${listArrItems.length * 100 + 410}`}
                 >
-                  {filter === "Todos"
-                    ? listArrItems.map((item: ItemInterface) => (
-                        <ListGridItem
-                          key={"ListGridItem-" + item.uuid}
-                          setBottomSheetProps={setBottomSheetProps}
-                          item={item}
-                          listId={listId}
-                        />
-                      ))
-                    : filteredList?.map((item: ItemInterface) => (
-                        <ListGridItem
-                          key={"ListGridItem-" + item.uuid}
-                          setBottomSheetProps={setBottomSheetProps}
-                          item={item}
-                          listId={listId}
-                        />
-                      ))}
+                  {listArrItems.map((item: ItemInterface) => (
+                    <ListGridItem
+                      key={"ListGridItem-" + item.uuid}
+                      setBottomSheetProps={setBottomSheetProps}
+                      item={item}
+                      listId={listId}
+                      deleteItem={deleteItem}
+                    />
+                  ))}
                 </Styled.ContainerListItemListItem>
               </ScrollView>
             </SafeAreaView>

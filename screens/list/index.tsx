@@ -3,8 +3,16 @@ import Colors from "../../constants/Colors";
 import * as Styled from "./styles";
 import React, { useEffect, useState } from "react";
 import { useShoppingListContext } from "../../context/ShoppingList";
-import { ItemInterface } from "../../types/types";
-import { removeUndefinedFromArray } from "../../utils/functions";
+import {
+  ItemInterface,
+  ListItemAmountInterface,
+  ListItemInterface,
+  ListType,
+} from "../../types/types";
+import {
+  getTagsFromListItemInterface,
+  removeUndefinedFromArray,
+} from "../../utils/functions";
 import { useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
@@ -25,37 +33,84 @@ export default function List({ listId }: ListProps) {
   const colorScheme = useColorScheme();
   const {
     list,
+    listItem,
     itemAmountList,
+    setList,
+    setListItem,
     getListItemsOfList,
     getTotalWithAmount,
+    setItemAmountList,
     getTotalUn,
   } = useShoppingListContext();
-  const [filter, setFilter] = useState("Todos");
-  const listArr = list[listId];
-  if (!listArr) return null;
-  const listArrItems = removeUndefinedFromArray(
-    getListItemsOfList(listArr.items)
+  const [listArr, setListArr] = useState(list[listId]);
+  const [listArrItems, setListArrItems] = useState(
+    removeUndefinedFromArray(getListItemsOfList(listArr.items))
   );
-
+  const [filter, setFilter] = useState("Todos");
   const [total, setTotal] = useState<TotalType>({
-    amount: getTotalWithAmount(listArrItems),
-    un: getTotalUn(listArrItems),
+    amount: 0,
+    un: 0,
   });
-  const getTotalAmountAndUnity = (list: ItemInterface[]) => {
-    setTotal({
-      un: getTotalUn(list),
-      amount: getTotalWithAmount(list),
-    });
-  };
   const router = useRouter();
+
   useEffect(() => {
-    const newFilteredList = listArrItems.filter(
+    if (!listArr) return;
+    const listItem = removeUndefinedFromArray(
+      getListItemsOfList(list[listId].items)
+    );
+    if (filter === "Todos") {
+      setListArrItems(listItem);
+
+      const newTotal: TotalType = {
+        un: getTotalUn(listItem),
+        amount: getTotalWithAmount(listItem),
+      };
+      setTotal(newTotal);
+      return;
+    }
+
+    const newFilteredList = listItem.filter(
       (item: ItemInterface) => item.tags === filter
     );
-    newFilteredList.length > 0
-      ? getTotalAmountAndUnity(newFilteredList)
-      : getTotalAmountAndUnity(listArrItems);
-  }, [filter, itemAmountList]);
+    setListArrItems(newFilteredList);
+
+    const newTotal: TotalType = {
+      un: getTotalUn(newFilteredList),
+      amount: getTotalWithAmount(newFilteredList),
+    };
+    setTotal(newTotal);
+    return () => {};
+  }, [filter, listItem]);
+
+  const deleteItem = (item: ItemInterface) => {
+    const updatedList: ListItemInterface = JSON.parse(JSON.stringify(listItem));
+    handleDeleteAmountInList(updatedList[item.uuid].amount);
+    delete updatedList[item.uuid];
+    setListItem(updatedList);
+    handleDeleteItemListFromList(updatedList);
+  };
+  const handleDeleteAmountInList = (itemAmountUuid: string[]): void => {
+    itemAmountUuid.forEach((i) => {
+      const updatedList: ListItemAmountInterface = JSON.parse(
+        JSON.stringify(itemAmountList)
+      );
+      delete updatedList[i];
+      setItemAmountList(updatedList);
+    });
+  };
+  const handleDeleteItemListFromList = (
+    updatedList: ListItemInterface
+  ): void => {
+    const updatedListItem: ListType = JSON.parse(JSON.stringify(list));
+
+    const item = updatedListItem[listId];
+    if (item) {
+      const newArray = item.items.filter((i) => i !== item.uuid);
+      item.items = newArray;
+      item.tags = getTagsFromListItemInterface(updatedList);
+      setList(updatedListItem);
+    }
+  };
 
   return (
     <Styled.Container
@@ -94,7 +149,11 @@ export default function List({ listId }: ListProps) {
       </Styled.ContainerHeaderInnerFilterButtons>
       <Styled.ContainerBody>
         {listArrItems.length > 0 ? (
-          <ListGrid filter={filter} listId={listId} />
+          <ListGrid
+            deleteItem={deleteItem}
+            listArrItems={listArrItems}
+            listId={listId}
+          />
         ) : (
           <EmptyList list={listArr.uuid} />
         )}

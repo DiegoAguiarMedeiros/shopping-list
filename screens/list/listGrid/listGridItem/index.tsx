@@ -27,9 +27,15 @@ interface ListProps {
   item: ItemInterface;
   listId: string;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
+  deleteItem: (item: ItemInterface) => void;
 }
 
-function ListGridItem({ item, listId, setBottomSheetProps }: ListProps) {
+function ListGridItem({
+  item,
+  listId,
+  setBottomSheetProps,
+  deleteItem,
+}: ListProps) {
   const colorScheme = useColorScheme();
   const [active, setActive] = useState(false);
   const {
@@ -39,43 +45,12 @@ function ListGridItem({ item, listId, setBottomSheetProps }: ListProps) {
     setListItem,
     setItemAmountList,
     itemAmountList,
-    getListItemsOfList,
     getAmountOfListItems,
   } = useShoppingListContext();
 
-  const deleteItem = () => {
-    const updatedList: ListItemInterface = JSON.parse(JSON.stringify(listItem));
-    handleDeleteAmountInList(updatedList[item.uuid].amount);
-    delete updatedList[item.uuid];
-    setListItem(updatedList);
-    handleDeleteItemListFromList(updatedList);
+  const handleDelete = () => {
+    deleteItem(item);
   };
-  const handleDeleteAmountInList = (itemAmountUuid: string[]): void => {
-    itemAmountUuid.forEach((i) => {
-      const updatedList: ListItemAmountInterface = JSON.parse(
-        JSON.stringify(itemAmountList)
-      );
-      delete updatedList[i];
-      setItemAmountList(updatedList);
-    });
-  };
-  const handleDeleteItemListFromList = (
-    updatedList: ListItemInterface
-  ): void => {
-    const updatedListItem: ListType = JSON.parse(JSON.stringify(list));
-
-    const item = updatedListItem[listId];
-    if (item) {
-      const listArrItems = removeUndefinedFromArray(
-        getListItemsOfList(item.items)
-      );
-      const newArray = item.items.filter((i) => i !== item.uuid);
-      item.items = newArray;
-      item.tags = getTagsFromListItemInterface(updatedList);
-      setList(updatedListItem);
-    }
-  };
-
   const handleEdit = () => {
     setBottomSheetProps({
       listId: item.uuid,
@@ -136,7 +111,7 @@ function ListGridItem({ item, listId, setBottomSheetProps }: ListProps) {
             underlayColor={
               Colors[colorScheme ?? "light"].backgroundTouchableHighlight
             }
-            onPress={deleteItem}
+            onPress={handleDelete}
           >
             <>
               <Styled.ButtonTextIcon

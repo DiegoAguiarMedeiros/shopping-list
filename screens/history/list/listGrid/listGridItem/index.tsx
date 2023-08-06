@@ -50,7 +50,6 @@ export default function ListGridItem({ item }: ItemProps) {
   const totalUn = item.items.length > 0 ? getTotalUnArchived(items) : 0;
 
   const handleOpenList = useCallback(() => {
-    console.log("handleOpenList");
     router.push({ pathname: "/ItemsArchived", params: { listId: item.uuid } });
   }, [item.uuid, router]);
 
