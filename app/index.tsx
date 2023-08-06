@@ -83,6 +83,7 @@ import * as Font from "expo-font";
 import { FontAwesome } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 
+import { Title } from "../components/Text";
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 import Home from "./home";
 import Items from "./Items";
@@ -192,7 +193,7 @@ function RootLayoutNav() {
             name={"home"}
             component={Home}
             options={{
-              headerTitle: "Listas de compras",
+              headerTitle: (props) => <Title>Listas de compras</Title>,
             }}
           />
           <Stack.Screen
@@ -213,7 +214,7 @@ function RootLayoutNav() {
             name="history"
             component={History}
             options={{
-              headerTitle: "Histórico",
+              headerTitle: (props) => <Title>Histórico</Title>,
               headerLeft: () => null,
             }}
           />

@@ -20,6 +20,7 @@ import EmptyList from "./emptyList";
 import ListGrid from "./listGrid";
 import CircleProgress from "../../components/CircleProgress";
 import FilterButtons from "../../components/FilterButtons";
+import { Title } from "../../components/Text";
 type TotalType = {
   amount: number;
   un: number;
@@ -127,9 +128,7 @@ export default function List({ listId }: ListProps) {
           </TouchableOpacity>
         </Styled.ContainerHeaderInnerIconBack>
         <Styled.ContainerHeaderInnerText>
-          <Styled.ListTitle text={Colors[colorScheme ?? "light"].text}>
-            {listArr.name}
-          </Styled.ListTitle>
+          <Title>{listArr.name}</Title>
         </Styled.ContainerHeaderInnerText>
         <Styled.ContainerHeaderInnerProgress>
           <CircleProgress
