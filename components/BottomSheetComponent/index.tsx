@@ -244,7 +244,8 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
     >
       <AnimatedBottomSheet
         style={{
-          height: 250,
+          height:
+            action === "addListItem" || listId === "editListItem" ? 205 : 150,
           backgroundColor:
             Colors[colorScheme ?? "light"].backgroundLighterActive,
           transform: [{ translateY }],
