@@ -274,6 +274,7 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
                 });
               }}
               value={newItem.item}
+              onSubmitEditing={functions[action]}
             />
           </Styled.InputContainer>
           {action === "addListItem" || listId === "editListItem" ? (

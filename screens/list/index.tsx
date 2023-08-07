@@ -44,9 +44,6 @@ export default function List({ listId }: ListProps) {
     getTotalUn,
   } = useShoppingListContext();
   const [listArr, setListArr] = useState(list[listId]);
-  console.log("list", list);
-  console.log("listItem", listItem);
-  console.log("itemAmountList", itemAmountList);
   const [listArrItems, setListArrItems] = useState(
     removeUndefinedFromArray(getListItemsOfList(listArr?.items))
   );
@@ -107,14 +104,14 @@ export default function List({ listId }: ListProps) {
     updatedList: ListItemInterface
   ): void => {
     const updatedListItem: ListType = JSON.parse(JSON.stringify(list));
-
     const item = updatedListItem[listId];
     if (item) {
-      const newArray = item.items.filter((i) => i !== item.uuid);
-      item.items = newArray;
-      console.log("updatedList", updatedList);
+      if (updatedList?.uuid) {
+        const newArray = item.items.filter((i) => i !== item.uuid);
+        item.items = newArray;
+      }
+      item.items = [];
       item.tags = getTagsFromListItemInterface(updatedList);
-      console.log("item.tags", item.tags);
       setList(updatedListItem);
     }
   };

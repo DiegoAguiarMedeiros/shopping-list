@@ -8,7 +8,7 @@ export const ContainerListItem = styled.TouchableHighlight<{
 }>`
   background: ${(props: { background: string }) => props.background};
   width: 100%;
-  height: 100px;
+  height: 60px;
   border: 1px solid ${(props: { borderColor: string }) => props.borderColor};
 `;
 export const ContainerListItemInner = styled.View`
@@ -50,7 +50,7 @@ export const ContainerListItemBottom = styled.View`
 `;
 export const ContainerItemTitle = styled.View`
   flex: 3;
-  padding: 15px 10px;
+  padding: 5px 10px;
   justify-content: flex-start;
   align-items: flex-start;
 `;
@@ -118,7 +118,6 @@ export const ButtonTextIcon = styled.Text<{
 }>`
   color: ${(props: { text: any }) => props.text};
   flex: 10;
-  margin: 5px 0;
   padding: 15px 10px 0 10px;
   text-align: center;
 `;

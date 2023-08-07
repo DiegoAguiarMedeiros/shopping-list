@@ -42,19 +42,8 @@ export default function EmptyList({ list }: ListProps) {
           >
             Você não tem nenhuma item na lista
           </Styled.ListEmptyTextmessage>
-          <Styled.ContainerButtonAdd>
-            <Button
-              text="Adicionar"
-              onPress={() =>
-                setBottomSheetProps({ ...bottomSheetProps, isVisible: true })
-              }
-              background={Colors[colorScheme ?? "light"].buttonBackground}
-              icon="plus"
-            />
-          </Styled.ContainerButtonAdd>
         </Styled.ContainerListEmptyInner>
       </Styled.ContainerListEmpty>
-      <BottomSheetComponent {...bottomSheetProps} />
     </Styled.Container>
   );
 }
