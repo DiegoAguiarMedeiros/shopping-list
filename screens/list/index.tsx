@@ -109,8 +109,9 @@ export default function List({ listId }: ListProps) {
       if (updatedList?.uuid) {
         const newArray = item.items.filter((i) => i !== item.uuid);
         item.items = newArray;
+      } else {
+        item.items = [];
       }
-      item.items = [];
       item.tags = getTagsFromListItemInterface(updatedList);
       setList(updatedListItem);
     }
