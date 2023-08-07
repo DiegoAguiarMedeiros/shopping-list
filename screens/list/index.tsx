@@ -31,6 +31,7 @@ interface ListProps {
 }
 
 export default function List({ listId }: ListProps) {
+  
   const colorScheme = useColorScheme();
   const {
     list,
@@ -44,8 +45,9 @@ export default function List({ listId }: ListProps) {
     getTotalUn,
   } = useShoppingListContext();
   const [listArr, setListArr] = useState(list[listId]);
+  
   const [listArrItems, setListArrItems] = useState(
-    removeUndefinedFromArray(getListItemsOfList(listArr.items))
+    removeUndefinedFromArray(getListItemsOfList(listArr?.items))
   );
   const [filter, setFilter] = useState("Todos");
   const [total, setTotal] = useState<TotalType>({
@@ -128,7 +130,7 @@ export default function List({ listId }: ListProps) {
           </TouchableOpacity>
         </Styled.ContainerHeaderInnerIconBack>
         <Styled.ContainerHeaderInnerText>
-          <Title dark>{listArr.name}</Title>
+          <Title dark>{listArr?.name}</Title>
         </Styled.ContainerHeaderInnerText>
 
         <Styled.ContainerHeaderInnerProgress>
@@ -140,10 +142,10 @@ export default function List({ listId }: ListProps) {
           />
         </Styled.ContainerHeaderInnerProgress>
       </Styled.ContainerHeader>
-      {listArr.tags.length > 0 ? (
+      {listArr?.tags.length > 0 ? (
         <Styled.ContainerHeaderInnerFilterButtons>
           <FilterButtons
-            tags={removeUndefinedFromArray(listArr.tags)}
+            tags={removeUndefinedFromArray(listArr?.tags)}
             filter={filter}
             setFilter={setFilter}
           />
@@ -158,7 +160,7 @@ export default function List({ listId }: ListProps) {
             listId={listId}
           />
         ) : (
-          <EmptyList list={listArr.uuid} />
+          <EmptyList list={listArr?.uuid} />
         )}
       </Styled.ContainerBody>
     </Styled.Container>
