@@ -1,14 +1,9 @@
 import { useColorScheme, SafeAreaView, ScrollView } from "react-native";
 import Colors from "../../../constants/Colors";
 import * as Styled from "./styles";
-import React, { useEffect, useState } from "react";
-import {
-  BottomSheetProps,
-  ItemInterface,
-  ListInterface,
-} from "../../../types/types";
+import React, { useState } from "react";
+import { BottomSheetProps, ItemInterface } from "../../../types/types";
 import ListGridItem from "./listGridItem";
-import { removeUndefinedFromArray } from "../../../utils/functions";
 import { useShoppingListContext } from "../../../context/ShoppingList";
 
 import Button from "../../../components/Button";
@@ -20,10 +15,8 @@ interface ListProps {
 }
 
 function ListGrid({ listArrItems, listId, deleteItem }: ListProps) {
-  const { list, getListItemsOfList, getTotal, getTotalUn } =
-    useShoppingListContext();
+  const { getTotal, getTotalUn } = useShoppingListContext();
   const colorScheme = useColorScheme();
-  const [filteredList, setFilteredList] = useState<ItemInterface[]>();
   const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
     listId: listId,
     buttonText: "add",
@@ -31,7 +24,6 @@ function ListGrid({ listArrItems, listId, deleteItem }: ListProps) {
     isVisible: false,
     onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
   });
-  const listArr = list[Array.isArray(listId) ? "" : listId];
 
   return (
     <Styled.Container background={Colors[colorScheme ?? "light"].background}>
