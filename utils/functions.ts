@@ -53,11 +53,13 @@ const getTagsFromListItemInterface = (
       active: false,
     });
   }
-  tagsArr.unshift({
-    id: "0",
-    name: "Todos",
-    active: true,
-  });
+  if (tagsArr.length >= 1) {
+    tagsArr.unshift({
+      id: "0",
+      name: "Todos",
+      active: true,
+    });
+  }
   return tagsArr;
 };
 

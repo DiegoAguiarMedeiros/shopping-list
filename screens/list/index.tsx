@@ -31,7 +31,6 @@ interface ListProps {
 }
 
 export default function List({ listId }: ListProps) {
-  
   const colorScheme = useColorScheme();
   const {
     list,
@@ -45,7 +44,9 @@ export default function List({ listId }: ListProps) {
     getTotalUn,
   } = useShoppingListContext();
   const [listArr, setListArr] = useState(list[listId]);
-  
+  console.log("list", list);
+  console.log("listItem", listItem);
+  console.log("itemAmountList", itemAmountList);
   const [listArrItems, setListArrItems] = useState(
     removeUndefinedFromArray(getListItemsOfList(listArr?.items))
   );
@@ -57,6 +58,7 @@ export default function List({ listId }: ListProps) {
   const router = useRouter();
 
   useEffect(() => {
+    setListArr(list[listId]);
     if (!listArr) return;
     const listItem = removeUndefinedFromArray(
       getListItemsOfList(list[listId].items)
@@ -110,7 +112,9 @@ export default function List({ listId }: ListProps) {
     if (item) {
       const newArray = item.items.filter((i) => i !== item.uuid);
       item.items = newArray;
+      console.log("updatedList", updatedList);
       item.tags = getTagsFromListItemInterface(updatedList);
+      console.log("item.tags", item.tags);
       setList(updatedListItem);
     }
   };

@@ -79,7 +79,6 @@ function ListGridItem({
       <Animated.View
         style={{
           width: 200,
-          height: 100,
           overflow: "hidden",
         }}
       >
@@ -95,7 +94,7 @@ function ListGridItem({
                 text={Colors[colorScheme ?? "light"].textButton}
               >
                 <FontAwesome
-                  size={24}
+                  size={18}
                   style={{ marginBottom: -3 }}
                   name="pencil"
                 />
@@ -118,7 +117,7 @@ function ListGridItem({
                 text={Colors[colorScheme ?? "light"].textButton}
               >
                 <FontAwesome
-                  size={24}
+                  size={18}
                   style={{ marginBottom: -3 }}
                   name="trash"
                 />

@@ -79,6 +79,7 @@ export default function AddPriceUnit({
             }}
             keyboardType="numeric"
             value={newItem}
+            onSubmitEditing={handleAddAmount}
           />
         </Styled.WrapperInputInner>
         <Styled.WrapperButton>
