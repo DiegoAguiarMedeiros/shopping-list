@@ -165,7 +165,6 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
         <Animated.View
           style={{
             width: 200,
-            height: 100,
             overflow: "hidden",
           }}
         >
@@ -181,7 +180,7 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
                   text={Colors[colorScheme ?? "light"].textButton}
                 >
                   <FontAwesome
-                    size={24}
+                    size={18}
                     style={{ marginBottom: -3 }}
                     name="pencil"
                   />
@@ -204,7 +203,7 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
                   text={Colors[colorScheme ?? "light"].textButton}
                 >
                   <FontAwesome
-                    size={24}
+                    size={18}
                     style={{ marginBottom: -3 }}
                     name="copy"
                   />
@@ -236,7 +235,6 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
         <Animated.View
           style={{
             width: 200,
-            height: 100,
             overflow: "hidden",
           }}
         >
@@ -252,7 +250,7 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
                   text={Colors[colorScheme ?? "light"].textButton}
                 >
                   <FontAwesome
-                    size={24}
+                    size={18}
                     style={{ marginBottom: -3 }}
                     name="archive"
                   />
@@ -275,7 +273,7 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
                   text={Colors[colorScheme ?? "light"].textButton}
                 >
                   <FontAwesome
-                    size={24}
+                    size={18}
                     style={{ marginBottom: -3 }}
                     name="trash"
                   />
@@ -322,7 +320,7 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
               filled={totalWithAmount}
               progress={totalUn && totalWithAmount ? totalWithAmount : 0}
               total={totalUn}
-              size={30}
+              size={22}
             />
           </Styled.ContainerItemCircleProgress>
         </Styled.ContainerListItemInner>

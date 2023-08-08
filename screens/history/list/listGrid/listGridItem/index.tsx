@@ -53,11 +53,6 @@ export default function ListGridItem({ item }: ItemProps) {
     router.push({ pathname: "/ItemsArchived", params: { listId: item.uuid } });
   }, [item.uuid, router]);
 
-  const HandleClose = () => {
-    const swipeable = useRef<Swipeable>();
-    swipeable.current?.close();
-  };
-
   const handleDelete = () => {
     const updatedList: ListType = JSON.parse(JSON.stringify(listArchived));
     handleDeleteListItem(updatedList[item.uuid].items);
@@ -100,7 +95,6 @@ export default function ListGridItem({ item }: ItemProps) {
         <Animated.View
           style={{
             width: 100,
-            height: 100,
             overflow: "hidden",
           }}
         >
@@ -116,7 +110,7 @@ export default function ListGridItem({ item }: ItemProps) {
                   text={Colors[colorScheme ?? "light"].textButton}
                 >
                   <FontAwesome
-                    size={24}
+                    size={18}
                     style={{ marginBottom: -3 }}
                     name="trash"
                   />
@@ -159,7 +153,7 @@ export default function ListGridItem({ item }: ItemProps) {
               filled={totalWithAmount}
               progress={totalUn && totalWithAmount ? totalWithAmount : 0}
               total={totalUn}
-              size={30}
+              size={22}
             />
           </Styled.ContainerItemCircleProgress>
         </Styled.ContainerListItemInner>

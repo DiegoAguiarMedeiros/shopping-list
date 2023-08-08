@@ -70,33 +70,39 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
   };
 
   const handleAddList = (): void => {
-    handleHideBottomSheet();
-    const newList = returnNewList();
-    setList((newValue) => ({
-      ...newValue,
-      [newList.uuid]: newList,
-    }));
+    if (newItem.item) {
+      handleHideBottomSheet();
+      const newList = returnNewList();
+      setList((newValue) => ({
+        ...newValue,
+        [newList.uuid]: newList,
+      }));
+    }
   };
 
   const handleEditList = (): void => {
-    handleHideBottomSheet();
-    const updatedList = JSON.parse(JSON.stringify(list));
-    const item = updatedList[items?.uuid!];
-    if (item) {
-      item.name = newItem.item;
-      setList(updatedList);
+    if (newItem.item) {
+      handleHideBottomSheet();
+      const updatedList = JSON.parse(JSON.stringify(list));
+      const item = updatedList[items?.uuid!];
+      if (item) {
+        item.name = newItem.item;
+        setList(updatedList);
+      }
     }
   };
   const handleEditListItem = (): void => {
-    handleHideBottomSheet();
-    const updatedListItem: ListItemInterface = JSON.parse(
-      JSON.stringify(listItem)
-    );
-    const item = updatedListItem[items?.uuid!];
-    if (item) {
-      item.name = newItem.item;
-      item.tags = newItem.tag;
-      setListItem(updatedListItem);
+    if (newItem.item) {
+      handleHideBottomSheet();
+      const updatedListItem: ListItemInterface = JSON.parse(
+        JSON.stringify(listItem)
+      );
+      const item = updatedListItem[items?.uuid!];
+      if (item) {
+        item.name = newItem.item;
+        item.tags = newItem.tag;
+        setListItem(updatedListItem);
+      }
     }
   };
 
@@ -133,14 +139,14 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
     }
   };
 
-  interface returnHandleCopyListItem {
+  interface ReturnHandleCopyListItem {
     items: string[];
     tags: TagsIterface[];
   }
 
   const handleCopyListItem = (
     listItems: string[]
-  ): returnHandleCopyListItem => {
+  ): ReturnHandleCopyListItem => {
     const copyListItem: ItemInterface[] = JSON.parse(
       JSON.stringify(removeUndefinedFromArray(getListItemsOfList(listItems)))
     );
@@ -159,18 +165,20 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
   };
 
   const handleCopyList = (): void => {
-    handleHideBottomSheet();
-    const newItem = returnNewList();
-    const itemCopy: ListInterface = JSON.parse(
-      JSON.stringify(list[items?.uuid!])
-    );
-    const returnHandleCopyListItem = handleCopyListItem(itemCopy.items);
-    newItem.items = returnHandleCopyListItem.items;
-    newItem.tags = returnHandleCopyListItem.tags;
-    setList((newValue) => ({
-      ...newValue,
-      [newItem.uuid]: newItem,
-    }));
+    if (newItem.item) {
+      handleHideBottomSheet();
+      const newItem = returnNewList();
+      const itemCopy: ListInterface = JSON.parse(
+        JSON.stringify(list[items?.uuid!])
+      );
+      const returnHandleCopyListItem = handleCopyListItem(itemCopy.items);
+      newItem.items = returnHandleCopyListItem.items;
+      newItem.tags = returnHandleCopyListItem.tags;
+      setList((newValue) => ({
+        ...newValue,
+        [newItem.uuid]: newItem,
+      }));
+    }
   };
 
   const buttonTextArr = {
@@ -266,6 +274,7 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
                 });
               }}
               value={newItem.item}
+              onSubmitEditing={functions[action]}
             />
           </Styled.InputContainer>
           {action === "addListItem" || listId === "editListItem" ? (
@@ -280,6 +289,7 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
                   });
                 }}
                 value={newItem.tag}
+                onSubmitEditing={functions[action]}
               />
             </Styled.InputContainer>
           ) : null}

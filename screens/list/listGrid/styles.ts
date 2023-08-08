@@ -24,9 +24,8 @@ export const ContainerListTotal = styled.View`
   flex-direction: row;
   align-items: center;
   flex: 0.5;
-  height: 50%;
+  min-height: 25px;
   padding: 5px;
-  margin: 0 0 20px 0;
 `;
 export const ContainerListItemList = styled.View`
   width: 100%;

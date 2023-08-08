@@ -89,7 +89,6 @@ export const ButtonView = styled.View`
   height: 100%;
 `;
 export const ButtonInner = styled.TouchableHighlight`
-  border-radius: 15px;
   width: 50%;
   height: 100%;
 `;
@@ -98,7 +97,6 @@ export const ButtonTextIcon = styled.Text<{
 }>`
   color: ${(props: { text: any }) => props.text};
   flex: 10;
-  margin: 5px 0;
   padding: 15px 10px 0 10px;
   text-align: center;
 `;

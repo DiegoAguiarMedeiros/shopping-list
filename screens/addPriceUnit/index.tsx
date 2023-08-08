@@ -41,6 +41,7 @@ export default function AddPriceUnit({
       [newListItem.uuid]: newListItem,
     }));
     handleAddAmountInListItem(newListItem.uuid);
+    setNewItem("");
   };
 
   const handleAddAmountInListItem = (amountItemId: string): void => {
@@ -73,11 +74,12 @@ export default function AddPriceUnit({
         <Styled.WrapperInputInner>
           <InputText
             placeholder="Valor"
-            onChangeText={(item) => {
-              setNewItem(item);
+            onChangeText={(valor) => {
+              setNewItem(valor);
             }}
             keyboardType="numeric"
             value={newItem}
+            onSubmitEditing={handleAddAmount}
           />
         </Styled.WrapperInputInner>
         <Styled.WrapperButton>

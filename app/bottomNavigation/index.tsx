@@ -31,7 +31,7 @@ const BottomNavigation: React.FC<RoutesType> = ({
           >
             <Styled.Text text={Colors[colorScheme ?? "light"].text}>
               <FontAwesome
-                size={30}
+                size={25}
                 name={r.icon}
                 color={Colors[colorScheme ?? "light"].textButton}
               />

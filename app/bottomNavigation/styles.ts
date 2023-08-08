@@ -17,8 +17,9 @@ export const Item = styled.Pressable<{
   active: boolean;
   boder: string;
 }>`
-  padding: 10px;
   flex: 1;
+  justify-content: center;
+  align-items: center;
   border-top-color: ${(props: { boder: any }) => props.boder};
   border-top-style: solid;
   border-top-width: ${(props: { active: any }) => (props.active ? "2px" : "0")};

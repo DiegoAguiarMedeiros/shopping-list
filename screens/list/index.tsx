@@ -45,7 +45,7 @@ export default function List({ listId }: ListProps) {
   } = useShoppingListContext();
   const [listArr, setListArr] = useState(list[listId]);
   const [listArrItems, setListArrItems] = useState(
-    removeUndefinedFromArray(getListItemsOfList(listArr.items))
+    removeUndefinedFromArray(getListItemsOfList(listArr?.items))
   );
   const [filter, setFilter] = useState("Todos");
   const [total, setTotal] = useState<TotalType>({
@@ -55,6 +55,7 @@ export default function List({ listId }: ListProps) {
   const router = useRouter();
 
   useEffect(() => {
+    setListArr(list[listId]);
     if (!listArr) return;
     const listItem = removeUndefinedFromArray(
       getListItemsOfList(list[listId].items)
@@ -103,11 +104,14 @@ export default function List({ listId }: ListProps) {
     updatedList: ListItemInterface
   ): void => {
     const updatedListItem: ListType = JSON.parse(JSON.stringify(list));
-
     const item = updatedListItem[listId];
     if (item) {
-      const newArray = item.items.filter((i) => i !== item.uuid);
-      item.items = newArray;
+      if (updatedList?.uuid) {
+        const newArray = item.items.filter((i) => i !== item.uuid);
+        item.items = newArray;
+      } else {
+        item.items = [];
+      }
       item.tags = getTagsFromListItemInterface(updatedList);
       setList(updatedListItem);
     }
@@ -128,7 +132,7 @@ export default function List({ listId }: ListProps) {
           </TouchableOpacity>
         </Styled.ContainerHeaderInnerIconBack>
         <Styled.ContainerHeaderInnerText>
-          <Title dark>{listArr.name}</Title>
+          <Title dark>{listArr?.name}</Title>
         </Styled.ContainerHeaderInnerText>
 
         <Styled.ContainerHeaderInnerProgress>
@@ -140,10 +144,10 @@ export default function List({ listId }: ListProps) {
           />
         </Styled.ContainerHeaderInnerProgress>
       </Styled.ContainerHeader>
-      {listArr.tags.length > 0 ? (
+      {listArr?.tags.length > 0 ? (
         <Styled.ContainerHeaderInnerFilterButtons>
           <FilterButtons
-            tags={removeUndefinedFromArray(listArr.tags)}
+            tags={removeUndefinedFromArray(listArr?.tags)}
             filter={filter}
             setFilter={setFilter}
           />
@@ -158,7 +162,7 @@ export default function List({ listId }: ListProps) {
             listId={listId}
           />
         ) : (
-          <EmptyList list={listArr.uuid} />
+          <EmptyList list={listArr?.uuid} />
         )}
       </Styled.ContainerBody>
     </Styled.Container>
