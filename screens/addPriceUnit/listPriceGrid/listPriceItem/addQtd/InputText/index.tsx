@@ -10,7 +10,7 @@ interface InputProps extends TextInputProps {
 
 const InputText: React.FC<InputProps> = ({ placeholder, ...rest }) => {
     const colorScheme = useColorScheme();
-    return <Styled.Input background={Colors[colorScheme ?? 'light'].inputBackground} color={Colors[colorScheme ?? 'light'].inputTextColor} placeholder={placeholder} placeholderTextColor={Colors[colorScheme ?? 'light'].inputTextColor} {...rest} />;
+    return <Styled.Input background={Colors[colorScheme ?? 'light'].inputBackgroundColor} color={Colors[colorScheme ?? 'light'].inputTextColor} placeholder={placeholder} placeholderTextColor={Colors[colorScheme ?? 'light'].inputTextColor} {...rest} />;
 };
 
 export default InputText;

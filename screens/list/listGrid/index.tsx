@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { BottomSheetProps, ItemInterface } from "../../../types/types";
 import ListGridItem from "./listGridItem";
 import { useShoppingListContext } from "../../../context/ShoppingList";
+import { Text } from "../../../components/Text";
 
 import Button from "../../../components/Button";
 import BottomSheetComponent from "../../../components/BottomSheetComponent";
@@ -26,19 +27,21 @@ function ListGrid({ listArrItems, listId, deleteItem }: ListProps) {
   });
 
   return (
-    <Styled.Container background={Colors[colorScheme ?? "light"].background}>
+    <Styled.Container
+      background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
+    >
       <Styled.ContainerList>
         <Styled.ContainerListInner>
           <Styled.ContainerListTotal>
             <Styled.ContainerItemTotalUnitText
-              text={Colors[colorScheme ?? "light"].text}
+              text={Colors[colorScheme ?? "light"].bodyTextColor}
             >
-              Total Items: {getTotalUn(listArrItems)}
+              <Text>Total Items: {getTotalUn(listArrItems)}</Text>
             </Styled.ContainerItemTotalUnitText>
             <Styled.ContainerItemTotalText
-              text={Colors[colorScheme ?? "light"].text}
+              text={Colors[colorScheme ?? "light"].bodyTextColor}
             >
-              Total : R$ {getTotal(listArrItems).toFixed(2)}
+              <Text>Total : R$ {getTotal(listArrItems).toFixed(2)}</Text>
             </Styled.ContainerItemTotalText>
           </Styled.ContainerListTotal>
           <Styled.ContainerListItemList>
@@ -66,7 +69,9 @@ function ListGrid({ listArrItems, listId, deleteItem }: ListProps) {
               onPress={() =>
                 setBottomSheetProps({ ...bottomSheetProps, isVisible: true })
               }
-              background={Colors[colorScheme ?? "light"].buttonBackground}
+              background={
+                Colors[colorScheme ?? "light"].buttonActiveBackgroundColor
+              }
               icon="plus"
             />
           </Styled.ContainerButtonAdd>

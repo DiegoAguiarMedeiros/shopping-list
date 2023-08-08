@@ -29,9 +29,14 @@ const CircleProgress = ({
       value={progress > 0 ? (progress / total) * 100 : progress}
       radius={size}
       duration={2000}
-      activeStrokeColor={Colors[colorScheme ?? "light"].primary}
+      circleBackgroundColor={
+        Colors[colorScheme ?? "light"].circleProgresBackgroundUnfilledColor
+      }
+      activeStrokeColor={
+        Colors[colorScheme ?? "light"].circleProgresBackgroundFilledColor
+      }
       maxValue={100}
-      titleColor={Colors[colorScheme ?? "light"].text}
+      titleColor={Colors[colorScheme ?? "light"].circleProgresTextColor}
     />
   );
 };

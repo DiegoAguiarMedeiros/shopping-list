@@ -40,16 +40,16 @@ interface onboadingProps {
 const OnboardingScreen = ({ closeOnboarding }: onboadingProps) => {
   const colorScheme = useColorScheme();
   const renderItem = ({ item }: { item: Slide }) => (
-    <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
-      <Styled.SlideContainer background={Colors[colorScheme ?? 'light'].background}>
+    <Styled.Container background={Colors[colorScheme ?? 'light'].bodyBackgroundColor}>
+      <Styled.SlideContainer background={Colors[colorScheme ?? 'light'].bodyBackgroundColor}>
         <Styled.SlideContainerInnerTitle>
-          <Styled.SlideTitle text={Colors[colorScheme ?? 'light'].text}>{item.title}</Styled.SlideTitle>
+          <Styled.SlideTitle text={Colors[colorScheme ?? 'light'].bodyTextColor}>{item.title}</Styled.SlideTitle>
         </Styled.SlideContainerInnerTitle>
         <Styled.SlideContainerInnerImage>
           <Styled.SlideImage source={item.image} />
         </Styled.SlideContainerInnerImage>
         <Styled.SlideContainerInnerText>
-          <Styled.SlideText text={Colors[colorScheme ?? 'light'].text}>{item.text}</Styled.SlideText>
+          <Styled.SlideText text={Colors[colorScheme ?? 'light'].bodyTextColor}>{item.text}</Styled.SlideText>
         </Styled.SlideContainerInnerText>
       </Styled.SlideContainer>
     </Styled.Container>

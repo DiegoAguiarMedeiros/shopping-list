@@ -24,7 +24,7 @@ export default function List({ items }: ItemProps) {
   });
 
   return (
-    <Styled.Container background={Colors[colorScheme ?? "light"].background}>
+    <Styled.Container background={Colors[colorScheme ?? "light"].bodyBackgroundColor}>
       <Styled.ContainerListList>
         <ListGrid items={items} setBottomSheetProps={setBottomSheetProps} />
       </Styled.ContainerListList>
@@ -36,7 +36,7 @@ export default function List({ items }: ItemProps) {
             onPress={() =>
               setBottomSheetProps({ ...bottomSheetProps, isVisible: true })
             }
-            background={Colors[colorScheme ?? "light"].buttonBackground}
+            background={Colors[colorScheme ?? "light"].buttonActiveBackgroundColor}
             icon="plus"
           />
           {/* </Link> */}

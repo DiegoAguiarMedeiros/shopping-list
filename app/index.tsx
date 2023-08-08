@@ -155,7 +155,7 @@ export default function App() {
   return (
     <>
       <StatusBar
-        backgroundColor={Colors[colorScheme ?? "light"].backgroundHeader}
+        backgroundColor={Colors[colorScheme ?? "light"].headerBackgroundColor}
       />
       <ShoppingListProvider>
         <ShoppingListArchivedProvider>
@@ -183,10 +183,10 @@ function RootLayoutNav() {
           screenOptions={{
             cardStyleInterpolator: CardStyleInterpolators.forBottomSheetAndroid,
             headerStyle: {
-              backgroundColor: Colors[colorScheme ?? "light"].backgroundHeader,
+              backgroundColor: Colors[colorScheme ?? "light"].headerBackgroundColor,
             },
             headerTintColor:
-              Colors[colorScheme ?? "light"].backgroundTextHeader,
+              Colors[colorScheme ?? "light"].headerTextColor,
           }}
         >
           <Stack.Screen

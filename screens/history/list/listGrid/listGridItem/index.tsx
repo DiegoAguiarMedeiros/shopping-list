@@ -101,13 +101,13 @@ export default function ListGridItem({ item }: ItemProps) {
           <Styled.ButtonView>
             <Styled.ButtonInner
               underlayColor={
-                Colors[colorScheme ?? "light"].backgroundTouchableHighlight
+                Colors[colorScheme ?? "light"].swipeablebuttonTouchableHighlightBackgroundColor
               }
               onPress={handleDelete}
             >
               <>
                 <Styled.ButtonTextIcon
-                  text={Colors[colorScheme ?? "light"].textButton}
+                  text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
                 >
                   <FontAwesome
                     size={18}
@@ -116,7 +116,7 @@ export default function ListGridItem({ item }: ItemProps) {
                   />
                 </Styled.ButtonTextIcon>
                 <Styled.ButtonText
-                  text={Colors[colorScheme ?? "light"].textButton}
+                  text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
                 >
                   Deletar
                 </Styled.ButtonText>
@@ -133,16 +133,16 @@ export default function ListGridItem({ item }: ItemProps) {
     <Swipeable renderRightActions={RightSwipe} rightThreshold={50}>
       <Styled.ContainerListItem
         underlayColor={
-          Colors[colorScheme ?? "light"].backgroundTouchableHighlight
+          Colors[colorScheme ?? "light"].listItemBackgroundColor
         }
-        background={Colors[colorScheme ?? "light"].backgroundLighter}
-        borderColor={Colors[colorScheme ?? "light"].backgroundHeader}
+        background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+        borderColor={Colors[colorScheme ?? "light"].listItemBackgroundBorderColor}
         onPress={handleOpenList}
       >
         <Styled.ContainerListItemInner>
           <Styled.ContainerListItemHead>
             <Styled.ContainerItemTitle>
-              <Title dark>{item.name}</Title>
+              <Title>{item.name}</Title>
             </Styled.ContainerItemTitle>
             <Styled.ContainerListItemBody>
               <Text>Total: R$ {total.toFixed(2)}</Text>

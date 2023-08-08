@@ -1,11 +1,15 @@
 import { Dimensions } from "react-native";
 import styled, { css } from "styled-components/native";
 
-export const Container = styled.View`
+export const Container = styled.View<{
+  background: string;
+}>`
   height: 100%;
   flex: 1;
   justify-content: center;
   align-items: center;
+  background: ${(props: { background: string }) => props.background};
+  border-radius: 10px;
 `;
 
 export const WrapperGrid = styled.View`

@@ -24,14 +24,14 @@ export default function EmptyList() {
     onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
   });
   return (
-    <Styled.Container background={Colors[colorScheme ?? "light"].background}>
+    <Styled.Container background={Colors[colorScheme ?? "light"].bodyBackgroundColor}>
       <Styled.ContainerListEmpty>
         <Styled.ContainerListEmptyInner>
           <Styled.SlideContainerInnerImage>
             <Styled.SlideImage source={img.image} />
           </Styled.SlideContainerInnerImage>
           <Styled.ListEmptyTextmessage
-            text={Colors[colorScheme ?? "light"].text2}
+            text={Colors[colorScheme ?? "light"].bodyTextColor}
           >
             Você não tem nenhuma lista criada
           </Styled.ListEmptyTextmessage>
@@ -40,7 +40,7 @@ export default function EmptyList() {
           <Styled.ContainerButtonAdd>
             <Button
               text="Adicionar"
-              background={Colors[colorScheme ?? "light"].buttonBackground}
+              background={Colors[colorScheme ?? "light"].buttonActiveBackgroundColor}
               icon="plus"
               onPress={() =>
                 setBottomSheetProps({ ...bottomSheetProps, isVisible: true })

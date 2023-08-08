@@ -103,7 +103,7 @@ export default function ListPriceGrid({
             <Button
               icon="minus"
               invertSide={true}
-              background={Colors[colorScheme ?? "light"].buttonBackground}
+              background={Colors[colorScheme ?? "light"].primary}
               onPress={minusAmount}
             />
           </Styled.ContainerMinusPlus>
@@ -113,7 +113,7 @@ export default function ListPriceGrid({
           <Styled.ContainerMinusPlus>
             <Button
               icon="plus"
-              background={Colors[colorScheme ?? "light"].buttonBackground}
+              background={Colors[colorScheme ?? "light"].primary}
               onPress={plusAmount}
             />
           </Styled.ContainerMinusPlus>

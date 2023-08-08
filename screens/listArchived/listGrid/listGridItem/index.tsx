@@ -19,7 +19,7 @@ import {
   removeUndefinedFromArray,
 } from "../../../../utils/functions";
 import { Swipeable } from "react-native-gesture-handler";
-import { Title } from "../../../../components/Text";
+import { Title, Text } from "../../../../components/Text";
 import {
   useShoppingListArchivedContext,
   useShoppingListContext,
@@ -39,10 +39,8 @@ function ListGridItem({ item, listId }: ListProps) {
       {item.amount.map((amount) => (
         <Styled.ContainerListItemListItem
           key={`ContainerListItemListItem-` + amount}
-          underlayColor={
-            Colors[colorScheme ?? "light"].backgroundTouchableHighlight
-          }
-          background={Colors[colorScheme ?? "light"].backgroundLighterActive}
+          underlayColor={Colors[colorScheme ?? "light"].bodyBackgroundColor}
+          background={Colors[colorScheme ?? "light"].bodyBackgroundBorderColor}
         >
           <>
             <Styled.ContainerListItemListItemHead>
@@ -52,15 +50,17 @@ function ListGridItem({ item, listId }: ListProps) {
             </Styled.ContainerListItemListItemHead>
             <Styled.ContainerListItemListItemBody>
               <Styled.ContainerItemTextPriceTotal
-                text={Colors[colorScheme ?? "light"].textButton}
+                text={Colors[colorScheme ?? "light"].bodyTextColor}
               >
-                Total: R$ {itemAmountListArchived[amount].amount}
+                <Text>Total: R$ {itemAmountListArchived[amount].amount}</Text>
               </Styled.ContainerItemTextPriceTotal>
               <Styled.ContainerItemTextPriceTotal
-                text={Colors[colorScheme ?? "light"].textButton}
+                text={Colors[colorScheme ?? "light"].bodyTextColor}
               >
-                {itemAmountListArchived[amount].quantity}
-                {itemAmountListArchived[amount].type ? " Kg" : " Unidades"}
+                <Text>
+                  {itemAmountListArchived[amount].quantity}
+                  {itemAmountListArchived[amount].type ? " Kg" : " Unidades"}
+                </Text>
               </Styled.ContainerItemTextPriceTotal>
             </Styled.ContainerListItemListItemBody>
           </>

@@ -255,7 +255,7 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
           height:
             action === "addListItem" || listId === "editListItem" ? 205 : 150,
           backgroundColor:
-            Colors[colorScheme ?? "light"].backgroundLighterActive,
+            Colors[colorScheme ?? "light"].bottomSheetBackgroundColor,
           transform: [{ translateY }],
         }}
       >
@@ -299,7 +299,7 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
               <Button
                 text="Cancelar"
                 background={
-                  Colors[colorScheme ?? "light"].cancelButtonBackground
+                  Colors[colorScheme ?? "light"].buttonBackgroundColor
                 }
                 onPress={handleHideBottomSheet}
               />
@@ -307,7 +307,7 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
             <Styled.ButtonWrapper>
               <Button
                 text={buttonTextArr[buttonText]}
-                background={Colors[colorScheme ?? "light"].buttonBackground}
+                background={Colors[colorScheme ?? "light"].buttonActiveBackgroundColor}
                 onPress={functions[action]}
               />
             </Styled.ButtonWrapper>

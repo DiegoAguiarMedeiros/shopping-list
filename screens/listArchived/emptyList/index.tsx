@@ -29,7 +29,7 @@ export default function EmptyList({ list }: ListProps) {
   });
 
   return (
-    <Styled.Container background={Colors[colorScheme ?? "light"].background}>
+    <Styled.Container background={Colors[colorScheme ?? "light"].bodyBackgroundColor}>
       <Styled.ContainerListEmpty>
         <Styled.ContainerListEmptyInner>
           <Styled.SlideContainerInnerImage>
@@ -38,7 +38,7 @@ export default function EmptyList({ list }: ListProps) {
         </Styled.ContainerListEmptyInner>
         <Styled.ContainerListEmptyInner>
           <Styled.ListEmptyTextmessage
-            text={Colors[colorScheme ?? "light"].text2}
+            text={Colors[colorScheme ?? "light"].bodyTextColor}
           >
             Você não tem nenhuma item na lista
           </Styled.ListEmptyTextmessage>

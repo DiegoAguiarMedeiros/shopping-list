@@ -35,8 +35,6 @@ export const ContainerListItemList = styled.View`
     width:100%;
     flex: 11;
     height: 50%;
-    margin: 0 0 20px 0;
-    padding: 0 0 15px 0;
 `;
 export const ContainerListItemListItem = styled.View<{
     height: string,
@@ -44,7 +42,6 @@ export const ContainerListItemListItem = styled.View<{
     width:100%;
     flex: 1;
     height: 100%;
-    padding: 0 0 15px 0;
 `;
 export const ContainerButtonAdd = styled.View`
     flex: 1;

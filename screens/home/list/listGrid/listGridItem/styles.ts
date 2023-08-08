@@ -8,8 +8,12 @@ export const ContainerListItem = styled.TouchableHighlight<{
 }>`
   background: ${(props: { background: string }) => props.background};
   width: 100%;
-  height: 60px;
-  border: 1px solid ${(props: { borderColor: string }) => props.borderColor};
+  min-height: 70px;
+  border-radius: 15px;
+  margin: 5px 0;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: ${(props: { borderColor: string }) => props.borderColor};
 `;
 export const ContainerListItemInner = styled.View`
   position: relative;

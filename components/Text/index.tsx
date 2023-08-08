@@ -13,8 +13,8 @@ const Title: React.FC<TextProps> = ({ children, dark }) => {
     <Styled.Title
       color={
         dark
-          ? Colors[colorScheme ?? "light"].titleDark
-          : Colors[colorScheme ?? "light"].title
+          ? Colors[colorScheme ?? "light"].black
+          : Colors[colorScheme ?? "light"].white
       }
     >
       {children}
@@ -27,8 +27,8 @@ const SubTitle: React.FC<TextProps> = ({ children, dark }) => {
     <Styled.SubTitle
       color={
         dark
-          ? Colors[colorScheme ?? "light"].subTitleDark
-          : Colors[colorScheme ?? "light"].subTitle
+          ? Colors[colorScheme ?? "light"].black
+          : Colors[colorScheme ?? "light"].white
       }
     >
       {children}
@@ -41,8 +41,8 @@ const Text: React.FC<TextProps> = ({ children, dark }) => {
     <Styled.Text
       color={
         dark
-          ? Colors[colorScheme ?? "light"].textDark
-          : Colors[colorScheme ?? "light"].text
+          ? Colors[colorScheme ?? "light"].black
+          : Colors[colorScheme ?? "light"].white
       }
     >
       {children}

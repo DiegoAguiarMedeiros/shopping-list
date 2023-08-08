@@ -16,13 +16,13 @@ export default function EmptyList() {
 
   return (
 
-    <Styled.Container background={Colors[colorScheme ?? 'light'].background}>
+    <Styled.Container background={Colors[colorScheme ?? 'light'].bodyBackgroundColor}>
       <Styled.ContainerListEmpty >
         <Styled.ContainerListEmptyInner>
           <Styled.SlideContainerInnerImage>
             <Styled.SlideImage source={img.image} />
           </Styled.SlideContainerInnerImage>
-          <Styled.ListEmptyTextmessage text={Colors[colorScheme ?? 'light'].text2}>
+          <Styled.ListEmptyTextmessage text={Colors[colorScheme ?? 'light'].bodyTextColor}>
             Você não tem nenhuma lista arquivada
           </Styled.ListEmptyTextmessage>
         </Styled.ContainerListEmptyInner>

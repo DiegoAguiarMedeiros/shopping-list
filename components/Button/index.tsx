@@ -809,7 +809,7 @@ const Button: React.FC<ButtonProps> = ({
     <Styled.Button
       onPress={onPress}
       {...rest}
-      border={Colors[colorScheme ?? "light"].border}
+      border={Colors[colorScheme ?? "light"].buttonBackgroundBorderColor}
       background={background}
       height={text === undefined ? "100%" : "35px"}
     >

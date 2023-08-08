@@ -7,6 +7,7 @@ export const Container = styled.View<{
   background: ${(props: { background: any }) => props.background};
   width: 100%;
   height: 100%;
+padding:15px 10px;
 `;
 
 export const ContainerList = styled.View`

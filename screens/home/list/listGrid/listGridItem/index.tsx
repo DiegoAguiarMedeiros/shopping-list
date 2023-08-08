@@ -171,13 +171,14 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
           <Styled.ButtonView>
             <Styled.ButtonInner
               underlayColor={
-                Colors[colorScheme ?? "light"].backgroundTouchableHighlight
+                Colors[colorScheme ?? "light"]
+                  .swipeablebuttonTouchableHighlightBackgroundColor
               }
               onPress={handleEdit}
             >
               <>
                 <Styled.ButtonTextIcon
-                  text={Colors[colorScheme ?? "light"].textButton}
+                  text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
                 >
                   <FontAwesome
                     size={18}
@@ -186,7 +187,7 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
                   />
                 </Styled.ButtonTextIcon>
                 <Styled.ButtonText
-                  text={Colors[colorScheme ?? "light"].textButton}
+                  text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
                 >
                   Editar
                 </Styled.ButtonText>
@@ -194,13 +195,14 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
             </Styled.ButtonInner>
             <Styled.ButtonInner
               underlayColor={
-                Colors[colorScheme ?? "light"].backgroundTouchableHighlight
+                Colors[colorScheme ?? "light"]
+                  .swipeablebuttonTouchableHighlightBackgroundColor
               }
               onPress={handleCopy}
             >
               <>
                 <Styled.ButtonTextIcon
-                  text={Colors[colorScheme ?? "light"].textButton}
+                  text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
                 >
                   <FontAwesome
                     size={18}
@@ -209,7 +211,7 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
                   />
                 </Styled.ButtonTextIcon>
                 <Styled.ButtonText
-                  text={Colors[colorScheme ?? "light"].textButton}
+                  text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
                 >
                   Copiar
                 </Styled.ButtonText>
@@ -241,13 +243,14 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
           <Styled.ButtonView>
             <Styled.ButtonInner
               underlayColor={
-                Colors[colorScheme ?? "light"].backgroundTouchableHighlight
+                Colors[colorScheme ?? "light"]
+                  .swipeablebuttonTouchableHighlightBackgroundColor
               }
               onPress={handleArchived}
             >
               <>
                 <Styled.ButtonTextIcon
-                  text={Colors[colorScheme ?? "light"].textButton}
+                  text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
                 >
                   <FontAwesome
                     size={18}
@@ -256,7 +259,7 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
                   />
                 </Styled.ButtonTextIcon>
                 <Styled.ButtonText
-                  text={Colors[colorScheme ?? "light"].textButton}
+                  text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
                 >
                   Arquivar
                 </Styled.ButtonText>
@@ -264,13 +267,14 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
             </Styled.ButtonInner>
             <Styled.ButtonInner
               underlayColor={
-                Colors[colorScheme ?? "light"].backgroundTouchableHighlight
+                Colors[colorScheme ?? "light"]
+                  .swipeablebuttonTouchableHighlightBackgroundColor
               }
               onPress={handleDelete}
             >
               <>
                 <Styled.ButtonTextIcon
-                  text={Colors[colorScheme ?? "light"].textButton}
+                  text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
                 >
                   <FontAwesome
                     size={18}
@@ -279,7 +283,7 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
                   />
                 </Styled.ButtonTextIcon>
                 <Styled.ButtonText
-                  text={Colors[colorScheme ?? "light"].textButton}
+                  text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
                 >
                   Deletar
                 </Styled.ButtonText>
@@ -299,20 +303,20 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
       leftThreshold={100}
     >
       <Styled.ContainerListItem
-        underlayColor={
-          Colors[colorScheme ?? "light"].backgroundTouchableHighlight
+        underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+        borderColor={
+          Colors[colorScheme ?? "light"].listItemBackgroundBorderColor
         }
-        borderColor={Colors[colorScheme ?? "light"].backgroundHeader}
-        background={Colors[colorScheme ?? "light"].backgroundLighter}
+        background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
         onPress={handleOpenList}
       >
         <Styled.ContainerListItemInner>
           <Styled.ContainerListItemHead>
             <Styled.ContainerItemTitle>
-              <Title dark>{item.name}</Title>
+              <Title>{item.name}</Title>
             </Styled.ContainerItemTitle>
             <Styled.ContainerListItemBody>
-              <Text dark>Total: R$ {total.toFixed(2)}</Text>
+              <Text>Total: R$ {total.toFixed(2)}</Text>
             </Styled.ContainerListItemBody>
           </Styled.ContainerListItemHead>
           <Styled.ContainerItemCircleProgress>

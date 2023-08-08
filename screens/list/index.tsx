@@ -124,7 +124,7 @@ export default function List({ listId }: ListProps) {
 
   return (
     <Styled.Container
-      background={Colors[colorScheme ?? "light"].backgroundHeader}
+      background={Colors[colorScheme ?? "light"].headerBackgroundColor}
     >
       <Styled.ContainerHeader>
         <Styled.ContainerHeaderInnerIconBack>
@@ -132,12 +132,12 @@ export default function List({ listId }: ListProps) {
             <FontAwesome
               name="angle-left"
               size={35}
-              color={Colors[colorScheme ?? "light"].text}
+              color={Colors[colorScheme ?? "light"].bodyTextColor}
             />
           </TouchableOpacity>
         </Styled.ContainerHeaderInnerIconBack>
         <Styled.ContainerHeaderInnerText>
-          <Title dark>{listArr?.name}</Title>
+          <Title>{listArr?.name}</Title>
         </Styled.ContainerHeaderInnerText>
 
         <Styled.ContainerHeaderInnerProgress>

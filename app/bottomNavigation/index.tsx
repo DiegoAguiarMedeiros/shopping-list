@@ -16,7 +16,7 @@ const BottomNavigation: React.FC<RoutesType> = ({
 
   return (
     <Styled.Container
-      background={Colors[colorScheme ?? "light"].backgroundLighter}
+      background={Colors[colorScheme ?? "light"].bottomNavBackgroundColor}
     >
       <Styled.ContainerInner>
         {routes.map((r) => (
@@ -27,13 +27,13 @@ const BottomNavigation: React.FC<RoutesType> = ({
               router.push({ pathname: r.name });
             }}
             active={r.name === active}
-            boder={Colors[colorScheme ?? "light"].buttonBackground}
+            boder={Colors[colorScheme ?? "light"].bottomNavActiveBackgroundColor}
           >
-            <Styled.Text text={Colors[colorScheme ?? "light"].text}>
+            <Styled.Text text={Colors[colorScheme ?? "light"].bottomNavTextColor}>
               <FontAwesome
                 size={25}
                 name={r.icon}
-                color={Colors[colorScheme ?? "light"].textButton}
+                color={Colors[colorScheme ?? "light"].bottomNavTextColor}
               />
             </Styled.Text>
           </Styled.Item>

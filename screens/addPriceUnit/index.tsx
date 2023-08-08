@@ -54,7 +54,9 @@ export default function AddPriceUnit({
   };
 
   return (
-    <Styled.Container>
+    <Styled.Container
+      background={Colors[colorScheme ?? "light"].bodyAddPriceBackgroundColor}
+    >
       {listArrItems.amount.length > 0 ? (
         <Styled.WrapperGrid>
           <ScrollView nestedScrollEnabled>
@@ -85,7 +87,9 @@ export default function AddPriceUnit({
         <Styled.WrapperButton>
           <Button
             icon="send"
-            background={Colors[colorScheme ?? "light"].buttonBackground}
+            background={
+              Colors[colorScheme ?? "light"].buttonActiveBackgroundColor
+            }
             onPress={handleAddAmount}
           />
         </Styled.WrapperButton>

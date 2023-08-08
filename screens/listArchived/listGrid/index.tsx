@@ -14,7 +14,7 @@ import {
   useShoppingListContext,
 } from "../../../context/ShoppingList";
 
-import Button from "../../../components/Button";
+import { Text } from "../../../components/Text";
 import BottomSheetComponent from "../../../components/BottomSheetComponent";
 interface ListProps {
   filter: string;
@@ -43,7 +43,9 @@ function ListGrid({ filter, listId }: ListProps) {
   }, [filter]);
 
   return (
-    <Styled.Container background={Colors[colorScheme ?? "light"].background}>
+    <Styled.Container
+      background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
+    >
       <Styled.ContainerList>
         <Styled.ContainerListInner>
           <Styled.ContainerListItemList>
@@ -65,24 +67,28 @@ function ListGrid({ filter, listId }: ListProps) {
           </Styled.ContainerListItemList>
           <Styled.ContainerListTotal>
             <Styled.ContainerItemTotalUnitText
-              text={Colors[colorScheme ?? "light"].text}
+              text={Colors[colorScheme ?? "light"].bodyTextColor}
             >
-              Total Items:{" "}
-              {getTotalUnArchived(
-                filteredList !== undefined && filteredList.length > 0
-                  ? filteredList
-                  : listArrItems
-              )}
+              <Text>
+                Items:{" "}
+                {getTotalUnArchived(
+                  filteredList !== undefined && filteredList.length > 0
+                    ? filteredList
+                    : listArrItems
+                )}
+              </Text>
             </Styled.ContainerItemTotalUnitText>
             <Styled.ContainerItemTotalText
-              text={Colors[colorScheme ?? "light"].text}
+              text={Colors[colorScheme ?? "light"].bodyTextColor}
             >
-              Total : R${" "}
-              {getTotalArchived(
-                filteredList !== undefined && filteredList.length > 0
-                  ? filteredList
-                  : listArrItems
-              ).toFixed(2)}
+              <Text>
+                Total : R${" "}
+                {getTotalArchived(
+                  filteredList !== undefined && filteredList.length > 0
+                    ? filteredList
+                    : listArrItems
+                ).toFixed(2)}
+              </Text>
             </Styled.ContainerItemTotalText>
           </Styled.ContainerListTotal>
         </Styled.ContainerListInner>

@@ -14,7 +14,7 @@ const Select = ({ items, selectedValue, onValueChange }: SelectProps) => {
     const colorScheme = useColorScheme();
     return (
         <Styled.select
-            background={Colors[colorScheme ?? 'light'].background}
+            background={Colors[colorScheme ?? 'light'].selectBackgroundColor}
             selectedValue={selectedValue}
             onValueChange={(itemValue, index) => onValueChange(itemValue as string, index)}
             style={{ borderColor: 'red' }}

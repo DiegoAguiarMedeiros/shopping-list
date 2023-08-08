@@ -11,6 +11,8 @@ export const ContainerListItemListItem = styled.TouchableHighlight<{
   height: ${(props: { height: string }) => props.height}px;
   min-height: 60px;
   max-height: 410px;
+  border-radius: 15px;
+  margin: 5px 0;
 `;
 export const ContainerListItemListItemAMount = styled.View<{
   background: string;
@@ -75,10 +77,7 @@ export const ContainerItemTextPriceUnit = styled.Text<{
   padding: 0px 10px;
   margin-bottom: 2px;
 `;
-export const ContainerItemTextPriceTotal = styled.Text<{
-  text: string;
-}>`
-  color: ${(props: { text: any }) => props.text};
+export const ContainerItemTextPriceTotal = styled.Text`
   flex: 2;
   font-size: 12px;
 `;

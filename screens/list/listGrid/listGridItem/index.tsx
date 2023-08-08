@@ -18,7 +18,7 @@ import {
   removeUndefinedFromArray,
 } from "../../../../utils/functions";
 import { Swipeable } from "react-native-gesture-handler";
-import { Title } from "../../../../components/Text";
+import { Title, Text } from "../../../../components/Text";
 import { useShoppingListContext } from "../../../../context/ShoppingList";
 
 import AddPriceUnit from "../../../addPriceUnit";
@@ -85,13 +85,14 @@ function ListGridItem({
         <Styled.ButtonView>
           <Styled.ButtonInner
             underlayColor={
-              Colors[colorScheme ?? "light"].backgroundTouchableHighlight
+              Colors[colorScheme ?? "light"]
+                .swipeablebuttonTouchableHighlightBackgroundColor
             }
             onPress={handleEdit}
           >
             <>
               <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].textButton}
+                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
               >
                 <FontAwesome
                   size={18}
@@ -100,7 +101,7 @@ function ListGridItem({
                 />
               </Styled.ButtonTextIcon>
               <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].textButton}
+                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
               >
                 Editar
               </Styled.ButtonText>
@@ -108,13 +109,14 @@ function ListGridItem({
           </Styled.ButtonInner>
           <Styled.ButtonInner
             underlayColor={
-              Colors[colorScheme ?? "light"].backgroundTouchableHighlight
+              Colors[colorScheme ?? "light"]
+                .swipeablebuttonTouchableHighlightBackgroundColor
             }
             onPress={handleDelete}
           >
             <>
               <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].textButton}
+                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
               >
                 <FontAwesome
                   size={18}
@@ -123,7 +125,7 @@ function ListGridItem({
                 />
               </Styled.ButtonTextIcon>
               <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].textButton}
+                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
               >
                 Deletar
               </Styled.ButtonText>
@@ -136,20 +138,14 @@ function ListGridItem({
 
   return active ? (
     <Styled.ContainerListItemListItem
-      underlayColor={
-        Colors[colorScheme ?? "light"].backgroundTouchableHighlight
-      }
+      underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
       height={
         item.amount.length > 5
           ? `${item.amount.length * 50 + 90}`
           : `${item.amount.length * 50 + 110}`
       }
-      borderColor={Colors[colorScheme ?? "light"].backgroundHeader}
-      background={
-        active
-          ? Colors[colorScheme ?? "light"].backgroundLighterActive
-          : Colors[colorScheme ?? "light"].backgroundLighter
-      }
+      borderColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+      background={Colors[colorScheme ?? "light"].listItemActiveBackgroundColor}
     >
       <>
         <Styled.ContainerListItemListItemInner>
@@ -173,16 +169,16 @@ function ListGridItem({
               <Title>{item.name}</Title>
             </Styled.ContainerItemTextTitle>
             <Styled.ContainerListItemListItemBody>
-              <Styled.ContainerItemTextPriceTotal
-                text={Colors[colorScheme ?? "light"].textButton}
-              >
-                Total: R${" "}
-                {getTotalAmount(getAmountOfListItems(item.amount)).toFixed(2)}
+              <Styled.ContainerItemTextPriceTotal>
+                <Text>
+                  Total: R${" "}
+                  {getTotalAmount(getAmountOfListItems(item.amount)).toFixed(2)}
+                </Text>
               </Styled.ContainerItemTextPriceTotal>
-              <Styled.ContainerItemTextPriceTotal
-                text={Colors[colorScheme ?? "light"].textButton}
-              >
-                Un: {getTotalAmountUn(getAmountOfListItems(item.amount))}
+              <Styled.ContainerItemTextPriceTotal>
+                <Text>
+                  Un: {getTotalAmountUn(getAmountOfListItems(item.amount))}
+                </Text>
               </Styled.ContainerItemTextPriceTotal>
             </Styled.ContainerListItemListItemBody>
           </Styled.ContainerListItemListItemHead>
@@ -199,7 +195,9 @@ function ListGridItem({
         </Styled.ContainerListItemListItemInner>
         <Styled.ContainerListItemListItemAMount
           height={`${item.amount.length * 50 + 40}`}
-          background={Colors[colorScheme ?? "light"].backgroundLighterActive}
+          background={
+            Colors[colorScheme ?? "light"].bodyAddPriceBackgroundColor
+          }
         >
           <AddPriceUnit listId={listId} listItemId={item.uuid} />
         </Styled.ContainerListItemListItemAMount>
@@ -209,15 +207,9 @@ function ListGridItem({
     <Swipeable renderRightActions={RightSwipe} rightThreshold={100}>
       <Styled.ContainerListItemListItem
         height="60"
-        underlayColor={
-          Colors[colorScheme ?? "light"].backgroundTouchableHighlight
-        }
-        borderColor={Colors[colorScheme ?? "light"].backgroundHeader}
-        background={
-          active
-            ? Colors[colorScheme ?? "light"].backgroundLighterActive
-            : Colors[colorScheme ?? "light"].backgroundLighter
-        }
+        underlayColor={Colors[colorScheme ?? "light"].listItemActiveBackgroundColor}
+        borderColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+        background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
       >
         <Styled.ContainerListItemListItemInner>
           <Styled.ContainerItemTextIcon>
@@ -240,16 +232,16 @@ function ListGridItem({
               <Title>{item.name}</Title>
             </Styled.ContainerItemTextTitle>
             <Styled.ContainerListItemListItemBody>
-              <Styled.ContainerItemTextPriceTotal
-                text={Colors[colorScheme ?? "light"].textButton}
-              >
-                Total: R${" "}
-                {getTotalAmount(getAmountOfListItems(item.amount)).toFixed(2)}
+              <Styled.ContainerItemTextPriceTotal>
+                <Text>
+                  Total: R${" "}
+                  {getTotalAmount(getAmountOfListItems(item.amount)).toFixed(2)}
+                </Text>
               </Styled.ContainerItemTextPriceTotal>
-              <Styled.ContainerItemTextPriceTotal
-                text={Colors[colorScheme ?? "light"].textButton}
-              >
-                Un: {getTotalAmountUn(getAmountOfListItems(item.amount))}
+              <Styled.ContainerItemTextPriceTotal>
+                <Text>
+                  Un: {getTotalAmountUn(getAmountOfListItems(item.amount))}
+                </Text>
               </Styled.ContainerItemTextPriceTotal>
             </Styled.ContainerListItemListItemBody>
           </Styled.ContainerListItemListItemHead>

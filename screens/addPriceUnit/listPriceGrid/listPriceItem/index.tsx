@@ -9,7 +9,7 @@ import {
 } from "../../../../types/types";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-import InputText from "../../../../components/InputText";
+import { Text } from "../../../../components/Text";
 import Switch from "../../../../components/Switch";
 import AddQtd from "./addQtd";
 import { useShoppingListContext } from "../../../../context/ShoppingList";
@@ -67,8 +67,8 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
   return (
     <Styled.Container>
       <Styled.ContainerPrice>
-        <Styled.Price text={Colors[colorScheme ?? "light"].textButton}>
-          R$ {itemAmount.amount}
+        <Styled.Price text={Colors[colorScheme ?? "light"].bodyTextColor}>
+          <Text>R$ {itemAmount.amount}</Text>
         </Styled.Price>
       </Styled.ContainerPrice>
       <Styled.ContainerQtd>

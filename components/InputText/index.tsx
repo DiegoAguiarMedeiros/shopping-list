@@ -12,10 +12,10 @@ const InputText: React.FC<InputProps> = ({ placeholder, ...rest }) => {
   const colorScheme = useColorScheme();
   return (
     <Styled.Input
-      background={Colors[colorScheme ?? "light"].inputBackground}
+      background={Colors[colorScheme ?? "light"].inputBackgroundColor}
       color={Colors[colorScheme ?? "light"].inputTextColor}
       placeholder={placeholder}
-      placeholderTextColor={Colors[colorScheme ?? "light"].inputTextColor}
+      placeholderTextColor={Colors[colorScheme ?? "light"].inputPlaceholdBackgroundColor}
       {...rest}
     />
   );
