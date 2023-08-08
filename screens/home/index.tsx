@@ -10,13 +10,11 @@ export default function Home() {
   const isFocused = useIsFocused();
   // AsyncStorage.clear();
   return (
-    <KeyboardAvoidingView behavior="padding">
-      {isFocused &&
-        (entries && entries.length > 0 ? (
-          <ListComponent items={entries} />
-        ) : (
-          <EmptyList />
-        ))}
-    </KeyboardAvoidingView>
+    isFocused &&
+    (entries && entries.length > 0 ? (
+      <ListComponent items={entries} />
+    ) : (
+      <EmptyList />
+    ))
   );
 }

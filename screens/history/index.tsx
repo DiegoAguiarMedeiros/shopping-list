@@ -6,13 +6,9 @@ import ListComponent from "./list";
 export default function History() {
   const { listArchived } = useShoppingListArchivedContext();
   const entries = listArchived ? Object.values(listArchived) : [];
-  return (
-    <KeyboardAvoidingView behavior="padding">
-      {entries && entries.length > 0 ? (
-        <ListComponent items={entries} />
-      ) : (
-        <EmptyList />
-      )}
-    </KeyboardAvoidingView>
+  return entries && entries.length > 0 ? (
+    <ListComponent items={entries} />
+  ) : (
+    <EmptyList />
   );
 }
