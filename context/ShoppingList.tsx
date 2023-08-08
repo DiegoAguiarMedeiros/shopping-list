@@ -126,13 +126,13 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   const getTotal = (items: ItemInterface[]): number => {
     let total: number = 0;
     items.forEach((itemList) => {
-      const amount = getAmountOfListItems(itemList.amount);
+      const amount = getAmountOfListItems(itemList?.amount);
       total =
         total +
         amount.reduce((accumulator, currentValue) => {
           return (
             accumulator +
-            Number(currentValue.amount) * Number(currentValue.quantity)
+            Number(currentValue?.amount) * Number(currentValue?.quantity)
           );
         }, 0);
     });
@@ -160,14 +160,14 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   const getTotalUn = (items: ItemInterface[]): number => {
     let total: number = 0;
     items.forEach((itemList) => {
-      const amount = getAmountOfListItems(itemList.amount);
+      const amount = getAmountOfListItems(itemList?.amount);
       total =
         amount.length > 0
           ? total +
             amount.reduce((accumulator, currentValue) => {
               return (
                 accumulator +
-                Number(currentValue.type ? "1" : currentValue.quantity)
+                Number(currentValue?.type ? "1" : currentValue?.quantity)
               );
             }, 0)
           : total + 1;

@@ -33,28 +33,6 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
   );
   const listArrItems = listItem[Array.isArray(listItemId) ? "" : listItemId];
   const colorScheme = useColorScheme();
-  const handleDeleteAmountInList = (): void => {
-    const updatedList: ListItemAmountInterface = JSON.parse(
-      JSON.stringify(itemAmountList)
-    );
-    const deleteID = JSON.parse(JSON.stringify(itemAmount.uuid));
-    delete updatedList[deleteID];
-    setItemAmountList(updatedList);
-    handleDeleteAmountFromItemList();
-  };
-
-  const handleDeleteAmountFromItemList = (): void => {
-    const updatedList: ItemInterface = JSON.parse(JSON.stringify(listArrItems));
-    const newArray = updatedList.amount.filter(
-      (item) => item !== itemAmount.uuid
-    );
-    updatedList.amount = newArray;
-    setListItem((newValue) => ({
-      ...newValue,
-      [updatedList.uuid]: updatedList,
-    }));
-  };
-
   const handleEditItemsAmount = (): void => {
     const updatedList: ListItemAmountInterface = JSON.parse(
       JSON.stringify(itemAmountList)
@@ -65,6 +43,25 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
       setSelectedValueSwitch(!selectedValueSwitch);
       setItemAmountList(updatedList);
     }
+  };
+
+  const handleDeleteAmountInList = (): void => {
+    const updatedList: ListItemAmountInterface = JSON.parse(
+      JSON.stringify(itemAmountList)
+    );
+    delete updatedList[itemAmount.uuid];
+    handleDeleteAmountFromItemList(itemAmount.uuid);
+    setItemAmountList(updatedList);
+  };
+
+  const handleDeleteAmountFromItemList = (uuid: string): void => {
+    const updatedList: ItemInterface = JSON.parse(JSON.stringify(listArrItems));
+    const newArray = updatedList.amount.filter((item) => item !== uuid);
+    updatedList.amount = newArray;
+    setListItem((newValue) => ({
+      ...newValue,
+      [updatedList.uuid]: updatedList,
+    }));
   };
 
   return (

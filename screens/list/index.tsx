@@ -55,23 +55,28 @@ export default function List({ listId }: ListProps) {
   const router = useRouter();
 
   useEffect(() => {
+    console.log("listItem ", listItem);
+    console.log("itemAmountList ", itemAmountList);
     setListArr(list[listId]);
+    setListArrItems(
+      removeUndefinedFromArray(getListItemsOfList(list[listId]?.items))
+    );
     if (!listArr) return;
-    const listItem = removeUndefinedFromArray(
+    const listItemarr = removeUndefinedFromArray(
       getListItemsOfList(list[listId].items)
     );
     if (filter === "Todos") {
-      setListArrItems(listItem);
+      setListArrItems(listItemarr);
 
       const newTotal: TotalType = {
-        un: getTotalUn(listItem),
-        amount: getTotalWithAmount(listItem),
+        un: getTotalUn(listItemarr),
+        amount: getTotalWithAmount(listItemarr),
       };
       setTotal(newTotal);
       return;
     }
 
-    const newFilteredList = listItem.filter(
+    const newFilteredList = listItemarr.filter(
       (item: ItemInterface) => item.tags === filter
     );
     setListArrItems(newFilteredList);

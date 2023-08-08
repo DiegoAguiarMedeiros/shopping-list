@@ -66,7 +66,7 @@ const getTagsFromListItemInterface = (
 const getTotalAmount = (items: ItemAmountInterface[]): number => {
   let total: number = 0;
   items.forEach((itemList) => {
-    total = total + Number(itemList.amount) * Number(itemList.quantity);
+    total = total + Number(itemList?.amount) * Number(itemList?.quantity);
   });
   return total;
 };
@@ -74,7 +74,7 @@ const getTotalAmount = (items: ItemAmountInterface[]): number => {
 const getTotalAmountUn = (items: ItemAmountInterface[]): number => {
   let total: number = 0;
   items.forEach((itemList) => {
-    total = itemList.type ? total + 1 : total + Number(itemList.quantity);
+    total = itemList?.type ? total + 1 : total + Number(itemList?.quantity);
   });
   return total;
 };
@@ -85,7 +85,7 @@ const getTotalWithAmount = (items: ItemAmountInterface[]): number => {
       ? items.reduce((accumulator, currentValue) => {
           return currentValue.type
             ? accumulator + 1
-            : accumulator + Number(currentValue.quantity);
+            : accumulator + Number(currentValue?.quantity);
         }, 0)
       : 0;
   return total;
