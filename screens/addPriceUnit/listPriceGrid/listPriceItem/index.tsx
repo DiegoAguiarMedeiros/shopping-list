@@ -89,7 +89,7 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
           size={28}
           style={{ marginBottom: -3 }}
           name={"trash"}
-          color={Colors[colorScheme ?? "light"].primary}
+          color={Colors[colorScheme ?? "light"].white}
           onPress={handleDeleteAmountInList}
         />
       </Styled.ContainerTrash>

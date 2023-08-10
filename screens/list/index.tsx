@@ -145,7 +145,7 @@ export default function List({ listId }: ListProps) {
             titleColor={
               Colors[colorScheme ?? "light"].circleProgresTextListColor
             }
-            circleBackgroundColor={Colors[colorScheme ?? "light"].primary}
+            circleBackgroundColor={Colors[colorScheme ?? "light"].circleProgresBackgroundListColor}
             filled={total.amount}
             progress={total.un && total.amount ? total.amount : 0}
             total={total.un}

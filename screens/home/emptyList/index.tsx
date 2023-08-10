@@ -4,6 +4,7 @@ import * as Styled from "./styles";
 import { useState } from "react";
 import { BottomSheetProps } from "../../../types/types";
 import Button from "../../../components/Button";
+import { Text } from "../../../components/Text";
 import BottomSheetComponent from "../../../components/BottomSheetComponent";
 
 interface Image {
@@ -24,7 +25,9 @@ export default function EmptyList() {
     onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
   });
   return (
-    <Styled.Container background={Colors[colorScheme ?? "light"].bodyBackgroundColor}>
+    <Styled.Container
+      background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
+    >
       <Styled.ContainerListEmpty>
         <Styled.ContainerListEmptyInner>
           <Styled.SlideContainerInnerImage>
@@ -33,14 +36,18 @@ export default function EmptyList() {
           <Styled.ListEmptyTextmessage
             text={Colors[colorScheme ?? "light"].bodyTextColor}
           >
-            Você não tem nenhuma lista criada
+            <Text dark={colorScheme !== "dark"}>
+              Você não tem nenhuma lista criada
+            </Text>
           </Styled.ListEmptyTextmessage>
         </Styled.ContainerListEmptyInner>
         <Styled.ContainerListEmptyInnerButton>
           <Styled.ContainerButtonAdd>
             <Button
               text="Adicionar"
-              background={Colors[colorScheme ?? "light"].buttonActiveBackgroundColor}
+              background={
+                Colors[colorScheme ?? "light"].buttonActiveBackgroundColor
+              }
               icon="plus"
               onPress={() =>
                 setBottomSheetProps({ ...bottomSheetProps, isVisible: true })

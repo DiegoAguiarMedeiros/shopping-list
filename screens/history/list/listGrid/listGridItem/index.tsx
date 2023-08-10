@@ -143,18 +143,17 @@ export default function ListGridItem({ item }: ItemProps) {
         <Styled.ContainerListItemInner>
           <Styled.ContainerListItemHead>
             <Styled.ContainerItemTitle>
-              <Title>{item.name}</Title>
+              <Title dark={colorScheme !== "dark"}>{item.name}</Title>
             </Styled.ContainerItemTitle>
             <Styled.ContainerListItemBody>
-              <Text>Total: R$ {total.toFixed(2)}</Text>
+              <Text dark={colorScheme !== "dark"}>
+                Total: R$ {total.toFixed(2)}
+              </Text>
             </Styled.ContainerListItemBody>
           </Styled.ContainerListItemHead>
           <Styled.ContainerItemCircleProgress>
             <CircleProgress
-              titleColor={
-                Colors[colorScheme ?? "light"]
-                  .circleProgresTextColor
-              }
+              titleColor={Colors[colorScheme ?? "light"].circleProgresTextColor}
               circleBackgroundColor={
                 Colors[colorScheme ?? "light"]
                   .circleProgresBackgroundFilledListColor

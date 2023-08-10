@@ -326,7 +326,7 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
               titleColor={Colors[colorScheme ?? "light"].circleProgresTextColor}
               circleBackgroundColor={
                 Colors[colorScheme ?? "light"]
-                  .circleProgresBackgroundFilledListColor
+                  .circleProgresBackgroundColor
               }
               filled={totalWithAmount}
               progress={totalUn && totalWithAmount ? totalWithAmount : 0}

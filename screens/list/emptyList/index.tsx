@@ -4,6 +4,7 @@ import * as Styled from "./styles";
 import { useState } from "react";
 import { BottomSheetProps } from "../../../types/types";
 import Button from "../../../components/Button";
+import { Text } from "../../../components/Text";
 import BottomSheetComponent from "../../../components/BottomSheetComponent";
 
 interface Image {
@@ -29,7 +30,9 @@ export default function EmptyList({ list }: ListProps) {
   });
 
   return (
-    <Styled.Container background={Colors[colorScheme ?? "light"].bodyBackgroundColor}>
+    <Styled.Container
+      background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
+    >
       <Styled.ContainerListEmpty>
         <Styled.ContainerListEmptyInner>
           <Styled.SlideContainerInnerImage>
@@ -40,7 +43,9 @@ export default function EmptyList({ list }: ListProps) {
           <Styled.ListEmptyTextmessage
             text={Colors[colorScheme ?? "light"].bodyTextColor}
           >
-            Você não tem nenhuma item na lista
+            <Text dark={colorScheme !== "dark"}>
+              Você não tem nenhuma item na lista
+            </Text>
           </Styled.ListEmptyTextmessage>
           <Styled.ContainerButtonAdd>
             <Button

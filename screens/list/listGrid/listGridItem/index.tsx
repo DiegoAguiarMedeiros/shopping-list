@@ -136,14 +136,20 @@ function ListGridItem({
     );
   }
 
+  const calcHeight = (height: number): string => {
+    if (height === 0) {
+      return `${1 * 50 + 70}`;
+    }
+    if (height > 5) {
+      return `${height * 50 + 90}`;
+    }
+    return `${height * 50 + 110}`;
+  };
+
   return active ? (
     <Styled.ContainerListItemListItem
       underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
-      height={
-        item.amount.length > 5
-          ? `${item.amount.length * 50 + 90}`
-          : `${item.amount.length * 50 + 110}`
-      }
+      height={calcHeight(item.amount.length)}
       borderColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
       background={Colors[colorScheme ?? "light"].listItemActiveBackgroundColor}
     >
@@ -157,8 +163,8 @@ function ListGridItem({
                 style={{ marginBottom: -3 }}
                 color={
                   item.amount.length > 0
-                    ? Colors[colorScheme ?? "light"].primary
-                    : Colors[colorScheme ?? "light"].secondary
+                    ? Colors[colorScheme ?? "light"].listItemIconActiveColor
+                    : Colors[colorScheme ?? "light"].listItemIconActiveColor
                 }
                 name={item.amount.length > 0 ? "check-circle-o" : "circle-o"}
               />
@@ -207,7 +213,9 @@ function ListGridItem({
     <Swipeable renderRightActions={RightSwipe} rightThreshold={100}>
       <Styled.ContainerListItemListItem
         height="60"
-        underlayColor={Colors[colorScheme ?? "light"].listItemActiveBackgroundColor}
+        underlayColor={
+          Colors[colorScheme ?? "light"].listItemActiveBackgroundColor
+        }
         borderColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
         background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
       >
@@ -220,8 +228,8 @@ function ListGridItem({
                 style={{ marginBottom: -3 }}
                 color={
                   item.amount.length > 0
-                    ? Colors[colorScheme ?? "light"].primary
-                    : Colors[colorScheme ?? "light"].secondary
+                    ? Colors[colorScheme ?? "light"].listItemIconColor
+                    : Colors[colorScheme ?? "light"].listItemIconColor
                 }
                 name={item.amount.length > 0 ? "check-circle-o" : "circle-o"}
               />

@@ -39,25 +39,29 @@ function ListGridItem({ item, listId }: ListProps) {
       {item.amount.map((amount) => (
         <Styled.ContainerListItemListItem
           key={`ContainerListItemListItem-` + amount}
-          underlayColor={Colors[colorScheme ?? "light"].bodyBackgroundColor}
-          background={Colors[colorScheme ?? "light"].bodyBackgroundBorderColor}
+          underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+          background={
+            Colors[colorScheme ?? "light"].listItemBackgroundColor
+          }
         >
           <>
             <Styled.ContainerListItemListItemHead>
               <Styled.ContainerItemTextTitle>
-                <Title>{item.name}</Title>
+                <Title dark={colorScheme !== "dark"}>{item.name}</Title>
               </Styled.ContainerItemTextTitle>
             </Styled.ContainerListItemListItemHead>
             <Styled.ContainerListItemListItemBody>
               <Styled.ContainerItemTextPriceTotal
                 text={Colors[colorScheme ?? "light"].bodyTextColor}
               >
-                <Text>Total: R$ {itemAmountListArchived[amount].amount}</Text>
+                <Text dark={colorScheme !== "dark"}>
+                  Total: R$ {itemAmountListArchived[amount].amount}
+                </Text>
               </Styled.ContainerItemTextPriceTotal>
               <Styled.ContainerItemTextPriceTotal
                 text={Colors[colorScheme ?? "light"].bodyTextColor}
               >
-                <Text>
+                <Text dark={colorScheme !== "dark"}>
                   {itemAmountListArchived[amount].quantity}
                   {itemAmountListArchived[amount].type ? " Kg" : " Unidades"}
                 </Text>
