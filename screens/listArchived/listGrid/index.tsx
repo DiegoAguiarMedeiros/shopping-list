@@ -69,7 +69,7 @@ function ListGrid({ filter, listId }: ListProps) {
             <Styled.ContainerItemTotalUnitText
               text={Colors[colorScheme ?? "light"].bodyTextColor}
             >
-              <Text>
+              <Text  dark={colorScheme !== "dark"}>
                 Items:{" "}
                 {getTotalUnArchived(
                   filteredList !== undefined && filteredList.length > 0
@@ -81,7 +81,7 @@ function ListGrid({ filter, listId }: ListProps) {
             <Styled.ContainerItemTotalText
               text={Colors[colorScheme ?? "light"].bodyTextColor}
             >
-              <Text>
+              <Text  dark={colorScheme !== "dark"}>
                 Total : R${" "}
                 {getTotalArchived(
                   filteredList !== undefined && filteredList.length > 0

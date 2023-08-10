@@ -51,6 +51,7 @@ export const ContainerListItemListItemBody = styled.View`
   width: 100%;
 `;
 export const ContainerItemTextTitle = styled.View`
+  justify-content: center;
   flex: 2;
 `;
 export const ContainerItemTextIcon = styled.View`

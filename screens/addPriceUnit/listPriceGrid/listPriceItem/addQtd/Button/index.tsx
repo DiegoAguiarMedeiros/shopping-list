@@ -23,7 +23,11 @@ const Button: React.FC<ButtonProps> = ({
     <Styled.Button
       onPress={onPress}
       {...rest}
-      border={Colors[colorScheme ?? "light"].white}
+      border={
+        colorScheme !== "dark"
+          ? Colors[colorScheme ?? "light"].white
+          : Colors[colorScheme ?? "light"].primary
+      }
       background={background}
       invertSide={invertSide!}
     >
