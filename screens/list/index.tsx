@@ -142,6 +142,10 @@ export default function List({ listId }: ListProps) {
 
         <Styled.ContainerHeaderInnerProgress>
           <CircleProgress
+            titleColor={
+              Colors[colorScheme ?? "light"].circleProgresTextListColor
+            }
+            circleBackgroundColor={Colors[colorScheme ?? "light"].primary}
             filled={total.amount}
             progress={total.un && total.amount ? total.amount : 0}
             total={total.un}

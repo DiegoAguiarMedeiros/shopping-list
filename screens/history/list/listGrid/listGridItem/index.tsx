@@ -101,7 +101,8 @@ export default function ListGridItem({ item }: ItemProps) {
           <Styled.ButtonView>
             <Styled.ButtonInner
               underlayColor={
-                Colors[colorScheme ?? "light"].swipeablebuttonTouchableHighlightBackgroundColor
+                Colors[colorScheme ?? "light"]
+                  .swipeablebuttonTouchableHighlightBackgroundColor
               }
               onPress={handleDelete}
             >
@@ -132,11 +133,11 @@ export default function ListGridItem({ item }: ItemProps) {
   return (
     <Swipeable renderRightActions={RightSwipe} rightThreshold={50}>
       <Styled.ContainerListItem
-        underlayColor={
-          Colors[colorScheme ?? "light"].listItemBackgroundColor
-        }
+        underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
         background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
-        borderColor={Colors[colorScheme ?? "light"].listItemBackgroundBorderColor}
+        borderColor={
+          Colors[colorScheme ?? "light"].listItemBackgroundBorderColor
+        }
         onPress={handleOpenList}
       >
         <Styled.ContainerListItemInner>
@@ -150,6 +151,14 @@ export default function ListGridItem({ item }: ItemProps) {
           </Styled.ContainerListItemHead>
           <Styled.ContainerItemCircleProgress>
             <CircleProgress
+              titleColor={
+                Colors[colorScheme ?? "light"]
+                  .circleProgresTextColor
+              }
+              circleBackgroundColor={
+                Colors[colorScheme ?? "light"]
+                  .circleProgresBackgroundFilledListColor
+              }
               filled={totalWithAmount}
               progress={totalUn && totalWithAmount ? totalWithAmount : 0}
               total={totalUn}

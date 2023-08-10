@@ -36,12 +36,12 @@ function ListGrid({ listArrItems, listId, deleteItem }: ListProps) {
             <Styled.ContainerItemTotalUnitText
               text={Colors[colorScheme ?? "light"].bodyTextColor}
             >
-              <Text>Total Items: {getTotalUn(listArrItems)}</Text>
+              <Text dark={colorScheme !== "dark"}>Total Items: {getTotalUn(listArrItems)}</Text>
             </Styled.ContainerItemTotalUnitText>
             <Styled.ContainerItemTotalText
               text={Colors[colorScheme ?? "light"].bodyTextColor}
             >
-              <Text>Total : R$ {getTotal(listArrItems).toFixed(2)}</Text>
+              <Text dark={colorScheme !== "dark"}>Total : R$ {getTotal(listArrItems).toFixed(2)}</Text>
             </Styled.ContainerItemTotalText>
           </Styled.ContainerListTotal>
           <Styled.ContainerListItemList>

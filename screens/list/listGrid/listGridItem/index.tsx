@@ -229,24 +229,24 @@ function ListGridItem({
           </Styled.ContainerItemTextIcon>
           <Styled.ContainerListItemListItemHead>
             <Styled.ContainerItemTextTitle>
-              <Title>{item.name}</Title>
+              <Title dark={colorScheme !== "dark"}>{item.name}</Title>
             </Styled.ContainerItemTextTitle>
             <Styled.ContainerListItemListItemBody>
               <Styled.ContainerItemTextPriceTotal>
-                <Text>
+                <Text dark={colorScheme !== "dark"}>
                   Total: R${" "}
                   {getTotalAmount(getAmountOfListItems(item.amount)).toFixed(2)}
                 </Text>
               </Styled.ContainerItemTextPriceTotal>
               <Styled.ContainerItemTextPriceTotal>
-                <Text>
+                <Text dark={colorScheme !== "dark"}>
                   Un: {getTotalAmountUn(getAmountOfListItems(item.amount))}
                 </Text>
               </Styled.ContainerItemTextPriceTotal>
             </Styled.ContainerListItemListItemBody>
           </Styled.ContainerListItemListItemHead>
           <Styled.ContainerItemTextIcon>
-            <Title>
+            <Title dark={colorScheme !== "dark"}>
               <FontAwesome
                 onPress={handleOpen}
                 size={28}

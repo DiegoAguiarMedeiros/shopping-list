@@ -307,7 +307,9 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
             <Styled.ButtonWrapper>
               <Button
                 text={buttonTextArr[buttonText]}
-                background={Colors[colorScheme ?? "light"].buttonActiveBackgroundColor}
+                background={
+                  Colors[colorScheme ?? "light"].buttonActiveBackgroundColor
+                }
                 onPress={functions[action]}
               />
             </Styled.ButtonWrapper>
