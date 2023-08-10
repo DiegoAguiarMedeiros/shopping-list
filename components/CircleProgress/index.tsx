@@ -10,6 +10,7 @@ type CircleProgressProps = {
   filled: number;
   total: number;
   size: number;
+  activeStrokeColor: string;
   circleBackgroundColor: string;
   titleColor: string;
 };
@@ -20,6 +21,7 @@ const CircleProgress = ({
   progress,
   size,
   circleBackgroundColor,
+  activeStrokeColor,
   titleColor,
 }: CircleProgressProps) => {
   const colorScheme = useColorScheme();
@@ -34,9 +36,7 @@ const CircleProgress = ({
       radius={size}
       duration={2000}
       circleBackgroundColor={circleBackgroundColor}
-      activeStrokeColor={
-        Colors[colorScheme ?? "light"].circleProgresBackgroundFilledColor
-      }
+      activeStrokeColor={activeStrokeColor}
       maxValue={100}
       titleColor={titleColor}
     />

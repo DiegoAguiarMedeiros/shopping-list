@@ -153,10 +153,13 @@ export default function ListGridItem({ item }: ItemProps) {
           </Styled.ContainerListItemHead>
           <Styled.ContainerItemCircleProgress>
             <CircleProgress
+              activeStrokeColor={
+                Colors[colorScheme ?? "light"]
+                  .circleProgresBackgroundFilledColor
+              }
               titleColor={Colors[colorScheme ?? "light"].circleProgresTextColor}
               circleBackgroundColor={
-                Colors[colorScheme ?? "light"]
-                  .circleProgresBackgroundFilledListColor
+                Colors[colorScheme ?? "light"].circleProgresBackgroundColor
               }
               filled={totalWithAmount}
               progress={totalUn && totalWithAmount ? totalWithAmount : 0}

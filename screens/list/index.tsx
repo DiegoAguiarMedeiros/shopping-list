@@ -142,6 +142,7 @@ export default function List({ listId }: ListProps) {
 
         <Styled.ContainerHeaderInnerProgress>
           <CircleProgress
+            activeStrokeColor={Colors[colorScheme ?? "light"].circleProgresBackgroundFilledListColor}
             titleColor={
               Colors[colorScheme ?? "light"].circleProgresTextListColor
             }

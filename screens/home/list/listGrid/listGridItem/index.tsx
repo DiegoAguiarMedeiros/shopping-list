@@ -323,6 +323,7 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
           </Styled.ContainerListItemHead>
           <Styled.ContainerItemCircleProgress>
             <CircleProgress
+            activeStrokeColor={Colors[colorScheme ?? "light"].circleProgresBackgroundFilledColor}
               titleColor={Colors[colorScheme ?? "light"].circleProgresTextColor}
               circleBackgroundColor={
                 Colors[colorScheme ?? "light"]

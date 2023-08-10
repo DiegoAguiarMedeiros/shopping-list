@@ -72,7 +72,7 @@ export default {
     inputBackgroundBorderColor: "#F5F5F5",
     inputTextColor: black,
     inputPlaceholdBackgroundColor: black,
-    circleProgresBackgroundFilledColor: white,
+    circleProgresBackgroundFilledColor: primary,
     circleProgresBackgroundFilledListColor: secondaryLightColor,
     circleProgresBackgroundUnfilledColor: primary,
     circleProgresBackgroundColor: secondaryLightColor,
