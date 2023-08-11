@@ -89,24 +89,26 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
   };
 
   const handleDeleteListItem = (listUuid: string[]): void => {
-    listUuid.forEach((i) => {
+    if (listUuid) {
       const updatedList: ListItemInterface = JSON.parse(
         JSON.stringify(listItem)
       );
-      updatedList[i]?.amount &&
-        handleDeleteAmountInList(updatedList[i]?.amount);
-      delete updatedList[i];
+      listUuid.forEach((i) => {
+        updatedList[i]?.amount &&
+          handleDeleteAmountInList(updatedList[i]?.amount);
+        delete updatedList[i];
+      });
       setListItem(updatedList);
-    });
+    }
   };
   const handleDeleteAmountInList = (itemAmountUuid: string[]): void => {
+    const updatedList: ListItemAmountInterface = JSON.parse(
+      JSON.stringify(itemAmountList)
+    );
     itemAmountUuid.forEach((i) => {
-      const updatedList: ListItemAmountInterface = JSON.parse(
-        JSON.stringify(itemAmountList)
-      );
       delete updatedList[i];
-      setItemAmountList(updatedList);
     });
+    setItemAmountList(updatedList);
   };
 
   const handleArchivedItemList = (items: string[]): void => {
@@ -323,11 +325,13 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
           </Styled.ContainerListItemHead>
           <Styled.ContainerItemCircleProgress>
             <CircleProgress
-            activeStrokeColor={Colors[colorScheme ?? "light"].circleProgresBackgroundFilledColor}
+              activeStrokeColor={
+                Colors[colorScheme ?? "light"]
+                  .circleProgresBackgroundFilledColor
+              }
               titleColor={Colors[colorScheme ?? "light"].circleProgresTextColor}
               circleBackgroundColor={
-                Colors[colorScheme ?? "light"]
-                  .circleProgresBackgroundColor
+                Colors[colorScheme ?? "light"].circleProgresBackgroundColor
               }
               filled={totalWithAmount}
               progress={totalUn && totalWithAmount ? totalWithAmount : 0}

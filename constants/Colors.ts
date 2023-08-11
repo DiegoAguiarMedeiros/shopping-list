@@ -19,9 +19,9 @@ const tertiaryLightColor = "#F0F8FF";
 
 const white = "#fff";
 const black = "#000";
-const alert = "#fff";
+const alert = "#d85d63";
 const warning = "#fff";
-const info = "#00f";
+const info = "#2f6f9f";
 const primaryTitleLightFontColor = "#ffffff";
 const primaryLightFontColor = "#000000";
 const secondaryLightFontColor = "#00000088";

@@ -5,7 +5,7 @@ import ListComponent from "./list";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
 export default function Home() {
-  const { list } = useShoppingListContext();
+  const { list, listItem, itemAmountList } = useShoppingListContext();
   const entries = list ? Object.values(list) : [];
   const isFocused = useIsFocused();
   // AsyncStorage.clear();

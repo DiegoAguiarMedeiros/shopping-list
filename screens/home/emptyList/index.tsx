@@ -45,9 +45,7 @@ export default function EmptyList() {
           <Styled.ContainerButtonAdd>
             <Button
               text="Adicionar"
-              background={
-                Colors[colorScheme ?? "light"].buttonActiveBackgroundColor
-              }
+              background={Colors[colorScheme ?? "light"].primary}
               icon="plus"
               onPress={() =>
                 setBottomSheetProps({ ...bottomSheetProps, isVisible: true })

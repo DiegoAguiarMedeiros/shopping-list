@@ -298,9 +298,7 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
             <Styled.ButtonWrapper>
               <Button
                 text="Cancelar"
-                background={
-                  Colors[colorScheme ?? "light"].buttonBackgroundColor
-                }
+                background={Colors[colorScheme ?? "light"].alert}
                 onPress={handleHideBottomSheet}
               />
             </Styled.ButtonWrapper>
@@ -308,7 +306,7 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
               <Button
                 text={buttonTextArr[buttonText]}
                 background={
-                  Colors[colorScheme ?? "light"].buttonActiveBackgroundColor
+                  Colors[colorScheme ?? "light"].info
                 }
                 onPress={functions[action]}
               />

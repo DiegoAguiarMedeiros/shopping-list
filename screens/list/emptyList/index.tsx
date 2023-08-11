@@ -53,7 +53,7 @@ export default function EmptyList({ list }: ListProps) {
               onPress={() =>
                 setBottomSheetProps({ ...bottomSheetProps, isVisible: true })
               }
-              background={Colors[colorScheme ?? "light"].buttonBackgroundColor}
+              background={Colors[colorScheme ?? "light"].primary}
               icon="plus"
             />
           </Styled.ContainerButtonAdd>

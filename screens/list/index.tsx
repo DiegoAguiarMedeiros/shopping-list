@@ -55,8 +55,6 @@ export default function List({ listId }: ListProps) {
   const router = useRouter();
 
   useEffect(() => {
-    console.log("listItem ", listItem);
-    console.log("itemAmountList ", itemAmountList);
     setListArr(list[listId]);
     setListArrItems(
       removeUndefinedFromArray(getListItemsOfList(list[listId]?.items))
@@ -132,7 +130,7 @@ export default function List({ listId }: ListProps) {
             <FontAwesome
               name="angle-left"
               size={35}
-              color={Colors[colorScheme ?? "light"].bodyTextColor}
+              color={Colors[colorScheme ?? "light"].white}
             />
           </TouchableOpacity>
         </Styled.ContainerHeaderInnerIconBack>
@@ -142,11 +140,16 @@ export default function List({ listId }: ListProps) {
 
         <Styled.ContainerHeaderInnerProgress>
           <CircleProgress
-            activeStrokeColor={Colors[colorScheme ?? "light"].circleProgresBackgroundFilledListColor}
+            activeStrokeColor={
+              Colors[colorScheme ?? "light"]
+                .circleProgresBackgroundFilledListColor
+            }
             titleColor={
               Colors[colorScheme ?? "light"].circleProgresTextListColor
             }
-            circleBackgroundColor={Colors[colorScheme ?? "light"].circleProgresBackgroundListColor}
+            circleBackgroundColor={
+              Colors[colorScheme ?? "light"].circleProgresBackgroundListColor
+            }
             filled={total.amount}
             progress={total.un && total.amount ? total.amount : 0}
             total={total.un}

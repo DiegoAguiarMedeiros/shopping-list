@@ -32,7 +32,7 @@ export default function List({ items }: ItemProps) {
         <Styled.ContainerButtonAdd>
           {/* <Link href="/modal" asChild> */}
           <Button
-            text="Criar"
+            text="Adicionar"
             onPress={() =>
               setBottomSheetProps({ ...bottomSheetProps, isVisible: true })
             }
