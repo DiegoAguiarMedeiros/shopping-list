@@ -14,9 +14,11 @@ interface ItemProps {
 }
 export default function ListGrid({ items, setBottomSheetProps }: ItemProps) {
   const colorScheme = useColorScheme();
-
+  console.log("items", items);
   return (
-    <Styled.Container background={Colors[colorScheme ?? "light"].bodyBackgroundColor}>
+    <Styled.Container
+      background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
+    >
       <Styled.ContainerList>
         <SafeAreaView>
           <ScrollView>

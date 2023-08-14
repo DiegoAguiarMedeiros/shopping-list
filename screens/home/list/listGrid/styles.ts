@@ -7,7 +7,7 @@ export const Container = styled.View<{
   background: ${(props: { background: any }) => props.background};
   width: 100%;
   height: 100%;
-padding:15px 10px;
+  padding: 15px 10px;
 `;
 
 export const ContainerList = styled.View`
@@ -27,7 +27,6 @@ export const ContainerListTotal = styled.View`
   flex: 0.5;
 `;
 export const ContainerListItemList = styled.View`
-  border: 1px solid #0f0;
   width: 100%;
   flex: 11;
   height: 50%;
