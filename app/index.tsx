@@ -82,6 +82,7 @@ import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 import { FontAwesome } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
+import { getOnboarding, setOnboarding } from "../utils/onboarding";
 
 import { Title } from "../components/Text";
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
@@ -105,6 +106,7 @@ export default function App() {
   const [activeRoute, setActiveRoute] = useState<string>("home");
   const colorScheme = useColorScheme();
   useEffect(() => {
+    getOnboarding().then((result) => setActive(result));
     async function prepare() {
       try {
         // Pre-load fonts, make any API calls you need to do here
@@ -150,7 +152,8 @@ export default function App() {
   }
 
   const closeOnboarding = () => {
-    setActive(false);
+    setActive(true);
+    setOnboarding(true);
   };
   return (
     <>
@@ -160,8 +163,8 @@ export default function App() {
       <ShoppingListProvider>
         <ShoppingListArchivedProvider>
           {/* Keep the splash screen open until the assets have loaded. In the future, we should just support async font loading with a native version of font-display. */}
-          {active && <OnboardingScreen closeOnboarding={closeOnboarding} />}
-          {appIsReady && !active && <RootLayoutNav />}
+          {!active && <OnboardingScreen closeOnboarding={closeOnboarding} />}
+          {appIsReady && active && <RootLayoutNav />}
         </ShoppingListArchivedProvider>
       </ShoppingListProvider>
     </>
@@ -183,10 +186,10 @@ function RootLayoutNav() {
           screenOptions={{
             cardStyleInterpolator: CardStyleInterpolators.forBottomSheetAndroid,
             headerStyle: {
-              backgroundColor: Colors[colorScheme ?? "light"].headerBackgroundColor,
+              backgroundColor:
+                Colors[colorScheme ?? "light"].headerBackgroundColor,
             },
-            headerTintColor:
-              Colors[colorScheme ?? "light"].headerTextColor,
+            headerTintColor: Colors[colorScheme ?? "light"].headerTextColor,
           }}
         >
           <Stack.Screen

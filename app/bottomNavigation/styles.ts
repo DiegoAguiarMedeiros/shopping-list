@@ -3,7 +3,11 @@ import { Dimensions } from "react-native";
 
 export const Container = styled.View<{
   background: string;
+  border: string;
 }>`
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: ${(props: { border: any }) => props.border};
   background: ${(props: { background: any }) => props.background};
   width: ${Dimensions.get("window").width + "px"};
 `;

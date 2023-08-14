@@ -17,6 +17,7 @@ const BottomNavigation: React.FC<RoutesType> = ({
   return (
     <Styled.Container
       background={Colors[colorScheme ?? "light"].bottomNavBackgroundColor}
+      border={Colors[colorScheme ?? "light"].bottomNavActiveBackgroundBorderColor}
     >
       <Styled.ContainerInner>
         {routes.map((r) => (

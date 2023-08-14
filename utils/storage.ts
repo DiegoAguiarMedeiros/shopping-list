@@ -111,6 +111,17 @@ const setShoppingArchivedListItem = (value: ListItemInterface) => {
 const setShoppingArchivedItemAmount = (value: ListItemAmountInterface) => {
   AsyncStorage.setItem("SLARCHIVEDSHOPPINGITEMAMOUNT", JSON.stringify(value));
 };
+const setOnboarding = (value: boolean) => {
+  AsyncStorage.setItem("ONBOARDING", JSON.stringify(value));
+};
+const getOnboarding = async (): Promise<boolean> => {
+  const onboardingPromise: string | null | undefined = await _retrieveData(
+    "ONBOARDING"
+  );
+
+  const onboarding: boolean = onboardingPromise === "true";
+  return onboarding;
+};
 
 export default {
   getShoppingList,
@@ -125,4 +136,6 @@ export default {
   setShoppingArchivedListItem,
   getShoppingArchivedItemAmount,
   setShoppingArchivedItemAmount,
+  setOnboarding,
+  getOnboarding,
 };
