@@ -4,10 +4,16 @@ export const Button = styled.TouchableOpacity<{
   border: string;
   background: string;
   height: string;
+  radius: boolean;
 }>`
   background: ${(props: { background: any }) => props.background};
   border: 1px solid ${(props: { border: any }) => props.border};
-  border-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: ${(props: { radius: boolean }) =>
+    props.radius ? "10px" : "0px"};
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: ${(props: { radius: boolean }) =>
+    props.radius ? "10px" : "0px"};
   padding: 5px 10px;
   flex-direction: row;
   height: ${(props: { height: any }) => props.height};

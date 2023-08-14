@@ -75,6 +75,7 @@ export default function AddPriceUnit({
       <Styled.WrapperInput>
         <Styled.WrapperInputInner>
           <InputText
+            radius
             placeholder="Valor"
             onChangeText={(valor) => {
               setNewItem(valor);
@@ -86,6 +87,7 @@ export default function AddPriceUnit({
         </Styled.WrapperInputInner>
         <Styled.WrapperButton>
           <Button
+            radius
             icon="send"
             background={
               Colors[colorScheme ?? "light"].buttonActiveBackgroundColor

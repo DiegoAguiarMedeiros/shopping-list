@@ -163,7 +163,7 @@ function ListGridItem({
                 style={{ marginBottom: -3 }}
                 color={
                   item.amount.length > 0
-                    ? Colors[colorScheme ?? "light"].listItemIconActiveColor
+                    ? Colors[colorScheme ?? "light"].listItemIconActiveColorActive
                     : Colors[colorScheme ?? "light"].listItemIconActiveColor
                 }
                 name={item.amount.length > 0 ? "check-circle-o" : "circle-o"}
@@ -228,7 +228,7 @@ function ListGridItem({
                 style={{ marginBottom: -3 }}
                 color={
                   item.amount.length > 0
-                    ? Colors[colorScheme ?? "light"].listItemIconColor
+                    ? Colors[colorScheme ?? "light"].listItemIconColorActive
                     : Colors[colorScheme ?? "light"].listItemIconColor
                 }
                 name={item.amount.length > 0 ? "check-circle-o" : "circle-o"}

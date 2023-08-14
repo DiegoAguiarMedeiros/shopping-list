@@ -9,9 +9,9 @@ export const Button = styled.TouchableOpacity<{
   background:${(props: { background: any; }) => props.background};
   border: 1px solid ${(props: { border: any; }) => props.border};
   ${((props: { invertSide: any; }) => props.invertSide ?
-    'border-top-left-radius: 100px; border-bottom-left-radius: 100px;'
+    'border-top-left-radius: 10px; border-bottom-left-radius: 10px;'
     :
-    'border-top-right-radius: 100px; border-bottom-right-radius: 100px;'
+    'border-top-right-radius: 10px; border-bottom-right-radius: 10px;'
   )}
   
   padding: 5px 5px;

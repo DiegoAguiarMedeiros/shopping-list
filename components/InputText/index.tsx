@@ -6,16 +6,20 @@ import * as Styled from "./styles";
 
 interface InputProps extends TextInputProps {
   placeholder: string;
+  radius?: boolean;
 }
 
-const InputText: React.FC<InputProps> = ({ placeholder, ...rest }) => {
+const InputText: React.FC<InputProps> = ({ placeholder, radius, ...rest }) => {
   const colorScheme = useColorScheme();
   return (
     <Styled.Input
+      radius={!radius}
       background={Colors[colorScheme ?? "light"].inputBackgroundColor}
       color={Colors[colorScheme ?? "light"].inputTextColor}
       placeholder={placeholder}
-      placeholderTextColor={Colors[colorScheme ?? "light"].inputPlaceholdBackgroundColor}
+      placeholderTextColor={
+        Colors[colorScheme ?? "light"].inputPlaceholdBackgroundColor
+      }
       {...rest}
     />
   );

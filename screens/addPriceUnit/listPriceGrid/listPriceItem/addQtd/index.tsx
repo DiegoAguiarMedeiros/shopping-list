@@ -92,6 +92,7 @@ export default function ListPriceGrid({
     <Styled.Container>
       {selectedValueSwitch ? (
         <InputText
+          radius={true}
           keyboardType="decimal-pad"
           placeholder="0.000"
           onChangeText={(value) => handleInputChange(value)}
@@ -108,7 +109,11 @@ export default function ListPriceGrid({
             />
           </Styled.ContainerMinusPlus>
           <Styled.ContainerQtd>
-            <InputText placeholder="Valor" value={newItemAmount.quantity} />
+            <InputText
+              radius={false}
+              placeholder="Valor"
+              value={newItemAmount.quantity}
+            />
           </Styled.ContainerQtd>
           <Styled.ContainerMinusPlus>
             <Button

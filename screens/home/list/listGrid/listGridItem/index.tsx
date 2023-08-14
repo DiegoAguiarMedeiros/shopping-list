@@ -54,7 +54,6 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
   const total = item.items.length > 0 ? getTotal(items) : 0;
   const totalWithAmount = item.items.length > 0 ? getTotalWithAmount(items) : 0;
   const totalUn = item.items.length > 0 ? getTotalUn(items) : 0;
-  console.log("item", item);
   const handleOpenList = useCallback(() => {
     router.push({ pathname: "/Items", params: { listId: item.uuid } });
   }, [item.uuid, router]);

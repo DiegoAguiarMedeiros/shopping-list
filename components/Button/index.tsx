@@ -7,6 +7,7 @@ import { Text } from "../Text/";
 interface ButtonProps extends TouchableOpacityProps {
   text?: string;
   background: string;
+  radius?: boolean;
   icon?:
     | "link"
     | "search"
@@ -802,11 +803,13 @@ const Button: React.FC<ButtonProps> = ({
   background,
   children,
   onPress,
+  radius,
   ...rest
 }) => {
   const colorScheme = useColorScheme();
   return (
     <Styled.Button
+      radius={!radius}
       onPress={onPress}
       {...rest}
       border={Colors[colorScheme ?? "light"].buttonBackgroundBorderColor}

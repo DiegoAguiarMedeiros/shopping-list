@@ -246,75 +246,68 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
   };
 
   return (
-    <TouchableOpacity
-      style={StyleSheet.absoluteFillObject}
-      onPress={handleHideBottomSheet}
+    <AnimatedBottomSheet
+      style={{
+        height:
+          action === "addListItem" || listId === "editListItem" ? 205 : 150,
+        backgroundColor:
+          Colors[colorScheme ?? "light"].bottomSheetBackgroundColor,
+        transform: [{ translateY }],
+      }}
     >
-      <AnimatedBottomSheet
-        style={{
-          height:
-            action === "addListItem" || listId === "editListItem" ? 205 : 150,
-          backgroundColor:
-            Colors[colorScheme ?? "light"].bottomSheetBackgroundColor,
-          transform: [{ translateY }],
-        }}
-      >
-        {/* <Button onPress={handleHideBottomSheet} background={Colors[colorScheme ?? 'light'].buttonBackground}>
+      {/* <Button onPress={handleHideBottomSheet} background={Colors[colorScheme ?? 'light'].buttonBackground}>
           <Text>Close</Text>
         </Button> */}
-        <Styled.Container>
+      <Styled.Container>
+        <Styled.InputContainer>
+          <InputText
+            placeholder={listId ? "Nome do item..." : "Nome da sua lista..."}
+            onChangeText={(item) => {
+              setNewItem({
+                item: item,
+                tag: newItem.tag,
+                edit: true,
+              });
+            }}
+            value={newItem.item}
+            onSubmitEditing={functions[action]}
+          />
+        </Styled.InputContainer>
+        {action === "addListItem" || listId === "editListItem" ? (
           <Styled.InputContainer>
             <InputText
-              placeholder={listId ? "Nome do item..." : "Nome da sua lista..."}
-              onChangeText={(item) => {
+              placeholder="Nome da categoria..."
+              onChangeText={(tag) => {
                 setNewItem({
-                  item: item,
-                  tag: newItem.tag,
+                  item: newItem.item,
+                  tag: tag,
                   edit: true,
                 });
               }}
-              value={newItem.item}
+              value={newItem.tag}
               onSubmitEditing={functions[action]}
             />
           </Styled.InputContainer>
-          {action === "addListItem" || listId === "editListItem" ? (
-            <Styled.InputContainer>
-              <InputText
-                placeholder="Nome da categoria..."
-                onChangeText={(tag) => {
-                  setNewItem({
-                    item: newItem.item,
-                    tag: tag,
-                    edit: true,
-                  });
-                }}
-                value={newItem.tag}
-                onSubmitEditing={functions[action]}
-              />
-            </Styled.InputContainer>
-          ) : null}
+        ) : null}
 
-          <Styled.ButtonsContainer>
-            <Styled.ButtonWrapper>
-              <Button
-                text="Cancelar"
-                background={Colors[colorScheme ?? "light"].alert}
-                onPress={handleHideBottomSheet}
-              />
-            </Styled.ButtonWrapper>
-            <Styled.ButtonWrapper>
-              <Button
-                text={buttonTextArr[buttonText]}
-                background={
-                  Colors[colorScheme ?? "light"].info
-                }
-                onPress={functions[action]}
-              />
-            </Styled.ButtonWrapper>
-          </Styled.ButtonsContainer>
-        </Styled.Container>
-      </AnimatedBottomSheet>
-    </TouchableOpacity>
+        <Styled.ButtonsContainer>
+          <Styled.ButtonWrapper>
+            <Button
+              text="Cancelar"
+              background={Colors[colorScheme ?? "light"].alert}
+              onPress={handleHideBottomSheet}
+            />
+          </Styled.ButtonWrapper>
+          <Styled.ButtonWrapper>
+            <Button
+              text={buttonTextArr[buttonText]}
+              background={Colors[colorScheme ?? "light"].info}
+              onPress={functions[action]}
+            />
+          </Styled.ButtonWrapper>
+        </Styled.ButtonsContainer>
+      </Styled.Container>
+    </AnimatedBottomSheet>
   );
 };
 
