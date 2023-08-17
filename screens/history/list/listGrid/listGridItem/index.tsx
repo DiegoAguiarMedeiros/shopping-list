@@ -127,7 +127,7 @@ export default function ListGridItem({ item }: ItemProps) {
         </Animated.View>
       );
     },
-    []
+    [item]
   );
 
   return (

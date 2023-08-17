@@ -222,7 +222,7 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
         </Animated.View>
       );
     },
-    []
+    [item]
   );
   const LeftSwipe = useCallback(
     (
@@ -294,7 +294,7 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
         </Animated.View>
       );
     },
-    []
+    [item]
   );
 
   return (
