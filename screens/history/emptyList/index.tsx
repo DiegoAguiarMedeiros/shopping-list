@@ -26,7 +26,11 @@ export default function EmptyList() {
           <Styled.ListEmptyTextmessage
             text={Colors[colorScheme ?? "light"].bodyTextColor}
           >
-            <Text dark={colorScheme !== "dark"}>
+            <Text color={
+                    colorScheme !== "dark"
+                      ? Colors[colorScheme ?? "light"].black
+                      : Colors[colorScheme ?? "light"].white
+                  }>
               Você não tem nenhuma lista arquivada
             </Text>
           </Styled.ListEmptyTextmessage>

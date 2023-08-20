@@ -43,7 +43,11 @@ export default function EmptyList({ list }: ListProps) {
           <Styled.ListEmptyTextmessage
             text={Colors[colorScheme ?? "light"].bodyTextColor}
           >
-            <Text dark={colorScheme !== "dark"}>
+            <Text color={
+                    colorScheme !== "dark"
+                      ? Colors[colorScheme ?? "light"].black
+                      : Colors[colorScheme ?? "light"].white
+                  }>
               Você não tem nenhuma item na lista
             </Text>
           </Styled.ListEmptyTextmessage>

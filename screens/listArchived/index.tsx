@@ -61,19 +61,23 @@ export default function ListArchived({ listId }: ListProps) {
   }, [filter, itemAmountListArchived]);
 
   return (
-    <Styled.Container background={Colors[colorScheme ?? "light"].headerBackgroundColor}>
+    <Styled.Container
+      background={Colors[colorScheme ?? "light"].headerBackgroundColor}
+    >
       <Styled.ContainerHeader>
         <Styled.ContainerHeaderInnerIconBack>
           <TouchableOpacity onPress={() => router.back()}>
             <FontAwesome
               name="angle-left"
               size={35}
-              color={Colors[colorScheme ?? "light"].bodyTextColor}
+              color={Colors[colorScheme ?? "light"].white}
             />
           </TouchableOpacity>
         </Styled.ContainerHeaderInnerIconBack>
         <Styled.ContainerHeaderInnerText>
-          <Title>{listArr.name}</Title>
+          <Title color={Colors[colorScheme ?? "light"].white}>
+            {listArr.name}
+          </Title>
         </Styled.ContainerHeaderInnerText>
       </Styled.ContainerHeader>
       <Styled.ContainerBody>

@@ -156,14 +156,15 @@ function ListGridItem({
       <>
         <Styled.ContainerListItemListItemInner>
           <Styled.ContainerItemTextIcon>
-            <Title>
+            <Title color={Colors[colorScheme ?? "light"].white}>
               <FontAwesome
                 onPress={handleOpen}
                 size={28}
                 style={{ marginBottom: -3 }}
                 color={
                   item.amount.length > 0
-                    ? Colors[colorScheme ?? "light"].listItemIconActiveColorActive
+                    ? Colors[colorScheme ?? "light"]
+                        .listItemIconActiveColorActive
                     : Colors[colorScheme ?? "light"].listItemIconActiveColor
                 }
                 name={item.amount.length > 0 ? "check-circle-o" : "circle-o"}
@@ -172,24 +173,26 @@ function ListGridItem({
           </Styled.ContainerItemTextIcon>
           <Styled.ContainerListItemListItemHead>
             <Styled.ContainerItemTextTitle>
-              <Title>{item.name}</Title>
+              <Title color={Colors[colorScheme ?? "light"].white}>
+                {item.name}
+              </Title>
             </Styled.ContainerItemTextTitle>
             <Styled.ContainerListItemListItemBody>
               <Styled.ContainerItemTextPriceTotal>
-                <Text>
+                <Text color={Colors[colorScheme ?? "light"].white}>
                   Total: R${" "}
                   {getTotalAmount(getAmountOfListItems(item.amount)).toFixed(2)}
                 </Text>
               </Styled.ContainerItemTextPriceTotal>
               <Styled.ContainerItemTextPriceTotal>
-                <Text>
+                <Text color={Colors[colorScheme ?? "light"].white}>
                   Un: {getTotalAmountUn(getAmountOfListItems(item.amount))}
                 </Text>
               </Styled.ContainerItemTextPriceTotal>
             </Styled.ContainerListItemListItemBody>
           </Styled.ContainerListItemListItemHead>
           <Styled.ContainerItemTextIcon>
-            <Title>
+            <Title color={Colors[colorScheme ?? "light"].white}>
               <FontAwesome
                 onPress={handleOpen}
                 size={28}
@@ -221,7 +224,13 @@ function ListGridItem({
       >
         <Styled.ContainerListItemListItemInner>
           <Styled.ContainerItemTextIcon>
-            <Title>
+            <Title
+              color={
+                colorScheme !== "dark"
+                  ? Colors[colorScheme ?? "light"].black
+                  : Colors[colorScheme ?? "light"].white
+              }
+            >
               <FontAwesome
                 onPress={handleOpen}
                 size={28}
@@ -237,24 +246,50 @@ function ListGridItem({
           </Styled.ContainerItemTextIcon>
           <Styled.ContainerListItemListItemHead>
             <Styled.ContainerItemTextTitle>
-              <Title dark={colorScheme !== "dark"}>{item.name}</Title>
+              <Title
+                color={
+                  colorScheme !== "dark"
+                    ? Colors[colorScheme ?? "light"].black
+                    : Colors[colorScheme ?? "light"].white
+                }
+              >
+                {item.name}
+              </Title>
             </Styled.ContainerItemTextTitle>
             <Styled.ContainerListItemListItemBody>
               <Styled.ContainerItemTextPriceTotal>
-                <Text dark={colorScheme !== "dark"}>
+                <Text
+                  color={
+                    colorScheme !== "dark"
+                      ? Colors[colorScheme ?? "light"].black
+                      : Colors[colorScheme ?? "light"].white
+                  }
+                >
                   Total: R${" "}
                   {getTotalAmount(getAmountOfListItems(item.amount)).toFixed(2)}
                 </Text>
               </Styled.ContainerItemTextPriceTotal>
               <Styled.ContainerItemTextPriceTotal>
-                <Text dark={colorScheme !== "dark"}>
+                <Text
+                  color={
+                    colorScheme !== "dark"
+                      ? Colors[colorScheme ?? "light"].black
+                      : Colors[colorScheme ?? "light"].white
+                  }
+                >
                   Un: {getTotalAmountUn(getAmountOfListItems(item.amount))}
                 </Text>
               </Styled.ContainerItemTextPriceTotal>
             </Styled.ContainerListItemListItemBody>
           </Styled.ContainerListItemListItemHead>
           <Styled.ContainerItemTextIcon>
-            <Title dark={colorScheme !== "dark"}>
+            <Title
+              color={
+                colorScheme !== "dark"
+                  ? Colors[colorScheme ?? "light"].black
+                  : Colors[colorScheme ?? "light"].white
+              }
+            >
               <FontAwesome
                 onPress={handleOpen}
                 size={28}

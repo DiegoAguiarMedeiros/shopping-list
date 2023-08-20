@@ -824,7 +824,9 @@ const Button: React.FC<ButtonProps> = ({
           color={Colors[colorScheme ?? "light"].white}
         />
       ) : null}
-      {text !== undefined ? <Text>{text}</Text> : null}
+      {text !== undefined ? (
+        <Text color={Colors[colorScheme ?? "light"].white}>{text}</Text>
+      ) : null}
     </Styled.Button>
   );
 };

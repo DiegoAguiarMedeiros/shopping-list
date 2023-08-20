@@ -40,34 +40,68 @@ function ListGridItem({ item, listId }: ListProps) {
         <Styled.ContainerListItemListItem
           key={`ContainerListItemListItem-` + amount}
           underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
-          background={
-            Colors[colorScheme ?? "light"].listItemBackgroundColor
-          }
+          background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
         >
-          <>
+          <Styled.ContainerListItemListItemInner>
             <Styled.ContainerListItemListItemHead>
               <Styled.ContainerItemTextTitle>
-                <Title dark={colorScheme !== "dark"}>{item.name}</Title>
+                <Title
+                  color={
+                    colorScheme !== "dark"
+                      ? Colors[colorScheme ?? "light"].black
+                      : Colors[colorScheme ?? "light"].white
+                  }
+                >
+                  {item.name}
+                </Title>
               </Styled.ContainerItemTextTitle>
             </Styled.ContainerListItemListItemHead>
             <Styled.ContainerListItemListItemBody>
-              <Styled.ContainerItemTextPriceTotal
+              <Styled.ContainerItemTextUn
                 text={Colors[colorScheme ?? "light"].bodyTextColor}
               >
-                <Text dark={colorScheme !== "dark"}>
-                  Total: R$ {itemAmountListArchived[amount].amount}
+                <Text
+                  color={
+                    colorScheme !== "dark"
+                      ? Colors[colorScheme ?? "light"].black
+                      : Colors[colorScheme ?? "light"].white
+                  }
+                >
+                  {itemAmountListArchived[amount].type
+                    ? `${Number(
+                        itemAmountListArchived[amount].quantity
+                      ).toFixed(2)} Kg`
+                    : `${itemAmountListArchived[amount].quantity} Un`}
+                  {" x"}
                 </Text>
-              </Styled.ContainerItemTextPriceTotal>
-              <Styled.ContainerItemTextPriceTotal
+              </Styled.ContainerItemTextUn>
+              <Styled.ContainerItemTextPriceTotalContainer
                 text={Colors[colorScheme ?? "light"].bodyTextColor}
               >
-                <Text dark={colorScheme !== "dark"}>
-                  {itemAmountListArchived[amount].quantity}
-                  {itemAmountListArchived[amount].type ? " Kg" : " Unidades"}
-                </Text>
-              </Styled.ContainerItemTextPriceTotal>
+                <Styled.ContainerItemTextPriceTotal>
+                  <Text
+                    color={
+                      colorScheme !== "dark"
+                        ? Colors[colorScheme ?? "light"].black
+                        : Colors[colorScheme ?? "light"].white
+                    }
+                  >
+                    R$ {itemAmountListArchived[amount].amount}
+                  </Text>
+                </Styled.ContainerItemTextPriceTotal>
+
+                <Styled.ContainerItemTextPriceTotal>
+                  <Text color={Colors[colorScheme ?? "light"].primary}>
+                    R${" "}
+                    {itemAmountListArchived[amount].type
+                      ? Number(itemAmountListArchived[amount].amount) *
+                        Number(itemAmountListArchived[amount].quantity)
+                      : itemAmountListArchived[amount].amount}
+                  </Text>
+                </Styled.ContainerItemTextPriceTotal>
+              </Styled.ContainerItemTextPriceTotalContainer>
             </Styled.ContainerListItemListItemBody>
-          </>
+          </Styled.ContainerListItemListItemInner>
         </Styled.ContainerListItemListItem>
       ))}
     </>

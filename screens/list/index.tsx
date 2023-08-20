@@ -135,7 +135,9 @@ export default function List({ listId }: ListProps) {
           </TouchableOpacity>
         </Styled.ContainerHeaderInnerIconBack>
         <Styled.ContainerHeaderInnerText>
-          <Title>{listArr?.name}</Title>
+          <Title color={Colors[colorScheme ?? "light"].white}>
+            {listArr?.name}
+          </Title>
         </Styled.ContainerHeaderInnerText>
 
         <Styled.ContainerHeaderInnerProgress>

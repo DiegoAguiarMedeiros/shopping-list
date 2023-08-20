@@ -4,46 +4,34 @@ import Colors from "../../constants/Colors";
 import { useColorScheme } from "react-native";
 interface TextProps {
   children: React.ReactNode;
-  dark?: boolean;
+  color: string;
 }
 
-const Title: React.FC<TextProps> = ({ children, dark }) => {
+const Title: React.FC<TextProps> = ({ children, color }) => {
   const colorScheme = useColorScheme();
   return (
     <Styled.Title
-      color={
-        dark
-          ? Colors[colorScheme ?? "light"].black
-          : Colors[colorScheme ?? "light"].white
-      }
+      color={color}
     >
       {children}
     </Styled.Title>
   );
 };
-const SubTitle: React.FC<TextProps> = ({ children, dark }) => {
+const SubTitle: React.FC<TextProps> = ({ children, color }) => {
   const colorScheme = useColorScheme();
   return (
     <Styled.SubTitle
-      color={
-        dark
-          ? Colors[colorScheme ?? "light"].black
-          : Colors[colorScheme ?? "light"].white
-      }
+      color={color}
     >
       {children}
     </Styled.SubTitle>
   );
 };
-const Text: React.FC<TextProps> = ({ children, dark }) => {
+const Text: React.FC<TextProps> = ({ children, color }) => {
   const colorScheme = useColorScheme();
   return (
     <Styled.Text
-      color={
-        dark
-          ? Colors[colorScheme ?? "light"].black
-          : Colors[colorScheme ?? "light"].white
-      }
+      color={color}
     >
       {children}
     </Styled.Text>

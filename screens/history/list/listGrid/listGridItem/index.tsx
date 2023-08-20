@@ -143,10 +143,24 @@ export default function ListGridItem({ item }: ItemProps) {
         <Styled.ContainerListItemInner>
           <Styled.ContainerListItemHead>
             <Styled.ContainerItemTitle>
-              <Title dark={colorScheme !== "dark"}>{item.name}</Title>
+              <Title
+                color={
+                  colorScheme !== "dark"
+                    ? Colors[colorScheme ?? "light"].black
+                    : Colors[colorScheme ?? "light"].white
+                }
+              >
+                {item.name}
+              </Title>
             </Styled.ContainerItemTitle>
             <Styled.ContainerListItemBody>
-              <Text dark={colorScheme !== "dark"}>
+              <Text
+                color={
+                  colorScheme !== "dark"
+                    ? Colors[colorScheme ?? "light"].black
+                    : Colors[colorScheme ?? "light"].white
+                }
+              >
                 Total: R$ {total.toFixed(2)}
               </Text>
             </Styled.ContainerListItemBody>
