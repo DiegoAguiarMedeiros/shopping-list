@@ -196,7 +196,8 @@ function RootLayoutNav() {
             name={"home"}
             component={Home}
             options={{
-              headerTitle: (props) => <Title>Listas de compras</Title>,
+              headerTitle: (props) => <Title color={ Colors[colorScheme ?? "light"].white
+              }>Listas de compras</Title>,
             }}
           />
           <Stack.Screen
@@ -217,7 +218,8 @@ function RootLayoutNav() {
             name="history"
             component={History}
             options={{
-              headerTitle: (props) => <Title>Histórico</Title>,
+              headerTitle: (props) => <Title color={Colors[colorScheme ?? "light"].white
+              }>Histórico</Title>,
               headerLeft: () => null,
             }}
           />
