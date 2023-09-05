@@ -9,6 +9,7 @@ import { Text } from "../../../components/Text";
 
 import Button from "../../../components/Button";
 import BottomSheetComponent from "../../../components/BottomSheetComponent";
+import { removeUndefinedFromArray } from "../../../utils/functions";
 interface ListProps {
   listId: string;
   listArrItems: ItemInterface[];
@@ -16,10 +17,13 @@ interface ListProps {
 }
 
 function ListGrid({ listArrItems, listId, deleteItem }: ListProps) {
-  const { getTotal, getTotalUn } = useShoppingListContext();
+  const { list, getTotal, getTotalUn } = useShoppingListContext();
   const colorScheme = useColorScheme();
   const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
     listId: listId,
+    tags: removeUndefinedFromArray(list[listId].tags).filter(
+      (tag) => tag.name !== "Todos"
+    ),
     buttonText: "add",
     action: "addListItem",
     isVisible: false,
@@ -36,20 +40,28 @@ function ListGrid({ listArrItems, listId, deleteItem }: ListProps) {
             <Styled.ContainerItemTotalUnitText
               text={Colors[colorScheme ?? "light"].bodyTextColor}
             >
-              <Text color={
-                    colorScheme !== "dark"
-                      ? Colors[colorScheme ?? "light"].black
-                      : Colors[colorScheme ?? "light"].white
-                  }>Total Items: {getTotalUn(listArrItems)}</Text>
+              <Text
+                color={
+                  colorScheme !== "dark"
+                    ? Colors[colorScheme ?? "light"].black
+                    : Colors[colorScheme ?? "light"].white
+                }
+              >
+                Total Items: {getTotalUn(listArrItems)}
+              </Text>
             </Styled.ContainerItemTotalUnitText>
             <Styled.ContainerItemTotalText
               text={Colors[colorScheme ?? "light"].bodyTextColor}
             >
-              <Text color={
-                    colorScheme !== "dark"
-                      ? Colors[colorScheme ?? "light"].black
-                      : Colors[colorScheme ?? "light"].white
-                  }>Total : R$ {getTotal(listArrItems).toFixed(2)}</Text>
+              <Text
+                color={
+                  colorScheme !== "dark"
+                    ? Colors[colorScheme ?? "light"].black
+                    : Colors[colorScheme ?? "light"].white
+                }
+              >
+                Total : R$ {getTotal(listArrItems).toFixed(2)}
+              </Text>
             </Styled.ContainerItemTotalText>
           </Styled.ContainerListTotal>
           <Styled.ContainerListItemList>

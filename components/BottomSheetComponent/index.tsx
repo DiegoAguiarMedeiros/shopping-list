@@ -8,6 +8,7 @@ import {
 import Colors from "../../constants/Colors";
 import * as Styled from "./styles";
 import Button from "../Button";
+import { Text } from "../Text";
 import InputText from "../InputText";
 import {
   BottomSheetProps,
@@ -24,6 +25,7 @@ import {
   getTags,
   removeUndefinedFromArray,
 } from "../../utils/functions";
+import Tags from "./tags";
 
 const AnimatedBottomSheet = Animated.createAnimatedComponent(
   Styled.BottomSheet
@@ -31,6 +33,7 @@ const AnimatedBottomSheet = Animated.createAnimatedComponent(
 
 const BottomSheetComponent: React.FC<BottomSheetProps> = ({
   items,
+  tags,
   isVisible,
   children,
   onClose,
@@ -39,6 +42,7 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
   buttonText,
 }) => {
   const animation = useRef(new Animated.Value(0)).current;
+  const [tagsFiltered, setTagsFiltered] = useState<TagsIterface[]>([]);
   const colorScheme = useColorScheme();
   const { list, setList, listItem, setListItem, getListItemsOfList } =
     useShoppingListContext();
@@ -47,6 +51,24 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
     tag: items && !Array.isArray(items.tags) ? items.tags : "",
     edit: false,
   });
+
+  const filterTags = () => {
+    if (newItem.tag.length > 0) {
+      console.log("if", newItem.tag);
+      const newTags = tags?.filter(({ name }) =>
+        name.toLowerCase().includes(newItem.tag.toLowerCase())
+      );
+      setTagsFiltered(newTags ?? []);
+    } else {
+      console.log("else", newItem.tag);
+      setTagsFiltered(tags ?? []);
+    }
+  };
+
+  useEffect(() => {
+    filterTags();
+  }, [newItem.tag]);
+  console.log("tagsFiltered", tagsFiltered);
 
   //TODO enviar essas função para o arquivo de funcções
   const returnNewList = (): ListInterface => {
@@ -307,6 +329,12 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
           </Styled.ButtonWrapper>
         </Styled.ButtonsContainer>
       </Styled.Container>
+      {tags && (
+        <Tags
+          tags={tagsFiltered}
+          isVisible={newItem.tag != "" && tagsFiltered.length > 0}
+        />
+      )}
     </AnimatedBottomSheet>
   );
 };

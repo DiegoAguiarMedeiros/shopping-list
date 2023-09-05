@@ -6,6 +6,15 @@ export const Container = styled.View`
   flex: 1;
   padding: 25px 0;
 `;
+export const Tags = styled.View<{
+  background: string;
+}>`
+  background: ${(props: { background: any }) => props.background};
+  width: ${Dimensions.get("window").width + "px"};
+  border: 1px solid #0f0;
+  position: absolute;
+  padding: 5px 15px;
+`;
 
 export const BottomSheet = styled.View`
   position: absolute;
