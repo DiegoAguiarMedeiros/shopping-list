@@ -9,19 +9,24 @@ export const Tags = styled.View<{
   display: ${(props: { isVisible: any }) =>
     props.isVisible ? "block" : "none"};
   background: ${(props: { background: any }) => props.background};
-  width: ${Dimensions.get("window").width + "px"};
+  width: 92.8%;
   position: absolute;
-  padding: 5px 15px;
+  padding: 5px 15px 20px;
   margin-top: ${(props: { marginTop: any }) => `${props.marginTop}px`};
   height: auto;
-  overflow: hidden;
+  max-height : 183px;
+  overflow: scroll;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+  align-self: center;
 `;
-export const TagsItem = styled.View<{
+export const TagsInner = styled.View`
+  height: auto;
+  max-height : 170px;
+`;
+export const TagsItem = styled.TouchableOpacity<{
   background: string;
 }>`
-  flex: 1;
   justify-content: center;
   align-items: start;
   background: ${(props: { background: string }) => props.background};

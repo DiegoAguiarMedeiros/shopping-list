@@ -1,8 +1,12 @@
 import { useColorScheme, SafeAreaView, ScrollView } from "react-native";
 import Colors from "../../../constants/Colors";
 import * as Styled from "./styles";
-import React, { useState } from "react";
-import { BottomSheetProps, ItemInterface } from "../../../types/types";
+import React, { useEffect, useState } from "react";
+import {
+  BottomSheetProps,
+  ItemInterface,
+  TagsIterface,
+} from "../../../types/types";
 import ListGridItem from "./listGridItem";
 import { useShoppingListContext } from "../../../context/ShoppingList";
 import { Text } from "../../../components/Text";
@@ -11,24 +15,43 @@ import Button from "../../../components/Button";
 import BottomSheetComponent from "../../../components/BottomSheetComponent";
 import { removeUndefinedFromArray } from "../../../utils/functions";
 interface ListProps {
+  tags: TagsIterface[];
   listId: string;
   listArrItems: ItemInterface[];
   deleteItem: (item: ItemInterface) => void;
 }
 
-function ListGrid({ listArrItems, listId, deleteItem }: ListProps) {
+function ListGrid({ tags, listArrItems, listId, deleteItem }: ListProps) {
   const { list, getTotal, getTotalUn } = useShoppingListContext();
   const colorScheme = useColorScheme();
-  const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
+
+  const tagsWithoutTodos = removeUndefinedFromArray(tags).filter(
+    (tag) => tag.name !== "Todos"
+  );
+
+  const initialBottomSheetProps: BottomSheetProps = {
     listId: listId,
-    tags: removeUndefinedFromArray(list[listId].tags).filter(
-      (tag) => tag.name !== "Todos"
-    ),
+    tags: tagsWithoutTodos,
     buttonText: "add",
     action: "addListItem",
     isVisible: false,
     onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
-  });
+  };
+
+  const [bottomSheetProps, setBottomSheetProps] = useState(
+    initialBottomSheetProps
+  );
+
+  useEffect(() => {
+    setBottomSheetProps({
+      listId: listId,
+      tags: tagsWithoutTodos,
+      buttonText: "add",
+      action: "addListItem",
+      isVisible: false,
+      onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
+    });
+  }, [list]);
 
   return (
     <Styled.Container
@@ -85,10 +108,14 @@ function ListGrid({ listArrItems, listId, deleteItem }: ListProps) {
           </Styled.ContainerListItemList>
           <Styled.ContainerButtonAdd>
             <Button
-              text="Adicionar"
-              onPress={() =>
-                setBottomSheetProps({ ...bottomSheetProps, isVisible: true })
-              }
+              text="Adicionar2"
+              onPress={() => {
+                setBottomSheetProps({
+                  ...bottomSheetProps,
+                  tags: tagsWithoutTodos,
+                  isVisible: true,
+                });
+              }}
               background={
                 Colors[colorScheme ?? "light"].buttonActiveBackgroundColor
               }

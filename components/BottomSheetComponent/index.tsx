@@ -54,13 +54,11 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
 
   const filterTags = () => {
     if (newItem.tag.length > 0) {
-      console.log("if", newItem.tag);
       const newTags = tags?.filter(({ name }) =>
         name.toLowerCase().includes(newItem.tag.toLowerCase())
       );
       setTagsFiltered(newTags ?? []);
     } else {
-      console.log("else", newItem.tag);
       setTagsFiltered(tags ?? []);
     }
   };
@@ -68,7 +66,6 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
   useEffect(() => {
     filterTags();
   }, [newItem.tag]);
-  console.log("tagsFiltered", tagsFiltered);
 
   //TODO enviar essas função para o arquivo de funcções
   const returnNewList = (): ListInterface => {
@@ -259,6 +256,15 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
     return null;
   }
 
+  const handleAddTag = (tag: string): void => {
+    setNewItem({
+      item: newItem.item,
+      tag: tag,
+      edit: true,
+    });
+    setTagsFiltered([]);
+  };
+
   const clearInput = () => {
     setNewItem({
       item: "",
@@ -332,7 +338,12 @@ const BottomSheetComponent: React.FC<BottomSheetProps> = ({
       {tags && (
         <Tags
           tags={tagsFiltered}
-          isVisible={newItem.tag != "" && tagsFiltered.length > 0}
+          isVisible={
+            newItem.tag != "" &&
+            tagsFiltered.length > 0 &&
+            tagsFiltered[0].name !== newItem.tag
+          }
+          addTag={handleAddTag}
         />
       )}
     </AnimatedBottomSheet>

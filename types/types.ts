@@ -39,6 +39,7 @@ interface ListType {
 interface BottomSheetProps {
   items?: ListInterface | ItemInterface;
   tags?: TagsIterface[];
+  tagsFiltered?: TagsIterface[];
   listId: string;
   buttonText: "add" | "edit" | "copy";
   action: "addList" | "editList" | "addListItem" | "editListItem" | "copyList";

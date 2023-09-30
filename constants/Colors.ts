@@ -91,6 +91,8 @@ export default {
     bodyAddPriceBackgroundColor: primary,
     bodyAddPriceBackgroundBorderColor: primaryLightColor,
     bodyAddPriceTextColor: primaryLightColor,
+    tagSelectBackgroundColor:primaryDarkColor,
+    tagSelectInputBackgroundColor:primaryDarkColor,
   },
   dark: {
     primary,
@@ -155,6 +157,8 @@ export default {
     bodyAddPriceBackgroundColor: primaryDarkColor,
     bodyAddPriceBackgroundBorderColor: primaryDarkColor,
     bodyAddPriceTextColor: primaryDarkColor,
+    tagSelectBackgroundColor:secondaryDarkColor,
+    tagSelectInputBackgroundColor:secondaryDarkColor,
   },
   dark2: {
     white,

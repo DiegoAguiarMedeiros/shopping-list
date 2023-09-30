@@ -68,7 +68,15 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
     <Styled.Container>
       <Styled.ContainerPrice>
         <Styled.Price text={Colors[colorScheme ?? "light"].bodyTextColor}>
-          <Text>R$ {itemAmount.amount}</Text>
+          <Text
+            color={
+              colorScheme !== "dark"
+                ? Colors[colorScheme ?? "light"].black
+                : Colors[colorScheme ?? "light"].white
+            }
+          >
+            R$ {itemAmount.amount}
+          </Text>
         </Styled.Price>
       </Styled.ContainerPrice>
       <Styled.ContainerQtd>

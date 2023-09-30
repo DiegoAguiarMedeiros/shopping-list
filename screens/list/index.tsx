@@ -92,29 +92,27 @@ export default function List({ listId }: ListProps) {
     handleDeleteAmountInList(updatedList[item.uuid].amount);
     delete updatedList[item.uuid];
     setListItem(updatedList);
-    handleDeleteItemListFromList(updatedList);
+    handleDeleteItemListFromList(updatedList, item.uuid);
   };
   const handleDeleteAmountInList = (itemAmountUuid: string[]): void => {
+    const updatedList: ListItemAmountInterface = JSON.parse(
+      JSON.stringify(itemAmountList)
+    );
     itemAmountUuid.forEach((i) => {
-      const updatedList: ListItemAmountInterface = JSON.parse(
-        JSON.stringify(itemAmountList)
-      );
       delete updatedList[i];
-      setItemAmountList(updatedList);
     });
+    setItemAmountList(updatedList);
   };
   const handleDeleteItemListFromList = (
-    updatedList: ListItemInterface
+    updatedList: ListItemInterface,
+    itemUuid: string
   ): void => {
     const updatedListItem: ListType = JSON.parse(JSON.stringify(list));
     const item = updatedListItem[listId];
+
     if (item) {
-      if (updatedList?.uuid) {
-        const newArray = item.items.filter((i) => i !== item.uuid);
-        item.items = newArray;
-      } else {
-        item.items = [];
-      }
+      const newArray = item.items.filter((i) => i !== itemUuid);
+      item.items = newArray;
       item.tags = getTagsFromListItemInterface(updatedList);
       setList(updatedListItem);
     }
@@ -172,6 +170,7 @@ export default function List({ listId }: ListProps) {
       <Styled.ContainerBody>
         {listArrItems.length > 0 ? (
           <ListGrid
+            tags={removeUndefinedFromArray(listArr?.tags)}
             deleteItem={deleteItem}
             listArrItems={listArrItems}
             listId={listId}

@@ -20,7 +20,15 @@ const Switch: React.FC<SwitchProps> = ({ value, onValueChange, label }) => {
   const colorScheme = useColorScheme();
   return (
     <Styled.Container>
-      <Text>{label[value ? "on" : "off"]}</Text>
+      <Text
+        color={
+          colorScheme !== "dark"
+            ? Colors[colorScheme ?? "light"].black
+            : Colors[colorScheme ?? "light"].white
+        }
+      >
+        {label[value ? "on" : "off"]}
+      </Text>
       <RNSwitch
         value={value}
         onValueChange={onValueChange}
