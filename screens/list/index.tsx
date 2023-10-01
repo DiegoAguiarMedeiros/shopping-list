@@ -109,7 +109,6 @@ export default function List({ listId }: ListProps) {
   ): void => {
     const updatedListItem: ListType = JSON.parse(JSON.stringify(list));
     const item = updatedListItem[listId];
-
     if (item) {
       const newArray = item.items.filter((i) => i !== itemUuid);
       item.items = newArray;

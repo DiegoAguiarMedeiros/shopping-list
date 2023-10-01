@@ -45,13 +45,17 @@ const getTagsFromListItemInterface = (
   obj: ListItemInterface
 ): TagsIterface[] => {
   const tagsArr: TagsIterface[] = [];
+  const tagsArrString: string[] = [];
   let count = 1;
   for (const key in obj) {
-    tagsArr.push({
-      id: String(count++),
-      name: obj[key].tags,
-      active: false,
-    });
+    if(!tagsArrString.includes(obj[key].tags)){
+      tagsArrString.push(obj[key].tags)
+      tagsArr.push({
+        id: String(count++),
+        name: obj[key].tags,
+        active: false,
+      });
+    }
   }
   if (tagsArr.length >= 1) {
     tagsArr.unshift({

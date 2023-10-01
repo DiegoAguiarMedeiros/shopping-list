@@ -81,10 +81,7 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
   };
 
   const handleDelete = () => {
-    console.log("handleDelete", list);
-    console.log("item.uuid", item.uuid);
     const updatedList: ListType = JSON.parse(JSON.stringify(list));
-    console.log("updatedList ", updatedList);
     handleDeleteListItem(updatedList[item.uuid].items);
     delete updatedList[item.uuid];
     setList(updatedList);

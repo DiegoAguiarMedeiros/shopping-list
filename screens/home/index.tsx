@@ -8,9 +8,9 @@ export default function Home() {
   const { list, listItem, itemAmountList } = useShoppingListContext();
   const entries = list ? Object.values(list) : [];
   const isFocused = useIsFocused();
-  console.log("list", list);
-  console.log("listItem", listItem);
-  console.log("itemAmountList", itemAmountList);
+  // console.log("list", list);
+  // console.log("listItem", listItem);
+  // console.log("itemAmountList", itemAmountList);
   // AsyncStorage.clear();
   return (
     isFocused &&
