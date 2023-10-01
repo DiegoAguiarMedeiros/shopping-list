@@ -58,7 +58,7 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
     router.push({ pathname: "/Items", params: { listId: item.uuid } });
   }, [item.uuid, router]);
 
-  const handleEdit = useCallback(() => {
+  const handleEdit = () => {
     return setBottomSheetProps({
       listId: item.uuid,
       items: item,
@@ -67,9 +67,9 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
       isVisible: true,
       onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
     });
-  }, [item, setBottomSheetProps]);
+  };
 
-  const handleCopy = useCallback(() => {
+  const handleCopy = () => {
     return setBottomSheetProps({
       listId: item.uuid,
       items: item,
@@ -78,10 +78,13 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
       isVisible: true,
       onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
     });
-  }, [item, setBottomSheetProps]);
+  };
 
   const handleDelete = () => {
+    console.log("handleDelete", list);
+    console.log("item.uuid", item.uuid);
     const updatedList: ListType = JSON.parse(JSON.stringify(list));
+    console.log("updatedList ", updatedList);
     handleDeleteListItem(updatedList[item.uuid].items);
     delete updatedList[item.uuid];
     setList(updatedList);
@@ -152,150 +155,144 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
     }
   };
 
-  const RightSwipe = useCallback(
-    (
-      progress: any,
-      dragX: {
-        interpolate: (arg0: {
-          inputRange: number[];
-          outputRange: number[];
-        }) => any;
-      }
-    ) => {
-      return (
-        <Animated.View
-          style={{
-            width: 200,
-            overflow: "hidden",
-          }}
-        >
-          <Styled.ButtonView>
-            <Styled.ButtonInner
-              underlayColor={
-                Colors[colorScheme ?? "light"]
-                  .swipeablebuttonTouchableHighlightBackgroundColor
-              }
-              onPress={handleEdit}
-            >
-              <>
-                <Styled.ButtonTextIcon
-                  text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
-                >
-                  <FontAwesome
-                    size={18}
-                    style={{ marginBottom: -3 }}
-                    name="pencil"
-                  />
-                </Styled.ButtonTextIcon>
-                <Styled.ButtonText
-                  text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
-                >
-                  Editar
-                </Styled.ButtonText>
-              </>
-            </Styled.ButtonInner>
-            <Styled.ButtonInner
-              underlayColor={
-                Colors[colorScheme ?? "light"]
-                  .swipeablebuttonTouchableHighlightBackgroundColor
-              }
-              onPress={handleCopy}
-            >
-              <>
-                <Styled.ButtonTextIcon
-                  text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
-                >
-                  <FontAwesome
-                    size={18}
-                    style={{ marginBottom: -3 }}
-                    name="copy"
-                  />
-                </Styled.ButtonTextIcon>
-                <Styled.ButtonText
-                  text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
-                >
-                  Copiar
-                </Styled.ButtonText>
-              </>
-            </Styled.ButtonInner>
-          </Styled.ButtonView>
-        </Animated.View>
-      );
-    },
-    [item]
-  );
-  const LeftSwipe = useCallback(
-    (
-      progress: any,
-      dragX: {
-        interpolate: (arg0: {
-          inputRange: number[];
-          outputRange: number[];
-        }) => any;
-      }
-    ) => {
-      return (
-        <Animated.View
-          style={{
-            width: 200,
-            overflow: "hidden",
-          }}
-        >
-          <Styled.ButtonView>
-            <Styled.ButtonInner
-              underlayColor={
-                Colors[colorScheme ?? "light"]
-                  .swipeablebuttonTouchableHighlightBackgroundColor
-              }
-              onPress={handleArchived}
-            >
-              <>
-                <Styled.ButtonTextIcon
-                  text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
-                >
-                  <FontAwesome
-                    size={18}
-                    style={{ marginBottom: -3 }}
-                    name="archive"
-                  />
-                </Styled.ButtonTextIcon>
-                <Styled.ButtonText
-                  text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
-                >
-                  Arquivar
-                </Styled.ButtonText>
-              </>
-            </Styled.ButtonInner>
-            <Styled.ButtonInner
-              underlayColor={
-                Colors[colorScheme ?? "light"]
-                  .swipeablebuttonTouchableHighlightBackgroundColor
-              }
-              onPress={handleDelete}
-            >
-              <>
-                <Styled.ButtonTextIcon
-                  text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
-                >
-                  <FontAwesome
-                    size={18}
-                    style={{ marginBottom: -3 }}
-                    name="trash"
-                  />
-                </Styled.ButtonTextIcon>
-                <Styled.ButtonText
-                  text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
-                >
-                  Deletar
-                </Styled.ButtonText>
-              </>
-            </Styled.ButtonInner>
-          </Styled.ButtonView>
-        </Animated.View>
-      );
-    },
-    [item]
-  );
+  const RightSwipe = (
+    progress: any,
+    dragX: {
+      interpolate: (arg0: {
+        inputRange: number[];
+        outputRange: number[];
+      }) => any;
+    }
+  ) => {
+    return (
+      <Animated.View
+        style={{
+          width: 200,
+          overflow: "hidden",
+        }}
+      >
+        <Styled.ButtonView>
+          <Styled.ButtonInner
+            underlayColor={
+              Colors[colorScheme ?? "light"]
+                .swipeablebuttonTouchableHighlightBackgroundColor
+            }
+            onPress={handleEdit}
+          >
+            <>
+              <Styled.ButtonTextIcon
+                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+              >
+                <FontAwesome
+                  size={18}
+                  style={{ marginBottom: -3 }}
+                  name="pencil"
+                />
+              </Styled.ButtonTextIcon>
+              <Styled.ButtonText
+                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+              >
+                Editar
+              </Styled.ButtonText>
+            </>
+          </Styled.ButtonInner>
+          <Styled.ButtonInner
+            underlayColor={
+              Colors[colorScheme ?? "light"]
+                .swipeablebuttonTouchableHighlightBackgroundColor
+            }
+            onPress={handleCopy}
+          >
+            <>
+              <Styled.ButtonTextIcon
+                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+              >
+                <FontAwesome
+                  size={18}
+                  style={{ marginBottom: -3 }}
+                  name="copy"
+                />
+              </Styled.ButtonTextIcon>
+              <Styled.ButtonText
+                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+              >
+                Copiar
+              </Styled.ButtonText>
+            </>
+          </Styled.ButtonInner>
+        </Styled.ButtonView>
+      </Animated.View>
+    );
+  };
+  const LeftSwipe = (
+    progress: any,
+    dragX: {
+      interpolate: (arg0: {
+        inputRange: number[];
+        outputRange: number[];
+      }) => any;
+    }
+  ) => {
+    return (
+      <Animated.View
+        style={{
+          width: 200,
+          overflow: "hidden",
+        }}
+      >
+        <Styled.ButtonView>
+          <Styled.ButtonInner
+            underlayColor={
+              Colors[colorScheme ?? "light"]
+                .swipeablebuttonTouchableHighlightBackgroundColor
+            }
+            onPress={handleArchived}
+          >
+            <>
+              <Styled.ButtonTextIcon
+                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+              >
+                <FontAwesome
+                  size={18}
+                  style={{ marginBottom: -3 }}
+                  name="archive"
+                />
+              </Styled.ButtonTextIcon>
+              <Styled.ButtonText
+                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+              >
+                Arquivar
+              </Styled.ButtonText>
+            </>
+          </Styled.ButtonInner>
+          <Styled.ButtonInner
+            underlayColor={
+              Colors[colorScheme ?? "light"]
+                .swipeablebuttonTouchableHighlightBackgroundColor
+            }
+            onPress={handleDelete}
+          >
+            <>
+              <Styled.ButtonTextIcon
+                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+              >
+                <FontAwesome
+                  size={18}
+                  style={{ marginBottom: -3 }}
+                  name="trash"
+                />
+              </Styled.ButtonTextIcon>
+              <Styled.ButtonText
+                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+              >
+                Deletar
+              </Styled.ButtonText>
+            </>
+          </Styled.ButtonInner>
+        </Styled.ButtonView>
+      </Animated.View>
+    );
+  };
 
   return (
     <Swipeable
