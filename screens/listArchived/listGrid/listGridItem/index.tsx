@@ -94,8 +94,8 @@ function ListGridItem({ item, listId }: ListProps) {
                   <Text color={Colors[colorScheme ?? "light"].primary}>
                     R${" "}
                     {itemAmountListArchived[amount].type
-                      ? Number(itemAmountListArchived[amount].amount) *
-                        Number(itemAmountListArchived[amount].quantity)
+                      ? (Number(itemAmountListArchived[amount].amount) *
+                        Number(itemAmountListArchived[amount].quantity)).toFixed(2)
                       : itemAmountListArchived[amount].amount}
                   </Text>
                 </Styled.ContainerItemTextPriceTotal>

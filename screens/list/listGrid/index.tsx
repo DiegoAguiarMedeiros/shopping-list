@@ -108,7 +108,7 @@ function ListGrid({ tags, listArrItems, listId, deleteItem }: ListProps) {
           </Styled.ContainerListItemList>
           <Styled.ContainerButtonAdd>
             <Button
-              text="Adicionar2"
+              text="Adicionar"
               onPress={() => {
                 setBottomSheetProps({
                   ...bottomSheetProps,
