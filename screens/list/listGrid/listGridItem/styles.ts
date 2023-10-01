@@ -20,7 +20,7 @@ export const ContainerListItemListItemAMount = styled.View<{
 }>`
   background: ${(props: { background: string }) => props.background};
   height: ${(props: { height: string }) => props.height + "px"};
-  min-height: 50px;
+  min-height: 40px;
   max-height: 320px;
   border-radius: 15px;
   margin: 5px;
@@ -29,7 +29,6 @@ export const Container = styled.View``;
 export const ContainerListItemListItemInner = styled.View`
   flex: 1;
   flex-direction: row;
-  height: 80px;
   width: 100%;
 `;
 export const ContainerListItemListItemHead = styled.View`

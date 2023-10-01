@@ -138,7 +138,7 @@ function ListGridItem({
 
   const calcHeight = (height: number): string => {
     if (height === 0) {
-      return `${1 * 50 + 70}`;
+      return `${1 * 50 + 60}`;
     }
     if (height > 5) {
       return `${height * 50 + 90}`;

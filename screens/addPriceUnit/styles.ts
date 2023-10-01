@@ -21,6 +21,7 @@ export const WrapperGridInner = styled.View`
 `;
 export const WrapperInput = styled.View`
   display: flex;
+  align-self: flex-end;
   flex-direction: row;
   width: 100%;
   height: 40px;
