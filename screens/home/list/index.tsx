@@ -1,48 +1,38 @@
 import { useColorScheme } from "react-native";
 import Colors from "../../../constants/Colors";
 import * as Styled from "./styles";
-import {  useState } from "react";
-import {
-  BottomSheetProps,
-  ListInterface,
-} from "../../../types/types";
+import { useState } from "react";
+import { ListInterface } from "../../../types/types";
+import { BottomSheetProps } from "../../../components/BottomSheet";
 import Button from "../../../components/Button";
 import ListGrid from "./listGrid";
-import BottomSheetComponent from "../../../components/BottomSheetComponent";
+import BottomSheet from "../../../components/BottomSheet";
+import { Text } from "../../../components/Text";
+import NewListForm from "../../../components/NewListForm";
 interface ItemProps {
   items: ListInterface[];
+  setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
+  handleCloseBottomSheet: () => void;
 }
 
-export default function List({ items }: ItemProps) {
+export default function List({
+  items,
+  setBottomSheetProps,
+  handleCloseBottomSheet,
+}: ItemProps) {
   const colorScheme = useColorScheme();
-  const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
-    listId: "",
-    action: "addList",
-    buttonText: "add",
-    isVisible: false,
-    onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
-  });
 
   return (
-    <Styled.Container background={Colors[colorScheme ?? "light"].bodyBackgroundColor}>
+    <Styled.Container
+      background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
+    >
       <Styled.ContainerListList>
-        <ListGrid items={items} setBottomSheetProps={setBottomSheetProps} />
+        <ListGrid
+          items={items}
+          setBottomSheetProps={setBottomSheetProps}
+          handleCloseBottomSheet={handleCloseBottomSheet}
+        />
       </Styled.ContainerListList>
-      <Styled.ContainerListInner>
-        <Styled.ContainerButtonAdd>
-          {/* <Link href="/modal" asChild> */}
-          <Button
-            text="Adicionar"
-            onPress={() =>
-              setBottomSheetProps({ ...bottomSheetProps, isVisible: true })
-            }
-            background={Colors[colorScheme ?? "light"].buttonActiveBackgroundColor}
-            icon="plus"
-          />
-          {/* </Link> */}
-        </Styled.ContainerButtonAdd>
-      </Styled.ContainerListInner>
-      <BottomSheetComponent {...bottomSheetProps} />
     </Styled.Container>
   );
 }

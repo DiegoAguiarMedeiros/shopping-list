@@ -3,12 +3,14 @@ import Colors from "../../../../constants/Colors";
 import * as Styled from "./styles";
 import React, { useState } from "react";
 import {
-  BottomSheetProps,
   ItemInterface,
   ListItemAmountInterface,
   ListItemInterface,
   ListType,
+  TagsIterface,
 } from "../../../../types/types";
+
+import { BottomSheetProps } from "../../../../components/BottomSheet";
 import { FontAwesome } from "@expo/vector-icons";
 import {
   getTags,
@@ -22,12 +24,15 @@ import { Title, Text } from "../../../../components/Text";
 import { useShoppingListContext } from "../../../../context/ShoppingList";
 
 import AddPriceUnit from "../../../addPriceUnit";
+import NewItemForm from "../../../../components/NewItemForm";
 
 interface ListProps {
   item: ItemInterface;
   listId: string;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   deleteItem: (item: ItemInterface) => void;
+  handleCloseBottomSheet: () => void;
+  tagsWithoutTodos: TagsIterface[];
 }
 
 function ListGridItem({
@@ -35,6 +40,8 @@ function ListGridItem({
   listId,
   setBottomSheetProps,
   deleteItem,
+  handleCloseBottomSheet,
+  tagsWithoutTodos,
 }: ListProps) {
   const colorScheme = useColorScheme();
   const [active, setActive] = useState(false);
@@ -53,12 +60,18 @@ function ListGridItem({
   };
   const handleEdit = () => {
     setBottomSheetProps({
-      listId: item.uuid,
-      items: item,
-      buttonText: "edit",
-      action: "editListItem",
       isVisible: true,
-      onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
+      height: "edit",
+      children: (
+        <NewItemForm
+          onClose={handleCloseBottomSheet}
+          action="editListItem"
+          buttonText="edit"
+          listId={listId}
+          tags={tagsWithoutTodos}
+          items={item}
+        />
+      ),
     });
   };
 

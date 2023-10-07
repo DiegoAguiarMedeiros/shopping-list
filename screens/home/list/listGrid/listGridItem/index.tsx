@@ -3,7 +3,6 @@ import Colors from "../../../../../constants/Colors";
 import * as Styled from "./styles";
 import { useCallback, useRef } from "react";
 import {
-  BottomSheetProps,
   ItemInterface,
   ListInterface,
   ListItemAmountInterface,
@@ -22,12 +21,19 @@ import {
 } from "../../../../../context/ShoppingList";
 import CircleProgress from "../../../../../components/CircleProgress";
 
+import { BottomSheetProps } from "../../../../../components/BottomSheet";
+import NewListForm from "../../../../../components/NewListForm";
 interface ItemProps {
   item: ListInterface;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
+  handleCloseBottomSheet: () => void;
 }
 
-export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
+export default function ListGridItem({
+  item,
+  setBottomSheetProps,
+  handleCloseBottomSheet,
+}: ItemProps) {
   const {
     list,
     setList,
@@ -60,23 +66,39 @@ export default function ListGridItem({ item, setBottomSheetProps }: ItemProps) {
 
   const handleEdit = () => {
     return setBottomSheetProps({
-      listId: item.uuid,
-      items: item,
-      buttonText: "edit",
-      action: "editList",
+      // listId: item.uuid,
+      // items: item,
+      // buttonText: "edit",
+      // action: "editList",
+      height: "edit",
+      children: (
+        <NewListForm
+          action="editList"
+          buttonText="edit"
+          items={item}
+          onClose={handleCloseBottomSheet}
+        />
+      ),
       isVisible: true,
-      onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
     });
   };
 
   const handleCopy = () => {
     return setBottomSheetProps({
-      listId: item.uuid,
-      items: item,
-      buttonText: "copy",
-      action: "copyList",
+      // listId: item.uuid,
+      // items: item,
+      // buttonText: "copy",
+      // action: "copyList",
+      height: "edit",
+      children: (
+        <NewListForm
+          action="copyList"
+          buttonText="copy"
+          items={item}
+          onClose={handleCloseBottomSheet}
+        />
+      ),
       isVisible: true,
-      onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
     });
   };
 

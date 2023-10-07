@@ -9,11 +9,7 @@ export const Container = styled.View<{
   height: 100%;
 `;
 
-export const ContainerListInner = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
+
 export const ContainerListList = styled.View`
   flex: 6;
   justify-content: center;

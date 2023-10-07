@@ -15,7 +15,6 @@ import {
 } from "../../../context/ShoppingList";
 
 import { Text } from "../../../components/Text";
-import BottomSheetComponent from "../../../components/BottomSheetComponent";
 interface ListProps {
   filter: string;
   listId: string;

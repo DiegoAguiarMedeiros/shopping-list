@@ -10,15 +10,9 @@ export const Container = styled.View<{
   flex: 1;
   justify-content: flex-start;
 `;
-export const Title = styled.Text<{
-  text: string;
-}>`
-  color: ${(props: { text: any }) => props.text};
-  padding: 15px;
-  font-size: 26px;
-  width: 100%;
+export const ContainerButtonAdd = styled.View`
+  flex: 1;
 `;
-
 export const ContainerHeader = styled.View`
   width: 100%;
   flex: 1;
@@ -29,9 +23,21 @@ export const ContainerHeader = styled.View`
 export const ContainerBody = styled.View`
   width: 100%;
   flex: 10;
-  flex-direction: row;
+`;
+export const ContainerListInner = styled.View`
+  flex: 10;
+  justify-content: center;
   align-items: center;
 `;
+
+export const ContainerListInnerButton = styled.View<{
+  background: string;
+}>`
+  background: ${(props: { background: any }) => props.background};
+    flex: 1;
+    align-items: center;
+`;
+
 export const ContainerHeaderInnerIconBack = styled.View`
   width: 15%;
   justify-content: center;
@@ -53,11 +59,4 @@ export const ContainerHeaderInnerFilterButtons = styled.View`
   justify-content: center;
   align-items: center;
 `;
-export const ListTitle = styled.Text<{
-  text: string;
-}>`
-  color: ${(props: { text: any }) => props.text};
-  font-size: 25px;
-  text-align: center;
-  font-weight: bold;
-`;
+

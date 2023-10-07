@@ -20,7 +20,10 @@ import EmptyList from "../../components/EmptyList";
 import ListGrid from "./listGrid";
 import CircleProgress from "../../components/CircleProgress";
 import FilterButtons from "../../components/FilterButtons";
-import { Title } from "../../components/Text";
+import { Title, Text } from "../../components/Text";
+import BottomSheet, { BottomSheetProps } from "../../components/BottomSheet";
+import Button from "../../components/Button";
+import NewItemForm from "../../components/NewItemForm";
 type TotalType = {
   amount: number;
   un: number;
@@ -47,13 +50,45 @@ export default function List({ listId }: ListProps) {
   const [listArrItems, setListArrItems] = useState(
     removeUndefinedFromArray(getListItemsOfList(listArr?.items))
   );
+
+  const tagsWithoutUndefinedFromArray = removeUndefinedFromArray(listArr?.tags);
+
+  const [tagsWithoutTodos, setTagsWithoutTodos] = useState(
+    removeUndefinedFromArray(tagsWithoutUndefinedFromArray).filter(
+      (tag) => tag.name !== "Todos"
+    )
+  );
+  const handleCloseBottomSheet = () => {
+    setBottomSheetProps({ ...bottomSheetProps, isVisible: false });
+  };
   const [filter, setFilter] = useState("Todos");
   const [total, setTotal] = useState<TotalType>({
     amount: 0,
     un: 0,
   });
   const router = useRouter();
+
+  const initialBottomSheetProps: BottomSheetProps = {
+    isVisible: false,
+    height: "edit",
+    children: (
+      <NewItemForm
+        onClose={handleCloseBottomSheet}
+        action="addListItem"
+        buttonText="add"
+        listId={listId}
+        tags={tagsWithoutTodos}
+      />
+    ),
+  };
+
+  const [bottomSheetProps, setBottomSheetProps] = useState(
+    initialBottomSheetProps
+  );
+
   useEffect(() => {
+    console.log("useEffect 1");
+
     setListArr(list[listId]);
     setListArrItems(
       removeUndefinedFromArray(getListItemsOfList(list[listId]?.items))
@@ -83,6 +118,7 @@ export default function List({ listId }: ListProps) {
       amount: getTotalWithAmount(newFilteredList),
     };
     setTotal(newTotal);
+
     return () => {};
   }, [filter, listItem]);
 
@@ -115,6 +151,24 @@ export default function List({ listId }: ListProps) {
       setList(updatedListItem);
     }
   };
+
+  useEffect(() => {
+    setBottomSheetProps({
+      isVisible: false,
+      height: "edit",
+      children: (
+        <NewItemForm
+          onClose={handleCloseBottomSheet}
+          action="addListItem"
+          buttonText="add"
+          listId={listId}
+          tags={removeUndefinedFromArray(list[listId].tags).filter(
+            (tag) => tag.name !== "Todos"
+          )}
+        />
+      ),
+    });
+  }, [list]);
 
   return (
     <Styled.Container
@@ -158,7 +212,7 @@ export default function List({ listId }: ListProps) {
       {listArr?.tags.length > 0 ? (
         <Styled.ContainerHeaderInnerFilterButtons>
           <FilterButtons
-            tags={removeUndefinedFromArray(listArr?.tags)}
+            tags={tagsWithoutUndefinedFromArray}
             filter={filter}
             setFilter={setFilter}
           />
@@ -166,25 +220,41 @@ export default function List({ listId }: ListProps) {
       ) : null}
 
       <Styled.ContainerBody>
-        {listArrItems.length > 0 ? (
-          <ListGrid
-            tags={removeUndefinedFromArray(listArr?.tags)}
-            deleteItem={deleteItem}
-            listArrItems={listArrItems}
-            listId={listId}
-          />
-        ) : (
-          // <EmptyList list={listArr?.uuid} />
-          <EmptyList
-            showButton
-            list={listArr?.uuid}
-            action="addListItem"
-            buttonText="add"
-            text="Adicionar"
-            mensage="Você não tem nenhuma item na lista"
-          />
-        )}
+        <Styled.ContainerListInner>
+          {listArrItems.length > 0 ? (
+            <ListGrid
+              tagsWithoutTodos={tagsWithoutTodos}
+              setBottomSheetProps={setBottomSheetProps}
+              deleteItem={deleteItem}
+              listArrItems={listArrItems}
+              listId={listId}
+              handleCloseBottomSheet={handleCloseBottomSheet}
+            />
+          ) : (
+            <EmptyList mensage="Você não tem nenhuma item na lista" />
+          )}
+        </Styled.ContainerListInner>
+        <Styled.ContainerListInnerButton
+          background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
+        >
+          <Styled.ContainerButtonAdd>
+            <Button
+              text="Adicionar"
+              onPress={() => {
+                setBottomSheetProps({
+                  ...bottomSheetProps,
+                  isVisible: true,
+                });
+              }}
+              background={
+                Colors[colorScheme ?? "light"].buttonActiveBackgroundColor
+              }
+              icon="plus"
+            />
+          </Styled.ContainerButtonAdd>
+        </Styled.ContainerListInnerButton>
       </Styled.ContainerBody>
+      <BottomSheet {...bottomSheetProps} />
     </Styled.Container>
   );
 }

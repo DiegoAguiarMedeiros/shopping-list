@@ -7,10 +7,10 @@ import {
   SafeAreaView,
   ScrollView,
 } from "react-native";
-import Colors from "../../../constants/Colors";
+import Colors from "../../constants/Colors";
 import * as Styled from "./styles";
-import { Title } from "../../Text";
-import { TagsIterface } from "../../../types/types";
+import { Title } from "../Text";
+import { TagsIterface } from "../../types/types";
 type TagsProps = {
   tags: TagsIterface[];
   isVisible: boolean;
@@ -56,7 +56,7 @@ const Tags = ({ tags, isVisible, addTag }: TagsProps) => {
           <ScrollView>
             {tags?.map((tag) => (
               <Styled.TagsItem
-                onPress={() => handleAddTag(tag.name)}
+                onPress={() => handleAddTag(tag?.name)}
                 key={`tagContainer-${tag.id}`}
                 background={
                   Colors[colorScheme ?? "light"].tagSelectInputBackgroundColor
@@ -70,7 +70,7 @@ const Tags = ({ tags, isVisible, addTag }: TagsProps) => {
                       : Colors[colorScheme ?? "light"].white
                   }
                 >
-                  {tag.name}
+                  {tag?.name}
                 </Title>
               </Styled.TagsItem>
             ))}

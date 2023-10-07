@@ -5,7 +5,6 @@ import { useState } from "react";
 import { BottomSheetProps } from "../../types/types";
 import Button from "../Button";
 import { Text } from "../Text";
-import BottomSheetComponent from "../BottomSheetComponent";
 
 interface Image {
   image: any;
@@ -16,30 +15,11 @@ const img: Image = {
 };
 
 type EmptyListProps = {
-  action?: "addList" | "editList" | "addListItem" | "editListItem" | "copyList";
-  buttonText?: "add" | "edit" | "copy";
-  text?: string;
   mensage?: string;
-  list?: string;
-  showButton?: boolean;
 };
 
-export default function EmptyList({
-  list,
-  action,
-  buttonText,
-  text,
-  mensage,
-  showButton,
-}: EmptyListProps) {
+export default function EmptyList({ mensage }: EmptyListProps) {
   const colorScheme = useColorScheme();
-  const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
-    action: showButton ? action! : "addList",
-    listId: list ? list : "",
-    buttonText: showButton ? buttonText! : "add",
-    isVisible: false,
-    onClose: (item: BottomSheetProps) => setBottomSheetProps(item),
-  });
   return (
     <Styled.Container
       background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
@@ -63,22 +43,7 @@ export default function EmptyList({
             </Text>
           </Styled.ListEmptyTextmessage>
         </Styled.ContainerListEmptyInner>
-        <Styled.ContainerListEmptyInnerButton>
-          <Styled.ContainerButtonAdd>
-            {showButton && (
-              <Button
-                text={text}
-                background={Colors[colorScheme ?? "light"].primary}
-                icon="plus"
-                onPress={() =>
-                  setBottomSheetProps({ ...bottomSheetProps, isVisible: true })
-                }
-              />
-            )}
-          </Styled.ContainerButtonAdd>
-        </Styled.ContainerListEmptyInnerButton>
       </Styled.ContainerListEmpty>
-      <BottomSheetComponent {...bottomSheetProps} />
     </Styled.Container>
   );
 }

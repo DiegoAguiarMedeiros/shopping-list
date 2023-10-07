@@ -9,6 +9,15 @@ export const Container = styled.View<{
     height: ${Dimensions.get('window').height + 'px'};
     padding:10px;
 `;
+export const ContainerListInner = styled.View`
+  flex: 10;
+  justify-content: center;
+  align-items: center;
+`;
+export const ContainerListInnerButton = styled.View`
+    flex: 1;
+    align-items: center;
+`;
 
 export const ContainerList = styled.View`
     height: 76%;

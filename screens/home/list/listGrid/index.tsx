@@ -1,18 +1,20 @@
 import { useColorScheme, SafeAreaView, ScrollView } from "react-native";
 import Colors from "../../../../constants/Colors";
 import * as Styled from "./styles";
-import {
-  BottomSheetProps,
-  ListInterface,
-  ListType,
-} from "../../../../types/types";
+import { ListInterface, ListType } from "../../../../types/types";
+import { BottomSheetProps } from "../../../../components/BottomSheet";
 
 import ListGridItem from "./listGridItem";
 interface ItemProps {
   items: ListInterface[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
+  handleCloseBottomSheet: () => void;
 }
-export default function ListGrid({ items, setBottomSheetProps }: ItemProps) {
+export default function ListGrid({
+  items,
+  setBottomSheetProps,
+  handleCloseBottomSheet,
+}: ItemProps) {
   const colorScheme = useColorScheme();
 
   return (
@@ -25,6 +27,7 @@ export default function ListGrid({ items, setBottomSheetProps }: ItemProps) {
             <Styled.ContainerListItemListItem>
               {items.map((item: ListInterface) => (
                 <ListGridItem
+                  handleCloseBottomSheet={handleCloseBottomSheet}
                   setBottomSheetProps={setBottomSheetProps}
                   key={"ListGridItem-" + item.uuid}
                   item={item}

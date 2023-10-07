@@ -33,7 +33,7 @@ interface ListProps {
 function ListGridItem({ item, listId }: ListProps) {
   const colorScheme = useColorScheme();
   const { itemAmountListArchived } = useShoppingListArchivedContext();
-  console.log("item", item);
+
   return (
     <>
       {item.amount.length == 0 ? (
