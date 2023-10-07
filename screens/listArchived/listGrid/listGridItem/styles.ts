@@ -80,20 +80,27 @@ export const ContainerItemTextUn = styled.Text<{
   justify-content: center;
   align-items: center;
 `;
-export const ContainerItemTextPriceTotalContainer = styled.Text<{
+export const ContainerItemTextPriceTotalContainer = styled.View<{
   text: string;
 }>`
   color: ${(props: { text: any }) => props.text};
-
-  justify-content: center;
-  align-items: center;
   display: flex;
   flex: 2;
-  flex-direction: column;
   font-size: 12px;
   margin-bottom: 2px;
+  padding-top: 4px;
 `;
-export const ContainerItemTextPriceTotal = styled.View``;
+export const ContainerItemTextPriceTotal = styled.View`
+  width: 100%;
+  height: 49%;
+`;
+export const ContainerItemTextPriceTotalLine = styled.View<{
+  border: string;
+}>` 
+  border:1px solid ${(props: { border: any }) => props.border};
+  width: 80%;
+  height: 1px;
+`;
 export const ButtonView = styled.View`
   display: flex;
   flex-direction: row;

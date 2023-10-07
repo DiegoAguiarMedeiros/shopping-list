@@ -33,12 +33,12 @@ interface ListProps {
 function ListGridItem({ item, listId }: ListProps) {
   const colorScheme = useColorScheme();
   const { itemAmountListArchived } = useShoppingListArchivedContext();
-
+  console.log("item", item);
   return (
     <>
-      {item.amount.map((amount) => (
+      {item.amount.length == 0 ? (
         <Styled.ContainerListItemListItem
-          key={`ContainerListItemListItem-` + amount}
+          key={`ContainerListItemListItem-` + item.uuid}
           underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
           background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
         >
@@ -56,29 +56,35 @@ function ListGridItem({ item, listId }: ListProps) {
                 </Title>
               </Styled.ContainerItemTextTitle>
             </Styled.ContainerListItemListItemHead>
-            <Styled.ContainerListItemListItemBody>
-              <Styled.ContainerItemTextUn
-                text={Colors[colorScheme ?? "light"].bodyTextColor}
-              >
-                <Text
-                  color={
-                    colorScheme !== "dark"
-                      ? Colors[colorScheme ?? "light"].black
-                      : Colors[colorScheme ?? "light"].white
-                  }
+          </Styled.ContainerListItemListItemInner>
+        </Styled.ContainerListItemListItem>
+      ) : (
+        item.amount.map((amount) => (
+          <Styled.ContainerListItemListItem
+            key={`ContainerListItemListItem-` + amount}
+            underlayColor={
+              Colors[colorScheme ?? "light"].listItemBackgroundColor
+            }
+            background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+          >
+            <Styled.ContainerListItemListItemInner>
+              <Styled.ContainerListItemListItemHead>
+                <Styled.ContainerItemTextTitle>
+                  <Title
+                    color={
+                      colorScheme !== "dark"
+                        ? Colors[colorScheme ?? "light"].black
+                        : Colors[colorScheme ?? "light"].white
+                    }
+                  >
+                    {item.name}
+                  </Title>
+                </Styled.ContainerItemTextTitle>
+              </Styled.ContainerListItemListItemHead>
+              <Styled.ContainerListItemListItemBody>
+                <Styled.ContainerItemTextUn
+                  text={Colors[colorScheme ?? "light"].bodyTextColor}
                 >
-                  {itemAmountListArchived[amount].type
-                    ? `${Number(
-                        itemAmountListArchived[amount].quantity
-                      ).toFixed(2)} Kg`
-                    : `${itemAmountListArchived[amount].quantity} Un`}
-                  {" x"}
-                </Text>
-              </Styled.ContainerItemTextUn>
-              <Styled.ContainerItemTextPriceTotalContainer
-                text={Colors[colorScheme ?? "light"].bodyTextColor}
-              >
-                <Styled.ContainerItemTextPriceTotal>
                   <Text
                     color={
                       colorScheme !== "dark"
@@ -86,24 +92,48 @@ function ListGridItem({ item, listId }: ListProps) {
                         : Colors[colorScheme ?? "light"].white
                     }
                   >
-                    R$ {itemAmountListArchived[amount].amount}
-                  </Text>
-                </Styled.ContainerItemTextPriceTotal>
-
-                <Styled.ContainerItemTextPriceTotal>
-                  <Text color={Colors[colorScheme ?? "light"].primary}>
-                    R${" "}
                     {itemAmountListArchived[amount].type
-                      ? (Number(itemAmountListArchived[amount].amount) *
-                        Number(itemAmountListArchived[amount].quantity)).toFixed(2)
-                      : itemAmountListArchived[amount].amount}
+                      ? `${Number(
+                          itemAmountListArchived[amount].quantity
+                        ).toFixed(2)} Kg`
+                      : `${itemAmountListArchived[amount].quantity} Un`}
+                    {" x"}
                   </Text>
-                </Styled.ContainerItemTextPriceTotal>
-              </Styled.ContainerItemTextPriceTotalContainer>
-            </Styled.ContainerListItemListItemBody>
-          </Styled.ContainerListItemListItemInner>
-        </Styled.ContainerListItemListItem>
-      ))}
+                </Styled.ContainerItemTextUn>
+                <Styled.ContainerItemTextPriceTotalContainer
+                  text={Colors[colorScheme ?? "light"].bodyTextColor}
+                >
+                  <Styled.ContainerItemTextPriceTotal>
+                    <Text
+                      color={
+                        colorScheme !== "dark"
+                          ? Colors[colorScheme ?? "light"].black
+                          : Colors[colorScheme ?? "light"].white
+                      }
+                    >
+                      R$ {itemAmountListArchived[amount].amount}
+                    </Text>
+                  </Styled.ContainerItemTextPriceTotal>
+                  <Styled.ContainerItemTextPriceTotalLine
+                    border={Colors[colorScheme ?? "light"].primary}
+                  />
+                  <Styled.ContainerItemTextPriceTotal>
+                    <Text color={Colors[colorScheme ?? "light"].primary}>
+                      R${" "}
+                      {itemAmountListArchived[amount].type
+                        ? (
+                            Number(itemAmountListArchived[amount].amount) *
+                            Number(itemAmountListArchived[amount].quantity)
+                          ).toFixed(2)
+                        : itemAmountListArchived[amount].amount}
+                    </Text>
+                  </Styled.ContainerItemTextPriceTotal>
+                </Styled.ContainerItemTextPriceTotalContainer>
+              </Styled.ContainerListItemListItemBody>
+            </Styled.ContainerListItemListItemInner>
+          </Styled.ContainerListItemListItem>
+        ))
+      )}
     </>
   );
 }

@@ -53,7 +53,6 @@ export default function List({ listId }: ListProps) {
     un: 0,
   });
   const router = useRouter();
-  console.log("listArrItems", listArrItems);
   useEffect(() => {
     setListArr(list[listId]);
     setListArrItems(
@@ -110,10 +109,6 @@ export default function List({ listId }: ListProps) {
     const updatedListItem: ListType = JSON.parse(JSON.stringify(list));
     const item = updatedListItem[listId];
     if (item) {
-      console.log(
-        "getTagsFromListItemInterface(updatedList)",
-        getTagsFromListItemInterface(updatedList)
-      );
       const newArray = item.items.filter((i) => i !== itemUuid);
       item.items = newArray;
       item.tags = getTagsFromListItemInterface(updatedList);
