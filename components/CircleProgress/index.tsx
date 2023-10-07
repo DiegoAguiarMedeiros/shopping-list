@@ -25,11 +25,15 @@ const CircleProgress = ({
   titleColor,
 }: CircleProgressProps) => {
   const colorScheme = useColorScheme();
-
+  const getTitleFontSize = (): number => {
+    if (total < 10) return 12;
+    if (total < 100) return 9;
+    return 7;
+  };
   return (
     <CircularProgress
       showProgressValue={false}
-      titleFontSize={12}
+      titleFontSize={getTitleFontSize()}
       activeStrokeWidth={5}
       title={`${progress}/${total}`}
       value={progress > 0 ? (progress / total) * 100 : progress}
