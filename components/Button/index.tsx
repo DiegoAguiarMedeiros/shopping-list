@@ -4,7 +4,7 @@ import Colors from "../../constants/Colors";
 import * as Styled from "./styles";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Text } from "../Text/";
-interface ButtonProps extends TouchableOpacityProps {
+export interface ButtonProps extends TouchableOpacityProps {
   text?: string;
   background: string;
   radius?: boolean;

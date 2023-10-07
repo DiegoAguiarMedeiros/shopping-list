@@ -16,7 +16,7 @@ import {
 import { useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-import EmptyList from "./emptyList";
+import EmptyList from "../../components/EmptyList";
 import ListGrid from "./listGrid";
 import CircleProgress from "../../components/CircleProgress";
 import FilterButtons from "../../components/FilterButtons";
@@ -53,7 +53,7 @@ export default function List({ listId }: ListProps) {
     un: 0,
   });
   const router = useRouter();
-
+  console.log("listArrItems", listArrItems);
   useEffect(() => {
     setListArr(list[listId]);
     setListArrItems(
@@ -110,6 +110,10 @@ export default function List({ listId }: ListProps) {
     const updatedListItem: ListType = JSON.parse(JSON.stringify(list));
     const item = updatedListItem[listId];
     if (item) {
+      console.log(
+        "getTagsFromListItemInterface(updatedList)",
+        getTagsFromListItemInterface(updatedList)
+      );
       const newArray = item.items.filter((i) => i !== itemUuid);
       item.items = newArray;
       item.tags = getTagsFromListItemInterface(updatedList);
@@ -175,7 +179,15 @@ export default function List({ listId }: ListProps) {
             listId={listId}
           />
         ) : (
-          <EmptyList list={listArr?.uuid} />
+          // <EmptyList list={listArr?.uuid} />
+          <EmptyList
+            showButton
+            list={listArr?.uuid}
+            action="addListItem"
+            buttonText="add"
+            text="Adicionar"
+            mensage="Você não tem nenhuma item na lista"
+          />
         )}
       </Styled.ContainerBody>
     </Styled.Container>

@@ -9,18 +9,13 @@ export const Container = styled.View<{
   height: 100%;
   padding: 10px;
 `;
-
-export const ContainerList = styled.View`
-  height: 76%;
-  overflow: hidden;
-`;
 export const ContainerListEmpty = styled.View`
   height: 100%;
   padding: 1px;
   overflow: hidden;
 `;
 export const ContainerListEmptyInner = styled.View`
-  flex: 2;
+  flex: 6;
   justify-content: center;
   align-items: center;
 `;

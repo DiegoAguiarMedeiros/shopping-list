@@ -24,11 +24,11 @@ export const ContainerHeader = styled.View`
   flex: 1;
   flex-direction: row;
   align-items: center;
-  padding: 15px 0 0 0;
+  padding: 15px 0 3px 0;
 `;
 export const ContainerBody = styled.View`
   width: 100%;
-  flex: 6;
+  flex: 10;
   flex-direction: row;
   align-items: center;
 `;

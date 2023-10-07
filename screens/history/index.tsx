@@ -1,6 +1,6 @@
 import { useShoppingListArchivedContext } from "../../context/ShoppingList";
 import { KeyboardAvoidingView } from "react-native";
-import EmptyList from "./emptyList";
+import EmptyList from "../../components/EmptyList";
 import ListComponent from "./list";
 
 export default function History() {
@@ -10,6 +10,6 @@ export default function History() {
   return entries && entries.length > 0 ? (
     <ListComponent items={entries} />
   ) : (
-    <EmptyList />
+    <EmptyList mensage="Você não tem nenhuma lista arquivada" />
   );
 }
