@@ -11,7 +11,7 @@ import { removeUndefinedFromArray } from "../../utils/functions";
 import { useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-import EmptyList from "./emptyList";
+import EmptyList from "../../components/EmptyList";
 import ListGrid from "./listGrid";
 import CircleProgress from "../../components/CircleProgress";
 import FilterButtons from "../../components/FilterButtons";
@@ -84,7 +84,7 @@ export default function ListArchived({ listId }: ListProps) {
         {listArrItems.length > 0 ? (
           <ListGrid filter={filter} listId={listId} />
         ) : (
-          <EmptyList list={listArr.uuid} />
+          <EmptyList mensage="Você não tem nenhum item na lista" />
         )}
       </Styled.ContainerBody>
     </Styled.Container>

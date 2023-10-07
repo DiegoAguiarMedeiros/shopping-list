@@ -2,12 +2,11 @@ import { Dimensions } from 'react-native';
 import styled, { css } from 'styled-components/native';
 
 export const Container = styled.View<{
-    background: string,
+  background: string;
 }>`
-    background:${(props: { background: any; }) => props.background};
-    width: ${Dimensions.get('window').width + 'px'};
-    height: ${Dimensions.get('window').height + 'px'};
-    padding:10px;
+  background: ${(props: { background: any }) => props.background};
+  width: ${Dimensions.get("window").width + "px"};
+  height: 100%;
 `;
 export const ContainerListInner = styled.View`
   flex: 10;

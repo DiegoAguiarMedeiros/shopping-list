@@ -21,7 +21,7 @@ export default function History() {
           <EmptyList mensage="Você não tem nenhuma lista arquivada" />
         )}
       </Styled.ContainerListInner>
-      <Styled.ContainerListInnerButton></Styled.ContainerListInnerButton>
+      <Styled.ContainerListInnerButton />
     </Styled.Container>
   );
 }
