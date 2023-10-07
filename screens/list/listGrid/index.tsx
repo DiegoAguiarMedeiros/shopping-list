@@ -69,9 +69,7 @@ function ListGrid({
           <Styled.ContainerListItemList>
             <SafeAreaView>
               <ScrollView style={[{ height: "100%" }]} nestedScrollEnabled>
-                <Styled.ContainerListItemListItem
-                  height={`${listArrItems.length * 100 + 410}`}
-                >
+                <Styled.ContainerListItemListItem>
                   {listArrItems.map((item: ItemInterface) => (
                     <ListGridItem
                       tagsWithoutTodos={tagsWithoutTodos}

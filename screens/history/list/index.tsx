@@ -11,7 +11,9 @@ export default function List({ items }: ItemProps) {
   const colorScheme = useColorScheme();
 
   return (
-    <Styled.Container background={Colors[colorScheme ?? "light"].bodyBackgroundColor}>
+    <Styled.Container
+      background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
+    >
       <Styled.ContainerListList>
         <ListGrid items={items} />
       </Styled.ContainerListList>

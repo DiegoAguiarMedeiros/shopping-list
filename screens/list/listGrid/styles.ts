@@ -16,32 +16,23 @@ export const ContainerList = styled.View`
 `;
 export const ContainerListInner = styled.View`
   flex: 1;
-  justify-content: center;
-  align-items: center;
 `;
 
 export const ContainerListTotal = styled.View`
   width: 100%;
   flex-direction: row;
-  align-items: center;
-  flex: 0.5;
+  flex: 0.25;
   min-height: 25px;
   padding: 5px;
 `;
 export const ContainerListItemList = styled.View`
   width: 100%;
-  flex: 11;
-  height: 50%;
-  margin: 0 0 20px 0;
-  padding: 0 0 15px 0;
+  flex: 12;
 `;
-export const ContainerListItemListItem = styled.View<{
-  height: string;
-}>`
+export const ContainerListItemListItem = styled.View`
   width: 100%;
   flex: 1;
   height: 100%;
-  padding: 0 0 15px 0;
 `;
 export const ContainerButtonAdd = styled.View`
   flex: 1;

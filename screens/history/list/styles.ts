@@ -15,7 +15,6 @@ export const ContainerListInner = styled.View`
   align-items: center;
 `;
 export const ContainerListList = styled.View`
-  flex: 8;
   justify-content: center;
   align-items: center;
 `;
