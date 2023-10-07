@@ -70,7 +70,7 @@ export default function ListGridItem({
       // items: item,
       // buttonText: "edit",
       // action: "editList",
-      height: "edit",
+      height: "add",
       children: (
         <NewListForm
           action="editList"
@@ -89,7 +89,7 @@ export default function ListGridItem({
       // items: item,
       // buttonText: "copy",
       // action: "copyList",
-      height: "edit",
+      height: "add",
       children: (
         <NewListForm
           action="copyList"
