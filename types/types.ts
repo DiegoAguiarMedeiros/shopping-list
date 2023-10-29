@@ -1,3 +1,5 @@
+import { BottomSheetProps } from "../components/BottomSheet";
+
 //ok
 interface ItemAmountInterface {
   uuid: string;
@@ -40,17 +42,17 @@ interface ListType {
   [key: string]: ListInterface;
 }
 
-interface BottomSheetProps {
-  items?: ListInterface | ItemInterface;
-  tags?: TagsIterface[];
-  tagsFiltered?: TagsIterface[];
-  listId: string;
-  buttonText: "add" | "edit" | "copy";
-  action: "addList" | "editList" | "addListItem" | "editListItem" | "copyList";
-  isVisible: boolean;
-  onClose: (item: BottomSheetProps) => void;
-  children?: React.ReactNode;
-}
+// interface BottomSheetProps {
+//   items?: ListInterface | ItemInterface;
+//   tags?: TagsIterface[];
+//   tagsFiltered?: TagsIterface[];
+//   listId: string;
+//   buttonText: "add" | "edit" | "copy";
+//   action: "addList" | "editList" | "addListItem" | "editListItem" | "copyList";
+//   isVisible: boolean;
+//   onClose: (item: BottomSheetProps) => void;
+//   children?: React.ReactNode;
+// }
 
 interface TotalType {
   amount: number;
@@ -847,11 +849,14 @@ interface RoutesProps {
     | "wpexplorer"
     | "meetup";
   addButton: boolean;
+  func: () => void;
 }
 interface RoutesType {
   routes: RoutesProps[];
   active: string;
   setActiveRoute: React.Dispatch<React.SetStateAction<string>>;
+  setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
+  bottomSheetProps: BottomSheetProps;
 }
 
 export {

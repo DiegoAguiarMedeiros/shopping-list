@@ -90,13 +90,15 @@ import Home from "./home";
 import Items from "./Items";
 import ItemsArchived from "./ItemsArchived";
 import History from "./history";
-import { RoutesProps } from "../types/types";
+import BottomSheet, { BottomSheetProps } from "../components/BottomSheet";
 import OnboardingScreen from "../screens/onboarding";
 import {
   ShoppingListArchivedProvider,
   ShoppingListProvider,
 } from "../context/ShoppingList";
 import Colors from "../constants/Colors";
+import NewListForm from "../components/NewListForm";
+import { RoutesProps } from "../types/types";
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
@@ -174,12 +176,52 @@ export default function App() {
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
   const [activeRoute, setActiveRoute] = useState<string>("home");
+  const handleCloseBottomSheet = () => {
+    setBottomSheetProps({ ...bottomSheetProps, isVisible: false });
+  };
+
+  const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
+    children: (
+      <NewListForm
+        action="addList"
+        buttonText="add"
+        onClose={handleCloseBottomSheet}
+      />
+    ),
+    height: "add",
+    isVisible: false,
+  });
   const routes: RoutesProps[] = [
-    { name: "home", icon: "shopping-bag", addButton: false },
-    { name: "product", icon: "cube", addButton: false },
-    { name: "add", icon: "plus", addButton: true },
-    { name: "category", icon: "tags", addButton: false },
-    { name: "history", icon: "history", addButton: false },
+    {
+      name: "home",
+      icon: "shopping-bag",
+      addButton: false,
+      func: () => setActiveRoute("home"),
+    },
+    {
+      name: "product",
+      icon: "cube",
+      addButton: false,
+      func: () => setActiveRoute("product"),
+    },
+    {
+      name: "add",
+      icon: "plus",
+      addButton: true,
+      func: () => setBottomSheetProps({ ...bottomSheetProps, isVisible: true }),
+    },
+    {
+      name: "category",
+      icon: "tags",
+      addButton: false,
+      func: () => setActiveRoute("category"),
+    },
+    {
+      name: "history",
+      icon: "history",
+      addButton: false,
+      func: () => setActiveRoute("history"),
+    },
   ];
 
   return (
@@ -197,7 +239,6 @@ function RootLayoutNav() {
         >
           <Stack.Screen
             name={"home"}
-            component={Home}
             options={{
               headerTitle: (props) => (
                 <Title color={Colors[colorScheme ?? "light"].white}>
@@ -205,7 +246,15 @@ function RootLayoutNav() {
                 </Title>
               ),
             }}
-          />
+          >
+            {() => (
+              <Home
+                setBottomSheetProps={setBottomSheetProps}
+                bottomSheetProps={bottomSheetProps}
+                handleCloseBottomSheet={handleCloseBottomSheet}
+              />
+            )}
+          </Stack.Screen>
           <Stack.Screen
             name="Items"
             component={Items}
@@ -233,10 +282,13 @@ function RootLayoutNav() {
             }}
           />
         </Stack.Navigator>
+        <BottomSheet {...bottomSheetProps} />
         <BottomNavigation
           routes={routes}
           active={activeRoute}
           setActiveRoute={setActiveRoute}
+          setBottomSheetProps={setBottomSheetProps}
+          bottomSheetProps={bottomSheetProps}
         />
       </ThemeProvider>
     </>

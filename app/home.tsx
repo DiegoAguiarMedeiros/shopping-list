@@ -3,10 +3,25 @@ import { Text } from "../components/Text";
 import Home from "../screens/home";
 
 import View from "../components/Themed";
-export default function TabOneScreen() {
+import { BottomSheetProps } from "../components/BottomSheet";
+interface TabOneScreenProps {
+  setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
+  bottomSheetProps: BottomSheetProps;
+  handleCloseBottomSheet: () => void;
+}
+
+export default function TabOneScreen({
+  setBottomSheetProps,
+  bottomSheetProps,
+  handleCloseBottomSheet,
+}: TabOneScreenProps) {
   return (
     <View style={styles.container}>
-      <Home />
+      <Home
+        setBottomSheetProps={setBottomSheetProps}
+        bottomSheetProps={bottomSheetProps}
+        handleCloseBottomSheet={handleCloseBottomSheet}
+      />
     </View>
   );
 }

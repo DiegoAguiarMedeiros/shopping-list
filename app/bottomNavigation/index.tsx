@@ -10,6 +10,8 @@ const BottomNavigation: React.FC<RoutesType> = ({
   routes,
   active,
   setActiveRoute,
+  setBottomSheetProps,
+  bottomSheetProps,
 }: RoutesType) => {
   const colorScheme = useColorScheme();
   const router = useRouter();
@@ -30,10 +32,7 @@ const BottomNavigation: React.FC<RoutesType> = ({
                   Colors[colorScheme ?? "light"].buttonActiveBackgroundColor
                 }
                 key={`ItemAdd-${r.name}`}
-                onPress={() => {
-                  setActiveRoute(r.name);
-                  router.push({ pathname: r.name });
-                }}
+                onPress={() => r.func()}
                 boder={
                   Colors[colorScheme ?? "light"].bottomNavActiveBackgroundColor
                 }

@@ -10,25 +10,21 @@ import BottomSheet, { BottomSheetProps } from "../../components/BottomSheet";
 import { useState } from "react";
 import NewListForm from "../../components/NewListForm";
 import Button from "../../components/Button";
-export default function Home() {
+
+interface HomeProps {
+  setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
+  bottomSheetProps: BottomSheetProps;
+  handleCloseBottomSheet: () => void;
+}
+export default function Home({
+  bottomSheetProps,
+  setBottomSheetProps,
+  handleCloseBottomSheet,
+}: HomeProps) {
   const colorScheme = useColorScheme();
   const { list, listProduct, listAmount } = useShoppingListContext();
   const isFocused = useIsFocused();
-  const handleCloseBottomSheet = () => {
-    setBottomSheetProps({ ...bottomSheetProps, isVisible: false });
-  };
 
-  const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
-    children: (
-      <NewListForm
-        action="addList"
-        buttonText="add"
-        onClose={handleCloseBottomSheet}
-      />
-    ),
-    height: "add",
-    isVisible: false,
-  });
   // console.log("list", list);
   // console.log("listItem", listItem);
   // console.log("itemAmountList", itemAmountList);
@@ -49,21 +45,6 @@ export default function Home() {
             <EmptyList mensage="Você não tem nenhuma lista criada" />
           ))}
       </Styled.ContainerListInner>
-      <Styled.ContainerListInnerButton>
-        <Styled.ContainerButtonAdd>
-          <Button
-            text="Adicionar"
-            onPress={() =>
-              setBottomSheetProps({ ...bottomSheetProps, isVisible: true })
-            }
-            background={
-              Colors[colorScheme ?? "light"].buttonActiveBackgroundColor
-            }
-            icon="plus"
-          />
-        </Styled.ContainerButtonAdd>
-      </Styled.ContainerListInnerButton>
-      <BottomSheet {...bottomSheetProps} />
     </Styled.Container>
   );
 }

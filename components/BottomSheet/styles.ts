@@ -2,6 +2,7 @@ import { Dimensions } from "react-native";
 import styled, { css } from "styled-components/native";
 
 export const BottomSheet = styled.View`
+  margin-bottom: 50px;
   position: absolute;
   bottom: 0;
   left: 0;
