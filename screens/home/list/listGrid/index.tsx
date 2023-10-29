@@ -5,8 +5,9 @@ import { ListInterface, ListType } from "../../../../types/types";
 import { BottomSheetProps } from "../../../../components/BottomSheet";
 
 import ListGridItem from "./listGridItem";
+import IList from "../../../../Domain/Model/IList";
 interface ItemProps {
-  items: ListInterface[];
+  items: IList[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
 }
@@ -25,7 +26,7 @@ export default function ListGrid({
         <SafeAreaView>
           <ScrollView>
             <Styled.ContainerListItemListItem>
-              {items.map((item: ListInterface) => (
+              {items.map((item: IList) => (
                 <ListGridItem
                   handleCloseBottomSheet={handleCloseBottomSheet}
                   setBottomSheetProps={setBottomSheetProps}

@@ -23,8 +23,13 @@ import CircleProgress from "../../../../../components/CircleProgress";
 
 import { BottomSheetProps } from "../../../../../components/BottomSheet";
 import NewListForm from "../../../../../components/NewListForm";
+import List from "../../../../../Domain/Model/Implementation/List";
+import { IListInterface } from "@/Domain/Model/IList";
+import { IListProductInterface } from "../../../../../Domain/Model/IProduct";
+import { IListAmountInterface } from "../../../../../Domain/Model/IAmount";
+import getListProductController from "../../../../../Domain/UseCases/ListProduct/GetListProduct";
 interface ItemProps {
-  item: ListInterface;
+  item: List;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
 }
@@ -37,29 +42,28 @@ export default function ListGridItem({
   const {
     list,
     setList,
-    listItem,
-    setListItem,
-    itemAmountList,
-    setItemAmountList,
-    getListItemsOfList,
-    getTotalWithAmount,
-    getTotal,
-    getTotalUn,
+    listProduct,
+    setListProduct,
+    listAmount,
+    setListAmount,
   } = useShoppingListContext();
   const {
     listArchived,
     setListArchived,
-    listItemArchived,
-    setListItemArchived,
-    itemAmountListArchived,
-    setItemAmountListArchived,
+    listProductArchived,
+    setListProductArchived,
+    listAmountArchived,
+    setListAmountArchived,
   } = useShoppingListArchivedContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
-  const items = removeUndefinedFromArray(getListItemsOfList(item.items));
-  const total = item.items.length > 0 ? getTotal(items) : 0;
-  const totalWithAmount = item.items.length > 0 ? getTotalWithAmount(items) : 0;
-  const totalUn = item.items.length > 0 ? getTotalUn(items) : 0;
+  const items = []; /*removeUndefinedFromArray(
+    getListProductController.handle(item.items)
+  );*/
+  const total = item.items.length > 0 ? /*getTotal(items)*/ 0 : 0;
+  const totalWithAmount =
+    item.items.length > 0 ? /*getTotalWithAmount(items)*/ 0 : 0;
+  const totalUn = item.items.length > 0 ? /*getTotalUn(items)*/ 0 : 0;
   const handleOpenList = useCallback(() => {
     router.push({ pathname: "/Items", params: { listId: item.uuid } });
   }, [item.uuid, router]);
@@ -103,44 +107,44 @@ export default function ListGridItem({
   };
 
   const handleDelete = () => {
-    const updatedList: ListType = JSON.parse(JSON.stringify(list));
+    const updatedList: IListInterface = JSON.parse(JSON.stringify(list));
     handleDeleteListItem(updatedList[item.uuid].items);
     delete updatedList[item.uuid];
-    setList(updatedList);
+    // setList(updatedList);
   };
 
   const handleDeleteListItem = (listUuid: string[]): void => {
     if (listUuid) {
-      const updatedList: ListItemInterface = JSON.parse(
-        JSON.stringify(listItem)
+      const updatedList: IListProductInterface = JSON.parse(
+        JSON.stringify(listProduct)
       );
       listUuid.forEach((i) => {
         updatedList[i]?.amount &&
           handleDeleteAmountInList(updatedList[i]?.amount);
         delete updatedList[i];
       });
-      setListItem(updatedList);
+      setListProduct(updatedList);
     }
   };
   const handleDeleteAmountInList = (itemAmountUuid: string[]): void => {
-    const updatedList: ListItemAmountInterface = JSON.parse(
-      JSON.stringify(itemAmountList)
+    const updatedList: IListAmountInterface = JSON.parse(
+      JSON.stringify(listAmount)
     );
     itemAmountUuid.forEach((i) => {
       delete updatedList[i];
     });
-    setItemAmountList(updatedList);
+    setListAmount(updatedList);
   };
 
   const handleArchivedItemList = (items: string[]): void => {
     items.forEach((item) => {
-      const archivedItemList: ListItemInterface = JSON.parse(
-        JSON.stringify(listItem)
+      const archivedItemList: IListProductInterface = JSON.parse(
+        JSON.stringify(listProduct)
       );
       const itemsArchived = archivedItemList[item];
       if (itemsArchived) {
         handleArchivedItemListAmount(itemsArchived.amount);
-        setListItemArchived((newValue) => ({
+        setListProductArchived((newValue) => ({
           ...newValue,
           [itemsArchived.uuid]: itemsArchived,
         }));
@@ -149,12 +153,12 @@ export default function ListGridItem({
   };
   const handleArchivedItemListAmount = (amounts: string[]): void => {
     amounts.forEach((amount) => {
-      const archivedItemAmountList: ListItemAmountInterface = JSON.parse(
-        JSON.stringify(itemAmountList)
+      const archivedItemAmountList: IListAmountInterface = JSON.parse(
+        JSON.stringify(listAmountArchived)
       );
       const itemsAmountArchived = archivedItemAmountList[amount];
       if (itemsAmountArchived) {
-        setItemAmountListArchived((newValue) => ({
+        setListAmountArchived((newValue) => ({
           ...newValue,
           [itemsAmountArchived.uuid]: itemsAmountArchived,
         }));
@@ -162,7 +166,7 @@ export default function ListGridItem({
     });
   };
   const handleArchived = (): void => {
-    const archivedList: ListType = JSON.parse(JSON.stringify(list));
+    const archivedList: IListInterface = JSON.parse(JSON.stringify(list));
     const itemsArchived = archivedList[item.uuid];
     if (itemsArchived) {
       handleArchivedItemList(itemsArchived.items);

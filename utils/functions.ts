@@ -1,10 +1,11 @@
+import IProduct from "@/Domain/Model/IProduct";
+import ITag from "../Domain/Model/ITag";
 import {
   ItemAmountInterface,
   ItemInterface,
   ListInterface,
   ListItemInterface,
   ListType,
-  TagsIterface,
 } from "../types/types";
 
 function removeDuplicates<T>(arr: T[]): T[] {
@@ -15,7 +16,7 @@ const removeUndefinedFromArray = <T>(arr: T[]): T[] => {
   return arr.filter((item) => item !== null && item !== undefined);
 };
 
-const checkTags = (tag: string, tags: TagsIterface[]): boolean => {
+const checkTags = (tag: string, tags: ITag[]): boolean => {
   let returnBoolean = false;
   tags.forEach((t) => {
     if (tag === t.name) returnBoolean = true;
@@ -23,45 +24,39 @@ const checkTags = (tag: string, tags: TagsIterface[]): boolean => {
   return returnBoolean;
 };
 
-const getTags = (items: ItemInterface[]): TagsIterface[] => {
-  const arr = removeDuplicates(items.map((item) => item.tags));
+const getTags = (items: IProduct[]): ITag[] => {
+  const arr = removeDuplicates(items.map((item) => item.tag));
   let count = 1;
-  const tagsArr: TagsIterface[] = arr.map((tag) => {
+  const tagsArr: ITag[] = arr.map((tag) => {
     return {
-      id: String(count++),
+      uuid: String(count++),
       name: tag,
-      active: false,
     };
   });
   tagsArr.unshift({
-    id: "0",
+    uuid: "0",
     name: "Todos",
-    active: true,
   });
   return tagsArr.filter(({ name }) => name !== "");
 };
 
-const getTagsFromListItemInterface = (
-  obj: ListItemInterface
-): TagsIterface[] => {
-  const tagsArr: TagsIterface[] = [];
+const getTagsFromListItemInterface = (obj: ListItemInterface): ITag[] => {
+  const tagsArr: ITag[] = [];
   const tagsArrString: string[] = [];
   let count = 1;
   for (const key in obj) {
-    if(!tagsArrString.includes(obj[key].tags)){
-      tagsArrString.push(obj[key].tags)
+    if (!tagsArrString.includes(obj[key].tags)) {
+      tagsArrString.push(obj[key].tags);
       tagsArr.push({
-        id: String(count++),
+        uuid: String(count++),
         name: obj[key].tags,
-        active: false,
       });
     }
   }
   if (tagsArr.length >= 1) {
     tagsArr.unshift({
-      id: "0",
+      uuid: "0",
       name: "Todos",
-      active: true,
     });
   }
   return tagsArr;

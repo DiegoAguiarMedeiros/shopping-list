@@ -46,7 +46,7 @@ const NewItemForm = ({
     tag: items && !Array.isArray(items.tags) ? items.tags : "",
   });
 
-  const { list, setList, listItem, setListItem, getListItemsOfList } =
+  const { list, setList } =
     useShoppingListContext();
 
   const clearInput = () => {

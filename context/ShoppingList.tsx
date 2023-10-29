@@ -1,78 +1,76 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import ListStorage from "../utils/list";
-import {
-  ListInterface,
-  ItemInterface,
-  ListItemInterface,
-  ListType,
-  ItemAmountInterface,
-  ListItemAmountInterface,
-} from "../types/types";
+import { ListItemInterface, ListItemAmountInterface } from "../types/types";
+import IList, { IListInterface } from "../Domain/Model/IList";
+import { IListProductInterface } from "../Domain/Model/IProduct";
+import { IListAmountInterface } from "../Domain/Model/IAmount";
+import getListsController from "../Domain/UseCases/List/GetLists";
+import saveListsController from "../Domain/UseCases/List/SaveLists";
 type ShoppingListProviderProps = {
   children: React.ReactNode;
 };
 
 type ShoppingListContextType = {
-  list: ListType;
-  setList: React.Dispatch<React.SetStateAction<ListType | null>>;
-  listItem: ListItemInterface;
-  setListItem: React.Dispatch<React.SetStateAction<ListItemInterface | null>>;
-  itemAmountList: ListItemAmountInterface;
-  setItemAmountList: React.Dispatch<
-    React.SetStateAction<ListItemAmountInterface | null>
+  list: IList[];
+  setList: React.Dispatch<React.SetStateAction<IList[] | null>>;
+  listProduct: IListProductInterface;
+  setListProduct: React.Dispatch<
+    React.SetStateAction<IListProductInterface | null>
   >;
-  getListItemsOfList: (listItems: string[]) => ItemInterface[];
-  getAmountOfListItems: (listItemsArr: string[]) => ItemAmountInterface[];
-  getTotalWithAmount: (listItemsArr: ItemInterface[]) => number;
-  getTotal: (listItemsArr: ItemInterface[]) => number;
-  getTotalUn: (listItemsArr: ItemInterface[]) => number;
+  listAmount: IListAmountInterface;
+  setListAmount: React.Dispatch<
+    React.SetStateAction<IListAmountInterface | null>
+  >;
 };
 
-const getListFromStorage = async (): Promise<ListType | null> => {
-  const list = await ListStorage.getList();
+const getListFromStorage = async (): Promise<IList[] | null> => {
+  const list = await getListsController.handle();
   return list;
 };
-const getListItemFromStorage = async (): Promise<ListItemInterface | null> => {
-  const listItem = await ListStorage.getListItem();
-  return listItem;
-};
-const getItemAmountFromStorage =
-  async (): Promise<ListItemAmountInterface | null> => {
-    const itemAmountList = await ListStorage.getItemAmount();
+const getListProductFromStorage =
+  async (): Promise<IListProductInterface | null> => {
+    const listItem = await ListStorage.getListProduct();
+    return listItem;
+  };
+const getListAmountFromStorage =
+  async (): Promise<IListAmountInterface | null> => {
+    const itemAmountList = await ListStorage.getListAmount();
     return itemAmountList;
   };
 
-const setListOnStorage = (newList: ListType): void => {
-  ListStorage.setList(newList);
+const setListOnStorage = (newList: IList[]): void => {
+  saveListsController.handle(newList);
 };
-const setListItemOnStorage = (newList: ListItemInterface): void => {
-  ListStorage.setListItem(newList);
+const setListProductOnStorage = (newList: IListProductInterface): void => {
+  ListStorage.setListProduct(newList);
 };
-const setItemAmountOnStorage = (newList: ListItemAmountInterface): void => {
-  ListStorage.setItemAmount(newList);
+const setListAmountOnStorage = (newList: IListAmountInterface): void => {
+  ListStorage.setListAmount(newList);
 };
-const getListArchivedFromStorage = async (): Promise<ListType | null> => {
+const getListArchivedFromStorage = async (): Promise<IListInterface | null> => {
   const list = await ListStorage.getListArchived();
   return list;
 };
-const getListItemArchivedFromStorage =
-  async (): Promise<ListItemInterface | null> => {
-    const listItem = await ListStorage.getListItemArchived();
-    return listItem;
+const getListProductArchivedFromStorage =
+  async (): Promise<IListProductInterface | null> => {
+    const listProduct = await ListStorage.getListProductArchived();
+    return listProduct;
   };
 const getItemAmountArchivedFromStorage =
-  async (): Promise<ListItemAmountInterface | null> => {
-    const itemAmountList = await ListStorage.getItemAmountArchived();
+  async (): Promise<IListAmountInterface | null> => {
+    const itemAmountList = await ListStorage.getListAmountArchived();
     return itemAmountList;
   };
 
-const setListArchivedOnStorage = (newList: ListType): void => {
+const setListArchivedOnStorage = (newList: IListInterface): void => {
   ListStorage.setListArchived(newList);
 };
-const setListItemArchivedOnStorage = (newList: ListItemInterface): void => {
-  ListStorage.setListItemArchived(newList);
+const setListProductArchivedOnStorage = (
+  newList: IListProductInterface
+): void => {
+  ListStorage.setListProductArchived(newList);
 };
-const setItemAmountArchivedOnStorage = (
+const setListAmountArchivedOnStorage = (
   newList: ListItemAmountInterface
 ): void => {
   ListStorage.setItemAmountArchived(newList);
@@ -85,121 +83,119 @@ const ShoppingListContext = createContext<ShoppingListContextType | undefined>(
 const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   children,
 }) => {
-  const [list, setList] = useState<ListType | null>(null);
-  const [listItem, setListItem] = useState<ListItemInterface | null>(null);
-  const [itemAmountList, setItemAmountList] =
-    useState<ListItemAmountInterface | null>(null);
+  const [list, setList] = useState<IList[] | null>(null);
+  const [listProduct, setListProduct] = useState<IListProductInterface | null>(
+    null
+  );
+  const [listAmount, setListAmount] = useState<IListAmountInterface | null>(
+    null
+  );
 
   const loadList = async (): Promise<void> => {
     const listArr = await getListFromStorage();
     setList(listArr);
   };
-  const loadListItem = async (): Promise<void> => {
-    const listItemArr = await getListItemFromStorage();
-    setListItem(listItemArr);
+  const loadListProduct = async (): Promise<void> => {
+    const listItemArr = await getListProductFromStorage();
+    setListProduct(listItemArr);
   };
-  const loadItemAmount = async (): Promise<void> => {
-    const itemAmountListArr = await getItemAmountFromStorage();
-    setItemAmountList(itemAmountListArr);
-  };
-
-  const getListItemsOfList = (listItemsArr: string[]): ItemInterface[] => {
-    const returnListItemsArr: ItemInterface[] = [];
-    if (listItemsArr) {
-      listItemsArr.forEach((item: string) => {
-        if (listItem != null) returnListItemsArr.push(listItem[item]);
-      });
-    }
-    return returnListItemsArr;
-  };
-  const getAmountOfListItems = (
-    amountItemList: string[]
-  ): ItemAmountInterface[] => {
-    const returnAmountItemList: ItemAmountInterface[] = [];
-    itemAmountList &&
-      amountItemList.forEach((item: string) => {
-        returnAmountItemList.push(itemAmountList[item]);
-      });
-    return returnAmountItemList;
+  const loadListAmount = async (): Promise<void> => {
+    const itemAmountListArr = await getListAmountFromStorage();
+    setListAmount(itemAmountListArr);
   };
 
-  const getTotal = (items: ItemInterface[]): number => {
-    let total: number = 0;
-    items.forEach((itemList) => {
-      const amount = getAmountOfListItems(itemList?.amount);
-      total =
-        total +
-        amount.reduce((accumulator, currentValue) => {
-          return (
-            accumulator +
-            Number(currentValue?.amount) * Number(currentValue?.quantity)
-          );
-        }, 0);
-    });
-    return total;
-  };
+  // const getListItemsOfList = (listItemsArr: string[]): ItemInterface[] => {
+  //   const returnListItemsArr: ItemInterface[] = [];
+  //   if (listItemsArr) {
+  //     listItemsArr.forEach((item: string) => {
+  //       if (listItem != null) returnListItemsArr.push(listItem[item]);
+  //     });
+  //   }
+  //   return returnListItemsArr;
+  // };
+  // const getAmountOfListItems = (
+  //   amountItemList: string[]
+  // ): ItemAmountInterface[] => {
+  //   const returnAmountItemList: ItemAmountInterface[] = [];
+  //   itemAmountList &&
+  //     amountItemList.forEach((item: string) => {
+  //       returnAmountItemList.push(itemAmountList[item]);
+  //     });
+  //   return returnAmountItemList;
+  // };
 
-  const getTotalWithAmount = (items: ItemInterface[]): number => {
-    let total: number = 0;
-    items.forEach((itemList) => {
-      const amount = getAmountOfListItems(itemList.amount);
-      total =
-        itemList.amount.length > 0
-          ? total +
-            amount.reduce((accumulator, currentValue) => {
-              return (
-                accumulator +
-                Number(currentValue.type ? "1" : currentValue.quantity)
-              );
-            }, 0)
-          : total + Number(itemList.amount.length);
-    });
-    return total;
-  };
+  // const getTotal = (items: ItemInterface[]): number => {
+  //   let total: number = 0;
+  //   items.forEach((itemList) => {
+  //     const amount = getAmountOfListItems(itemList?.amount);
+  //     total =
+  //       total +
+  //       amount.reduce((accumulator, currentValue) => {
+  //         return (
+  //           accumulator +
+  //           Number(currentValue?.amount) * Number(currentValue?.quantity)
+  //         );
+  //       }, 0);
+  //   });
+  //   return total;
+  // };
 
-  const getTotalUn = (items: ItemInterface[]): number => {
-    let total: number = 0;
-    items.forEach((itemList) => {
-      const amount = getAmountOfListItems(itemList?.amount);
-      total =
-        amount.length > 0
-          ? total +
-            amount.reduce((accumulator, currentValue) => {
-              return (
-                accumulator +
-                Number(currentValue?.type ? "1" : currentValue?.quantity)
-              );
-            }, 0)
-          : total + 1;
-    });
-    return total;
-  };
+  // const getTotalWithAmount = (items: ItemInterface[]): number => {
+  //   let total: number = 0;
+  //   items.forEach((itemList) => {
+  //     const amount = getAmountOfListItems(itemList.amount);
+  //     total =
+  //       itemList.amount.length > 0
+  //         ? total +
+  //           amount.reduce((accumulator, currentValue) => {
+  //             return (
+  //               accumulator +
+  //               Number(currentValue.type ? "1" : currentValue.quantity)
+  //             );
+  //           }, 0)
+  //         : total + Number(itemList.amount.length);
+  //   });
+  //   return total;
+  // };
+
+  // const getTotalUn = (items: ItemInterface[]): number => {
+  //   let total: number = 0;
+  //   items.forEach((itemList) => {
+  //     const amount = getAmountOfListItems(itemList?.amount);
+  //     total =
+  //       amount.length > 0
+  //         ? total +
+  //           amount.reduce((accumulator, currentValue) => {
+  //             return (
+  //               accumulator +
+  //               Number(currentValue?.type ? "1" : currentValue?.quantity)
+  //             );
+  //           }, 0)
+  //         : total + 1;
+  //   });
+  //   return total;
+  // };
   useEffect(() => {
     loadList();
-    loadListItem();
-    loadItemAmount();
+    loadListProduct();
+    loadListAmount();
   }, []);
 
   useEffect(() => {
     list && setListOnStorage(list);
-    listItem && setListItemOnStorage(listItem);
-    itemAmountList && setItemAmountOnStorage(itemAmountList);
-  }, [list, listItem, itemAmountList]);
+    listProduct && setListProductOnStorage(listProduct);
+    listAmount && setListAmountOnStorage(listAmount);
+  }, [list, listProduct, listAmount]);
 
   return (
     <ShoppingListContext.Provider
       value={{
         list: list!,
         setList: setList,
-        listItem: listItem!,
-        setListItem: setListItem,
-        itemAmountList: itemAmountList!,
-        setItemAmountList: setItemAmountList,
-        getListItemsOfList: getListItemsOfList,
-        getAmountOfListItems: getAmountOfListItems,
-        getTotalWithAmount: getTotalWithAmount,
-        getTotal: getTotal,
-        getTotalUn: getTotalUn,
+        listProduct: listProduct!,
+        setListProduct: setListProduct,
+        listAmount: listAmount!,
+        setListAmount: setListAmount,
       }}
     >
       {children}
@@ -219,23 +215,16 @@ const useShoppingListContext = () => {
 };
 
 type ShoppingListArchivedContextType = {
-  listArchived: ListType;
-  setListArchived: React.Dispatch<React.SetStateAction<ListType | null>>;
-  listItemArchived: ListItemInterface;
-  setListItemArchived: React.Dispatch<
-    React.SetStateAction<ListItemInterface | null>
+  listArchived: IListInterface;
+  setListArchived: React.Dispatch<React.SetStateAction<IListInterface | null>>;
+  listProductArchived: IListProductInterface;
+  setListProductArchived: React.Dispatch<
+    React.SetStateAction<IListProductInterface | null>
   >;
-  itemAmountListArchived: ListItemAmountInterface;
-  setItemAmountListArchived: React.Dispatch<
-    React.SetStateAction<ListItemAmountInterface | null>
+  listAmountArchived: IListAmountInterface;
+  setListAmountArchived: React.Dispatch<
+    React.SetStateAction<IListAmountInterface | null>
   >;
-  getListItemsOfListArchived: (listItems: string[]) => ItemInterface[];
-  getAmountOfListItemsArchived: (
-    listItemsArr: string[]
-  ) => ItemAmountInterface[];
-  getTotalWithAmountArchived: (listItemsArr: ItemInterface[]) => number;
-  getTotalArchived: (listItemsArr: ItemInterface[]) => number;
-  getTotalUnArchived: (listItemsArr: ItemInterface[]) => number;
 };
 
 const ShoppingListArchivedContext = createContext<
@@ -245,126 +234,120 @@ const ShoppingListArchivedContext = createContext<
 const ShoppingListArchivedProvider: React.FC<ShoppingListProviderProps> = ({
   children,
 }) => {
-  const [listArchived, setListArchived] = useState<ListType | null>(null);
-  const [listItemArchived, setListItemArchived] =
-    useState<ListItemInterface | null>(null);
-  const [itemAmountListArchived, setItemAmountListArchived] =
-    useState<ListItemAmountInterface | null>(null);
+  const [listArchived, setListArchived] = useState<IListInterface | null>(null);
+  const [listProductArchived, setListProductArchived] =
+    useState<IListProductInterface | null>(null);
+  const [listAmountArchived, setListAmountArchived] =
+    useState<IListAmountInterface | null>(null);
 
   const loadListArchived = async (): Promise<void> => {
     const listArr = await getListArchivedFromStorage();
     setListArchived(listArr);
   };
-  const loadListItemArchived = async (): Promise<void> => {
-    const listItemArr = await getListItemArchivedFromStorage();
-    setListItemArchived(listItemArr);
+  const loadListProductArchived = async (): Promise<void> => {
+    const listItemArr = await getListProductArchivedFromStorage();
+    setListProductArchived(listItemArr);
   };
-  const loadItemAmountArchived = async (): Promise<void> => {
-    const itemAmountListArr = await getItemAmountArchivedFromStorage();
-    setItemAmountListArchived(itemAmountListArr);
-  };
-
-  const getListItemsOfListArchived = (
-    listItemsArr: string[]
-  ): ItemInterface[] => {
-    const returnListItemsArr: ItemInterface[] = [];
-    if (listItemsArr) {
-      listItemsArr.forEach((item: string) => {
-        if (listItemArchived != null)
-          returnListItemsArr.push(listItemArchived[item]);
-      });
-    }
-    return returnListItemsArr;
-  };
-  const getAmountOfListItemsArchived = (
-    amountItemList: string[]
-  ): ItemAmountInterface[] => {
-    const returnAmountItemList: ItemAmountInterface[] = [];
-    itemAmountListArchived &&
-      amountItemList.forEach((item: string) => {
-        returnAmountItemList.push(itemAmountListArchived[item]);
-      });
-    return returnAmountItemList;
-  };
-  const getTotalArchived = (items: ItemInterface[]): number => {
-    let total: number = 0;
-    items.forEach((itemList) => {
-      const amount = getAmountOfListItemsArchived(itemList.amount);
-      total =
-        total +
-        amount.reduce((accumulator, currentValue) => {
-          return (
-            accumulator +
-            Number(currentValue.amount) * Number(currentValue.quantity)
-          );
-        }, 0);
-    });
-    return total;
+  const loadListAmountArchived = async (): Promise<void> => {
+    const listAmountArr = await getItemAmountArchivedFromStorage();
+    setListAmountArchived(listAmountArr);
   };
 
-  const getTotalWithAmountArchived = (items: ItemInterface[]): number => {
-    let total: number = 0;
-    items.forEach((itemList) => {
-      const amount = getAmountOfListItemsArchived(itemList.amount);
-      total =
-        itemList.amount.length > 0
-          ? total +
-            amount.reduce((accumulator, currentValue) => {
-              return (
-                accumulator +
-                Number(currentValue.type ? "1" : currentValue.quantity)
-              );
-            }, 0)
-          : total + Number(itemList.amount.length);
-    });
-    return total;
-  };
+  // const getListItemsOfListArchived = (
+  //   listItemsArr: string[]
+  // ): ItemInterface[] => {
+  //   const returnListItemsArr: ItemInterface[] = [];
+  //   if (listItemsArr) {
+  //     listItemsArr.forEach((item: string) => {
+  //       if (listItemArchived != null)
+  //         returnListItemsArr.push(listItemArchived[item]);
+  //     });
+  //   }
+  //   return returnListItemsArr;
+  // };
+  // const getAmountOfListItemsArchived = (
+  //   amountItemList: string[]
+  // ): ItemAmountInterface[] => {
+  //   const returnAmountItemList: ItemAmountInterface[] = [];
+  //   itemAmountListArchived &&
+  //     amountItemList.forEach((item: string) => {
+  //       returnAmountItemList.push(itemAmountListArchived[item]);
+  //     });
+  //   return returnAmountItemList;
+  // };
+  // const getTotalArchived = (items: ItemInterface[]): number => {
+  //   let total: number = 0;
+  //   items.forEach((itemList) => {
+  //     const amount = getAmountOfListItemsArchived(itemList.amount);
+  //     total =
+  //       total +
+  //       amount.reduce((accumulator, currentValue) => {
+  //         return (
+  //           accumulator +
+  //           Number(currentValue.amount) * Number(currentValue.quantity)
+  //         );
+  //       }, 0);
+  //   });
+  //   return total;
+  // };
 
-  const getTotalUnArchived = (items: ItemInterface[]): number => {
-    let total: number = 0;
-    items.forEach((itemList) => {
-      const amount = getAmountOfListItemsArchived(itemList.amount);
-      total =
-        amount.length > 0
-          ? total +
-            amount.reduce((accumulator, currentValue) => {
-              return (
-                accumulator +
-                Number(currentValue.type ? "1" : currentValue.quantity)
-              );
-            }, 0)
-          : total + 1;
-    });
-    return total;
-  };
+  // const getTotalWithAmountArchived = (items: ItemInterface[]): number => {
+  //   let total: number = 0;
+  //   items.forEach((itemList) => {
+  //     const amount = getAmountOfListItemsArchived(itemList.amount);
+  //     total =
+  //       itemList.amount.length > 0
+  //         ? total +
+  //           amount.reduce((accumulator, currentValue) => {
+  //             return (
+  //               accumulator +
+  //               Number(currentValue.type ? "1" : currentValue.quantity)
+  //             );
+  //           }, 0)
+  //         : total + Number(itemList.amount.length);
+  //   });
+  //   return total;
+  // };
+
+  // const getTotalUnArchived = (items: ItemInterface[]): number => {
+  //   let total: number = 0;
+  //   items.forEach((itemList) => {
+  //     const amount = getAmountOfListItemsArchived(itemList.amount);
+  //     total =
+  //       amount.length > 0
+  //         ? total +
+  //           amount.reduce((accumulator, currentValue) => {
+  //             return (
+  //               accumulator +
+  //               Number(currentValue.type ? "1" : currentValue.quantity)
+  //             );
+  //           }, 0)
+  //         : total + 1;
+  //   });
+  //   return total;
+  // };
 
   useEffect(() => {
     loadListArchived();
-    loadListItemArchived();
-    loadItemAmountArchived();
+    loadListProductArchived();
+    loadListAmountArchived();
   }, []);
 
   useEffect(() => {
     listArchived && setListArchivedOnStorage(listArchived);
-    listItemArchived && setListItemArchivedOnStorage(listItemArchived);
-    itemAmountListArchived &&
-      setItemAmountArchivedOnStorage(itemAmountListArchived);
-  }, [listArchived, listItemArchived, itemAmountListArchived]);
+    listProductArchived && setListProductArchivedOnStorage(listProductArchived);
+    listAmountArchived && setListAmountArchivedOnStorage(listAmountArchived);
+  }, [listArchived, listProductArchived, listAmountArchived]);
 
   return (
     <ShoppingListArchivedContext.Provider
       value={{
         listArchived: listArchived!,
         setListArchived: setListArchived,
-        listItemArchived: listItemArchived!,
-        setListItemArchived: setListItemArchived,
-        itemAmountListArchived: itemAmountListArchived!,
-        setItemAmountListArchived: setItemAmountListArchived,
-        getListItemsOfListArchived: getListItemsOfListArchived,
-        getTotalArchived: getTotalArchived,
-        getTotalWithAmountArchived: getTotalWithAmountArchived,
-        getTotalUnArchived: getTotalUnArchived,
-        getAmountOfListItemsArchived: getAmountOfListItemsArchived,
+        listProductArchived: listProductArchived!,
+        setListProductArchived: setListProductArchived,
+        listAmountArchived: listAmountArchived!,
+        setListAmountArchived: setListAmountArchived,
       }}
     >
       {children}

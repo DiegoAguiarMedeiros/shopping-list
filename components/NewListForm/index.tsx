@@ -10,13 +10,17 @@ import UUIDGenerator from "react-native-uuid";
 import { useShoppingListContext } from "../../context/ShoppingList";
 import { Keyboard } from "react-native";
 import { getTags, removeUndefinedFromArray } from "../../utils/functions";
+import List from "../../Domain/Model/Implementation/List";
+import IList from "../../Domain/Model/IList";
+import ITag from "../../Domain/Model/ITag";
+import IProduct from "@/Domain/Model/IProduct";
 
 export type NewListFormProps = {
   onClose: () => void;
   listId?: string;
   buttonText: "add" | "edit" | "copy";
   action: "addList" | "editList" | "copyList";
-  items?: ListInterface | ItemInterface;
+  items?: List | ItemInterface;
 };
 
 const NewListForm = ({
@@ -27,7 +31,7 @@ const NewListForm = ({
   items,
 }: NewListFormProps) => {
   const colorScheme = useColorScheme();
-  const { list, setList, listItem, setListItem, getListItemsOfList } =
+  const { list, setList, listProduct, setListProduct, getListItemsOfList } =
     useShoppingListContext();
   const [newItem, setNewItem] = useState({
     item: items ? items.name : "",
@@ -45,8 +49,8 @@ const NewListForm = ({
     Keyboard.dismiss();
   };
 
-  const returnNewList = (): ListInterface => {
-    const item: ListInterface = {
+  const returnNewList = (): IList => {
+    const item: IList = {
       uuid: String(UUIDGenerator.v4()),
       name: newItem.item,
       tags: [],
@@ -85,20 +89,20 @@ const NewListForm = ({
 
   interface ReturnHandleCopyListItem {
     items: string[];
-    tags: TagsIterface[];
+    tags: ITag[];
   }
 
   const handleCopyListItem = (
     listItems: string[]
   ): ReturnHandleCopyListItem => {
-    const copyListItem: ItemInterface[] = JSON.parse(
+    const copyListItem: IProduct[] = JSON.parse(
       JSON.stringify(removeUndefinedFromArray(getListItemsOfList(listItems)))
     );
     return {
       items: copyListItem.map((item) => {
         item.amount = [];
         item.uuid = String(UUIDGenerator.v4());
-        setListItem((newValue) => ({
+        setListProduct((newValue) => ({
           ...newValue,
           [item.uuid]: item,
         }));

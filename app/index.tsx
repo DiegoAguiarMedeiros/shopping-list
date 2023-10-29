@@ -175,8 +175,11 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
   const [activeRoute, setActiveRoute] = useState<string>("home");
   const routes: RoutesProps[] = [
-    { name: "home", icon: "th-list" },
-    { name: "history", icon: "history" },
+    { name: "home", icon: "shopping-bag", addButton: false },
+    { name: "product", icon: "cube", addButton: false },
+    { name: "add", icon: "plus", addButton: true },
+    { name: "category", icon: "tags", addButton: false },
+    { name: "history", icon: "history", addButton: false },
   ];
 
   return (
@@ -196,8 +199,11 @@ function RootLayoutNav() {
             name={"home"}
             component={Home}
             options={{
-              headerTitle: (props) => <Title color={ Colors[colorScheme ?? "light"].white
-              }>Listas de compras</Title>,
+              headerTitle: (props) => (
+                <Title color={Colors[colorScheme ?? "light"].white}>
+                  Listas de compras
+                </Title>
+              ),
             }}
           />
           <Stack.Screen
@@ -218,8 +224,11 @@ function RootLayoutNav() {
             name="history"
             component={History}
             options={{
-              headerTitle: (props) => <Title color={Colors[colorScheme ?? "light"].white
-              }>Histórico</Title>,
+              headerTitle: (props) => (
+                <Title color={Colors[colorScheme ?? "light"].white}>
+                  Histórico
+                </Title>
+              ),
               headerLeft: () => null,
             }}
           />

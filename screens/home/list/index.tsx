@@ -9,8 +9,9 @@ import ListGrid from "./listGrid";
 import BottomSheet from "../../../components/BottomSheet";
 import { Text } from "../../../components/Text";
 import NewListForm from "../../../components/NewListForm";
+import IList from "../../../Domain/Model/IList";
 interface ItemProps {
-  items: ListInterface[];
+  items: IList[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
 }

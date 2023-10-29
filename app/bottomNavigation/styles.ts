@@ -24,9 +24,28 @@ export const Item = styled.Pressable<{
   flex: 1;
   justify-content: center;
   align-items: center;
-  border-top-color: ${(props: { boder: any }) => props.boder};
+  border-top-color: ${(props: { boder: string }) => props.boder};
   border-top-style: solid;
-  border-top-width: ${(props: { active: any }) => (props.active ? "2px" : "0")};
+  border-top-width: ${(props: { active: boolean }) => (props.active ? "2px" : "0")};
+`;
+export const ItemAddButton = styled.Pressable<{
+  background: string;
+  boder: string;
+}>`
+  justify-content: center;
+  align-items: center;
+  background-color: ${(props: { background: string }) => props.background};
+  margin-top: -10px;
+  border-radius: 70px;
+  width: 60px;
+  height: 60px;
+`;
+export const ItemAdd = styled.Pressable`
+  border-radius: 100px;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  border-top-style: solid;
 `;
 
 export const Text = styled.Text<{

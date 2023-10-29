@@ -12,8 +12,7 @@ import NewListForm from "../../components/NewListForm";
 import Button from "../../components/Button";
 export default function Home() {
   const colorScheme = useColorScheme();
-  const { list, listItem, itemAmountList } = useShoppingListContext();
-  const entries = list ? Object.values(list) : [];
+  const { list, listProduct, listAmount } = useShoppingListContext();
   const isFocused = useIsFocused();
   const handleCloseBottomSheet = () => {
     setBottomSheetProps({ ...bottomSheetProps, isVisible: false });
@@ -40,9 +39,9 @@ export default function Home() {
     >
       <Styled.ContainerListInner>
         {isFocused &&
-          (entries && entries.length > 0 ? (
+          (list && list.length > 0 ? (
             <ListComponent
-              items={entries}
+              items={list}
               setBottomSheetProps={setBottomSheetProps}
               handleCloseBottomSheet={handleCloseBottomSheet}
             />
