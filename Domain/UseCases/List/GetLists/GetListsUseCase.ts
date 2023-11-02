@@ -1,12 +1,12 @@
-import IStorage from "../../../../Domain/Service/IStorage";
+import IStorage from "../../../../Domain/Service/IMMKVStorage";
 import { IListInterface } from "../../../Model/IList";
 
 export default class GetListsUseCase {
-  constructor(private asyncStorage: IStorage) {}
+  constructor(private mmkv: IStorage) {}
 
   execute = async (key: string): Promise<IListInterface | null> => {
     try {
-      const data = await this.asyncStorage.retrieveData(key);
+      const data = await this.mmkv.get(key);
       if (data) {
         const list: IListInterface = JSON.parse(data);
         return list;

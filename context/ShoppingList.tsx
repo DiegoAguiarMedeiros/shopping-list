@@ -23,7 +23,7 @@ type ShoppingListContextType = {
   >;
 };
 
-const getListFromStorage = async (): Promise<IList[] | null> => {
+const getListsFromStorage = async (): Promise<IList[] | null> => {
   const list = await getListsController.handle();
   return list;
 };
@@ -92,7 +92,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   );
 
   const loadList = async (): Promise<void> => {
-    const listArr = await getListFromStorage();
+    const listArr = await getListsFromStorage();
     setList(listArr);
   };
   const loadListProduct = async (): Promise<void> => {

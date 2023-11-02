@@ -28,7 +28,7 @@ export default function Home({
   // console.log("list", list);
   // console.log("listItem", listItem);
   // console.log("itemAmountList", itemAmountList);
-  // AsyncStorage.clear();
+  AsyncStorage.clear();
   return (
     <Styled.Container
       background={Colors[colorScheme ?? "light"].bodyBackgroundColor}

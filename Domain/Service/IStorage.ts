@@ -1,4 +1,4 @@
 export default interface IStorage {
-  retrieveData(key: string): Promise<any>;
-  save(key: string, data: any): void;
+  get(key: string): Promise<any>;
+  set(key: string, data: any): void;
 }

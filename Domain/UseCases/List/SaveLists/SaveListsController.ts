@@ -1,12 +1,13 @@
-import { IListInterface } from "../../../Model/IList";
+import IList, { IListInterface } from "../../../Model/IList";
 import SaveListsUseCase from "./SaveListsUseCase";
+import ISaveListsController from "../../interface/IController";
 
-export default class SaveListsController {
-  constructor(private saveListsUseCase: SaveListsUseCase) {}
+export default class SaveListsController implements ISaveListsController {
+  constructor(private SaveListsUseCase: SaveListsUseCase) {}
 
-  handle = (data: any): void => {
+  handle = (data: IList): void => {
     try {
-      this.saveListsUseCase.execute("SLSHOPPINGLIST", data);
+      this.SaveListsUseCase.execute(data.uuid, data);
     } catch (err) {
       console.error("SaveListsController: ", err);
     }
