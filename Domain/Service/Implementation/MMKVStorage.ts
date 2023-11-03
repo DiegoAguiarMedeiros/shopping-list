@@ -2,7 +2,16 @@ import { MMKV } from "react-native-mmkv";
 import IMMKVStorage from "../IMMKVStorage";
 
 export default class MMKVStorage implements IMMKVStorage {
-  constructor(private mmkv: MMKV) {}
+  constructor(private mmkv: MMKV) { }
+  clearAll(): void {
+    this.mmkv.clearAll();
+  }
+
+  getAll(): string[] | null {
+    const result2 = this.mmkv.getAllKeys();
+    if (result2) return result2;
+    return null;
+  }
 
   get(key: string): string | null {
     const result = this.mmkv.getString(key);
@@ -13,3 +22,4 @@ export default class MMKVStorage implements IMMKVStorage {
     this.mmkv.set(key, data);
   }
 }
+

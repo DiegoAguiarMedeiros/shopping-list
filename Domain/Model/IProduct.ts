@@ -1,4 +1,4 @@
-export default interface IProduct {
+export interface IProduct {
   uuid: string;
   name: string;
   amount: string[];

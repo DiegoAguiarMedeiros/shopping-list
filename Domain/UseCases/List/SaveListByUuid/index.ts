@@ -1,13 +1,19 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { MMKV } from "react-native-mmkv";
 
-import Storage from "../../../Service/Implementation/Storage";
+import MMKVStorage from "../../../Service/Implementation/MMKVStorage";
 import SaveListByUuidUseCase from "./SaveListByUuidUseCase";
 import SaveListByUuidController from "./SaveListByUuidController";
 import saveLists from "../SaveLists";
 import getLists from "../GetLists";
-const storage = new Storage(AsyncStorage);
+
+const storage = new MMKV({
+  id: `user-storage`,
+  encryptionKey: "hunter2",
+});
+
+const storageMMKV = new MMKVStorage(storage);
 const saveListByUuidUseCase = new SaveListByUuidUseCase(
-  storage,
+  storageMMKV,
   saveLists,
   getLists
 );

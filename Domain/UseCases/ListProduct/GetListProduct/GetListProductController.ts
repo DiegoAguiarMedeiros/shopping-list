@@ -1,18 +1,25 @@
-import IList, { IListInterface } from "../../../Model/IList";
+import { IProduct } from "../../../Model/IProduct";
 import GetListProductUseCase from "./GetListProductUseCase";
 
 export default class GetListProductController {
-  constructor(private GetListProductUseCase: GetListProductUseCase) {}
+  constructor(private GetListProductUseCase: GetListProductUseCase) { }
 
-  handle = async (productsUuid: string[]): Promise<IList[] | null> => {
+  handle = (productsUuid: string[]): IProduct[] => {
     try {
-      const result = await this.GetListProductUseCase.execute("SLSHOPPINGLIST");
-      let data: IList[] | null;
-      result ? (data = Object.values(result)) : (data = null);
-      return data;
+      const result: IProduct[] = []
+
+      productsUuid.forEach(item => {
+        const resultProduct = this.GetListProductUseCase.execute(item)
+        if (resultProduct) {
+          result.push(resultProduct);
+        }
+      })
+
+      return result;
     } catch (err) {
       console.error("GetListProductController: ", err);
-      return null;
+      const result: IProduct[] = []
+      return result;
     }
   };
 }

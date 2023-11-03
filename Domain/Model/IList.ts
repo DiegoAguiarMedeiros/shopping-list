@@ -1,6 +1,6 @@
 import ITag from "./ITag";
 
-export default interface IList {
+export interface IList {
   uuid: string;
   name: string;
   tags: ITag[];

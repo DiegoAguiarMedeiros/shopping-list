@@ -1,8 +1,8 @@
-import IList, { IListInterface } from "../../../Model/IList";
+import { IList, IListInterface } from "../../../Model/IList";
 import SaveListByUuidUseCase from "./SaveListByUuidUseCase";
 
 export default class SaveListByUuidController {
-  constructor(private SaveListByUuidUseCase: SaveListByUuidUseCase) {}
+  constructor(private SaveListByUuidUseCase: SaveListByUuidUseCase) { }
 
   handle = (data: IList): void => {
     try {

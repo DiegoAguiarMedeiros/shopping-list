@@ -87,8 +87,6 @@ export default function List({ listId }: ListProps) {
   );
 
   useEffect(() => {
-    console.log("useEffect 1");
-
     setListArr(list[listId]);
     setListArrItems(
       removeUndefinedFromArray(getListItemsOfList(list[listId]?.items))

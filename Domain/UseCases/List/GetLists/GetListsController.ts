@@ -1,12 +1,12 @@
-import IList, { IListInterface } from "../../../Model/IList";
+import { IList, IListInterface } from "../../../Model/IList";
 import GetListsUseCase from "./GetListsUseCase";
 
 export default class GetListsController {
-  constructor(private getListsUseCase: GetListsUseCase) {}
+  constructor(private getListsUseCase: GetListsUseCase) { }
 
-  handle = async (): Promise<IList[] | null> => {
+  handle = (): IList[] | null => {
     try {
-      const result = await this.getListsUseCase.execute("SLSHOPPINGLIST");
+      const result = this.getListsUseCase.execute("SLSHOPPINGLIST");
       let data: IList[] | null;
       result ? (data = Object.values(result)) : (data = null);
       return data;

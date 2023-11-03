@@ -5,7 +5,7 @@ import { ListInterface, ListType } from "../../../../types/types";
 import { BottomSheetProps } from "../../../../components/BottomSheet";
 
 import ListGridItem from "./listGridItem";
-import IList from "../../../../Domain/Model/IList";
+import { IList } from "../../../../Domain/Model/IList";
 interface ItemProps {
   items: IList[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;

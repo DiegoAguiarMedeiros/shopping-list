@@ -1,20 +1,26 @@
-import IStorage from "../../../Service/IStorage";
-import { IListInterface } from "../../../Model/IList";
-import { AsyncStorageStatic } from "@react-native-async-storage/async-storage";
-import IController from "../../interface/IController";
+import IMMKVStorage from "../../../../Domain/Service/IMMKVStorage";
+import { IList, IListInterface } from "../../../Model/IList";
+import IController from "../../interface/ISaveListsController";
 
 export default class SaveListByUuidUseCase {
   constructor(
-    private asyncStorage: IStorage,
+    private asyncStorage: IMMKVStorage,
     private saveLists: IController,
     private getLists: IController
-  ) {}
+  ) { }
 
-  execute = (key: string, data: any): void => {
+  execute = (key: string, data: IList): void => {
     try {
-      this.asyncStorage.save(key, data);
+      this.asyncStorage.set(key, JSON.stringify(data));
+      const listsStringOrNull = this.asyncStorage.get('SLSHOPPINGLIST');
+      const lists: IListInterface = listsStringOrNull ? JSON.parse(listsStringOrNull) : listsStringOrNull;
+      const newListInterface: IListInterface = {
+        ...(lists ? lists : {}),
+        [data.uuid]: data,
+      };
+      this.saveLists.handle(newListInterface);
     } catch (error) {
-      console.error("_retrieveData", error);
+      console.error("SaveListByUuidUseCase", error);
     }
   };
 }

@@ -6,7 +6,6 @@ import GetListsController from "./GetListsController";
 
 const storage = new MMKV({
   id: `user-storage`,
-  path: `/storage`,
   encryptionKey: "hunter2",
 });
 

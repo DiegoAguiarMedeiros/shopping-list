@@ -1,15 +1,15 @@
-import IStorage from "../../../Service/IStorage";
-import { IListInterface } from "../../../Model/IList";
+import IMMKVStorage from "../../../Service/IMMKVStorage";
+import { IProduct } from "../../../Model/IProduct";
 
 export default class GetListProductUseCase {
-  constructor(private asyncStorage: IStorage) {}
+  constructor(private asyncStorage: IMMKVStorage) { }
 
-  execute = async (key: string): Promise<IListInterface | null> => {
+  execute = (key: string): IProduct | null => {
     try {
-      const data = await this.asyncStorage.retrieveData(key);
+      const data = this.asyncStorage.get(key);
       if (data) {
-        const list: IListInterface = JSON.parse(data);
-        return list;
+        const productList: IProduct = JSON.parse(data);
+        return productList;
       }
       return null;
     } catch (error) {

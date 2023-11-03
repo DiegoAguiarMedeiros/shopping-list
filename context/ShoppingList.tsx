@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import ListStorage from "../utils/list";
 import { ListItemInterface, ListItemAmountInterface } from "../types/types";
-import IList, { IListInterface } from "../Domain/Model/IList";
+import { IList, IListInterface } from "../Domain/Model/IList";
 import { IListProductInterface } from "../Domain/Model/IProduct";
 import { IListAmountInterface } from "../Domain/Model/IAmount";
 import getListsController from "../Domain/UseCases/List/GetLists";
@@ -24,7 +24,7 @@ type ShoppingListContextType = {
 };
 
 const getListsFromStorage = async (): Promise<IList[] | null> => {
-  const list = await getListsController.handle();
+  const list = getListsController.handle();
   return list;
 };
 const getListProductFromStorage =
@@ -38,7 +38,7 @@ const getListAmountFromStorage =
     return itemAmountList;
   };
 
-const setListOnStorage = (newList: IList[]): void => {
+const setListOnStorage = (newList: IListInterface): void => {
   saveListsController.handle(newList);
 };
 const setListProductOnStorage = (newList: IListProductInterface): void => {
@@ -181,8 +181,17 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     loadListAmount();
   }, []);
 
+
+  const convertToIListInterface = (listArray: IList[]): IListInterface => {
+    const listInterface: IListInterface = {};
+    listArray.forEach((item) => {
+      listInterface[item.uuid] = item;
+    });
+    return listInterface;
+  };
+
   useEffect(() => {
-    list && setListOnStorage(list);
+    list && setListOnStorage(convertToIListInterface(list));
     listProduct && setListProductOnStorage(listProduct);
     listAmount && setListAmountOnStorage(listAmount);
   }, [list, listProduct, listAmount]);
