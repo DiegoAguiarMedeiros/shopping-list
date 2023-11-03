@@ -6,6 +6,8 @@ import { IListProductInterface } from "../Domain/Model/IProduct";
 import { IListAmountInterface } from "../Domain/Model/IAmount";
 import getListsController from "../Domain/UseCases/List/GetLists";
 import saveListsController from "../Domain/UseCases/List/SaveLists";
+import getListsArchivedController from "../Domain/UseCases/ListArchived/GetLists";
+import saveListsArchivedController from "../Domain/UseCases/ListArchived/SaveLists";
 type ShoppingListProviderProps = {
   children: React.ReactNode;
 };
@@ -23,9 +25,8 @@ type ShoppingListContextType = {
   >;
 };
 
-const getListsFromStorage = async (): Promise<IList[] | null> => {
-  const list = getListsController.handle();
-  return list;
+const getListsFromStorage = (): IList[] | null => {
+  return getListsController.handle();
 };
 const getListProductFromStorage =
   async (): Promise<IListProductInterface | null> => {
@@ -47,9 +48,8 @@ const setListProductOnStorage = (newList: IListProductInterface): void => {
 const setListAmountOnStorage = (newList: IListAmountInterface): void => {
   ListStorage.setListAmount(newList);
 };
-const getListArchivedFromStorage = async (): Promise<IListInterface | null> => {
-  const list = await ListStorage.getListArchived();
-  return list;
+const getListArchivedFromStorage = (): IList[] | null => {
+  return getListsArchivedController.handle();
 };
 const getListProductArchivedFromStorage =
   async (): Promise<IListProductInterface | null> => {
@@ -63,7 +63,7 @@ const getItemAmountArchivedFromStorage =
   };
 
 const setListArchivedOnStorage = (newList: IListInterface): void => {
-  ListStorage.setListArchived(newList);
+  saveListsArchivedController.handle(newList);
 };
 const setListProductArchivedOnStorage = (
   newList: IListProductInterface
@@ -79,6 +79,14 @@ const setListAmountArchivedOnStorage = (
 const ShoppingListContext = createContext<ShoppingListContextType | undefined>(
   undefined
 );
+
+const convertToIListInterface = (listArray: IList[]): IListInterface => {
+  const listInterface: IListInterface = {};
+  listArray.forEach((item) => {
+    listInterface[item.uuid] = item;
+  });
+  return listInterface;
+};
 
 const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   children,
@@ -182,13 +190,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   }, []);
 
 
-  const convertToIListInterface = (listArray: IList[]): IListInterface => {
-    const listInterface: IListInterface = {};
-    listArray.forEach((item) => {
-      listInterface[item.uuid] = item;
-    });
-    return listInterface;
-  };
+
 
   useEffect(() => {
     list && setListOnStorage(convertToIListInterface(list));
@@ -224,8 +226,8 @@ const useShoppingListContext = () => {
 };
 
 type ShoppingListArchivedContextType = {
-  listArchived: IListInterface;
-  setListArchived: React.Dispatch<React.SetStateAction<IListInterface | null>>;
+  listArchived: IList[];
+  setListArchived: React.Dispatch<React.SetStateAction<IList[] | null>>;
   listProductArchived: IListProductInterface;
   setListProductArchived: React.Dispatch<
     React.SetStateAction<IListProductInterface | null>
@@ -243,7 +245,7 @@ const ShoppingListArchivedContext = createContext<
 const ShoppingListArchivedProvider: React.FC<ShoppingListProviderProps> = ({
   children,
 }) => {
-  const [listArchived, setListArchived] = useState<IListInterface | null>(null);
+  const [listArchived, setListArchived] = useState<IList[] | null>(null);
   const [listProductArchived, setListProductArchived] =
     useState<IListProductInterface | null>(null);
   const [listAmountArchived, setListAmountArchived] =
@@ -343,7 +345,7 @@ const ShoppingListArchivedProvider: React.FC<ShoppingListProviderProps> = ({
   }, []);
 
   useEffect(() => {
-    listArchived && setListArchivedOnStorage(listArchived);
+    listArchived && setListArchivedOnStorage(convertToIListInterface(listArchived));
     listProductArchived && setListProductArchivedOnStorage(listProductArchived);
     listAmountArchived && setListAmountArchivedOnStorage(listAmountArchived);
   }, [listArchived, listProductArchived, listAmountArchived]);

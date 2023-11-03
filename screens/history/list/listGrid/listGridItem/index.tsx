@@ -21,33 +21,26 @@ import {
   useShoppingListContext,
 } from "../../../../../context/ShoppingList";
 import CircleProgress from "../../../../../components/CircleProgress";
+import { IList } from "../../../../../Domain/Model/IList";
 
 interface ItemProps {
-  item: ListInterface;
+  item: IList;
 }
 
 export default function ListGridItem({ item }: ItemProps) {
   const {
     listArchived,
     setListArchived,
-    listItemArchived,
-    setListItemArchived,
-    itemAmountListArchived,
-    setItemAmountListArchived,
-    getListItemsOfListArchived,
-    getTotalArchived,
-    getTotalWithAmountArchived,
-    getTotalUnArchived,
   } = useShoppingListArchivedContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
   const items = removeUndefinedFromArray(
-    getListItemsOfListArchived(item.items)
+    []
   );
-  const total = item.items.length > 0 ? getTotalArchived(items) : 0;
+  const total = item.items.length > 0 ? 0/*getTotalArchived(items)*/ : 0;
   const totalWithAmount =
-    item.items.length > 0 ? getTotalWithAmountArchived(items) : 0;
-  const totalUn = item.items.length > 0 ? getTotalUnArchived(items) : 0;
+    item.items.length > 0 ? 0/*getTotalWithAmountArchived(items) */ : 0;
+  const totalUn = item.items.length > 0 ? 0/*getTotalUnArchived(items)*/ : 0;
 
   const handleOpenList = useCallback(() => {
     router.push({ pathname: "/ItemsArchived", params: { listId: item.uuid } });
@@ -57,28 +50,28 @@ export default function ListGridItem({ item }: ItemProps) {
     const updatedList: ListType = JSON.parse(JSON.stringify(listArchived));
     handleDeleteListItem(updatedList[item.uuid].items);
     delete updatedList[item.uuid];
-    setListArchived(updatedList);
+    // setListArchived(updatedList);
   };
 
   const handleDeleteListItem = (listUuid: string[]): void => {
-    listUuid.forEach((i) => {
-      const updatedList: ListItemInterface = JSON.parse(
-        JSON.stringify(listItemArchived)
-      );
-      updatedList[i]?.amount &&
-        handleDeleteAmountInList(updatedList[i]?.amount);
-      delete updatedList[i];
-      setListItemArchived(updatedList);
-    });
+    // listUuid.forEach((i) => {
+    //   const updatedList: ListItemInterface = JSON.parse(
+    //     JSON.stringify(listItemArchived)
+    //   );
+    //   updatedList[i]?.amount &&
+    //     handleDeleteAmountInList(updatedList[i]?.amount);
+    //   delete updatedList[i];
+    //   setListItemArchived(updatedList);
+    // });
   };
   const handleDeleteAmountInList = (itemAmountUuid: string[]): void => {
-    itemAmountUuid.forEach((i) => {
-      const updatedList: ListItemAmountInterface = JSON.parse(
-        JSON.stringify(itemAmountListArchived)
-      );
-      delete updatedList[i];
-      setItemAmountListArchived(updatedList);
-    });
+    // itemAmountUuid.forEach((i) => {
+    //   const updatedList: ListItemAmountInterface = JSON.parse(
+    //     JSON.stringify(itemAmountListArchived)
+    //   );
+    //   delete updatedList[i];
+    // //   setItemAmountListArchived(updatedList);
+    // });
   };
 
   const RightSwipe = useCallback(

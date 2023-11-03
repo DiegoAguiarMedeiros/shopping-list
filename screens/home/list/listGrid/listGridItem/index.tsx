@@ -29,6 +29,7 @@ import { IListProductInterface } from "../../../../../Domain/Model/IProduct";
 import { IListAmountInterface } from "../../../../../Domain/Model/IAmount";
 import getListProductController from "../../../../../Domain/UseCases/ListProduct/GetListProduct";
 import deleteListByUuid from "../../../../../Domain/UseCases/List/DeleteListByUuid";
+import saveListArchivedByUuidController from "../../../../../Domain/UseCases/ListArchived/SaveListByUuid";
 interface ItemProps {
   item: List;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -58,9 +59,9 @@ export default function ListGridItem({
   } = useShoppingListArchivedContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
-  const items = []; /*removeUndefinedFromArray(
+  const items = removeUndefinedFromArray(
     getListProductController.handle(item.items)
-  );*/
+  );
   const total = item.items.length > 0 ? /*getTotal(items)*/ 0 : 0;
   const totalWithAmount =
     item.items.length > 0 ? /*getTotalWithAmount(items)*/ 0 : 0;
@@ -170,14 +171,14 @@ export default function ListGridItem({
     });
   };
   const handleArchived = (): void => {
-    const archivedList: IListInterface = JSON.parse(JSON.stringify(list));
-    const itemsArchived = archivedList[item.uuid];
-    if (itemsArchived) {
-      handleArchivedItemList(itemsArchived.items);
-      setListArchived((newValue) => ({
-        ...newValue,
-        [itemsArchived.uuid]: itemsArchived,
-      }));
+    const archivedList: IList[] = JSON.parse(JSON.stringify(list));
+    const selectedItem = archivedList.find((i) => i.uuid === item?.uuid!);
+    if (selectedItem) {
+      // handleArchivedItemList(itemsArchived.items);
+      saveListArchivedByUuidController.handle(selectedItem);
+      listArchived ?
+        setListArchived([selectedItem, ...listArchived]) :
+        setListArchived([selectedItem]);
       handleDelete();
     }
   };

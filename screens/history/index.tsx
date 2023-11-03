@@ -7,16 +7,17 @@ import * as Styled from "./styles";
 
 export default function History() {
   const colorScheme = useColorScheme();
-  const { listArchived, listItemArchived, itemAmountListArchived } =
+  const { listArchived, listProductArchived, listAmountArchived } =
     useShoppingListArchivedContext();
-  const entries = listArchived ? Object.values(listArchived) : [];
+
+  console.log('listArchived', listArchived)
   return (
     <Styled.Container
       background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
     >
       <Styled.ContainerListInner>
-        {entries && entries.length > 0 ? (
-          <ListComponent items={entries} />
+        {listArchived && listArchived.length > 0 ? (
+          <ListComponent items={listArchived} />
         ) : (
           <EmptyList mensage="Você não tem nenhuma lista arquivada" />
         )}

@@ -13,7 +13,7 @@ export default class GetListProductUseCase {
       }
       return null;
     } catch (error) {
-      console.error("_retrieveData", error);
+      console.error("GetListProductUseCase", error);
       return null;
     }
   };

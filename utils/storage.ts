@@ -15,7 +15,7 @@ class Storage {
       const data = await AsyncStorage.getItem(key);
       return data;
     } catch (error) {
-      console.error("_retrieveData", error);
+      console.error("Storage", error);
     }
   };
 }

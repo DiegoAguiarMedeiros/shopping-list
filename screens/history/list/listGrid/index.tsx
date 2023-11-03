@@ -8,8 +8,9 @@ import {
 } from "../../../../types/types";
 
 import ListGridItem from "./listGridItem";
+import { IList } from "../../../../Domain/Model/IList";
 interface ItemProps {
-  items: ListInterface[];
+  items: IList[];
 }
 export default function ListGrid({ items }: ItemProps) {
   const colorScheme = useColorScheme();
@@ -22,7 +23,7 @@ export default function ListGrid({ items }: ItemProps) {
             <SafeAreaView>
               <ScrollView>
                 <Styled.ContainerListItemListItem>
-                  {items.map((item: ListInterface) => (
+                  {items.map((item: IList) => (
                     <ListGridItem
                       key={"ListGridItem-" + item.uuid}
                       item={item}

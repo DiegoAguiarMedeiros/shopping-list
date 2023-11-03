@@ -9,14 +9,12 @@ export default class DeleteListUseCase {
   execute = (key: string): void => {
     try {
       this.mmkv.delete(key);
-      const listsStringOrNull = this.mmkv.get('SLSHOPPINGLIST');
-      if (listsStringOrNull) {
-        const lists: IListInterface = listsStringOrNull ? JSON.parse(listsStringOrNull) : listsStringOrNull;
-        delete lists[key];
-        this.saveLists.handle(lists);
-      }
+      const listsStringOrNull = this.mmkv.get('SLSHOPPINGLISTARCHIVED');
+      const lists: IListInterface = listsStringOrNull ? JSON.parse(listsStringOrNull) : listsStringOrNull;
+      delete lists[key];
+      this.saveLists.handle(lists);
     } catch (error) {
-      console.error("DeleteListUseCase", error);
+      console.error("Archived DeleteListUseCase", error);
     }
   };
 }

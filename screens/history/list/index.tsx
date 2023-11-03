@@ -3,8 +3,9 @@ import Colors from "../../../constants/Colors";
 import * as Styled from "./styles";
 import { ListInterface } from "../../../types/types";
 import ListGrid from "./listGrid";
+import { IList } from "../../../Domain/Model/IList";
 interface ItemProps {
-  items: ListInterface[];
+  items: IList[];
 }
 
 export default function List({ items }: ItemProps) {
