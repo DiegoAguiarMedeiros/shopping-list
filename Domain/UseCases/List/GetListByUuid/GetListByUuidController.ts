@@ -2,11 +2,11 @@ import { IListInterface } from "../../../Model/IList";
 import GetListByUuidUseCase from "./GetListByUuidUseCase";
 
 export default class GetListByUuidController {
-  constructor(private getListByUuidUseCase: GetListByUuidUseCase) {}
+  constructor(private getListByUuidUseCase: GetListByUuidUseCase) { }
 
-  handle = async (uuid: string): Promise<IListInterface | null> => {
+  handle = (uuid: string): IListInterface | null => {
     try {
-      const result = await this.getListByUuidUseCase.execute(uuid);
+      const result = this.getListByUuidUseCase.execute(uuid);
 
       if (result) {
         return result;

@@ -4,15 +4,15 @@ import IController from "../../interface/ISaveListsController";
 
 export default class SaveListByUuidUseCase {
   constructor(
-    private asyncStorage: IMMKVStorage,
+    private mmkv: IMMKVStorage,
     private saveLists: IController,
     private getLists: IController
   ) { }
 
   execute = (key: string, data: IList): void => {
     try {
-      this.asyncStorage.set(key, JSON.stringify(data));
-      const listsStringOrNull = this.asyncStorage.get('SLSHOPPINGLIST');
+      this.mmkv.set(key, JSON.stringify(data));
+      const listsStringOrNull = this.mmkv.get('SLSHOPPINGLIST');
       const lists: IListInterface = listsStringOrNull ? JSON.parse(listsStringOrNull) : listsStringOrNull;
       const newListInterface: IListInterface = {
         ...(lists ? lists : {}),

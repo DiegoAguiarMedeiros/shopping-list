@@ -24,10 +24,11 @@ import CircleProgress from "../../../../../components/CircleProgress";
 import { BottomSheetProps } from "../../../../../components/BottomSheet";
 import NewListForm from "../../../../../components/NewListForm";
 import List from "../../../../../Domain/Model/Implementation/List";
-import { IListInterface } from "@/Domain/Model/IList";
+import { IList, IListInterface } from "@/Domain/Model/IList";
 import { IListProductInterface } from "../../../../../Domain/Model/IProduct";
 import { IListAmountInterface } from "../../../../../Domain/Model/IAmount";
 import getListProductController from "../../../../../Domain/UseCases/ListProduct/GetListProduct";
+import deleteListByUuid from "../../../../../Domain/UseCases/List/DeleteListByUuid";
 interface ItemProps {
   item: List;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -107,10 +108,13 @@ export default function ListGridItem({
   };
 
   const handleDelete = () => {
-    const updatedList: IListInterface = JSON.parse(JSON.stringify(list));
-    handleDeleteListItem(updatedList[item.uuid].items);
-    delete updatedList[item.uuid];
-    // setList(updatedList);
+    const updatedList: IList[] = JSON.parse(JSON.stringify(list));
+    console.log('item.uuid', item.uuid)
+    console.log('updatedList', updatedList)
+    const newupdatedList = updatedList.filter(i => item.uuid !== i.uuid)
+    console.log('newupdatedList', newupdatedList)
+    deleteListByUuid.handle(item.uuid);
+    setList(newupdatedList);
   };
 
   const handleDeleteListItem = (listUuid: string[]): void => {

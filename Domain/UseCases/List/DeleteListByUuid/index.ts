@@ -1,10 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import GetListByUuidUseCase from "./GetListByUuidUseCase";
-import GetListByUuidController from "./GetListByUuidController";
+import GetListByUuidUseCase from "./DeleteListByUuidUseCase";
+import GetListByUuidController from "./DeleteListByUuidController";
 
 import { MMKV } from "react-native-mmkv";
-
+import saveLists from "../SaveLists";
 import MMKVStorage from "../../../Service/Implementation/MMKVStorage";
 const storage = new MMKV({
   id: `user-storage`,
@@ -12,7 +12,7 @@ const storage = new MMKV({
 });
 
 const storageMMKV = new MMKVStorage(storage);
-const getListByUuidUseCase = new GetListByUuidUseCase(storageMMKV);
+const getListByUuidUseCase = new GetListByUuidUseCase(storageMMKV, saveLists);
 
 const getListByUuidController = new GetListByUuidController(
   getListByUuidUseCase

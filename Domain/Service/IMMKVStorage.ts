@@ -3,4 +3,5 @@ export default interface IMMKV {
   getAll(): string[] | null;
   get(key: string): string | null;
   set(key: string, data: string): void;
+  delete(key: string): void;
 }

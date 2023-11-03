@@ -3,6 +3,9 @@ import IMMKVStorage from "../IMMKVStorage";
 
 export default class MMKVStorage implements IMMKVStorage {
   constructor(private mmkv: MMKV) { }
+  delete(key: string): void {
+    this.mmkv.delete(key);
+  }
   clearAll(): void {
     this.mmkv.clearAll();
   }
