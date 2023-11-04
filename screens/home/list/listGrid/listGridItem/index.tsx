@@ -30,6 +30,7 @@ import { IListAmountInterface } from "../../../../../Domain/Model/IAmount";
 import getListProductController from "../../../../../Domain/UseCases/ListProduct/GetListProduct";
 import deleteListByUuid from "../../../../../Domain/UseCases/List/DeleteListByUuid";
 import saveListArchivedByUuidController from "../../../../../Domain/UseCases/ListArchived/SaveListByUuid";
+import NewItemForm from "../../../../../components/NewItemForm";
 interface ItemProps {
   item: List;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -67,11 +68,27 @@ export default function ListGridItem({
     item.items.length > 0 ? /*getTotalWithAmount(items)*/ 0 : 0;
   const totalUn = item.items.length > 0 ? /*getTotalUn(items)*/ 0 : 0;
   const handleOpenList = useCallback(() => {
+
+    setBottomSheetProps({
+      isVisible: false,
+      height: "edit",
+      children: (
+        <NewItemForm
+          onClose={handleCloseBottomSheet}
+          action="addListItem"
+          buttonText="add"
+          listId={item.uuid}
+          tags={removeUndefinedFromArray(item!.tags).filter(
+            (tag) => tag.name !== "Todos"
+          )}
+        />
+      ),
+    });
     router.push({ pathname: "/Items", params: { listId: item.uuid } });
   }, [item.uuid, router]);
 
   const handleEdit = () => {
-    return setBottomSheetProps({
+    setBottomSheetProps({
       // listId: item.uuid,
       // items: item,
       // buttonText: "edit",
@@ -90,7 +107,7 @@ export default function ListGridItem({
   };
 
   const handleCopy = () => {
-    return setBottomSheetProps({
+    setBottomSheetProps({
       // listId: item.uuid,
       // items: item,
       // buttonText: "copy",

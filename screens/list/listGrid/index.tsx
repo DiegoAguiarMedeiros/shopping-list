@@ -12,13 +12,14 @@ import Button from "../../../components/Button";
 import { BottomSheetProps } from "../../../components/BottomSheet";
 import BottomSheet from "../../../components/BottomSheet";
 import { removeUndefinedFromArray } from "../../../utils/functions";
+import ITag from "../../../Domain/Model/ITag";
 interface ListProps {
   listId: string;
   listArrItems: ItemInterface[];
   deleteItem: (item: ItemInterface) => void;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
-  tagsWithoutTodos: TagsIterface[];
+  tagsWithoutTodos: ITag[];
 }
 
 function ListGrid({

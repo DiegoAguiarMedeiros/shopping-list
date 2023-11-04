@@ -99,6 +99,8 @@ import {
 import Colors from "../constants/Colors";
 import NewListForm from "../components/NewListForm";
 import { RoutesProps } from "../types/types";
+import ProductTab from "./product";
+import CategoryTab from "./category";
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
@@ -191,6 +193,7 @@ function RootLayoutNav() {
     height: "add",
     isVisible: false,
   });
+
   const routes: RoutesProps[] = [
     {
       name: "home",
@@ -255,6 +258,28 @@ function RootLayoutNav() {
               />
             )}
           </Stack.Screen>
+          <Stack.Screen
+            name={"product"}
+            component={ProductTab}
+            options={{
+              headerTitle: (props) => (
+                <Title color={Colors[colorScheme ?? "light"].white}>
+                  Produtos
+                </Title>
+              ),
+            }}
+          />
+          <Stack.Screen
+            name={"category"}
+            component={CategoryTab}
+            options={{
+              headerTitle: (props) => (
+                <Title color={Colors[colorScheme ?? "light"].white}>
+                  Categorias
+                </Title>
+              ),
+            }}
+          />
           <Stack.Screen
             name="Items"
             component={Items}

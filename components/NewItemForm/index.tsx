@@ -21,6 +21,7 @@ import list from "../../utils/list";
 import UUIDGenerator from "react-native-uuid";
 import { useShoppingListContext } from "../../context/ShoppingList";
 import Tags from "../Tags";
+import ITag from "../../Domain/Model/ITag";
 
 export type NewItemFormProps = {
   onClose: () => void;
@@ -28,7 +29,7 @@ export type NewItemFormProps = {
   buttonText: "add" | "edit";
   action: "addListItem" | "editListItem";
   items?: ItemInterface;
-  tags: TagsIterface[];
+  tags: ITag[];
 };
 
 const NewItemForm = ({

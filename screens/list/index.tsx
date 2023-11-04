@@ -37,21 +37,15 @@ export default function List({ listId }: ListProps) {
   const colorScheme = useColorScheme();
   const {
     list,
-    listItem,
-    itemAmountList,
     setList,
-    setListItem,
-    getListItemsOfList,
-    getTotalWithAmount,
-    setItemAmountList,
-    getTotalUn,
   } = useShoppingListContext();
-  const [listArr, setListArr] = useState(list[listId]);
+  const selectedItem = list.find((i) => i.uuid === listId);
+  const [listArr, setListArr] = useState(selectedItem);
   const [listArrItems, setListArrItems] = useState(
-    removeUndefinedFromArray(getListItemsOfList(listArr?.items))
+    removeUndefinedFromArray([])
   );
 
-  const tagsWithoutUndefinedFromArray = removeUndefinedFromArray(listArr?.tags);
+  const tagsWithoutUndefinedFromArray = removeUndefinedFromArray(listArr?.tags!);
 
   const [tagsWithoutTodos, setTagsWithoutTodos] = useState(
     removeUndefinedFromArray(tagsWithoutUndefinedFromArray).filter(
@@ -87,67 +81,66 @@ export default function List({ listId }: ListProps) {
   );
 
   useEffect(() => {
-    setListArr(list[listId]);
-    setListArrItems(
-      removeUndefinedFromArray(getListItemsOfList(list[listId]?.items))
-    );
-    if (!listArr) return;
-    const listItemarr = removeUndefinedFromArray(
-      getListItemsOfList(list[listId].items)
-    );
-    if (filter === "Todos") {
-      setListArrItems(listItemarr);
+    // setListArrItems(
+    //   removeUndefinedFromArray(getListItemsOfList(list[listId]?.items))
+    // );
+    // if (!listArr) return;
+    // const listItemarr = removeUndefinedFromArray(
+    //   getListItemsOfList(list[listId].items)
+    // );
+    // if (filter === "Todos") {
+    //   setListArrItems(listItemarr);
 
-      const newTotal: TotalType = {
-        un: getTotalUn(listItemarr),
-        amount: getTotalWithAmount(listItemarr),
-      };
-      setTotal(newTotal);
-      return;
-    }
+    //   const newTotal: TotalType = {
+    //     un: getTotalUn(listItemarr),
+    //     amount: getTotalWithAmount(listItemarr),
+    //   };
+    //   setTotal(newTotal);
+    //   return;
+    // }
 
-    const newFilteredList = listItemarr.filter(
-      (item: ItemInterface) => item.tags === filter
-    );
-    setListArrItems(newFilteredList);
+    // const newFilteredList = listItemarr.filter(
+    //   (item: ItemInterface) => item.tags === filter
+    // );
+    // setListArrItems(newFilteredList);
 
-    const newTotal: TotalType = {
-      un: getTotalUn(newFilteredList),
-      amount: getTotalWithAmount(newFilteredList),
-    };
-    setTotal(newTotal);
+    // const newTotal: TotalType = {
+    //   un: getTotalUn(newFilteredList),
+    //   amount: getTotalWithAmount(newFilteredList),
+    // };
+    // setTotal(newTotal);
 
-    return () => {};
-  }, [filter, listItem]);
+    // return () => { };
+  }, [filter]);
 
   const deleteItem = (item: ItemInterface) => {
-    const updatedList: ListItemInterface = JSON.parse(JSON.stringify(listItem));
-    handleDeleteAmountInList(updatedList[item.uuid].amount);
-    delete updatedList[item.uuid];
-    setListItem(updatedList);
-    handleDeleteItemListFromList(updatedList, item.uuid);
+    // const updatedList: ListItemInterface = JSON.parse(JSON.stringify(listItem));
+    // handleDeleteAmountInList(updatedList[item.uuid].amount);
+    // delete updatedList[item.uuid];
+    // setListItem(updatedList);
+    // handleDeleteItemListFromList(updatedList, item.uuid);
   };
   const handleDeleteAmountInList = (itemAmountUuid: string[]): void => {
-    const updatedList: ListItemAmountInterface = JSON.parse(
-      JSON.stringify(itemAmountList)
-    );
-    itemAmountUuid.forEach((i) => {
-      delete updatedList[i];
-    });
-    setItemAmountList(updatedList);
+    // const updatedList: ListItemAmountInterface = JSON.parse(
+    //   JSON.stringify(itemAmountList)
+    // );
+    // itemAmountUuid.forEach((i) => {
+    //   delete updatedList[i];
+    // });
+    // setItemAmountList(updatedList);
   };
   const handleDeleteItemListFromList = (
     updatedList: ListItemInterface,
     itemUuid: string
   ): void => {
-    const updatedListItem: ListType = JSON.parse(JSON.stringify(list));
-    const item = updatedListItem[listId];
-    if (item) {
-      const newArray = item.items.filter((i) => i !== itemUuid);
-      item.items = newArray;
-      item.tags = getTagsFromListItemInterface(updatedList);
-      setList(updatedListItem);
-    }
+    // const updatedListItem: ListType = JSON.parse(JSON.stringify(list));
+    // const item = updatedListItem[listId];
+    // if (item) {
+    //   const newArray = item.items.filter((i) => i !== itemUuid);
+    //   item.items = newArray;
+    //   item.tags = getTagsFromListItemInterface(updatedList);
+    //   setList(updatedListItem);
+    // }
   };
 
   useEffect(() => {
@@ -160,7 +153,7 @@ export default function List({ listId }: ListProps) {
           action="addListItem"
           buttonText="add"
           listId={listId}
-          tags={removeUndefinedFromArray(list[listId].tags).filter(
+          tags={removeUndefinedFromArray(listArr!.tags).filter(
             (tag) => tag.name !== "Todos"
           )}
         />
@@ -207,7 +200,7 @@ export default function List({ listId }: ListProps) {
           />
         </Styled.ContainerHeaderInnerProgress>
       </Styled.ContainerHeader>
-      {listArr?.tags.length > 0 ? (
+      {listArr && listArr.tags.length > 0 ? (
         <Styled.ContainerHeaderInnerFilterButtons>
           <FilterButtons
             tags={tagsWithoutUndefinedFromArray}
@@ -232,27 +225,7 @@ export default function List({ listId }: ListProps) {
             <EmptyList mensage="Você não tem nenhuma item na lista" />
           )}
         </Styled.ContainerListInner>
-        <Styled.ContainerListInnerButton
-          background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
-        >
-          <Styled.ContainerButtonAdd>
-            <Button
-              text="Adicionar"
-              onPress={() => {
-                setBottomSheetProps({
-                  ...bottomSheetProps,
-                  isVisible: true,
-                });
-              }}
-              background={
-                Colors[colorScheme ?? "light"].buttonActiveBackgroundColor
-              }
-              icon="plus"
-            />
-          </Styled.ContainerButtonAdd>
-        </Styled.ContainerListInnerButton>
       </Styled.ContainerBody>
-      <BottomSheet {...bottomSheetProps} />
     </Styled.Container>
   );
 }

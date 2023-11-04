@@ -4,9 +4,10 @@ import Button from "../Button";
 import Colors from "../../constants/Colors";
 import * as Styled from "./styles";
 import { TagsIterface } from "../../types/types";
+import ITag from "../../Domain/Model/ITag";
 
 interface FilterButtonsProps {
-  tags: TagsIterface[];
+  tags: ITag[];
   filter: string;
   setFilter: React.Dispatch<React.SetStateAction<string>>;
 }
