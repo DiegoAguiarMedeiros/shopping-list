@@ -13,8 +13,8 @@ export default class SaveTagByUuidUseCase {
     try {
       this.mmkv.set(key, JSON.stringify(data));
       const TagsStringOrNull = this.mmkv.get('SLSHOPPINGTAG');
+      console.log('TagsStringOrNull', TagsStringOrNull)
       const Tags: ITagInterface = TagsStringOrNull ? JSON.parse(TagsStringOrNull) : TagsStringOrNull;
-      console.log('Tags', Tags)
       const newTagInterface: ITagInterface = {
         ...(Tags ? Tags : {}),
         [data.uuid]: data,

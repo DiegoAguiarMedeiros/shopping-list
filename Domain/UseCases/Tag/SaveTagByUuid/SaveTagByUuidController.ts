@@ -1,14 +1,14 @@
-import { IList, IListInterface } from "../../../Model/IList";
-import SaveListByUuidUseCase from "./SaveTagByUuidUseCase";
+import ITag, { ITagInterface } from "../../../Model/ITag";
+import SaveTagByUuidUseCase from "./SaveTagByUuidUseCase";
 
-export default class SaveListByUuidController {
-  constructor(private SaveListByUuidUseCase: SaveListByUuidUseCase) { }
+export default class SaveTagByUuidController {
+  constructor(private SaveTagByUuidUseCase: SaveTagByUuidUseCase) { }
 
-  handle = (data: IList): void => {
+  handle = (data: ITag): void => {
     try {
-      this.SaveListByUuidUseCase.execute(data.uuid, data);
+      this.SaveTagByUuidUseCase.execute(data.uuid, data);
     } catch (err) {
-      console.error("SaveListByUuidController: ", err);
+      console.error("SaveTagByUuidController: ", err);
     }
   };
 }

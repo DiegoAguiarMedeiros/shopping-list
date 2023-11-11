@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import GetTagByUuidUseCase from "./DeleteTagByUuidUseCase";
-import GetTagByUuidController from "./DeleteTagByUuidController";
+import DeleteTagByUuidUseCase from "./DeleteTagByUuidUseCase";
+import DeleteTagByUuidController from "./DeleteTagByUuidController";
 
 import { MMKV } from "react-native-mmkv";
 import saveTags from "../SaveTags";
@@ -12,10 +12,10 @@ const storage = new MMKV({
 });
 
 const storageMMKV = new MMKVStorage(storage);
-const getTagByUuidUseCase = new GetTagByUuidUseCase(storageMMKV, saveTags);
+const deleteTagByUuidUseCase = new DeleteTagByUuidUseCase(storageMMKV, saveTags);
 
-const getTagByUuidController = new GetTagByUuidController(
-  getTagByUuidUseCase
+const deleteTagByUuidController = new DeleteTagByUuidController(
+  deleteTagByUuidUseCase
 );
 
-export default getTagByUuidController;
+export default deleteTagByUuidController;

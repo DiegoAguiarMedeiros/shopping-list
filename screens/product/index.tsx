@@ -14,10 +14,6 @@ export default function Product() {
   const colorScheme = useColorScheme();
   const { list, listProduct, listAmount } = useShoppingListContext();
   const isFocused = useIsFocused();
-  // console.log("list", list);
-  // console.log("listItem", listItem);
-  // console.log("itemAmountList", itemAmountList);
-  // storage.clearAll();
   return (
     <Styled.Container
       background={Colors[colorScheme ?? "light"].bodyBackgroundColor}

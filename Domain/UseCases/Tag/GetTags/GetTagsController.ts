@@ -6,7 +6,8 @@ export default class GetTagsController {
 
   handle = (): ITag[] | null => {
     try {
-      const result = this.getTagsUseCase.execute("SLSHOPPINGTag");
+      const result = this.getTagsUseCase.execute("SLSHOPPINGTAG");
+      console.log('result', result)
       let data: ITag[] | null;
       result ? (data = Object.values(result)) : (data = null);
       return data;

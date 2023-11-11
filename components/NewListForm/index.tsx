@@ -65,8 +65,6 @@ const NewListForm = ({
     closeBottomSheet();
     const newList = returnNewList();
     saveListByUuidController.handle(newList);
-    console.log('list', list)
-    console.log('newList', newList)
     list ?
       setList([newList, ...list]) :
       setList([newList]);

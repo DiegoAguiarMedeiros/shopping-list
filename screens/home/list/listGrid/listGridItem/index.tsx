@@ -127,10 +127,7 @@ export default function ListGridItem({
 
   const handleDelete = () => {
     const updatedList: IList[] = JSON.parse(JSON.stringify(list));
-    console.log('item.uuid', item.uuid)
-    console.log('updatedList', updatedList)
     const newupdatedList = updatedList.filter(i => item.uuid !== i.uuid)
-    console.log('newupdatedList', newupdatedList)
     deleteListByUuid.handle(item.uuid);
     setList(newupdatedList);
   };

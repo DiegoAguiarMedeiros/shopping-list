@@ -9,8 +9,6 @@ export default function History() {
   const colorScheme = useColorScheme();
   const { listArchived, listProductArchived, listAmountArchived } =
     useShoppingListArchivedContext();
-
-  console.log('listArchived', listArchived)
   return (
     <Styled.Container
       background={Colors[colorScheme ?? "light"].bodyBackgroundColor}

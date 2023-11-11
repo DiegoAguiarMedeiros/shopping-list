@@ -9,21 +9,36 @@ import BottomSheet, { BottomSheetProps } from "../../components/BottomSheet";
 import { useState } from "react";
 import NewListForm from "../../components/NewListForm";
 import Button from "../../components/Button";
+import ListComponent from "./list";
 
-export default function Category() {
+interface TagsProps {
+  setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
+  bottomSheetProps: BottomSheetProps;
+  handleCloseBottomSheet: () => void;
+}
+
+export default function Tags({
+  bottomSheetProps,
+  setBottomSheetProps,
+  handleCloseBottomSheet,
+}: TagsProps) {
   const colorScheme = useColorScheme();
-  const { list, listProduct, listAmount } = useShoppingListContext();
+  const { tags, listProduct, listAmount } = useShoppingListContext();
   const isFocused = useIsFocused();
-  // console.log("list", list);
-  // console.log("listItem", listItem);
-  // console.log("itemAmountList", itemAmountList);
-  // storage.clearAll();
+  console.log('tags', tags)
   return (
     <Styled.Container
       background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
     >
       <Styled.ContainerListInner>
-        <EmptyList mensage="Você não tem nenhuma categoria cadastrada" />
+        {tags && tags.length > 0 ? (
+          <ListComponent
+            items={tags}
+            setBottomSheetProps={setBottomSheetProps}
+            handleCloseBottomSheet={handleCloseBottomSheet}
+          />
+        ) :
+          <EmptyList mensage="Você não tem nenhuma categoria cadastrada" />}
       </Styled.ContainerListInner>
     </Styled.Container>
   );

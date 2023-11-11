@@ -5,9 +5,11 @@ import { IList, IListInterface } from "../Domain/Model/IList";
 import { IListProductInterface } from "../Domain/Model/IProduct";
 import { IListAmountInterface } from "../Domain/Model/IAmount";
 import getListsController from "../Domain/UseCases/List/GetLists";
+import getTagsController from "../Domain/UseCases/Tag/GetTags";
 import saveListsController from "../Domain/UseCases/List/SaveLists";
 import getListsArchivedController from "../Domain/UseCases/ListArchived/GetLists";
 import saveListsArchivedController from "../Domain/UseCases/ListArchived/SaveLists";
+import ITag from "../Domain/Model/ITag";
 type ShoppingListProviderProps = {
   children: React.ReactNode;
 };
@@ -23,10 +25,15 @@ type ShoppingListContextType = {
   setListAmount: React.Dispatch<
     React.SetStateAction<IListAmountInterface | null>
   >;
+  tags: ITag[];
+  setTags: React.Dispatch<React.SetStateAction<ITag[] | null>>;
 };
 
 const getListsFromStorage = (): IList[] | null => {
   return getListsController.handle();
+};
+const getTagsFromStorage = (): ITag[] | null => {
+  return getTagsController.handle();
 };
 const getListProductFromStorage =
   async (): Promise<IListProductInterface | null> => {
@@ -92,6 +99,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   children,
 }) => {
   const [list, setList] = useState<IList[] | null>(null);
+  const [tags, setTags] = useState<ITag[] | null>(null);
   const [listProduct, setListProduct] = useState<IListProductInterface | null>(
     null
   );
@@ -110,6 +118,10 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   const loadListAmount = async (): Promise<void> => {
     const itemAmountListArr = await getListAmountFromStorage();
     setListAmount(itemAmountListArr);
+  };
+  const loadTags = async (): Promise<void> => {
+    const tagsArr = await getTagsFromStorage();
+    setTags(tagsArr);
   };
 
   // const getListItemsOfList = (listItemsArr: string[]): ItemInterface[] => {
@@ -187,16 +199,18 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     loadList();
     loadListProduct();
     loadListAmount();
+    loadTags();
   }, []);
 
 
 
 
-  useEffect(() => {
-    list && setListOnStorage(convertToIListInterface(list));
-    listProduct && setListProductOnStorage(listProduct);
-    listAmount && setListAmountOnStorage(listAmount);
-  }, [list, listProduct, listAmount]);
+  // useEffect(() => {
+  //   list && setListOnStorage(convertToIListInterface(list));
+  //   listProduct && setListProductOnStorage(listProduct);
+  //   listAmount && setListAmountOnStorage(listAmount);
+  //   tags && setTagsOnStorage(convertToIListInterface(list));
+  // }, [list, listProduct, listAmount]);
 
   return (
     <ShoppingListContext.Provider
@@ -207,6 +221,8 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         setListProduct: setListProduct,
         listAmount: listAmount!,
         setListAmount: setListAmount,
+        tags: tags!,
+        setTags: setTags,
       }}
     >
       {children}

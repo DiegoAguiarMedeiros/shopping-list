@@ -8,8 +8,10 @@ export default class DeleteTagUseCase {
 
   execute = (key: string): void => {
     try {
+      console.log('key', key)
       this.mmkv.delete(key);
-      const tagsStringOrNull = this.mmkv.get('SLSHOPPINGTag');
+      const tagsStringOrNull = this.mmkv.get('SLSHOPPINGTAG');
+      console.log('tagsStringOrNull', tagsStringOrNull)
       if (tagsStringOrNull) {
         const tags: ITagInterface = tagsStringOrNull ? JSON.parse(tagsStringOrNull) : tagsStringOrNull;
         delete tags[key];

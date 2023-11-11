@@ -14,7 +14,6 @@ export default class SaveListByUuidUseCase {
       this.mmkv.set(key, JSON.stringify(data));
       const listsStringOrNull = this.mmkv.get('SLSHOPPINGLIST');
       const lists: IListInterface = listsStringOrNull ? JSON.parse(listsStringOrNull) : listsStringOrNull;
-      console.log('lists', lists)
       const newListInterface: IListInterface = {
         ...(lists ? lists : {}),
         [data.uuid]: data,

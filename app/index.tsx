@@ -87,6 +87,7 @@ import { getOnboarding, setOnboarding } from "../utils/onboarding";
 import { Title } from "../components/Text";
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 import Home from "./home";
+import Tags from "./tags";
 import Items from "./Items";
 import ItemsArchived from "./ItemsArchived";
 import History from "./history";
@@ -100,8 +101,8 @@ import Colors from "../constants/Colors";
 import NewListForm from "../components/NewListForm";
 import { RoutesProps } from "../types/types";
 import ProductTab from "./product";
-import CategoryTab from "./category";
-import NewCategoryForm from "../components/NewCategoryForm";
+import tagsTab from "./tags";
+import NewTagForm from "../components/NewTagForm";
 import { useRouter } from "expo-router";
 import NewProductForm from "../components/NewProductForm";
 // Keep the splash screen visible while we fetch resources
@@ -199,8 +200,7 @@ function RootLayoutNav() {
   });
 
 
-  const handleChangeRoute = (route: "home" | "product" | "category" | "history"): void => {
-    console.log(route)
+  const handleChangeRoute = (route: "home" | "product" | "tags" | "history"): void => {
     const forms = {
       home: <NewListForm
         action="addList"
@@ -212,8 +212,8 @@ function RootLayoutNav() {
         buttonText="add"
         onClose={handleCloseBottomSheet}
       />,
-      category: <NewCategoryForm
-        action="addList"
+      tags: <NewTagForm
+        action="addTag"
         buttonText="add"
         onClose={handleCloseBottomSheet}
       />
@@ -275,15 +275,15 @@ function RootLayoutNav() {
       func: () => setBottomSheetProps({ ...bottomSheetProps, isVisible: true }),
     },
     {
-      name: "category",
+      name: "tags",
       icon: "tags",
       addButton: false,
-      func: () => handleChangeRoute("category")
+      func: () => handleChangeRoute("tags")
 
       // func(
       //   setBottomSheetProps({
       //     children: (
-      //       <NewCategoryForm
+      //       <NewTagForm
       //         action="addList"
       //         buttonText="add"
       //         onClose={handleCloseBottomSheet}
@@ -291,7 +291,7 @@ function RootLayoutNav() {
       //     ),
       //     height: "add",
       //     isVisible: true,
-      //   }), setActiveRoute("category")
+      //   }), setActiveRoute("tags")
       // )
       ,
     },
@@ -346,8 +346,7 @@ function RootLayoutNav() {
             }}
           />
           <Stack.Screen
-            name={"category"}
-            component={CategoryTab}
+            name={"tags"}
             options={{
               headerTitle: (props) => (
                 <Title color={Colors[colorScheme ?? "light"].white}>
@@ -355,7 +354,15 @@ function RootLayoutNav() {
                 </Title>
               ),
             }}
-          />
+          >
+            {() => (
+              <Tags
+                setBottomSheetProps={setBottomSheetProps}
+                bottomSheetProps={bottomSheetProps}
+                handleCloseBottomSheet={handleCloseBottomSheet}
+              />
+            )}
+          </Stack.Screen>
           <Stack.Screen
             name="Items"
             component={Items}

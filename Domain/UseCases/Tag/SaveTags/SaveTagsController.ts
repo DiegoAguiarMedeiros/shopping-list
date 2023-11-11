@@ -1,13 +1,13 @@
 import { ITagInterface } from "../../../Model/ITag";
-import SaveListsUseCase from "./SaveTagsUseCase";
+import SaveTagsUseCase from "./SaveTagsUseCase";
 import IController from "../../interface/IController";
 
 export default class SaveListsController implements IController {
-  constructor(private SaveListsUseCase: SaveListsUseCase) { }
+  constructor(private saveTagsUseCase: SaveTagsUseCase) { }
 
   handle = (data: ITagInterface): void => {
     try {
-      this.SaveListsUseCase.execute('SLSHOPPINGLIST', data);
+      this.saveTagsUseCase.execute('SLSHOPPINGTAG', data);
     } catch (err) {
       console.error("SaveListsController: ", err);
     }
