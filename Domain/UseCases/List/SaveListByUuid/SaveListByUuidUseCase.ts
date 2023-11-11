@@ -1,6 +1,6 @@
 import IMMKVStorage from "../../../../Domain/Service/IMMKVStorage";
 import { IList, IListInterface } from "../../../Model/IList";
-import IController from "../../interface/ISaveListsController";
+import IController from "../../interface/IController";
 
 export default class SaveListByUuidUseCase {
   constructor(

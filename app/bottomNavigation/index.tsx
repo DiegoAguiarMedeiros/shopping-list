@@ -51,10 +51,7 @@ const BottomNavigation: React.FC<RoutesType> = ({
           ) : (
             <Styled.Item
               key={`Item-${r.name}`}
-              onPress={() => {
-                setActiveRoute(r.name);
-                router.push({ pathname: r.name });
-              }}
+              onPress={() => r.func()}
               active={r.name === active}
               boder={
                 Colors[colorScheme ?? "light"].bottomNavActiveBackgroundColor

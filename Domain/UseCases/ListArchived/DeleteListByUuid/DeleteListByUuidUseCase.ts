@@ -1,6 +1,6 @@
 import IMMKVStorage from "../../../Service/IMMKVStorage";
 import { IListInterface } from "../../../Model/IList";
-import IController from "../../interface/ISaveListsController";
+import IController from "../../interface/IController";
 
 export default class DeleteListUseCase {
   constructor(private mmkv: IMMKVStorage,

@@ -101,6 +101,9 @@ import NewListForm from "../components/NewListForm";
 import { RoutesProps } from "../types/types";
 import ProductTab from "./product";
 import CategoryTab from "./category";
+import NewCategoryForm from "../components/NewCategoryForm";
+import { useRouter } from "expo-router";
+import NewProductForm from "../components/NewProductForm";
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
@@ -177,6 +180,7 @@ export default function App() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const router = useRouter();
   const [activeRoute, setActiveRoute] = useState<string>("home");
   const handleCloseBottomSheet = () => {
     setBottomSheetProps({ ...bottomSheetProps, isVisible: false });
@@ -194,18 +198,75 @@ function RootLayoutNav() {
     isVisible: false,
   });
 
+
+  const handleChangeRoute = (route: "home" | "product" | "category" | "history"): void => {
+    console.log(route)
+    const forms = {
+      home: <NewListForm
+        action="addList"
+        buttonText="add"
+        onClose={handleCloseBottomSheet}
+      />,
+      product: <NewProductForm
+        action="addList"
+        buttonText="add"
+        onClose={handleCloseBottomSheet}
+      />,
+      category: <NewCategoryForm
+        action="addList"
+        buttonText="add"
+        onClose={handleCloseBottomSheet}
+      />
+    }
+
+    if (route != "history") {
+      setBottomSheetProps({
+        ...bottomSheetProps,
+        children: forms[route]
+      })
+    }
+    // setActiveRoute(route)
+    setActiveRoute(route);
+    router.push({ pathname: route });
+  }
+
   const routes: RoutesProps[] = [
     {
       name: "home",
       icon: "shopping-bag",
       addButton: false,
-      func: () => setActiveRoute("home"),
+      func: () =>
+        handleChangeRoute("home")
+      // setBottomSheetProps({
+      //   children: (
+      //     <NewListForm
+      //       action="addList"
+      //       buttonText="add"
+      //       onClose={handleCloseBottomSheet}
+      //     />
+      //   ),
+      //   height: "add",
+      //   isVisible: false,
+      // }); setActiveRoute("home")
+
     },
     {
       name: "product",
       icon: "cube",
       addButton: false,
-      func: () => setActiveRoute("product"),
+      func: () => handleChangeRoute("product")
+      // setBottomSheetProps({
+      //   children: (
+      //     <NewListForm
+      //       action="addList"
+      //       buttonText="add"
+      //       onClose={handleCloseBottomSheet}
+      //     />
+      //   ),
+      //   height: "add",
+      //   isVisible: false,
+      // }); setActiveRoute("product")
+
     },
     {
       name: "add",
@@ -217,13 +278,28 @@ function RootLayoutNav() {
       name: "category",
       icon: "tags",
       addButton: false,
-      func: () => setActiveRoute("category"),
+      func: () => handleChangeRoute("category")
+
+      // func(
+      //   setBottomSheetProps({
+      //     children: (
+      //       <NewCategoryForm
+      //         action="addList"
+      //         buttonText="add"
+      //         onClose={handleCloseBottomSheet}
+      //       />
+      //     ),
+      //     height: "add",
+      //     isVisible: true,
+      //   }), setActiveRoute("category")
+      // )
+      ,
     },
     {
       name: "history",
       icon: "history",
       addButton: false,
-      func: () => setActiveRoute("history"),
+      func: () => handleChangeRoute("history"),
     },
   ];
 
