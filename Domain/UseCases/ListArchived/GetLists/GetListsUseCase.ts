@@ -4,11 +4,11 @@ import { IListInterface } from "../../../Model/IList";
 export default class GetListsUseCase {
   constructor(private mmkv: IStorage) { }
 
-  execute = (key: string): IListInterface | null => {
+  execute = (key: string): IListInterface<IList> | null => {
     try {
       const data = this.mmkv.get(key);
       if (data) {
-        const list: IListInterface = JSON.parse(data);
+        const list: IListInterface<IList> = JSON.parse(data);
         return list;
       }
       return null;

@@ -25,7 +25,6 @@ export default function Tags({
   const colorScheme = useColorScheme();
   const { tags, listProduct, listAmount } = useShoppingListContext();
   const isFocused = useIsFocused();
-  console.log('tags', tags)
   return (
     <Styled.Container
       background={Colors[colorScheme ?? "light"].bodyBackgroundColor}

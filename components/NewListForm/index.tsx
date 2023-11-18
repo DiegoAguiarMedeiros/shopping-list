@@ -15,7 +15,7 @@ import { IList } from "../../Domain/Model/IList";
 import ITag from "../../Domain/Model/ITag";
 import { IProduct } from "../../Domain/Model/IProduct";
 import saveListByUuidController from "../../Domain/UseCases/List/SaveListByUuid";
-import getListProductController from "../../Domain/UseCases/ListProduct/GetListProduct";
+import getListProductController from "../../Domain/UseCases/ListProduct/GetListProductByUuid";
 
 export type NewListFormProps = {
   onClose: () => void;
@@ -98,14 +98,12 @@ const NewListForm = ({
         removeUndefinedFromArray(getListProductController.handle(listItems))
       )
     );
+    const selectedItem = listProduct.find((item) => item.uuid === items?.uuid!);
     return {
       items: copyListItem.map((item) => {
         item.amount = [];
+        item.amount = [];
         item.uuid = String(UUIDGenerator.v4());
-        setListProduct((newValue) => ({
-          ...newValue,
-          [item.uuid]: item,
-        }));
         return item.uuid;
       }),
       tags: getTags(copyListItem),

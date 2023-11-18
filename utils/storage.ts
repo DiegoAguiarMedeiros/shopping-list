@@ -6,8 +6,8 @@ import {
   ListType,
 } from "../types/types";
 import { IListAmountInterface } from "../Domain/Model/IAmount";
-import { IListProductInterface } from "../Domain/Model/IProduct";
-import { IListInterface } from "../Domain/Model/IList";
+import { IList, IListInterface } from "../Domain/Model/IList";
+import { IProduct } from "../Domain/Model/IProduct";
 
 class Storage {
   retrieveData = async (key: string) => {
@@ -29,13 +29,13 @@ const _retrieveData = async (key: string) => {
   }
 };
 
-const setShoppingList = (value: IListInterface) => {
+const setShoppingList = (value: IListInterface<IList>) => {
   AsyncStorage.setItem("SLSHOPPINGLIST", JSON.stringify(value));
 };
 const setShoppingListItem = (value: ListItemInterface) => {
   AsyncStorage.setItem("SLSHOPPINGLISTITEM", JSON.stringify(value));
 };
-const setShoppingListProduct = (value: IListProductInterface) => {
+const setShoppingListProduct = (value: IListInterface<IProduct>) => {
   AsyncStorage.setItem("SLSHOPPINGLISTPRODUCT", JSON.stringify(value));
 };
 const setShoppingItemAmount = (value: ListItemAmountInterface) => {
@@ -44,38 +44,38 @@ const setShoppingItemAmount = (value: ListItemAmountInterface) => {
 const setShoppingListAmount = (value: IListAmountInterface) => {
   AsyncStorage.setItem("SLSHOPPINGLISTMAMOUNT", JSON.stringify(value));
 };
-const getShoppingList = async (): Promise<IListInterface | null> => {
+const getShoppingList = async (): Promise<IListInterface<IList> | null> => {
   const listPromise: string | null | undefined = await _retrieveData(
     "SLSHOPPINGLIST"
   );
 
   if (listPromise) {
-    const list: IListInterface = JSON.parse(listPromise);
+    const list: IListInterface<IList> = JSON.parse(listPromise);
     return list;
   }
 
   return null;
 };
-const getShoppingListItem = async (): Promise<IListProductInterface | null> => {
+const getShoppingListItem = async (): Promise<IListInterface<IProduct> | null> => {
   const listItemPromise: string | null | undefined = await _retrieveData(
     "SLSHOPPINGLISTITEM"
   );
 
   if (listItemPromise) {
-    const listItem: IListProductInterface = JSON.parse(listItemPromise);
+    const listItem: IListInterface<IProduct> = JSON.parse(listItemPromise);
     return listItem;
   }
 
   return null;
 };
 const getShoppingListProduct =
-  async (): Promise<IListProductInterface | null> => {
+  async (): Promise<IListInterface<IProduct> | null> => {
     const listItemPromise: string | null | undefined = await _retrieveData(
       "SLSHOPPINGLISTPRODUCT"
     );
 
     if (listItemPromise) {
-      const listItem: IListProductInterface = JSON.parse(listItemPromise);
+      const listItem: IListInterface<IProduct> = JSON.parse(listItemPromise);
       return listItem;
     }
 
@@ -111,7 +111,7 @@ const getShoppingListAmount =
 const setShoppingArchivedList = (value: ListType) => {
   AsyncStorage.setItem("SLARCHIVEDSHOPPINGLIST", JSON.stringify(value));
 };
-const setShoppingListArchived = (value: IListInterface) => {
+const setShoppingListArchived = (value: IListInterface<IList>) => {
   AsyncStorage.setItem("SLARCHIVEDSHOPPINGLIST", JSON.stringify(value));
 };
 const getShoppingArchivedList = async (): Promise<ListType | null> => {
@@ -126,13 +126,13 @@ const getShoppingArchivedList = async (): Promise<ListType | null> => {
 
   return null;
 };
-const getShoppingListArchived = async (): Promise<IListInterface | null> => {
+const getShoppingListArchived = async (): Promise<IListInterface<IList> | null> => {
   const listPromise: string | null | undefined = await _retrieveData(
     "SLARCHIVEDSHOPPINGLIST"
   );
 
   if (listPromise) {
-    const list: IListInterface = JSON.parse(listPromise);
+    const list: IListInterface<IList> = JSON.parse(listPromise);
     return list;
   }
 
@@ -153,13 +153,13 @@ const getShoppingArchivedListItem =
     return null;
   };
 const getShoppingProductArchived =
-  async (): Promise<IListProductInterface | null> => {
+  async (): Promise<IListInterface<IProduct> | null> => {
     const listItemPromise: string | null | undefined = await _retrieveData(
       "SLARCHIVEDSHOPPINGLISTPRODUCT"
     );
 
     if (listItemPromise) {
-      const listItem: IListProductInterface = JSON.parse(listItemPromise);
+      const listItem: IListInterface<IProduct> = JSON.parse(listItemPromise);
       return listItem;
     }
 

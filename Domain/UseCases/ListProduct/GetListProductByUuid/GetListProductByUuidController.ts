@@ -1,7 +1,8 @@
 import { IProduct } from "../../../Model/IProduct";
-import GetListProductUseCase from "./GetListProductUseCase";
+import { IControllerGetListProductsByUuid } from "../../interface/IController";
+import GetListProductUseCase from "./GetListProductByUuidUseCase";
 
-export default class GetListProductController {
+export default class GetListProductController implements IControllerGetListProductsByUuid {
   constructor(private GetListProductUseCase: GetListProductUseCase) { }
 
   handle = (productsUuid: string[]): IProduct[] => {

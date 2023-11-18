@@ -7,6 +7,6 @@ export interface IList {
   items: string[];
 }
 
-export interface IListInterface {
-  [key: string]: IList;
-}
+export type IListInterface<T> = {
+  [uuid: string]: T;
+};

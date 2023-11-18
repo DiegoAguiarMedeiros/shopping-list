@@ -25,9 +25,8 @@ import { BottomSheetProps } from "../../../../../components/BottomSheet";
 import NewListForm from "../../../../../components/NewListForm";
 import Tag from "../../../../../Domain/Model/Implementation/Tag";
 import { IList, IListInterface } from "@/Domain/Model/IList";
-import { IListProductInterface } from "../../../../../Domain/Model/IProduct";
 import { IListAmountInterface } from "../../../../../Domain/Model/IAmount";
-import getListProductController from "../../../../../Domain/UseCases/ListProduct/GetListProduct";
+import getListProductController from "../../../../../Domain/UseCases/ListProduct/GetListProductByUuid";
 import deleteTagByUuidController from "../../../../../Domain/UseCases/Tag/DeleteTagByUuid";
 import saveListArchivedByUuidController from "../../../../../Domain/UseCases/ListArchived/SaveListByUuid";
 import NewTagForm from "../../../../../components/NewTagForm";
@@ -98,7 +97,6 @@ export default function ListGridItem({
   };
 
   const handleDelete = () => {
-    console.log('handleDelete')
     const updatedList: ITag[] = JSON.parse(JSON.stringify(tags));
     const newupdatedList = updatedList.filter(i => item.uuid !== i.uuid)
     deleteTagByUuidController.handle(item.uuid);

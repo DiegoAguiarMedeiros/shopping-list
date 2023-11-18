@@ -1,7 +1,7 @@
 import { MMKV } from "react-native-mmkv";
 import IMMKVStorage from "../IMMKVStorage";
 
-export default class MMKVStorage implements IMMKVStorage {
+class MMKVStorage implements IMMKVStorage {
   constructor(private mmkv: MMKV) { }
   delete(key: string): void {
     this.mmkv.delete(key);
@@ -26,3 +26,9 @@ export default class MMKVStorage implements IMMKVStorage {
   }
 }
 
+const storage = new MMKV({
+  id: `user-storage`,
+  encryptionKey: "hunter2",
+});
+
+export default new MMKVStorage(storage);

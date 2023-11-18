@@ -1,4 +1,5 @@
-import IProduct from "@/Domain/Model/IProduct";
+import { IList, IListInterface } from "@/Domain/Model/IList";
+import { IProduct } from "../Domain/Model/IProduct";
 import ITag from "../Domain/Model/ITag";
 import {
   ItemAmountInterface,
@@ -82,13 +83,21 @@ const getTotalWithAmount = (items: ItemAmountInterface[]): number => {
   const total: number =
     items.length > 0
       ? items.reduce((accumulator, currentValue) => {
-          return currentValue.type
-            ? accumulator + 1
-            : accumulator + Number(currentValue?.quantity);
-        }, 0)
+        return currentValue.type
+          ? accumulator + 1
+          : accumulator + Number(currentValue?.quantity);
+      }, 0)
       : 0;
   return total;
 };
+
+function convertToInterface<T extends { uuid: string }>(listArray: T[]): IListInterface<T> {
+  const listInterface = {} as IListInterface<T>;
+  listArray.forEach((item) => {
+    listInterface[item.uuid as string] = item as T;
+  });
+  return listInterface;
+}
 
 // const editItemAmount = (
 //   items: ListType,
@@ -156,4 +165,5 @@ export {
   removeUndefinedFromArray,
   getTagsFromListItemInterface,
   checkTags,
+  convertToInterface
 };

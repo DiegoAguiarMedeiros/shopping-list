@@ -4,7 +4,7 @@ import GetListByUuidUseCase from "./GetListByUuidUseCase";
 export default class GetListByUuidController {
   constructor(private getListByUuidUseCase: GetListByUuidUseCase) { }
 
-  handle = (uuid: string): IListInterface | null => {
+  handle = (uuid: string): IListInterface<IList> | null => {
     try {
       const result = this.getListByUuidUseCase.execute(uuid);
 

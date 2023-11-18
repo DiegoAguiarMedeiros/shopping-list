@@ -10,7 +10,7 @@ export default class DeleteListUseCase {
     try {
       this.mmkv.delete(key);
       const listsStringOrNull = this.mmkv.get('SLSHOPPINGLISTARCHIVED');
-      const lists: IListInterface = listsStringOrNull ? JSON.parse(listsStringOrNull) : listsStringOrNull;
+      const lists: IListInterface<IList> = listsStringOrNull ? JSON.parse(listsStringOrNull) : listsStringOrNull;
       delete lists[key];
       this.saveLists.handle(lists);
     } catch (error) {

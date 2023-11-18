@@ -6,7 +6,6 @@ import {
   ListType,
 } from "../types/types";
 import { IListAmountInterface } from "../Domain/Model/IAmount";
-import { IListProductInterface } from "../Domain/Model/IProduct";
 import { IListInterface } from "../Domain/Model/IList";
 
 const getList = () => Storage.getShoppingList();
@@ -19,14 +18,14 @@ const getItemAmount = () => Storage.getShoppingItemAmount();
 
 const getListAmount = () => Storage.getShoppingListAmount();
 
-const setList = (list: IListInterface) => {
+const setList = (list: IListInterface<IList>) => {
   Storage.setShoppingList(list);
 };
 
 const setListItem = (listItem: ListItemInterface) => {
   Storage.setShoppingListItem(listItem);
 };
-const setListProduct = (listProduct: IListProductInterface) => {
+const setListProduct = (listProduct: IListInterface<IProduct>) => {
   Storage.setShoppingListProduct(listProduct);
 };
 const setListAmount = (amountList: IListAmountInterface) => {
@@ -46,7 +45,7 @@ const getItemAmountArchived = () => Storage.getShoppingArchivedItemAmount();
 
 const getListAmountArchived = () => Storage.getShoppingListAmountArchived();
 
-const setListArchived = (list: IListInterface) => {
+const setListArchived = (list: IListInterface<IList>) => {
   Storage.setShoppingListArchived(list);
 };
 const setListItemArchived = (listItem: ListItemInterface) => {
@@ -55,7 +54,7 @@ const setListItemArchived = (listItem: ListItemInterface) => {
 const setItemAmountArchived = (listItem: ListItemAmountInterface) => {
   Storage.setShoppingArchivedItemAmount(listItem);
 };
-const setListProductArchived = (listItem: IListProductInterface) => {
+const setListProductArchived = (listItem: IListInterface<IProduct>) => {
   Storage.setShoppingArchivedListItem(listItem);
 };
 const setListAmountArchived = (listItem: IListAmountInterface) => {

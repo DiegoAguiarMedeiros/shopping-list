@@ -219,9 +219,16 @@ function RootLayoutNav() {
       />
     }
 
-    if (route != "history") {
+    if (route != "history" && route != "product") {
       setBottomSheetProps({
         ...bottomSheetProps,
+        children: forms[route]
+      })
+    }
+    if (route === "product") {
+      setBottomSheetProps({
+        ...bottomSheetProps,
+        height: "edit",
         children: forms[route]
       })
     }
@@ -336,7 +343,6 @@ function RootLayoutNav() {
           </Stack.Screen>
           <Stack.Screen
             name={"product"}
-            component={ProductTab}
             options={{
               headerTitle: (props) => (
                 <Title color={Colors[colorScheme ?? "light"].white}>
@@ -344,7 +350,15 @@ function RootLayoutNav() {
                 </Title>
               ),
             }}
-          />
+          >
+            {() => (
+              <ProductTab
+                setBottomSheetProps={setBottomSheetProps}
+                bottomSheetProps={bottomSheetProps}
+                handleCloseBottomSheet={handleCloseBottomSheet}
+              />
+            )}
+          </Stack.Screen>
           <Stack.Screen
             name={"tags"}
             options={{

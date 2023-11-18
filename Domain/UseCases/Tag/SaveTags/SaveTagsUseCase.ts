@@ -7,7 +7,6 @@ export default class SaveITagsUseCase {
 
   execute = async (key: string, data: ITagInterface): Promise<void> => {
     try {
-      this.asyncStorage.clearAll();
       this.asyncStorage.set(key, JSON.stringify(data));
     } catch (error) {
       console.error("SaveITagsUseCase", error);

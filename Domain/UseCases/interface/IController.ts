@@ -1,6 +1,28 @@
-import { ITagInterface } from "../../Model/ITag";
-import { IListInterface } from "../../Model/IList";
+import ITag, { ITagInterface } from "../../Model/ITag";
+import { IList, IListInterface } from "../../Model/IList";
+import { IProduct } from "../../Model/IProduct";
 
-export default interface IController {
-  handle(data: IListInterface | ITagInterface): void;
+export interface IControllerSaveList {
+  handle(data: IListInterface<IList>): void;
+}
+export interface IControllerDeleteList {
+  handle(key: string): void;
+}
+export interface IControllerSaveTag {
+  handle(data: ITagInterface): void;
+}
+export interface IControllerGetTags {
+  handle(): ITag[];
+}
+export interface IControllerGetLists {
+  handle(): IList[] | null;
+}
+export interface IControllerSaveListProduct {
+  handle(data: IListInterface<IProduct>): void;
+}
+export interface IControllerGetListProducts {
+  handle(): IProduct[] | null;
+}
+export interface IControllerGetListProductsByUuid {
+  handle(productsUuid: string[]): IProduct[] | null;
 }

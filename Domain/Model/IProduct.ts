@@ -6,6 +6,6 @@ export interface IProduct {
   tag: string;
 }
 
-export interface IListProductInterface {
+export interface IListInterface<IProduct> {
   [key: string]: IProduct;
 }

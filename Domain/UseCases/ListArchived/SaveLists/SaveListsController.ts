@@ -5,7 +5,7 @@ import IController from "../../interface/IController";
 export default class SaveListsController implements IController {
   constructor(private SaveListsUseCase: SaveListsUseCase) { }
 
-  handle = (data: IListInterface): void => {
+  handle = (data: IListInterface<IList>): void => {
     try {
       this.SaveListsUseCase.execute('SLSHOPPINGLISTARCHIVED', data);
     } catch (err) {

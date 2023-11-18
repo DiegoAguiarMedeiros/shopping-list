@@ -1,19 +1,18 @@
 import IMMKVStorage from "../../../Service/IMMKVStorage";
-import { ITagInterface } from "../../../Model/ITag";
-import IController from "../../interface/IController";
+import { IListInterface } from "../../../Model/IList";
+import { IControllerSaveTag } from "../../interface/IController";
+import ITag from "../../../Model/ITag";
 
 export default class DeleteTagUseCase {
   constructor(private mmkv: IMMKVStorage,
-    private saveTags: IController) { }
+    private saveTags: IControllerSaveTag) { }
 
   execute = (key: string): void => {
     try {
-      console.log('key', key)
       this.mmkv.delete(key);
       const tagsStringOrNull = this.mmkv.get('SLSHOPPINGTAG');
-      console.log('tagsStringOrNull', tagsStringOrNull)
       if (tagsStringOrNull) {
-        const tags: ITagInterface = tagsStringOrNull ? JSON.parse(tagsStringOrNull) : tagsStringOrNull;
+        const tags: IListInterface<ITag> = tagsStringOrNull ? JSON.parse(tagsStringOrNull) : tagsStringOrNull;
         delete tags[key];
         this.saveTags.handle(tags);
       }

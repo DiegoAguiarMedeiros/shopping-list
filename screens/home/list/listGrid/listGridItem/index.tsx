@@ -25,12 +25,12 @@ import { BottomSheetProps } from "../../../../../components/BottomSheet";
 import NewListForm from "../../../../../components/NewListForm";
 import List from "../../../../../Domain/Model/Implementation/List";
 import { IList, IListInterface } from "@/Domain/Model/IList";
-import { IListProductInterface } from "../../../../../Domain/Model/IProduct";
 import { IListAmountInterface } from "../../../../../Domain/Model/IAmount";
-import getListProductController from "../../../../../Domain/UseCases/ListProduct/GetListProduct";
+import getListProductController from "../../../../../Domain/UseCases/ListProduct/GetListProductByUuid";
 import deleteListByUuid from "../../../../../Domain/UseCases/List/DeleteListByUuid";
 import saveListArchivedByUuidController from "../../../../../Domain/UseCases/ListArchived/SaveListByUuid";
-import NewItemForm from "../../../../../components/NewItemForm";
+import NewProductForm from "../../../../../components/NewProductForm";
+import { IProduct } from "@/Domain/Model/IProduct";
 interface ItemProps {
   item: List;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -73,14 +73,11 @@ export default function ListGridItem({
       isVisible: false,
       height: "edit",
       children: (
-        <NewItemForm
+        <NewProductForm
           onClose={handleCloseBottomSheet}
-          action="addListItem"
+          action="addList"
           buttonText="add"
           listId={item.uuid}
-          tags={removeUndefinedFromArray(item!.tags).filter(
-            (tag) => tag.name !== "Todos"
-          )}
         />
       ),
     });
@@ -132,44 +129,44 @@ export default function ListGridItem({
     setList(newupdatedList);
   };
 
-  const handleDeleteListItem = (listUuid: string[]): void => {
-    if (listUuid) {
-      const updatedList: IListProductInterface = JSON.parse(
-        JSON.stringify(listProduct)
-      );
-      listUuid.forEach((i) => {
-        updatedList[i]?.amount &&
-          handleDeleteAmountInList(updatedList[i]?.amount);
-        delete updatedList[i];
-      });
-      setListProduct(updatedList);
-    }
-  };
-  const handleDeleteAmountInList = (itemAmountUuid: string[]): void => {
-    const updatedList: IListAmountInterface = JSON.parse(
-      JSON.stringify(listAmount)
-    );
-    itemAmountUuid.forEach((i) => {
-      delete updatedList[i];
-    });
-    setListAmount(updatedList);
-  };
+  // const handleDeleteListItem = (listUuid: string[]): void => {
+  //   if (listUuid) {
+  //     const updatedList: IListInterface<IProduct> = JSON.parse(
+  //       JSON.stringify(listProduct)
+  //     );
+  //     listUuid.forEach((i) => {
+  //       updatedList[i]?.amount &&
+  //         handleDeleteAmountInList(updatedList[i]?.amount);
+  //       delete updatedList[i];
+  //     });
+  //     setListProduct(updatedList);
+  //   }
+  // };
+  // const handleDeleteAmountInList = (itemAmountUuid: string[]): void => {
+  //   const updatedList: IListAmountInterface = JSON.parse(
+  //     JSON.stringify(listAmount)
+  //   );
+  //   itemAmountUuid.forEach((i) => {
+  //     delete updatedList[i];
+  //   });
+  //   setListAmount(updatedList);
+  // };
 
-  const handleArchivedItemList = (items: string[]): void => {
-    items.forEach((item) => {
-      const archivedItemList: IListProductInterface = JSON.parse(
-        JSON.stringify(listProduct)
-      );
-      const itemsArchived = archivedItemList[item];
-      if (itemsArchived) {
-        handleArchivedItemListAmount(itemsArchived.amount);
-        setListProductArchived((newValue) => ({
-          ...newValue,
-          [itemsArchived.uuid]: itemsArchived,
-        }));
-      }
-    });
-  };
+  // const handleArchivedItemList = (items: string[]): void => {
+  //   items.forEach((item) => {
+  //     const archivedItemList: IListInterface<IProduct> = JSON.parse(
+  //       JSON.stringify(listProduct)
+  //     );
+  //     const itemsArchived = archivedItemList[item];
+  //     if (itemsArchived) {
+  //       handleArchivedItemListAmount(itemsArchived.amount);
+  //       setListProductArchived((newValue) => ({
+  //         ...newValue,
+  //         [itemsArchived.uuid]: itemsArchived,
+  //       }));
+  //     }
+  //   });
+  // };
   const handleArchivedItemListAmount = (amounts: string[]): void => {
     amounts.forEach((amount) => {
       const archivedItemAmountList: IListAmountInterface = JSON.parse(

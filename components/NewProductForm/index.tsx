@@ -14,15 +14,20 @@ import List from "../../Domain/Model/Implementation/List";
 import { IList } from "../../Domain/Model/IList";
 import ITag from "../../Domain/Model/ITag";
 import { IProduct } from "../../Domain/Model/IProduct";
-import saveListByUuidController from "../../Domain/UseCases/List/SaveListByUuid";
-import getListProductController from "../../Domain/UseCases/ListProduct/GetListProduct";
+import saveListProductByUuid from "../../Domain/UseCases/ListProduct/SaveListProductByUuid";
+import GetTags from "../../Domain/UseCases/Tag/GetTags";
+import Select from "../InputSelect";
+import Tag from "../../Domain/Model/Implementation/Tag";
+const countries = ["Egypt", "Canada", "Australia", "Ireland"]
+const countries2 = [{ label: "Selecione uma categoria", value: "" }, { label: "Canada", value: "1" }, { label: "Australia", value: "2" }, { label: "Ireland", value: "3" },]
+
 
 export type NewListFormProps = {
   onClose: () => void;
   listId?: string;
-  buttonText: "add" | "edit" | "copy";
-  action: "addList" | "editList" | "copyList";
-  items?: List;
+  buttonText: "add" | "edit";
+  action: "addList" | "editList";
+  items?: IProduct;
 };
 
 const NewProductForm = ({
@@ -37,11 +42,16 @@ const NewProductForm = ({
     useShoppingListContext();
   const [newItem, setNewItem] = useState({
     item: items ? items.name : "",
+    tag: items ? items.tag : "",
   });
-
+  const tags = GetTags.handle();
+  if (tags) {
+    tags.unshift({ name: "Selecionar Categoria", uuid: "" });
+  }
   const clearInput = () => {
     setNewItem({
       item: "",
+      tag: "",
     });
   };
 
@@ -51,12 +61,13 @@ const NewProductForm = ({
     Keyboard.dismiss();
   };
 
-  const returnNewList = (): IList => {
-    const item: IList = {
+  const returnNewList = (): IProduct => {
+    const item: IProduct = {
       uuid: String(UUIDGenerator.v4()),
       name: newItem.item,
-      tags: [],
-      items: [],
+      tag: newItem.tag,
+      amount: [],
+      unit: "Un",
     };
     return item;
   };
@@ -64,59 +75,17 @@ const NewProductForm = ({
   const handleAddList = (): void => {
     closeBottomSheet();
     const newList = returnNewList();
-    saveListByUuidController.handle(newList);
+    saveListProductByUuid.handle(newList);
     list ?
-      setList([newList, ...list]) :
-      setList([newList]);
-  };
-
-
-  const handleCopyList = (): void => {
-    if (newItem.item) {
-      closeBottomSheet();
-      const newList = returnNewList();
-      const selectedItem = list.find((item) => item.uuid === items?.uuid!);
-      if (selectedItem) {
-        const returnHandleCopyListItem = handleCopyListItem(selectedItem.items);
-        newList.items = returnHandleCopyListItem.items;
-        newList.tags = returnHandleCopyListItem.tags;
-        setList([newList, ...list]);
-      }
-    }
-  };
-
-  interface ReturnHandleCopyListItem {
-    items: string[];
-    tags: ITag[];
-  }
-
-  const handleCopyListItem = (
-    listItems: string[]
-  ): ReturnHandleCopyListItem => {
-    const copyListItem: IProduct[] = JSON.parse(
-      JSON.stringify(
-        removeUndefinedFromArray(getListProductController.handle(listItems))
-      )
-    );
-    return {
-      items: copyListItem.map((item) => {
-        item.amount = [];
-        item.uuid = String(UUIDGenerator.v4());
-        setListProduct((newValue) => ({
-          ...newValue,
-          [item.uuid]: item,
-        }));
-        return item.uuid;
-      }),
-      tags: getTags(copyListItem),
-    };
+      setListProduct([newList, ...listProduct]) :
+      setListProduct([newList]);
   };
 
   const handleEditList = (): void => {
-    if (newItem.item) {
+    if (newItem && newItem.item) {
       closeBottomSheet();
-      const updatedList: IList[] = JSON.parse(JSON.stringify(list));
-      const selectedItem = list.find((item) => item.uuid === items?.uuid!);
+      const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
+      const selectedItem = listProduct.find((item) => item.uuid === items?.uuid!);
       if (selectedItem) {
         selectedItem.name = newItem.item;
 
@@ -126,8 +95,8 @@ const NewProductForm = ({
           :
           item)
         );
-        saveListByUuidController.handle(selectedItem);
-        setList([...newUpdatedList]);
+        saveListProductByUuid.handle(selectedItem);
+        setListProduct([...newUpdatedList]);
       }
     }
   };
@@ -135,20 +104,26 @@ const NewProductForm = ({
   const buttonTextArr = {
     add: "Adicionar",
     edit: "Editar",
-    copy: "Copiar",
   };
 
   const functions = {
     addList: handleAddList,
     editList: handleEditList,
-    copyList: handleCopyList,
   };
 
   useEffect(() => {
     setNewItem({
       item: items ? items.name : "",
+      tag: items ? items.tag : "",
     });
   }, [items]);
+
+  const onValueChange = (itemValue: string, itemIndex: number): void => {
+    setNewItem({
+      ...newItem,
+      tag: itemValue,
+    });
+  };
 
   return (
     <Styled.Container>
@@ -157,12 +132,34 @@ const NewProductForm = ({
           placeholder={"Nome do produto..."}
           onChangeText={(item) => {
             setNewItem({
+              ...newItem,
               item: item,
             });
           }}
           value={newItem.item}
           onSubmitEditing={functions[action]}
         />
+
+      </Styled.InputContainer>
+      <Styled.InputContainer>
+        {tags ?
+          <Select items={tags} selectedValue={newItem.tag} onValueChange={onValueChange} />
+          :
+          <></>
+        }
+        {/* <SelectDropdown
+          data={countries}
+          buttonTextAfterSelection={(selectedItem, index) => {
+            // text represented after item is selected
+            // if data array is an array of objects then return selectedItem.property to render after item is selected
+            return selectedItem
+          }}
+          rowTextForSelection={(item, index) => {
+            // text represented for each item in dropdown
+            // if data array is an array of objects then return item.property to represent item in dropdown
+            return item
+          }}
+        /> */}
       </Styled.InputContainer>
       <Styled.ButtonsContainer>
         <Styled.ButtonWrapper>
