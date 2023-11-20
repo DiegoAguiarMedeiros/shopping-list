@@ -31,9 +31,15 @@ type TotalType = {
 
 interface ListProps {
   listId: string;
+  setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
+  bottomSheetProps: BottomSheetProps;
+  handleCloseBottomSheet: () => void;
 }
 
-export default function List({ listId }: ListProps) {
+export default function List({ listId,
+  bottomSheetProps,
+  setBottomSheetProps,
+  handleCloseBottomSheet, }: ListProps) {
   const colorScheme = useColorScheme();
   const {
     list,
@@ -52,9 +58,6 @@ export default function List({ listId }: ListProps) {
       (tag) => tag.name !== "Todos"
     )
   );
-  const handleCloseBottomSheet = () => {
-    setBottomSheetProps({ ...bottomSheetProps, isVisible: false });
-  };
   const [filter, setFilter] = useState("Todos");
   const [total, setTotal] = useState<TotalType>({
     amount: 0,
@@ -62,23 +65,8 @@ export default function List({ listId }: ListProps) {
   });
   const router = useRouter();
 
-  const initialBottomSheetProps: BottomSheetProps = {
-    isVisible: false,
-    height: "edit",
-    children: (
-      <NewItemForm
-        onClose={handleCloseBottomSheet}
-        action="addListItem"
-        buttonText="add"
-        listId={listId}
-        tags={tagsWithoutTodos}
-      />
-    ),
-  };
 
-  const [bottomSheetProps, setBottomSheetProps] = useState(
-    initialBottomSheetProps
-  );
+
 
   useEffect(() => {
     // setListArrItems(
@@ -143,23 +131,6 @@ export default function List({ listId }: ListProps) {
     // }
   };
 
-  useEffect(() => {
-    setBottomSheetProps({
-      isVisible: false,
-      height: "edit",
-      children: (
-        <NewItemForm
-          onClose={handleCloseBottomSheet}
-          action="addListItem"
-          buttonText="add"
-          listId={listId}
-          tags={removeUndefinedFromArray(listArr!.tags).filter(
-            (tag) => tag.name !== "Todos"
-          )}
-        />
-      ),
-    });
-  }, [list]);
 
   return (
     <Styled.Container

@@ -22,6 +22,8 @@ import UUIDGenerator from "react-native-uuid";
 import { useShoppingListContext } from "../../context/ShoppingList";
 import Tags from "../Tags";
 import ITag from "../../Domain/Model/ITag";
+import GetListProducts from "../../Domain/UseCases/ListProduct/GetListProducts";
+import Select from "../InputSelect";
 
 export type NewItemFormProps = {
   onClose: () => void;
@@ -29,7 +31,6 @@ export type NewItemFormProps = {
   buttonText: "add" | "edit";
   action: "addListItem" | "editListItem";
   items?: ItemInterface;
-  tags: ITag[];
 };
 
 const NewItemForm = ({
@@ -38,14 +39,17 @@ const NewItemForm = ({
   buttonText,
   action,
   items,
-  tags,
 }: NewItemFormProps) => {
   const colorScheme = useColorScheme();
   const [tagsFiltered, setTagsFiltered] = useState<TagsIterface[]>([]);
   const [newItem, setNewItem] = useState({
     item: items ? items.name : "",
-    tag: items && !Array.isArray(items.tags) ? items.tags : "",
   });
+  const products = GetListProducts.handle();
+  if (products) {
+    products.unshift({ name: "Selecionar Produto", uuid: "", amount: [], tag: "", unit: "Un" });
+  }
+  console.log("products", products)
 
   const { list, setList } =
     useShoppingListContext();
@@ -53,13 +57,11 @@ const NewItemForm = ({
   const clearInput = () => {
     setNewItem({
       item: "",
-      tag: "",
     });
   };
   const handleAddTag = (tag: string): void => {
     setNewItem({
       item: newItem.item,
-      tag: tag,
     });
     setTagsFiltered([]);
   };
@@ -74,58 +76,50 @@ const NewItemForm = ({
       uuid: String(UUIDGenerator.v4()),
       name: newItem.item,
       active: false,
-      tags: newItem.tag,
+      tags: '',
       amount: [],
     };
     return item;
   };
 
   const handleAddListItem = (): void => {
-    closeBottomSheet();
-    const newListItem = returnNewListItem();
-    setListItem((newValue) => ({
-      ...newValue,
-      [newListItem.uuid]: newListItem,
-    }));
-    handleAddListItemInList(listId, newListItem);
+    // closeBottomSheet();
+    // const newListItem = returnNewListItem();
+    // setListItem((newValue) => ({
+    //   ...newValue,
+    //   [newListItem.uuid]: newListItem,
+    // }));
+    // handleAddListItemInList(listId, newListItem);
   };
 
   const handleAddListItemInList = (
     listId: string,
     newListItem: ItemInterface
   ): void => {
-    const updatedList: ListType = JSON.parse(JSON.stringify(list));
-    const item = updatedList[listId];
-    if (item) {
-      const listArrItems: ItemInterface[] = removeUndefinedFromArray(
-        getListItemsOfList(item.items)
-      );
-      item.items.push(newListItem.uuid);
-      item.tags = getTags(listArrItems);
-      if (!checkTags(newListItem.tags, item.tags)) {
-        item.tags.push({
-          id: `${item.tags.length++}`,
-          name: newListItem.tags,
-          active: false,
-        });
-      }
-      setList(updatedList);
-    }
+    // const updatedList: ListType = JSON.parse(JSON.stringify(list));
+    // const item = updatedList[listId];
+    // if (item) {
+    //   const listArrItems: ItemInterface[] = removeUndefinedFromArray(
+    //     getListItemsOfList(item.items)
+    //   );
+    //   item.items.push(newListItem.uuid);
+    //   setList(updatedList);
+    // }
   };
 
   const handleEditListItem = (): void => {
-    if (newItem.item) {
-      closeBottomSheet();
-      const updatedListItem: ListItemInterface = JSON.parse(
-        JSON.stringify(listItem)
-      );
-      const item = updatedListItem[items?.uuid!];
-      if (item) {
-        item.name = newItem.item;
-        item.tags = newItem.tag;
-        setListItem(updatedListItem);
-      }
-    }
+    // if (newItem.item) {
+    //   closeBottomSheet();
+    //   const updatedListItem: ListItemInterface = JSON.parse(
+    //     JSON.stringify(listItem)
+    //   );
+    //   const item = updatedListItem[items?.uuid!];
+    //   if (item) {
+    //     item.name = newItem.item;
+    //     item.tags = newItem.tag;
+    //     setListItem(updatedListItem);
+    //   }
+    // }
   };
 
   const buttonTextArr = {
@@ -138,55 +132,27 @@ const NewItemForm = ({
     editListItem: handleEditListItem,
   };
 
-  const filterTags = () => {
-    if (newItem.tag.length > 0) {
-      const newTags = tags?.filter(({ name }) =>
-        name.toLowerCase().includes(newItem.tag.toLowerCase())
-      );
-      setTagsFiltered(newTags ?? []);
-    } else {
-      setTagsFiltered(tags ?? []);
-    }
-  };
 
   useEffect(() => {
     setNewItem({
       item: items ? items.name : "",
-      tag: items && !Array.isArray(items.tags) ? items.tags : "",
     });
   }, [items]);
 
-  useEffect(() => {
-    filterTags();
-  }, [newItem.tag]);
-
+  const onValueChange = (itemValue: string, itemIndex: number): void => {
+    setNewItem({
+      item: itemValue,
+    });
+  };
   return (
     <Styled.Container>
+
       <Styled.InputContainer>
-        <InputText
-          placeholder={"Nome do item..."}
-          onChangeText={(item) => {
-            setNewItem({
-              item: item,
-              tag: newItem.tag,
-            });
-          }}
-          value={newItem.item}
-          onSubmitEditing={functions[action]}
-        />
-      </Styled.InputContainer>
-      <Styled.InputContainer>
-        <InputText
-          placeholder="Nome da categoria..."
-          onChangeText={(tag) => {
-            setNewItem({
-              item: newItem.item,
-              tag: tag,
-            });
-          }}
-          value={newItem.tag}
-          onSubmitEditing={functions[action]}
-        />
+        {products
+          ?
+          <Select items={products} selectedValue={newItem.item} onValueChange={onValueChange} />
+          :
+          <></>}
       </Styled.InputContainer>
       <Styled.ButtonsContainer>
         <Styled.ButtonWrapper>
@@ -204,17 +170,6 @@ const NewItemForm = ({
           />
         </Styled.ButtonWrapper>
       </Styled.ButtonsContainer>
-      {tags.length > 0 && (
-        <Tags
-          tags={tagsFiltered}
-          isVisible={
-            newItem.tag != "" &&
-            tagsFiltered.length > 0 &&
-            tagsFiltered[0].name !== newItem.tag
-          }
-          addTag={handleAddTag}
-        />
-      )}
     </Styled.Container>
   );
 };

@@ -15,12 +15,9 @@ export default class SaveListProductByUuidUseCase {
     try {
       this.mmkv.set(key, JSON.stringify(data));
       const lists = this.getListProducts.handle();
-      console.log('lists', lists)
-      console.log('data', data)
       if (lists) {
         lists.push(data);
         const newListInterface: IListInterface<IProduct> = convertToInterface(lists);
-        console.log('newListInterface', newListInterface)
         this.saveListProducts.handle(newListInterface);
       } else {
         const newListInterface: IListInterface<IProduct> = {}

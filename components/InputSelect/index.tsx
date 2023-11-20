@@ -4,9 +4,10 @@ import { Picker } from '@react-native-picker/picker';
 import Colors from '../../constants/Colors';
 import * as Styled from './styles';
 import ITag from '../../Domain/Model/ITag';
+import { IProduct } from '../../Domain/Model/IProduct';
 
 type SelectProps = {
-    items: ITag[],
+    items: ITag[] | IProduct[],
     selectedValue: string,
     onValueChange: (itemValue: string, itemIndex: number) => void;
 };

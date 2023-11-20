@@ -30,7 +30,7 @@ import getListProductController from "../../../../../Domain/UseCases/ListProduct
 import deleteListByUuid from "../../../../../Domain/UseCases/List/DeleteListByUuid";
 import saveListArchivedByUuidController from "../../../../../Domain/UseCases/ListArchived/SaveListByUuid";
 import NewProductForm from "../../../../../components/NewProductForm";
-import { IProduct } from "@/Domain/Model/IProduct";
+import NewItemForm from "../../../../../components/NewItemForm";
 interface ItemProps {
   item: List;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -71,11 +71,11 @@ export default function ListGridItem({
 
     setBottomSheetProps({
       isVisible: false,
-      height: "edit",
+      height: "add",
       children: (
-        <NewProductForm
+        <NewItemForm
           onClose={handleCloseBottomSheet}
-          action="addList"
+          action="addListItem"
           buttonText="add"
           listId={item.uuid}
         />

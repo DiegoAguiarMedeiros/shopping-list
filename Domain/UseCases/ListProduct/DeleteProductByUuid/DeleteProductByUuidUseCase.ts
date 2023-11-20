@@ -10,10 +10,8 @@ export default class DeleteProductUseCase {
 
   execute = (key: string): void => {
     try {
-      console.log("DeleteProductUseCase key", key)
       this.mmkv.delete(key);
       const ProductsStringOrNull = this.mmkv.get('SLSHOPPINGLISTPRODUCT');
-      console.log("DeleteProductUseCase ProductsStringOrNull", ProductsStringOrNull)
       if (ProductsStringOrNull) {
         const Products: IListInterface<IProduct> = ProductsStringOrNull ? JSON.parse(ProductsStringOrNull) : ProductsStringOrNull;
         delete Products[key];

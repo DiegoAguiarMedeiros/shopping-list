@@ -222,6 +222,7 @@ function RootLayoutNav() {
     if (route != "history" && route != "product") {
       setBottomSheetProps({
         ...bottomSheetProps,
+        height: "add",
         children: forms[route]
       })
     }
@@ -379,11 +380,18 @@ function RootLayoutNav() {
           </Stack.Screen>
           <Stack.Screen
             name="Items"
-            component={Items}
             options={{
               headerShown: false,
             }}
-          />
+          >
+            {() => (
+              <Items
+                setBottomSheetProps={setBottomSheetProps}
+                bottomSheetProps={bottomSheetProps}
+                handleCloseBottomSheet={handleCloseBottomSheet}
+              />
+            )}
+          </Stack.Screen>
           <Stack.Screen
             name="ItemsArchived"
             component={ItemsArchived}

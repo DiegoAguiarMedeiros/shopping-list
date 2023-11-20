@@ -1,10 +1,10 @@
-import { ITagInterface } from "../../../Model/ITag";
+import ITag from "../../../Model/ITag";
 import GetTagByUuidUseCase from "./GetTagByUuidUseCase";
 
 export default class GetTagByUuidController {
   constructor(private getTagByUuidUseCase: GetTagByUuidUseCase) { }
 
-  handle = (uuid: string): ITagInterface | null => {
+  handle = (uuid: string): ITag | null => {
     try {
       const result = this.getTagByUuidUseCase.execute(uuid);
 

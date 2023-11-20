@@ -14,7 +14,7 @@ import { useRouter } from "expo-router";
 
 import { Swipeable } from "react-native-gesture-handler";
 import { removeUndefinedFromArray } from "../../../../../utils/functions";
-import { Title, Text } from "../../../../../components/Text";
+import { Title, SubTitle } from "../../../../../components/Text";
 import {
   useShoppingListArchivedContext,
   useShoppingListContext,
@@ -28,7 +28,7 @@ import { IList, IListInterface } from "@/Domain/Model/IList";
 import { IListAmountInterface } from "../../../../../Domain/Model/IAmount";
 import getListProductController from "../../../../../Domain/UseCases/ListProduct/GetListProductByUuid";
 import DeleteProductByUuid from "../../../../../Domain/UseCases/ListProduct/DeleteProductByUuid";
-import saveListArchivedByUuidController from "../../../../../Domain/UseCases/ListArchived/SaveListByUuid";
+import GetTagByUuid from "../../../../../Domain/UseCases/Tag/GetTagByUuid";
 import NewProductForm from "../../../../../components/NewProductForm";
 import { IProduct } from "../../../../../Domain/Model/IProduct";
 interface ItemProps {
@@ -60,7 +60,7 @@ export default function ListGridItem({
   } = useShoppingListArchivedContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
-
+  const tag = GetTagByUuid.handle(item.tag);
   const handleOpenList = useCallback(() => {
 
     setBottomSheetProps({
@@ -97,7 +97,6 @@ export default function ListGridItem({
   };
 
   const handleDelete = () => {
-    console.log('handleDelete')
     const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
     const newupdatedList = updatedList.filter(i => item.uuid !== i.uuid)
     DeleteProductByUuid.handle(item.uuid);
@@ -199,6 +198,15 @@ export default function ListGridItem({
               >
                 {item.name}
               </Title>
+              <SubTitle
+                color={
+                  colorScheme !== "dark"
+                    ? Colors[colorScheme ?? "light"].black
+                    : Colors[colorScheme ?? "light"].white
+                }
+              >
+                {tag && tag.name}
+              </SubTitle>
             </Styled.ContainerItemTitle>
             <Styled.ContainerListItemBody>
             </Styled.ContainerListItemBody>
