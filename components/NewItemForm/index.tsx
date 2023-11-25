@@ -23,6 +23,7 @@ import { useShoppingListContext } from "../../context/ShoppingList";
 import Tags from "../Tags";
 import ITag from "../../Domain/Model/ITag";
 import GetListProducts from "../../Domain/UseCases/ListProduct/GetListProducts";
+import addProductToListByUuidController from "../../Domain/UseCases/List/AddProductToListByUuid";
 import Select from "../InputSelect";
 
 export type NewItemFormProps = {
@@ -49,7 +50,6 @@ const NewItemForm = ({
   if (products) {
     products.unshift({ name: "Selecionar Produto", uuid: "", amount: [], tag: "", unit: "Un" });
   }
-  console.log("products", products)
 
   const { list, setList } =
     useShoppingListContext();
@@ -71,18 +71,12 @@ const NewItemForm = ({
     Keyboard.dismiss();
   };
 
-  const returnNewListItem = (): ItemInterface => {
-    const item: ItemInterface = {
-      uuid: String(UUIDGenerator.v4()),
-      name: newItem.item,
-      active: false,
-      tags: '',
-      amount: [],
-    };
-    return item;
-  };
 
   const handleAddListItem = (): void => {
+    if (newItem.item !== "") {
+      console.log("items?.uuid", listId)
+      addProductToListByUuidController.handle(listId, newItem.item)
+    }
     // closeBottomSheet();
     // const newListItem = returnNewListItem();
     // setListItem((newValue) => ({

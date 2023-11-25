@@ -8,6 +8,12 @@ export interface IControllerSaveList {
 export interface IControllerDeleteList {
   handle(key: string): void;
 }
+export interface IControllerGetListByUuid {
+  handle(key: string): IList;
+}
+export interface IControllerSaveListByUuid {
+  handle(data: IList): void;
+}
 export interface IControllerSaveTag {
   handle(data: ITagInterface): void;
 }
@@ -25,4 +31,7 @@ export interface IControllerGetListProducts {
 }
 export interface IControllerGetListProductsByUuid {
   handle(productsUuid: string[]): IProduct[] | null;
+}
+export interface IControllerGetTagByProductsUuid {
+  handle(key: string): string;
 }

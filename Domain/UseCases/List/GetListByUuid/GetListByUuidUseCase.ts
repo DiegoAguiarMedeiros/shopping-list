@@ -1,20 +1,32 @@
 import IMMKVStorage from "../../../../Domain/Service/IMMKVStorage";
-import { IListInterface } from "../../../Model/IList";
+import { IList, IListInterface } from "../../../Model/IList";
 
 export default class GetListUseCase {
   constructor(private mmkv: IMMKVStorage) { }
 
-  execute = (key: string): IListInterface<IList> | null => {
+  execute = (key: string): IList => {
     try {
       const data = this.mmkv.get(key);
       if (data) {
-        const list: IListInterface<IList> = JSON.parse(data);
+        const list: IList = JSON.parse(data);
         return list;
       }
-      return null;
+      const result: IList = {
+        uuid: "",
+        name: "",
+        tags: [],
+        items: []
+      };
+      return result;
     } catch (error) {
       console.error("GetListUseCase", error);
-      return null;
+      const result: IList = {
+        uuid: "",
+        name: "",
+        tags: [],
+        items: []
+      };
+      return result;
     }
   };
 }

@@ -24,7 +24,7 @@ import CircleProgress from "../../../../../components/CircleProgress";
 import { BottomSheetProps } from "../../../../../components/BottomSheet";
 import NewListForm from "../../../../../components/NewListForm";
 import List from "../../../../../Domain/Model/Implementation/List";
-import { IList, IListInterface } from "@/Domain/Model/IList";
+import { IList, IListInterface } from "../../../../../Domain/Model/IList";
 import { IListAmountInterface } from "../../../../../Domain/Model/IAmount";
 import getListProductController from "../../../../../Domain/UseCases/ListProduct/GetListProductByUuid";
 import deleteListByUuid from "../../../../../Domain/UseCases/List/DeleteListByUuid";
