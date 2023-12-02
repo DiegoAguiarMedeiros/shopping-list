@@ -4,28 +4,27 @@ import { ItemInterface, ItemAmountInterface } from "../../../types/types";
 import ListPriceItem from "./listPriceItem";
 import { useShoppingListContext } from "../../../context/ShoppingList";
 import { removeUndefinedFromArray } from "../../../utils/functions";
+import IAmount from "../../../Domain/Model/IAmount";
 
 interface ListProps {
-  item: ItemInterface;
+  item: IAmount[];
 }
 
 export default function ListPriceGrid({ item }: ListProps) {
-  const { getAmountOfListItems } = useShoppingListContext();
-  const amountOfListItems = removeUndefinedFromArray(
-    getAmountOfListItems(item.amount)
-  );
 
+  console.log("item.length", item.length)
   return (
     <Styled.Container>
       <Styled.ContainerListPriceItem>
-        {amountOfListItems.map((itemAmount: ItemAmountInterface) => {
+        {item.map((itemAmount: IAmount) => {
+          console.log("itemAmount", itemAmount)
           return itemAmount ? (
             <ListPriceItem
               itemAmount={itemAmount}
-              listItemId={item.uuid}
+              listItemId={itemAmount.listProductUuid}
               key={itemAmount.uuid}
             />
-          ) : null;
+          ) : <></>;
         })}
       </Styled.ContainerListPriceItem>
     </Styled.Container>

@@ -14,7 +14,6 @@ export default class AddProductToListByUuidUseCase {
         const list = this.getListByUuid.handle(listUuid);
         list.items.push(productsUuid)
         list.tags.push(this.getTag.handle(productsUuid))
-        console.log('list', list);
         this.saveListByUuid.handle(list);
 
     }

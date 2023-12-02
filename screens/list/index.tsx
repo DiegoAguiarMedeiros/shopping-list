@@ -24,6 +24,7 @@ import { Title, Text } from "../../components/Text";
 import BottomSheet, { BottomSheetProps } from "../../components/BottomSheet";
 import Button from "../../components/Button";
 import NewItemForm from "../../components/NewItemForm";
+import getListProductController from "../../Domain/UseCases/ListProduct/GetListProductByUuid";
 type TotalType = {
   amount: number;
   un: number;
@@ -47,17 +48,14 @@ export default function List({ listId,
   } = useShoppingListContext();
   const selectedItem = list.find((i) => i.uuid === listId);
   const [listArr, setListArr] = useState(selectedItem);
-  const [listArrItems, setListArrItems] = useState(
-    removeUndefinedFromArray([])
-  );
+
+  const [listArrItems, setListArrItems] = useState(getListProductController.handle(selectedItem?.items ? selectedItem?.items : []));
 
   const tagsWithoutUndefinedFromArray = removeUndefinedFromArray(listArr?.tags!);
 
-  const [tagsWithoutTodos, setTagsWithoutTodos] = useState(
-    removeUndefinedFromArray(tagsWithoutUndefinedFromArray).filter(
-      (tag) => tag.name !== "Todos"
-    )
-  );
+  tagsWithoutUndefinedFromArray.unshift("Todos");
+
+
   const [filter, setFilter] = useState("Todos");
   const [total, setTotal] = useState<TotalType>({
     amount: 0,
@@ -185,7 +183,6 @@ export default function List({ listId,
         <Styled.ContainerListInner>
           {listArrItems.length > 0 ? (
             <ListGrid
-              tagsWithoutTodos={tagsWithoutTodos}
               setBottomSheetProps={setBottomSheetProps}
               deleteItem={deleteItem}
               listArrItems={listArrItems}

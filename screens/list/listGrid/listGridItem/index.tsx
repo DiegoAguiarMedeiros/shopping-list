@@ -25,14 +25,15 @@ import { useShoppingListContext } from "../../../../context/ShoppingList";
 
 import AddPriceUnit from "../../../addPriceUnit";
 import NewItemForm from "../../../../components/NewItemForm";
+import { IProduct } from "../../../../Domain/Model/IProduct";
+import getAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetAmountByListProductUuid";
 
 interface ListProps {
-  item: ItemInterface;
+  item: IProduct;
   listId: string;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   deleteItem: (item: ItemInterface) => void;
   handleCloseBottomSheet: () => void;
-  tagsWithoutTodos: TagsIterface[];
 }
 
 function ListGridItem({
@@ -41,22 +42,18 @@ function ListGridItem({
   setBottomSheetProps,
   deleteItem,
   handleCloseBottomSheet,
-  tagsWithoutTodos,
 }: ListProps) {
   const colorScheme = useColorScheme();
   const [active, setActive] = useState(false);
   const {
     list,
     setList,
-    listItem,
-    setListItem,
-    setItemAmountList,
-    itemAmountList,
-    getAmountOfListItems,
   } = useShoppingListContext();
 
+  const listArrItems = getAmountByListProductUuidController.handle(`${listId}-${item.uuid}`);
+
   const handleDelete = () => {
-    deleteItem(item);
+    // deleteItem(item);
   };
   const handleEdit = () => {
     setBottomSheetProps({
@@ -68,8 +65,6 @@ function ListGridItem({
           action="editListItem"
           buttonText="edit"
           listId={listId}
-          tags={tagsWithoutTodos}
-          items={item}
         />
       ),
     });
@@ -162,7 +157,7 @@ function ListGridItem({
   return active ? (
     <Styled.ContainerListItemListItem
       underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
-      height={calcHeight(item.amount.length)}
+      height={calcHeight(listArrItems.length)}
       borderColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
       background={Colors[colorScheme ?? "light"].listItemActiveBackgroundColor}
     >
@@ -175,12 +170,12 @@ function ListGridItem({
                 size={28}
                 style={{ marginBottom: -3 }}
                 color={
-                  item.amount.length > 0
+                  listArrItems.length > 0
                     ? Colors[colorScheme ?? "light"]
-                        .listItemIconActiveColorActive
+                      .listItemIconActiveColorActive
                     : Colors[colorScheme ?? "light"].listItemIconActiveColor
                 }
-                name={item.amount.length > 0 ? "check-circle-o" : "circle-o"}
+                name={listArrItems.length > 0 ? "check-circle-o" : "circle-o"}
               />
             </Title>
           </Styled.ContainerItemTextIcon>
@@ -193,13 +188,12 @@ function ListGridItem({
             <Styled.ContainerListItemListItemBody>
               <Styled.ContainerItemTextPriceTotal>
                 <Text color={Colors[colorScheme ?? "light"].white}>
-                  Total: R${" "}
-                  {getTotalAmount(getAmountOfListItems(item.amount)).toFixed(2)}
+                  Total: R$ 0
                 </Text>
               </Styled.ContainerItemTextPriceTotal>
               <Styled.ContainerItemTextPriceTotal>
                 <Text color={Colors[colorScheme ?? "light"].white}>
-                  Un: {getTotalAmountUn(getAmountOfListItems(item.amount))}
+                  Un: 2
                 </Text>
               </Styled.ContainerItemTextPriceTotal>
             </Styled.ContainerListItemListItemBody>
@@ -216,12 +210,12 @@ function ListGridItem({
           </Styled.ContainerItemTextIcon>
         </Styled.ContainerListItemListItemInner>
         <Styled.ContainerListItemListItemAMount
-          height={`${item.amount.length * 50 + 40}`}
+          height={`${listArrItems.length * 50 + 40}`}
           background={
             Colors[colorScheme ?? "light"].bodyAddPriceBackgroundColor
           }
         >
-          <AddPriceUnit listId={listId} listItemId={item.uuid} />
+          <AddPriceUnit listProductUuid={`${listId}-${item.uuid}`} listArrItems={listArrItems} />
         </Styled.ContainerListItemListItemAMount>
       </>
     </Styled.ContainerListItemListItem>
@@ -249,11 +243,11 @@ function ListGridItem({
                 size={28}
                 style={{ marginBottom: -3 }}
                 color={
-                  item.amount.length > 0
+                  listArrItems.length > 0
                     ? Colors[colorScheme ?? "light"].listItemIconColorActive
                     : Colors[colorScheme ?? "light"].listItemIconColor
                 }
-                name={item.amount.length > 0 ? "check-circle-o" : "circle-o"}
+                name={listArrItems.length > 0 ? "check-circle-o" : "circle-o"}
               />
             </Title>
           </Styled.ContainerItemTextIcon>
@@ -278,8 +272,7 @@ function ListGridItem({
                       : Colors[colorScheme ?? "light"].white
                   }
                 >
-                  Total: R${" "}
-                  {getTotalAmount(getAmountOfListItems(item.amount)).toFixed(2)}
+                  Total: R$ 0
                 </Text>
               </Styled.ContainerItemTextPriceTotal>
               <Styled.ContainerItemTextPriceTotal>
@@ -290,7 +283,7 @@ function ListGridItem({
                       : Colors[colorScheme ?? "light"].white
                   }
                 >
-                  Un: {getTotalAmountUn(getAmountOfListItems(item.amount))}
+                  Un: 2
                 </Text>
               </Styled.ContainerItemTextPriceTotal>
             </Styled.ContainerListItemListItemBody>

@@ -13,55 +13,52 @@ import { Text } from "../../../../components/Text";
 import Switch from "../../../../components/Switch";
 import AddQtd from "./addQtd";
 import { useShoppingListContext } from "../../../../context/ShoppingList";
+import IAmount from "../../../../Domain/Model/IAmount";
 
 interface ListProps {
-  itemAmount: ItemAmountInterface;
+  itemAmount: IAmount;
   listItemId: string;
 }
 
 export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
   const {
     list,
-    setList,
-    setListItem,
-    listItem,
-    itemAmountList,
-    setItemAmountList,
+    setList
   } = useShoppingListContext();
   const [selectedValueSwitch, setSelectedValueSwitch] = useState(
     itemAmount.type
   );
-  const listArrItems = listItem[Array.isArray(listItemId) ? "" : listItemId];
+  // const listArrItems = listItem[Array.isArray(listItemId) ? "" : listItemId];
   const colorScheme = useColorScheme();
   const handleEditItemsAmount = (): void => {
-    const updatedList: ListItemAmountInterface = JSON.parse(
-      JSON.stringify(itemAmountList)
-    );
-    const newItemAmount: ItemAmountInterface = updatedList[itemAmount.uuid];
-    if (newItemAmount) {
-      newItemAmount.type = !selectedValueSwitch;
-      setSelectedValueSwitch(!selectedValueSwitch);
-      setItemAmountList(updatedList);
-    }
+    // const updatedList: ListItemAmountInterface = JSON.parse(
+    //   JSON.stringify(itemAmountList)
+    // );
+    // const newItemAmount: ItemAmountInterface = updatedList[itemAmount.uuid];
+    // if (newItemAmount) {
+    //   newItemAmount.type = !selectedValueSwitch;
+    //   setSelectedValueSwitch(!selectedValueSwitch);
+    //   setItemAmountList(updatedList);
+    // }
   };
 
   const handleDeleteAmountInList = (): void => {
-    const updatedList: ListItemAmountInterface = JSON.parse(
-      JSON.stringify(itemAmountList)
-    );
-    delete updatedList[itemAmount.uuid];
-    handleDeleteAmountFromItemList(itemAmount.uuid);
-    setItemAmountList(updatedList);
+    // const updatedList: ListItemAmountInterface = JSON.parse(
+    //   JSON.stringify(itemAmountList)
+    // );
+    // delete updatedList[itemAmount.uuid];
+    // handleDeleteAmountFromItemList(itemAmount.uuid);
+    // setItemAmountList(updatedList);
   };
 
   const handleDeleteAmountFromItemList = (uuid: string): void => {
-    const updatedList: ItemInterface = JSON.parse(JSON.stringify(listArrItems));
-    const newArray = updatedList.amount.filter((item) => item !== uuid);
-    updatedList.amount = newArray;
-    setListItem((newValue) => ({
-      ...newValue,
-      [updatedList.uuid]: updatedList,
-    }));
+    // const updatedList: ItemInterface = JSON.parse(JSON.stringify(listArrItems));
+    // const newArray = updatedList.amount.filter((item) => item !== uuid);
+    // updatedList.amount = newArray;
+    // setListItem((newValue) => ({
+    //   ...newValue,
+    //   [updatedList.uuid]: updatedList,
+    // }));
   };
 
   return (
@@ -81,7 +78,7 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
       </Styled.ContainerPrice>
       <Styled.ContainerQtd>
         <AddQtd
-          amountId={itemAmount.uuid}
+          amountItem={itemAmount}
           selectedValueSwitch={selectedValueSwitch}
         />
       </Styled.ContainerQtd>

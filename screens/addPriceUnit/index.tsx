@@ -9,61 +9,65 @@ import UUIDGenerator from "react-native-uuid";
 import InputText from "../../components/InputText";
 import Button from "../../components/Button";
 import ListPriceGrid from "./listPriceGrid";
+import IAmount from "../../Domain/Model/IAmount";
+import saveAmountByUuidController from "../../Domain/UseCases/Amount/SaveAmountByUuid";
+import getAmountByListProductUuidController from "../../Domain/UseCases/Amount/GetAmountByListProductUuid";
 
 interface AddPriceUnitProps {
-  listId: string;
-  listItemId: string;
+  listProductUuid: string;
+  listArrItems: IAmount[];
 }
 
 export default function AddPriceUnit({
-  listId,
-  listItemId,
+  listArrItems,
+  listProductUuid
 }: AddPriceUnitProps) {
-  const { listItem, setListItem, setItemAmountList } = useShoppingListContext();
+  const { amount, setAmount } = useShoppingListContext();
   const [newItem, setNewItem] = useState("");
   const colorScheme = useColorScheme();
-
-  const listArrItems = listItem[Array.isArray(listItemId) ? "" : listItemId];
-  const returnNewItemAmount = (): ItemAmountInterface => {
-    const item: ItemAmountInterface = {
+  // const listArrItems = listItem[Array.isArray(listItemId) ? "" : listItemId];
+  const returnNewItemAmount = (): IAmount => {
+    const item: IAmount = {
       uuid: String(UUIDGenerator.v4()),
       amount: newItem,
       type: false,
       quantity: "1",
+      listProductUuid
     };
     return item;
   };
 
   const handleAddAmount = (): void => {
     const newListItem = returnNewItemAmount();
-    setItemAmountList((newValue) => ({
-      ...newValue,
-      [newListItem.uuid]: newListItem,
-    }));
-    handleAddAmountInListItem(newListItem.uuid);
+    saveAmountByUuidController.handle(newListItem);
+    amount ?
+      setAmount([newListItem, ...amount]) :
+      setAmount([newListItem]);
     setNewItem("");
   };
 
   const handleAddAmountInListItem = (amountItemId: string): void => {
-    const updatedList: ItemInterface = JSON.parse(JSON.stringify(listArrItems));
-    updatedList.amount.push(amountItemId);
-    setListItem((newValue) => ({
-      ...newValue,
-      [updatedList.uuid]: updatedList,
-    }));
+    // const updatedList: ItemInterface = JSON.parse(JSON.stringify(listArrItems));
+    // updatedList.amount.push(amountItemId);
+    // setListItem((newValue) => ({
+    //   ...newValue,
+    //   [updatedList.uuid]: updatedList,
+    // }));
   };
+
+  console.log("listArrItems.length", listArrItems.length)
 
   return (
     <Styled.Container
       background={Colors[colorScheme ?? "light"].bodyAddPriceBackgroundColor}
     >
-      {listArrItems.amount.length > 0 ? (
+      {listArrItems.length > 0 ? (
         <Styled.WrapperGrid>
           <ScrollView nestedScrollEnabled>
             <Styled.WrapperGridInner>
               <ListPriceGrid
                 item={listArrItems}
-                key={"ListPriceGrid-" + listArrItems.uuid}
+                key={"ListPriceGrid-" + listProductUuid}
               />
             </Styled.WrapperGridInner>
           </ScrollView>

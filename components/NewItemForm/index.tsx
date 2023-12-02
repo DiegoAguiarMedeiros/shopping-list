@@ -74,7 +74,6 @@ const NewItemForm = ({
 
   const handleAddListItem = (): void => {
     if (newItem.item !== "") {
-      console.log("items?.uuid", listId)
       addProductToListByUuidController.handle(listId, newItem.item)
     }
     // closeBottomSheet();

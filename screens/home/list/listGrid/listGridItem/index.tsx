@@ -25,7 +25,6 @@ import { BottomSheetProps } from "../../../../../components/BottomSheet";
 import NewListForm from "../../../../../components/NewListForm";
 import List from "../../../../../Domain/Model/Implementation/List";
 import { IList, IListInterface } from "../../../../../Domain/Model/IList";
-import { IListAmountInterface } from "../../../../../Domain/Model/IAmount";
 import getListProductController from "../../../../../Domain/UseCases/ListProduct/GetListProductByUuid";
 import deleteListByUuid from "../../../../../Domain/UseCases/List/DeleteListByUuid";
 import saveListArchivedByUuidController from "../../../../../Domain/UseCases/ListArchived/SaveListByUuid";
@@ -47,8 +46,6 @@ export default function ListGridItem({
     setList,
     listProduct,
     setListProduct,
-    listAmount,
-    setListAmount,
   } = useShoppingListContext();
   const {
     listArchived,
@@ -167,20 +164,20 @@ export default function ListGridItem({
   //     }
   //   });
   // };
-  const handleArchivedItemListAmount = (amounts: string[]): void => {
-    amounts.forEach((amount) => {
-      const archivedItemAmountList: IListAmountInterface = JSON.parse(
-        JSON.stringify(listAmountArchived)
-      );
-      const itemsAmountArchived = archivedItemAmountList[amount];
-      if (itemsAmountArchived) {
-        setListAmountArchived((newValue) => ({
-          ...newValue,
-          [itemsAmountArchived.uuid]: itemsAmountArchived,
-        }));
-      }
-    });
-  };
+  // const handleArchivedItemListAmount = (amounts: string[]): void => {
+  //   amounts.forEach((amount) => {
+  //     const archivedItemAmountList: IListAmountInterface = JSON.parse(
+  //       JSON.stringify(listAmountArchived)
+  //     );
+  //     const itemsAmountArchived = archivedItemAmountList[amount];
+  //     if (itemsAmountArchived) {
+  //       setListAmountArchived((newValue) => ({
+  //         ...newValue,
+  //         [itemsAmountArchived.uuid]: itemsAmountArchived,
+  //       }));
+  //     }
+  //   });
+  // };
   const handleArchived = (): void => {
     const archivedList: IList[] = JSON.parse(JSON.stringify(list));
     const selectedItem = archivedList.find((i) => i.uuid === item?.uuid!);

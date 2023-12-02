@@ -13,13 +13,13 @@ import { BottomSheetProps } from "../../../components/BottomSheet";
 import BottomSheet from "../../../components/BottomSheet";
 import { removeUndefinedFromArray } from "../../../utils/functions";
 import ITag from "../../../Domain/Model/ITag";
+import { IProduct } from "../../../Domain/Model/IProduct";
 interface ListProps {
   listId: string;
-  listArrItems: ItemInterface[];
+  listArrItems: IProduct[];
   deleteItem: (item: ItemInterface) => void;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
-  tagsWithoutTodos: ITag[];
 }
 
 function ListGrid({
@@ -28,9 +28,8 @@ function ListGrid({
   deleteItem,
   setBottomSheetProps,
   handleCloseBottomSheet,
-  tagsWithoutTodos,
 }: ListProps) {
-  const { list, getTotal, getTotalUn } = useShoppingListContext();
+  const { list } = useShoppingListContext();
   const colorScheme = useColorScheme();
 
   return (
@@ -50,7 +49,7 @@ function ListGrid({
                     : Colors[colorScheme ?? "light"].white
                 }
               >
-                Total Items: {getTotalUn(listArrItems)}
+                Total Items:0
               </Text>
             </Styled.ContainerItemTotalUnitText>
             <Styled.ContainerItemTotalText
@@ -63,7 +62,7 @@ function ListGrid({
                     : Colors[colorScheme ?? "light"].white
                 }
               >
-                Total : R$ {getTotal(listArrItems).toFixed(2)}
+                Total : R$ 0
               </Text>
             </Styled.ContainerItemTotalText>
           </Styled.ContainerListTotal>
@@ -71,9 +70,8 @@ function ListGrid({
             <SafeAreaView>
               <ScrollView style={[{ height: "100%" }]} nestedScrollEnabled>
                 <Styled.ContainerListItemListItem>
-                  {listArrItems.map((item: ItemInterface) => (
+                  {listArrItems.map((item: IProduct) => (
                     <ListGridItem
-                      tagsWithoutTodos={tagsWithoutTodos}
                       key={"ListGridItem-" + item.uuid}
                       setBottomSheetProps={setBottomSheetProps}
                       item={item}

@@ -5,7 +5,3 @@ export interface IProduct {
   unit: "Kg" | "Un";
   tag: string;
 }
-
-export interface IListInterface<IProduct> {
-  [key: string]: IProduct;
-}

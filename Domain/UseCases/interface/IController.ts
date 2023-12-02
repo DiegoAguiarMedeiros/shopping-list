@@ -1,6 +1,7 @@
 import ITag, { ITagInterface } from "../../Model/ITag";
 import { IList, IListInterface } from "../../Model/IList";
 import { IProduct } from "../../Model/IProduct";
+import IAmount from "../../Model/IAmount";
 
 export interface IControllerSaveList {
   handle(data: IListInterface<IList>): void;
@@ -34,4 +35,13 @@ export interface IControllerGetListProductsByUuid {
 }
 export interface IControllerGetTagByProductsUuid {
   handle(key: string): string;
+}
+export interface IControllerGetAmounts {
+  handle(): IAmount[];
+}
+export interface IControllerSaveAmountByUuid {
+  handle(data: IAmount): void;
+}
+export interface IControllerSaveAmount {
+  handle(data: IListInterface<IAmount>): void;
 }

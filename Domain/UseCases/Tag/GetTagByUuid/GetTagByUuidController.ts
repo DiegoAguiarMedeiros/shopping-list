@@ -4,18 +4,23 @@ import GetTagByUuidUseCase from "./GetTagByUuidUseCase";
 export default class GetTagByUuidController {
   constructor(private getTagByUuidUseCase: GetTagByUuidUseCase) { }
 
-  handle = (uuid: string): ITag | null => {
+  handle = (uuid: string): ITag => {
     try {
       const result = this.getTagByUuidUseCase.execute(uuid);
-
       if (result) {
         return result;
       }
 
-      return null;
+      return {
+        uuid: "",
+        name: "",
+      };
     } catch (err) {
       console.error("GetTagByUuidController: ", err);
-      return null;
+      return {
+        uuid: "",
+        name: "",
+      };
     }
   };
 }

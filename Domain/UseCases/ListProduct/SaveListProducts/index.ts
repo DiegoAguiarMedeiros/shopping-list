@@ -1,6 +1,6 @@
-import SaveListsUseCase from "./SaveListProductsUseCase";
-import SaveListsController from "./SaveListProductsController";
+import SaveListProductsUseCase from "./SaveListProductsUseCase";
+import SaveListProductsController from "./SaveListProductsController";
 import storageMMKV from "../../../Service/Implementation/MMKVStorage";
-const saveListsUseCase = new SaveListsUseCase(storageMMKV);
-const saveListsController = new SaveListsController(saveListsUseCase);
-export default saveListsController;
+const saveListProductsUseCase = new SaveListProductsUseCase(storageMMKV);
+const saveListProductsController = new SaveListProductsController(saveListProductsUseCase);
+export default saveListProductsController;

@@ -16,24 +16,22 @@ import Switch from "../../../../../components/Switch";
 import { useNavigation } from "@react-navigation/native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useShoppingListContext } from "../../../../../context/ShoppingList";
-import {
-  ItemAmountInterface,
-  ListItemAmountInterface,
-} from "../../../../../types/types";
 
+import IAmount from "../../../../../Domain/Model/IAmount";
+import { IListInterface } from "../../../../../Domain/Model/IList";
 interface ListPriceGridProps {
-  amountId: string;
+  amountItem: IAmount;
   selectedValueSwitch: boolean;
 }
 
 export default function ListPriceGrid({
-  amountId,
+  amountItem,
   selectedValueSwitch,
 }: ListPriceGridProps) {
   const colorScheme = useColorScheme();
-  const { itemAmountList, setItemAmountList } = useShoppingListContext();
-  const [newItemAmount, setNewItemAmount] = useState<ItemAmountInterface>(
-    itemAmountList[Array.isArray(amountId) ? "" : amountId!]
+  const { amount, setAmount } = useShoppingListContext();
+  const [newItemAmount, setNewItemAmount] = useState<IAmount>(
+    amountItem
   );
 
   const formatInput = (value: string): string => {
@@ -53,39 +51,39 @@ export default function ListPriceGrid({
   };
 
   const minusAmount = (): void => {
-    const updatedList: ListItemAmountInterface = JSON.parse(
-      JSON.stringify(itemAmountList)
-    );
-    const newItemAMount: ItemAmountInterface = updatedList[newItemAmount.uuid];
-    if (newItemAMount && Number(newItemAmount.quantity) > 1) {
-      newItemAMount.quantity = String(Number(newItemAmount.quantity) - 1);
-      setNewItemAmount(newItemAMount);
-      setItemAmountList(updatedList);
-    }
+    // const updatedList: IListInterface<IAmount> = JSON.parse(
+    //   JSON.stringify(amount)
+    // );
+    // const newItemAMount: IAmount = updatedList[newItemAmount.uuid];
+    // if (newItemAMount && Number(newItemAmount.quantity) > 1) {
+    //   newItemAMount.quantity = String(Number(newItemAmount.quantity) - 1);
+    //   setNewItemAmount(newItemAMount);
+    //   setAmount(updatedList);
+    // }
   };
   const plusAmount = (): void => {
-    const updatedList: ListItemAmountInterface = JSON.parse(
-      JSON.stringify(itemAmountList)
-    );
-    const newItemAMount: ItemAmountInterface = updatedList[newItemAmount.uuid];
-    if (newItemAMount) {
-      newItemAMount.quantity = String(Number(newItemAmount.quantity) + 1);
-      setNewItemAmount(newItemAMount);
-      setItemAmountList(updatedList);
-    }
+    // const updatedList: IListInterface<IAmount> = JSON.parse(
+    //   JSON.stringify(amount)
+    // );
+    // const newItemAMount: IAmount = updatedList[newItemAmount.uuid];
+    // if (newItemAMount) {
+    //   newItemAMount.quantity = String(Number(newItemAmount.quantity) + 1);
+    //   setNewItemAmount(newItemAMount);
+    //   setAmount(updatedList);
+    // }
   };
 
   const handleInputChange = (value: string) => {
-    const updatedList: ListItemAmountInterface = JSON.parse(
-      JSON.stringify(itemAmountList)
-    );
-    const newItemAMount: ItemAmountInterface = updatedList[newItemAmount.uuid];
-    if (newItemAMount) {
-      const formattedValue = formatInput(value);
-      newItemAMount.quantity = formattedValue;
-      setNewItemAmount(newItemAMount);
-      setItemAmountList(updatedList);
-    }
+    // const updatedList: IListInterface<IAmount> = JSON.parse(
+    //   JSON.stringify(amount)
+    // );
+    // const newItemAMount: IAmount = updatedList[newItemAmount.uuid];
+    // if (newItemAMount) {
+    //   const formattedValue = formatInput(value);
+    //   newItemAMount.quantity = formattedValue;
+    //   setNewItemAmount(newItemAMount);
+    //   setAmount(updatedList);
+    // }
   };
 
   return (

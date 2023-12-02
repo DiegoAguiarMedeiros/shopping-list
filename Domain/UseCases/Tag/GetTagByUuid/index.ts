@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import GetCategoryByUuidUseCase from "./GetTagByUuidUseCase";
-import GetCategoryByUuidController from "./GetTagByUuidController";
+import GetTagByUuidUseCase from "./GetTagByUuidUseCase";
+import GetTagByUuidController from "./GetTagByUuidController";
 
 
 
@@ -9,10 +9,10 @@ import storageMMKV from "../../../Service/Implementation/MMKVStorage";
 
 
 
-const getCategoryByUuidUseCase = new GetCategoryByUuidUseCase(storageMMKV);
+const getTagByUuidUseCase = new GetTagByUuidUseCase(storageMMKV);
 
-const getCategoryByUuidController = new GetCategoryByUuidController(
-  getCategoryByUuidUseCase
+const getTagByUuidController = new GetTagByUuidController(
+  getTagByUuidUseCase
 );
 
-export default getCategoryByUuidController;
+export default getTagByUuidController;

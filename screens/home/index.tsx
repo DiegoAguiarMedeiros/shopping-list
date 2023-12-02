@@ -21,11 +21,11 @@ export default function Home({
   handleCloseBottomSheet,
 }: HomeProps) {
   const colorScheme = useColorScheme();
-  const { list, listProduct, listAmount, tags } = useShoppingListContext();
+  const { list, listProduct, amount, tags } = useShoppingListContext();
   const isFocused = useIsFocused();
   console.log("list", list);
   console.log("listProduct", listProduct);
-  console.log("listAmount", listAmount);
+  console.log("amount", amount);
   console.log("tags", tags);
   return (
     <Styled.Container

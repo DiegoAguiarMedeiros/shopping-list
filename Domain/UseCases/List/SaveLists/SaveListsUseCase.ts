@@ -5,7 +5,7 @@ import { AsyncStorageStatic } from "@react-native-async-storage/async-storage";
 export default class SaveListsUseCase {
   constructor(private asyncStorage: IMMKVStorage) { }
 
-  execute = async (key: string, data: IListInterface<IList>): Promise<void> => {
+  execute = (key: string, data: IListInterface<IList>): void => {
     try {
       this.asyncStorage.set(key, JSON.stringify(data));
     } catch (error) {
