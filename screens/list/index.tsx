@@ -25,6 +25,9 @@ import BottomSheet, { BottomSheetProps } from "../../components/BottomSheet";
 import Button from "../../components/Button";
 import NewItemForm from "../../components/NewItemForm";
 import getListProductController from "../../Domain/UseCases/ListProduct/GetListProductByUuid";
+import getTotalQuantityAmountByListUuidController from "../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
+import getTotalAmountByListUuidController from "../../Domain/UseCases/List/GetTotalAmountByListUuid";
+import getTagUuidByTagNameController from "../../Domain/UseCases/Tag/GetTagUuidByTagName";
 type TotalType = {
   amount: number;
   un: number;
@@ -52,8 +55,9 @@ export default function List({ listId,
   const [listArrItems, setListArrItems] = useState(getListProductController.handle(selectedItem?.items ? selectedItem?.items : []));
 
   const tagsWithoutUndefinedFromArray = removeUndefinedFromArray(listArr?.tags!);
-
   tagsWithoutUndefinedFromArray.unshift("Todos");
+  console.log("tagsWithoutUndefinedFromArray", tagsWithoutUndefinedFromArray)
+  const totalQuantity = getTotalQuantityAmountByListUuidController.handle(listId);
 
 
   const [filter, setFilter] = useState("Todos");
@@ -67,23 +71,18 @@ export default function List({ listId,
 
 
   useEffect(() => {
-    // setListArrItems(
-    //   removeUndefinedFromArray(getListItemsOfList(list[listId]?.items))
-    // );
-    // if (!listArr) return;
-    // const listItemarr = removeUndefinedFromArray(
-    //   getListItemsOfList(list[listId].items)
-    // );
-    // if (filter === "Todos") {
-    //   setListArrItems(listItemarr);
+    const productsList = getListProductController.handle(selectedItem?.items ? selectedItem?.items : []);
+    if (filter === "Todos") {
+      setListArrItems(productsList);
 
-    //   const newTotal: TotalType = {
-    //     un: getTotalUn(listItemarr),
-    //     amount: getTotalWithAmount(listItemarr),
-    //   };
-    //   setTotal(newTotal);
-    //   return;
-    // }
+      const newTotal: TotalType = {
+        un: getTotalQuantityAmountByListUuidController.handle(listId),
+        amount: getTotalAmountByListUuidController.handle(listId),
+      };
+      setTotal(newTotal);
+      return;
+    }
+    setListArrItems(productsList.filter(product => getTagUuidByTagNameController.handle(filter) === product.tag));
 
     // const newFilteredList = listItemarr.filter(
     //   (item: ItemInterface) => item.tags === filter
@@ -96,7 +95,7 @@ export default function List({ listId,
     // };
     // setTotal(newTotal);
 
-    // return () => { };
+    return () => { };
   }, [filter]);
 
   const deleteItem = (item: ItemInterface) => {

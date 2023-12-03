@@ -6,6 +6,6 @@ export default class GetAmountByListProductUuidUseCase {
     execute(key: string): IAmount[] {
 
         const amounts = this.getAmount.handle();
-        return amounts;
+        return amounts.filter(amount => amount.listProductUuid === key);
     }
 }

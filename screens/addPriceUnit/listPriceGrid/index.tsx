@@ -12,12 +12,10 @@ interface ListProps {
 
 export default function ListPriceGrid({ item }: ListProps) {
 
-  console.log("item.length", item.length)
   return (
     <Styled.Container>
       <Styled.ContainerListPriceItem>
         {item.map((itemAmount: IAmount) => {
-          console.log("itemAmount", itemAmount)
           return itemAmount ? (
             <ListPriceItem
               itemAmount={itemAmount}

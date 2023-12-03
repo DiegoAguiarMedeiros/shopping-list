@@ -1,4 +1,3 @@
-import getTagByProductUuidControler from "../../ListProduct/GetTagByProductUuid";
 import { IControllerGetListByUuid, IControllerGetTagByProductsUuid, IControllerSaveListByUuid } from "../../interface/IController";
 
 
@@ -13,7 +12,8 @@ export default class AddProductToListByUuidUseCase {
 
         const list = this.getListByUuid.handle(listUuid);
         list.items.push(productsUuid)
-        list.tags.push(this.getTag.handle(productsUuid))
+        const tags = this.getTag.handle(productsUuid);
+        if (!list.tags.includes(tags)) list.tags.push(this.getTag.handle(productsUuid))
         this.saveListByUuid.handle(list);
 
     }

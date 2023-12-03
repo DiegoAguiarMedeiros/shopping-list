@@ -1,9 +1,6 @@
 import GetTagByProductUuidControler from "./GetTagByProductUuidController";
 import GetTagByProductUuidUseCase from "./GetTagByProductUuidUseCase";
 
-GetTagByProductUuidUseCase
-GetTagByProductUuidControler
-
 import storageMMKV from "../../../Service/Implementation/MMKVStorage";
 
 

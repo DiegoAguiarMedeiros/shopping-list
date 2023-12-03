@@ -36,7 +36,6 @@ export default function AddPriceUnit({
     };
     return item;
   };
-
   const handleAddAmount = (): void => {
     const newListItem = returnNewItemAmount();
     saveAmountByUuidController.handle(newListItem);
@@ -54,8 +53,6 @@ export default function AddPriceUnit({
     //   [updatedList.uuid]: updatedList,
     // }));
   };
-
-  console.log("listArrItems.length", listArrItems.length)
 
   return (
     <Styled.Container

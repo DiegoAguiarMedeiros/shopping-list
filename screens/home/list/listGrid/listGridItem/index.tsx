@@ -30,6 +30,8 @@ import deleteListByUuid from "../../../../../Domain/UseCases/List/DeleteListByUu
 import saveListArchivedByUuidController from "../../../../../Domain/UseCases/ListArchived/SaveListByUuid";
 import NewProductForm from "../../../../../components/NewProductForm";
 import NewItemForm from "../../../../../components/NewItemForm";
+import getTotalAmountByListUuidController from "../../../../../Domain/UseCases/List/GetTotalAmountByListUuid";
+import getTotalQuantityAmountByListUuidController from "../../../../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
 interface ItemProps {
   item: List;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -60,10 +62,12 @@ export default function ListGridItem({
   const items = removeUndefinedFromArray(
     getListProductController.handle(item.items)
   );
-  const total = item.items.length > 0 ? /*getTotal(items)*/ 0 : 0;
+
+  const total = getTotalAmountByListUuidController.handle(item.uuid);
   const totalWithAmount =
-    item.items.length > 0 ? /*getTotalWithAmount(items)*/ 0 : 0;
-  const totalUn = item.items.length > 0 ? /*getTotalUn(items)*/ 0 : 0;
+    getTotalQuantityAmountByListUuidController.handle(item.uuid);
+  const totalUn =
+    getTotalQuantityAmountByListUuidController.handle(item.uuid);
   const handleOpenList = useCallback(() => {
 
     setBottomSheetProps({

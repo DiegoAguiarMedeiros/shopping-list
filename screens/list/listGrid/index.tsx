@@ -14,6 +14,8 @@ import BottomSheet from "../../../components/BottomSheet";
 import { removeUndefinedFromArray } from "../../../utils/functions";
 import ITag from "../../../Domain/Model/ITag";
 import { IProduct } from "../../../Domain/Model/IProduct";
+import getTotalQuantityAmountByListUuidController from "../../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
+import getTotalAmountByListProductUuidController from "../../../Domain/UseCases/List/GetTotalAmountByListUuid";
 interface ListProps {
   listId: string;
   listArrItems: IProduct[];
@@ -31,6 +33,8 @@ function ListGrid({
 }: ListProps) {
   const { list } = useShoppingListContext();
   const colorScheme = useColorScheme();
+  const totalQuantity = getTotalQuantityAmountByListUuidController.handle(listId);
+  const total = getTotalAmountByListProductUuidController.handle(listId);
 
   return (
     <Styled.Container
@@ -49,7 +53,7 @@ function ListGrid({
                     : Colors[colorScheme ?? "light"].white
                 }
               >
-                Total Items:0
+                Total Items: {totalQuantity}
               </Text>
             </Styled.ContainerItemTotalUnitText>
             <Styled.ContainerItemTotalText
@@ -62,7 +66,7 @@ function ListGrid({
                     : Colors[colorScheme ?? "light"].white
                 }
               >
-                Total : R$ 0
+                Total : R$ {total}
               </Text>
             </Styled.ContainerItemTotalText>
           </Styled.ContainerListTotal>

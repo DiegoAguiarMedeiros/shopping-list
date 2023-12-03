@@ -1,0 +1,8 @@
+import GetTotalQuantityAmountByListProductUuidController from "./GetTotalQuantityAmountByListProductUuidController";
+import GetTotalQuantityAmountByListProductUuidUseCase from "./GetTotalQuantityAmountByListProductUuidUseCase";
+import GetAmounts from "../GetAmounts"
+
+const getTotalQuantityAmountByListProductUuidUseCase = new GetTotalQuantityAmountByListProductUuidUseCase(GetAmounts);
+const getTotalQuantityAmountByListProductUuidController = new GetTotalQuantityAmountByListProductUuidController(getTotalQuantityAmountByListProductUuidUseCase);
+
+export default getTotalQuantityAmountByListProductUuidController;

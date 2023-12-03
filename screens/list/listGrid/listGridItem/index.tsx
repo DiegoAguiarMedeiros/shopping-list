@@ -27,6 +27,10 @@ import AddPriceUnit from "../../../addPriceUnit";
 import NewItemForm from "../../../../components/NewItemForm";
 import { IProduct } from "../../../../Domain/Model/IProduct";
 import getAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetAmountByListProductUuid";
+import getTotlaAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetTotalAmountByListProductUuid";
+import getTotalQuantityAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetTotalQuantityAmountByListProductUuid";
+import deleteProductFromListByUuidController from "../../../../Domain/UseCases/List/DeleteProductFromListByUuid";
+
 
 interface ListProps {
   item: IProduct;
@@ -48,12 +52,19 @@ function ListGridItem({
   const {
     list,
     setList,
+    listProduct,
+    setListProduct,
   } = useShoppingListContext();
+  const listIditemuuid = `${listId}-${item.uuid}`;
 
-  const listArrItems = getAmountByListProductUuidController.handle(`${listId}-${item.uuid}`);
+  const listArrItems = getAmountByListProductUuidController.handle(listIditemuuid);
+  const total = getTotlaAmountByListProductUuidController.handle(listIditemuuid);
+  const quantity = getTotalQuantityAmountByListProductUuidController.handle(listIditemuuid);
 
   const handleDelete = () => {
-    // deleteItem(item);
+    deleteProductFromListByUuidController.handle(listId, item.uuid);
+    // const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
+    // setListProduct(updatedList.filter(product => product.uuid !== item.uuid));
   };
   const handleEdit = () => {
     setBottomSheetProps({
@@ -96,24 +107,8 @@ function ListGridItem({
               Colors[colorScheme ?? "light"]
                 .swipeablebuttonTouchableHighlightBackgroundColor
             }
-            onPress={handleEdit}
           >
-            <>
-              <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
-              >
-                <FontAwesome
-                  size={18}
-                  style={{ marginBottom: -3 }}
-                  name="pencil"
-                />
-              </Styled.ButtonTextIcon>
-              <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
-              >
-                Editar
-              </Styled.ButtonText>
-            </>
+            <></>
           </Styled.ButtonInner>
           <Styled.ButtonInner
             underlayColor={
@@ -188,12 +183,12 @@ function ListGridItem({
             <Styled.ContainerListItemListItemBody>
               <Styled.ContainerItemTextPriceTotal>
                 <Text color={Colors[colorScheme ?? "light"].white}>
-                  Total: R$ 0
+                  Total: R$ {total}
                 </Text>
               </Styled.ContainerItemTextPriceTotal>
               <Styled.ContainerItemTextPriceTotal>
                 <Text color={Colors[colorScheme ?? "light"].white}>
-                  Un: 2
+                  Un: {quantity}
                 </Text>
               </Styled.ContainerItemTextPriceTotal>
             </Styled.ContainerListItemListItemBody>
@@ -215,7 +210,7 @@ function ListGridItem({
             Colors[colorScheme ?? "light"].bodyAddPriceBackgroundColor
           }
         >
-          <AddPriceUnit listProductUuid={`${listId}-${item.uuid}`} listArrItems={listArrItems} />
+          <AddPriceUnit listProductUuid={listIditemuuid} listArrItems={listArrItems} />
         </Styled.ContainerListItemListItemAMount>
       </>
     </Styled.ContainerListItemListItem>
@@ -272,7 +267,7 @@ function ListGridItem({
                       : Colors[colorScheme ?? "light"].white
                   }
                 >
-                  Total: R$ 0
+                  Total: R$ {total}
                 </Text>
               </Styled.ContainerItemTextPriceTotal>
               <Styled.ContainerItemTextPriceTotal>
@@ -283,7 +278,7 @@ function ListGridItem({
                       : Colors[colorScheme ?? "light"].white
                   }
                 >
-                  Un: 2
+                  Un: {quantity}
                 </Text>
               </Styled.ContainerItemTextPriceTotal>
             </Styled.ContainerListItemListItemBody>

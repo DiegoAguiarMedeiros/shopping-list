@@ -19,20 +19,22 @@ import { useShoppingListContext } from "../../../../../context/ShoppingList";
 
 import IAmount from "../../../../../Domain/Model/IAmount";
 import { IListInterface } from "../../../../../Domain/Model/IList";
+import saveAmountByUuidController from "../../../../../Domain/UseCases/Amount/SaveAmountByUuid";
 interface ListPriceGridProps {
   amountItem: IAmount;
   selectedValueSwitch: boolean;
+  newItemAmount: IAmount;
+  setNewItemAmount: React.Dispatch<React.SetStateAction<IAmount>>
 }
 
 export default function ListPriceGrid({
   amountItem,
   selectedValueSwitch,
-}: ListPriceGridProps) {
+  newItemAmount,
+  setNewItemAmount
+}: Readonly<ListPriceGridProps>) {
   const colorScheme = useColorScheme();
   const { amount, setAmount } = useShoppingListContext();
-  const [newItemAmount, setNewItemAmount] = useState<IAmount>(
-    amountItem
-  );
 
   const formatInput = (value: string): string => {
     let newValue = value.replace(".", "");
@@ -51,39 +53,54 @@ export default function ListPriceGrid({
   };
 
   const minusAmount = (): void => {
-    // const updatedList: IListInterface<IAmount> = JSON.parse(
-    //   JSON.stringify(amount)
-    // );
-    // const newItemAMount: IAmount = updatedList[newItemAmount.uuid];
-    // if (newItemAMount && Number(newItemAmount.quantity) > 1) {
-    //   newItemAMount.quantity = String(Number(newItemAmount.quantity) - 1);
-    //   setNewItemAmount(newItemAMount);
-    //   setAmount(updatedList);
-    // }
+    if (Number(amountItem.quantity) > 1) {
+      const updatedList: IAmount = JSON.parse(
+        JSON.stringify(amountItem)
+      );
+      updatedList.quantity = String(Number(newItemAmount.quantity) - 1);
+      const amountlist = amount.map(a => {
+        if (a.uuid === updatedList.uuid) {
+          return updatedList
+        }
+        return a
+      })
+      setNewItemAmount(updatedList);
+      setAmount(amountlist);
+      saveAmountByUuidController.handle(updatedList)
+    }
   };
   const plusAmount = (): void => {
-    // const updatedList: IListInterface<IAmount> = JSON.parse(
-    //   JSON.stringify(amount)
-    // );
-    // const newItemAMount: IAmount = updatedList[newItemAmount.uuid];
-    // if (newItemAMount) {
-    //   newItemAMount.quantity = String(Number(newItemAmount.quantity) + 1);
-    //   setNewItemAmount(newItemAMount);
-    //   setAmount(updatedList);
-    // }
+    const updatedList: IAmount = JSON.parse(
+      JSON.stringify(amountItem)
+    );
+    updatedList.quantity = String(Number(newItemAmount.quantity) + 1);
+    const amountlist = amount.map(a => {
+      if (a.uuid === updatedList.uuid) {
+        return updatedList
+      }
+      return a
+    })
+    setNewItemAmount(updatedList);
+    setAmount(amountlist);
+    saveAmountByUuidController.handle(updatedList)
   };
 
   const handleInputChange = (value: string) => {
-    // const updatedList: IListInterface<IAmount> = JSON.parse(
-    //   JSON.stringify(amount)
-    // );
-    // const newItemAMount: IAmount = updatedList[newItemAmount.uuid];
-    // if (newItemAMount) {
-    //   const formattedValue = formatInput(value);
-    //   newItemAMount.quantity = formattedValue;
-    //   setNewItemAmount(newItemAMount);
-    //   setAmount(updatedList);
-    // }
+    const updatedList: IAmount = JSON.parse(
+      JSON.stringify(amountItem)
+    );
+    const formattedValue = formatInput(value);
+    updatedList.quantity = formattedValue;
+    const amountlist = amount.map(a => {
+      if (a.uuid === updatedList.uuid) {
+        return updatedList
+      }
+      return a
+    })
+    setNewItemAmount(updatedList);
+    setAmount(amountlist);
+    saveAmountByUuidController.handle(updatedList)
+
   };
 
   return (

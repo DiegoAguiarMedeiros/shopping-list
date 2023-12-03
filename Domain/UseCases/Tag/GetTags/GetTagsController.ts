@@ -4,15 +4,15 @@ import GetTagsUseCase from "./GetTagsUseCase";
 export default class GetTagsController {
   constructor(private getTagsUseCase: GetTagsUseCase) { }
 
-  handle = (): ITag[] | null => {
+  handle = (): ITag[] => {
     try {
       const result = this.getTagsUseCase.execute("SLSHOPPINGTAG");
-      let data: ITag[] | null;
-      result ? (data = Object.values(result)) : (data = null);
+      let data: ITag[];
+      result ? (data = Object.values(result)) : (data = []);
       return data;
     } catch (err) {
       console.error("GetTagsController: ", err);
-      return null;
+      return [];
     }
   };
 }
