@@ -16,6 +16,7 @@ import ITag from "../../../Domain/Model/ITag";
 import { IProduct } from "../../../Domain/Model/IProduct";
 import getTotalQuantityAmountByListUuidController from "../../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
 import getTotalAmountByListProductUuidController from "../../../Domain/UseCases/List/GetTotalAmountByListUuid";
+import getTotalQuantityWithoutAmountByListUuidController from "../../../Domain/UseCases/List/GetTotalQuantityWithoutAmountByListUuid";
 interface ListProps {
   listId: string;
   listArrItems: IProduct[];

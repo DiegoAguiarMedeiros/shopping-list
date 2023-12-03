@@ -28,6 +28,7 @@ import getListProductController from "../../Domain/UseCases/ListProduct/GetListP
 import getTotalQuantityAmountByListUuidController from "../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
 import getTotalAmountByListUuidController from "../../Domain/UseCases/List/GetTotalAmountByListUuid";
 import getTagUuidByTagNameController from "../../Domain/UseCases/Tag/GetTagUuidByTagName";
+import getTotalQuantityWithoutAmountByListUuidController from "../../Domain/UseCases/List/GetTotalQuantityWithoutAmountByListUuid";
 type TotalType = {
   amount: number;
   un: number;
@@ -77,7 +78,7 @@ export default function List({ listId,
 
       const newTotal: TotalType = {
         un: getTotalQuantityAmountByListUuidController.handle(listId),
-        amount: getTotalAmountByListUuidController.handle(listId),
+        amount: getTotalQuantityWithoutAmountByListUuidController.handle(listId),
       };
       setTotal(newTotal);
       return;

@@ -7,13 +7,9 @@ export default class GetTotalQuantityAmountByListProductUuidUseCase {
         const amounts = this.getAmount.handle().filter(amount => amount.listProductUuid === key);;
 
         let total: number = 0;
-        amounts.length > 0 ?
-            amounts.forEach((amount) => {
-                total = amount?.type ? total + 1 : total + Number(amount?.quantity);
-            })
-            :
-            total = 1;
-        ;
+        amounts.forEach((amount) => {
+            total = amount?.type ? total + 1 : total + Number(amount?.quantity);
+        })
         return total;
 
     }

@@ -32,6 +32,7 @@ import NewProductForm from "../../../../../components/NewProductForm";
 import NewItemForm from "../../../../../components/NewItemForm";
 import getTotalAmountByListUuidController from "../../../../../Domain/UseCases/List/GetTotalAmountByListUuid";
 import getTotalQuantityAmountByListUuidController from "../../../../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
+import getTotalQuantityWithoutAmountByListUuidController from "../../../../../Domain/UseCases/List/GetTotalQuantityWithoutAmountByListUuid";
 interface ItemProps {
   item: List;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -65,7 +66,7 @@ export default function ListGridItem({
 
   const total = getTotalAmountByListUuidController.handle(item.uuid);
   const totalWithAmount =
-    getTotalQuantityAmountByListUuidController.handle(item.uuid);
+    getTotalQuantityWithoutAmountByListUuidController.handle(item.uuid);
   const totalUn =
     getTotalQuantityAmountByListUuidController.handle(item.uuid);
   const handleOpenList = useCallback(() => {
