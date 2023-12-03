@@ -34,8 +34,8 @@ function ListGrid({
 }: ListProps) {
   const { list } = useShoppingListContext();
   const colorScheme = useColorScheme();
-  const totalQuantity = getTotalQuantityAmountByListUuidController.handle(listId);
-  const total = getTotalAmountByListProductUuidController.handle(listId);
+  const totalQuantity = getTotalQuantityAmountByListUuidController.handle(listId, listArrItems);
+  const total = getTotalAmountByListProductUuidController.handle(listId, listArrItems);
 
   return (
     <Styled.Container

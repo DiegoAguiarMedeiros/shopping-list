@@ -49,6 +49,7 @@ export default function List({ listId,
   const {
     list,
     setList,
+    amount,
   } = useShoppingListContext();
   const selectedItem = list.find((i) => i.uuid === listId);
   const [listArr, setListArr] = useState(selectedItem);
@@ -57,7 +58,6 @@ export default function List({ listId,
 
   const tagsWithoutUndefinedFromArray = removeUndefinedFromArray(listArr?.tags!);
   tagsWithoutUndefinedFromArray.unshift("Todos");
-  console.log("tagsWithoutUndefinedFromArray", tagsWithoutUndefinedFromArray)
   const totalQuantity = getTotalQuantityAmountByListUuidController.handle(listId);
 
 
@@ -72,6 +72,14 @@ export default function List({ listId,
 
 
   useEffect(() => {
+    const newTotal: TotalType = {
+      un: getTotalQuantityAmountByListUuidController.handle(listId),
+      amount: getTotalQuantityWithoutAmountByListUuidController.handle(listId),
+    };
+    setTotal(newTotal);
+  }, [amount]);
+
+  useEffect(() => {
     const productsList = getListProductController.handle(selectedItem?.items ? selectedItem?.items : []);
     if (filter === "Todos") {
       setListArrItems(productsList);
@@ -83,18 +91,15 @@ export default function List({ listId,
       setTotal(newTotal);
       return;
     }
-    setListArrItems(productsList.filter(product => getTagUuidByTagNameController.handle(filter) === product.tag));
 
-    // const newFilteredList = listItemarr.filter(
-    //   (item: ItemInterface) => item.tags === filter
-    // );
-    // setListArrItems(newFilteredList);
+    const filteredProductsList = productsList.filter(product => getTagUuidByTagNameController.handle(filter) === product.tag)
+    const newTotal: TotalType = {
+      un: getTotalQuantityAmountByListUuidController.handle(listId, filteredProductsList),
+      amount: getTotalQuantityWithoutAmountByListUuidController.handle(listId, filteredProductsList),
+    };
 
-    // const newTotal: TotalType = {
-    //   un: getTotalUn(newFilteredList),
-    //   amount: getTotalWithAmount(newFilteredList),
-    // };
-    // setTotal(newTotal);
+    setTotal(newTotal);
+    setListArrItems(filteredProductsList);
 
     return () => { };
   }, [filter]);

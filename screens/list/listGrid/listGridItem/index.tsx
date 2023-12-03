@@ -63,8 +63,9 @@ function ListGridItem({
 
   const handleDelete = () => {
     deleteProductFromListByUuidController.handle(listId, item.uuid);
-    // const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
-    // setListProduct(updatedList.filter(product => product.uuid !== item.uuid));
+    const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
+    const newList = updatedList.filter(product => product.uuid !== item.uuid)
+    setListProduct(newList);
   };
   const handleEdit = () => {
     setBottomSheetProps({
