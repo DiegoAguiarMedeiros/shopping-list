@@ -29,6 +29,7 @@ import getTotalQuantityAmountByListUuidController from "../../Domain/UseCases/Li
 import getTotalAmountByListUuidController from "../../Domain/UseCases/List/GetTotalAmountByListUuid";
 import getTagUuidByTagNameController from "../../Domain/UseCases/Tag/GetTagUuidByTagName";
 import getTotalQuantityWithoutAmountByListUuidController from "../../Domain/UseCases/List/GetTotalQuantityWithoutAmountByListUuid";
+import getTagsController from "../../Domain/UseCases/ListProduct/GetTags";
 type TotalType = {
   amount: number;
   un: number;
@@ -48,7 +49,7 @@ export default function List({ listId,
   const colorScheme = useColorScheme();
   const {
     list,
-    setList,
+    listProduct,
     amount,
   } = useShoppingListContext();
   const selectedItem = list.find((i) => i.uuid === listId);
@@ -56,7 +57,7 @@ export default function List({ listId,
 
   const [listArrItems, setListArrItems] = useState(getListProductController.handle(selectedItem?.items ? selectedItem?.items : []));
 
-  const tagsWithoutUndefinedFromArray = removeUndefinedFromArray(listArr?.tags!);
+  const tagsWithoutUndefinedFromArray = getTagsController.handle(selectedItem?.items ? selectedItem?.items : []);
   tagsWithoutUndefinedFromArray.unshift("Todos");
   const totalQuantity = getTotalQuantityAmountByListUuidController.handle(listId);
 
@@ -70,14 +71,6 @@ export default function List({ listId,
 
 
 
-
-  useEffect(() => {
-    const newTotal: TotalType = {
-      un: getTotalQuantityAmountByListUuidController.handle(listId),
-      amount: getTotalQuantityWithoutAmountByListUuidController.handle(listId),
-    };
-    setTotal(newTotal);
-  }, [amount]);
 
   useEffect(() => {
     const productsList = getListProductController.handle(selectedItem?.items ? selectedItem?.items : []);
@@ -102,7 +95,7 @@ export default function List({ listId,
     setListArrItems(filteredProductsList);
 
     return () => { };
-  }, [filter]);
+  }, [filter, amount, listProduct]);
 
   const deleteItem = (item: ItemInterface) => {
     // const updatedList: ListItemInterface = JSON.parse(JSON.stringify(listItem));

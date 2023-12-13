@@ -36,6 +36,9 @@ export interface IControllerGetListProductsByUuid {
 export interface IControllerGetAMountsbyListProductsByUuid {
   handle(productsUuid: string): IAmount[];
 }
+export interface IControllerGetTagsByProductsUuid {
+  handle(key: string[]): string[];
+}
 export interface IControllerGetTagByProductsUuid {
   handle(key: string): string;
 }

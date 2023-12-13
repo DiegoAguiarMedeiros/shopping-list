@@ -18,10 +18,11 @@ export default class SaveListByUuidUseCase {
         lists.push(data);
         const newListInterface: IListInterface<IList> = convertToInterface(lists);
         this.saveLists.handle(newListInterface);
+      } else {
+        const newListInterface: IListInterface<IList> = {}
+        newListInterface[data.uuid] = data;
+        this.saveLists.handle(newListInterface);
       }
-      const newListInterface: IListInterface<IList> = {}
-      newListInterface[data.uuid] = data;
-      this.saveLists.handle(newListInterface);
     } catch (error) {
       console.error("SaveListByUuidUseCase", error);
     }

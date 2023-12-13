@@ -13,7 +13,7 @@ export default class AddProductToListByUuidUseCase {
         const list = this.getListByUuid.handle(listUuid);
         list.items.push(productsUuid)
         const tags = this.getTag.handle(productsUuid);
-        if (!list.tags.includes(tags)) list.tags.push(this.getTag.handle(productsUuid))
+        if (!list.tags.includes(tags)) list.tags.push(tags)
         this.saveListByUuid.handle(list);
 
     }

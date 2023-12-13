@@ -25,6 +25,7 @@ import ITag from "../../Domain/Model/ITag";
 import GetListProducts from "../../Domain/UseCases/ListProduct/GetListProducts";
 import addProductToListByUuidController from "../../Domain/UseCases/List/AddProductToListByUuid";
 import Select from "../InputSelect";
+import getListProductController from "../../Domain/UseCases/ListProduct/GetListProductByUuid";
 
 export type NewItemFormProps = {
   onClose: () => void;
@@ -51,7 +52,7 @@ const NewItemForm = ({
     products.unshift({ name: "Selecionar Produto", uuid: "", amount: [], tag: "", unit: "Un" });
   }
 
-  const { list, setList } =
+  const { list, setList, listProduct, setListProduct } =
     useShoppingListContext();
 
   const clearInput = () => {
@@ -76,13 +77,20 @@ const NewItemForm = ({
     if (newItem.item !== "") {
       addProductToListByUuidController.handle(listId, newItem.item)
     }
-    // closeBottomSheet();
-    // const newListItem = returnNewListItem();
-    // setListItem((newValue) => ({
-    //   ...newValue,
-    //   [newListItem.uuid]: newListItem,
-    // }));
-    // handleAddListItemInList(listId, newListItem);
+    closeBottomSheet();
+
+    const product = getListProductController.handle([newItem.item])
+    listProduct ?
+      setListProduct([product[0], ...listProduct]) :
+      setListProduct([product[0]]);
+
+    const newList = list.map((l) => {
+      if (l.uuid === listId) {
+        l.items.push(newItem.item);
+      }
+      return l;
+    })
+    setList([...newList]);
   };
 
   const handleAddListItemInList = (

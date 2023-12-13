@@ -64,23 +64,19 @@ function ListGridItem({
   const handleDelete = () => {
     deleteProductFromListByUuidController.handle(listId, item.uuid);
     const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
-    const newList = updatedList.filter(product => product.uuid !== item.uuid)
-    setListProduct(newList);
+    const newListProduct = updatedList.filter(product => product.uuid !== item.uuid)
+    setListProduct(newListProduct);
+
+    const newList = list.map((l) => {
+      if (l.uuid === listId) {
+        const newItems = l.items.filter(product => product !== item.uuid)
+        l.items = newItems;
+      }
+      return l;
+    })
+    setList([...newList]);
   };
-  const handleEdit = () => {
-    setBottomSheetProps({
-      isVisible: true,
-      height: "edit",
-      children: (
-        <NewItemForm
-          onClose={handleCloseBottomSheet}
-          action="editListItem"
-          buttonText="edit"
-          listId={listId}
-        />
-      ),
-    });
-  };
+
 
   const handleOpen = () => {
     setActive(!active);
@@ -98,19 +94,11 @@ function ListGridItem({
     return (
       <Animated.View
         style={{
-          width: 200,
-          overflow: "hidden",
+          width: 100,
+          overflow: "hidden"
         }}
       >
         <Styled.ButtonView>
-          <Styled.ButtonInner
-            underlayColor={
-              Colors[colorScheme ?? "light"]
-                .swipeablebuttonTouchableHighlightBackgroundColor
-            }
-          >
-            <></>
-          </Styled.ButtonInner>
           <Styled.ButtonInner
             underlayColor={
               Colors[colorScheme ?? "light"]
