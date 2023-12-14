@@ -11,6 +11,7 @@ import {
 } from "../../types/types";
 import {
   getTagsFromListItemInterface,
+  removeDuplicates,
   removeUndefinedFromArray,
 } from "../../utils/functions";
 import { useRouter } from "expo-router";
@@ -53,12 +54,11 @@ export default function List({ listId,
     amount,
   } = useShoppingListContext();
   const selectedItem = list.find((i) => i.uuid === listId);
+  const [tags, setTags] = useState(selectedItem?.tags ? ["Todos", ...selectedItem?.tags] : []);
   const [listArr, setListArr] = useState(selectedItem);
 
   const [listArrItems, setListArrItems] = useState(getListProductController.handle(selectedItem?.items ? selectedItem?.items : []));
 
-  const tagsWithoutUndefinedFromArray = getTagsController.handle(selectedItem?.items ? selectedItem?.items : []);
-  tagsWithoutUndefinedFromArray.unshift("Todos");
   const totalQuantity = getTotalQuantityAmountByListUuidController.handle(listId);
 
 
@@ -70,10 +70,14 @@ export default function List({ listId,
   const router = useRouter();
 
 
-
+  console.log("tags", tags)
+  console.log("list", list)
 
   useEffect(() => {
+    console.log("useEffect tags", tags)
+    console.log("useEffect list", list)
     const productsList = getListProductController.handle(selectedItem?.items ? selectedItem?.items : []);
+    setTags(selectedItem?.tags ? ["Todos", ...selectedItem?.tags] : []);
     if (filter === "Todos") {
       setListArrItems(productsList);
 
@@ -95,7 +99,7 @@ export default function List({ listId,
     setListArrItems(filteredProductsList);
 
     return () => { };
-  }, [filter, amount, listProduct]);
+  }, [filter, amount, listProduct, list]);
 
   const deleteItem = (item: ItemInterface) => {
     // const updatedList: ListItemInterface = JSON.parse(JSON.stringify(listItem));
@@ -170,7 +174,7 @@ export default function List({ listId,
       {listArr && listArr.tags.length > 0 ? (
         <Styled.ContainerHeaderInnerFilterButtons>
           <FilterButtons
-            tags={tagsWithoutUndefinedFromArray}
+            tags={tags}
             filter={filter}
             setFilter={setFilter}
           />
@@ -195,3 +199,4 @@ export default function List({ listId,
     </Styled.Container>
   );
 }
+

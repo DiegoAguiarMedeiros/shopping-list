@@ -30,7 +30,7 @@ import getAmountByListProductUuidController from "../../../../Domain/UseCases/Am
 import getTotlaAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetTotalAmountByListProductUuid";
 import getTotalQuantityAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetTotalQuantityAmountByListProductUuid";
 import deleteProductFromListByUuidController from "../../../../Domain/UseCases/List/DeleteProductFromListByUuid";
-
+import getTagsController from "../../../../Domain/UseCases/ListProduct/GetTags";
 
 interface ListProps {
   item: IProduct;
@@ -71,6 +71,7 @@ function ListGridItem({
       if (l.uuid === listId) {
         const newItems = l.items.filter(product => product !== item.uuid)
         l.items = newItems;
+        l.tags = getTagsController.handle(newItems);
       }
       return l;
     })

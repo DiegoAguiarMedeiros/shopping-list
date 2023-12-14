@@ -71,12 +71,24 @@ export default function ListGridItem({
     getTotalQuantityAmountByListUuidController.handle(item.uuid);
   const handleOpenList = useCallback(() => {
 
+
     setBottomSheetProps({
       isVisible: false,
       height: "add",
       children: (
         <NewItemForm
-          onClose={handleCloseBottomSheet}
+          onClose={() => setBottomSheetProps({
+            isVisible: false,
+            height: "add",
+            children: (
+              <NewItemForm
+                onClose={handleCloseBottomSheet}
+                action="addListItem"
+                buttonText="add"
+                listId={item.uuid}
+              />
+            ),
+          })}
           action="addListItem"
           buttonText="add"
           listId={item.uuid}

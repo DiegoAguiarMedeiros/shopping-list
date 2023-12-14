@@ -312,115 +312,113 @@ function RootLayoutNav() {
   ];
 
   return (
-    <>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack.Navigator
-          screenOptions={{
-            cardStyleInterpolator: CardStyleInterpolators.forBottomSheetAndroid,
-            headerStyle: {
-              backgroundColor:
-                Colors[colorScheme ?? "light"].headerBackgroundColor,
-            },
-            headerTintColor: Colors[colorScheme ?? "light"].headerTextColor,
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <Stack.Navigator
+        screenOptions={{
+          cardStyleInterpolator: CardStyleInterpolators.forBottomSheetAndroid,
+          headerStyle: {
+            backgroundColor:
+              Colors[colorScheme ?? "light"].headerBackgroundColor,
+          },
+          headerTintColor: Colors[colorScheme ?? "light"].headerTextColor,
+        }}
+      >
+        <Stack.Screen
+          name={"home"}
+          options={{
+            headerTitle: (props) => (
+              <Title color={Colors[colorScheme ?? "light"].white}>
+                Listas de compras
+              </Title>
+            ),
           }}
         >
-          <Stack.Screen
-            name={"home"}
-            options={{
-              headerTitle: (props) => (
-                <Title color={Colors[colorScheme ?? "light"].white}>
-                  Listas de compras
-                </Title>
-              ),
-            }}
-          >
-            {() => (
-              <Home
-                setBottomSheetProps={setBottomSheetProps}
-                bottomSheetProps={bottomSheetProps}
-                handleCloseBottomSheet={handleCloseBottomSheet}
-              />
-            )}
-          </Stack.Screen>
-          <Stack.Screen
-            name={"product"}
-            options={{
-              headerTitle: (props) => (
-                <Title color={Colors[colorScheme ?? "light"].white}>
-                  Produtos
-                </Title>
-              ),
-            }}
-          >
-            {() => (
-              <ProductTab
-                setBottomSheetProps={setBottomSheetProps}
-                bottomSheetProps={bottomSheetProps}
-                handleCloseBottomSheet={handleCloseBottomSheet}
-              />
-            )}
-          </Stack.Screen>
-          <Stack.Screen
-            name={"tags"}
-            options={{
-              headerTitle: (props) => (
-                <Title color={Colors[colorScheme ?? "light"].white}>
-                  Categorias
-                </Title>
-              ),
-            }}
-          >
-            {() => (
-              <Tags
-                setBottomSheetProps={setBottomSheetProps}
-                bottomSheetProps={bottomSheetProps}
-                handleCloseBottomSheet={handleCloseBottomSheet}
-              />
-            )}
-          </Stack.Screen>
-          <Stack.Screen
-            name="Items"
-            options={{
-              headerShown: false,
-            }}
-          >
-            {() => (
-              <Items
-                setBottomSheetProps={setBottomSheetProps}
-                bottomSheetProps={bottomSheetProps}
-                handleCloseBottomSheet={handleCloseBottomSheet}
-              />
-            )}
-          </Stack.Screen>
-          <Stack.Screen
-            name="ItemsArchived"
-            component={ItemsArchived}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="history"
-            component={History}
-            options={{
-              headerTitle: (props) => (
-                <Title color={Colors[colorScheme ?? "light"].white}>
-                  Histórico
-                </Title>
-              ),
-              headerLeft: () => null,
-            }}
-          />
-        </Stack.Navigator>
-        <BottomSheet {...bottomSheetProps} />
-        <BottomNavigation
-          routes={routes}
-          active={activeRoute}
-          setActiveRoute={setActiveRoute}
-          setBottomSheetProps={setBottomSheetProps}
-          bottomSheetProps={bottomSheetProps}
+          {() => (
+            <Home
+              setBottomSheetProps={setBottomSheetProps}
+              bottomSheetProps={bottomSheetProps}
+              handleCloseBottomSheet={handleCloseBottomSheet}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen
+          name={"product"}
+          options={{
+            headerTitle: (props) => (
+              <Title color={Colors[colorScheme ?? "light"].white}>
+                Produtos
+              </Title>
+            ),
+          }}
+        >
+          {() => (
+            <ProductTab
+              setBottomSheetProps={setBottomSheetProps}
+              bottomSheetProps={bottomSheetProps}
+              handleCloseBottomSheet={handleCloseBottomSheet}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen
+          name={"tags"}
+          options={{
+            headerTitle: (props) => (
+              <Title color={Colors[colorScheme ?? "light"].white}>
+                Categorias
+              </Title>
+            ),
+          }}
+        >
+          {() => (
+            <Tags
+              setBottomSheetProps={setBottomSheetProps}
+              bottomSheetProps={bottomSheetProps}
+              handleCloseBottomSheet={handleCloseBottomSheet}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen
+          name="Items"
+          options={{
+            headerShown: false,
+          }}
+        >
+          {() => (
+            <Items
+              setBottomSheetProps={setBottomSheetProps}
+              bottomSheetProps={bottomSheetProps}
+              handleCloseBottomSheet={handleCloseBottomSheet}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen
+          name="ItemsArchived"
+          component={ItemsArchived}
+          options={{
+            headerShown: false,
+          }}
         />
-      </ThemeProvider>
-    </>
+        <Stack.Screen
+          name="history"
+          component={History}
+          options={{
+            headerTitle: (props) => (
+              <Title color={Colors[colorScheme ?? "light"].white}>
+                Histórico
+              </Title>
+            ),
+            headerLeft: () => null,
+          }}
+        />
+      </Stack.Navigator>
+      <BottomSheet {...bottomSheetProps} />
+      <BottomNavigation
+        routes={routes}
+        active={activeRoute}
+        setActiveRoute={setActiveRoute}
+        setBottomSheetProps={setBottomSheetProps}
+        bottomSheetProps={bottomSheetProps}
+      />
+    </ThemeProvider>
   );
 }

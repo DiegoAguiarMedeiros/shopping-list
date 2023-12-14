@@ -1,4 +1,4 @@
-import { IList, IListInterface } from "@/Domain/Model/IList";
+import { IListInterface } from "../Domain/Model/IList";
 import { IProduct } from "../Domain/Model/IProduct";
 import ITag from "../Domain/Model/ITag";
 import {
@@ -165,5 +165,6 @@ export {
   removeUndefinedFromArray,
   getTagsFromListItemInterface,
   checkTags,
-  convertToInterface
+  convertToInterface,
+  removeDuplicates
 };

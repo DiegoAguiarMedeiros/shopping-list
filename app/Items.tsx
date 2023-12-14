@@ -17,6 +17,7 @@ export default function Items({
   handleCloseBottomSheet, }: ItemsTabProps) {
   const { listId } = useSearchParams();
 
+
   return listId ? (
     <List setBottomSheetProps={setBottomSheetProps}
       bottomSheetProps={bottomSheetProps}

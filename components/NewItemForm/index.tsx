@@ -74,23 +74,29 @@ const NewItemForm = ({
 
 
   const handleAddListItem = (): void => {
+    console.log("handleAddListItem")
     if (newItem.item !== "") {
+      console.log("if ", newItem.item)
       addProductToListByUuidController.handle(listId, newItem.item)
+
+      closeBottomSheet();
+
+      const product = getListProductController.handle([newItem.item])
+      console.log("product", product)
+      listProduct ?
+        setListProduct([product[0], ...listProduct]) :
+        setListProduct([product[0]]);
+
+      const newList = list.map((l) => {
+        if (l.uuid === listId) {
+          l.items.push(newItem.item);
+          if (!l.tags.includes(product[0].tag)) l.tags.push(product[0].tag);
+        }
+        return l;
+      })
+      console.log("newList", newList)
+      setList([...newList]);
     }
-    closeBottomSheet();
-
-    const product = getListProductController.handle([newItem.item])
-    listProduct ?
-      setListProduct([product[0], ...listProduct]) :
-      setListProduct([product[0]]);
-
-    const newList = list.map((l) => {
-      if (l.uuid === listId) {
-        l.items.push(newItem.item);
-      }
-      return l;
-    })
-    setList([...newList]);
   };
 
   const handleAddListItemInList = (
