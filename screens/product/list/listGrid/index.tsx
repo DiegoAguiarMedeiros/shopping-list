@@ -6,6 +6,7 @@ import { BottomSheetProps } from "../../../../components/BottomSheet";
 
 import ListGridItem from "./listGridItem";
 import { IProduct } from "../../../../Domain/Model/IProduct";
+import Container from "../../../../components/Container";
 interface ItemProps {
   items: IProduct[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -19,25 +20,18 @@ export default function ListGrid({
   const colorScheme = useColorScheme();
 
   return (
-    <Styled.Container
-      background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
-    >
-      <Styled.ContainerList>
-        <SafeAreaView>
-          <ScrollView>
-            <Styled.ContainerListItemListItem>
-              {items.map((item: IProduct) => (
-                <ListGridItem
-                  handleCloseBottomSheet={handleCloseBottomSheet}
-                  setBottomSheetProps={setBottomSheetProps}
-                  key={"ListGridItem-" + item.uuid}
-                  item={item}
-                />
-              ))}
-            </Styled.ContainerListItemListItem>
-          </ScrollView>
-        </SafeAreaView>
-      </Styled.ContainerList>
-    </Styled.Container>
+
+    <SafeAreaView style={{ width: "100%" }}>
+      <ScrollView>
+        {items.map((item: IProduct) => (
+          <ListGridItem
+            handleCloseBottomSheet={handleCloseBottomSheet}
+            setBottomSheetProps={setBottomSheetProps}
+            key={"ListGridItem-" + item.uuid}
+            item={item}
+          />
+        ))}
+      </ScrollView>
+    </SafeAreaView>
   );
 }

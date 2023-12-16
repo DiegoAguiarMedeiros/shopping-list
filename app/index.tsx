@@ -326,6 +326,7 @@ function RootLayoutNav() {
         <Stack.Screen
           name={"home"}
           options={{
+            headerLeft: () => null,
             headerTitle: (props) => (
               <Title color={Colors[colorScheme ?? "light"].white}>
                 Listas de compras
@@ -344,6 +345,7 @@ function RootLayoutNav() {
         <Stack.Screen
           name={"product"}
           options={{
+            headerLeft: () => null,
             headerTitle: (props) => (
               <Title color={Colors[colorScheme ?? "light"].white}>
                 Produtos
@@ -362,6 +364,7 @@ function RootLayoutNav() {
         <Stack.Screen
           name={"tags"}
           options={{
+            headerLeft: () => null,
             headerTitle: (props) => (
               <Title color={Colors[colorScheme ?? "light"].white}>
                 Categorias

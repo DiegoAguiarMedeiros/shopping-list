@@ -68,14 +68,7 @@ export default function List({ listId,
     un: 0,
   });
   const router = useRouter();
-
-
-  console.log("tags", tags)
-  console.log("list", list)
-
   useEffect(() => {
-    console.log("useEffect tags", tags)
-    console.log("useEffect list", list)
     const productsList = getListProductController.handle(selectedItem?.items ? selectedItem?.items : []);
     setTags(selectedItem?.tags ? ["Todos", ...selectedItem?.tags] : []);
     if (filter === "Todos") {

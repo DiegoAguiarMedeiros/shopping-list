@@ -10,6 +10,8 @@ import React, { useState } from "react";
 import NewListForm from "../../components/NewListForm";
 import Button from "../../components/Button";
 import ListComponent from "./list";
+import Container from "../../components/Container";
+import ContainerInner from "../../components/ContainerInner";
 
 
 interface ProductProps {
@@ -24,13 +26,14 @@ export default function Product({
   handleCloseBottomSheet,
 }: ProductProps) {
   const colorScheme = useColorScheme();
-  const { list, listProduct, listAmount } = useShoppingListContext();
+  const { list, listProduct } = useShoppingListContext();
   const isFocused = useIsFocused();
   return (
-    <Styled.Container
+    <Container
       background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
     >
-      <Styled.ContainerListInner>
+      <ContainerInner
+        background={Colors[colorScheme ?? "light"].bodyBackgroundColor}>
         {listProduct && listProduct.length > 0 ? (
           <ListComponent
             items={listProduct}
@@ -40,7 +43,7 @@ export default function Product({
         ) :
           <EmptyList mensage="Você não tem nenhum produto cadastrado" />
         }
-      </Styled.ContainerListInner>
-    </Styled.Container>
+      </ContainerInner>
+    </Container>
   );
 }

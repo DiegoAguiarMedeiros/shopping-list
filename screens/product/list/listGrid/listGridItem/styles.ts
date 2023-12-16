@@ -8,18 +8,12 @@ export const ContainerListItem = styled.TouchableHighlight<{
 }>`
   background: ${(props: { background: string }) => props.background};
   width: 100%;
-  height: 90px;
+  height: 135px;
   border-radius: 15px;
   margin: 5px 0;
   border: 1px solid ${(props: { borderColor: string }) => props.borderColor};
+`;
 
-`;
-export const ContainerListItemInner = styled.View`
-  position: relative;
-  flex-direction: row;
-  width: 100%;
-  height: 100%;
-`;
 
 export const LinkStyled = styled(Link)`
   z-index: 99;
@@ -41,6 +35,16 @@ export const ContainerListItemBody = styled.View`
   flex-direction: row;
   padding: 0px 10px;
   margin: 0 0 10px 0;
+  justify-content: flex-start;
+  align-items: center;
+`;
+export const ContainerListItemBodyAveragePrice = styled.View`
+  flex: 2;
+  flex-direction: row;
+  padding: 0px 10px;
+  margin: 0 0 10px 0;
+  justify-content: center;
+  align-items: center;
 `;
 export const ContainerListItemBottom = styled.View`
   border-top-width: 1px;
@@ -113,13 +117,13 @@ export const ButtonView = styled.View`
   height: 100%;
 `;
 export const ButtonInner = styled.TouchableHighlight`
-  width: 50%;
   height: 100%;
   border-radius: 15px;
 `;
 export const ButtonTextIcon = styled.Text<{
   text: string;
 }>`
+  width: 100%;
   color: ${(props: { text: any }) => props.text};
   flex: 10;
   padding: 15px 10px 0 10px;
@@ -128,6 +132,8 @@ export const ButtonTextIcon = styled.Text<{
 export const ButtonText = styled.Text<{
   text: string;
 }>`
+
+  width: 100%;
   color: ${(props: { text: any }) => props.text};
   flex: 10;
   font-size: 10px;

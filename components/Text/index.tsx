@@ -5,6 +5,7 @@ import { useColorScheme } from "react-native";
 interface TextProps {
   children: React.ReactNode;
   color: string;
+  align?: string;
 }
 
 const Title: React.FC<TextProps> = ({ children, color }) => {
@@ -17,11 +18,12 @@ const Title: React.FC<TextProps> = ({ children, color }) => {
     </Styled.Title>
   );
 };
-const SubTitle: React.FC<TextProps> = ({ children, color }) => {
+const SubTitle: React.FC<TextProps> = ({ children, color, align }) => {
   const colorScheme = useColorScheme();
   return (
     <Styled.SubTitle
       color={color}
+      align={align ?? "left"}
     >
       {children}
     </Styled.SubTitle>

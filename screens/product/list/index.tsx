@@ -10,6 +10,8 @@ import BottomSheet from "../../../components/BottomSheet";
 import { Text } from "../../../components/Text";
 import NewListForm from "../../../components/NewListForm";
 import { IProduct } from "../../../Domain/Model/IProduct";
+import Container from "../../../components/Container";
+import ContainerInner from "../../../components/ContainerInner";
 interface ItemProps {
   items: IProduct[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -24,16 +26,16 @@ export default function List({
   const colorScheme = useColorScheme();
 
   return (
-    <Styled.Container
-      background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
+    <Container
+      background={"transparent"}
     >
-      <Styled.ContainerListList>
+      <ContainerInner>
         <ListGrid
           items={items}
           setBottomSheetProps={setBottomSheetProps}
           handleCloseBottomSheet={handleCloseBottomSheet}
         />
-      </Styled.ContainerListList>
-    </Styled.Container>
+      </ContainerInner>
+    </Container>
   );
 }

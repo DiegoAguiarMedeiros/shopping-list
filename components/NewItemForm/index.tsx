@@ -74,15 +74,10 @@ const NewItemForm = ({
 
 
   const handleAddListItem = (): void => {
-    console.log("handleAddListItem")
     if (newItem.item !== "") {
-      console.log("if ", newItem.item)
       addProductToListByUuidController.handle(listId, newItem.item)
-
       closeBottomSheet();
-
       const product = getListProductController.handle([newItem.item])
-      console.log("product", product)
       listProduct ?
         setListProduct([product[0], ...listProduct]) :
         setListProduct([product[0]]);
@@ -94,7 +89,6 @@ const NewItemForm = ({
         }
         return l;
       })
-      console.log("newList", newList)
       setList([...newList]);
     }
   };

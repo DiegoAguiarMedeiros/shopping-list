@@ -8,9 +8,12 @@ export const Title = styled.Text<{
 `;
 export const SubTitle = styled.Text<{
   color: string,
+  align: string,
 }>`
   color:${(props: { color: string; }) => props.color};
+  text-align:${(props: { align: string; }) => props.align};
   font-size: 16px;
+  width: 100%;
 `;
 export const Text = styled.Text<{
   color: string,

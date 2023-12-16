@@ -1,36 +1,28 @@
 import { useColorScheme, Animated } from "react-native";
 import Colors from "../../../../../constants/Colors";
 import * as Styled from "./styles";
-import { useCallback, useRef } from "react";
-import {
-  ItemInterface,
-  ListInterface,
-  ListItemAmountInterface,
-  ListItemInterface,
-  ListType,
-} from "../../../../../types/types";
+import { useCallback } from "react";
+
 import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
-import { Swipeable } from "react-native-gesture-handler";
-import { removeUndefinedFromArray } from "../../../../../utils/functions";
 import { Title, SubTitle } from "../../../../../components/Text";
 import {
   useShoppingListArchivedContext,
   useShoppingListContext,
 } from "../../../../../context/ShoppingList";
-import CircleProgress from "../../../../../components/CircleProgress";
 
 import { BottomSheetProps } from "../../../../../components/BottomSheet";
-import NewListForm from "../../../../../components/NewListForm";
-import Tag from "../../../../../Domain/Model/Implementation/Tag";
-import { IList, IListInterface } from "@/Domain/Model/IList";
-import { IListAmountInterface } from "../../../../../Domain/Model/IAmount";
-import getListProductController from "../../../../../Domain/UseCases/ListProduct/GetListProductByUuid";
 import DeleteProductByUuid from "../../../../../Domain/UseCases/ListProduct/DeleteProductByUuid";
 import GetTagByUuid from "../../../../../Domain/UseCases/Tag/GetTagByUuid";
 import NewProductForm from "../../../../../components/NewProductForm";
 import { IProduct } from "../../../../../Domain/Model/IProduct";
+import AveragePrice from "./AveragePrice";
+import LastPrices from "./LastPrices";
+import GridItem from "../../../../../components/GridItem";
+import { GridItemInner, GridItemWrapper, GridItemWrapperInner } from "../../../../../components/GridItemInner";
+
+
 interface ItemProps {
   item: IProduct;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -41,41 +33,15 @@ export default function ListGridItem({
   item,
   setBottomSheetProps,
   handleCloseBottomSheet,
-}: ItemProps) {
+}: Readonly<ItemProps>) {
   const {
-    tags,
-    setTags,
     listProduct,
-    setListProduct,
-    listAmount,
-    setListAmount,
+    setListProduct
   } = useShoppingListContext();
-  const {
-    listArchived,
-    setListArchived,
-    listProductArchived,
-    setListProductArchived,
-    listAmountArchived,
-    setListAmountArchived,
-  } = useShoppingListArchivedContext();
+
   const colorScheme = useColorScheme();
   const router = useRouter();
   const tag = GetTagByUuid.handle(item.tag);
-  const handleOpenList = useCallback(() => {
-
-    setBottomSheetProps({
-      isVisible: false,
-      height: "edit",
-      children: (
-        <NewProductForm
-          onClose={handleCloseBottomSheet}
-          action="addList"
-          buttonText="add"
-        />
-      ),
-    });
-    router.push({ pathname: "/Items", params: { listId: item.uuid } });
-  }, [item.uuid, router]);
 
   const handleEdit = () => {
     setBottomSheetProps({
@@ -119,76 +85,92 @@ export default function ListGridItem({
           overflow: "hidden",
         }}
       >
-        <Styled.ButtonView>
-          <Styled.ButtonInner
-            underlayColor={
-              Colors[colorScheme ?? "light"]
-                .swipeablebuttonTouchableHighlightBackgroundColor
-            }
-            onPress={handleEdit}
-          >
-            <>
-              <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+        <GridItemInner>
+          <>
+            <GridItemWrapper width={50} >
+              <Styled.ButtonInner
+                underlayColor={
+                  Colors[colorScheme ?? "light"]
+                    .swipeablebuttonTouchableHighlightBackgroundColor
+                }
+                onPress={handleEdit}
               >
-                <FontAwesome
-                  size={18}
-                  style={{ marginBottom: -3 }}
-                  name="pencil"
-                />
-              </Styled.ButtonTextIcon>
-              <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                <>
+                  <GridItemWrapperInner height={50}>
+
+                    <Styled.ButtonTextIcon
+                      text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                    >
+                      <FontAwesome
+                        size={26}
+                        style={{ marginBottom: -3 }}
+                        name="pencil"
+                      />
+                    </Styled.ButtonTextIcon>
+                  </GridItemWrapperInner>
+
+                  <GridItemWrapperInner height={50} justify="flex-start">
+                    <SubTitle
+                      color={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                      align="center"
+                    >
+                      Editar
+                    </SubTitle>
+                  </GridItemWrapperInner>
+                </>
+              </Styled.ButtonInner>
+            </GridItemWrapper>
+
+            <GridItemWrapper width={50} >
+              <Styled.ButtonInner
+                underlayColor={
+                  Colors[colorScheme ?? "light"]
+                    .swipeablebuttonTouchableHighlightBackgroundColor
+                }
+                onPress={handleDelete}
               >
-                Editar
-              </Styled.ButtonText>
-            </>
-          </Styled.ButtonInner>
-          <Styled.ButtonInner
-            underlayColor={
-              Colors[colorScheme ?? "light"]
-                .swipeablebuttonTouchableHighlightBackgroundColor
-            }
-            onPress={handleDelete}
-          >
-            <>
-              <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
-              >
-                <FontAwesome
-                  size={18}
-                  style={{ marginBottom: -3 }}
-                  name="trash"
-                />
-              </Styled.ButtonTextIcon>
-              <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
-              >
-                Deletar
-              </Styled.ButtonText>
-            </>
-          </Styled.ButtonInner>
-        </Styled.ButtonView>
-      </Animated.View>
+                <>
+                  <Styled.ButtonTextIcon
+                    text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                  >
+                    <FontAwesome
+                      size={26}
+                      style={{ marginBottom: -3 }}
+                      name="trash"
+                    />
+                  </Styled.ButtonTextIcon>
+                  <GridItemWrapperInner height={50} justify="flex-start">
+                    <SubTitle
+                      color={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                      align="center"
+                    >
+                      Deletar
+                    </SubTitle>
+                  </GridItemWrapperInner>
+                </>
+              </Styled.ButtonInner>
+            </GridItemWrapper>
+          </>
+        </GridItemInner>
+      </Animated.View >
     );
   };
-
+  item.amount = ["2.99", "3.99", "4.99"]
   return (
-    <Swipeable
+    <GridItem
       renderRightActions={LeftSwipe}
-      leftThreshold={100}
-    >
-      <Styled.ContainerListItem
+      leftThreshold={100} rightThreshold={undefined}>
+      <GridItemInner
         underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
         borderColor={
           Colors[colorScheme ?? "light"].listItemBackgroundBorderColor
         }
         background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
-        onPress={handleOpenList}
+        height={110}
       >
-        <Styled.ContainerListItemInner>
-          <Styled.ContainerListItemHead>
-            <Styled.ContainerItemTitle>
+        <>
+          <GridItemWrapper width={70} >
+            <GridItemWrapperInner height={30}>
               <Title
                 color={
                   colorScheme !== "dark"
@@ -198,6 +180,18 @@ export default function ListGridItem({
               >
                 {item.name}
               </Title>
+
+
+            </GridItemWrapperInner>
+            <GridItemWrapperInner height={70}>
+
+              <LastPrices tags={item.amount} />
+
+            </GridItemWrapperInner>
+          </GridItemWrapper>
+          <GridItemWrapper width={30} >
+            <GridItemWrapperInner height={30}>
+
               <SubTitle
                 color={
                   colorScheme !== "dark"
@@ -205,14 +199,19 @@ export default function ListGridItem({
                     : Colors[colorScheme ?? "light"].white
                 }
               >
-                {tag && tag.name}
+                {tag?.name}
               </SubTitle>
-            </Styled.ContainerItemTitle>
-            <Styled.ContainerListItemBody>
-            </Styled.ContainerListItemBody>
-          </Styled.ContainerListItemHead>
-        </Styled.ContainerListItemInner>
-      </Styled.ContainerListItem>
-    </Swipeable>
+            </GridItemWrapperInner>
+            <GridItemWrapperInner height={70}>
+
+              <AveragePrice
+                price={item.amount.map((a) => (Number(a)))}
+              />
+            </GridItemWrapperInner>
+          </GridItemWrapper>
+
+        </>
+      </GridItemInner>
+    </GridItem >
   );
 }
