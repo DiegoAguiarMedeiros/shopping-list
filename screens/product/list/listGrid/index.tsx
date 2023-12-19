@@ -16,8 +16,7 @@ export default function ListGrid({
   items,
   setBottomSheetProps,
   handleCloseBottomSheet,
-}: ItemProps) {
-  const colorScheme = useColorScheme();
+}: Readonly<ItemProps>) {
 
   return (
 

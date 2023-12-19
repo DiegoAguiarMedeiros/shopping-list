@@ -6,39 +6,51 @@ interface GridItemInnerProps {
     underlayColor?: string;
     children: React.ReactNode;
     height?: number;
+    row: boolean;
 }
 
-export const GridItemInner = ({ background, borderColor, underlayColor, children, height }: GridItemInnerProps) => {
+export const GridItemInner = ({ background, borderColor, underlayColor, children, height, row }: GridItemInnerProps) => {
     return (<Styled.Item
         background={background ?? "transparent"}
         borderColor={borderColor ?? "transparent"}
         underlayColor={underlayColor ?? "transparent"}
         height={`${height}px`}
+        row={row}
     >{children}</Styled.Item>)
 }
-interface GridItemWrapperProps {
+interface GridItemWrapperRowProps {
+    children: React.ReactNode;
+    height?: number;
+}
+interface GridItemWrapperColProps {
     children: React.ReactNode;
     width: number;
     height?: number;
 }
 
-export const GridItemWrapper = ({ children, width, height }: GridItemWrapperProps) => {
-    return (<Styled.Wrapper
+export const GridItemWrapperRow = ({ children, height }: GridItemWrapperRowProps) => {
+    return (<Styled.WrapperRow
+        height={`${height}px`}
+    >{children}</Styled.WrapperRow>)
+}
+export const GridItemWrapperCol = ({ children, width, height }: GridItemWrapperColProps) => {
+    return (<Styled.WrapperCol
         width={`${width}%`}
         height={`${height}px`}
-    >{children}</Styled.Wrapper>)
+    >{children}</Styled.WrapperCol>)
 }
 
 interface GridItemWrapperInnerProps {
     children: React.ReactNode;
+    width?: number;
     height?: number;
     justify?: "flex-start" | "flex-end" | "center" | "space-between" | "space-around" | "space-evenly";
 }
 
 
-export const GridItemWrapperInner = ({ children, height, justify }: GridItemWrapperInnerProps) => {
+export const GridItemWrapperInner = ({ children, width, height, justify }: GridItemWrapperInnerProps) => {
     return (
-        <Styled.WrapperInner height={`${height}%`} justify={justify ?? "center"}>
+        <Styled.WrapperInner width={width ? `${width}%` : "100%"} height={`${height}%`} justify={justify ?? "center"}>
             {children}
         </Styled.WrapperInner>)
 }

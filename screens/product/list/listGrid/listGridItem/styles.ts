@@ -125,8 +125,6 @@ export const ButtonTextIcon = styled.Text<{
 }>`
   width: 100%;
   color: ${(props: { text: any }) => props.text};
-  flex: 10;
-  padding: 15px 10px 0 10px;
   text-align: center;
 `;
 export const ButtonText = styled.Text<{

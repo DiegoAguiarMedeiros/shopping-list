@@ -15,7 +15,6 @@ export const Button = styled.TouchableOpacity<{
   border-bottom-left-radius: ${(props: { radius: boolean }) =>
     props.radius ? "10px" : "0px"};
   padding: 5px 10px;
-  flex-direction: row;
   height: ${(props: { height: any }) => props.height};
   min-height: 35px;
   justify-content: center;

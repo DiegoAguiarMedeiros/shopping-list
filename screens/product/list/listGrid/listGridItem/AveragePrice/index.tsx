@@ -5,8 +5,9 @@ import Colors from "../../../../../../constants/Colors";
 
 import { Text } from "../../../../../../components/Text";
 import Container from "../../../../../../components/Container";
+import { ILastPrices } from "../../../../../../Domain/Model/IProduct";
 interface AveragePriceProps {
-    price: number[];
+    price: ILastPrices[];
 }
 
 export default function AveragePrice({
@@ -15,15 +16,16 @@ export default function AveragePrice({
 
     const colorScheme = useColorScheme();
 
-    const average = (price: number[]): number => {
+    const calculateAveragePrice = (items: ILastPrices[]): number => {
+        const prices: number[] = items.map(item => item.price);
 
-        const initialValue = 0;
-        const total = price.reduce(
-            (accumulator, currentValue) => accumulator + currentValue,
-            initialValue,
-        );
+        if (prices.length === 0) {
+            return 0; // Return 0 for an empty array, or handle this case differently
+        }
 
-        return total / price.length;
+        const sum = prices.reduce((total, price) => total + price, 0);
+        const average = sum / prices.length;
+        return average;
     }
 
     return (
@@ -41,7 +43,7 @@ export default function AveragePrice({
                         ? Colors[colorScheme ?? "light"].black
                         : Colors[colorScheme ?? "light"].white
                 }
-            >R$ {average(price)}</Text>
+            >R$ {calculateAveragePrice(price).toFixed(2)}</Text>
         </>
     );
 }

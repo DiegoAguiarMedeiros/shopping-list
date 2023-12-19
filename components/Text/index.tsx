@@ -29,11 +29,12 @@ const SubTitle: React.FC<TextProps> = ({ children, color, align }) => {
     </Styled.SubTitle>
   );
 };
-const Text: React.FC<TextProps> = ({ children, color }) => {
+const Text: React.FC<TextProps> = ({ children, color, align }) => {
   const colorScheme = useColorScheme();
   return (
     <Styled.Text
       color={color}
+      align={align ?? "left"}
     >
       {children}
     </Styled.Text>

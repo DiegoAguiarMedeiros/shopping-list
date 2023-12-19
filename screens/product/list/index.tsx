@@ -22,8 +22,7 @@ export default function List({
   items,
   setBottomSheetProps,
   handleCloseBottomSheet,
-}: ItemProps) {
-  const colorScheme = useColorScheme();
+}: Readonly<ItemProps>) {
 
   return (
     <Container

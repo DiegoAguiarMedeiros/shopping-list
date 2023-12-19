@@ -5,6 +5,7 @@ export const Title = styled.Text<{
 }>`
   color:${(props: { color: string; }) => props.color};
   font-size: 20px;
+  width: 100%;
 `;
 export const SubTitle = styled.Text<{
   color: string,
@@ -14,10 +15,13 @@ export const SubTitle = styled.Text<{
   text-align:${(props: { align: string; }) => props.align};
   font-size: 16px;
   width: 100%;
-`;
+  `;
 export const Text = styled.Text<{
   color: string,
+  align: string,
 }>`
   color:${(props: { color: string; }) => props.color};
+  text-align:${(props: { align: string; }) => props.align};
   font-size: 14px;
+  width: 100%;
 `;

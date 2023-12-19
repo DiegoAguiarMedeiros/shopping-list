@@ -21,13 +21,11 @@ interface ProductProps {
 }
 
 export default function Product({
-  bottomSheetProps,
   setBottomSheetProps,
   handleCloseBottomSheet,
-}: ProductProps) {
+}: Readonly<ProductProps>) {
   const colorScheme = useColorScheme();
-  const { list, listProduct } = useShoppingListContext();
-  const isFocused = useIsFocused();
+  const { listProduct } = useShoppingListContext();
   return (
     <Container
       background={Colors[colorScheme ?? "light"].bodyBackgroundColor}

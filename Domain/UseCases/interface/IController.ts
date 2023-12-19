@@ -27,11 +27,14 @@ export interface IControllerGetLists {
 export interface IControllerSaveListProduct {
   handle(data: IListInterface<IProduct>): void;
 }
+export interface IControllerSaveListProductByUuid {
+  handle(data: IProduct): void;
+}
 export interface IControllerGetListProducts {
   handle(): IProduct[] | null;
 }
 export interface IControllerGetListProductsByUuid {
-  handle(productsUuid: string[]): IProduct[] | null;
+  handle(productsUuid: string[]): IProduct[];
 }
 export interface IControllerGetAMountsbyListProductsByUuid {
   handle(productsUuid: string): IAmount[];

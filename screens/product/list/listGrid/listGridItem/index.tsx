@@ -6,7 +6,7 @@ import { useCallback } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
-import { Title, SubTitle } from "../../../../../components/Text";
+import { Title, SubTitle, Text } from "../../../../../components/Text";
 import {
   useShoppingListArchivedContext,
   useShoppingListContext,
@@ -16,11 +16,11 @@ import { BottomSheetProps } from "../../../../../components/BottomSheet";
 import DeleteProductByUuid from "../../../../../Domain/UseCases/ListProduct/DeleteProductByUuid";
 import GetTagByUuid from "../../../../../Domain/UseCases/Tag/GetTagByUuid";
 import NewProductForm from "../../../../../components/NewProductForm";
-import { IProduct } from "../../../../../Domain/Model/IProduct";
+import { ILastPrices, IProduct } from "../../../../../Domain/Model/IProduct";
 import AveragePrice from "./AveragePrice";
 import LastPrices from "./LastPrices";
 import GridItem from "../../../../../components/GridItem";
-import { GridItemInner, GridItemWrapper, GridItemWrapperInner } from "../../../../../components/GridItemInner";
+import { GridItemInner, GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../../../components/GridItemInner";
 
 
 interface ItemProps {
@@ -42,6 +42,11 @@ export default function ListGridItem({
   const colorScheme = useColorScheme();
   const router = useRouter();
   const tag = GetTagByUuid.handle(item.tag);
+
+
+
+  const lastPrice = item.lastPrices ? Object.values(item.lastPrices) : [];
+  console.log("lastPrice", lastPrice);
 
   const handleEdit = () => {
     setBottomSheetProps({
@@ -85,9 +90,9 @@ export default function ListGridItem({
           overflow: "hidden",
         }}
       >
-        <GridItemInner>
+        <GridItemInner row>
           <>
-            <GridItemWrapper width={50} >
+            <GridItemWrapperCol width={50} >
               <Styled.ButtonInner
                 underlayColor={
                   Colors[colorScheme ?? "light"]
@@ -96,32 +101,39 @@ export default function ListGridItem({
                 onPress={handleEdit}
               >
                 <>
-                  <GridItemWrapperInner height={50}>
+                  <GridItemWrapperInner height={lastPrice.length > 0 ? 50 : 60}>
 
                     <Styled.ButtonTextIcon
                       text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
                     >
                       <FontAwesome
-                        size={26}
+                        size={lastPrice.length > 0 ? 26 : 18}
                         style={{ marginBottom: -3 }}
                         name="pencil"
                       />
                     </Styled.ButtonTextIcon>
                   </GridItemWrapperInner>
 
-                  <GridItemWrapperInner height={50} justify="flex-start">
-                    <SubTitle
+                  <GridItemWrapperInner height={lastPrice.length > 0 ? 50 : 40} justify={lastPrice.length > 0 ? "flex-start" : "flex-end"}>
+                    {lastPrice.length > 0 ? <SubTitle
                       color={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
                       align="center"
                     >
                       Editar
-                    </SubTitle>
+                    </SubTitle> :
+                      <Text
+                        color={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                        align="center"
+                      >
+                        Editar
+                      </Text>
+                    }
                   </GridItemWrapperInner>
                 </>
               </Styled.ButtonInner>
-            </GridItemWrapper>
+            </GridItemWrapperCol>
 
-            <GridItemWrapper width={50} >
+            <GridItemWrapperCol width={50} >
               <Styled.ButtonInner
                 underlayColor={
                   Colors[colorScheme ?? "light"]
@@ -130,32 +142,40 @@ export default function ListGridItem({
                 onPress={handleDelete}
               >
                 <>
-                  <Styled.ButtonTextIcon
-                    text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
-                  >
-                    <FontAwesome
-                      size={26}
-                      style={{ marginBottom: -3 }}
-                      name="trash"
-                    />
-                  </Styled.ButtonTextIcon>
-                  <GridItemWrapperInner height={50} justify="flex-start">
-                    <SubTitle
+                  <GridItemWrapperInner height={lastPrice.length > 0 ? 50 : 60} >
+                    <Styled.ButtonTextIcon
+                      text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                    >
+                      <FontAwesome
+                        size={lastPrice.length > 0 ? 26 : 18}
+                        style={{ marginBottom: -3 }}
+                        name="trash"
+                      />
+                    </Styled.ButtonTextIcon>
+                  </GridItemWrapperInner>
+                  <GridItemWrapperInner height={lastPrice.length > 0 ? 50 : 40} justify={lastPrice.length > 0 ? "flex-start" : "flex-end"}>
+                    {lastPrice.length > 0 ? <SubTitle
                       color={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
                       align="center"
                     >
                       Deletar
-                    </SubTitle>
+                    </SubTitle> :
+                      <Text
+                        color={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                        align="center"
+                      >
+                        Deletar
+                      </Text>
+                    }
                   </GridItemWrapperInner>
                 </>
               </Styled.ButtonInner>
-            </GridItemWrapper>
+            </GridItemWrapperCol>
           </>
         </GridItemInner>
       </Animated.View >
     );
   };
-  item.amount = ["2.99", "3.99", "4.99"]
   return (
     <GridItem
       renderRightActions={LeftSwipe}
@@ -166,11 +186,12 @@ export default function ListGridItem({
           Colors[colorScheme ?? "light"].listItemBackgroundBorderColor
         }
         background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
-        height={110}
+        height={lastPrice.length > 0 ? 100 : 60}
+        row={false}
       >
         <>
-          <GridItemWrapper width={70} >
-            <GridItemWrapperInner height={30}>
+          <GridItemWrapperRow height={30} >
+            <GridItemWrapperInner height={100}>
               <Title
                 color={
                   colorScheme !== "dark"
@@ -183,32 +204,20 @@ export default function ListGridItem({
 
 
             </GridItemWrapperInner>
-            <GridItemWrapperInner height={70}>
+          </GridItemWrapperRow>
+          <GridItemWrapperRow height={60} >
+            {lastPrice.length > 0 ? <GridItemWrapperInner width={70} height={100}>
 
-              <LastPrices tags={item.amount} />
+              <LastPrices lastPrices={lastPrice.map(price => ((price.price.toFixed(2))))} />
 
-            </GridItemWrapperInner>
-          </GridItemWrapper>
-          <GridItemWrapper width={30} >
-            <GridItemWrapperInner height={30}>
-
-              <SubTitle
-                color={
-                  colorScheme !== "dark"
-                    ? Colors[colorScheme ?? "light"].black
-                    : Colors[colorScheme ?? "light"].white
-                }
-              >
-                {tag?.name}
-              </SubTitle>
-            </GridItemWrapperInner>
-            <GridItemWrapperInner height={70}>
+            </GridItemWrapperInner> : <></>}
+            {lastPrice.length > 0 ? <GridItemWrapperInner width={30} height={100}>
 
               <AveragePrice
-                price={item.amount.map((a) => (Number(a)))}
+                price={lastPrice}
               />
-            </GridItemWrapperInner>
-          </GridItemWrapper>
+            </GridItemWrapperInner> : <></>}
+          </GridItemWrapperRow>
 
         </>
       </GridItemInner>
