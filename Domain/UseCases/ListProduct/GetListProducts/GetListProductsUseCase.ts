@@ -5,17 +5,17 @@ import { IProduct } from "../../../Model/IProduct";
 export default class GetListProductsUseCase {
   constructor(private mmkv: IStorage) { }
 
-  execute = (key: string): IListInterface<IProduct> | null => {
+  execute = (key: string): IListInterface<IProduct> => {
     try {
       const data = this.mmkv.get(key);
       if (data) {
         const list: IListInterface<IProduct> = JSON.parse(data);
         return list;
       }
-      return null;
+      return {};
     } catch (error) {
       console.error("GetListsUseCase", error);
-      return null;
+      return {};
     }
   };
 }

@@ -24,13 +24,13 @@ import CircleProgress from "../../../../../components/CircleProgress";
 import { BottomSheetProps } from "../../../../../components/BottomSheet";
 import NewListForm from "../../../../../components/NewListForm";
 import Tag from "../../../../../Domain/Model/Implementation/Tag";
-import { IList, IListInterface } from "@/Domain/Model/IList";
-import { IListAmountInterface } from "../../../../../Domain/Model/IAmount";
+import { IList, IListInterface } from "../../../../../Domain/Model/IList";
 import getListProductController from "../../../../../Domain/UseCases/ListProduct/GetListProductByUuid";
 import deleteTagByUuidController from "../../../../../Domain/UseCases/Tag/DeleteTagByUuid";
 import saveListArchivedByUuidController from "../../../../../Domain/UseCases/ListArchived/SaveListByUuid";
 import NewTagForm from "../../../../../components/NewTagForm";
-import ITag from "@/Domain/Model/ITag";
+import ITag from "../../../../../Domain/Model/ITag";
+import getNumberOfProductsByTagsUuidController from "../../../../../Domain/UseCases/ListProduct/GetNumberOfProductsByTagsUuid";
 interface ItemProps {
   item: Tag;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -41,22 +41,12 @@ export default function ListGridItem({
   item,
   setBottomSheetProps,
   handleCloseBottomSheet,
-}: ItemProps) {
+}: Readonly<ItemProps>) {
   const {
     tags,
     setTags,
-    listProduct,
-    setListProduct,
-    listAmount,
-    setListAmount,
   } = useShoppingListContext();
   const {
-    listArchived,
-    setListArchived,
-    listProductArchived,
-    setListProductArchived,
-    listAmountArchived,
-    setListAmountArchived,
   } = useShoppingListArchivedContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
@@ -197,6 +187,15 @@ export default function ListGridItem({
                 }
               >
                 {item.name}
+              </Title>
+              <Title
+                color={
+                  colorScheme !== "dark"
+                    ? Colors[colorScheme ?? "light"].black
+                    : Colors[colorScheme ?? "light"].white
+                }
+              >
+                {getNumberOfProductsByTagsUuidController.handle(item.uuid)}
               </Title>
             </Styled.ContainerItemTitle>
             <Styled.ContainerListItemBody>

@@ -31,7 +31,7 @@ export interface IControllerSaveListProductByUuid {
   handle(data: IProduct): void;
 }
 export interface IControllerGetListProducts {
-  handle(): IProduct[] | null;
+  handle(): IProduct[];
 }
 export interface IControllerGetListProductsByUuid {
   handle(productsUuid: string[]): IProduct[];
