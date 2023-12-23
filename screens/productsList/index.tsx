@@ -24,6 +24,9 @@ import getTotalQuantityWithoutAmountByListUuidController from "../../Domain/UseC
 import Container from "../../components/Container";
 import ContainerInner from "../../components/ContainerInner";
 import Header from "../../components/Header";
+import getListProductsByTagUuidUseCase from "../../Domain/UseCases/ListProduct/GetListProductsByTagUuid";
+import getTagByUuidController from "../../Domain/UseCases/Tag/GetTagByUuid";
+import { IProduct } from "../../Domain/Model/IProduct";
 type TotalType = {
   amount: number;
   un: number;
@@ -42,148 +45,28 @@ export default function ProductsList({ tagUuid,
   handleCloseBottomSheet, }: Readonly<ProductsListProps>) {
   const colorScheme = useColorScheme();
   const {
-    list,
-    listProduct,
-    amount,
+    listProduct
   } = useShoppingListContext();
-  const selectedItem = list.find((i) => i.uuid === tagUuid);
-  const [tags, setTags] = useState(selectedItem?.tags ? ["Todos", ...selectedItem?.tags] : []);
-  const [listArr, setListArr] = useState(selectedItem);
+  const tag = getTagByUuidController.handle(tagUuid);
 
-  const [listArrItems, setListArrItems] = useState(getListProductController.handle(selectedItem?.items ? selectedItem?.items : []));
+  const [listArrItems, setListArrItems] = useState<IProduct[]>(getListProductsByTagUuidUseCase.handle(tagUuid));
 
-  const totalQuantity = getTotalQuantityAmountByListUuidController.handle(tagUuid);
-
-
-  const [filter, setFilter] = useState("Todos");
-  const [total, setTotal] = useState<TotalType>({
-    amount: 0,
-    un: 0,
-  });
-  const router = useRouter();
   useEffect(() => {
-    const productsList = getListProductController.handle(selectedItem?.items ? selectedItem?.items : []);
-    setTags(selectedItem?.tags ? ["Todos", ...selectedItem?.tags] : []);
-    if (filter === "Todos") {
-      setListArrItems(productsList);
+    setListArrItems(getListProductsByTagUuidUseCase.handle(tagUuid))
+  }, [listProduct])
 
-      const newTotal: TotalType = {
-        un: getTotalQuantityAmountByListUuidController.handle(tagUuid),
-        amount: getTotalQuantityWithoutAmountByListUuidController.handle(tagUuid),
-      };
-      setTotal(newTotal);
-      return;
-    }
+  const router = useRouter();
 
-    const filteredProductsList = productsList.filter(product => getTagUuidByTagNameController.handle(filter) === product.tag)
-    const newTotal: TotalType = {
-      un: getTotalQuantityAmountByListUuidController.handle(tagUuid, filteredProductsList),
-      amount: getTotalQuantityWithoutAmountByListUuidController.handle(tagUuid, filteredProductsList),
-    };
+  function deleteItem(item: ItemInterface): void {
+    throw new Error("Function not implemented.");
+  }
 
-    setTotal(newTotal);
-    setListArrItems(filteredProductsList);
-
-    return () => { };
-  }, [filter, amount, listProduct, list]);
-
-  const deleteItem = (item: ItemInterface) => {
-    // const updatedList: ListItemInterface = JSON.parse(JSON.stringify(listItem));
-    // handleDeleteAmountInList(updatedList[item.uuid].amount);
-    // delete updatedList[item.uuid];
-    // setListItem(updatedList);
-    // handleDeleteItemListFromList(updatedList, item.uuid);
-  };
-  const handleDeleteAmountInList = (itemAmountUuid: string[]): void => {
-    // const updatedList: ListItemAmountInterface = JSON.parse(
-    //   JSON.stringify(itemAmountList)
-    // );
-    // itemAmountUuid.forEach((i) => {
-    //   delete updatedList[i];
-    // });
-    // setItemAmountList(updatedList);
-  };
-  const handleDeleteItemListFromList = (
-    updatedList: ListItemInterface,
-    itemUuid: string
-  ): void => {
-    // const updatedListItem: ListType = JSON.parse(JSON.stringify(list));
-    // const item = updatedListItem[tagUuid];
-    // if (item) {
-    //   const newArray = item.items.filter((i) => i !== itemUuid);
-    //   item.items = newArray;
-    //   item.tags = getTagsFromListItemInterface(updatedList);
-    //   setList(updatedListItem);
-    // }
-  };
   return (
 
     <Container
       background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
       noPadding
     >
-
-      {/* <Styled.ContainerHeader>
-        <Styled.ContainerHeaderInnerIconBack>
-          <TouchableOpacity onPress={() => router.back()}>
-            <FontAwesome
-              name="angle-left"
-              size={35}
-              color={Colors[colorScheme ?? "light"].white}
-            />
-          </TouchableOpacity>
-        </Styled.ContainerHeaderInnerIconBack>
-        <Styled.ContainerHeaderInnerText>
-          <Title color={Colors[colorScheme ?? "light"].white}>
-            {listArr?.name}
-          </Title>
-        </Styled.ContainerHeaderInnerText>
-
-        <Styled.ContainerHeaderInnerProgress>
-          <CircleProgress
-            activeStrokeColor={
-              Colors[colorScheme ?? "light"]
-                .circleProgresBackgroundFilledListColor
-            }
-            titleColor={
-              Colors[colorScheme ?? "light"].circleProgresTextListColor
-            }
-            circleBackgroundColor={
-              Colors[colorScheme ?? "light"].circleProgresBackgroundListColor
-            }
-            filled={total.amount}
-            progress={total.un && total.amount ? total.amount : 0}
-            total={total.un}
-            size={30}
-          />
-        </Styled.ContainerHeaderInnerProgress>
-      </Styled.ContainerHeader> */}
-      {/* {listArr && listArr.tags.length > 0 ? (
-        <Styled.ContainerHeaderInnerFilterButtons>
-          <FilterButtons
-            tags={tags}
-            filter={filter}
-            setFilter={setFilter}
-          />
-        </Styled.ContainerHeaderInnerFilterButtons>
-      ) : null}
-
-      <Styled.ContainerBody>
-        <Styled.ContainerListInner>
-          {listArrItems.length > 0 ? (
-            <ListGrid
-              setBottomSheetProps={setBottomSheetProps}
-              deleteItem={deleteItem}
-              listArrItems={listArrItems}
-              tagUuid={tagUuid}
-              handleCloseBottomSheet={handleCloseBottomSheet}
-            />
-          ) : ( */}
-
-      {/* )} */}
-      {/* </Styled.ContainerListInner>
-      </Styled.ContainerBody> */}
-
       <>
         <Header
           background={Colors[colorScheme ?? "light"].headerBackgroundColor}
@@ -196,15 +79,14 @@ export default function ProductsList({ tagUuid,
           </TouchableOpacity>}
 
           title={<Title color={Colors[colorScheme ?? "light"].white}>
-            {/* {listArr?.name} */}
-            Header
+            {tag?.name}
           </Title>} />
 
 
         <ContainerInner
           justify="center"
           background={Colors[colorScheme ?? "light"].bodyBackgroundColor}>
-          {tags && tags.length > 0 ? (
+          {listArrItems && listArrItems.length > 0 ? (
             <ListGrid
               setBottomSheetProps={setBottomSheetProps}
               deleteItem={deleteItem}

@@ -31,6 +31,9 @@ import getTotlaAmountByListProductUuidController from "../../../../Domain/UseCas
 import getTotalQuantityAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetTotalQuantityAmountByListProductUuid";
 import deleteProductFromListByUuidController from "../../../../Domain/UseCases/List/DeleteProductFromListByUuid";
 import getTagsController from "../../../../Domain/UseCases/ListProduct/GetTags";
+import GridItem from "../../../../components/GridItem";
+import { GridItemInner, GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../../components/GridItemInner";
+import DeleteProductByUuid from "../../../../Domain/UseCases/ListProduct/DeleteProductByUuid";
 
 interface ListProps {
   item: IProduct;
@@ -46,41 +49,18 @@ function ListGridItem({
   setBottomSheetProps,
   deleteItem,
   handleCloseBottomSheet,
-}: ListProps) {
+}: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
-  const [active, setActive] = useState(false);
   const {
-    list,
-    setList,
     listProduct,
     setListProduct,
   } = useShoppingListContext();
-  const listIditemuuid = `${tagUuid}-${item.uuid}`;
-
-  const listArrItems = getAmountByListProductUuidController.handle(listIditemuuid);
-  const total = getTotlaAmountByListProductUuidController.handle(listIditemuuid);
-  const quantity = getTotalQuantityAmountByListProductUuidController.handle(listIditemuuid);
 
   const handleDelete = () => {
-    deleteProductFromListByUuidController.handle(tagUuid, item.uuid);
     const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
-    const newListProduct = updatedList.filter(product => product.uuid !== item.uuid)
-    setListProduct(newListProduct);
-
-    const newList = list.map((l) => {
-      if (l.uuid === tagUuid) {
-        const newItems = l.items.filter(product => product !== item.uuid)
-        l.items = newItems;
-        l.tags = getTagsController.handle(newItems);
-      }
-      return l;
-    })
-    setList([...newList]);
-  };
-
-
-  const handleOpen = () => {
-    setActive(!active);
+    const newupdatedList = updatedList.filter(i => item.uuid !== i.uuid)
+    DeleteProductByUuid.handle(item.uuid);
+    setListProduct(newupdatedList);
   };
 
   function RightSwipe(
@@ -129,93 +109,22 @@ function ListGridItem({
     );
   }
 
-  const calcHeight = (height: number): string => {
-    if (height === 0) {
-      return `${1 * 50 + 60}`;
-    }
-    if (height > 5) {
-      return `${height * 50 + 90}`;
-    }
-    return `${height * 50 + 110}`;
-  };
 
-  return active ? (
-    <Styled.ContainerListItemListItem
-      underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
-      height={calcHeight(listArrItems.length)}
-      borderColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
-      background={Colors[colorScheme ?? "light"].listItemActiveBackgroundColor}
-    >
-      <>
-        <Styled.ContainerListItemListItemInner>
-          <Styled.ContainerItemTextIcon>
-            <Title color={Colors[colorScheme ?? "light"].white}>
-              <FontAwesome
-                onPress={handleOpen}
-                size={28}
-                style={{ marginBottom: -3 }}
-                color={
-                  listArrItems.length > 0
-                    ? Colors[colorScheme ?? "light"]
-                      .listItemIconActiveColorActive
-                    : Colors[colorScheme ?? "light"].listItemIconActiveColor
-                }
-                name={listArrItems.length > 0 ? "check-circle-o" : "circle-o"}
-              />
-            </Title>
-          </Styled.ContainerItemTextIcon>
-          <Styled.ContainerListItemListItemHead>
-            <Styled.ContainerItemTextTitle>
-              <Title color={Colors[colorScheme ?? "light"].white}>
-                {item.name}
-              </Title>
-            </Styled.ContainerItemTextTitle>
-            <Styled.ContainerListItemListItemBody>
-              <Styled.ContainerItemTextPriceTotal>
-                <Text color={Colors[colorScheme ?? "light"].white}>
-                  Total: R$ {total}
-                </Text>
-              </Styled.ContainerItemTextPriceTotal>
-              <Styled.ContainerItemTextPriceTotal>
-                <Text color={Colors[colorScheme ?? "light"].white}>
-                  Un: {quantity}
-                </Text>
-              </Styled.ContainerItemTextPriceTotal>
-            </Styled.ContainerListItemListItemBody>
-          </Styled.ContainerListItemListItemHead>
-          <Styled.ContainerItemTextIcon>
-            <Title color={Colors[colorScheme ?? "light"].white}>
-              <FontAwesome
-                onPress={handleOpen}
-                size={28}
-                style={{ marginBottom: -3 }}
-                name="angle-up"
-              />
-            </Title>
-          </Styled.ContainerItemTextIcon>
-        </Styled.ContainerListItemListItemInner>
-        <Styled.ContainerListItemListItemAMount
-          height={`${listArrItems.length * 50 + 40}`}
-          background={
-            Colors[colorScheme ?? "light"].bodyAddPriceBackgroundColor
-          }
-        >
-          <AddPriceUnit listProductUuid={listIditemuuid} listArrItems={listArrItems} />
-        </Styled.ContainerListItemListItemAMount>
-      </>
-    </Styled.ContainerListItemListItem>
-  ) : (
-    <Swipeable renderRightActions={RightSwipe} rightThreshold={100}>
-      <Styled.ContainerListItemListItem
-        height="60"
-        underlayColor={
-          Colors[colorScheme ?? "light"].listItemActiveBackgroundColor
+  return (
+    <GridItem
+      renderRightActions={RightSwipe}
+      leftThreshold={100} rightThreshold={undefined}>
+      <GridItemInner
+        underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+        borderColor={
+          Colors[colorScheme ?? "light"].listItemBackgroundBorderColor
         }
-        borderColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
         background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+        height={50}
+        row
       >
-        <Styled.ContainerListItemListItemInner>
-          <Styled.ContainerItemTextIcon>
+        <GridItemWrapperRow height={40} >
+          <GridItemWrapperInner height={100}>
             <Title
               color={
                 colorScheme !== "dark"
@@ -223,75 +132,12 @@ function ListGridItem({
                   : Colors[colorScheme ?? "light"].white
               }
             >
-              <FontAwesome
-                onPress={handleOpen}
-                size={28}
-                style={{ marginBottom: -3 }}
-                color={
-                  listArrItems.length > 0
-                    ? Colors[colorScheme ?? "light"].listItemIconColorActive
-                    : Colors[colorScheme ?? "light"].listItemIconColor
-                }
-                name={listArrItems.length > 0 ? "check-circle-o" : "circle-o"}
-              />
+              {item.name}
             </Title>
-          </Styled.ContainerItemTextIcon>
-          <Styled.ContainerListItemListItemHead>
-            <Styled.ContainerItemTextTitle>
-              <Title
-                color={
-                  colorScheme !== "dark"
-                    ? Colors[colorScheme ?? "light"].black
-                    : Colors[colorScheme ?? "light"].white
-                }
-              >
-                {item.name}
-              </Title>
-            </Styled.ContainerItemTextTitle>
-            <Styled.ContainerListItemListItemBody>
-              <Styled.ContainerItemTextPriceTotal>
-                <Text
-                  color={
-                    colorScheme !== "dark"
-                      ? Colors[colorScheme ?? "light"].black
-                      : Colors[colorScheme ?? "light"].white
-                  }
-                >
-                  Total: R$ {total}
-                </Text>
-              </Styled.ContainerItemTextPriceTotal>
-              <Styled.ContainerItemTextPriceTotal>
-                <Text
-                  color={
-                    colorScheme !== "dark"
-                      ? Colors[colorScheme ?? "light"].black
-                      : Colors[colorScheme ?? "light"].white
-                  }
-                >
-                  Un: {quantity}
-                </Text>
-              </Styled.ContainerItemTextPriceTotal>
-            </Styled.ContainerListItemListItemBody>
-          </Styled.ContainerListItemListItemHead>
-          <Styled.ContainerItemTextIcon>
-            <Title
-              color={
-                colorScheme !== "dark"
-                  ? Colors[colorScheme ?? "light"].black
-                  : Colors[colorScheme ?? "light"].white
-              }
-            >
-              <FontAwesome
-                onPress={handleOpen}
-                size={28}
-                style={{ marginBottom: -3 }}
-                name="angle-down"
-              />
-            </Title>
-          </Styled.ContainerItemTextIcon>
-        </Styled.ContainerListItemListItemInner>
-      </Styled.ContainerListItemListItem>
-    </Swipeable>
+          </GridItemWrapperInner>
+        </GridItemWrapperRow>
+      </GridItemInner>
+    </GridItem>
   );
 }
 
