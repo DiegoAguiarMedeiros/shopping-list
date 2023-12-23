@@ -7,15 +7,17 @@ interface GridItemInnerProps {
     children: React.ReactNode;
     height?: number;
     row: boolean;
+    onPress?: () => void;
 }
 
-export const GridItemInner = ({ background, borderColor, underlayColor, children, height, row }: GridItemInnerProps) => {
+export const GridItemInner = ({ background, borderColor, underlayColor, children, height, row, onPress }: GridItemInnerProps) => {
     return (<Styled.Item
         background={background ?? "transparent"}
         borderColor={borderColor ?? "transparent"}
         underlayColor={underlayColor ?? "transparent"}
         height={`${height}px`}
         row={row}
+        onPress={onPress}
     >{children}</Styled.Item>)
 }
 interface GridItemWrapperRowProps {

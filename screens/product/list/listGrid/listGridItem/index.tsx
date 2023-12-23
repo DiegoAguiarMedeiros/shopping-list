@@ -42,12 +42,7 @@ export default function ListGridItem({
   const colorScheme = useColorScheme();
   const router = useRouter();
   const tag = GetTagByUuid.handle(item.tag);
-
-
-
   const lastPrice = item.lastPrices ? Object.values(item.lastPrices) : [];
-  console.log("lastPrice", lastPrice);
-
   const handleEdit = () => {
     setBottomSheetProps({
       // listId: item.uuid,

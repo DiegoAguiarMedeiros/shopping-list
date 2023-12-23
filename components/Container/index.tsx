@@ -6,7 +6,7 @@ export interface ContainerProps {
   background?: string;
   border?: string;
   radius?: boolean;
-
+  noPadding?: boolean;
 }
 
 const Container: React.FC<ContainerProps> = ({
@@ -14,10 +14,11 @@ const Container: React.FC<ContainerProps> = ({
   border,
   children,
   radius,
+  noPadding,
   ...rest
 }) => {
   return (
-    <Styled.Container background={background ?? "transparent"}>
+    <Styled.Container background={background ?? "transparent"} noPadding={noPadding ?? false}>
       {children}
     </Styled.Container>
   );

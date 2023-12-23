@@ -5,6 +5,8 @@ import { useState } from "react";
 import { BottomSheetProps } from "../../types/types";
 import Button from "../Button";
 import { Text } from "../Text";
+import Container from "../Container";
+import ContainerInner from "../ContainerInner";
 
 interface Image {
   image: any;
@@ -21,29 +23,30 @@ type EmptyListProps = {
 export default function EmptyList({ mensage }: EmptyListProps) {
   const colorScheme = useColorScheme();
   return (
-    <Styled.Container
+    <Container
       background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
     >
-      <Styled.ContainerListEmpty>
-        <Styled.ContainerListEmptyInner>
-          <Styled.SlideContainerInnerImage>
-            <Styled.SlideImage source={img.image} />
-          </Styled.SlideContainerInnerImage>
-          <Styled.ListEmptyTextmessage
-            text={Colors[colorScheme ?? "light"].bodyTextColor}
+      <ContainerInner
+        justify="center"
+        background={Colors[colorScheme ?? "light"].bodyBackgroundColor}>
+
+        <Styled.SlideContainerInnerImage>
+          <Styled.SlideImage source={img.image} />
+        </Styled.SlideContainerInnerImage>
+        <Styled.ListEmptyTextmessage
+          text={Colors[colorScheme ?? "light"].bodyTextColor}
+        >
+          <Text
+            color={
+              colorScheme !== "dark"
+                ? Colors[colorScheme ?? "light"].black
+                : Colors[colorScheme ?? "light"].white
+            }
           >
-            <Text
-              color={
-                colorScheme !== "dark"
-                  ? Colors[colorScheme ?? "light"].black
-                  : Colors[colorScheme ?? "light"].white
-              }
-            >
-              {mensage}
-            </Text>
-          </Styled.ListEmptyTextmessage>
-        </Styled.ContainerListEmptyInner>
-      </Styled.ContainerListEmpty>
-    </Styled.Container>
+            {mensage}
+          </Text>
+        </Styled.ListEmptyTextmessage>
+      </ContainerInner>
+    </Container>
   );
 }

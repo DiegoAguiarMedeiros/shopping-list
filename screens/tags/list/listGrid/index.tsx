@@ -19,25 +19,19 @@ export default function ListGrid({
   const colorScheme = useColorScheme();
 
   return (
-    <Styled.Container
-      background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
-    >
-      <Styled.ContainerList>
-        <SafeAreaView>
-          <ScrollView>
-            <Styled.ContainerListItemListItem>
-              {items.map((item: ITag) => (
-                <ListGridItem
-                  handleCloseBottomSheet={handleCloseBottomSheet}
-                  setBottomSheetProps={setBottomSheetProps}
-                  key={"ListGridItem-" + item.uuid}
-                  item={item}
-                />
-              ))}
-            </Styled.ContainerListItemListItem>
-          </ScrollView>
-        </SafeAreaView>
-      </Styled.ContainerList>
-    </Styled.Container>
+    <SafeAreaView style={{ width: "100%" }}>
+      <ScrollView>
+        <Styled.ContainerListItemListItem>
+          {items.map((item: ITag) => (
+            <ListGridItem
+              handleCloseBottomSheet={handleCloseBottomSheet}
+              setBottomSheetProps={setBottomSheetProps}
+              key={"ListGridItem-" + item.uuid}
+              item={item}
+            />
+          ))}
+        </Styled.ContainerListItemListItem>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

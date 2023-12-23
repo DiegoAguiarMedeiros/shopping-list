@@ -14,7 +14,7 @@ import { useRouter } from "expo-router";
 
 import { Swipeable } from "react-native-gesture-handler";
 import { removeUndefinedFromArray } from "../../../../../utils/functions";
-import { Title, Text } from "../../../../../components/Text";
+import { Title, Text, SubTitle } from "../../../../../components/Text";
 import {
   useShoppingListArchivedContext,
   useShoppingListContext,
@@ -31,6 +31,8 @@ import saveListArchivedByUuidController from "../../../../../Domain/UseCases/Lis
 import NewTagForm from "../../../../../components/NewTagForm";
 import ITag from "../../../../../Domain/Model/ITag";
 import getNumberOfProductsByTagsUuidController from "../../../../../Domain/UseCases/ListProduct/GetNumberOfProductsByTagsUuid";
+import GridItem from "../../../../../components/GridItem";
+import { GridItemInner, GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../../../components/GridItemInner";
 interface ItemProps {
   item: Tag;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -46,8 +48,6 @@ export default function ListGridItem({
     tags,
     setTags,
   } = useShoppingListContext();
-  const {
-  } = useShoppingListArchivedContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
 
@@ -64,7 +64,7 @@ export default function ListGridItem({
         />
       ),
     });
-    router.push({ pathname: "/Items", params: { listId: item.uuid } });
+    router.push({ pathname: "/ProductsList", params: { tagUuid: item.uuid } });
   }, [item.uuid, router]);
 
   const handleEdit = () => {
@@ -164,21 +164,22 @@ export default function ListGridItem({
   };
 
   return (
-    <Swipeable
+    <GridItem
       renderRightActions={LeftSwipe}
-      leftThreshold={100}
-    >
-      <Styled.ContainerListItem
+      leftThreshold={100} rightThreshold={undefined}>
+      <GridItemInner
         underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
         borderColor={
           Colors[colorScheme ?? "light"].listItemBackgroundBorderColor
         }
         background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+        height={60}
+        row
         onPress={handleOpenList}
       >
-        <Styled.ContainerListItemInner>
-          <Styled.ContainerListItemHead>
-            <Styled.ContainerItemTitle>
+        <>
+          <GridItemWrapperCol width={70} height={50} >
+            <GridItemWrapperInner height={100}>
               <Title
                 color={
                   colorScheme !== "dark"
@@ -188,21 +189,23 @@ export default function ListGridItem({
               >
                 {item.name}
               </Title>
-              <Title
+            </GridItemWrapperInner>
+          </GridItemWrapperCol>
+          <GridItemWrapperCol width={30} height={50} >
+            <GridItemWrapperInner height={100}>
+              <SubTitle
                 color={
                   colorScheme !== "dark"
                     ? Colors[colorScheme ?? "light"].black
                     : Colors[colorScheme ?? "light"].white
                 }
               >
-                {getNumberOfProductsByTagsUuidController.handle(item.uuid)}
-              </Title>
-            </Styled.ContainerItemTitle>
-            <Styled.ContainerListItemBody>
-            </Styled.ContainerListItemBody>
-          </Styled.ContainerListItemHead>
-        </Styled.ContainerListItemInner>
-      </Styled.ContainerListItem>
-    </Swipeable>
+                Produtos: {getNumberOfProductsByTagsUuidController.handle(item.uuid)}
+              </SubTitle>
+            </GridItemWrapperInner>
+          </GridItemWrapperCol>
+        </>
+      </GridItemInner>
+    </GridItem >
   );
 }

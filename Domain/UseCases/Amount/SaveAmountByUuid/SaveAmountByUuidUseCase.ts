@@ -13,7 +13,6 @@ export default class SaveAmountByUuidUseCase {
         private saveProduct: IControllerSaveListProductByUuid) { }
     execute = (data: IAmount): void => {
         try {
-            console.log("data", data)
             const firstUUIDLength = 36; // Assuming the length of the first UUID is 36 characters
 
             this.asyncStorage.set(data.uuid, JSON.stringify(data));
@@ -36,8 +35,6 @@ export default class SaveAmountByUuidUseCase {
             const amounts = this.getProductAmount.handle(data.listProductUuid);
             const average = this.calculateAverageAmount(amounts);
             amounts.push(data)
-            console.log("data", data)
-            console.log("amounts", amounts)
             if (product[0].lastPrices) {
                 delete product[0].lastPrices[data.listProductUuid];
             } else {

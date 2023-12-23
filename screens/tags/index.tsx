@@ -10,6 +10,8 @@ import { useState } from "react";
 import NewListForm from "../../components/NewListForm";
 import Button from "../../components/Button";
 import ListComponent from "./list";
+import Container from "../../components/Container";
+import ContainerInner from "../../components/ContainerInner";
 
 interface TagsProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -23,13 +25,13 @@ export default function Tags({
   handleCloseBottomSheet,
 }: TagsProps) {
   const colorScheme = useColorScheme();
-  const { tags, listProduct, listAmount } = useShoppingListContext();
-  const isFocused = useIsFocused();
+  const { tags } = useShoppingListContext();
   return (
-    <Styled.Container
+    <Container
       background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
     >
-      <Styled.ContainerListInner>
+      <ContainerInner
+        background={Colors[colorScheme ?? "light"].bodyBackgroundColor}>
         {tags && tags.length > 0 ? (
           <ListComponent
             items={tags}
@@ -38,7 +40,7 @@ export default function Tags({
           />
         ) :
           <EmptyList mensage="Você não tem nenhuma categoria cadastrada" />}
-      </Styled.ContainerListInner>
-    </Styled.Container>
+      </ContainerInner>
+    </Container>
   );
 }

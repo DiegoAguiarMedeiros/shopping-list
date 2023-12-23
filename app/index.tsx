@@ -19,62 +19,7 @@ import {
   createStackNavigator,
 } from "@react-navigation/stack";
 
-// import Home from "./home";
-// import Items from "./Items";
-// import ItemsArchived from "./ItemsArchived";
-// import History from "./history";
-// import { RoutesProps } from "../types/types";
-
-// import OnboardingScreen from "../screens/onboarding";
 const Stack = createStackNavigator();
-// export {
-//   // Catch any errors thrown by the Layout component.
-//   ErrorBoundary,
-// } from "expo-router";
-
-// export const unstable_settings = {
-//   // Ensure that reloading on `/modal` keeps a back button present.
-//   initialRouteName: "home",
-// };
-
-// export default function RootLayout() {
-//   const [active, setActive] = useState(false);
-//   const [loaded, error] = useFonts({
-//     InterBlack: require("../assets/fonts/static/Inter-Black.ttf"),
-//     InterBold: require("../assets/fonts/static/Inter-Bold.ttf"),
-//     InterExtraBold: require("../assets/fonts/static/Inter-ExtraBold.ttf"),
-//     InterExtraLight: require("../assets/fonts/static/Inter-ExtraLight.ttf"),
-//     InterLight: require("../assets/fonts/static/Inter-Light.ttf"),
-//     InterMedium: require("../assets/fonts/static/Inter-Medium.ttf"),
-//     InterRegular: require("../assets/fonts/static/Inter-Regular.ttf"),
-//     InterSemiBold: require("../assets/fonts/static/Inter-SemiBold.ttf"),
-//     InterThin: require("../assets/fonts/static/Inter-Thin.ttf"),
-//     ...FontAwesome.font,
-//   });
-
-//   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
-//   useEffect(() => {
-//     if (error) throw error;
-//   }, [error]);
-
-//   const closeOnboarding = () => {
-//     setActive(false);
-//   };
-//   return (
-//     <>
-//       <Text>Loading...</Text>
-//       {/* <ShoppingListProvider> */}
-//       {/* <ShoppingListArchivedProvider> */}
-//       {/* Keep the splash screen open until the assets have loaded. In the future, we should just support async font loading with a native version of font-display. */}
-//       {!loaded && <SplashScreen />}
-//       {active && <OnboardingScreen closeOnboarding={closeOnboarding} />}
-//       {loaded && !active && <RootLayoutNav />}
-//       {/* </ShoppingListArchivedProvider> */}
-//       {/* </ShoppingListProvider> */}
-//     </>
-//   );
-// }
-
 import React, { useCallback, useEffect, useState } from "react";
 import { StatusBar, Text, View, useColorScheme } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -105,6 +50,7 @@ import tagsTab from "./tags";
 import NewTagForm from "../components/NewTagForm";
 import { useRouter } from "expo-router";
 import NewProductForm from "../components/NewProductForm";
+import ProductsList from "./ProductsList";
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
@@ -170,7 +116,6 @@ export default function App() {
       />
       <ShoppingListProvider>
         <ShoppingListArchivedProvider>
-          {/* Keep the splash screen open until the assets have loaded. In the future, we should just support async font loading with a native version of font-display. */}
           {!active && <OnboardingScreen closeOnboarding={closeOnboarding} />}
           {appIsReady && active && <RootLayoutNav />}
         </ShoppingListArchivedProvider>
@@ -233,7 +178,6 @@ function RootLayoutNav() {
         children: forms[route]
       })
     }
-    // setActiveRoute(route)
     setActiveRoute(route);
     router.push({ pathname: route });
   }
@@ -244,37 +188,13 @@ function RootLayoutNav() {
       icon: "shopping-bag",
       addButton: false,
       func: () =>
-        handleChangeRoute("home")
-      // setBottomSheetProps({
-      //   children: (
-      //     <NewListForm
-      //       action="addList"
-      //       buttonText="add"
-      //       onClose={handleCloseBottomSheet}
-      //     />
-      //   ),
-      //   height: "add",
-      //   isVisible: false,
-      // }); setActiveRoute("home")
-
+        handleChangeRoute("home"),
     },
     {
       name: "product",
       icon: "cube",
       addButton: false,
-      func: () => handleChangeRoute("product")
-      // setBottomSheetProps({
-      //   children: (
-      //     <NewListForm
-      //       action="addList"
-      //       buttonText="add"
-      //       onClose={handleCloseBottomSheet}
-      //     />
-      //   ),
-      //   height: "add",
-      //   isVisible: false,
-      // }); setActiveRoute("product")
-
+      func: () => handleChangeRoute("product"),
     },
     {
       name: "add",
@@ -286,22 +206,7 @@ function RootLayoutNav() {
       name: "tags",
       icon: "tags",
       addButton: false,
-      func: () => handleChangeRoute("tags")
-
-      // func(
-      //   setBottomSheetProps({
-      //     children: (
-      //       <NewTagForm
-      //         action="addList"
-      //         buttonText="add"
-      //         onClose={handleCloseBottomSheet}
-      //       />
-      //     ),
-      //     height: "add",
-      //     isVisible: true,
-      //   }), setActiveRoute("tags")
-      // )
-      ,
+      func: () => handleChangeRoute("tags"),
     },
     {
       name: "history",
@@ -388,6 +293,20 @@ function RootLayoutNav() {
         >
           {() => (
             <Items
+              setBottomSheetProps={setBottomSheetProps}
+              bottomSheetProps={bottomSheetProps}
+              handleCloseBottomSheet={handleCloseBottomSheet}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen
+          name="ProductsList"
+          options={{
+            headerShown: false,
+          }}
+        >
+          {() => (
+            <ProductsList
               setBottomSheetProps={setBottomSheetProps}
               bottomSheetProps={bottomSheetProps}
               handleCloseBottomSheet={handleCloseBottomSheet}
