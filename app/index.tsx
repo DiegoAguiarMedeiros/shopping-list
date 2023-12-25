@@ -51,6 +51,7 @@ import NewTagForm from "../components/NewTagForm";
 import { useRouter } from "expo-router";
 import NewProductForm from "../components/NewProductForm";
 import ProductsList from "./ProductsList";
+import NewItemForm from "../components/NewItemForm";
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
@@ -128,8 +129,46 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
   const router = useRouter();
   const [activeRoute, setActiveRoute] = useState<string>("home");
-  const handleCloseBottomSheet = () => {
-    setBottomSheetProps({ ...bottomSheetProps, isVisible: false });
+
+  const handleCloseBottomSheetList = () => {
+    setBottomSheetProps({
+      children: (
+        <NewListForm
+          action="addList"
+          buttonText="add"
+          onClose={handleCloseBottomSheetList}
+        />
+      ),
+      height: "add",
+      isVisible: false,
+    });
+  };
+  const handleCloseBottomSheetProduct = () => {
+    setBottomSheetProps({
+      children: (
+        <NewProductForm
+          action="addList"
+          buttonText="add"
+          onClose={handleCloseBottomSheetProduct}
+        />
+      ),
+      height: "edit",
+      isVisible: false,
+    });
+  };
+
+  const handleCloseBottomSheetTag = () => {
+    setBottomSheetProps({
+      children: (
+        <NewTagForm
+          action="addTag"
+          buttonText="add"
+          onClose={handleCloseBottomSheetTag}
+        />
+      ),
+      height: "add",
+      isVisible: false,
+    });
   };
 
   const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
@@ -137,7 +176,7 @@ function RootLayoutNav() {
       <NewListForm
         action="addList"
         buttonText="add"
-        onClose={handleCloseBottomSheet}
+        onClose={handleCloseBottomSheetList}
       />
     ),
     height: "add",
@@ -146,27 +185,29 @@ function RootLayoutNav() {
 
 
   const handleChangeRoute = (route: "home" | "product" | "tags" | "history"): void => {
+
     const forms = {
       home: <NewListForm
         action="addList"
         buttonText="add"
-        onClose={handleCloseBottomSheet}
+        onClose={handleCloseBottomSheetList}
       />,
       product: <NewProductForm
         action="addList"
         buttonText="add"
-        onClose={handleCloseBottomSheet}
+        onClose={handleCloseBottomSheetProduct}
       />,
       tags: <NewTagForm
         action="addTag"
         buttonText="add"
-        onClose={handleCloseBottomSheet}
+        onClose={handleCloseBottomSheetTag}
       />
     }
 
     if (route != "history" && route != "product") {
       setBottomSheetProps({
         ...bottomSheetProps,
+        isVisible: false,
         height: "add",
         children: forms[route]
       })
@@ -174,10 +215,12 @@ function RootLayoutNav() {
     if (route === "product") {
       setBottomSheetProps({
         ...bottomSheetProps,
+        isVisible: false,
         height: "edit",
         children: forms[route]
       })
     }
+
     setActiveRoute(route);
     router.push({ pathname: route });
   }
@@ -243,7 +286,7 @@ function RootLayoutNav() {
             <Home
               setBottomSheetProps={setBottomSheetProps}
               bottomSheetProps={bottomSheetProps}
-              handleCloseBottomSheet={handleCloseBottomSheet}
+              handleCloseBottomSheet={handleCloseBottomSheetList}
             />
           )}
         </Stack.Screen>
@@ -262,7 +305,7 @@ function RootLayoutNav() {
             <ProductTab
               setBottomSheetProps={setBottomSheetProps}
               bottomSheetProps={bottomSheetProps}
-              handleCloseBottomSheet={handleCloseBottomSheet}
+              handleCloseBottomSheet={handleCloseBottomSheetProduct}
             />
           )}
         </Stack.Screen>
@@ -281,7 +324,7 @@ function RootLayoutNav() {
             <Tags
               setBottomSheetProps={setBottomSheetProps}
               bottomSheetProps={bottomSheetProps}
-              handleCloseBottomSheet={handleCloseBottomSheet}
+              handleCloseBottomSheet={handleCloseBottomSheetTag}
             />
           )}
         </Stack.Screen>
@@ -295,7 +338,8 @@ function RootLayoutNav() {
             <Items
               setBottomSheetProps={setBottomSheetProps}
               bottomSheetProps={bottomSheetProps}
-              handleCloseBottomSheet={handleCloseBottomSheet}
+              handleCloseBottomSheet={handleCloseBottomSheetProduct}
+              handleCloseBottomSheetList={handleCloseBottomSheetList}
             />
           )}
         </Stack.Screen>
@@ -309,7 +353,8 @@ function RootLayoutNav() {
             <ProductsList
               setBottomSheetProps={setBottomSheetProps}
               bottomSheetProps={bottomSheetProps}
-              handleCloseBottomSheet={handleCloseBottomSheet}
+              handleCloseBottomSheet={handleCloseBottomSheetProduct}
+              handleCloseBottomSheetTag={handleCloseBottomSheetTag}
             />
           )}
         </Stack.Screen>

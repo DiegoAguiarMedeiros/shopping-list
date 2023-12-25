@@ -33,6 +33,7 @@ import ITag from "../../../../../Domain/Model/ITag";
 import getNumberOfProductsByTagsUuidController from "../../../../../Domain/UseCases/ListProduct/GetNumberOfProductsByTagsUuid";
 import GridItem from "../../../../../components/GridItem";
 import { GridItemInner, GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../../../components/GridItemInner";
+import NewProductForm from "../../../../../components/NewProductForm";
 interface ItemProps {
   item: Tag;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -51,16 +52,33 @@ export default function ListGridItem({
   const colorScheme = useColorScheme();
   const router = useRouter();
 
+  const handleCloseBottomSheetProduct = () => {
+    setBottomSheetProps({
+      children: (
+        <NewProductForm
+          action="addList"
+          buttonText="add"
+          onClose={handleCloseBottomSheetProduct}
+          tagUuid={item.uuid}
+        />
+      ),
+      height: "add",
+      isVisible: false,
+    });
+  };
+
   const handleOpenList = useCallback(() => {
+
 
     setBottomSheetProps({
       isVisible: false,
-      height: "edit",
+      height: "add",
       children: (
-        <NewTagForm
-          onClose={handleCloseBottomSheet}
-          action="addTag"
+        <NewProductForm
+          onClose={handleCloseBottomSheetProduct}
+          action="addList"
           buttonText="add"
+          tagUuid={item.uuid}
         />
       ),
     });

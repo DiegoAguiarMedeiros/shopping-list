@@ -15,6 +15,7 @@ export const Item = styled.TouchableHighlight<{
   flex-direction: ${(props: { row: boolean }) => props.row ? "row" : "col"};
   padding: 5px;
   border: 1px solid ${(props: { borderColor: string }) => props.borderColor};
+
 `;
 export const Wrapper = styled.View<{
   width: string;
@@ -22,6 +23,7 @@ export const Wrapper = styled.View<{
 }>`
   width: ${(props: { width: string }) => props.width};
   height: ${(props: { height: string }) => props.height};
+
 `;
 export const WrapperRow = styled.View<{
   height: string;
@@ -29,6 +31,7 @@ export const WrapperRow = styled.View<{
   height: ${(props: { height: string }) => props.height};
   display: flex;
   flex-direction: row;
+
 `;
 export const WrapperCol = styled.View<{
   width: string;
@@ -36,6 +39,7 @@ export const WrapperCol = styled.View<{
 }>`
   width: ${(props: { width: string }) => props.width};
   height: ${(props: { height: string }) => props.height};
+
 `;
 export const WrapperInner = styled.View<{
   width: string;
@@ -47,4 +51,5 @@ export const WrapperInner = styled.View<{
   display: flex;
   justify-content: ${(props: { justify: string }) => props.justify};
   align-items: flex-start;
+
 `;

@@ -41,12 +41,14 @@ interface ListProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   bottomSheetProps: BottomSheetProps;
   handleCloseBottomSheet: () => void;
+  handleCloseBottomSheetList: () => void;
 }
 
 export default function List({ listId,
   bottomSheetProps,
   setBottomSheetProps,
-  handleCloseBottomSheet, }: ListProps) {
+  handleCloseBottomSheet,
+  handleCloseBottomSheetList }: ListProps) {
   const colorScheme = useColorScheme();
   const {
     list,
@@ -68,6 +70,12 @@ export default function List({ listId,
     un: 0,
   });
   const router = useRouter();
+
+  const returnToHome = () => {
+    handleCloseBottomSheetList();
+    router.push({ pathname: "/home" })
+  }
+
   useEffect(() => {
     const productsList = getListProductController.handle(selectedItem?.items ? selectedItem?.items : []);
     setTags(selectedItem?.tags ? ["Todos", ...selectedItem?.tags] : []);
@@ -131,7 +139,7 @@ export default function List({ listId,
     >
       <Styled.ContainerHeader>
         <Styled.ContainerHeaderInnerIconBack>
-          <TouchableOpacity onPress={() => router.back()}>
+          <TouchableOpacity onPress={() => returnToHome()}>
             <FontAwesome
               name="angle-left"
               size={35}

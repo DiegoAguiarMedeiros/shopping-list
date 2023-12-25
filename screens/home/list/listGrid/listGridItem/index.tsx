@@ -69,6 +69,21 @@ export default function ListGridItem({
     getTotalQuantityWithoutAmountByListUuidController.handle(item.uuid);
   const totalUn =
     getTotalQuantityAmountByListUuidController.handle(item.uuid);
+
+  const handleCloseBottomSheetProductList = () => {
+    setBottomSheetProps({
+      children: (
+        <NewItemForm
+          action="addListItem"
+          buttonText="add"
+          onClose={handleCloseBottomSheetProductList}
+          listId={item.uuid} />
+      ),
+      height: "edit",
+      isVisible: false,
+    });
+  };
+
   const handleOpenList = useCallback(() => {
 
 
@@ -82,7 +97,7 @@ export default function ListGridItem({
             height: "add",
             children: (
               <NewItemForm
-                onClose={handleCloseBottomSheet}
+                onClose={handleCloseBottomSheetProductList}
                 action="addListItem"
                 buttonText="add"
                 listId={item.uuid}

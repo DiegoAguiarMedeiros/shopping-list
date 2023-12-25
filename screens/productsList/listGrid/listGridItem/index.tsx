@@ -34,6 +34,7 @@ import getTagsController from "../../../../Domain/UseCases/ListProduct/GetTags";
 import GridItem from "../../../../components/GridItem";
 import { GridItemInner, GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../../components/GridItemInner";
 import DeleteProductByUuid from "../../../../Domain/UseCases/ListProduct/DeleteProductByUuid";
+import NewProductForm from "../../../../components/NewProductForm";
 
 interface ListProps {
   item: IProduct;
@@ -56,6 +57,25 @@ function ListGridItem({
     setListProduct,
   } = useShoppingListContext();
 
+  const handleEdit = () => {
+    setBottomSheetProps({
+      // listId: item.uuid,
+      // items: item,
+      // buttonText: "edit",
+      // action: "editList",
+      height: "edit",
+      children: (
+        <NewProductForm
+          action="editList"
+          buttonText="edit"
+          items={item}
+          onClose={handleCloseBottomSheet}
+        />
+      ),
+      isVisible: true,
+    });
+  };
+
   const handleDelete = () => {
     const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
     const newupdatedList = updatedList.filter(i => item.uuid !== i.uuid)
@@ -63,7 +83,7 @@ function ListGridItem({
     setListProduct(newupdatedList);
   };
 
-  function RightSwipe(
+  const LeftSwipe = (
     progress: any,
     dragX: {
       interpolate: (arg0: {
@@ -71,48 +91,92 @@ function ListGridItem({
         outputRange: number[];
       }) => any;
     }
-  ) {
+  ) => {
     return (
       <Animated.View
         style={{
-          width: 100,
-          overflow: "hidden"
+          width: 200,
+          overflow: "hidden",
         }}
       >
-        <Styled.ButtonView>
-          <Styled.ButtonInner
-            underlayColor={
-              Colors[colorScheme ?? "light"]
-                .swipeablebuttonTouchableHighlightBackgroundColor
-            }
-            onPress={handleDelete}
-          >
-            <>
-              <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+        <GridItemInner row>
+          <>
+            <GridItemWrapperCol width={50} >
+              <Styled.ButtonInner
+                underlayColor={
+                  Colors[colorScheme ?? "light"]
+                    .swipeablebuttonTouchableHighlightBackgroundColor
+                }
+                onPress={handleEdit}
               >
-                <FontAwesome
-                  size={18}
-                  style={{ marginBottom: -3 }}
-                  name="trash"
-                />
-              </Styled.ButtonTextIcon>
-              <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                <>
+                  <GridItemWrapperInner height={60}>
+
+                    <Styled.ButtonTextIcon
+                      text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                    >
+                      <FontAwesome
+                        size={18}
+                        style={{ marginBottom: -3 }}
+                        name="pencil"
+                      />
+                    </Styled.ButtonTextIcon>
+                  </GridItemWrapperInner>
+
+                  <GridItemWrapperInner height={40} justify={"flex-end"}>
+
+                    <Text
+                      color={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                      align="center"
+                    >
+                      Editar
+                    </Text>
+                  </GridItemWrapperInner>
+                </>
+              </Styled.ButtonInner>
+            </GridItemWrapperCol>
+
+            <GridItemWrapperCol width={50} >
+              <Styled.ButtonInner
+                underlayColor={
+                  Colors[colorScheme ?? "light"]
+                    .swipeablebuttonTouchableHighlightBackgroundColor
+                }
+                onPress={handleDelete}
               >
-                Deletar
-              </Styled.ButtonText>
-            </>
-          </Styled.ButtonInner>
-        </Styled.ButtonView>
-      </Animated.View>
+                <>
+                  <GridItemWrapperInner height={60} >
+                    <Styled.ButtonTextIcon
+                      text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                    >
+                      <FontAwesome
+                        size={18}
+                        style={{ marginBottom: -3 }}
+                        name="trash"
+                      />
+                    </Styled.ButtonTextIcon>
+                  </GridItemWrapperInner>
+                  <GridItemWrapperInner height={40} justify={"flex-end"}>
+                    <Text
+                      color={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                      align="center"
+                    >
+                      Deletar
+                    </Text>
+                  </GridItemWrapperInner>
+                </>
+              </Styled.ButtonInner>
+            </GridItemWrapperCol>
+          </>
+        </GridItemInner>
+      </Animated.View >
     );
-  }
+  };
 
 
   return (
     <GridItem
-      renderRightActions={RightSwipe}
+      renderRightActions={LeftSwipe}
       leftThreshold={100} rightThreshold={undefined}>
       <GridItemInner
         underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
@@ -120,10 +184,10 @@ function ListGridItem({
           Colors[colorScheme ?? "light"].listItemBackgroundBorderColor
         }
         background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
-        height={50}
+        height={60}
         row
       >
-        <GridItemWrapperRow height={40} >
+        <GridItemWrapperRow height={50} >
           <GridItemWrapperInner height={100}>
             <Title
               color={

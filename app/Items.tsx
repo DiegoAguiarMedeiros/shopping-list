@@ -8,13 +8,15 @@ interface ItemsTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   bottomSheetProps: BottomSheetProps;
   handleCloseBottomSheet: () => void;
+  handleCloseBottomSheetList: () => void;
 }
 
 
 export default function Items({
   setBottomSheetProps,
   bottomSheetProps,
-  handleCloseBottomSheet, }: ItemsTabProps) {
+  handleCloseBottomSheet,
+  handleCloseBottomSheetList }: ItemsTabProps) {
   const { listId } = useSearchParams();
 
 
@@ -22,6 +24,7 @@ export default function Items({
     <List setBottomSheetProps={setBottomSheetProps}
       bottomSheetProps={bottomSheetProps}
       handleCloseBottomSheet={handleCloseBottomSheet}
+      handleCloseBottomSheetList={handleCloseBottomSheetList}
       listId={Array.isArray(listId) ? listId[0] : listId} />
   ) : (
     <></>

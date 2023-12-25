@@ -8,13 +8,15 @@ interface ProductListTabProps {
     setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
     bottomSheetProps: BottomSheetProps;
     handleCloseBottomSheet: () => void;
+    handleCloseBottomSheetTag: () => void;
 }
 
 
 export default function ProductList({
     setBottomSheetProps,
     bottomSheetProps,
-    handleCloseBottomSheet, }: ProductListTabProps) {
+    handleCloseBottomSheet,
+    handleCloseBottomSheetTag }: ProductListTabProps) {
     const { tagUuid } = useSearchParams();
 
 
@@ -22,6 +24,7 @@ export default function ProductList({
         <ProductsList setBottomSheetProps={setBottomSheetProps}
             bottomSheetProps={bottomSheetProps}
             handleCloseBottomSheet={handleCloseBottomSheet}
+            handleCloseBottomSheetTag={handleCloseBottomSheetTag}
             tagUuid={Array.isArray(tagUuid) ? tagUuid[0] : tagUuid} />
     ) : (
         <></>

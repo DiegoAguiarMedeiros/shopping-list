@@ -6,7 +6,7 @@ import { useIsFocused } from "@react-navigation/native";
 import Colors from "../../constants/Colors";
 import * as Styled from "./styles";
 import BottomSheet, { BottomSheetProps } from "../../components/BottomSheet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NewListForm from "../../components/NewListForm";
 import Button from "../../components/Button";
 
@@ -23,6 +23,16 @@ export default function Home({
   const colorScheme = useColorScheme();
   const { list, listProduct, amount, tags } = useShoppingListContext();
   const isFocused = useIsFocused();
+
+
+  console.log("Home")
+
+  useEffect(() => {
+    console.log("handleCloseBottomSheet")
+    handleCloseBottomSheet()
+  }, [])
+
+
   // console.log("list", list);
   // console.log("listProduct", listProduct);
   // console.log("amount", amount);

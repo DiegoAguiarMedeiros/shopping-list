@@ -4,6 +4,7 @@ import Home from "../screens/home";
 
 import View from "../components/Themed";
 import { BottomSheetProps } from "../components/BottomSheet";
+import { useEffect } from "react";
 interface TabOneScreenProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   bottomSheetProps: BottomSheetProps;
@@ -15,6 +16,9 @@ export default function TabOneScreen({
   bottomSheetProps,
   handleCloseBottomSheet,
 }: TabOneScreenProps) {
+
+
+
   return (
     <View style={styles.container}>
       <Home

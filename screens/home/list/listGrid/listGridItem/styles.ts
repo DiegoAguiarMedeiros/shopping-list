@@ -12,7 +12,6 @@ export const ContainerListItem = styled.TouchableHighlight<{
   border-radius: 15px;
   margin: 5px 0;
   border: 1px solid ${(props: { borderColor: string }) => props.borderColor};
-
 `;
 export const ContainerListItemInner = styled.View`
   position: relative;

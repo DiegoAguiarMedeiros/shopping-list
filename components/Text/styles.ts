@@ -6,6 +6,7 @@ export const Title = styled.Text<{
   color:${(props: { color: string; }) => props.color};
   font-size: 20px;
   width: 100%;
+  font-weight: 800;
 `;
 export const SubTitle = styled.Text<{
   color: string,

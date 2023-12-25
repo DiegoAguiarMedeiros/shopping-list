@@ -97,8 +97,9 @@ export const ButtonTextIcon = styled.Text<{
 }>`
   color: ${(props: { text: any }) => props.text};
   flex: 10;
-  padding: 15px 10px 0 10px;
+  padding: 5px 10px 0 10px;
   text-align: center;
+  width: 100%;
 `;
 export const ButtonText = styled.Text<{
   text: string;

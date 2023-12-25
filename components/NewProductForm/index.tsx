@@ -24,7 +24,7 @@ const countries2 = [{ label: "Selecione uma categoria", value: "" }, { label: "C
 
 export type NewListFormProps = {
   onClose: () => void;
-  listId?: string;
+  tagUuid?: string;
   buttonText: "add" | "edit";
   action: "addList" | "editList";
   items?: IProduct;
@@ -32,7 +32,7 @@ export type NewListFormProps = {
 
 const NewProductForm = ({
   onClose,
-  listId,
+  tagUuid,
   buttonText,
   action,
   items,
@@ -42,7 +42,7 @@ const NewProductForm = ({
     useShoppingListContext();
   const [newItem, setNewItem] = useState({
     item: items ? items.name : "",
-    tag: items ? items.tag : "",
+    tag: tagUuid ? tagUuid : "",
   });
   const tags = GetTags.handle();
   if (tags) {
@@ -65,7 +65,7 @@ const NewProductForm = ({
     const item: IProduct = {
       uuid: String(UUIDGenerator.v4()),
       name: newItem.item,
-      tag: newItem.tag,
+      tag: tagUuid ? tagUuid : newItem.tag,
       amount: [],
       unit: "Un",
     };
@@ -141,13 +141,14 @@ const NewProductForm = ({
         />
 
       </Styled.InputContainer>
-      <Styled.InputContainer>
-        {tags ?
+      {!tagUuid && tags ?
+        <Styled.InputContainer>
           <Select items={tags} selectedValue={newItem.tag} onValueChange={onValueChange} />
-          :
-          <></>
-        }
-        {/* <SelectDropdown
+        </Styled.InputContainer>
+        :
+        <></>
+      }
+      {/* <SelectDropdown
           data={countries}
           buttonTextAfterSelection={(selectedItem, index) => {
             // text represented after item is selected
@@ -160,7 +161,7 @@ const NewProductForm = ({
             return item
           }}
         /> */}
-      </Styled.InputContainer>
+
       <Styled.ButtonsContainer>
         <Styled.ButtonWrapper>
           <Button

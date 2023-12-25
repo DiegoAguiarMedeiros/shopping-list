@@ -37,12 +37,14 @@ interface ProductsListProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   bottomSheetProps: BottomSheetProps;
   handleCloseBottomSheet: () => void;
+  handleCloseBottomSheetTag: () => void;
 }
 
 export default function ProductsList({ tagUuid,
   bottomSheetProps,
   setBottomSheetProps,
-  handleCloseBottomSheet, }: Readonly<ProductsListProps>) {
+  handleCloseBottomSheet,
+  handleCloseBottomSheetTag }: Readonly<ProductsListProps>) {
   const colorScheme = useColorScheme();
   const {
     listProduct
@@ -61,6 +63,11 @@ export default function ProductsList({ tagUuid,
     throw new Error("Function not implemented.");
   }
 
+  const returnToTags = () => {
+    handleCloseBottomSheetTag();
+    router.push({ pathname: "/tags" })
+  }
+
   return (
 
     <Container
@@ -70,7 +77,7 @@ export default function ProductsList({ tagUuid,
       <>
         <Header
           background={Colors[colorScheme ?? "light"].headerBackgroundColor}
-          left={<TouchableOpacity onPress={() => router.back()}>
+          left={<TouchableOpacity onPress={() => returnToTags()}>
             <FontAwesome
               name="angle-left"
               size={35}
