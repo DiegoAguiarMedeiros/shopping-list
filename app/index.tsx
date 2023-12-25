@@ -221,6 +221,12 @@ function RootLayoutNav() {
       })
     }
 
+    if (route === "history") {
+      setBottomSheetProps({
+        ...bottomSheetProps,
+        isVisible: false,
+      })
+    }
     setActiveRoute(route);
     router.push({ pathname: route });
   }
