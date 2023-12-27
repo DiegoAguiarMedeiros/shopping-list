@@ -1,7 +1,5 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-import GetListByUuidUseCase from "./DeleteListByUuidUseCase";
-import GetListByUuidController from "./DeleteListByUuidController";
+import DeleteListByUuidUseCase from "./DeleteListByUuidUseCase";
+import DeleteListByUuidController from "./DeleteListByUuidController";
 
 
 import saveLists from "../SaveLists";
@@ -9,10 +7,10 @@ import storageMMKV from "../../../Service/Implementation/MMKVStorage";
 
 
 
-const getListByUuidUseCase = new GetListByUuidUseCase(storageMMKV, saveLists);
+const deleteListByUuidUseCase = new DeleteListByUuidUseCase(storageMMKV, saveLists);
 
-const getListByUuidController = new GetListByUuidController(
-  getListByUuidUseCase
+const deleteListByUuidController = new DeleteListByUuidController(
+  deleteListByUuidUseCase
 );
 
-export default getListByUuidController;
+export default deleteListByUuidController;

@@ -22,6 +22,10 @@ import {
 } from "../../../../../context/ShoppingList";
 import CircleProgress from "../../../../../components/CircleProgress";
 import { IList } from "../../../../../Domain/Model/IList";
+import getTotalAmountByListUuidController from "../../../../../Domain/UseCases/List/GetTotalAmountByListUuid";
+import getTotalQuantityWithoutAmountByListUuidController from "../../../../../Domain/UseCases/List/GetTotalQuantityWithoutAmountByListUuid";
+import getTotalQuantityAmountByListUuidController from "../../../../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
+import deleteListByUuidController from "../../../../../Domain/UseCases/ListArchived/DeleteListByUuid";
 
 interface ItemProps {
   item: IList;
@@ -34,24 +38,25 @@ export default function ListGridItem({ item }: ItemProps) {
   } = useShoppingListArchivedContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
-  const items = removeUndefinedFromArray(
-    []
-  );
-  const total = item.items.length > 0 ? 0/*getTotalArchived(items)*/ : 0;
+  const total = getTotalAmountByListUuidController.handle(item.uuid);
   const totalWithAmount =
-    item.items.length > 0 ? 0/*getTotalWithAmountArchived(items) */ : 0;
-  const totalUn = item.items.length > 0 ? 0/*getTotalUnArchived(items)*/ : 0;
+    getTotalQuantityWithoutAmountByListUuidController.handle(item.uuid);
+  const totalUn =
+    getTotalQuantityAmountByListUuidController.handle(item.uuid);
+
 
   const handleOpenList = useCallback(() => {
     router.push({ pathname: "/ItemsArchived", params: { listId: item.uuid } });
   }, [item.uuid, router]);
 
   const handleDelete = () => {
-    const updatedList: ListType = JSON.parse(JSON.stringify(listArchived));
-    handleDeleteListItem(updatedList[item.uuid].items);
-    delete updatedList[item.uuid];
-    // setListArchived(updatedList);
+    const updatedList: IList[] = JSON.parse(JSON.stringify(listArchived));
+    const newupdatedList = updatedList.filter(i => item.uuid !== i.uuid)
+    deleteListByUuidController.handle(item.uuid);
+    setListArchived(newupdatedList);
   };
+
+
 
   const handleDeleteListItem = (listUuid: string[]): void => {
     // listUuid.forEach((i) => {

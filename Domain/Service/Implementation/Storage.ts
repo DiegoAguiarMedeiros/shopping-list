@@ -2,11 +2,11 @@ import { AsyncStorageStatic } from "@react-native-async-storage/async-storage";
 import IStorage from "../IStorage";
 
 export default class Storage implements IStorage {
-  constructor(private asyncStorage: AsyncStorageStatic) {}
+  constructor(private MMKVStorage: AsyncStorageStatic) { }
 
   get = async (key: string): Promise<string | null> => {
     try {
-      const data = await this.asyncStorage.getItem(key);
+      const data = await this.MMKVStorage.getItem(key);
       return data;
     } catch (error) {
       console.error("_retrieveData", error);
@@ -15,6 +15,6 @@ export default class Storage implements IStorage {
   };
 
   set = (key: string, data: any): void => {
-    this.asyncStorage.setItem(key, JSON.stringify(data));
+    this.MMKVStorage.setItem(key, JSON.stringify(data));
   };
 }

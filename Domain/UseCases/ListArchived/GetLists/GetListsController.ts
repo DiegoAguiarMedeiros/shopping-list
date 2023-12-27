@@ -4,15 +4,15 @@ import GetListsUseCase from "./GetListsUseCase";
 export default class GetListsController {
   constructor(private getListsUseCase: GetListsUseCase) { }
 
-  handle = (): IList[] | null => {
+  handle = (): IList[] => {
     try {
-      const result = this.getListsUseCase.execute("SLSHOPPINGLIST");
-      let data: IList[] | null;
-      result ? (data = Object.values(result)) : (data = null);
+      const result = this.getListsUseCase.execute("SLSHOPPINGLISTARCHIVED");
+      let data: IList[];
+      result ? (data = Object.values(result)) : (data = []);
       return data;
     } catch (err) {
       console.error("GetListsController: ", err);
-      return null;
+      return [];
     }
   };
 }

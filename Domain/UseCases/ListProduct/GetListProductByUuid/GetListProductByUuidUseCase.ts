@@ -2,11 +2,11 @@ import IMMKVStorage from "../../../Service/IMMKVStorage";
 import { IProduct } from "../../../Model/IProduct";
 
 export default class GetListProductUseCase {
-  constructor(private asyncStorage: IMMKVStorage) { }
+  constructor(private MMKVStorage: IMMKVStorage) { }
 
   execute = (key: string): IProduct | null => {
     try {
-      const data = this.asyncStorage.get(key);
+      const data = this.MMKVStorage.get(key);
       if (data) {
         const productList: IProduct = JSON.parse(data);
         return productList;

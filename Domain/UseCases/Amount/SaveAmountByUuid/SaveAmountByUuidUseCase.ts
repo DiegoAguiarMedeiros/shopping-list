@@ -5,7 +5,7 @@ import IMMKVStorage from "../../../Service/IMMKVStorage";
 import { IControllerGetAmounts, IControllerSaveAmount, IControllerSaveListProductByUuid, IControllerGetListProductsByUuid, IControllerGetAMountsbyListProductsByUuid } from "../../interface/IController";
 
 export default class SaveAmountByUuidUseCase {
-    constructor(private asyncStorage: IMMKVStorage,
+    constructor(private MMKVStorage: IMMKVStorage,
         private saveAmount: IControllerSaveAmount,
         private getAmount: IControllerGetAmounts,
         private getProductAmount: IControllerGetAMountsbyListProductsByUuid,
@@ -15,7 +15,7 @@ export default class SaveAmountByUuidUseCase {
         try {
             const firstUUIDLength = 36; // Assuming the length of the first UUID is 36 characters
 
-            this.asyncStorage.set(data.uuid, JSON.stringify(data));
+            this.MMKVStorage.set(data.uuid, JSON.stringify(data));
             const amount = this.getAmount.handle();
             if (amount) {
                 amount.push(data);

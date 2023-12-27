@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import ListStorage from "../utils/list";
 import { ListItemInterface, ListItemAmountInterface } from "../types/types";
 import { IList, IListInterface } from "../Domain/Model/IList";
@@ -20,29 +20,29 @@ type ShoppingListProviderProps = {
 
 type ShoppingListContextType = {
   list: IList[];
-  setList: React.Dispatch<React.SetStateAction<IList[] | null>>;
+  setList: React.Dispatch<React.SetStateAction<IList[]>>;
   listProduct: IProduct[];
   setListProduct: React.Dispatch<
-    React.SetStateAction<IProduct[] | null>
+    React.SetStateAction<IProduct[]>
   >;
   tags: ITag[];
-  setTags: React.Dispatch<React.SetStateAction<ITag[] | null>>;
+  setTags: React.Dispatch<React.SetStateAction<ITag[]>>;
   amount: IAmount[];
-  setAmount: React.Dispatch<React.SetStateAction<IAmount[] | null>>;
+  setAmount: React.Dispatch<React.SetStateAction<IAmount[]>>;
 };
 
-const getListsFromStorage = (): IList[] | null => {
+const getListsFromStorage = (): IList[] => {
   return getListsController.handle();
 };
-const getTagsFromStorage = (): ITag[] | null => {
+const getTagsFromStorage = (): ITag[] => {
   return getTagsController.handle();
 };
 const getListProductFromStorage =
-  (): IProduct[] | null => {
+  (): IProduct[] => {
     return GetListProducts.handle();
   };
 const getListAmountFromStorage =
-  (): IAmount[] | null => {
+  (): IAmount[] => {
     return GetAmountsController.handle();
   };
 
@@ -55,18 +55,15 @@ const setListProductOnStorage = (newList: IListInterface<IProduct>): void => {
 const setListAmountOnStorage = (newList: IListInterface<IAmount>): void => {
   ListStorage.setListAmount(newList);
 };
-const getListArchivedFromStorage = (): IList[] | null => {
+const getListArchivedFromStorage = (): IList[] => {
   return getListsArchivedController.handle();
 };
-const getListProductArchivedFromStorage =
-  async (): Promise<IListInterface<IProduct> | null> => {
-    const listProduct = await ListStorage.getListProductArchived();
-    return listProduct;
-  };
+const getListProductArchivedFromStorage = (): IProduct[] => {
+  return GetListProducts.handle();
+};
 const getItemAmountArchivedFromStorage =
-  async (): Promise<IListInterface<IAmount> | null> => {
-    const itemAmountList = await ListStorage.getListAmountArchived();
-    return itemAmountList;
+  (): IAmount[] => {
+    return GetAmountsController.handle();
   };
 
 const setListArchivedOnStorage = (newList: IListInterface<IList>): void => {
@@ -92,12 +89,10 @@ const ShoppingListContext = createContext<ShoppingListContextType | undefined>(
 const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   children,
 }) => {
-  const [list, setList] = useState<IList[] | null>(null);
-  const [tags, setTags] = useState<ITag[] | null>(null);
-  const [listProduct, setListProduct] = useState<IProduct[] | null>(
-    null
-  );
-  const [amount, setAmount] = useState<IAmount[] | null>(null);
+  const [list, setList] = useState<IList[]>([]);
+  const [tags, setTags] = useState<ITag[]>([]);
+  const [listProduct, setListProduct] = useState<IProduct[]>([]);
+  const [amount, setAmount] = useState<IAmount[]>([]);
 
   const loadList = (): void => {
     const listArr = getListsFromStorage();
@@ -235,14 +230,14 @@ const useShoppingListContext = () => {
 
 type ShoppingListArchivedContextType = {
   listArchived: IList[];
-  setListArchived: React.Dispatch<React.SetStateAction<IList[] | null>>;
-  listProductArchived: IListInterface<IProduct>;
+  setListArchived: React.Dispatch<React.SetStateAction<IList[]>>;
+  listProductArchived: IProduct[];
   setListProductArchived: React.Dispatch<
-    React.SetStateAction<IListInterface<IProduct> | null>
+    React.SetStateAction<IProduct[]>
   >;
-  listAmountArchived: IListInterface<IAmount>;
+  listAmountArchived: IAmount[];
   setListAmountArchived: React.Dispatch<
-    React.SetStateAction<IListInterface<IAmount> | null>
+    React.SetStateAction<IAmount[]>
   >;
 };
 
@@ -253,22 +248,22 @@ const ShoppingListArchivedContext = createContext<
 const ShoppingListArchivedProvider: React.FC<ShoppingListProviderProps> = ({
   children,
 }) => {
-  const [listArchived, setListArchived] = useState<IList[] | null>(null);
+  const [listArchived, setListArchived] = useState<IList[]>([]);
   const [listProductArchived, setListProductArchived] =
-    useState<IListInterface<IProduct> | null>(null);
+    useState<IProduct[]>([]);
   const [listAmountArchived, setListAmountArchived] =
-    useState<IListInterface<IAmount> | null>(null);
+    useState<IAmount[]>([]);
 
-  const loadListArchived = async (): Promise<void> => {
-    const listArr = await getListArchivedFromStorage();
+  const loadListArchived = (): void => {
+    const listArr = getListArchivedFromStorage();
     setListArchived(listArr);
   };
-  const loadListProductArchived = async (): Promise<void> => {
-    const listItemArr = await getListProductArchivedFromStorage();
+  const loadListProductArchived = (): void => {
+    const listItemArr = getListProductArchivedFromStorage();
     setListProductArchived(listItemArr);
   };
-  const loadListAmountArchived = async (): Promise<void> => {
-    const listAmountArr = await getItemAmountArchivedFromStorage();
+  const loadListAmountArchived = (): void => {
+    const listAmountArr = getItemAmountArchivedFromStorage();
     setListAmountArchived(listAmountArr);
   };
 
@@ -352,11 +347,20 @@ const ShoppingListArchivedProvider: React.FC<ShoppingListProviderProps> = ({
     loadListAmountArchived();
   }, []);
 
-  useEffect(() => {
-    listArchived && setListArchivedOnStorage(convertToInterface(listArchived));
-    listProductArchived && setListProductArchivedOnStorage(listProductArchived);
-    listAmountArchived && setListAmountArchivedOnStorage(listAmountArchived);
-  }, [listArchived, listProductArchived, listAmountArchived]);
+  // useEffect(() => {
+  //   listArchived && setListArchivedOnStorage(convertToInterface(listArchived));
+  //   listProductArchived && setListProductArchivedOnStorage(listProductArchived);
+  //   listAmountArchived && setListAmountArchivedOnStorage(listAmountArchived);
+  // }, [listArchived, listProductArchived, listAmountArchived]);
+
+  // const value = useMemo(() => ({
+  //   listArchived: listArchived!,
+  //   setListArchived: setListArchived,
+  //   listProductArchived: listProductArchived!,
+  //   setListProductArchived: setListProductArchived,
+  //   listAmountArchived: listAmountArchived!,
+  //   setListAmountArchived: setListAmountArchived,
+  // }), []);
 
   return (
     <ShoppingListArchivedContext.Provider

@@ -15,31 +15,34 @@ import {
 } from "../../../context/ShoppingList";
 
 import { Text } from "../../../components/Text";
+import getListProductController from "../../../Domain/UseCases/ListProduct/GetListProductByUuid";
+import { IProduct } from "../../../Domain/Model/IProduct";
+import getTotalQuantityAmountByListUuidController from "../../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
+import getTotalQuantityWithoutAmountByListUuidController from "../../../Domain/UseCases/List/GetTotalQuantityWithoutAmountByListUuid";
+import getTotalAmountByListUuidController from "../../../Domain/UseCases/List/GetTotalAmountByListUuid";
 interface ListProps {
+  listArrItems: IProduct[];
   filter: string;
   listId: string;
 }
 
-function ListGrid({ filter, listId }: ListProps) {
+function ListGrid({ filter, listId, listArrItems }: ListProps) {
   const {
-    listArchived,
-    getListItemsOfListArchived,
-    getTotalArchived,
-    getTotalUnArchived,
+    listArchived
   } = useShoppingListArchivedContext();
   const colorScheme = useColorScheme();
   const [filteredList, setFilteredList] = useState<ItemInterface[]>();
 
-  const listArr = listArchived[Array.isArray(listId) ? "" : listId];
-  const listArrItems = removeUndefinedFromArray(
-    getListItemsOfListArchived(listArr.items)
-  );
-  useEffect(() => {
-    const newFilteredList = listArrItems.filter(
-      (item: ItemInterface) => item.tags === filter
-    );
-    setFilteredList(newFilteredList);
-  }, [filter]);
+
+  const total = getTotalAmountByListUuidController.handle(listId);
+
+
+  // useEffect(() => {
+  //   const newFilteredList = listArrItems.filter(
+  //     (item: ItemInterface) => item.tags === filter
+  //   );
+  //   setFilteredList(newFilteredList);
+  // }, [filter]);
 
   return (
     <Styled.Container
@@ -53,7 +56,7 @@ function ListGrid({ filter, listId }: ListProps) {
                 <Styled.ContainerListItemListItem
                   height={`${listArrItems.length * 100 + 410}`}
                 >
-                  {listArrItems.map((item: ItemInterface) => (
+                  {listArrItems.map((item: IProduct) => (
                     <ListGridItem
                       key={"ListGridItem-" + item.uuid}
                       item={item}
@@ -76,11 +79,7 @@ function ListGrid({ filter, listId }: ListProps) {
                 }
               >
                 Items:{" "}
-                {getTotalUnArchived(
-                  filteredList !== undefined && filteredList.length > 0
-                    ? filteredList
-                    : listArrItems
-                )}
+                {getTotalQuantityWithoutAmountByListUuidController.handle(listId)}
               </Text>
             </Styled.ContainerItemTotalUnitText>
             <Styled.ContainerItemTotalText
@@ -94,11 +93,7 @@ function ListGrid({ filter, listId }: ListProps) {
                 }
               >
                 Total : R${" "}
-                {getTotalArchived(
-                  filteredList !== undefined && filteredList.length > 0
-                    ? filteredList
-                    : listArrItems
-                ).toFixed(2)}
+                {total}
               </Text>
             </Styled.ContainerItemTotalText>
           </Styled.ContainerListTotal>

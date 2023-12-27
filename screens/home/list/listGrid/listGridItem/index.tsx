@@ -212,14 +212,13 @@ export default function ListGridItem({
   // };
   const handleArchived = (): void => {
     const archivedList: IList[] = JSON.parse(JSON.stringify(list));
-    const selectedItem = archivedList.find((i) => i.uuid === item?.uuid!);
+    const selectedItem = archivedList.find((i) => i.uuid === item.uuid);
     if (selectedItem) {
-      // handleArchivedItemList(itemsArchived.items);
+      handleDelete();
       saveListArchivedByUuidController.handle(selectedItem);
       listArchived ?
         setListArchived([selectedItem, ...listArchived]) :
         setListArchived([selectedItem]);
-      handleDelete();
     }
   };
 

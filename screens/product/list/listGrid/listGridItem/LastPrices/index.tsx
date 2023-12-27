@@ -43,7 +43,7 @@ const LastPrices = ({ lastPrices }: LastPricesProps) => {
       <FlatList
         horizontal
         data={lastPrices}
-        keyExtractor={(index) => String(index)}
+        keyExtractor={(item, index) => String(index)}
         renderItem={renderButton}
         showsHorizontalScrollIndicator={false}
       />

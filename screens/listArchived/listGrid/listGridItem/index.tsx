@@ -24,19 +24,34 @@ import {
   useShoppingListArchivedContext,
   useShoppingListContext,
 } from "../../../../context/ShoppingList";
+import { IProduct } from "../../../../Domain/Model/IProduct";
+import getAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetAmountByListProductUuid";
+import getTotalQuantityAmountByListUuidController from "../../../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
+import getTotlaAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetTotalAmountByListProductUuid";
+import getTotalQuantityAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetTotalQuantityAmountByListProductUuid";
 
 interface ListProps {
-  item: ItemInterface;
+  item: IProduct;
   listId: string;
 }
 
 function ListGridItem({ item, listId }: ListProps) {
   const colorScheme = useColorScheme();
-  const { itemAmountListArchived } = useShoppingListArchivedContext();
+  const { listProductArchived } = useShoppingListArchivedContext();
+
+  const listIditemuuid = `${listId}-${item.uuid}`;
+
+  const listArrItems = getAmountByListProductUuidController.handle(listIditemuuid);
+  const total = getTotlaAmountByListProductUuidController.handle(listIditemuuid);
+  const quantity = getTotalQuantityAmountByListProductUuidController.handle(listIditemuuid);
+  console.log("item", item)
+  console.log("listArrItems", listArrItems)
+  console.log("total", total)
+  console.log("quantity", quantity)
 
   return (
     <>
-      {item.amount.length == 0 ? (
+      {quantity == 0 ? (
         <Styled.ContainerListItemListItem
           key={`ContainerListItemListItem-` + item.uuid}
           underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
@@ -59,7 +74,7 @@ function ListGridItem({ item, listId }: ListProps) {
           </Styled.ContainerListItemListItemInner>
         </Styled.ContainerListItemListItem>
       ) : (
-        item.amount.map((amount) => (
+        listArrItems.map((amount) => (
           <Styled.ContainerListItemListItem
             key={`ContainerListItemListItem-` + amount}
             underlayColor={
@@ -92,11 +107,7 @@ function ListGridItem({ item, listId }: ListProps) {
                         : Colors[colorScheme ?? "light"].white
                     }
                   >
-                    {itemAmountListArchived[amount].type
-                      ? `${Number(
-                          itemAmountListArchived[amount].quantity
-                        ).toFixed(2)} Kg`
-                      : `${itemAmountListArchived[amount].quantity} Un`}
+                    {`${quantity} ${item.unit}`}
                     {" x"}
                   </Text>
                 </Styled.ContainerItemTextUn>
@@ -111,7 +122,7 @@ function ListGridItem({ item, listId }: ListProps) {
                           : Colors[colorScheme ?? "light"].white
                       }
                     >
-                      R$ {itemAmountListArchived[amount].amount}
+                      R$ {amount.amount}
                     </Text>
                   </Styled.ContainerItemTextPriceTotal>
                   <Styled.ContainerItemTextPriceTotalLine
@@ -120,12 +131,7 @@ function ListGridItem({ item, listId }: ListProps) {
                   <Styled.ContainerItemTextPriceTotal>
                     <Text color={Colors[colorScheme ?? "light"].primary}>
                       R${" "}
-                      {itemAmountListArchived[amount].type
-                        ? (
-                            Number(itemAmountListArchived[amount].amount) *
-                            Number(itemAmountListArchived[amount].quantity)
-                          ).toFixed(2)
-                        : itemAmountListArchived[amount].amount}
+                      {total}
                     </Text>
                   </Styled.ContainerItemTextPriceTotal>
                 </Styled.ContainerItemTextPriceTotalContainer>

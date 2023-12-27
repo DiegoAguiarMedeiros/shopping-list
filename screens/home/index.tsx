@@ -24,15 +24,6 @@ export default function Home({
   const { list, listProduct, amount, tags } = useShoppingListContext();
   const isFocused = useIsFocused();
 
-
-  console.log("Home")
-
-  useEffect(() => {
-    console.log("handleCloseBottomSheet")
-    handleCloseBottomSheet()
-  }, [])
-
-
   // console.log("list", list);
   // console.log("listProduct", listProduct);
   // console.log("amount", amount);
