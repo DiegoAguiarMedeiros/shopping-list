@@ -22,7 +22,7 @@ export type NewListFormProps = {
   listId?: string;
   buttonText: "add" | "edit" | "copy";
   action: "addList" | "editList" | "copyList";
-  items?: List;
+  items?: IList;
 };
 
 const NewListForm = ({

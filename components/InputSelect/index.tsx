@@ -16,7 +16,7 @@ const Select = ({ items, selectedValue, onValueChange }: SelectProps) => {
     const colorScheme = useColorScheme();
     return (
         <Styled.Container>
-            <Styled.select
+            <Styled.Select
                 background={Colors[colorScheme ?? "light"].inputBackgroundColor}
                 color={Colors[colorScheme ?? "light"].inputTextColor}
                 selectedValue={selectedValue}
@@ -26,7 +26,7 @@ const Select = ({ items, selectedValue, onValueChange }: SelectProps) => {
                 {items.map((item, index) => (
                     <Picker.Item key={index} label={item.name} value={item.uuid} />
                 ))}
-            </Styled.select>
+            </Styled.Select>
         </Styled.Container>
     );
 };

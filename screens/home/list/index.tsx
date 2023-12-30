@@ -9,7 +9,7 @@ import ListGrid from "./listGrid";
 import BottomSheet from "../../../components/BottomSheet";
 import { Text } from "../../../components/Text";
 import NewListForm from "../../../components/NewListForm";
-import {IList} from "../../../Domain/Model/IList";
+import { IList } from "../../../Domain/Model/IList";
 interface ItemProps {
   items: IList[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -24,16 +24,10 @@ export default function List({
   const colorScheme = useColorScheme();
 
   return (
-    <Styled.Container
-      background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
-    >
-      <Styled.ContainerListList>
-        <ListGrid
-          items={items}
-          setBottomSheetProps={setBottomSheetProps}
-          handleCloseBottomSheet={handleCloseBottomSheet}
-        />
-      </Styled.ContainerListList>
-    </Styled.Container>
+    <ListGrid
+      items={items}
+      setBottomSheetProps={setBottomSheetProps}
+      handleCloseBottomSheet={handleCloseBottomSheet}
+    />
   );
 }

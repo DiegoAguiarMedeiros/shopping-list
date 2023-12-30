@@ -26,6 +26,7 @@ export default function Product({
 }: Readonly<ProductProps>) {
   const colorScheme = useColorScheme();
   const { listProduct } = useShoppingListContext();
+  console.log("listProduct", listProduct)
   return (
     <Container
       background={Colors[colorScheme ?? "light"].bodyBackgroundColor}

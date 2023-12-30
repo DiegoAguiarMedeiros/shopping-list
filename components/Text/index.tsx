@@ -5,7 +5,7 @@ import { useColorScheme } from "react-native";
 interface TextProps {
   children: React.ReactNode;
   color: string;
-  align?: string;
+  align?: "center" | "end" | "justify" | "left" | "right" | "start";
 }
 
 const Title: React.FC<TextProps> = ({ children, color }) => {

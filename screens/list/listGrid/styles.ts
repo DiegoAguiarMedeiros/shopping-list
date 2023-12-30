@@ -29,11 +29,6 @@ export const ContainerListItemList = styled.View`
   width: 100%;
   flex: 12;
 `;
-export const ContainerListItemListItem = styled.View`
-  width: 100%;
-  flex: 1;
-  height: 100%;
-`;
 export const ContainerButtonAdd = styled.View`
   flex: 1;
 `;

@@ -1,4 +1,4 @@
-import { useColorScheme, ScrollView } from "react-native";
+import { useColorScheme, ScrollView, SafeAreaView } from "react-native";
 import Colors from "../../constants/Colors";
 import * as Styled from "./styles";
 import { useState } from "react";
@@ -12,6 +12,9 @@ import ListPriceGrid from "./listPriceGrid";
 import IAmount from "../../Domain/Model/IAmount";
 import saveAmountByUuidController from "../../Domain/UseCases/Amount/SaveAmountByUuid";
 import getAmountByListProductUuidController from "../../Domain/UseCases/Amount/GetAmountByListProductUuid";
+import Container from "../../components/Container";
+import ContainerInner from "../../components/ContainerInner";
+import { GridItemWrapperInner, GridItemWrapperRow } from "../../components/GridItemInner";
 
 interface AddPriceUnitProps {
   listProductUuid: string;
@@ -54,49 +57,69 @@ export default function AddPriceUnit({
     // }));
   };
 
-  return (
-    <Styled.Container
-      background={Colors[colorScheme ?? "light"].bodyAddPriceBackgroundColor}
-    >
-      {listArrItems.length > 0 ? (
-        <Styled.WrapperGrid>
-          <ScrollView nestedScrollEnabled>
-            <Styled.WrapperGridInner>
-              <ListPriceGrid
-                item={listArrItems}
-                key={"ListPriceGrid-" + listProductUuid}
-              />
-            </Styled.WrapperGridInner>
-          </ScrollView>
-        </Styled.WrapperGrid>
-      ) : (
-        <></>
-      )}
+  const calcHeight = (items: number): number => {
+    if (items === 0) {
+      return 3;
+    }
+    if (items === 1) {
+      return 62;
+    }
+    if (items === 2) {
+      return 74;
+    }
+    if (items === 3) {
+      return 80.5;
+    }
+    if (items >= 4) {
+      return 84;
+    }
+    return 50;
+  };
 
-      <Styled.WrapperInput>
-        <Styled.WrapperInputInner>
-          <InputText
-            radius
-            placeholder="Valor"
-            onChangeText={(valor) => {
-              setNewItem(valor);
-            }}
-            keyboardType="numeric"
-            value={newItem}
-            onSubmitEditing={handleAddAmount}
-          />
-        </Styled.WrapperInputInner>
-        <Styled.WrapperButton>
-          <Button
-            radius
-            icon="send"
-            background={
-              Colors[colorScheme ?? "light"].buttonActiveBackgroundColor
-            }
-            onPress={handleAddAmount}
-          />
-        </Styled.WrapperButton>
-      </Styled.WrapperInput>
-    </Styled.Container>
+  const heights = [3, 62, 74, 80, 84];
+
+  return (
+    <Container noPadding>
+      <ContainerInner>
+
+        <GridItemWrapperRow height={heights[listArrItems.length >= 4 ? 4 : listArrItems.length]} >
+          {listArrItems.length > 0 ? (
+            <ListPriceGrid
+              item={listArrItems}
+              key={"ListPriceGrid-" + listProductUuid}
+            />
+          ) : (
+            <></>
+          )}
+        </GridItemWrapperRow>
+        <GridItemWrapperRow height={100} maxHeight={40}>
+          <GridItemWrapperInner width={85} height={100}>
+            <InputText
+              radius
+              placeholder="Valor"
+              onChangeText={(valor) => {
+                setNewItem(valor);
+              }}
+              keyboardType="numeric"
+              value={newItem}
+              onSubmitEditing={handleAddAmount}
+            />
+          </GridItemWrapperInner>
+          <GridItemWrapperInner width={15} height={100}>
+            <Button
+              radius
+              icon="send"
+              background={
+                Colors[colorScheme ?? "light"].buttonActiveBackgroundColor
+              }
+              onPress={handleAddAmount}
+            />
+          </GridItemWrapperInner>
+
+
+        </GridItemWrapperRow>
+
+      </ContainerInner>
+    </Container>
   );
 }

@@ -21,6 +21,7 @@ export const Item = styled.Pressable<{
   active: boolean;
   boder: string;
 }>`
+width: 100%;
   flex: 1;
   justify-content: center;
   align-items: center;
@@ -37,7 +38,7 @@ export const ItemAddButton = styled.Pressable<{
   background-color: ${(props: { background: string }) => props.background};
   margin-top: -10px;
   border-radius: 70px;
-  width: 60px;
+  width: 100%;
   height: 60px;
 `;
 export const ItemAdd = styled.Pressable`

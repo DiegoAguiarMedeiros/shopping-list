@@ -185,7 +185,7 @@ export default function ListGridItem({
         row={false}
       >
         <>
-          <GridItemWrapperRow height={30} >
+          <GridItemWrapperRow height={lastPrice.length > 0 ? 30 : 100} >
             <GridItemWrapperInner height={100}>
               <Title
                 color={
@@ -200,7 +200,7 @@ export default function ListGridItem({
 
             </GridItemWrapperInner>
           </GridItemWrapperRow>
-          <GridItemWrapperRow height={60} >
+          <GridItemWrapperRow height={lastPrice.length > 0 ? 60 : 0} >
             {lastPrice.length > 0 ? <GridItemWrapperInner width={70} height={100}>
 
               <LastPrices lastPrices={lastPrice.map(price => ((price.price.toFixed(2))))} />

@@ -31,6 +31,9 @@ import getTotalAmountByListUuidController from "../../Domain/UseCases/List/GetTo
 import getTagUuidByTagNameController from "../../Domain/UseCases/Tag/GetTagUuidByTagName";
 import getTotalQuantityWithoutAmountByListUuidController from "../../Domain/UseCases/List/GetTotalQuantityWithoutAmountByListUuid";
 import getTagsController from "../../Domain/UseCases/ListProduct/GetTags";
+import Container from "../../components/Container";
+import Header from "../../components/Header";
+import ContainerInner from "../../components/ContainerInner";
 type TotalType = {
   amount: number;
   un: number;
@@ -134,70 +137,66 @@ export default function List({ listId,
 
 
   return (
-    <Styled.Container
-      background={Colors[colorScheme ?? "light"].headerBackgroundColor}
+    <Container
+      background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
+      noPadding
     >
-      <Styled.ContainerHeader>
-        <Styled.ContainerHeaderInnerIconBack>
-          <TouchableOpacity onPress={() => returnToHome()}>
-            <FontAwesome
-              name="angle-left"
-              size={35}
-              color={Colors[colorScheme ?? "light"].white}
-            />
-          </TouchableOpacity>
-        </Styled.ContainerHeaderInnerIconBack>
-        <Styled.ContainerHeaderInnerText>
-          <Title color={Colors[colorScheme ?? "light"].white}>
-            {listArr?.name}
-          </Title>
-        </Styled.ContainerHeaderInnerText>
-
-        <Styled.ContainerHeaderInnerProgress>
-          <CircleProgress
-            activeStrokeColor={
-              Colors[colorScheme ?? "light"]
-                .circleProgresBackgroundFilledListColor
-            }
-            titleColor={
-              Colors[colorScheme ?? "light"].circleProgresTextListColor
-            }
-            circleBackgroundColor={
-              Colors[colorScheme ?? "light"].circleProgresBackgroundListColor
-            }
-            filled={total.amount}
-            progress={total.un && total.amount ? total.amount : 0}
-            total={total.un}
-            size={30}
+      <Header
+        background={Colors[colorScheme ?? "light"].headerBackgroundColor}
+        left={<TouchableOpacity onPress={() => returnToHome()}>
+          <FontAwesome
+            name="angle-left"
+            size={35}
+            color={Colors[colorScheme ?? "light"].white}
           />
-        </Styled.ContainerHeaderInnerProgress>
-      </Styled.ContainerHeader>
-      {listArr && listArr.tags.length > 0 ? (
-        <Styled.ContainerHeaderInnerFilterButtons>
+        </TouchableOpacity>}
+
+        title={<Title color={Colors[colorScheme ?? "light"].white}>
+          {listArr?.name}
+        </Title>}
+
+        right={<CircleProgress
+          activeStrokeColor={
+            Colors[colorScheme ?? "light"]
+              .circleProgresBackgroundFilledListColor
+          }
+          titleColor={
+            Colors[colorScheme ?? "light"].circleProgresTextListColor
+          }
+          circleBackgroundColor={
+            Colors[colorScheme ?? "light"].circleProgresBackgroundListColor
+          }
+          filled={total.amount}
+          progress={total.un && total.amount ? total.amount : 0}
+          total={total.un}
+          size={25}
+        />}
+
+
+        bottom={listArr && listArr.tags.length > 0 ? (
           <FilterButtons
             tags={tags}
             filter={filter}
             setFilter={setFilter}
           />
-        </Styled.ContainerHeaderInnerFilterButtons>
-      ) : null}
-
-      <Styled.ContainerBody>
-        <Styled.ContainerListInner>
-          {listArrItems.length > 0 ? (
-            <ListGrid
-              setBottomSheetProps={setBottomSheetProps}
-              deleteItem={deleteItem}
-              listArrItems={listArrItems}
-              listId={listId}
-              handleCloseBottomSheet={handleCloseBottomSheet}
-            />
-          ) : (
-            <EmptyList mensage="Você não tem nenhuma item na lista" />
-          )}
-        </Styled.ContainerListInner>
-      </Styled.ContainerBody>
-    </Styled.Container>
+        ) : null}
+      />
+      <ContainerInner
+        justify="center"
+        background={Colors[colorScheme ?? "light"].bodyBackgroundColor}>
+        {listArrItems.length > 0 ? (
+          <ListGrid
+            setBottomSheetProps={setBottomSheetProps}
+            deleteItem={deleteItem}
+            listArrItems={listArrItems}
+            listId={listId}
+            handleCloseBottomSheet={handleCloseBottomSheet}
+          />
+        ) : (
+          <EmptyList mensage="Você não tem nenhuma item na lista" />
+        )}
+      </ContainerInner>
+    </Container >
   );
 }
 

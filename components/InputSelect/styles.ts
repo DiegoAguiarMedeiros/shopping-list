@@ -9,9 +9,9 @@ export const Container = styled.View`
 `;
 
 
-export const select = styled(Picker) <{
-    background: string;
-    color: string;
+export const Select = styled(Picker) <{
+  background: string;
+  color: string;
 }>`
   background: ${(props: { background: string }) => props.background};
   color: ${(props: { color: string }) => props.color};

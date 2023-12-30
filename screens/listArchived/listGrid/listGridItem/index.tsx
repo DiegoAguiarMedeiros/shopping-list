@@ -44,10 +44,6 @@ function ListGridItem({ item, listId }: ListProps) {
   const listArrItems = getAmountByListProductUuidController.handle(listIditemuuid);
   const total = getTotlaAmountByListProductUuidController.handle(listIditemuuid);
   const quantity = getTotalQuantityAmountByListProductUuidController.handle(listIditemuuid);
-  console.log("item", item)
-  console.log("listArrItems", listArrItems)
-  console.log("total", total)
-  console.log("quantity", quantity)
 
   return (
     <>

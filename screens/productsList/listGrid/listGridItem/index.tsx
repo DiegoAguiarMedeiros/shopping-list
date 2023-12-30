@@ -187,7 +187,7 @@ function ListGridItem({
         height={60}
         row
       >
-        <GridItemWrapperRow height={50} >
+        <GridItemWrapperRow height={100} >
           <GridItemWrapperInner height={100}>
             <Title
               color={

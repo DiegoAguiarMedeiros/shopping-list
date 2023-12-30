@@ -36,6 +36,14 @@ export default class SaveAmountByUuidUseCase {
             const average = this.calculateAverageAmount(amounts);
             amounts.push(data)
             if (product[0].lastPrices) {
+                const keys = Object.keys(product[0].lastPrices);
+                console.log("keys", keys)
+                const numberOfPrices = Object.keys(product[0].lastPrices).length;
+                console.log("numberOfPrices", numberOfPrices)
+                if (numberOfPrices > 2) {
+                    delete product[0].lastPrices[keys[0]];
+                    console.log("product[0].lastPrices", product[0].lastPrices);
+                }
                 delete product[0].lastPrices[data.listProductUuid];
             } else {
                 product[0].lastPrices = {};

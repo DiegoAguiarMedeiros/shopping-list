@@ -17,6 +17,9 @@ import { IProduct } from "../../../Domain/Model/IProduct";
 import getTotalQuantityAmountByListUuidController from "../../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
 import getTotalAmountByListProductUuidController from "../../../Domain/UseCases/List/GetTotalAmountByListUuid";
 import getTotalQuantityWithoutAmountByListUuidController from "../../../Domain/UseCases/List/GetTotalQuantityWithoutAmountByListUuid";
+import Container from "../../../components/Container";
+import ContainerInner from "../../../components/ContainerInner";
+import { GridItemWrapperCol, GridItemWrapperRow } from "../../../components/GridItemInner";
 interface ListProps {
   listId: string;
   listArrItems: IProduct[];
@@ -31,67 +34,77 @@ function ListGrid({
   deleteItem,
   setBottomSheetProps,
   handleCloseBottomSheet,
-}: ListProps) {
+}: Readonly<ListProps>) {
   const { list } = useShoppingListContext();
+
+  const [active, setActive] = useState("");
+
+
   const colorScheme = useColorScheme();
   const totalQuantity = getTotalQuantityAmountByListUuidController.handle(listId, listArrItems);
   const total = getTotalAmountByListProductUuidController.handle(listId, listArrItems);
 
+
+
+  const handleOpen = (uuid: string) => {
+    setActive(uuid);
+  };
+  const handleClose = () => {
+    setActive("");
+  };
+
   return (
-    <Styled.Container
-      background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
+    <Container
+      background={"transparent"}
     >
-      <Styled.ContainerList>
-        <Styled.ContainerListInner>
-          <Styled.ContainerListTotal>
-            <Styled.ContainerItemTotalUnitText
-              text={Colors[colorScheme ?? "light"].bodyTextColor}
+      <ContainerInner>
+        <GridItemWrapperRow height={4} >
+          <Styled.ContainerItemTotalUnitText
+            text={Colors[colorScheme ?? "light"].bodyTextColor}
+          >
+            <Text
+              color={
+                colorScheme !== "dark"
+                  ? Colors[colorScheme ?? "light"].black
+                  : Colors[colorScheme ?? "light"].white
+              }
             >
-              <Text
-                color={
-                  colorScheme !== "dark"
-                    ? Colors[colorScheme ?? "light"].black
-                    : Colors[colorScheme ?? "light"].white
-                }
-              >
-                Total Items: {totalQuantity}
-              </Text>
-            </Styled.ContainerItemTotalUnitText>
-            <Styled.ContainerItemTotalText
-              text={Colors[colorScheme ?? "light"].bodyTextColor}
+              Total Items: {totalQuantity}
+            </Text>
+          </Styled.ContainerItemTotalUnitText>
+          <Styled.ContainerItemTotalText
+            text={Colors[colorScheme ?? "light"].bodyTextColor}
+          >
+            <Text
+              color={
+                colorScheme !== "dark"
+                  ? Colors[colorScheme ?? "light"].black
+                  : Colors[colorScheme ?? "light"].white
+              }
             >
-              <Text
-                color={
-                  colorScheme !== "dark"
-                    ? Colors[colorScheme ?? "light"].black
-                    : Colors[colorScheme ?? "light"].white
-                }
-              >
-                Total : R$ {total}
-              </Text>
-            </Styled.ContainerItemTotalText>
-          </Styled.ContainerListTotal>
-          <Styled.ContainerListItemList>
-            <SafeAreaView>
-              <ScrollView style={[{ height: "100%" }]} nestedScrollEnabled>
-                <Styled.ContainerListItemListItem>
-                  {listArrItems.map((item: IProduct) => (
-                    <ListGridItem
-                      key={"ListGridItem-" + item.uuid}
-                      setBottomSheetProps={setBottomSheetProps}
-                      item={item}
-                      listId={listId}
-                      deleteItem={deleteItem}
-                      handleCloseBottomSheet={handleCloseBottomSheet}
-                    />
-                  ))}
-                </Styled.ContainerListItemListItem>
-              </ScrollView>
-            </SafeAreaView>
-          </Styled.ContainerListItemList>
-        </Styled.ContainerListInner>
-      </Styled.ContainerList>
-    </Styled.Container>
+              Total : R$ {total}
+            </Text>
+          </Styled.ContainerItemTotalText>
+        </GridItemWrapperRow>
+
+        <GridItemWrapperRow height={78} >
+          <SafeAreaView style={{ flex: 1, width: "100%" }}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} nestedScrollEnabled>
+              {listArrItems.map((item: IProduct) => (
+                <ListGridItem
+                  key={"ListGridItem-" + item.uuid}
+                  handleOpen={handleOpen}
+                  handleClose={handleClose}
+                  item={item}
+                  listId={listId}
+                  active={active}
+                />
+              ))}
+            </ScrollView>
+          </SafeAreaView>
+        </GridItemWrapperRow>
+      </ContainerInner>
+    </Container>
   );
 }
 

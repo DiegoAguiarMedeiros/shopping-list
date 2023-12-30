@@ -21,16 +21,14 @@ export default function ListGrid({
   return (
     <SafeAreaView style={{ width: "100%" }}>
       <ScrollView>
-        <Styled.ContainerListItemListItem>
-          {items.map((item: ITag) => (
-            <ListGridItem
-              handleCloseBottomSheet={handleCloseBottomSheet}
-              setBottomSheetProps={setBottomSheetProps}
-              key={"ListGridItem-" + item.uuid}
-              item={item}
-            />
-          ))}
-        </Styled.ContainerListItemListItem>
+        {items.map((item: ITag) => (
+          <ListGridItem
+            handleCloseBottomSheet={handleCloseBottomSheet}
+            setBottomSheetProps={setBottomSheetProps}
+            key={"ListGridItem-" + item.uuid}
+            item={item}
+          />
+        ))}
       </ScrollView>
     </SafeAreaView>
   );

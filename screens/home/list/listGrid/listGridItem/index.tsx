@@ -14,7 +14,7 @@ import { useRouter } from "expo-router";
 
 import { Swipeable } from "react-native-gesture-handler";
 import { removeUndefinedFromArray } from "../../../../../utils/functions";
-import { Title, Text } from "../../../../../components/Text";
+import { Title, Text, SubTitle } from "../../../../../components/Text";
 import {
   useShoppingListArchivedContext,
   useShoppingListContext,
@@ -33,8 +33,11 @@ import NewItemForm from "../../../../../components/NewItemForm";
 import getTotalAmountByListUuidController from "../../../../../Domain/UseCases/List/GetTotalAmountByListUuid";
 import getTotalQuantityAmountByListUuidController from "../../../../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
 import getTotalQuantityWithoutAmountByListUuidController from "../../../../../Domain/UseCases/List/GetTotalQuantityWithoutAmountByListUuid";
+import GridItem from "../../../../../components/GridItem";
+import { GridItemInner, GridItemWrapperCol, GridItemWrapperInner } from "../../../../../components/GridItemInner";
+import getNumberOfProductsByTagsUuidController from "../../../../../Domain/UseCases/ListProduct/GetNumberOfProductsByTagsUuid";
 interface ItemProps {
-  item: List;
+  item: IList;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
 }
@@ -232,6 +235,7 @@ export default function ListGridItem({
     }
   ) => {
     return (
+
       <Animated.View
         style={{
           width: 200,
@@ -362,22 +366,23 @@ export default function ListGridItem({
   };
 
   return (
-    <Swipeable
-      renderLeftActions={RightSwipe}
+    <GridItem
       renderRightActions={LeftSwipe}
-      leftThreshold={100}
-    >
-      <Styled.ContainerListItem
+      renderLeftActions={RightSwipe}
+      leftThreshold={100} rightThreshold={undefined}>
+      <GridItemInner
         underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
         borderColor={
           Colors[colorScheme ?? "light"].listItemBackgroundBorderColor
         }
         background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+        height={60}
+        row
         onPress={handleOpenList}
       >
-        <Styled.ContainerListItemInner>
-          <Styled.ContainerListItemHead>
-            <Styled.ContainerItemTitle>
+        <>
+          <GridItemWrapperCol width={85} height={100} >
+            <GridItemWrapperInner height={100}>
               <Title
                 color={
                   colorScheme !== "dark"
@@ -387,8 +392,6 @@ export default function ListGridItem({
               >
                 {item.name}
               </Title>
-            </Styled.ContainerItemTitle>
-            <Styled.ContainerListItemBody>
               <Text
                 color={
                   colorScheme !== "dark"
@@ -398,26 +401,28 @@ export default function ListGridItem({
               >
                 Total: R$ {total.toFixed(2)}
               </Text>
-            </Styled.ContainerListItemBody>
-          </Styled.ContainerListItemHead>
-          <Styled.ContainerItemCircleProgress>
-            <CircleProgress
-              activeStrokeColor={
-                Colors[colorScheme ?? "light"]
-                  .circleProgresBackgroundFilledColor
-              }
-              titleColor={Colors[colorScheme ?? "light"].circleProgresTextColor}
-              circleBackgroundColor={
-                Colors[colorScheme ?? "light"].circleProgresBackgroundColor
-              }
-              filled={totalWithAmount}
-              progress={totalUn && totalWithAmount ? totalWithAmount : 0}
-              total={totalUn}
-              size={22}
-            />
-          </Styled.ContainerItemCircleProgress>
-        </Styled.ContainerListItemInner>
-      </Styled.ContainerListItem>
-    </Swipeable>
+            </GridItemWrapperInner>
+          </GridItemWrapperCol>
+          <GridItemWrapperCol width={15} height={100} >
+            <GridItemWrapperInner height={100}>
+              <CircleProgress
+                activeStrokeColor={
+                  Colors[colorScheme ?? "light"]
+                    .circleProgresBackgroundFilledColor
+                }
+                titleColor={Colors[colorScheme ?? "light"].circleProgresTextColor}
+                circleBackgroundColor={
+                  Colors[colorScheme ?? "light"].circleProgresBackgroundColor
+                }
+                filled={totalWithAmount}
+                progress={totalUn && totalWithAmount ? totalWithAmount : 0}
+                total={totalUn}
+                size={22}
+              />
+            </GridItemWrapperInner>
+          </GridItemWrapperCol>
+        </>
+      </GridItemInner>
+    </GridItem>
   );
 }

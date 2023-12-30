@@ -1,20 +1,18 @@
-import * as Styled from "./styles";
-import { ItemInterface, ItemAmountInterface } from "../../../types/types";
-
 import ListPriceItem from "./listPriceItem";
-import { useShoppingListContext } from "../../../context/ShoppingList";
-import { removeUndefinedFromArray } from "../../../utils/functions";
 import IAmount from "../../../Domain/Model/IAmount";
+import Container from "../../../components/Container";
+import { GridItemWrapperCol, GridItemWrapperRow } from "../../../components/GridItemInner";
+import { SafeAreaView, ScrollView } from "react-native";
 
 interface ListProps {
   item: IAmount[];
 }
 
-export default function ListPriceGrid({ item }: ListProps) {
+export default function ListPriceGrid({ item }: Readonly<ListProps>) {
 
   return (
-    <Styled.Container>
-      <Styled.ContainerListPriceItem>
+    <SafeAreaView style={{ width: "100%" }}>
+      <ScrollView nestedScrollEnabled>
         {item.map((itemAmount: IAmount) => {
           return itemAmount ? (
             <ListPriceItem
@@ -24,7 +22,8 @@ export default function ListPriceGrid({ item }: ListProps) {
             />
           ) : <></>;
         })}
-      </Styled.ContainerListPriceItem>
-    </Styled.Container>
+
+      </ScrollView>
+    </SafeAreaView>
   );
 }

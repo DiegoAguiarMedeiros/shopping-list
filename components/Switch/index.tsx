@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import styled from "styled-components/native";
 import { Switch as RNSwitch, useColorScheme } from "react-native";
-import * as Styled from "./styles";
 import Colors from "../../constants/Colors";
 import { Text } from "../Text";
+import Container from "../Container";
+import { GridItemWrapperInner, GridItemWrapperRow } from "../GridItemInner";
 
 interface LabelOnOff {
   on: string;
@@ -19,30 +19,37 @@ interface SwitchProps {
 const Switch: React.FC<SwitchProps> = ({ value, onValueChange, label }) => {
   const colorScheme = useColorScheme();
   return (
-    <Styled.Container>
-      <Text
-        color={
-          colorScheme !== "dark"
-            ? Colors[colorScheme ?? "light"].black
-            : Colors[colorScheme ?? "light"].white
-        }
-      >
-        {label[value ? "on" : "off"]}
-      </Text>
-      <RNSwitch
-        value={value}
-        onValueChange={onValueChange}
-        trackColor={{
-          false: Colors[colorScheme ?? "light"].white,
-          true: Colors[colorScheme ?? "light"].secondary,
-        }}
-        thumbColor={
-          value
-            ? Colors[colorScheme ?? "light"].white
-            : Colors[colorScheme ?? "light"].secondary
-        }
-      />
-    </Styled.Container>
+    <Container noPadding>
+      <GridItemWrapperRow height={100} >
+        <GridItemWrapperInner width={50} height={100} align="flex-end">
+          <Text
+            color={
+              colorScheme !== "dark"
+                ? Colors[colorScheme ?? "light"].black
+                : Colors[colorScheme ?? "light"].white
+            }
+            align="right"
+          >
+            {label[value ? "on" : "off"]}
+          </Text>
+        </GridItemWrapperInner>
+        <GridItemWrapperInner width={50} height={100}>
+          <RNSwitch
+            value={value}
+            onValueChange={onValueChange}
+            trackColor={{
+              false: Colors[colorScheme ?? "light"].white,
+              true: Colors[colorScheme ?? "light"].secondary,
+            }}
+            thumbColor={
+              value
+                ? Colors[colorScheme ?? "light"].white
+                : Colors[colorScheme ?? "light"].secondary
+            }
+          />
+        </GridItemWrapperInner>
+      </GridItemWrapperRow>
+    </Container>
   );
 };
 

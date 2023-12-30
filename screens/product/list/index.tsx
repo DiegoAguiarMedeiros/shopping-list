@@ -25,16 +25,10 @@ export default function List({
 }: Readonly<ItemProps>) {
 
   return (
-    <Container
-      background={"transparent"}
-    >
-      <ContainerInner>
-        <ListGrid
-          items={items}
-          setBottomSheetProps={setBottomSheetProps}
-          handleCloseBottomSheet={handleCloseBottomSheet}
-        />
-      </ContainerInner>
-    </Container>
+    <ListGrid
+      items={items}
+      setBottomSheetProps={setBottomSheetProps}
+      handleCloseBottomSheet={handleCloseBottomSheet}
+    />
   );
 }

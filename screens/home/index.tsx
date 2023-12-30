@@ -9,6 +9,8 @@ import BottomSheet, { BottomSheetProps } from "../../components/BottomSheet";
 import { useEffect, useState } from "react";
 import NewListForm from "../../components/NewListForm";
 import Button from "../../components/Button";
+import Container from "../../components/Container";
+import ContainerInner from "../../components/ContainerInner";
 
 interface HomeProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -19,7 +21,7 @@ export default function Home({
   bottomSheetProps,
   setBottomSheetProps,
   handleCloseBottomSheet,
-}: HomeProps) {
+}: Readonly<HomeProps>) {
   const colorScheme = useColorScheme();
   const { list, listProduct, amount, tags } = useShoppingListContext();
   const isFocused = useIsFocused();
@@ -29,10 +31,11 @@ export default function Home({
   // console.log("amount", amount);
   // console.log("tags", tags);
   return (
-    <Styled.Container
+    <Container
       background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
     >
-      <Styled.ContainerListInner>
+      <ContainerInner
+        background={Colors[colorScheme ?? "light"].bodyBackgroundColor}>
         {isFocused &&
           (list && list.length > 0 ? (
             <ListComponent
@@ -43,7 +46,7 @@ export default function Home({
           ) : (
             <EmptyList mensage="Você não tem nenhuma lista criada" />
           ))}
-      </Styled.ContainerListInner>
-    </Styled.Container>
+      </ContainerInner>
+    </Container>
   );
 }

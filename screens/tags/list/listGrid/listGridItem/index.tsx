@@ -196,7 +196,7 @@ export default function ListGridItem({
         onPress={handleOpenList}
       >
         <>
-          <GridItemWrapperCol width={70} height={50} >
+          <GridItemWrapperCol width={70} height={100} >
             <GridItemWrapperInner height={100}>
               <Title
                 color={
@@ -209,7 +209,7 @@ export default function ListGridItem({
               </Title>
             </GridItemWrapperInner>
           </GridItemWrapperCol>
-          <GridItemWrapperCol width={30} height={50} >
+          <GridItemWrapperCol width={30} height={100} >
             <GridItemWrapperInner height={100}>
               <SubTitle
                 color={

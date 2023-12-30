@@ -78,9 +78,14 @@ const NewItemForm = ({
       addProductToListByUuidController.handle(listId, newItem.item)
       closeBottomSheet();
       const product = getListProductController.handle([newItem.item])
-      listProduct ?
-        setListProduct([product[0], ...listProduct]) :
-        setListProduct([product[0]]);
+
+      const newProductList = listProduct.map((l) => {
+        if (l.uuid === listId) {
+          return product[0]
+        }
+        return l;
+      })
+      setListProduct([...newProductList]);
 
       const newList = list.map((l) => {
         if (l.uuid === listId) {

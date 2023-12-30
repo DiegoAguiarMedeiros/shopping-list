@@ -26,16 +26,10 @@ export default function List({
   const colorScheme = useColorScheme();
 
   return (
-    <Container
-      background={"transparent"}
-    >
-      <ContainerInner>
-        <ListGrid
-          items={items}
-          setBottomSheetProps={setBottomSheetProps}
-          handleCloseBottomSheet={handleCloseBottomSheet}
-        />
-      </ContainerInner>
-    </Container>
+    <ListGrid
+      items={items}
+      setBottomSheetProps={setBottomSheetProps}
+      handleCloseBottomSheet={handleCloseBottomSheet}
+    />
   );
 }
