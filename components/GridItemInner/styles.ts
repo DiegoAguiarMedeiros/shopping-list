@@ -30,6 +30,7 @@ export const WrapperRow = styled.View<{
   justify: string;
   maxHeight: string;
 }>`
+  width: 100%;
   height: ${(props: { height: string }) => props.height};
   max-height: ${(props: { maxHeight: string }) => props.maxHeight};
   justify-content: ${(props: { justify: string }) => props.justify};

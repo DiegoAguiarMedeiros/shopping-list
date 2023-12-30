@@ -12,10 +12,7 @@ import { Text } from "../../components/Text";
 
 const BottomNavigation: React.FC<RoutesType> = ({
   routes,
-  active,
-  setActiveRoute,
-  setBottomSheetProps,
-  bottomSheetProps,
+  active
 }: RoutesType) => {
   const colorScheme = useColorScheme();
   const router = useRouter();

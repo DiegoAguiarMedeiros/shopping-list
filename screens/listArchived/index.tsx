@@ -16,6 +16,9 @@ import CircleProgress from "../../components/CircleProgress";
 import FilterButtons from "../../components/FilterButtons";
 import { Title } from "../../components/Text";
 import getListProductController from "../../Domain/UseCases/ListProduct/GetListProductByUuid";
+import Container from "../../components/Container";
+import ContainerInner from "../../components/ContainerInner";
+import Header from "../../components/Header";
 type TotalType = {
   amount: number;
   un: number;
@@ -35,44 +38,44 @@ export default function ListArchived({ listId }: ListProps) {
 
   const listArrItems = getListProductController.handle(listArr?.items ? listArr?.items : []);
   const router = useRouter();
-  // useEffect(() => {
-  //   const newFilteredList = listArrItems.filter(
-  //     (item: ItemInterface) => item.tags === filter
-  //   );
-  //   newFilteredList.length > 0
-  //     ? getTotalAmountAndUnity(newFilteredList)
-  //     : getTotalAmountAndUnity(listArrItems);
-  // }, [filter]);
+
+  const returnToTags = () => {
+    router.push({ pathname: "/history" })
+  }
 
   return (
-    <Styled.Container
-      background={Colors[colorScheme ?? "light"].headerBackgroundColor}
+    <Container
+      background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
+      noPadding
     >
-      <Styled.ContainerHeader>
-        <Styled.ContainerHeaderInnerIconBack>
-          <TouchableOpacity onPress={() => router.back()}>
+      <>
+        <Header
+          background={Colors[colorScheme ?? "light"].headerBackgroundColor}
+          left={<TouchableOpacity onPress={() => returnToTags()}>
             <FontAwesome
               name="angle-left"
               size={35}
               color={Colors[colorScheme ?? "light"].white}
             />
-          </TouchableOpacity>
-        </Styled.ContainerHeaderInnerIconBack>
-        <Styled.ContainerHeaderInnerText>
-          <Title color={Colors[colorScheme ?? "light"].white}>
+          </TouchableOpacity>}
+
+          title={<Title color={Colors[colorScheme ?? "light"].white}>
             {listArr?.name}
-          </Title>
-        </Styled.ContainerHeaderInnerText>
-      </Styled.ContainerHeader>
-      <Styled.ContainerBody>
-        {listArrItems.length > 0 ? (
-          <ListGrid filter={filter}
-            listArrItems={listArrItems}
-            listId={listId} />
-        ) : (
-          <EmptyList mensage="Você não tem nenhum item na lista" />
-        )}
-      </Styled.ContainerBody>
-    </Styled.Container>
+          </Title>} />
+
+
+        <ContainerInner
+          justify="center"
+          background={Colors[colorScheme ?? "light"].bodyBackgroundColor}>
+          {listArrItems.length > 0 ? (
+            <ListGrid filter={filter}
+              listArrItems={listArrItems}
+              listId={listId} />
+          ) : (
+            <EmptyList mensage="Você não tem nenhum item na lista" />
+          )}
+        </ContainerInner>
+      </>
+    </Container>
   );
 }

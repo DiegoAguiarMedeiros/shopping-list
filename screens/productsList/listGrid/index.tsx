@@ -31,18 +31,16 @@ function ListGrid({
       <ContainerInner>
         <SafeAreaView style={{ width: "100%" }}>
           <ScrollView style={[{ height: "100%" }]} nestedScrollEnabled>
-            <Styled.ContainerListItemListItem>
-              {listArrItems.map((item: IProduct) => (
-                <ListGridItem
-                  key={"ListGridItem-" + item.uuid}
-                  setBottomSheetProps={setBottomSheetProps}
-                  item={item}
-                  tagUuid={tagUuid}
-                  deleteItem={deleteItem}
-                  handleCloseBottomSheet={handleCloseBottomSheet}
-                />
-              ))}
-            </Styled.ContainerListItemListItem>
+            {listArrItems.map((item: IProduct) => (
+              <ListGridItem
+                key={"ListGridItem-" + item.uuid}
+                setBottomSheetProps={setBottomSheetProps}
+                item={item}
+                tagUuid={tagUuid}
+                deleteItem={deleteItem}
+                handleCloseBottomSheet={handleCloseBottomSheet}
+              />
+            ))}
           </ScrollView>
         </SafeAreaView>
       </ContainerInner>

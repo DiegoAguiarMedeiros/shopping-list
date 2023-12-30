@@ -19,6 +19,9 @@ import { IProduct } from "../../../Domain/Model/IProduct";
 import getTotalQuantityAmountByListUuidController from "../../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
 import getTotalQuantityWithoutAmountByListUuidController from "../../../Domain/UseCases/List/GetTotalQuantityWithoutAmountByListUuid";
 import getTotalAmountByListUuidController from "../../../Domain/UseCases/List/GetTotalAmountByListUuid";
+import ContainerInner from "../../../components/ContainerInner";
+import Container from "../../../components/Container";
+import { GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../components/GridItemInner";
 interface ListProps {
   listArrItems: IProduct[];
   filter: string;
@@ -44,32 +47,28 @@ function ListGrid({ filter, listId, listArrItems }: ListProps) {
   // }, [filter]);
 
   return (
-    <Styled.Container
-      background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
+    <Container
+      background={"transparent"}
     >
-      <Styled.ContainerList>
-        <Styled.ContainerListInner>
-          <Styled.ContainerListItemList>
-            <SafeAreaView>
-              <ScrollView style={[{ height: "100%" }]} nestedScrollEnabled>
-                <Styled.ContainerListItemListItem
-                  height={`${listArrItems.length * 100 + 410}`}
-                >
-                  {listArrItems.map((item: IProduct) => (
-                    <ListGridItem
-                      key={"ListGridItem-" + item.uuid}
-                      item={item}
-                      listId={listId}
-                    />
-                  ))}
-                </Styled.ContainerListItemListItem>
-              </ScrollView>
-            </SafeAreaView>
-          </Styled.ContainerListItemList>
-          <Styled.ContainerListTotal>
-            <Styled.ContainerItemTotalUnitText
-              text={Colors[colorScheme ?? "light"].bodyTextColor}
-            >
+      <ContainerInner>
+        <GridItemWrapperRow height={85} >
+
+          <SafeAreaView style={{ width: "100%" }}>
+            <ScrollView style={[{ height: "100%" }]} nestedScrollEnabled>
+              {listArrItems.map((item: IProduct) => (
+                <ListGridItem
+                  key={"ListGridItem-" + item.uuid}
+                  item={item}
+                  listId={listId}
+                />
+              ))}
+            </ScrollView>
+          </SafeAreaView>
+        </GridItemWrapperRow>
+        <GridItemWrapperRow height={5} >
+          <GridItemWrapperCol width={40} height={100} >
+
+            <GridItemWrapperInner height={100}>
               <Text
                 color={
                   colorScheme !== "dark"
@@ -80,25 +79,27 @@ function ListGrid({ filter, listId, listArrItems }: ListProps) {
                 Items:{" "}
                 {getTotalQuantityWithoutAmountByListUuidController.handle(listId)}
               </Text>
-            </Styled.ContainerItemTotalUnitText>
-            <Styled.ContainerItemTotalText
-              text={Colors[colorScheme ?? "light"].bodyTextColor}
-            >
+            </GridItemWrapperInner>
+          </GridItemWrapperCol>
+          <GridItemWrapperCol width={50} height={100} >
+
+            <GridItemWrapperInner height={100}>
               <Text
                 color={
                   colorScheme !== "dark"
                     ? Colors[colorScheme ?? "light"].black
                     : Colors[colorScheme ?? "light"].white
                 }
+                align="right"
               >
                 Total : R${" "}
                 {total}
               </Text>
-            </Styled.ContainerItemTotalText>
-          </Styled.ContainerListTotal>
-        </Styled.ContainerListInner>
-      </Styled.ContainerList>
-    </Styled.Container>
+            </GridItemWrapperInner>
+          </GridItemWrapperCol>
+        </GridItemWrapperRow>
+      </ContainerInner>
+    </Container>
   );
 }
 

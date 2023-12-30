@@ -28,6 +28,10 @@ import getAmountByListProductUuidController from "../../../../Domain/UseCases/Am
 import getTotalQuantityAmountByListUuidController from "../../../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
 import getTotlaAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetTotalAmountByListProductUuid";
 import getTotalQuantityAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetTotalQuantityAmountByListProductUuid";
+import GridItem from "../../../../components/GridItem";
+import { GridItemInner, GridItemWrapperCol, GridItemWrapperRow } from "../../../../components/GridItemInner";
+import ContainerInner from "../../../../components/ContainerInner";
+import Container from "../../../../components/Container";
 
 interface ListProps {
   item: IProduct;
@@ -47,14 +51,40 @@ function ListGridItem({ item, listId }: ListProps) {
   return (
     <>
       {quantity == 0 ? (
-        <Styled.ContainerListItemListItem
-          key={`ContainerListItemListItem-` + item.uuid}
+        <GridItemInner
           underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+          borderColor={
+            Colors[colorScheme ?? "light"].listItemBackgroundBorderColor
+          }
           background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+          height={60}
+          row
         >
-          <Styled.ContainerListItemListItemInner>
-            <Styled.ContainerListItemListItemHead>
-              <Styled.ContainerItemTextTitle>
+          <Title
+            color={
+              colorScheme !== "dark"
+                ? Colors[colorScheme ?? "light"].black
+                : Colors[colorScheme ?? "light"].white
+            }
+          >
+            {item.name}
+          </Title>
+        </GridItemInner>
+      ) : (
+        listArrItems.map((amount) => (
+          <GridItemInner
+            underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+            borderColor={
+              Colors[colorScheme ?? "light"].listItemBackgroundBorderColor
+            }
+            background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+            height={60}
+            row
+
+            key={`ContainerListItemListItem-` + amount}
+          >
+            <>
+              <GridItemWrapperCol width={65} height={100} >
                 <Title
                   color={
                     colorScheme !== "dark"
@@ -64,52 +94,22 @@ function ListGridItem({ item, listId }: ListProps) {
                 >
                   {item.name}
                 </Title>
-              </Styled.ContainerItemTextTitle>
-            </Styled.ContainerListItemListItemHead>
-          </Styled.ContainerListItemListItemInner>
-        </Styled.ContainerListItemListItem>
-      ) : (
-        listArrItems.map((amount) => (
-          <Styled.ContainerListItemListItem
-            key={`ContainerListItemListItem-` + amount}
-            underlayColor={
-              Colors[colorScheme ?? "light"].listItemBackgroundColor
-            }
-            background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
-          >
-            <Styled.ContainerListItemListItemInner>
-              <Styled.ContainerListItemListItemHead>
-                <Styled.ContainerItemTextTitle>
-                  <Title
-                    color={
-                      colorScheme !== "dark"
-                        ? Colors[colorScheme ?? "light"].black
-                        : Colors[colorScheme ?? "light"].white
-                    }
-                  >
-                    {item.name}
-                  </Title>
-                </Styled.ContainerItemTextTitle>
-              </Styled.ContainerListItemListItemHead>
-              <Styled.ContainerListItemListItemBody>
-                <Styled.ContainerItemTextUn
-                  text={Colors[colorScheme ?? "light"].bodyTextColor}
-                >
-                  <Text
-                    color={
-                      colorScheme !== "dark"
-                        ? Colors[colorScheme ?? "light"].black
-                        : Colors[colorScheme ?? "light"].white
-                    }
-                  >
-                    {`${quantity} ${item.unit}`}
-                    {" x"}
-                  </Text>
-                </Styled.ContainerItemTextUn>
-                <Styled.ContainerItemTextPriceTotalContainer
-                  text={Colors[colorScheme ?? "light"].bodyTextColor}
-                >
-                  <Styled.ContainerItemTextPriceTotal>
+              </GridItemWrapperCol>
+              <GridItemWrapperCol width={30} height={100} >
+                <GridItemWrapperRow height={100} >
+                  <GridItemWrapperCol width={50} height={100} >
+                    <Text
+                      color={
+                        colorScheme !== "dark"
+                          ? Colors[colorScheme ?? "light"].black
+                          : Colors[colorScheme ?? "light"].white
+                      }
+                    >
+                      {`${quantity} ${item.unit}`}
+                      {" x"}
+                    </Text>
+                  </GridItemWrapperCol>
+                  <GridItemWrapperCol width={50} height={100} >
                     <Text
                       color={
                         colorScheme !== "dark"
@@ -119,22 +119,23 @@ function ListGridItem({ item, listId }: ListProps) {
                     >
                       R$ {amount.amount}
                     </Text>
-                  </Styled.ContainerItemTextPriceTotal>
-                  <Styled.ContainerItemTextPriceTotalLine
-                    border={Colors[colorScheme ?? "light"].primary}
-                  />
-                  <Styled.ContainerItemTextPriceTotal>
-                    <Text color={Colors[colorScheme ?? "light"].primary}>
-                      R${" "}
-                      {total}
-                    </Text>
-                  </Styled.ContainerItemTextPriceTotal>
-                </Styled.ContainerItemTextPriceTotalContainer>
-              </Styled.ContainerListItemListItemBody>
-            </Styled.ContainerListItemListItemInner>
-          </Styled.ContainerListItemListItem>
+                    <Styled.ContainerItemTextPriceTotalLine
+                      border={Colors[colorScheme ?? "light"].primary}
+                    />
+                    <Styled.ContainerItemTextPriceTotal>
+                      <Text color={Colors[colorScheme ?? "light"].primary}>
+                        R${" "}
+                        {total}
+                      </Text>
+                    </Styled.ContainerItemTextPriceTotal>
+                  </GridItemWrapperCol>
+                </GridItemWrapperRow>
+              </GridItemWrapperCol>
+            </>
+          </GridItemInner >
         ))
-      )}
+      )
+      }
     </>
   );
 }

@@ -221,6 +221,7 @@ function RootLayoutNav() {
     if (route === "history") {
       setBottomSheetProps({
         ...bottomSheetProps,
+        children: <></>,
         isVisible: false,
       })
     }
@@ -246,7 +247,7 @@ function RootLayoutNav() {
       name: "add",
       icon: "plus",
       addButton: true,
-      func: () => setBottomSheetProps({ ...bottomSheetProps, isVisible: true }),
+      func: () => activeRoute !== "history" ? setBottomSheetProps({ ...bottomSheetProps, isVisible: true }) : null,
     },
     {
       name: "tags",

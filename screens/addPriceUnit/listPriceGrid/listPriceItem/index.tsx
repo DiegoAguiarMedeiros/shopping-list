@@ -26,7 +26,6 @@ interface ListProps {
 
 export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
   const {
-    amount,
     handleEditItemsAmount,
     handleDeleteAmountInList
   } = useShoppingListContext();
