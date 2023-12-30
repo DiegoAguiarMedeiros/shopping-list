@@ -45,8 +45,7 @@ export default function ListGridItem({
   handleCloseBottomSheet,
 }: Readonly<ItemProps>) {
   const {
-    tags,
-    setTags,
+    handleDeleteTag
   } = useShoppingListContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
@@ -104,10 +103,7 @@ export default function ListGridItem({
   };
 
   const handleDelete = () => {
-    const updatedList: ITag[] = JSON.parse(JSON.stringify(tags));
-    const newupdatedList = updatedList.filter(i => item.uuid !== i.uuid)
-    deleteTagByUuidController.handle(item.uuid);
-    setTags(newupdatedList);
+    handleDeleteTag(item.uuid);
   };
 
   const LeftSwipe = (

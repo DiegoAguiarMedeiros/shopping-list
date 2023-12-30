@@ -24,6 +24,7 @@ import deleteProductFromListByUuidController from "../Domain/UseCases/List/Delet
 import getTagsByProductUuidArrayController from "../Domain/UseCases/ListProduct/GetTagsByProductUuidArray";
 import DeleteProductByUuid from "../Domain/UseCases/ListProduct/DeleteProductByUuid";
 import deleteAmountByUuidController from "../Domain/UseCases/Amount/DeleteAmountByUuid";
+import deleteTagByUuidController from "../Domain/UseCases/Tag/DeleteTagByUuid";
 
 
 type ShoppingListProviderProps = {
@@ -50,6 +51,7 @@ type ShoppingListContextType = {
   handleDeleteList: (listUuid: string) => void;
   handleDeleteListArchived: (listUuid: string) => void;
   handleArchived: (listUuid: string) => void;
+  handleDeleteTag: (tagUuid: string) => void;
   handleDeleteProductFromList: (listUuid: string, productUuid: string) => void;
   handleDeleteProduct: (prodcutUuid: string) => void;
   handleEditItemsAmount: (amountUuid: string, type: boolean) => void;
@@ -106,6 +108,9 @@ const deleteList = (listUuid: string): void => {
 };
 const deleteProduct = (productUuid: string): void => {
   DeleteProductByUuid.handle(productUuid);
+};
+const deleteTag = (tagUuid: string): void => {
+  deleteTagByUuidController.handle(tagUuid);
 };
 const deleteProductFromList = (listUuid: string, productUuid: string): void => {
   deleteProductFromListByUuidController.handle(listUuid, productUuid);
@@ -434,6 +439,12 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     return updatedAmount[0];
   };
 
+  const handleDeleteTag = (tagUuid: string) => {
+    const updatedList: ITag[] = JSON.parse(JSON.stringify(tags.filter(i => tagUuid !== i.uuid)));
+    deleteTag(tagUuid);
+    setTags(updatedList);
+  };
+
   useEffect(() => {
     loadList();
     loadListProduct();
@@ -473,6 +484,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         handleDeleteAmountInList: handleDeleteAmountInList,
         changeAmountQuantity: changeAmountQuantity,
         handleAmountInputChange: handleAmountInputChange,
+        handleDeleteTag: handleDeleteTag,
       }}
     >
       {children}

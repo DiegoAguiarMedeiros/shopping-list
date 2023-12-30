@@ -34,7 +34,7 @@ export default function ListPriceGrid({
   setNewItemAmount
 }: Readonly<ListPriceGridProps>) {
   const colorScheme = useColorScheme();
-  const { amount, changeAmountQuantity, handleAmountInputChange } = useShoppingListContext();
+  const {  changeAmountQuantity, handleAmountInputChange } = useShoppingListContext();
 
   const formatInput = (value: string): string => {
     let newValue = value.replace(".", "");
