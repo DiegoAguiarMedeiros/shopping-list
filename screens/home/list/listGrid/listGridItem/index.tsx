@@ -16,7 +16,6 @@ import { Swipeable } from "react-native-gesture-handler";
 import { removeUndefinedFromArray } from "../../../../../utils/functions";
 import { Title, Text, SubTitle } from "../../../../../components/Text";
 import {
-  useShoppingListArchivedContext,
   useShoppingListContext,
 } from "../../../../../context/ShoppingList";
 import CircleProgress from "../../../../../components/CircleProgress";
@@ -49,18 +48,11 @@ export default function ListGridItem({
 }: ItemProps) {
   const {
     list,
-    setList,
-    listProduct,
-    setListProduct,
-  } = useShoppingListContext();
-  const {
     listArchived,
-    setListArchived,
-    listProductArchived,
-    setListProductArchived,
-    listAmountArchived,
-    setListAmountArchived,
-  } = useShoppingListArchivedContext();
+    listProduct,
+    handleDeleteList,
+    handleArchived
+  } = useShoppingListContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
   const items = removeUndefinedFromArray(
@@ -77,7 +69,6 @@ export default function ListGridItem({
     setBottomSheetProps({
       children: (
         <NewItemForm
-          action="addListItem"
           buttonText="add"
           onClose={handleCloseBottomSheetProductList}
           listId={item.uuid} />
@@ -101,13 +92,11 @@ export default function ListGridItem({
             children: (
               <NewItemForm
                 onClose={handleCloseBottomSheetProductList}
-                action="addListItem"
                 buttonText="add"
                 listId={item.uuid}
               />
             ),
           })}
-          action="addListItem"
           buttonText="add"
           listId={item.uuid}
         />
@@ -118,10 +107,6 @@ export default function ListGridItem({
 
   const handleEdit = () => {
     setBottomSheetProps({
-      // listId: item.uuid,
-      // items: item,
-      // buttonText: "edit",
-      // action: "editList",
       height: "add",
       children: (
         <NewListForm
@@ -137,10 +122,6 @@ export default function ListGridItem({
 
   const handleCopy = () => {
     setBottomSheetProps({
-      // listId: item.uuid,
-      // items: item,
-      // buttonText: "copy",
-      // action: "copyList",
       height: "add",
       children: (
         <NewListForm
@@ -155,74 +136,11 @@ export default function ListGridItem({
   };
 
   const handleDelete = () => {
-    const updatedList: IList[] = JSON.parse(JSON.stringify(list));
-    const newupdatedList = updatedList.filter(i => item.uuid !== i.uuid)
-    deleteListByUuid.handle(item.uuid);
-    setList(newupdatedList);
+    handleDeleteList(item.uuid);
   };
 
-  // const handleDeleteListItem = (listUuid: string[]): void => {
-  //   if (listUuid) {
-  //     const updatedList: IListInterface<IProduct> = JSON.parse(
-  //       JSON.stringify(listProduct)
-  //     );
-  //     listUuid.forEach((i) => {
-  //       updatedList[i]?.amount &&
-  //         handleDeleteAmountInList(updatedList[i]?.amount);
-  //       delete updatedList[i];
-  //     });
-  //     setListProduct(updatedList);
-  //   }
-  // };
-  // const handleDeleteAmountInList = (itemAmountUuid: string[]): void => {
-  //   const updatedList: IListAmountInterface = JSON.parse(
-  //     JSON.stringify(listAmount)
-  //   );
-  //   itemAmountUuid.forEach((i) => {
-  //     delete updatedList[i];
-  //   });
-  //   setListAmount(updatedList);
-  // };
-
-  // const handleArchivedItemList = (items: string[]): void => {
-  //   items.forEach((item) => {
-  //     const archivedItemList: IListInterface<IProduct> = JSON.parse(
-  //       JSON.stringify(listProduct)
-  //     );
-  //     const itemsArchived = archivedItemList[item];
-  //     if (itemsArchived) {
-  //       handleArchivedItemListAmount(itemsArchived.amount);
-  //       setListProductArchived((newValue) => ({
-  //         ...newValue,
-  //         [itemsArchived.uuid]: itemsArchived,
-  //       }));
-  //     }
-  //   });
-  // };
-  // const handleArchivedItemListAmount = (amounts: string[]): void => {
-  //   amounts.forEach((amount) => {
-  //     const archivedItemAmountList: IListAmountInterface = JSON.parse(
-  //       JSON.stringify(listAmountArchived)
-  //     );
-  //     const itemsAmountArchived = archivedItemAmountList[amount];
-  //     if (itemsAmountArchived) {
-  //       setListAmountArchived((newValue) => ({
-  //         ...newValue,
-  //         [itemsAmountArchived.uuid]: itemsAmountArchived,
-  //       }));
-  //     }
-  //   });
-  // };
-  const handleArchived = (): void => {
-    const archivedList: IList[] = JSON.parse(JSON.stringify(list));
-    const selectedItem = archivedList.find((i) => i.uuid === item.uuid);
-    if (selectedItem) {
-      handleDelete();
-      saveListArchivedByUuidController.handle(selectedItem);
-      listArchived ?
-        setListArchived([selectedItem, ...listArchived]) :
-        setListArchived([selectedItem]);
-    }
+  const archivedList = (): void => {
+    handleArchived(item.uuid);
   };
 
   const RightSwipe = (
@@ -317,7 +235,7 @@ export default function ListGridItem({
               Colors[colorScheme ?? "light"]
                 .swipeablebuttonTouchableHighlightBackgroundColor
             }
-            onPress={handleArchived}
+            onPress={archivedList}
           >
             <>
               <Styled.ButtonTextIcon

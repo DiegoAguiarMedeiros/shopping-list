@@ -23,17 +23,11 @@ import { GridItemWrapperCol, GridItemWrapperRow } from "../../../components/Grid
 interface ListProps {
   listId: string;
   listArrItems: IProduct[];
-  deleteItem: (item: ItemInterface) => void;
-  setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
-  handleCloseBottomSheet: () => void;
 }
 
 function ListGrid({
   listArrItems,
   listId,
-  deleteItem,
-  setBottomSheetProps,
-  handleCloseBottomSheet,
 }: Readonly<ListProps>) {
   const { list } = useShoppingListContext();
 

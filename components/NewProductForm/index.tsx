@@ -38,11 +38,11 @@ const NewProductForm = ({
   items,
 }: NewListFormProps) => {
   const colorScheme = useColorScheme();
-  const { list, setList, listProduct, setListProduct } =
+  const { handleAddListProduct, handleEditListProduct } =
     useShoppingListContext();
   const [newItem, setNewItem] = useState({
     item: items ? items.name : "",
-    tag: tagUuid ? tagUuid : "",
+    tag: tagUuid || "",
   });
   const tags = GetTags.handle();
   if (tags) {
@@ -61,43 +61,16 @@ const NewProductForm = ({
     Keyboard.dismiss();
   };
 
-  const returnNewList = (): IProduct => {
-    const item: IProduct = {
-      uuid: String(UUIDGenerator.v4()),
-      name: newItem.item,
-      tag: tagUuid ? tagUuid : newItem.tag,
-      amount: [],
-      unit: "Un",
-    };
-    return item;
-  };
 
-  const handleAddList = (): void => {
+  const addList = (): void => {
     closeBottomSheet();
-    const newList = returnNewList();
-    saveListProductByUuid.handle(newList);
-    list ?
-      setListProduct([newList, ...listProduct]) :
-      setListProduct([newList]);
+    handleAddListProduct(newItem.item, tagUuid ?? newItem.tag)
   };
 
-  const handleEditList = (): void => {
-    if (newItem && newItem.item) {
+  const editList = (): void => {
+    if (newItem?.item) {
       closeBottomSheet();
-      const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
-      const selectedItem = listProduct.find((item) => item.uuid === items?.uuid!);
-      if (selectedItem) {
-        selectedItem.name = newItem.item;
-
-        const newUpdatedList = updatedList.map(item =>
-        (item.uuid === selectedItem.uuid ?
-          selectedItem
-          :
-          item)
-        );
-        saveListProductByUuid.handle(selectedItem);
-        setListProduct([...newUpdatedList]);
-      }
+      handleEditListProduct(items?.uuid!, newItem.item);
     }
   };
 
@@ -107,8 +80,8 @@ const NewProductForm = ({
   };
 
   const functions = {
-    addList: handleAddList,
-    editList: handleEditList,
+    addList: addList,
+    editList: editList,
   };
 
   useEffect(() => {

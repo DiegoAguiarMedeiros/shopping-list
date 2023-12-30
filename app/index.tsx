@@ -39,7 +39,6 @@ import History from "./history";
 import BottomSheet, { BottomSheetProps } from "../components/BottomSheet";
 import OnboardingScreen from "../screens/onboarding";
 import {
-  ShoppingListArchivedProvider,
   ShoppingListProvider,
 } from "../context/ShoppingList";
 import Colors from "../constants/Colors";
@@ -116,10 +115,8 @@ export default function App() {
         backgroundColor={Colors[colorScheme ?? "light"].headerBackgroundColor}
       />
       <ShoppingListProvider>
-        <ShoppingListArchivedProvider>
-          {!active && <OnboardingScreen closeOnboarding={closeOnboarding} />}
-          {appIsReady && active && <RootLayoutNav />}
-        </ShoppingListArchivedProvider>
+        {!active && <OnboardingScreen closeOnboarding={closeOnboarding} />}
+        {appIsReady && active && <RootLayoutNav />}
       </ShoppingListProvider>
     </>
   );
@@ -342,9 +339,6 @@ function RootLayoutNav() {
         >
           {() => (
             <Items
-              setBottomSheetProps={setBottomSheetProps}
-              bottomSheetProps={bottomSheetProps}
-              handleCloseBottomSheet={handleCloseBottomSheetProduct}
               handleCloseBottomSheetList={handleCloseBottomSheetList}
             />
           )}

@@ -30,7 +30,7 @@ import getAmountByListProductUuidController from "../../../../Domain/UseCases/Am
 import getTotlaAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetTotalAmountByListProductUuid";
 import getTotalQuantityAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetTotalQuantityAmountByListProductUuid";
 import deleteProductFromListByUuidController from "../../../../Domain/UseCases/List/DeleteProductFromListByUuid";
-import getTagsController from "../../../../Domain/UseCases/ListProduct/GetTags";
+import getTagsController from "../../../../Domain/UseCases/ListProduct/GetTagsByProductUuidArray";
 import GridItem from "../../../../components/GridItem";
 import { GridItemInner, GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../../components/GridItemInner";
 import DeleteProductByUuid from "../../../../Domain/UseCases/ListProduct/DeleteProductByUuid";
@@ -53,16 +53,11 @@ function ListGridItem({
 }: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
   const {
-    listProduct,
-    setListProduct,
+    handleDeleteProduct
   } = useShoppingListContext();
 
   const handleEdit = () => {
     setBottomSheetProps({
-      // listId: item.uuid,
-      // items: item,
-      // buttonText: "edit",
-      // action: "editList",
       height: "edit",
       children: (
         <NewProductForm
@@ -77,10 +72,7 @@ function ListGridItem({
   };
 
   const handleDelete = () => {
-    const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
-    const newupdatedList = updatedList.filter(i => item.uuid !== i.uuid)
-    DeleteProductByUuid.handle(item.uuid);
-    setListProduct(newupdatedList);
+    handleDeleteProduct(item.uuid);
   };
 
   const LeftSwipe = (

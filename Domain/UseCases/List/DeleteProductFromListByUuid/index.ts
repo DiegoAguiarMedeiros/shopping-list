@@ -6,7 +6,7 @@ import GetListByUuid from "../GetListByUuid"
 import DeleteAmountByUuid from "../../Amount/DeleteAmountByUuid";
 import GetAmountByListProductUuid from "../../Amount/GetAmountByListProductUuid"
 import SaveListByUuid from "../SaveListByUuid"
-import GetTagByProductUuid from "../../ListProduct/GetTags"
+import GetTagByProductUuid from "../../ListProduct/GetTagsByProductUuidArray"
 
 const deleteProductFromListByUuidUseCase = new DeleteProductFromListByUuidUseCase(DeleteAmountByUuid, GetAmountByListProductUuid, SaveListByUuid, GetTagByProductUuid, GetListByUuid)
 const deleteProductFromListByUuidController = new DeleteProductFromListByUuidController(deleteProductFromListByUuidUseCase)

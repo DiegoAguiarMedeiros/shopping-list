@@ -16,7 +16,6 @@ import { Swipeable } from "react-native-gesture-handler";
 import { removeUndefinedFromArray } from "../../../../../utils/functions";
 import { Title, Text, SubTitle } from "../../../../../components/Text";
 import {
-  useShoppingListArchivedContext,
   useShoppingListContext,
 } from "../../../../../context/ShoppingList";
 import CircleProgress from "../../../../../components/CircleProgress";

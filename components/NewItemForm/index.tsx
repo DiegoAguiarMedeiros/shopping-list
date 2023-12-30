@@ -31,7 +31,6 @@ export type NewItemFormProps = {
   onClose: () => void;
   listId: string;
   buttonText: "add" | "edit";
-  action: "addListItem" | "editListItem";
   items?: ItemInterface;
 };
 
@@ -39,11 +38,9 @@ const NewItemForm = ({
   onClose,
   listId,
   buttonText,
-  action,
   items,
 }: NewItemFormProps) => {
   const colorScheme = useColorScheme();
-  const [tagsFiltered, setTagsFiltered] = useState<TagsIterface[]>([]);
   const [newItem, setNewItem] = useState({
     item: items ? items.name : "",
   });
@@ -52,7 +49,7 @@ const NewItemForm = ({
     products.unshift({ name: "Selecionar Produto", uuid: "", amount: [], tag: "", unit: "Un" });
   }
 
-  const { list, setList, listProduct, setListProduct } =
+  const { handleAddListItem } =
     useShoppingListContext();
 
   const clearInput = () => {
@@ -60,12 +57,7 @@ const NewItemForm = ({
       item: "",
     });
   };
-  const handleAddTag = (tag: string): void => {
-    setNewItem({
-      item: newItem.item,
-    });
-    setTagsFiltered([]);
-  };
+
   const closeBottomSheet = () => {
     clearInput();
     onClose();
@@ -73,59 +65,9 @@ const NewItemForm = ({
   };
 
 
-  const handleAddListItem = (): void => {
-    if (newItem.item !== "") {
-      addProductToListByUuidController.handle(listId, newItem.item)
-      closeBottomSheet();
-      const product = getListProductController.handle([newItem.item])
-
-      const newProductList = listProduct.map((l) => {
-        if (l.uuid === listId) {
-          return product[0]
-        }
-        return l;
-      })
-      setListProduct([...newProductList]);
-
-      const newList = list.map((l) => {
-        if (l.uuid === listId) {
-          l.items.push(newItem.item);
-          if (!l.tags.includes(product[0].tag)) l.tags.push(product[0].tag);
-        }
-        return l;
-      })
-      setList([...newList]);
-    }
-  };
-
-  const handleAddListItemInList = (
-    listId: string,
-    newListItem: ItemInterface
-  ): void => {
-    // const updatedList: ListType = JSON.parse(JSON.stringify(list));
-    // const item = updatedList[listId];
-    // if (item) {
-    //   const listArrItems: ItemInterface[] = removeUndefinedFromArray(
-    //     getListItemsOfList(item.items)
-    //   );
-    //   item.items.push(newListItem.uuid);
-    //   setList(updatedList);
-    // }
-  };
-
-  const handleEditListItem = (): void => {
-    // if (newItem.item) {
-    //   closeBottomSheet();
-    //   const updatedListItem: ListItemInterface = JSON.parse(
-    //     JSON.stringify(listItem)
-    //   );
-    //   const item = updatedListItem[items?.uuid!];
-    //   if (item) {
-    //     item.name = newItem.item;
-    //     item.tags = newItem.tag;
-    //     setListItem(updatedListItem);
-    //   }
-    // }
+  const addListItem = (): void => {
+    closeBottomSheet();
+    handleAddListItem(listId, newItem.item);
   };
 
   const buttonTextArr = {
@@ -133,10 +75,6 @@ const NewItemForm = ({
     edit: "Editar",
   };
 
-  const functions = {
-    addListItem: handleAddListItem,
-    editListItem: handleEditListItem,
-  };
 
 
   useEffect(() => {
@@ -172,7 +110,7 @@ const NewItemForm = ({
           <Button
             text={buttonTextArr[buttonText]}
             background={Colors[colorScheme ?? "light"].info}
-            onPress={functions[action]}
+            onPress={addListItem}
           />
         </Styled.ButtonWrapper>
       </Styled.ButtonsContainer>

@@ -17,7 +17,6 @@ import { Swipeable } from "react-native-gesture-handler";
 import { removeUndefinedFromArray } from "../../../../../utils/functions";
 import { Title, Text } from "../../../../../components/Text";
 import {
-  useShoppingListArchivedContext,
   useShoppingListContext,
 } from "../../../../../context/ShoppingList";
 import CircleProgress from "../../../../../components/CircleProgress";
@@ -33,9 +32,8 @@ interface ItemProps {
 
 export default function ListGridItem({ item }: ItemProps) {
   const {
-    listArchived,
-    setListArchived,
-  } = useShoppingListArchivedContext();
+    handleDeleteListArchived
+  } = useShoppingListContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
   const total = getTotalAmountByListUuidController.handle(item.uuid);
@@ -50,33 +48,7 @@ export default function ListGridItem({ item }: ItemProps) {
   }, [item.uuid, router]);
 
   const handleDelete = () => {
-    const updatedList: IList[] = JSON.parse(JSON.stringify(listArchived));
-    const newupdatedList = updatedList.filter(i => item.uuid !== i.uuid)
-    deleteListByUuidController.handle(item.uuid);
-    setListArchived(newupdatedList);
-  };
-
-
-
-  const handleDeleteListItem = (listUuid: string[]): void => {
-    // listUuid.forEach((i) => {
-    //   const updatedList: ListItemInterface = JSON.parse(
-    //     JSON.stringify(listItemArchived)
-    //   );
-    //   updatedList[i]?.amount &&
-    //     handleDeleteAmountInList(updatedList[i]?.amount);
-    //   delete updatedList[i];
-    //   setListItemArchived(updatedList);
-    // });
-  };
-  const handleDeleteAmountInList = (itemAmountUuid: string[]): void => {
-    // itemAmountUuid.forEach((i) => {
-    //   const updatedList: ListItemAmountInterface = JSON.parse(
-    //     JSON.stringify(itemAmountListArchived)
-    //   );
-    //   delete updatedList[i];
-    // //   setItemAmountListArchived(updatedList);
-    // });
+    handleDeleteListArchived(item.uuid);
   };
 
   const RightSwipe = useCallback(

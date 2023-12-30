@@ -1,6 +1,6 @@
 import { IControllerGetListProductsByUuid } from "../../interface/IController";
 
-export default class GetTagsUseCase {
+export default class GetTagsByProductUuidArrayUseCase {
 
     constructor(private getListProducts: IControllerGetListProductsByUuid) { }
     execute(productId: string[]): string[] {

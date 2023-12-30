@@ -3,7 +3,6 @@ import Colors from "../../constants/Colors";
 import * as Styled from "./styles";
 import React, { useEffect, useState } from "react";
 import {
-  useShoppingListArchivedContext,
   useShoppingListContext,
 } from "../../context/ShoppingList";
 import { ItemInterface } from "../../types/types";
@@ -30,7 +29,7 @@ export default function ListArchived({ listId }: ListProps) {
   const colorScheme = useColorScheme();
   const {
     listArchived
-  } = useShoppingListArchivedContext();
+  } = useShoppingListContext();
   const listArr = listArchived.find((i) => i.uuid === listId);
   const [filter, setFilter] = useState("Todos");
 

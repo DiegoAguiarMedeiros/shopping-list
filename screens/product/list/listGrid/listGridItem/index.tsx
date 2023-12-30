@@ -8,7 +8,6 @@ import { useRouter } from "expo-router";
 
 import { Title, SubTitle, Text } from "../../../../../components/Text";
 import {
-  useShoppingListArchivedContext,
   useShoppingListContext,
 } from "../../../../../context/ShoppingList";
 
@@ -35,8 +34,7 @@ export default function ListGridItem({
   handleCloseBottomSheet,
 }: Readonly<ItemProps>) {
   const {
-    listProduct,
-    setListProduct
+    handleDeleteProduct
   } = useShoppingListContext();
 
   const colorScheme = useColorScheme();
@@ -45,10 +43,6 @@ export default function ListGridItem({
   const lastPrice = item.lastPrices ? Object.values(item.lastPrices) : [];
   const handleEdit = () => {
     setBottomSheetProps({
-      // listId: item.uuid,
-      // items: item,
-      // buttonText: "edit",
-      // action: "editList",
       height: "edit",
       children: (
         <NewProductForm
@@ -63,10 +57,7 @@ export default function ListGridItem({
   };
 
   const handleDelete = () => {
-    const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
-    const newupdatedList = updatedList.filter(i => item.uuid !== i.uuid)
-    DeleteProductByUuid.handle(item.uuid);
-    setListProduct(newupdatedList);
+    handleDeleteProduct(item.uuid);
   };
 
   const LeftSwipe = (

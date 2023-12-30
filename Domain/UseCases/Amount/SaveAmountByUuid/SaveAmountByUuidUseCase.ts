@@ -26,23 +26,16 @@ export default class SaveAmountByUuidUseCase {
                 newListInterface[data.uuid] = data;
                 this.saveAmount.handle(newListInterface);
             }
-
-
-            const listUuid = data.listProductUuid.substring(0, firstUUIDLength); // Extract the first UUID (8-4-4-4-12 characters)
-            const productUuid = data.listProductUuid.substring(firstUUIDLength + 1, firstUUIDLength * 2 + 1); // Extract the second UUID after the first one
-
+            const productUuid = data.listProductUuid.substring(firstUUIDLength + 1, firstUUIDLength * 2 + 1);
             const product = this.getProduct.handle([productUuid]);
             const amounts = this.getProductAmount.handle(data.listProductUuid);
             const average = this.calculateAverageAmount(amounts);
             amounts.push(data)
             if (product[0].lastPrices) {
                 const keys = Object.keys(product[0].lastPrices);
-                console.log("keys", keys)
                 const numberOfPrices = Object.keys(product[0].lastPrices).length;
-                console.log("numberOfPrices", numberOfPrices)
                 if (numberOfPrices > 2) {
                     delete product[0].lastPrices[keys[0]];
-                    console.log("product[0].lastPrices", product[0].lastPrices);
                 }
                 delete product[0].lastPrices[data.listProductUuid];
             } else {

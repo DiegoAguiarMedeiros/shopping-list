@@ -1,6 +1,6 @@
-import GetTagsUseCase from "./GetTagsUseCase";
+import GetTagsUseCase from "./GetTagsByProductUuidArrayUseCase";
 
-export default class GetTagsController {
+export default class GetTagsByProductUuidArrayController {
     constructor(private getTagsUseCase: GetTagsUseCase) { }
     handle(productId: string[]): string[] {
         return this.getTagsUseCase.execute(productId)

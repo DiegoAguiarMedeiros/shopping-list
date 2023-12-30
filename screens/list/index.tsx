@@ -30,7 +30,7 @@ import getTotalQuantityAmountByListUuidController from "../../Domain/UseCases/Li
 import getTotalAmountByListUuidController from "../../Domain/UseCases/List/GetTotalAmountByListUuid";
 import getTagUuidByTagNameController from "../../Domain/UseCases/Tag/GetTagUuidByTagName";
 import getTotalQuantityWithoutAmountByListUuidController from "../../Domain/UseCases/List/GetTotalQuantityWithoutAmountByListUuid";
-import getTagsController from "../../Domain/UseCases/ListProduct/GetTags";
+import getTagsController from "../../Domain/UseCases/ListProduct/GetTagsByProductUuidArray";
 import Container from "../../components/Container";
 import Header from "../../components/Header";
 import ContainerInner from "../../components/ContainerInner";
@@ -41,17 +41,12 @@ type TotalType = {
 
 interface ListProps {
   listId: string;
-  setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
-  bottomSheetProps: BottomSheetProps;
-  handleCloseBottomSheet: () => void;
   handleCloseBottomSheetList: () => void;
 }
 
-export default function List({ listId,
-  bottomSheetProps,
-  setBottomSheetProps,
-  handleCloseBottomSheet,
-  handleCloseBottomSheetList }: ListProps) {
+export default function List({
+  listId,
+  handleCloseBottomSheetList }: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
   const {
     list,
@@ -105,35 +100,6 @@ export default function List({ listId,
     return () => { };
   }, [filter, amount, listProduct, list]);
 
-  const deleteItem = (item: ItemInterface) => {
-    // const updatedList: ListItemInterface = JSON.parse(JSON.stringify(listItem));
-    // handleDeleteAmountInList(updatedList[item.uuid].amount);
-    // delete updatedList[item.uuid];
-    // setListItem(updatedList);
-    // handleDeleteItemListFromList(updatedList, item.uuid);
-  };
-  const handleDeleteAmountInList = (itemAmountUuid: string[]): void => {
-    // const updatedList: ListItemAmountInterface = JSON.parse(
-    //   JSON.stringify(itemAmountList)
-    // );
-    // itemAmountUuid.forEach((i) => {
-    //   delete updatedList[i];
-    // });
-    // setItemAmountList(updatedList);
-  };
-  const handleDeleteItemListFromList = (
-    updatedList: ListItemInterface,
-    itemUuid: string
-  ): void => {
-    // const updatedListItem: ListType = JSON.parse(JSON.stringify(list));
-    // const item = updatedListItem[listId];
-    // if (item) {
-    //   const newArray = item.items.filter((i) => i !== itemUuid);
-    //   item.items = newArray;
-    //   item.tags = getTagsFromListItemInterface(updatedList);
-    //   setList(updatedListItem);
-    // }
-  };
 
 
   return (
@@ -186,11 +152,8 @@ export default function List({ listId,
         background={Colors[colorScheme ?? "light"].bodyBackgroundColor}>
         {listArrItems.length > 0 ? (
           <ListGrid
-            setBottomSheetProps={setBottomSheetProps}
-            deleteItem={deleteItem}
             listArrItems={listArrItems}
             listId={listId}
-            handleCloseBottomSheet={handleCloseBottomSheet}
           />
         ) : (
           <EmptyList mensage="Você não tem nenhuma item na lista" />

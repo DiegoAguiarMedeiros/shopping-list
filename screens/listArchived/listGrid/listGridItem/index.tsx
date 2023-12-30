@@ -21,7 +21,6 @@ import {
 import { Swipeable } from "react-native-gesture-handler";
 import { Title, Text } from "../../../../components/Text";
 import {
-  useShoppingListArchivedContext,
   useShoppingListContext,
 } from "../../../../context/ShoppingList";
 import { IProduct } from "../../../../Domain/Model/IProduct";
@@ -37,7 +36,7 @@ interface ListProps {
 
 function ListGridItem({ item, listId }: ListProps) {
   const colorScheme = useColorScheme();
-  const { listProductArchived } = useShoppingListArchivedContext();
+  const { listProductArchived } = useShoppingListContext();
 
   const listIditemuuid = `${listId}-${item.uuid}`;
 

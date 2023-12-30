@@ -33,7 +33,7 @@ const NewListForm = ({
   items,
 }: NewListFormProps) => {
   const colorScheme = useColorScheme();
-  const { list, setList, listProduct, setListProduct } =
+  const { handleAddList, handleCopyList, handleEditList } =
     useShoppingListContext();
   const [newItem, setNewItem] = useState({
     item: items ? items.name : "",
@@ -51,82 +51,24 @@ const NewListForm = ({
     Keyboard.dismiss();
   };
 
-  const returnNewList = (): IList => {
-    const item: IList = {
-      uuid: String(UUIDGenerator.v4()),
-      name: newItem.item,
-      tags: [],
-      items: [],
-    };
-    return item;
-  };
-
-  const handleAddList = (): void => {
+  const addList = (): void => {
     closeBottomSheet();
-    const newList = returnNewList();
-    saveListByUuidController.handle(newList);
-    list ?
-      setList([newList, ...list]) :
-      setList([newList]);
+    handleAddList(newItem.item);
   };
 
 
-  const handleCopyList = (): void => {
+  const copyList = (): void => {
     if (newItem.item) {
       closeBottomSheet();
-      const newList = returnNewList();
-      const selectedItem = list.find((item) => item.uuid === items?.uuid!);
-      if (selectedItem) {
-        const returnHandleCopyListItem = handleCopyListItem(selectedItem.items);
-        newList.items = returnHandleCopyListItem.items;
-        newList.tags = returnHandleCopyListItem.tags;
-        setList([newList, ...list]);
-      }
+      handleCopyList(items?.uuid!, newItem.item);
     }
   };
 
-  interface ReturnHandleCopyListItem {
-    items: string[];
-    tags: ITag[];
-  }
 
-  const handleCopyListItem = (
-    listItems: string[]
-  ): ReturnHandleCopyListItem => {
-    const copyListItem: IProduct[] = JSON.parse(
-      JSON.stringify(
-        removeUndefinedFromArray(getListProductController.handle(listItems))
-      )
-    );
-    const selectedItem = listProduct.find((item) => item.uuid === items?.uuid!);
-    return {
-      items: copyListItem.map((item) => {
-        item.amount = [];
-        item.amount = [];
-        item.uuid = String(UUIDGenerator.v4());
-        return item.uuid;
-      }),
-      tags: getTags(copyListItem),
-    };
-  };
-
-  const handleEditList = (): void => {
+  const editList = (): void => {
     if (newItem.item) {
       closeBottomSheet();
-      const updatedList: IList[] = JSON.parse(JSON.stringify(list));
-      const selectedItem = list.find((item) => item.uuid === items?.uuid!);
-      if (selectedItem) {
-        selectedItem.name = newItem.item;
-
-        const newUpdatedList = updatedList.map(item =>
-        (item.uuid === selectedItem.uuid ?
-          selectedItem
-          :
-          item)
-        );
-        saveListByUuidController.handle(selectedItem);
-        setList([...newUpdatedList]);
-      }
+      handleEditList(items?.uuid!, newItem.item);
     }
   };
 
@@ -137,9 +79,9 @@ const NewListForm = ({
   };
 
   const functions = {
-    addList: handleAddList,
-    editList: handleEditList,
-    copyList: handleCopyList,
+    addList: addList,
+    editList: editList,
+    copyList: copyList,
   };
 
   useEffect(() => {

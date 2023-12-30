@@ -31,7 +31,7 @@ const NewTagForm = ({
   tag,
 }: NewTagFormProps) => {
   const colorScheme = useColorScheme();
-  const { tags, setTags } =
+  const { handleAddTag, handleEditTag } =
     useShoppingListContext();
   const [newItem, setNewItem] = useState({
     item: tag ? tag.name : "",
@@ -57,33 +57,17 @@ const NewTagForm = ({
     return item;
   };
 
-  const handleAddTag = (): void => {
-
-    closeBottomSheet();
-    const newTag = returnNewTag();
-    saveTagByUuidController.handle(newTag);
-    tags ?
-      setTags([newTag, ...tags]) :
-      setTags([newTag]);
-  };
-
-  const handleEditTag = (): void => {
+  const addTag = (): void => {
     if (newItem.item) {
       closeBottomSheet();
-      const updatedTag: ITag[] = JSON.parse(JSON.stringify(tags));
-      const selectedTag = tags.find((item) => item.uuid === tag?.uuid!);
-      if (selectedTag) {
-        selectedTag.name = newItem.item;
+      handleAddTag(newItem.item)
+    }
+  };
 
-        const newUpdatedList = updatedTag.map(item =>
-        (item.uuid === selectedTag.uuid ?
-          selectedTag
-          :
-          item)
-        );
-        saveTagByUuidController.handle(selectedTag);
-        setTags([...newUpdatedList]);
-      }
+  const editTag = (): void => {
+    if (newItem.item) {
+      closeBottomSheet();
+      handleEditTag(tag?.uuid!, newItem.item);
     }
   };
 
@@ -94,8 +78,8 @@ const NewTagForm = ({
   };
 
   const functions = {
-    addTag: handleAddTag,
-    editTag: handleEditTag,
+    addTag: addTag,
+    editTag: editTag,
   };
 
   useEffect(() => {

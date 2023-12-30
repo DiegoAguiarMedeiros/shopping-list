@@ -10,7 +10,6 @@ import {
 import ListGridItem from "./listGridItem";
 import { removeUndefinedFromArray } from "../../../utils/functions";
 import {
-  useShoppingListArchivedContext,
   useShoppingListContext,
 } from "../../../context/ShoppingList";
 
@@ -29,7 +28,7 @@ interface ListProps {
 function ListGrid({ filter, listId, listArrItems }: ListProps) {
   const {
     listArchived
-  } = useShoppingListArchivedContext();
+  } = useShoppingListContext();
   const colorScheme = useColorScheme();
   const [filteredList, setFilteredList] = useState<ItemInterface[]>();
 

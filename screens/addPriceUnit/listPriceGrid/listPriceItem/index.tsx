@@ -27,7 +27,8 @@ interface ListProps {
 export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
   const {
     amount,
-    setAmount
+    handleEditItemsAmount,
+    handleDeleteAmountInList
   } = useShoppingListContext();
   const [selectedValueSwitch, setSelectedValueSwitch] = useState(
     itemAmount.type
@@ -37,30 +38,21 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
   );
 
   const colorScheme = useColorScheme();
-  const handleEditItemsAmount = (): void => {
+
+  const editItemsAmount = (): void => {
+    handleEditItemsAmount(itemAmount.uuid, !selectedValueSwitch);
     const updatedList: IAmount = JSON.parse(
       JSON.stringify(itemAmount)
     );
     updatedList.type = !selectedValueSwitch;
     updatedList.quantity = "1";
-    const amountlist = amount.map(a => {
-      if (a.uuid === updatedList.uuid) {
-        return updatedList
-      }
-      return a
-    })
     setSelectedValueSwitch(!selectedValueSwitch);
     setNewItemAmount(updatedList);
-    setAmount(amountlist);
     saveAmountByUuidController.handle(updatedList)
   };
 
-  const handleDeleteAmountInList = (): void => {
-    deleteAmountByUuidController.handle(itemAmount.uuid)
-    const updatedList: IAmount[] = JSON.parse(
-      JSON.stringify(amount.filter(a => a.uuid !== itemAmount.uuid))
-    );
-    setAmount(updatedList);
+  const deleteAmountInList = (): void => {
+    handleDeleteAmountInList(itemAmount.uuid);
   };
 
 
@@ -94,7 +86,7 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
         <GridItemWrapperInner width={30} height={100}>
           <Switch
             value={selectedValueSwitch}
-            onValueChange={handleEditItemsAmount}
+            onValueChange={editItemsAmount}
             label={{ on: "Kg", off: "Un" }}
           />
         </GridItemWrapperInner>
@@ -104,7 +96,7 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
             style={{ marginBottom: -3 }}
             name={"trash"}
             color={Colors[colorScheme ?? "light"].white}
-            onPress={handleDeleteAmountInList}
+            onPress={deleteAmountInList}
           />
         </GridItemWrapperInner>
       </GridItemWrapperRow>

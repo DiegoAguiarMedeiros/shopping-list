@@ -30,7 +30,7 @@ import getAmountByListProductUuidController from "../../../../Domain/UseCases/Am
 import getTotlaAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetTotalAmountByListProductUuid";
 import getTotalQuantityAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetTotalQuantityAmountByListProductUuid";
 import deleteProductFromListByUuidController from "../../../../Domain/UseCases/List/DeleteProductFromListByUuid";
-import getTagsController from "../../../../Domain/UseCases/ListProduct/GetTags";
+import getTagsController from "../../../../Domain/UseCases/ListProduct/GetTagsByProductUuidArray";
 import GridItem from "../../../../components/GridItem";
 import { GridItemInner, GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../../components/GridItemInner";
 
@@ -53,9 +53,8 @@ function ListGridItem({
   const colorScheme = useColorScheme();
   const {
     list,
-    setList,
     listProduct,
-    setListProduct,
+    handleDeleteProductFromList
   } = useShoppingListContext();
   const listIditemuuid = `${listId}-${item.uuid}`;
 
@@ -64,20 +63,7 @@ function ListGridItem({
   const quantity = getTotalQuantityAmountByListProductUuidController.handle(listIditemuuid);
 
   const handleDelete = () => {
-    deleteProductFromListByUuidController.handle(listId, item.uuid);
-    const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
-    const newListProduct = updatedList.filter(product => product.uuid !== item.uuid)
-    setListProduct(newListProduct);
-
-    const newList = list.map((l) => {
-      if (l.uuid === listId) {
-        const newItems = l.items.filter(product => product !== item.uuid)
-        l.items = newItems;
-        l.tags = getTagsController.handle(newItems);
-      }
-      return l;
-    })
-    setList([...newList]);
+    handleDeleteProductFromList(listId, item.uuid);
   };
 
 
