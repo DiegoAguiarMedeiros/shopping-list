@@ -25,6 +25,7 @@ import getTagsByProductUuidArrayController from "../Domain/UseCases/ListProduct/
 import DeleteProductByUuid from "../Domain/UseCases/ListProduct/DeleteProductByUuid";
 import deleteAmountByUuidController from "../Domain/UseCases/Amount/DeleteAmountByUuid";
 import deleteTagByUuidController from "../Domain/UseCases/Tag/DeleteTagByUuid";
+import getAmountByListProductUuidController from "../Domain/UseCases/Amount/GetAmountByListProductUuid";
 
 
 type ShoppingListProviderProps = {
@@ -102,6 +103,18 @@ const saveNewListArchived = (newList: IList): void => {
   saveListArchivedByUuidController.handle(newList);
 
 };
+
+const calculateAverageAmount = (items: IAmount[]): number => {
+  const amounts: number[] = items.map(item => parseFloat(item.amount));
+
+  if (amounts.length === 0) {
+    return 0; // Return 0 for an empty array, or handle this case differently
+  }
+
+  const sum = amounts.reduce((total, amount) => total + amount, 0);
+  const average = sum / amounts.length;
+  return average;
+}
 
 const deleteList = (listUuid: string): void => {
   deleteListByUuidController.handle(listUuid);
@@ -329,6 +342,34 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   const handleAddAmount = (newAmount: string, listProductUuid: string): void => {
     const newListItem = returnNewItemAmount(newAmount, listProductUuid);
     saveAmountByUuidController.handle(newListItem);
+    const productUuid = listProductUuid.substring(36 + 1, 36 * 2 + 1);
+    const product = listProduct.find((product) => product.uuid === productUuid);
+    if (product) {
+      if (product?.lastPrices) {
+        const keys = Object.keys(product.lastPrices);
+        const numberOfPrices = Object.keys(product.lastPrices).length;
+        if (numberOfPrices > 2) {
+          delete product.lastPrices[keys[0]];
+        }
+        delete product.lastPrices[listProductUuid];
+      } else {
+        product.lastPrices = {};
+      }
+      const amounts = getAmountByListProductUuidController.handle(listProductUuid);
+      const average = calculateAverageAmount(amounts);
+      product.lastPrices[listProductUuid] = { uuid: listProductUuid, price: average };
+      const newUpdatedList = listProduct.map(item => {
+        if (item.uuid === productUuid) {
+          return product;
+        }
+        return item;
+      }
+      );
+
+      setListProduct([...newUpdatedList]);
+    }
+
+
     saveNewAmount(newListItem)
     amount ?
       setAmount([newListItem, ...amount]) :
