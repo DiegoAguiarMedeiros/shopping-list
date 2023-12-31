@@ -126,13 +126,13 @@ export default function ListGridItem({
           <Styled.ButtonInner
             underlayColor={
               Colors[colorScheme ?? "light"]
-                .swipeablebuttonTouchableHighlightBackgroundColor
+                .grayScalePrimary
             }
             onPress={handleEdit}
           >
             <>
               <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                text={Colors[colorScheme ?? "light"].grayScalePrimary}
               >
                 <FontAwesome
                   size={18}
@@ -141,7 +141,7 @@ export default function ListGridItem({
                 />
               </Styled.ButtonTextIcon>
               <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                text={Colors[colorScheme ?? "light"].grayScalePrimary}
               >
                 Editar
               </Styled.ButtonText>
@@ -150,13 +150,13 @@ export default function ListGridItem({
           <Styled.ButtonInner
             underlayColor={
               Colors[colorScheme ?? "light"]
-                .swipeablebuttonTouchableHighlightBackgroundColor
+                .grayScalePrimary
             }
             onPress={handleDelete}
           >
             <>
               <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                text={Colors[colorScheme ?? "light"].grayScalePrimary}
               >
                 <FontAwesome
                   size={18}
@@ -165,7 +165,7 @@ export default function ListGridItem({
                 />
               </Styled.ButtonTextIcon>
               <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                text={Colors[colorScheme ?? "light"].grayScalePrimary}
               >
                 Deletar
               </Styled.ButtonText>
@@ -181,11 +181,11 @@ export default function ListGridItem({
       renderRightActions={LeftSwipe}
       leftThreshold={100} rightThreshold={undefined}>
       <GridItemInner
-        underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+        underlayColor={Colors[colorScheme ?? "light"].grayScaleTertiary}
         borderColor={
-          Colors[colorScheme ?? "light"].listItemBackgroundBorderColor
+          Colors[colorScheme ?? "light"].grayScaleSecondary
         }
-        background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+        background={Colors[colorScheme ?? "light"].grayScaleSecondary}
         height={60}
         row
         onPress={handleOpenList}
@@ -194,11 +194,7 @@ export default function ListGridItem({
           <GridItemWrapperCol width={70} height={100} >
             <GridItemWrapperInner height={100}>
               <Title
-                color={
-                  colorScheme !== "dark"
-                    ? Colors[colorScheme ?? "light"].black
-                    : Colors[colorScheme ?? "light"].white
-                }
+                color={Colors[colorScheme ?? "light"].text}
               >
                 {item.name}
               </Title>
@@ -207,11 +203,7 @@ export default function ListGridItem({
           <GridItemWrapperCol width={30} height={100} >
             <GridItemWrapperInner height={100}>
               <SubTitle
-                color={
-                  colorScheme !== "dark"
-                    ? Colors[colorScheme ?? "light"].black
-                    : Colors[colorScheme ?? "light"].white
-                }
+                color={Colors[colorScheme ?? "light"].textSecondary}
               >
                 Produtos: {getNumberOfProductsByTagsUuidController.handle(item.uuid)}
               </SubTitle>

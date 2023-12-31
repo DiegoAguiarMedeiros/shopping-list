@@ -11,7 +11,7 @@ export default function History() {
     useShoppingListContext();
   return (
     <Styled.Container
-      background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
+      background={Colors[colorScheme ?? "light"].grayScalePrimary}
     >
       <Styled.ContainerListInner>
         {listArchived && listArchived.length > 0 ? (

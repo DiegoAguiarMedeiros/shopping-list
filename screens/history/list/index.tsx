@@ -13,7 +13,7 @@ export default function List({ items }: ItemProps) {
 
   return (
     <Styled.Container
-      background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
+      background={Colors[colorScheme ?? "light"].grayScalePrimary}
     >
       <Styled.ContainerListList>
         <ListGrid items={items} />

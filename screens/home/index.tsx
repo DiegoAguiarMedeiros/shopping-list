@@ -33,10 +33,10 @@ export default function Home({
   // console.log("listArchived", listArchived);
   return (
     <Container
-      background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
+      background={Colors[colorScheme ?? "light"].grayScalePrimary}
     >
       <ContainerInner
-        background={Colors[colorScheme ?? "light"].bodyBackgroundColor}>
+        background={Colors[colorScheme ?? "light"].grayScalePrimary}>
         {isFocused &&
           (list && list.length > 0 ? (
             <ListComponent

@@ -42,7 +42,7 @@ const BottomSheet = ({ isVisible, children, height }: BottomSheetProps) => {
       style={{
         height: heightArr[height],
         backgroundColor:
-          Colors[colorScheme ?? "light"].bottomSheetBackgroundColor,
+          Colors[colorScheme ?? "light"].primary,
         transform: [{ translateY }],
       }}
     >

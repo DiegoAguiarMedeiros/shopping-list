@@ -82,7 +82,7 @@ export default function ListGridItem({
               <Styled.ButtonInner
                 underlayColor={
                   Colors[colorScheme ?? "light"]
-                    .swipeablebuttonTouchableHighlightBackgroundColor
+                    .grayScalePrimary
                 }
                 onPress={handleEdit}
               >
@@ -90,7 +90,7 @@ export default function ListGridItem({
                   <GridItemWrapperInner height={lastPrice.length > 0 ? 50 : 60}>
 
                     <Styled.ButtonTextIcon
-                      text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                      text={Colors[colorScheme ?? "light"].grayScalePrimary}
                     >
                       <FontAwesome
                         size={lastPrice.length > 0 ? 26 : 18}
@@ -102,13 +102,13 @@ export default function ListGridItem({
 
                   <GridItemWrapperInner height={lastPrice.length > 0 ? 50 : 40} justify={lastPrice.length > 0 ? "flex-start" : "flex-end"}>
                     {lastPrice.length > 0 ? <SubTitle
-                      color={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                      color={Colors[colorScheme ?? "light"].grayScalePrimary}
                       align="center"
                     >
                       Editar
                     </SubTitle> :
                       <Text
-                        color={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                        color={Colors[colorScheme ?? "light"].grayScalePrimary}
                         align="center"
                       >
                         Editar
@@ -123,14 +123,14 @@ export default function ListGridItem({
               <Styled.ButtonInner
                 underlayColor={
                   Colors[colorScheme ?? "light"]
-                    .swipeablebuttonTouchableHighlightBackgroundColor
+                    .grayScalePrimary
                 }
                 onPress={handleDelete}
               >
                 <>
                   <GridItemWrapperInner height={lastPrice.length > 0 ? 50 : 60} >
                     <Styled.ButtonTextIcon
-                      text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                      text={Colors[colorScheme ?? "light"].grayScalePrimary}
                     >
                       <FontAwesome
                         size={lastPrice.length > 0 ? 26 : 18}
@@ -141,13 +141,13 @@ export default function ListGridItem({
                   </GridItemWrapperInner>
                   <GridItemWrapperInner height={lastPrice.length > 0 ? 50 : 40} justify={lastPrice.length > 0 ? "flex-start" : "flex-end"}>
                     {lastPrice.length > 0 ? <SubTitle
-                      color={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                      color={Colors[colorScheme ?? "light"].grayScalePrimary}
                       align="center"
                     >
                       Deletar
                     </SubTitle> :
                       <Text
-                        color={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                        color={Colors[colorScheme ?? "light"].grayScalePrimary}
                         align="center"
                       >
                         Deletar
@@ -167,11 +167,11 @@ export default function ListGridItem({
       renderRightActions={LeftSwipe}
       leftThreshold={100} rightThreshold={undefined}>
       <GridItemInner
-        underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+        underlayColor={Colors[colorScheme ?? "light"].grayScaleSecondary}
         borderColor={
-          Colors[colorScheme ?? "light"].listItemBackgroundBorderColor
+          Colors[colorScheme ?? "light"].grayScaleSecondary
         }
-        background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+        background={Colors[colorScheme ?? "light"].grayScaleSecondary}
         height={lastPrice.length > 0 ? 100 : 60}
         row={false}
       >
@@ -179,11 +179,7 @@ export default function ListGridItem({
           <GridItemWrapperRow height={lastPrice.length > 0 ? 30 : 100} >
             <GridItemWrapperInner height={100}>
               <Title
-                color={
-                  colorScheme !== "dark"
-                    ? Colors[colorScheme ?? "light"].black
-                    : Colors[colorScheme ?? "light"].white
-                }
+                color={Colors[colorScheme ?? "light"].text}
               >
                 {item.name}
               </Title>

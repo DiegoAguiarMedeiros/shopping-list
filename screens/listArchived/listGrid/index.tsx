@@ -70,11 +70,7 @@ function ListGrid({ filter, listId, listArrItems }: ListProps) {
 
             <GridItemWrapperInner height={100}>
               <Text
-                color={
-                  colorScheme !== "dark"
-                    ? Colors[colorScheme ?? "light"].black
-                    : Colors[colorScheme ?? "light"].white
-                }
+                color={Colors[colorScheme ?? "light"].text}
               >
                 Items:{" "}
                 {getTotalQuantityWithoutAmountByListUuidController.handle(listId)}
@@ -85,11 +81,7 @@ function ListGrid({ filter, listId, listArrItems }: ListProps) {
 
             <GridItemWrapperInner height={100}>
               <Text
-                color={
-                  colorScheme !== "dark"
-                    ? Colors[colorScheme ?? "light"].black
-                    : Colors[colorScheme ?? "light"].white
-                }
+                color={Colors[colorScheme ?? "light"].text}
                 align="right"
               >
                 Total : R${" "}

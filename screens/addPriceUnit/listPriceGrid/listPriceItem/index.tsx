@@ -57,7 +57,7 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
 
   return (
     <GridItemInner
-      underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+      underlayColor={Colors[colorScheme ?? "light"].grayScalePrimary}
       height={40}
       noPadding
     >

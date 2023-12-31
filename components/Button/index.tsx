@@ -814,7 +814,7 @@ const Button: React.FC<ButtonProps> = ({
       radius={!radius}
       onPress={onPress}
       {...rest}
-      border={border ? border : Colors[colorScheme ?? "light"].buttonBackgroundBorderColor}
+      border={border ?? Colors[colorScheme ?? "light"].primary}
       background={background}
       height={text === undefined ? "100%" : "35px"}
     >

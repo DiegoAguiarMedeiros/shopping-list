@@ -31,18 +31,10 @@ export default function AveragePrice({
     return (
         <>
             <Text
-                color={
-                    colorScheme !== "dark"
-                        ? Colors[colorScheme ?? "light"].black
-                        : Colors[colorScheme ?? "light"].white
-                }
+                color={Colors[colorScheme ?? "light"].textSecondary}
             >Preço médio</Text>
             <Text
-                color={
-                    colorScheme !== "dark"
-                        ? Colors[colorScheme ?? "light"].black
-                        : Colors[colorScheme ?? "light"].white
-                }
+                color={Colors[colorScheme ?? "light"].primary}
             >R$ {calculateAveragePrice(price).toFixed(2)}</Text>
         </>
     );

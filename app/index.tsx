@@ -112,7 +112,7 @@ export default function App() {
   return (
     <>
       <StatusBar
-        backgroundColor={Colors[colorScheme ?? "light"].headerBackgroundColor}
+        backgroundColor={Colors[colorScheme ?? "light"].grayScalePrimary}
       />
       <ShoppingListProvider>
         {!active && <OnboardingScreen closeOnboarding={closeOnboarding} />}
@@ -270,9 +270,9 @@ function RootLayoutNav() {
           cardStyleInterpolator: CardStyleInterpolators.forBottomSheetAndroid,
           headerStyle: {
             backgroundColor:
-              Colors[colorScheme ?? "light"].headerBackgroundColor,
+              Colors[colorScheme ?? "light"].primary,
           },
-          headerTintColor: Colors[colorScheme ?? "light"].headerTextColor,
+          headerTintColor: Colors[colorScheme ?? "light"].primary,
         }}
       >
         <Stack.Screen
@@ -280,7 +280,7 @@ function RootLayoutNav() {
           options={{
             headerLeft: () => null,
             headerTitle: (props) => (
-              <Title color={Colors[colorScheme ?? "light"].white}>
+              <Title color={Colors[colorScheme ?? "light"].text}>
                 Listas de compras
               </Title>
             ),

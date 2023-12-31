@@ -17,7 +17,6 @@ import {
   getTags,
   removeUndefinedFromArray,
 } from "../../utils/functions";
-import list from "../../utils/list";
 import UUIDGenerator from "react-native-uuid";
 import { useShoppingListContext } from "../../context/ShoppingList";
 import Tags from "../Tags";

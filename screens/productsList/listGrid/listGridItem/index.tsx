@@ -97,7 +97,7 @@ function ListGridItem({
               <Styled.ButtonInner
                 underlayColor={
                   Colors[colorScheme ?? "light"]
-                    .swipeablebuttonTouchableHighlightBackgroundColor
+                    .textSecondary
                 }
                 onPress={handleEdit}
               >
@@ -105,7 +105,7 @@ function ListGridItem({
                   <GridItemWrapperInner height={60}>
 
                     <Styled.ButtonTextIcon
-                      text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                      text={Colors[colorScheme ?? "light"].text}
                     >
                       <FontAwesome
                         size={18}
@@ -118,7 +118,7 @@ function ListGridItem({
                   <GridItemWrapperInner height={40} justify={"flex-end"}>
 
                     <Text
-                      color={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                      color={Colors[colorScheme ?? "light"].text}
                       align="center"
                     >
                       Editar
@@ -132,14 +132,14 @@ function ListGridItem({
               <Styled.ButtonInner
                 underlayColor={
                   Colors[colorScheme ?? "light"]
-                    .swipeablebuttonTouchableHighlightBackgroundColor
+                    .textSecondary
                 }
                 onPress={handleDelete}
               >
                 <>
                   <GridItemWrapperInner height={60} >
                     <Styled.ButtonTextIcon
-                      text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                      text={Colors[colorScheme ?? "light"].text}
                     >
                       <FontAwesome
                         size={18}
@@ -150,7 +150,7 @@ function ListGridItem({
                   </GridItemWrapperInner>
                   <GridItemWrapperInner height={40} justify={"flex-end"}>
                     <Text
-                      color={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                      color={Colors[colorScheme ?? "light"].text}
                       align="center"
                     >
                       Deletar
@@ -171,22 +171,18 @@ function ListGridItem({
       renderRightActions={LeftSwipe}
       leftThreshold={100} rightThreshold={undefined}>
       <GridItemInner
-        underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+        underlayColor={Colors[colorScheme ?? "light"].grayScaleTertiary}
         borderColor={
-          Colors[colorScheme ?? "light"].listItemBackgroundBorderColor
+          Colors[colorScheme ?? "light"].grayScaleSecondary
         }
-        background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+        background={Colors[colorScheme ?? "light"].grayScaleSecondary}
         height={60}
         row
       >
         <GridItemWrapperRow height={100} >
           <GridItemWrapperInner height={100}>
             <Title
-              color={
-                colorScheme !== "dark"
-                  ? Colors[colorScheme ?? "light"].black
-                  : Colors[colorScheme ?? "light"].white
-              }
+              color={Colors[colorScheme ?? "light"].text}
             >
               {item.name}
             </Title>

@@ -19,11 +19,7 @@ const LastPrices = ({ lastPrices }: LastPricesProps) => {
     return (
       <Styled.ButtonContainer>
         <Styled.ButtonText border={Colors[colorScheme ?? "light"].primary}>
-          <Text color={
-            colorScheme !== "dark"
-              ? Colors[colorScheme ?? "light"].black
-              : Colors[colorScheme ?? "light"].white
-          }>{item.item}</Text>
+          <Text color={Colors[colorScheme ?? "light"].text}>R$ {item.item}</Text>
         </Styled.ButtonText>
       </Styled.ButtonContainer>
     );
@@ -31,15 +27,11 @@ const LastPrices = ({ lastPrices }: LastPricesProps) => {
 
   return (
     <Styled.Container>
-      <SubTitle
-        color={
-          colorScheme !== "dark"
-            ? Colors[colorScheme ?? "light"].black
-            : Colors[colorScheme ?? "light"].white
-        }
+      <Text
+        color={Colors[colorScheme ?? "light"].textSecondary}
       >
         Últimos Preços
-      </SubTitle>
+      </Text>
       <FlatList
         horizontal
         data={lastPrices}

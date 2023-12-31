@@ -71,28 +71,28 @@ export default function ProductsList({ tagUuid,
   return (
 
     <Container
-      background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
+      background={Colors[colorScheme ?? "light"].grayScalePrimary}
       noPadding
     >
       <>
         <Header
-          background={Colors[colorScheme ?? "light"].headerBackgroundColor}
+          background={Colors[colorScheme ?? "light"].primary}
           left={<TouchableOpacity onPress={() => returnToTags()}>
             <FontAwesome
               name="angle-left"
               size={35}
-              color={Colors[colorScheme ?? "light"].white}
+              color={Colors[colorScheme ?? "light"].text}
             />
           </TouchableOpacity>}
 
-          title={<Title color={Colors[colorScheme ?? "light"].white}>
+          title={<Title color={Colors[colorScheme ?? "light"].text}>
             {tag?.name}
           </Title>} />
 
 
         <ContainerInner
           justify="center"
-          background={Colors[colorScheme ?? "light"].bodyBackgroundColor}>
+          background={Colors[colorScheme ?? "light"].grayScalePrimary}>
           {listArrItems && listArrItems.length > 0 ? (
             <ListGrid
               setBottomSheetProps={setBottomSheetProps}

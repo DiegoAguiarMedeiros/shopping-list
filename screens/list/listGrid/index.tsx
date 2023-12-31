@@ -54,7 +54,7 @@ function ListGrid({
       <ContainerInner>
         <GridItemWrapperRow height={4} >
           <Styled.ContainerItemTotalUnitText
-            text={Colors[colorScheme ?? "light"].bodyTextColor}
+            text={Colors[colorScheme ?? "light"].grayScaleSecondary}
           >
             <Text
               color={
@@ -67,7 +67,7 @@ function ListGrid({
             </Text>
           </Styled.ContainerItemTotalUnitText>
           <Styled.ContainerItemTotalText
-            text={Colors[colorScheme ?? "light"].bodyTextColor}
+            text={Colors[colorScheme ?? "light"].grayScalePrimary}
           >
             <Text
               color={

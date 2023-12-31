@@ -52,20 +52,16 @@ function ListGridItem({ item, listId }: ListProps) {
     <>
       {quantity == 0 ? (
         <GridItemInner
-          underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+          underlayColor={Colors[colorScheme ?? "light"].grayScaleTertiary}
           borderColor={
-            Colors[colorScheme ?? "light"].listItemBackgroundBorderColor
+            Colors[colorScheme ?? "light"].grayScaleSecondary
           }
-          background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+          background={Colors[colorScheme ?? "light"].grayScaleSecondary}
           height={60}
           row
         >
           <Title
-            color={
-              colorScheme !== "dark"
-                ? Colors[colorScheme ?? "light"].black
-                : Colors[colorScheme ?? "light"].white
-            }
+            color={Colors[colorScheme ?? "light"].text}
           >
             {item.name}
           </Title>
@@ -73,24 +69,20 @@ function ListGridItem({ item, listId }: ListProps) {
       ) : (
         listArrItems.map((amount) => (
           <GridItemInner
-            underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+            underlayColor={Colors[colorScheme ?? "light"].grayScaleTertiary}
             borderColor={
-              Colors[colorScheme ?? "light"].listItemBackgroundBorderColor
+              Colors[colorScheme ?? "light"].grayScaleSecondary
             }
-            background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+            background={Colors[colorScheme ?? "light"].grayScaleSecondary}
             height={60}
             row
 
-            key={`ContainerListItemListItem-` + amount}
+            key={`ContainerListItemListItem-` + amount.uuid}
           >
             <>
               <GridItemWrapperCol width={65} height={100} >
                 <Title
-                  color={
-                    colorScheme !== "dark"
-                      ? Colors[colorScheme ?? "light"].black
-                      : Colors[colorScheme ?? "light"].white
-                  }
+                  color={Colors[colorScheme ?? "light"].text}
                 >
                   {item.name}
                 </Title>
@@ -99,11 +91,7 @@ function ListGridItem({ item, listId }: ListProps) {
                 <GridItemWrapperRow height={100} >
                   <GridItemWrapperCol width={50} height={100} >
                     <Text
-                      color={
-                        colorScheme !== "dark"
-                          ? Colors[colorScheme ?? "light"].black
-                          : Colors[colorScheme ?? "light"].white
-                      }
+                      color={Colors[colorScheme ?? "light"].text}
                     >
                       {`${quantity} ${item.unit}`}
                       {" x"}
@@ -111,11 +99,7 @@ function ListGridItem({ item, listId }: ListProps) {
                   </GridItemWrapperCol>
                   <GridItemWrapperCol width={50} height={100} >
                     <Text
-                      color={
-                        colorScheme !== "dark"
-                          ? Colors[colorScheme ?? "light"].black
-                          : Colors[colorScheme ?? "light"].white
-                      }
+                      color={Colors[colorScheme ?? "light"].text}
                     >
                       R$ {amount.amount}
                     </Text>

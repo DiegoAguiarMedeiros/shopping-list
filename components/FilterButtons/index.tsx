@@ -38,8 +38,8 @@ const FilterButtons = ({ tags, filter, setFilter }: FilterButtonsProps) => {
           onPress={handlePress}
           background={
             filter === tag.name
-              ? Colors[colorScheme ?? "light"].buttonActiveBackgroundColor
-              : Colors[colorScheme ?? "light"].buttonBackgroundColor
+              ? Colors[colorScheme ?? "light"].grayScaleTertiary
+              : Colors[colorScheme ?? "light"].primary
           }
           text={tag.name}
         />

@@ -64,7 +64,7 @@ export default function AddPriceUnit({
               radius
               icon="send"
               background={
-                Colors[colorScheme ?? "light"].buttonActiveBackgroundColor
+                Colors[colorScheme ?? "light"].primary
               }
               onPress={addAmount}
             />

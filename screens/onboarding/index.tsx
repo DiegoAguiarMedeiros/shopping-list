@@ -13,22 +13,7 @@ interface Slide {
   backgroundColor: string;
 }
 
-const slides: Slide[] = [
-  {
-    key: "slide1",
-    title: <Title>Welcome</Title>,
-    text: <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>,
-    image: require("../../assets/images/onboarding-image-1.png"),
-    backgroundColor: "#59b2ab",
-  },
-  {
-    key: "slide2",
-    title: <Title>Get Started</Title>,
-    text: <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>,
-    image: require("../../assets/images/onboarding-image-2.png"),
-    backgroundColor: "#febe29",
-  },
-];
+
 
 interface OnboadingProps {
   closeOnboarding: () => void;
@@ -37,14 +22,14 @@ const OnboardingScreen = ({ closeOnboarding }: OnboadingProps) => {
   const colorScheme = useColorScheme();
   const renderItem = ({ item }: { item: Slide }) => (
     <Styled.Container
-      background={Colors[colorScheme ?? "light"].onboardingBackgroundColor}
+      background={Colors[colorScheme ?? "light"].grayScalePrimary}
     >
       <Styled.SlideContainer
-        background={Colors[colorScheme ?? "light"].onboardingBackgroundColor}
+        background={Colors[colorScheme ?? "light"].grayScalePrimary}
       >
         <Styled.SlideContainerInnerTitle>
           <Styled.SlideTitle
-            text={Colors[colorScheme ?? "light"].bodyTextColor}
+            text={Colors[colorScheme ?? "light"].grayScalePrimary}
           >
             {item.title}
           </Styled.SlideTitle>
@@ -53,14 +38,45 @@ const OnboardingScreen = ({ closeOnboarding }: OnboadingProps) => {
           <Styled.SlideImage source={item.image} />
         </Styled.SlideContainerInnerImage>
         <Styled.SlideContainerInnerText>
-          <Styled.SlideText text={Colors[colorScheme ?? "light"].bodyTextColor}>
+          <Styled.SlideText text={Colors[colorScheme ?? "light"].grayScalePrimary}>
             {item.text}
           </Styled.SlideText>
         </Styled.SlideContainerInnerText>
       </Styled.SlideContainer>
     </Styled.Container>
   );
-
+  const slides: Slide[] = [
+    {
+      key: "slide1",
+      title: <Title color={
+        colorScheme !== "dark"
+          ? Colors[colorScheme ?? "light"].black
+          : Colors[colorScheme ?? "light"].white
+      }>Welcome</Title>,
+      text: <Text color={
+        colorScheme !== "dark"
+          ? Colors[colorScheme ?? "light"].black
+          : Colors[colorScheme ?? "light"].white
+      }>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>,
+      image: require("../../assets/images/onboarding-image-1.png"),
+      backgroundColor: "#59b2ab",
+    },
+    {
+      key: "slide2",
+      title: <Title color={
+        colorScheme !== "dark"
+          ? Colors[colorScheme ?? "light"].black
+          : Colors[colorScheme ?? "light"].white
+      }>Get Started</Title>,
+      text: <Text color={
+        colorScheme !== "dark"
+          ? Colors[colorScheme ?? "light"].black
+          : Colors[colorScheme ?? "light"].white
+      }>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>,
+      image: require("../../assets/images/onboarding-image-2.png"),
+      backgroundColor: "#febe29",
+    },
+  ];
   return (
     <AppIntroSlider
       data={slides}

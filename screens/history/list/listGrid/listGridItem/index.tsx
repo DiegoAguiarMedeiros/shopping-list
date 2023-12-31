@@ -72,13 +72,13 @@ export default function ListGridItem({ item }: ItemProps) {
             <Styled.ButtonInner
               underlayColor={
                 Colors[colorScheme ?? "light"]
-                  .swipeablebuttonTouchableHighlightBackgroundColor
+                  .textSecondary
               }
               onPress={handleDelete}
             >
               <>
                 <Styled.ButtonTextIcon
-                  text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                  text={Colors[colorScheme ?? "light"].text}
                 >
                   <FontAwesome
                     size={18}
@@ -87,7 +87,7 @@ export default function ListGridItem({ item }: ItemProps) {
                   />
                 </Styled.ButtonTextIcon>
                 <Styled.ButtonText
-                  text={Colors[colorScheme ?? "light"].swipeablebuttonTextColor}
+                  text={Colors[colorScheme ?? "light"].text}
                 >
                   Deletar
                 </Styled.ButtonText>
@@ -103,10 +103,10 @@ export default function ListGridItem({ item }: ItemProps) {
   return (
     <Swipeable renderRightActions={RightSwipe} rightThreshold={50}>
       <Styled.ContainerListItem
-        underlayColor={Colors[colorScheme ?? "light"].listItemBackgroundColor}
-        background={Colors[colorScheme ?? "light"].listItemBackgroundColor}
+        underlayColor={Colors[colorScheme ?? "light"].grayScaleTertiary}
+        background={Colors[colorScheme ?? "light"].grayScaleSecondary}
         borderColor={
-          Colors[colorScheme ?? "light"].listItemBackgroundBorderColor
+          Colors[colorScheme ?? "light"].grayScaleSecondary
         }
         onPress={handleOpenList}
       >
@@ -114,22 +114,14 @@ export default function ListGridItem({ item }: ItemProps) {
           <Styled.ContainerListItemHead>
             <Styled.ContainerItemTitle>
               <Title
-                color={
-                  colorScheme !== "dark"
-                    ? Colors[colorScheme ?? "light"].black
-                    : Colors[colorScheme ?? "light"].white
-                }
+                color={Colors[colorScheme ?? "light"].text}
               >
                 {item.name}
               </Title>
             </Styled.ContainerItemTitle>
             <Styled.ContainerListItemBody>
               <Text
-                color={
-                  colorScheme !== "dark"
-                    ? Colors[colorScheme ?? "light"].black
-                    : Colors[colorScheme ?? "light"].white
-                }
+                color={Colors[colorScheme ?? "light"].textSecondary}
               >
                 Total: R$ {total.toFixed(2)}
               </Text>
@@ -139,11 +131,11 @@ export default function ListGridItem({ item }: ItemProps) {
             <CircleProgress
               activeStrokeColor={
                 Colors[colorScheme ?? "light"]
-                  .circleProgresBackgroundFilledColor
+                  .primary
               }
-              titleColor={Colors[colorScheme ?? "light"].circleProgresTextColor}
+              titleColor={Colors[colorScheme ?? "light"].text}
               circleBackgroundColor={
-                Colors[colorScheme ?? "light"].circleProgresBackgroundColor
+                Colors[colorScheme ?? "light"].grayScaleSecondary
               }
               filled={totalWithAmount}
               progress={totalUn && totalWithAmount ? totalWithAmount : 0}

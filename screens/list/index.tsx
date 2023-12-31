@@ -104,11 +104,11 @@ export default function List({
 
   return (
     <Container
-      background={Colors[colorScheme ?? "light"].bodyBackgroundColor}
+      background={Colors[colorScheme ?? "light"].grayScalePrimary}
       noPadding
     >
       <Header
-        background={Colors[colorScheme ?? "light"].headerBackgroundColor}
+        background={Colors[colorScheme ?? "light"].primary}
         left={<TouchableOpacity onPress={() => returnToHome()}>
           <FontAwesome
             name="angle-left"
@@ -124,13 +124,13 @@ export default function List({
         right={<CircleProgress
           activeStrokeColor={
             Colors[colorScheme ?? "light"]
-              .circleProgresBackgroundFilledListColor
+              .secondary
           }
           titleColor={
-            Colors[colorScheme ?? "light"].circleProgresTextListColor
+            Colors[colorScheme ?? "light"].text
           }
           circleBackgroundColor={
-            Colors[colorScheme ?? "light"].circleProgresBackgroundListColor
+            Colors[colorScheme ?? "light"].primary
           }
           filled={total.amount}
           progress={total.un && total.amount ? total.amount : 0}
@@ -149,7 +149,7 @@ export default function List({
       />
       <ContainerInner
         justify="center"
-        background={Colors[colorScheme ?? "light"].bodyBackgroundColor}>
+        background={Colors[colorScheme ?? "light"].grayScalePrimary}>
         {listArrItems.length > 0 ? (
           <ListGrid
             listArrItems={listArrItems}
