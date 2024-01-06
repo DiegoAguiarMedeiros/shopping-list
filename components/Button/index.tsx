@@ -6,6 +6,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Text } from "../Text/";
 export interface ButtonProps extends TouchableOpacityProps {
   text?: string;
+  textColor?: string;
   background: string;
   border?: string;
   radius?: boolean;
@@ -800,6 +801,7 @@ export interface ButtonProps extends TouchableOpacityProps {
 
 const Button: React.FC<ButtonProps> = ({
   text,
+  textColor,
   icon,
   background,
   border,
@@ -823,11 +825,11 @@ const Button: React.FC<ButtonProps> = ({
           size={20}
           style={{ marginBottom: -3, marginRight: 10 }}
           name={icon}
-          color={Colors[colorScheme ?? "light"].white}
+          color={textColor ?? Colors[colorScheme ?? "light"].white}
         />
       ) : null}
       {text !== undefined ? (
-        <Text color={Colors[colorScheme ?? "light"].white}>{text}</Text>
+        <Text color={textColor ?? Colors[colorScheme ?? "light"].white} align="center">{text}</Text>
       ) : null}
     </Styled.Button>
   );

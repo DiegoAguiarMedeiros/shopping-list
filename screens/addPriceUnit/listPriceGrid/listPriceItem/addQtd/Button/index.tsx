@@ -5,7 +5,6 @@ import * as Styled from "./styles";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 interface ButtonProps extends TouchableOpacityProps {
-  background: string;
   invertSide?: boolean;
   icon?: "minus" | "plus";
 }
@@ -13,7 +12,6 @@ interface ButtonProps extends TouchableOpacityProps {
 const Button: React.FC<ButtonProps> = ({
   invertSide,
   icon,
-  background,
   children,
   onPress,
   ...rest
@@ -23,12 +21,8 @@ const Button: React.FC<ButtonProps> = ({
     <Styled.Button
       onPress={onPress}
       {...rest}
-      border={
-        colorScheme !== "dark"
-          ? Colors[colorScheme ?? "light"].white
-          : Colors[colorScheme ?? "light"].primary
-      }
-      background={background}
+      border={Colors[colorScheme ?? "light"].itemListItemOpenButtonBorder}
+      background={Colors[colorScheme ?? "light"].itemListItemOpenButtonBackGround}
       invertSide={invertSide!}
     >
       {icon !== undefined ? (
@@ -36,7 +30,7 @@ const Button: React.FC<ButtonProps> = ({
           size={20}
           style={{ marginBottom: -3 }}
           name={icon}
-          color={Colors[colorScheme ?? "light"].white}
+          color={Colors[colorScheme ?? "light"].itemListItemOpenButtonText}
         />
       ) : null}
     </Styled.Button>

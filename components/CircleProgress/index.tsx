@@ -4,6 +4,7 @@ import { Picker } from "@react-native-picker/picker";
 import Colors from "../../constants/Colors";
 import * as Progress from "react-native-progress";
 import CircularProgress from "react-native-circular-progress-indicator";
+import Container from "../Container";
 
 type CircleProgressProps = {
   progress: number;
@@ -24,14 +25,14 @@ const CircleProgress = ({
   activeStrokeColor,
   titleColor,
 }: CircleProgressProps) => {
-  const colorScheme = useColorScheme();
   const getTitleFontSize = (): number => {
-    if (total < 10) return 12;
+    if (total < 10) return 14;
     if (total < 100) return 9;
     return 7;
   };
   return (
     <CircularProgress
+      titleStyle={{ fontWeight: "800" }}
       showProgressValue={false}
       titleFontSize={getTitleFontSize()}
       activeStrokeWidth={5}

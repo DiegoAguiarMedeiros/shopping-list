@@ -38,9 +38,15 @@ interface ProductsListProps {
   bottomSheetProps: BottomSheetProps;
   handleCloseBottomSheet: () => void;
   handleCloseBottomSheetTag: () => void;
+  setActiveRouteHeader: React.Dispatch<React.SetStateAction<{
+    name: string;
+    left: React.ReactNode | null;
+    right: React.ReactNode | null;
+  }>>
 }
 
 export default function ProductsList({ tagUuid,
+  setActiveRouteHeader,
   bottomSheetProps,
   setBottomSheetProps,
   handleCloseBottomSheet,
@@ -68,44 +74,41 @@ export default function ProductsList({ tagUuid,
     router.push({ pathname: "/tags" })
   }
 
+  useEffect(() => {
+    setActiveRouteHeader({
+      left: <TouchableOpacity style={{ marginLeft: 20, marginRight: 10 }} onPress={() => returnToTags()}>
+        <FontAwesome
+          name="angle-left"
+          size={35}
+          color={Colors[colorScheme ?? "light"].white}
+        />
+      </TouchableOpacity>,
+      name: tag.name,
+      right: null,
+    })
+  }, [])
+
   return (
 
     <Container
-      background={Colors[colorScheme ?? "light"].grayScalePrimary}
+      background={Colors[colorScheme ?? "light"].backgroundPrimary}
       noPadding
     >
-      <>
-        <Header
-          background={Colors[colorScheme ?? "light"].primary}
-          left={<TouchableOpacity onPress={() => returnToTags()}>
-            <FontAwesome
-              name="angle-left"
-              size={35}
-              color={Colors[colorScheme ?? "light"].text}
-            />
-          </TouchableOpacity>}
-
-          title={<Title color={Colors[colorScheme ?? "light"].text}>
-            {tag?.name}
-          </Title>} />
-
-
-        <ContainerInner
-          justify="center"
-          background={Colors[colorScheme ?? "light"].grayScalePrimary}>
-          {listArrItems && listArrItems.length > 0 ? (
-            <ListGrid
-              setBottomSheetProps={setBottomSheetProps}
-              deleteItem={deleteItem}
-              listArrItems={listArrItems}
-              tagUuid={tagUuid}
-              handleCloseBottomSheet={handleCloseBottomSheet}
-            />
-          ) :
-            <EmptyList mensage="Você não tem nenhum produto cadastrado nesta Categoria" />
-          }
-        </ContainerInner>
-      </>
+      <ContainerInner
+        justify="center"
+        background={Colors[colorScheme ?? "light"].backgroundPrimary}>
+        {listArrItems && listArrItems.length > 0 ? (
+          <ListGrid
+            setBottomSheetProps={setBottomSheetProps}
+            deleteItem={deleteItem}
+            listArrItems={listArrItems}
+            tagUuid={tagUuid}
+            handleCloseBottomSheet={handleCloseBottomSheet}
+          />
+        ) :
+          <EmptyList mensage="Você não tem nenhum produto cadastrado nesta Categoria" />
+        }
+      </ContainerInner>
     </Container >
 
   );

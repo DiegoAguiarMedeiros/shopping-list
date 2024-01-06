@@ -14,7 +14,7 @@ const InputText: React.FC<InputProps> = ({ placeholder, radius, ...rest }) => {
   return (
     <Styled.Input
       radius={radius}
-      background={Colors[colorScheme ?? "light"].grayScalePrimary}
+      background={Colors[colorScheme ?? "light"].backgroundPrimary}
       color={Colors[colorScheme ?? "light"].text}
       placeholder={placeholder}
       placeholderTextColor={Colors[colorScheme ?? "light"].textSecondary}

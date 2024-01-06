@@ -61,10 +61,16 @@ export default function AddPriceUnit({
           </GridItemWrapperInner>
           <GridItemWrapperInner width={15} height={100}>
             <Button
+              border={
+                Colors[colorScheme ?? "light"].itemListItemOpenButtonSendBorder
+              }
               radius
               icon="send"
               background={
-                Colors[colorScheme ?? "light"].primary
+                Colors[colorScheme ?? "light"].itemListItemOpenButtonSendBackGround
+              }
+              textColor={
+                Colors[colorScheme ?? "light"].itemListItemOpenButtonSendText
               }
               onPress={addAmount}
             />

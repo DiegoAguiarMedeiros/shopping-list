@@ -20,7 +20,7 @@ import {
   removeUndefinedFromArray,
 } from "../../../../utils/functions";
 import { Swipeable } from "react-native-gesture-handler";
-import { Title, Text } from "../../../../components/Text";
+import { Title, Text, Title2 } from "../../../../components/Text";
 import { useShoppingListContext } from "../../../../context/ShoppingList";
 
 import AddPriceUnit from "../../../addPriceUnit";
@@ -87,13 +87,13 @@ function ListGridItem({
           <Styled.ButtonInner
             underlayColor={
               Colors[colorScheme ?? "light"]
-                .grayScalePrimary
+                .swipeIcon
             }
             onPress={handleDelete}
           >
             <>
               <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].grayScalePrimary}
+                text={Colors[colorScheme ?? "light"].swipeIcon}
               >
                 <FontAwesome
                   size={18}
@@ -102,7 +102,7 @@ function ListGridItem({
                 />
               </Styled.ButtonTextIcon>
               <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].grayScalePrimary}
+                text={Colors[colorScheme ?? "light"].swipeIcon}
               >
                 Deletar
               </Styled.ButtonText>
@@ -128,10 +128,10 @@ function ListGridItem({
 
   return active === item.uuid ? (
     <GridItemInner
-      underlayColor={Colors[colorScheme ?? "light"].grayScalePrimary}
+      underlayColor={Colors[colorScheme ?? "light"].itemListItemOpenBackgroundUnderlay}
 
-      borderColor={Colors[colorScheme ?? "light"].grayScaleSecondary}
-      background={Colors[colorScheme ?? "light"].grayScaleTertiary}
+      borderColor={Colors[colorScheme ?? "light"].itemListItemOpenBackgroundBorder}
+      background={Colors[colorScheme ?? "light"].itemListItemOpenBackground}
       height={calcHeight(listArrItems.length)}
       row
     >
@@ -140,12 +140,16 @@ function ListGridItem({
           <GridItemWrapperInner width={10} height={100}>
 
             <Title
-              color={Colors[colorScheme ?? "light"].text}
+              color={Colors[colorScheme ?? "light"].itemListItemOpenIcon}
             >
               <FontAwesome
                 size={28}
                 style={{ marginBottom: -3 }}
-                color={Colors[colorScheme ?? "light"].primary}
+                color={
+                  listArrItems.length > 0
+                    ? Colors[colorScheme ?? "light"].itemListItemOpenIconFilled
+                    : Colors[colorScheme ?? "light"].itemListItemOpenIcon
+                }
                 name={listArrItems.length > 0 ? "check-circle-o" : "circle-o"}
               />
             </Title>
@@ -153,25 +157,25 @@ function ListGridItem({
           <GridItemWrapperInner width={80} height={100}>
             <GridItemWrapperCol width={100}>
               <GridItemWrapperInner width={100} height={50}>
-                <Title
-                  color={Colors[colorScheme ?? "light"].text}
+                <Title2
+                  color={Colors[colorScheme ?? "light"].itemListItemOpenText}
                 >
                   {item.name}
-                </Title>
+                </Title2>
               </GridItemWrapperInner>
               <GridItemWrapperRow height={50}>
                 <GridItemWrapperInner width={50} height={100}>
 
 
                   <Text
-                    color={Colors[colorScheme ?? "light"].textSecondary}
+                    color={Colors[colorScheme ?? "light"].itemListItemOpenTextSecondary}
                   >
-                    Total: R$ {total}
+                    Total: R$ {total.toFixed(2)}
                   </Text>
                 </GridItemWrapperInner>
                 <GridItemWrapperInner width={50} height={100}>
                   <Text
-                    color={Colors[colorScheme ?? "light"].textSecondary}
+                    color={Colors[colorScheme ?? "light"].itemListItemOpenTextSecondary}
                   >
                     Un: {quantity}
                   </Text>
@@ -207,11 +211,11 @@ function ListGridItem({
       leftThreshold={undefined} rightThreshold={100}>
       <GridItemInner
         onPress={() => handleOpen(item.uuid)}
-        underlayColor={Colors[colorScheme ?? "light"].grayScaleSecondary}
+        underlayColor={Colors[colorScheme ?? "light"].backgroundSecondary}
         borderColor={
-          Colors[colorScheme ?? "light"].grayScaleSecondary
+          Colors[colorScheme ?? "light"].backgroundSecondary
         }
-        background={Colors[colorScheme ?? "light"].grayScaleSecondary}
+        background={Colors[colorScheme ?? "light"].backgroundSecondary}
         height={60}
         row
       >
@@ -226,8 +230,8 @@ function ListGridItem({
                 style={{ marginBottom: -3 }}
                 color={
                   listArrItems.length > 0
-                    ? Colors[colorScheme ?? "light"].primary
-                    : Colors[colorScheme ?? "light"].grayScalePrimary
+                    ? Colors[colorScheme ?? "light"].itemListIconFilled
+                    : Colors[colorScheme ?? "light"].itemListIcon
                 }
                 name={listArrItems.length > 0 ? "check-circle-o" : "circle-o"}
               />
@@ -236,11 +240,11 @@ function ListGridItem({
           <GridItemWrapperInner width={80} height={100}>
             <GridItemWrapperCol width={100}>
               <GridItemWrapperInner width={100} height={50}>
-                <Title
+                <Title2
                   color={Colors[colorScheme ?? "light"].text}
                 >
                   {item.name}
-                </Title>
+                </Title2>
               </GridItemWrapperInner>
               <GridItemWrapperRow height={50}>
                 <GridItemWrapperInner width={50} height={100}>

@@ -51,37 +51,10 @@ function ListGrid({
     <Container
       background={"transparent"}
     >
-      <ContainerInner>
-        <GridItemWrapperRow height={4} >
-          <Styled.ContainerItemTotalUnitText
-            text={Colors[colorScheme ?? "light"].grayScaleSecondary}
-          >
-            <Text
-              color={
-                colorScheme !== "dark"
-                  ? Colors[colorScheme ?? "light"].black
-                  : Colors[colorScheme ?? "light"].white
-              }
-            >
-              Total Items: {totalQuantity}
-            </Text>
-          </Styled.ContainerItemTotalUnitText>
-          <Styled.ContainerItemTotalText
-            text={Colors[colorScheme ?? "light"].grayScalePrimary}
-          >
-            <Text
-              color={
-                colorScheme !== "dark"
-                  ? Colors[colorScheme ?? "light"].black
-                  : Colors[colorScheme ?? "light"].white
-              }
-            >
-              Total : R$ {total}
-            </Text>
-          </Styled.ContainerItemTotalText>
-        </GridItemWrapperRow>
 
-        <GridItemWrapperRow height={78} >
+
+      <ContainerInner>
+        <GridItemWrapperRow height={88} >
           <SafeAreaView style={{ flex: 1, width: "100%" }}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} nestedScrollEnabled>
               {listArrItems.map((item: IProduct) => (
@@ -96,6 +69,34 @@ function ListGrid({
               ))}
             </ScrollView>
           </SafeAreaView>
+        </GridItemWrapperRow>
+        <GridItemWrapperRow height={4} >
+          <Styled.ContainerItemTotalUnitText
+            text={Colors[colorScheme ?? "light"].backgroundSecondary}
+          >
+            <Text
+              color={
+                colorScheme !== "dark"
+                  ? Colors[colorScheme ?? "light"].black
+                  : Colors[colorScheme ?? "light"].white
+              }
+            >
+              Total Items: {totalQuantity}
+            </Text>
+          </Styled.ContainerItemTotalUnitText>
+          <Styled.ContainerItemTotalText
+            text={Colors[colorScheme ?? "light"].backgroundPrimary}
+          >
+            <Text
+              color={
+                colorScheme !== "dark"
+                  ? Colors[colorScheme ?? "light"].black
+                  : Colors[colorScheme ?? "light"].white
+              }
+            >
+              Total: R$ {total.toFixed(2)}
+            </Text>
+          </Styled.ContainerItemTotalText>
         </GridItemWrapperRow>
       </ContainerInner>
     </Container>

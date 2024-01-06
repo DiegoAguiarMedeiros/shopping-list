@@ -28,30 +28,20 @@ interface ListProps {
   listId: string;
 }
 
-function ListGrid({ filter, listId, listArrItems }: ListProps) {
-  const {
-    listArchived
-  } = useShoppingListContext();
+function ListGrid({ listId, listArrItems }: Readonly<ListProps>) {
+
   const colorScheme = useColorScheme();
-  const [filteredList, setFilteredList] = useState<ItemInterface[]>();
 
 
   const total = getTotalAmountByListUuidController.handle(listId);
 
-
-  // useEffect(() => {
-  //   const newFilteredList = listArrItems.filter(
-  //     (item: ItemInterface) => item.tags === filter
-  //   );
-  //   setFilteredList(newFilteredList);
-  // }, [filter]);
 
   return (
     <Container
       background={"transparent"}
     >
       <ContainerInner>
-        <GridItemWrapperRow height={85} >
+        <GridItemWrapperRow height={95} >
 
           <SafeAreaView style={{ width: "100%" }}>
             <ScrollView style={[{ height: "100%" }]} nestedScrollEnabled>
@@ -73,7 +63,7 @@ function ListGrid({ filter, listId, listArrItems }: ListProps) {
                 color={Colors[colorScheme ?? "light"].text}
               >
                 Items:{" "}
-                {getTotalQuantityWithoutAmountByListUuidController.handle(listId)}
+                {getTotalQuantityAmountByListUuidController.handle(listId)}
               </Text>
             </GridItemWrapperInner>
           </GridItemWrapperCol>
@@ -84,8 +74,8 @@ function ListGrid({ filter, listId, listArrItems }: ListProps) {
                 color={Colors[colorScheme ?? "light"].text}
                 align="right"
               >
-                Total : R${" "}
-                {total}
+                Total: R${" "}
+                {total.toFixed(2)}
               </Text>
             </GridItemWrapperInner>
           </GridItemWrapperCol>

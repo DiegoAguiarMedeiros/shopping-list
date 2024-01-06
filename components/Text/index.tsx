@@ -18,6 +18,16 @@ const Title: React.FC<TextProps> = ({ children, color }) => {
     </Styled.Title>
   );
 };
+const Title2: React.FC<TextProps> = ({ children, color }) => {
+  const colorScheme = useColorScheme();
+  return (
+    <Styled.Title2
+      color={color}
+    >
+      {children}
+    </Styled.Title2>
+  );
+};
 const SubTitle: React.FC<TextProps> = ({ children, color, align }) => {
   const colorScheme = useColorScheme();
   return (
@@ -41,4 +51,4 @@ const Text: React.FC<TextProps> = ({ children, color, align }) => {
   );
 };
 
-export { Title, SubTitle, Text };
+export { Title, Title2, SubTitle, Text };

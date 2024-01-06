@@ -14,7 +14,7 @@ import { useRouter } from "expo-router";
 
 import { Swipeable } from "react-native-gesture-handler";
 import { removeUndefinedFromArray } from "../../../../../utils/functions";
-import { Title, Text, SubTitle } from "../../../../../components/Text";
+import { Title, Text, SubTitle, Title2 } from "../../../../../components/Text";
 import {
   useShoppingListContext,
 } from "../../../../../context/ShoppingList";
@@ -126,13 +126,13 @@ export default function ListGridItem({
           <Styled.ButtonInner
             underlayColor={
               Colors[colorScheme ?? "light"]
-                .grayScalePrimary
+                .swipeIcon
             }
             onPress={handleEdit}
           >
             <>
               <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].grayScalePrimary}
+                text={Colors[colorScheme ?? "light"].swipeIcon}
               >
                 <FontAwesome
                   size={18}
@@ -141,7 +141,7 @@ export default function ListGridItem({
                 />
               </Styled.ButtonTextIcon>
               <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].grayScalePrimary}
+                text={Colors[colorScheme ?? "light"].swipeIcon}
               >
                 Editar
               </Styled.ButtonText>
@@ -150,13 +150,13 @@ export default function ListGridItem({
           <Styled.ButtonInner
             underlayColor={
               Colors[colorScheme ?? "light"]
-                .grayScalePrimary
+                .swipeIcon
             }
             onPress={handleDelete}
           >
             <>
               <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].grayScalePrimary}
+                text={Colors[colorScheme ?? "light"].swipeIcon}
               >
                 <FontAwesome
                   size={18}
@@ -165,7 +165,7 @@ export default function ListGridItem({
                 />
               </Styled.ButtonTextIcon>
               <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].grayScalePrimary}
+                text={Colors[colorScheme ?? "light"].swipeIcon}
               >
                 Deletar
               </Styled.ButtonText>
@@ -181,11 +181,11 @@ export default function ListGridItem({
       renderRightActions={LeftSwipe}
       leftThreshold={100} rightThreshold={undefined}>
       <GridItemInner
-        underlayColor={Colors[colorScheme ?? "light"].grayScaleTertiary}
+        underlayColor={Colors[colorScheme ?? "light"].backgroundTertiary}
         borderColor={
-          Colors[colorScheme ?? "light"].grayScaleSecondary
+          Colors[colorScheme ?? "light"].backgroundSecondary
         }
-        background={Colors[colorScheme ?? "light"].grayScaleSecondary}
+        background={Colors[colorScheme ?? "light"].backgroundSecondary}
         height={60}
         row
         onPress={handleOpenList}
@@ -193,11 +193,11 @@ export default function ListGridItem({
         <>
           <GridItemWrapperCol width={70} height={100} >
             <GridItemWrapperInner height={100}>
-              <Title
+              <Title2
                 color={Colors[colorScheme ?? "light"].text}
               >
                 {item.name}
-              </Title>
+              </Title2>
             </GridItemWrapperInner>
           </GridItemWrapperCol>
           <GridItemWrapperCol width={30} height={100} >

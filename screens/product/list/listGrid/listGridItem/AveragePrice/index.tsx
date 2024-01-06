@@ -34,7 +34,7 @@ export default function AveragePrice({
                 color={Colors[colorScheme ?? "light"].textSecondary}
             >Preço médio</Text>
             <Text
-                color={Colors[colorScheme ?? "light"].primary}
+                color={Colors[colorScheme ?? "light"].itemProductListAveragePrice}
             >R$ {calculateAveragePrice(price).toFixed(2)}</Text>
         </>
     );

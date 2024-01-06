@@ -43,13 +43,18 @@ const NewItemForm = ({
   const [newItem, setNewItem] = useState({
     item: items ? items.name : "",
   });
-  const products = GetListProducts.handle();
-  if (products) {
-    products.unshift({ name: "Selecionar Produto", uuid: "", amount: [], tag: "", unit: "Un" });
-  }
 
-  const { handleAddListItem } =
+
+  const { list, handleAddListItem } =
     useShoppingListContext();
+  const selectedItem = list.find((i) => i.uuid === listId);
+
+  const products = GetListProducts.handle().filter(product => (!selectedItem?.items!.includes(product.uuid)));
+  if (products.length > 0) {
+    products.unshift({ name: "Selecionar Produto", uuid: "", amount: [], tag: "", unit: "Un" });
+  } else {
+    products.unshift({ name: "Nenhum Produto", uuid: "", amount: [], tag: "", unit: "Un" });
+  }
 
   const clearInput = () => {
     setNewItem({
@@ -65,8 +70,10 @@ const NewItemForm = ({
 
 
   const addListItem = (): void => {
-    closeBottomSheet();
-    handleAddListItem(listId, newItem.item);
+    if (newItem.item != "") {
+      closeBottomSheet();
+      handleAddListItem(listId, newItem.item);
+    }
   };
 
   const buttonTextArr = {
@@ -101,14 +108,18 @@ const NewItemForm = ({
         <Styled.ButtonWrapper>
           <Button
             text="Cancelar"
-            background={Colors[colorScheme ?? "light"].alert}
+            border={Colors[colorScheme ?? "light"].bottomSheetButtonCancelBorder}
+            background={Colors[colorScheme ?? "light"].bottomSheetButtonCancelBackground}
+            textColor={Colors[colorScheme ?? "light"].bottomSheetButtonCancelText}
             onPress={closeBottomSheet}
           />
         </Styled.ButtonWrapper>
         <Styled.ButtonWrapper>
           <Button
             text={buttonTextArr[buttonText]}
-            background={Colors[colorScheme ?? "light"].info}
+            textColor={Colors[colorScheme ?? "light"].bottomSheetButtonAddText}
+            border={Colors[colorScheme ?? "light"].bottomSheetButtonAddBorder}
+            background={Colors[colorScheme ?? "light"].bottomSheetButtonAddBackground}
             onPress={addListItem}
           />
         </Styled.ButtonWrapper>

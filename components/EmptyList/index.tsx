@@ -24,17 +24,17 @@ export default function EmptyList({ mensage }: EmptyListProps) {
   const colorScheme = useColorScheme();
   return (
     <Container
-      background={Colors[colorScheme ?? "light"].grayScalePrimary}
+      background={Colors[colorScheme ?? "light"].backgroundPrimary}
     >
       <ContainerInner
         justify="center"
-        background={Colors[colorScheme ?? "light"].grayScalePrimary}>
+        background={Colors[colorScheme ?? "light"].backgroundPrimary}>
 
         <Styled.SlideContainerInnerImage>
           <Styled.SlideImage source={img.image} />
         </Styled.SlideContainerInnerImage>
         <Styled.ListEmptyTextmessage
-          text={Colors[colorScheme ?? "light"].grayScalePrimary}
+          text={Colors[colorScheme ?? "light"].backgroundPrimary}
         >
           <Text
             color={

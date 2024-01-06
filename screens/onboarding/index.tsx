@@ -22,14 +22,14 @@ const OnboardingScreen = ({ closeOnboarding }: OnboadingProps) => {
   const colorScheme = useColorScheme();
   const renderItem = ({ item }: { item: Slide }) => (
     <Styled.Container
-      background={Colors[colorScheme ?? "light"].grayScalePrimary}
+      background={Colors[colorScheme ?? "light"].backgroundPrimary}
     >
       <Styled.SlideContainer
-        background={Colors[colorScheme ?? "light"].grayScalePrimary}
+        background={Colors[colorScheme ?? "light"].backgroundPrimary}
       >
         <Styled.SlideContainerInnerTitle>
           <Styled.SlideTitle
-            text={Colors[colorScheme ?? "light"].grayScalePrimary}
+            text={Colors[colorScheme ?? "light"].backgroundPrimary}
           >
             {item.title}
           </Styled.SlideTitle>
@@ -38,7 +38,7 @@ const OnboardingScreen = ({ closeOnboarding }: OnboadingProps) => {
           <Styled.SlideImage source={item.image} />
         </Styled.SlideContainerInnerImage>
         <Styled.SlideContainerInnerText>
-          <Styled.SlideText text={Colors[colorScheme ?? "light"].grayScalePrimary}>
+          <Styled.SlideText text={Colors[colorScheme ?? "light"].backgroundPrimary}>
             {item.text}
           </Styled.SlideText>
         </Styled.SlideContainerInnerText>
@@ -48,31 +48,15 @@ const OnboardingScreen = ({ closeOnboarding }: OnboadingProps) => {
   const slides: Slide[] = [
     {
       key: "slide1",
-      title: <Title color={
-        colorScheme !== "dark"
-          ? Colors[colorScheme ?? "light"].black
-          : Colors[colorScheme ?? "light"].white
-      }>Welcome</Title>,
-      text: <Text color={
-        colorScheme !== "dark"
-          ? Colors[colorScheme ?? "light"].black
-          : Colors[colorScheme ?? "light"].white
-      }>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>,
+      title: <Title color={Colors[colorScheme ?? "light"].text}>Welcome</Title>,
+      text: <Text color={Colors[colorScheme ?? "light"].text}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>,
       image: require("../../assets/images/onboarding-image-1.png"),
       backgroundColor: "#59b2ab",
     },
     {
       key: "slide2",
-      title: <Title color={
-        colorScheme !== "dark"
-          ? Colors[colorScheme ?? "light"].black
-          : Colors[colorScheme ?? "light"].white
-      }>Get Started</Title>,
-      text: <Text color={
-        colorScheme !== "dark"
-          ? Colors[colorScheme ?? "light"].black
-          : Colors[colorScheme ?? "light"].white
-      }>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>,
+      title: <Title color={Colors[colorScheme ?? "light"].text}>Get Started</Title>,
+      text: <Text color={Colors[colorScheme ?? "light"].text}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>,
       image: require("../../assets/images/onboarding-image-2.png"),
       backgroundColor: "#febe29",
     },
@@ -81,13 +65,13 @@ const OnboardingScreen = ({ closeOnboarding }: OnboadingProps) => {
     <AppIntroSlider
       data={slides}
       renderItem={renderItem}
-      skipLabel={"Pular"}
-      prevLabel={"Voltar"}
-      nextLabel={"Próximo"}
-      doneLabel={"Fechar"}
+      renderSkipButton={() => <Title color={Colors[colorScheme ?? "light"].textSecondary}>Pular</Title>}
+      renderNextButton={() => <Title color={Colors[colorScheme ?? "light"].textSecondary}>Próximo</Title>}
+      renderDoneButton={() => <Title color={Colors[colorScheme ?? "light"].textSecondary}>Fechar</Title>}
+      renderPrevButton={() => <Title color={Colors[colorScheme ?? "light"].textSecondary}>Voltar</Title>}
       showPrevButton
       showSkipButton
-      dotStyle={{ backgroundColor: Colors[colorScheme ?? "light"].white }}
+      dotStyle={{ backgroundColor: Colors[colorScheme ?? "light"].text }}
       activeDotStyle={{
         backgroundColor: Colors[colorScheme ?? "light"].info,
       }}

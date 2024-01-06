@@ -7,7 +7,7 @@ export const ContainerHeader = styled.View<{
 }>`
   background: ${(props: { background: string }) => props.background};
   width: 100%;
-  height: ${(props: { bottom: boolean }) => props.bottom ? "130px" : "80px;"}; 
+  height:  50px; 
   flex-direction: column;
   `;
 

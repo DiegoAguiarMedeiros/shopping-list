@@ -17,8 +17,8 @@ const Select = ({ items, selectedValue, onValueChange }: SelectProps) => {
     return (
         <Styled.Container>
             <Styled.Select
-                background={Colors[colorScheme ?? "light"].grayScalePrimary}
-                color={Colors[colorScheme ?? "light"].grayScalePrimary}
+                background={Colors[colorScheme ?? "light"].backgroundPrimary}
+                color={Colors[colorScheme ?? "light"].textSecondary}
                 selectedValue={selectedValue}
                 onValueChange={(itemValue, index) => onValueChange(itemValue as string, index)}
                 style={{ borderColor: 'red' }}

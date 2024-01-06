@@ -9,10 +9,16 @@ interface ProductListTabProps {
     bottomSheetProps: BottomSheetProps;
     handleCloseBottomSheet: () => void;
     handleCloseBottomSheetTag: () => void;
+    setActiveRouteHeader: React.Dispatch<React.SetStateAction<{
+        name: string;
+        left: React.ReactNode | null;
+        right: React.ReactNode | null;
+    }>>
 }
 
 
 export default function ProductList({
+    setActiveRouteHeader,
     setBottomSheetProps,
     bottomSheetProps,
     handleCloseBottomSheet,
@@ -25,6 +31,7 @@ export default function ProductList({
             bottomSheetProps={bottomSheetProps}
             handleCloseBottomSheet={handleCloseBottomSheet}
             handleCloseBottomSheetTag={handleCloseBottomSheetTag}
+            setActiveRouteHeader={setActiveRouteHeader}
             tagUuid={Array.isArray(tagUuid) ? tagUuid[0] : tagUuid} />
     ) : (
         <></>

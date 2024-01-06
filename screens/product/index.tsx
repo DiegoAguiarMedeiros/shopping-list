@@ -28,10 +28,10 @@ export default function Product({
   const { listProduct } = useShoppingListContext();
   return (
     <Container
-      background={Colors[colorScheme ?? "light"].grayScalePrimary}
+      background={Colors[colorScheme ?? "light"].backgroundPrimary}
     >
       <ContainerInner
-        background={Colors[colorScheme ?? "light"].grayScalePrimary}>
+        background={Colors[colorScheme ?? "light"].backgroundPrimary}>
         {listProduct && listProduct.length > 0 ? (
           <ListComponent
             items={listProduct}

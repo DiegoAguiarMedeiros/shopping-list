@@ -6,16 +6,22 @@ import { BottomSheetProps } from "../components/BottomSheet";
 
 interface ItemsTabProps {
   handleCloseBottomSheetList: () => void;
+  setActiveRouteHeader: React.Dispatch<React.SetStateAction<{
+    name: string;
+    left: React.ReactNode | null;
+    right: React.ReactNode | null;
+  }>>
 }
 
 
 export default function Items({
-  handleCloseBottomSheetList }: ItemsTabProps) {
+  handleCloseBottomSheetList, setActiveRouteHeader }: ItemsTabProps) {
   const { listId } = useSearchParams();
 
 
   return listId ? (
     <List
+      setActiveRouteHeader={setActiveRouteHeader}
       handleCloseBottomSheetList={handleCloseBottomSheetList}
       listId={Array.isArray(listId) ? listId[0] : listId} />
   ) : (

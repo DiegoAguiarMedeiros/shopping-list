@@ -26,9 +26,14 @@ type TotalType = {
 
 interface ListProps {
   listId: string;
+  setActiveRouteHeader: React.Dispatch<React.SetStateAction<{
+    name: string;
+    left: React.ReactNode | null;
+    right: React.ReactNode | null;
+  }>>
 }
 
-export default function ListArchived({ listId }: ListProps) {
+export default function ListArchived({ listId, setActiveRouteHeader }: ListProps) {
   const colorScheme = useColorScheme();
   const {
     listArchived
@@ -43,39 +48,36 @@ export default function ListArchived({ listId }: ListProps) {
     router.push({ pathname: "/history" })
   }
 
+  useEffect(() => {
+    setActiveRouteHeader({
+      left: <TouchableOpacity style={{ marginLeft: 20, marginRight: 10 }} onPress={() => returnToTags()}>
+        <FontAwesome
+          name="angle-left"
+          size={35}
+          color={Colors[colorScheme ?? "light"].white}
+        />
+      </TouchableOpacity>,
+      name: listArr?.name!,
+      right: null,
+    });
+  }, [])
+
   return (
     <Container
-      background={Colors[colorScheme ?? "light"].grayScalePrimary}
+      background={Colors[colorScheme ?? "light"].backgroundPrimary}
       noPadding
     >
-      <>
-        <Header
-          background={Colors[colorScheme ?? "light"].primary}
-          left={<TouchableOpacity onPress={() => returnToTags()}>
-            <FontAwesome
-              name="angle-left"
-              size={35}
-              color={Colors[colorScheme ?? "light"].text}
-            />
-          </TouchableOpacity>}
-
-          title={<Title color={Colors[colorScheme ?? "light"].text}>
-            {listArr?.name}
-          </Title>} />
-
-
-        <ContainerInner
-          justify="center"
-          background={Colors[colorScheme ?? "light"].grayScalePrimary}>
-          {listArrItems.length > 0 ? (
-            <ListGrid filter={filter}
-              listArrItems={listArrItems}
-              listId={listId} />
-          ) : (
-            <EmptyList mensage="Você não tem nenhum item na lista" />
-          )}
-        </ContainerInner>
-      </>
+      <ContainerInner
+        justify="center"
+        background={Colors[colorScheme ?? "light"].backgroundPrimary}>
+        {listArrItems.length > 0 ? (
+          <ListGrid filter={filter}
+            listArrItems={listArrItems}
+            listId={listId} />
+        ) : (
+          <EmptyList mensage="Você não tem nenhum item na lista" />
+        )}
+      </ContainerInner>
     </Container>
   );
 }

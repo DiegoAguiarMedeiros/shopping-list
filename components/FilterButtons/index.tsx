@@ -36,10 +36,20 @@ const FilterButtons = ({ tags, filter, setFilter }: FilterButtonsProps) => {
       <Styled.ButtonContainer>
         <Button
           onPress={handlePress}
+          border={
+            filter === tag.name
+              ? Colors[colorScheme ?? "light"].filterButtonActiveBorder
+              : Colors[colorScheme ?? "light"].filterButtonBorder
+          }
           background={
             filter === tag.name
-              ? Colors[colorScheme ?? "light"].grayScaleTertiary
-              : Colors[colorScheme ?? "light"].primary
+              ? Colors[colorScheme ?? "light"].filterButtonActiveBackground
+              : Colors[colorScheme ?? "light"].filterButtonBackground
+          }
+          textColor={
+            filter === tag.name
+              ? Colors[colorScheme ?? "light"].filterButtonActiveText
+              : Colors[colorScheme ?? "light"].filterButtonText
           }
           text={tag.name}
         />

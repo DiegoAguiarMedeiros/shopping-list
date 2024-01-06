@@ -20,7 +20,7 @@ import {
   removeUndefinedFromArray,
 } from "../../../../utils/functions";
 import { Swipeable } from "react-native-gesture-handler";
-import { Title, Text } from "../../../../components/Text";
+import { Title, Text, Title2 } from "../../../../components/Text";
 import { useShoppingListContext } from "../../../../context/ShoppingList";
 
 import AddPriceUnit from "../../../addPriceUnit";
@@ -171,21 +171,21 @@ function ListGridItem({
       renderRightActions={LeftSwipe}
       leftThreshold={100} rightThreshold={undefined}>
       <GridItemInner
-        underlayColor={Colors[colorScheme ?? "light"].grayScaleTertiary}
+        underlayColor={Colors[colorScheme ?? "light"].backgroundTertiary}
         borderColor={
-          Colors[colorScheme ?? "light"].grayScaleSecondary
+          Colors[colorScheme ?? "light"].backgroundSecondary
         }
-        background={Colors[colorScheme ?? "light"].grayScaleSecondary}
+        background={Colors[colorScheme ?? "light"].backgroundSecondary}
         height={60}
         row
       >
         <GridItemWrapperRow height={100} >
           <GridItemWrapperInner height={100}>
-            <Title
+            <Title2
               color={Colors[colorScheme ?? "light"].text}
             >
               {item.name}
-            </Title>
+            </Title2>
           </GridItemWrapperInner>
         </GridItemWrapperRow>
       </GridItemInner>

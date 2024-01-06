@@ -15,7 +15,7 @@ import { useRouter } from "expo-router";
 
 import { Swipeable } from "react-native-gesture-handler";
 import { removeUndefinedFromArray } from "../../../../../utils/functions";
-import { Title, Text } from "../../../../../components/Text";
+import { Title, Text, Title2 } from "../../../../../components/Text";
 import {
   useShoppingListContext,
 } from "../../../../../context/ShoppingList";
@@ -103,21 +103,21 @@ export default function ListGridItem({ item }: ItemProps) {
   return (
     <Swipeable renderRightActions={RightSwipe} rightThreshold={50}>
       <Styled.ContainerListItem
-        underlayColor={Colors[colorScheme ?? "light"].grayScaleTertiary}
-        background={Colors[colorScheme ?? "light"].grayScaleSecondary}
+        underlayColor={Colors[colorScheme ?? "light"].itemListItemOpenBackgroundUnderlay}
+        background={Colors[colorScheme ?? "light"].backgroundSecondary}
         borderColor={
-          Colors[colorScheme ?? "light"].grayScaleSecondary
+          Colors[colorScheme ?? "light"].backgroundSecondary
         }
         onPress={handleOpenList}
       >
         <Styled.ContainerListItemInner>
           <Styled.ContainerListItemHead>
             <Styled.ContainerItemTitle>
-              <Title
+              <Title2
                 color={Colors[colorScheme ?? "light"].text}
               >
                 {item.name}
-              </Title>
+              </Title2>
             </Styled.ContainerItemTitle>
             <Styled.ContainerListItemBody>
               <Text
@@ -131,11 +131,11 @@ export default function ListGridItem({ item }: ItemProps) {
             <CircleProgress
               activeStrokeColor={
                 Colors[colorScheme ?? "light"]
-                  .primary
+                  .circularItemFilled
               }
-              titleColor={Colors[colorScheme ?? "light"].text}
+              titleColor={Colors[colorScheme ?? "light"].circularItemText}
               circleBackgroundColor={
-                Colors[colorScheme ?? "light"].grayScaleSecondary
+                Colors[colorScheme ?? "light"].circularItemBackground
               }
               filled={totalWithAmount}
               progress={totalUn && totalWithAmount ? totalWithAmount : 0}

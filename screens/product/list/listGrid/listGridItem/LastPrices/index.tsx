@@ -18,8 +18,8 @@ const LastPrices = ({ lastPrices }: LastPricesProps) => {
 
     return (
       <Styled.ButtonContainer>
-        <Styled.ButtonText border={Colors[colorScheme ?? "light"].primary}>
-          <Text color={Colors[colorScheme ?? "light"].text}>R$ {item.item}</Text>
+        <Styled.ButtonText border={Colors[colorScheme ?? "light"].itemProductListLastPriceButtonBorder}>
+          <Text color={Colors[colorScheme ?? "light"].itemProductListLastPriceButtonText}>R$ {item.item}</Text>
         </Styled.ButtonText>
       </Styled.ButtonContainer>
     );

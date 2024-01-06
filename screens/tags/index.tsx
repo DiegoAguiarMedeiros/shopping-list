@@ -28,10 +28,10 @@ export default function Tags({
   const { tags } = useShoppingListContext();
   return (
     <Container
-      background={Colors[colorScheme ?? "light"].grayScalePrimary}
+      background={Colors[colorScheme ?? "light"].backgroundPrimary}
     >
       <ContainerInner
-        background={Colors[colorScheme ?? "light"].grayScalePrimary}>
+        background={Colors[colorScheme ?? "light"].backgroundPrimary}>
         {tags && tags.length > 0 ? (
           <ListComponent
             items={tags}

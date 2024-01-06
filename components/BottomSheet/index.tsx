@@ -41,8 +41,7 @@ const BottomSheet = ({ isVisible, children, height }: BottomSheetProps) => {
     <AnimatedBottomSheet
       style={{
         height: heightArr[height],
-        backgroundColor:
-          Colors[colorScheme ?? "light"].primary,
+        backgroundColor: Colors[colorScheme ?? "light"].backgroundBottomSheet,
         transform: [{ translateY }],
       }}
     >

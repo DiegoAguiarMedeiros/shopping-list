@@ -19,7 +19,7 @@ const BottomNavigation: React.FC<RoutesType> = ({
 
   return (
     <Container
-      background={Colors[colorScheme ?? "light"].primary}
+      background={Colors[colorScheme ?? "light"].backgroundPrimary}
       border={
         Colors[colorScheme ?? "light"].primary
       }
@@ -34,21 +34,21 @@ const BottomNavigation: React.FC<RoutesType> = ({
               <GridItemWrapperInner width={15} height={100} key={`ItemAdd-${r.name}`} justify="center" align="center">
                 <Styled.ItemAddButton
                   background={
-                    Colors[colorScheme ?? "light"].secondary
+                    Colors[colorScheme ?? "light"].primary
                   }
                   key={`ItemAdd-${r.name}`}
                   onPress={() => r.func()}
                   boder={
-                    Colors[colorScheme ?? "light"].secondary
+                    Colors[colorScheme ?? "light"].primary
                   }
                 >
                   <Text
-                    color={Colors[colorScheme ?? "light"].text} align="center"
+                    color={Colors[colorScheme ?? "light"].white} align="center"
                   >
                     <FontAwesome
                       size={25}
                       name={r.icon}
-                      color={Colors[colorScheme ?? "light"].text}
+                      color={Colors[colorScheme ?? "light"].white}
                     />
                   </Text>
                 </Styled.ItemAddButton>
@@ -60,16 +60,16 @@ const BottomNavigation: React.FC<RoutesType> = ({
                   onPress={() => r.func()}
                   active={r.name === active}
                   boder={
-                    Colors[colorScheme ?? "light"].text
+                    Colors[colorScheme ?? "light"].primary
                   }
                 >
                   <Text
-                    color={Colors[colorScheme ?? "light"].text} align="center"
+                    color={Colors[colorScheme ?? "light"].primary} align="center"
                   >
                     <FontAwesome
                       size={25}
                       name={r.icon}
-                      color={r.name === active ? Colors[colorScheme ?? "light"].text : Colors[colorScheme ?? "light"].textSecondary}
+                      color={r.name === active ? Colors[colorScheme ?? "light"].menuButtonActiveColor : Colors[colorScheme ?? "light"].menuButtonColor}
                     />
                   </Text>
                 </Styled.Item>

@@ -19,7 +19,7 @@ import {
   removeUndefinedFromArray,
 } from "../../../../utils/functions";
 import { Swipeable } from "react-native-gesture-handler";
-import { Title, Text } from "../../../../components/Text";
+import { Title, Text, Title2 } from "../../../../components/Text";
 import {
   useShoppingListContext,
 } from "../../../../context/ShoppingList";
@@ -38,9 +38,8 @@ interface ListProps {
   listId: string;
 }
 
-function ListGridItem({ item, listId }: ListProps) {
+function ListGridItem({ item, listId }: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
-  const { listProductArchived } = useShoppingListContext();
 
   const listIditemuuid = `${listId}-${item.uuid}`;
 
@@ -50,30 +49,33 @@ function ListGridItem({ item, listId }: ListProps) {
 
   return (
     <>
-      {quantity == 0 ? (
+      {listArrItems.length == 0 ? (
         <GridItemInner
-          underlayColor={Colors[colorScheme ?? "light"].grayScaleTertiary}
+          underlayColor={Colors[colorScheme ?? "light"].backgroundTertiary}
           borderColor={
-            Colors[colorScheme ?? "light"].grayScaleSecondary
+            Colors[colorScheme ?? "light"].backgroundSecondary
           }
-          background={Colors[colorScheme ?? "light"].grayScaleSecondary}
+          background={Colors[colorScheme ?? "light"].backgroundSecondary}
           height={60}
           row
         >
-          <Title
-            color={Colors[colorScheme ?? "light"].text}
-          >
-            {item.name}
-          </Title>
+          <GridItemWrapperCol width={100}>
+
+            <Title2
+              color={Colors[colorScheme ?? "light"].text}
+            >
+              {item.name}
+            </Title2>
+          </GridItemWrapperCol>
         </GridItemInner>
       ) : (
         listArrItems.map((amount) => (
           <GridItemInner
-            underlayColor={Colors[colorScheme ?? "light"].grayScaleTertiary}
+            underlayColor={Colors[colorScheme ?? "light"].backgroundTertiary}
             borderColor={
-              Colors[colorScheme ?? "light"].grayScaleSecondary
+              Colors[colorScheme ?? "light"].backgroundSecondary
             }
-            background={Colors[colorScheme ?? "light"].grayScaleSecondary}
+            background={Colors[colorScheme ?? "light"].backgroundSecondary}
             height={60}
             row
 
@@ -81,11 +83,11 @@ function ListGridItem({ item, listId }: ListProps) {
           >
             <>
               <GridItemWrapperCol width={65} height={100} >
-                <Title
+                <Title2
                   color={Colors[colorScheme ?? "light"].text}
                 >
                   {item.name}
-                </Title>
+                </Title2>
               </GridItemWrapperCol>
               <GridItemWrapperCol width={30} height={100} >
                 <GridItemWrapperRow height={100} >
@@ -107,7 +109,7 @@ function ListGridItem({ item, listId }: ListProps) {
                       border={Colors[colorScheme ?? "light"].primary}
                     />
                     <Styled.ContainerItemTextPriceTotal>
-                      <Text color={Colors[colorScheme ?? "light"].primary}>
+                      <Text color={Colors[colorScheme ?? "light"].itemProductListAveragePrice}>
                         R${" "}
                         {total}
                       </Text>

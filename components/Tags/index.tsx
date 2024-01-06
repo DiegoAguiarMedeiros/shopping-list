@@ -49,7 +49,7 @@ const Tags = ({ tags, isVisible, addTag }: TagsProps) => {
     <Styled.Tags
       isVisible={tagsIsVisible}
       marginTop={returnMarginTop(tags.length)}
-      background={Colors[colorScheme ?? "light"].grayScalePrimary}
+      background={Colors[colorScheme ?? "light"].backgroundPrimary}
     >
       <Styled.TagsInner>
         <SafeAreaView>
@@ -59,7 +59,7 @@ const Tags = ({ tags, isVisible, addTag }: TagsProps) => {
                 onPress={() => handleAddTag(tag?.name)}
                 key={`tagContainer-${tag.id}`}
                 background={
-                  Colors[colorScheme ?? "light"].grayScalePrimary
+                  Colors[colorScheme ?? "light"].backgroundPrimary
                 }
               >
                 <Title

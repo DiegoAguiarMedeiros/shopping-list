@@ -4,9 +4,17 @@ export const Title = styled.Text<{
   color: string,
 }>`
   color:${(props: { color: string; }) => props.color};
-  font-size: 20px;
+  font-size: 22px;
   width: 100%;
   font-weight: 800;
+`;
+export const Title2 = styled.Text<{
+  color: string,
+}>`
+  color:${(props: { color: string; }) => props.color};
+  font-size: 18px;
+  width: 100%;
+  font-weight: 500;
 `;
 export const SubTitle = styled.Text<{
   color: string,

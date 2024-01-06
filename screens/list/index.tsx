@@ -42,11 +42,16 @@ type TotalType = {
 interface ListProps {
   listId: string;
   handleCloseBottomSheetList: () => void;
+  setActiveRouteHeader: React.Dispatch<React.SetStateAction<{
+    name: string;
+    left: React.ReactNode | null;
+    right: React.ReactNode | null;
+  }>>
 }
 
 export default function List({
   listId,
-  handleCloseBottomSheetList }: Readonly<ListProps>) {
+  handleCloseBottomSheetList, setActiveRouteHeader }: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
   const {
     list,
@@ -73,10 +78,40 @@ export default function List({
     handleCloseBottomSheetList();
     router.push({ pathname: "/home" })
   }
+  const attHeader = (amount: number, un: number) => {
+    setActiveRouteHeader({
+      left: <TouchableOpacity style={{ marginLeft: 20, marginRight: 10 }} onPress={() => returnToHome()}>
+        <FontAwesome
+          name="angle-left"
+          size={35}
+          color={Colors[colorScheme ?? "light"].white}
+        />
+      </TouchableOpacity>,
+      name: selectedItem?.name!,
+      right: <Styled.Container>
+        <CircleProgress
+          activeStrokeColor={
+            Colors[colorScheme ?? "light"]
+              .circularHeaderFilled
+          }
+          titleColor={
+            Colors[colorScheme ?? "light"].circularHeaderText
+          }
+          circleBackgroundColor={
+            Colors[colorScheme ?? "light"].circularHeaderBackground
+          }
+          filled={amount}
+          progress={un && amount ? amount : 0}
+          total={un}
+          size={24}
+        /></Styled.Container>,
+    })
+  }
 
   useEffect(() => {
     const productsList = getListProductController.handle(selectedItem?.items ? selectedItem?.items : []);
     setTags(selectedItem?.tags ? ["Todos", ...selectedItem?.tags] : []);
+
     if (filter === "Todos") {
       setListArrItems(productsList);
 
@@ -85,6 +120,7 @@ export default function List({
         amount: getTotalQuantityWithoutAmountByListUuidController.handle(listId),
       };
       setTotal(newTotal);
+      attHeader(newTotal.amount, newTotal.un);
       return;
     }
 
@@ -96,49 +132,18 @@ export default function List({
 
     setTotal(newTotal);
     setListArrItems(filteredProductsList);
+    attHeader(newTotal.amount, newTotal.un);
 
     return () => { };
   }, [filter, amount, listProduct, list]);
 
 
-
   return (
     <Container
-      background={Colors[colorScheme ?? "light"].grayScalePrimary}
       noPadding
     >
       <Header
-        background={Colors[colorScheme ?? "light"].primary}
-        left={<TouchableOpacity onPress={() => returnToHome()}>
-          <FontAwesome
-            name="angle-left"
-            size={35}
-            color={Colors[colorScheme ?? "light"].white}
-          />
-        </TouchableOpacity>}
-
-        title={<Title color={Colors[colorScheme ?? "light"].white}>
-          {listArr?.name}
-        </Title>}
-
-        right={<CircleProgress
-          activeStrokeColor={
-            Colors[colorScheme ?? "light"]
-              .secondary
-          }
-          titleColor={
-            Colors[colorScheme ?? "light"].text
-          }
-          circleBackgroundColor={
-            Colors[colorScheme ?? "light"].primary
-          }
-          filled={total.amount}
-          progress={total.un && total.amount ? total.amount : 0}
-          total={total.un}
-          size={25}
-        />}
-
-
+        background={Colors[colorScheme ?? "light"].backgroundPrimary}
         bottom={listArr && listArr.tags.length > 0 ? (
           <FilterButtons
             tags={tags}
@@ -149,7 +154,7 @@ export default function List({
       />
       <ContainerInner
         justify="center"
-        background={Colors[colorScheme ?? "light"].grayScalePrimary}>
+        background={Colors[colorScheme ?? "light"].backgroundPrimary}>
         {listArrItems.length > 0 ? (
           <ListGrid
             listArrItems={listArrItems}

@@ -1,14 +1,9 @@
 import { Dimensions } from "react-native";
 import styled, { css } from "styled-components/native";
 
-export const Container = styled.View<{
-  background: string;
-}>`
-  background: ${(props: { background: any }) => props.background};
-  width: ${Dimensions.get("window").width + "px"};
-  height: ${Dimensions.get("window").height + "px"};
-  flex: 1;
-  justify-content: flex-start;
+export const Container = styled.View`
+margin-top: -10px;
+margin-right:22px;
 `;
 export const ContainerButtonAdd = styled.View`
   flex: 1;

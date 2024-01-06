@@ -14,7 +14,7 @@ import { useRouter } from "expo-router";
 
 import { Swipeable } from "react-native-gesture-handler";
 import { removeUndefinedFromArray } from "../../../../../utils/functions";
-import { Title, Text, SubTitle } from "../../../../../components/Text";
+import { Title, Text, SubTitle, Title2 } from "../../../../../components/Text";
 import {
   useShoppingListContext,
 } from "../../../../../context/ShoppingList";
@@ -73,7 +73,7 @@ export default function ListGridItem({
           onClose={handleCloseBottomSheetProductList}
           listId={item.uuid} />
       ),
-      height: "edit",
+      height: "add",
       isVisible: false,
     });
   };
@@ -86,17 +86,7 @@ export default function ListGridItem({
       height: "add",
       children: (
         <NewItemForm
-          onClose={() => setBottomSheetProps({
-            isVisible: false,
-            height: "add",
-            children: (
-              <NewItemForm
-                onClose={handleCloseBottomSheetProductList}
-                buttonText="add"
-                listId={item.uuid}
-              />
-            ),
-          })}
+          onClose={handleCloseBottomSheetProductList}
           buttonText="add"
           listId={item.uuid}
         />
@@ -164,13 +154,13 @@ export default function ListGridItem({
           <Styled.ButtonInner
             underlayColor={
               Colors[colorScheme ?? "light"]
-                .grayScalePrimary
+                .backgroundPrimary
             }
             onPress={handleEdit}
           >
             <>
               <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].text}
+                text={Colors[colorScheme ?? "light"].swipeIcon}
               >
                 <FontAwesome
                   size={18}
@@ -179,7 +169,7 @@ export default function ListGridItem({
                 />
               </Styled.ButtonTextIcon>
               <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].text}
+                text={Colors[colorScheme ?? "light"].swipeIcon}
               >
                 Editar
               </Styled.ButtonText>
@@ -194,7 +184,7 @@ export default function ListGridItem({
           >
             <>
               <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].text}
+                text={Colors[colorScheme ?? "light"].swipeIcon}
               >
                 <FontAwesome
                   size={18}
@@ -203,7 +193,7 @@ export default function ListGridItem({
                 />
               </Styled.ButtonTextIcon>
               <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].text}
+                text={Colors[colorScheme ?? "light"].swipeIcon}
               >
                 Copiar
               </Styled.ButtonText>
@@ -233,13 +223,13 @@ export default function ListGridItem({
           <Styled.ButtonInner
             underlayColor={
               Colors[colorScheme ?? "light"]
-                .grayScalePrimary
+                .backgroundPrimary
             }
             onPress={archivedList}
           >
             <>
               <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].text}
+                text={Colors[colorScheme ?? "light"].swipeIcon}
               >
                 <FontAwesome
                   size={18}
@@ -248,7 +238,7 @@ export default function ListGridItem({
                 />
               </Styled.ButtonTextIcon>
               <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].text}
+                text={Colors[colorScheme ?? "light"].swipeIcon}
               >
                 Arquivar
               </Styled.ButtonText>
@@ -257,13 +247,13 @@ export default function ListGridItem({
           <Styled.ButtonInner
             underlayColor={
               Colors[colorScheme ?? "light"]
-                .grayScalePrimary
+                .backgroundPrimary
             }
             onPress={handleDelete}
           >
             <>
               <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].text}
+                text={Colors[colorScheme ?? "light"].swipeIcon}
               >
                 <FontAwesome
                   size={18}
@@ -272,7 +262,7 @@ export default function ListGridItem({
                 />
               </Styled.ButtonTextIcon>
               <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].text}
+                text={Colors[colorScheme ?? "light"].swipeIcon}
               >
                 Deletar
               </Styled.ButtonText>
@@ -289,11 +279,11 @@ export default function ListGridItem({
       renderLeftActions={RightSwipe}
       leftThreshold={100} rightThreshold={undefined}>
       <GridItemInner
-        underlayColor={Colors[colorScheme ?? "light"].grayScaleTertiary}
+        underlayColor={Colors[colorScheme ?? "light"].itemListBackgroundUnderlay}
         borderColor={
-          Colors[colorScheme ?? "light"].grayScaleTertiary
+          Colors[colorScheme ?? "light"].itemListBackgroundBorder
         }
-        background={Colors[colorScheme ?? "light"].grayScaleSecondary}
+        background={Colors[colorScheme ?? "light"].itemListBackground}
         height={60}
         row
         onPress={handleOpenList}
@@ -301,13 +291,13 @@ export default function ListGridItem({
         <>
           <GridItemWrapperCol width={85} height={100} >
             <GridItemWrapperInner height={100}>
-              <Title
-                color={Colors[colorScheme ?? "light"].text}
+              <Title2
+                color={Colors[colorScheme ?? "light"].itemListText}
               >
                 {item.name}
-              </Title>
+              </Title2>
               <Text
-                color={Colors[colorScheme ?? "light"].textSecondary}
+                color={Colors[colorScheme ?? "light"].itemListTextSecondary}
               >
                 Total: R$ {total.toFixed(2)}
               </Text>
@@ -318,11 +308,11 @@ export default function ListGridItem({
               <CircleProgress
                 activeStrokeColor={
                   Colors[colorScheme ?? "light"]
-                    .primary
+                    .circularItemFilled
                 }
-                titleColor={Colors[colorScheme ?? "light"].text}
+                titleColor={Colors[colorScheme ?? "light"].circularItemText}
                 circleBackgroundColor={
-                  Colors[colorScheme ?? "light"].grayScalePrimary
+                  Colors[colorScheme ?? "light"].circularItemBackground
                 }
                 filled={totalWithAmount}
                 progress={totalUn && totalWithAmount ? totalWithAmount : 0}

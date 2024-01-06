@@ -112,7 +112,7 @@ export default function App() {
   return (
     <>
       <StatusBar
-        backgroundColor={Colors[colorScheme ?? "light"].grayScalePrimary}
+        backgroundColor={Colors[colorScheme ?? "light"].primary}
       />
       <ShoppingListProvider>
         {!active && <OnboardingScreen closeOnboarding={closeOnboarding} />}
@@ -126,6 +126,12 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
   const router = useRouter();
   const [activeRoute, setActiveRoute] = useState<string>("home");
+  const [activeRouteHeader, setActiveRouteHeader] = useState<{ name: string, left: React.ReactNode | null, right: React.ReactNode | null }>({
+    left: null,
+    name: "aaa",
+    right: null
+  });
+
 
   const handleCloseBottomSheetList = () => {
     setBottomSheetProps({
@@ -267,7 +273,7 @@ function RootLayoutNav() {
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack.Navigator
         screenOptions={{
-          cardStyleInterpolator: CardStyleInterpolators.forBottomSheetAndroid,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           headerStyle: {
             backgroundColor:
               Colors[colorScheme ?? "light"].primary,
@@ -280,8 +286,8 @@ function RootLayoutNav() {
           options={{
             headerLeft: () => null,
             headerTitle: (props) => (
-              <Title color={Colors[colorScheme ?? "light"].text}>
-                Listas de compras
+              <Title color={Colors[colorScheme ?? "light"].white}>
+                Listas
               </Title>
             ),
           }}
@@ -335,11 +341,18 @@ function RootLayoutNav() {
         <Stack.Screen
           name="Items"
           options={{
-            headerShown: false,
+            headerLeft: () => activeRouteHeader.left,
+            headerTitle: (props) => (
+              <Title color={Colors[colorScheme ?? "light"].white}>
+                {activeRouteHeader.name}
+              </Title>
+            ),
+            headerRight: () => activeRouteHeader.right,
           }}
         >
           {() => (
             <Items
+              setActiveRouteHeader={setActiveRouteHeader}
               handleCloseBottomSheetList={handleCloseBottomSheetList}
             />
           )}
@@ -347,11 +360,17 @@ function RootLayoutNav() {
         <Stack.Screen
           name="ProductsList"
           options={{
-            headerShown: false,
+            headerLeft: () => activeRouteHeader.left,
+            headerTitle: (props) => (
+              <Title color={Colors[colorScheme ?? "light"].white}>
+                {activeRouteHeader.name}
+              </Title>
+            ),
           }}
         >
           {() => (
             <ProductsList
+              setActiveRouteHeader={setActiveRouteHeader}
               setBottomSheetProps={setBottomSheetProps}
               bottomSheetProps={bottomSheetProps}
               handleCloseBottomSheet={handleCloseBottomSheetProduct}
@@ -361,11 +380,22 @@ function RootLayoutNav() {
         </Stack.Screen>
         <Stack.Screen
           name="ItemsArchived"
-          component={ItemsArchived}
           options={{
-            headerShown: false,
+            headerLeft: () => activeRouteHeader.left,
+            headerTitle: (props) => (
+              <Title color={Colors[colorScheme ?? "light"].white}>
+                {activeRouteHeader.name}
+              </Title>
+            ),
+            headerRight: () => activeRouteHeader.right,
           }}
-        />
+        >
+          {() => (
+            <ItemsArchived
+              setActiveRouteHeader={setActiveRouteHeader}
+            />
+          )}
+        </Stack.Screen>
         <Stack.Screen
           name="history"
           component={History}
