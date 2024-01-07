@@ -10,7 +10,7 @@ interface ProductListTabProps {
     handleCloseBottomSheet: () => void;
     handleCloseBottomSheetTag: () => void;
     setActiveRouteHeader: React.Dispatch<React.SetStateAction<{
-        name: string;
+        name: React.ReactNode;
         left: React.ReactNode | null;
         right: React.ReactNode | null;
     }>>

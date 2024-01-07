@@ -18,14 +18,17 @@ interface ProductProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   bottomSheetProps: BottomSheetProps;
   handleCloseBottomSheet: () => void;
+  search: string;
 }
 
 export default function Product({
   setBottomSheetProps,
   handleCloseBottomSheet,
+  search,
 }: Readonly<ProductProps>) {
   const colorScheme = useColorScheme();
   const { listProduct } = useShoppingListContext();
+  console.log("search", search)
   return (
     <Container
       background={Colors[colorScheme ?? "light"].backgroundPrimary}
@@ -34,7 +37,7 @@ export default function Product({
         background={Colors[colorScheme ?? "light"].backgroundPrimary}>
         {listProduct && listProduct.length > 0 ? (
           <ListComponent
-            items={listProduct}
+            items={search != "" ? listProduct.filter(product => (product.name.includes(search))) : listProduct}
             setBottomSheetProps={setBottomSheetProps}
             handleCloseBottomSheet={handleCloseBottomSheet}
           />

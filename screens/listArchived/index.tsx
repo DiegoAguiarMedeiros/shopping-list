@@ -27,7 +27,7 @@ type TotalType = {
 interface ListProps {
   listId: string;
   setActiveRouteHeader: React.Dispatch<React.SetStateAction<{
-    name: string;
+    name: React.ReactNode;
     left: React.ReactNode | null;
     right: React.ReactNode | null;
   }>>
@@ -57,7 +57,9 @@ export default function ListArchived({ listId, setActiveRouteHeader }: ListProps
           color={Colors[colorScheme ?? "light"].white}
         />
       </TouchableOpacity>,
-      name: listArr?.name!,
+      name: <Title color={Colors[colorScheme ?? "light"].white}>
+        {listArr?.name!}
+      </Title>,
       right: null,
     });
   }, [])

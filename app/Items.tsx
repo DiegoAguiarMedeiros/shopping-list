@@ -7,7 +7,7 @@ import { BottomSheetProps } from "../components/BottomSheet";
 interface ItemsTabProps {
   handleCloseBottomSheetList: () => void;
   setActiveRouteHeader: React.Dispatch<React.SetStateAction<{
-    name: string;
+    name: React.ReactNode;
     left: React.ReactNode | null;
     right: React.ReactNode | null;
   }>>

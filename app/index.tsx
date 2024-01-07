@@ -21,7 +21,7 @@ import {
 
 const Stack = createStackNavigator();
 import React, { useCallback, useEffect, useState } from "react";
-import { StatusBar, Text, View, useColorScheme } from "react-native";
+import { StatusBar, Text, TouchableOpacity, View, useColorScheme } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
@@ -51,6 +51,7 @@ import { useRouter } from "expo-router";
 import NewProductForm from "../components/NewProductForm";
 import ProductsList from "./ProductsList";
 import NewItemForm from "../components/NewItemForm";
+import HeaderInputTextSearch from "../components/HeaderInputTextSearch";
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
@@ -126,12 +127,15 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
   const router = useRouter();
   const [activeRoute, setActiveRoute] = useState<string>("home");
-  const [activeRouteHeader, setActiveRouteHeader] = useState<{ name: string, left: React.ReactNode | null, right: React.ReactNode | null }>({
+  const [activeRouteHeader, setActiveRouteHeader] = useState<{ name: React.ReactNode, left: React.ReactNode | null, right: React.ReactNode | null }>({
     left: null,
-    name: "aaa",
+    name: <Title color={Colors[colorScheme ?? "light"].white}>
+      Listas
+    </Title>,
     right: null
   });
 
+  const [search, setSearch] = useState("");
 
   const handleCloseBottomSheetList = () => {
     setBottomSheetProps({
@@ -186,6 +190,39 @@ function RootLayoutNav() {
     isVisible: false,
   });
 
+  const handleShowSearchInput = () => {
+    setActiveRouteHeader({
+      left: null,
+      name: <HeaderInputTextSearch style={{ marginLeft: -16 }} placeholder="Buscar..." onChangeText={(item) =>
+        setSearch(item)
+      } />,
+      right: <TouchableOpacity style={{ marginRight: 20 }} onPress={() => clearHeaderProduct()}>
+        <FontAwesome
+          name="times"
+          size={25}
+          color={Colors[colorScheme ?? "light"].white}
+        />
+      </TouchableOpacity>,
+    })
+  }
+
+  const clearHeaderProduct = () => {
+    setSearch("")
+    setActiveRouteHeader({
+      left: null,
+      name: <Title color={Colors[colorScheme ?? "light"].white}>
+        Produtos
+      </Title>,
+      right: <TouchableOpacity style={{ marginLeft: 20, marginRight: 20 }} onPress={() => handleShowSearchInput()}>
+        <FontAwesome
+          name="search"
+          size={25}
+          color={Colors[colorScheme ?? "light"].white}
+        />
+      </TouchableOpacity>,
+    })
+  }
+
 
   const handleChangeRoute = (route: "home" | "product" | "tags" | "history"): void => {
 
@@ -216,6 +253,20 @@ function RootLayoutNav() {
       })
     }
     if (route === "product") {
+      setSearch("")
+      setActiveRouteHeader({
+        left: null,
+        name: <Title color={Colors[colorScheme ?? "light"].white}>
+          Produtos
+        </Title>,
+        right: <TouchableOpacity style={{ marginLeft: 20, marginRight: 20 }} onPress={() => handleShowSearchInput()}>
+          <FontAwesome
+            name="search"
+            size={25}
+            color={Colors[colorScheme ?? "light"].white}
+          />
+        </TouchableOpacity>,
+      })
       setBottomSheetProps({
         ...bottomSheetProps,
         isVisible: false,
@@ -303,16 +354,14 @@ function RootLayoutNav() {
         <Stack.Screen
           name={"product"}
           options={{
-            headerLeft: () => null,
-            headerTitle: (props) => (
-              <Title color={Colors[colorScheme ?? "light"].white}>
-                Produtos
-              </Title>
-            ),
+            headerLeft: () => activeRouteHeader.left,
+            headerRight: () => activeRouteHeader.right,
+            headerTitle: () => activeRouteHeader.name,
           }}
         >
           {() => (
             <ProductTab
+              search={search}
               setBottomSheetProps={setBottomSheetProps}
               bottomSheetProps={bottomSheetProps}
               handleCloseBottomSheet={handleCloseBottomSheetProduct}
@@ -342,11 +391,7 @@ function RootLayoutNav() {
           name="Items"
           options={{
             headerLeft: () => activeRouteHeader.left,
-            headerTitle: (props) => (
-              <Title color={Colors[colorScheme ?? "light"].white}>
-                {activeRouteHeader.name}
-              </Title>
-            ),
+            headerTitle: () => activeRouteHeader.name,
             headerRight: () => activeRouteHeader.right,
           }}
         >
@@ -361,11 +406,8 @@ function RootLayoutNav() {
           name="ProductsList"
           options={{
             headerLeft: () => activeRouteHeader.left,
-            headerTitle: (props) => (
-              <Title color={Colors[colorScheme ?? "light"].white}>
-                {activeRouteHeader.name}
-              </Title>
-            ),
+            headerTitle: () => activeRouteHeader.name,
+            headerRight: () => activeRouteHeader.right,
           }}
         >
           {() => (
@@ -382,11 +424,7 @@ function RootLayoutNav() {
           name="ItemsArchived"
           options={{
             headerLeft: () => activeRouteHeader.left,
-            headerTitle: (props) => (
-              <Title color={Colors[colorScheme ?? "light"].white}>
-                {activeRouteHeader.name}
-              </Title>
-            ),
+            headerTitle: () => activeRouteHeader.name,
             headerRight: () => activeRouteHeader.right,
           }}
         >

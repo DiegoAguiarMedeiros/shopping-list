@@ -39,7 +39,7 @@ interface ProductsListProps {
   handleCloseBottomSheet: () => void;
   handleCloseBottomSheetTag: () => void;
   setActiveRouteHeader: React.Dispatch<React.SetStateAction<{
-    name: string;
+    name: React.ReactNode;
     left: React.ReactNode | null;
     right: React.ReactNode | null;
   }>>
@@ -83,7 +83,9 @@ export default function ProductsList({ tagUuid,
           color={Colors[colorScheme ?? "light"].white}
         />
       </TouchableOpacity>,
-      name: tag.name,
+      name: <Title color={Colors[colorScheme ?? "light"].white}>
+        {tag.name}
+      </Title>,
       right: null,
     })
   }, [])

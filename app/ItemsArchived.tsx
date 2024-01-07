@@ -5,7 +5,7 @@ import ListArchived from "../screens/listArchived";
 
 interface ItemsArchivedProps {
   setActiveRouteHeader: React.Dispatch<React.SetStateAction<{
-    name: string;
+    name: React.ReactNode;
     left: React.ReactNode | null;
     right: React.ReactNode | null;
   }>>

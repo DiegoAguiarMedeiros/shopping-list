@@ -43,7 +43,7 @@ interface ListProps {
   listId: string;
   handleCloseBottomSheetList: () => void;
   setActiveRouteHeader: React.Dispatch<React.SetStateAction<{
-    name: string;
+    name: React.ReactNode;
     left: React.ReactNode | null;
     right: React.ReactNode | null;
   }>>
@@ -87,7 +87,9 @@ export default function List({
           color={Colors[colorScheme ?? "light"].white}
         />
       </TouchableOpacity>,
-      name: selectedItem?.name!,
+      name: <Title color={Colors[colorScheme ?? "light"].white}>
+        {selectedItem?.name!}
+      </Title>,
       right: <Styled.Container>
         <CircleProgress
           activeStrokeColor={
