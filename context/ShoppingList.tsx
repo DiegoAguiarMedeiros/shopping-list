@@ -26,6 +26,7 @@ import DeleteProductByUuid from "../Domain/UseCases/ListProduct/DeleteProductByU
 import deleteAmountByUuidController from "../Domain/UseCases/Amount/DeleteAmountByUuid";
 import deleteTagByUuidController from "../Domain/UseCases/Tag/DeleteTagByUuid";
 import getAmountByListProductUuidController from "../Domain/UseCases/Amount/GetAmountByListProductUuid";
+import { sortArrayOfObjects } from "../utils/functions";
 
 
 type ShoppingListProviderProps = {
@@ -230,11 +231,14 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   };
 
   const handleAddList = (listName: string): void => {
-    const newList = returnNewList(listName);
-    saveNewList(newList);
-    list ?
-      setList([newList, ...list]) :
-      setList([newList]);
+    const newListItem = returnNewList(listName);
+    saveNewList(newListItem);
+
+
+    const newList = list ? [newListItem, ...list] : [newListItem];
+    const newListToSorted = sortArrayOfObjects(newList, "name");
+    setList(newListToSorted);
+
   };
 
   const handleCopyList = (listUuid: string, listName: string): void => {
@@ -244,7 +248,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
       newList.items = selectedItem.items;
       newList.tags = selectedItem.tags;
       saveNewList(newList);
-      setList([newList, ...list]);
+      setList(sortArrayOfObjects([newList, ...list], "name"));
     }
   };
 
@@ -262,7 +266,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         item)
       );
       saveNewList(selectedItem);
-      setList([...newUpdatedList]);
+      setList(sortArrayOfObjects(newUpdatedList, "name"));
     }
   };
 
@@ -276,7 +280,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
       }
       return l;
     })
-    setListProduct([...newProductList]);
+    setListProduct(sortArrayOfObjects(newProductList, "name"));
 
     const newList = list.map((l) => {
       if (l.uuid === listUuid) {
@@ -291,9 +295,11 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   const handleAddListProduct = (productName: string, tag: string): void => {
     const newProduct = returnNewProduct(productName, tag);
     saveNewProduct(newProduct);
-    listProduct ?
-      setListProduct([newProduct, ...listProduct]) :
-      setListProduct([newProduct]);
+
+    const newListProduct = listProduct ? [newProduct, ...listProduct] : [newProduct];
+    const newListProductToSorted = sortArrayOfObjects(newListProduct, "name");
+    setListProduct(newListProductToSorted);
+
   };
 
   const handleEditListProduct = (listUuid: string, productName: string): void => {
@@ -309,7 +315,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         item)
       );
       saveNewProduct(selectedItem);
-      setListProduct([...newUpdatedList]);
+      setListProduct(sortArrayOfObjects(newUpdatedList, "name"));
     }
   };
 
@@ -317,9 +323,9 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
 
     const newTag = returnNewTag(tag);
     saveNewTag(newTag);
-    tags ?
-      setTags([newTag, ...tags]) :
-      setTags([newTag]);
+    const newTags = tags ? [newTag, ...tags] : [newTag];
+    const newTagsToSorted = sortArrayOfObjects(newTags, "name");
+    setTags(newTagsToSorted);
   };
 
 
@@ -335,7 +341,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         item)
       );
       saveNewTag(selectedTag);
-      setTags([...newUpdatedList]);
+      setTags(sortArrayOfObjects(newUpdatedList, "name"));
     }
   };
 
@@ -414,9 +420,10 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     if (selectedItem) {
       handleDeleteList(listUuid);
       saveNewListArchived(selectedItem)
-      listArchived ?
-        setListArchived([selectedItem, ...listArchived]) :
-        setListArchived([selectedItem]);
+
+      const newList = listArchived ? [selectedItem, ...listArchived] : [selectedItem];
+      const newListToSorted = sortArrayOfObjects(newList, "name");
+      setListArchived(newListToSorted);
     }
   };
 

@@ -1,3 +1,4 @@
+import { sortArrayOfObjects } from "../../../../utils/functions";
 import { IProduct } from "../../../Model/IProduct";
 import { IControllerGetListProductsByUuid } from "../../interface/IController";
 import GetListProductUseCase from "./GetListProductByUuidUseCase";
@@ -16,7 +17,7 @@ export default class GetListProductController implements IControllerGetListProdu
         }
       })
 
-      return result;
+      return sortArrayOfObjects(Object.values(result), "name");
     } catch (err) {
       console.error("GetListProductController: ", err);
       const result: IProduct[] = []

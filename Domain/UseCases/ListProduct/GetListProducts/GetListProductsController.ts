@@ -1,3 +1,4 @@
+import { sortArrayOfObjects } from "../../../../utils/functions";
 import { IProduct } from "../../../Model/IProduct";
 import { IControllerGetListProducts } from "../../interface/IController";
 import GetListsUseCase from "./GetListProductsUseCase";
@@ -8,9 +9,8 @@ export default class GetListProductsController implements IControllerGetListProd
   handle = (): IProduct[] => {
     try {
       const result = this.getListsUseCase.execute("SLSHOPPINGLISTPRODUCT");
-      let data: IProduct[];
-      result ? (data = Object.values(result)) : (data = []);
-      return data;
+      let data: IProduct[] = sortArrayOfObjects(Object.values(result), "name");
+      return result ? data : [];
     } catch (err) {
       console.error("GetListProductsController: ", err);
 

@@ -9,6 +9,23 @@ import {
   ListType,
 } from "../types/types";
 
+
+function sortArrayOfObjects<T>(arr: T[], key: keyof T): T[] {
+  return arr.slice().sort((a, b) => {
+    const valueA = a[key];
+    const valueB = b[key];
+    if (String(valueA).toUpperCase() < String(valueB).toUpperCase()) {
+      return -1;
+    }
+    if (String(valueA).toUpperCase() > String(valueB).toUpperCase()) {
+      return 1;
+    }
+    return 0;
+  });
+}
+
+
+
 function removeDuplicates<T>(arr: T[]): T[] {
   return Array.from(new Set(arr));
 }
@@ -166,5 +183,6 @@ export {
   getTagsFromListItemInterface,
   checkTags,
   convertToInterface,
-  removeDuplicates
+  removeDuplicates,
+  sortArrayOfObjects
 };
