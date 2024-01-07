@@ -28,7 +28,6 @@ export default function Product({
 }: Readonly<ProductProps>) {
   const colorScheme = useColorScheme();
   const { listProduct } = useShoppingListContext();
-  console.log("search", search)
   return (
     <Container
       background={Colors[colorScheme ?? "light"].backgroundPrimary}
@@ -37,7 +36,7 @@ export default function Product({
         background={Colors[colorScheme ?? "light"].backgroundPrimary}>
         {listProduct && listProduct.length > 0 ? (
           <ListComponent
-            items={search != "" ? listProduct.filter(product => (product.name.includes(search))) : listProduct}
+            items={search != "" ? listProduct.filter(product => (product.name.toLowerCase().includes(search.toLowerCase()))) : listProduct}
             setBottomSheetProps={setBottomSheetProps}
             handleCloseBottomSheet={handleCloseBottomSheet}
           />

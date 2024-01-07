@@ -20,8 +20,8 @@ import {
 } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();
-import React, { useCallback, useEffect, useState } from "react";
-import { StatusBar, Text, TouchableOpacity, View, useColorScheme } from "react-native";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { StatusBar, Text, TextInput, TouchableOpacity, View, useColorScheme } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
@@ -190,6 +190,9 @@ function RootLayoutNav() {
     isVisible: false,
   });
 
+
+
+
   const handleShowSearchInput = () => {
     setActiveRouteHeader({
       left: null,
@@ -204,6 +207,7 @@ function RootLayoutNav() {
         />
       </TouchableOpacity>,
     })
+
   }
 
   const clearHeaderProduct = () => {

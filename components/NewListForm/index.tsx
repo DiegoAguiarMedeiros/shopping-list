@@ -1,10 +1,10 @@
 import Colors from "../../constants/Colors";
-import { useColorScheme } from "react-native";
+import { TextInput, useColorScheme } from "react-native";
 import { Text } from "../Text";
 import * as Styled from "./styles";
 import InputText from "../InputText";
 import Button from "../Button";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ItemInterface, ListInterface, TagsIterface } from "../../types/types";
 import UUIDGenerator from "react-native-uuid";
 import { useShoppingListContext } from "../../context/ShoppingList";
