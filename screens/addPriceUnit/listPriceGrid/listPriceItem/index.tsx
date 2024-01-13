@@ -71,7 +71,7 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
             }
             align="center"
           >
-            R$ {itemAmount.amount}
+            R$ {Number(itemAmount.amount).toFixed(2).replace(".", ",")}
           </Text>
         </GridItemWrapperInner>
         <GridItemWrapperInner width={30} height={100}>

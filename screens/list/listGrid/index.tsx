@@ -94,7 +94,7 @@ function ListGrid({
                   : Colors[colorScheme ?? "light"].white
               }
             >
-              Total: R$ {total.toFixed(2)}
+              Total: R$ {total.toFixed(2).replace(".", ",")}
             </Text>
           </Styled.ContainerItemTotalText>
         </GridItemWrapperRow>

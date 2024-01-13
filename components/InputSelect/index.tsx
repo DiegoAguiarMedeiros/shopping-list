@@ -21,13 +21,15 @@ const Select = ({ items, selectedValue, onValueChange }: SelectProps) => {
                 color={Colors[colorScheme ?? "light"].textSecondary}
                 selectedValue={selectedValue}
                 onValueChange={(itemValue, index) => onValueChange(itemValue as string, index)}
-                style={{ borderColor: 'red' }}
+                dropdownIconColor={Colors[colorScheme ?? "light"].primary}
+                itemStyle={{ backgroundColor: "#0f0", color: "blue", fontFamily: "Ebrima", fontSize: 17 }}
             >
                 {items.map((item, index) => (
-                    <Picker.Item key={index} label={item.name} value={item.uuid} />
+                    <Picker.Item key={`Picker.Item.${item.uuid}`} label={item.name} value={item.uuid} />
                 ))}
+
             </Styled.Select>
-        </Styled.Container>
+        </Styled.Container >
     );
 };
 export default Select;

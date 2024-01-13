@@ -123,7 +123,7 @@ export default function ListGridItem({ item }: ItemProps) {
               <Text
                 color={Colors[colorScheme ?? "light"].textSecondary}
               >
-                Total: R$ {total.toFixed(2)}
+                Total: R$ {total.toFixed(2).replace(".", ",")}
               </Text>
             </Styled.ContainerListItemBody>
           </Styled.ContainerListItemHead>

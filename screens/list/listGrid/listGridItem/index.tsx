@@ -170,14 +170,14 @@ function ListGridItem({
                   <Text
                     color={Colors[colorScheme ?? "light"].itemListItemOpenTextSecondary}
                   >
-                    Total: R$ {total.toFixed(2)}
+                    Total: R$ {total.toFixed(2).replace(".", ",")}
                   </Text>
                 </GridItemWrapperInner>
                 <GridItemWrapperInner width={50} height={100}>
                   <Text
                     color={Colors[colorScheme ?? "light"].itemListItemOpenTextSecondary}
                   >
-                    Un: {quantity}
+                    Un: {listArrItems.length === 0 ? listArrItems.length : quantity}
                   </Text>
                 </GridItemWrapperInner>
               </GridItemWrapperRow>
@@ -253,14 +253,14 @@ function ListGridItem({
                   <Text
                     color={Colors[colorScheme ?? "light"].textSecondary}
                   >
-                    Total: R$ {total}
+                    Total: R$ {total.toFixed(2).replace(".", ",")}
                   </Text>
                 </GridItemWrapperInner>
                 <GridItemWrapperInner width={50} height={100}>
                   <Text
                     color={Colors[colorScheme ?? "light"].textSecondary}
                   >
-                    Un: {quantity}
+                    Un: {listArrItems.length === 0 ? listArrItems.length : quantity}
                   </Text>
                 </GridItemWrapperInner>
               </GridItemWrapperRow>

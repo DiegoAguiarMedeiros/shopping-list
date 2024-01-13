@@ -103,7 +103,7 @@ function ListGridItem({ item, listId }: Readonly<ListProps>) {
                     <Text
                       color={Colors[colorScheme ?? "light"].text}
                     >
-                      R$ {amount.amount}
+                      R$ {Number(amount.amount).toFixed(2).replace(".", ",")}
                     </Text>
                     <Styled.ContainerItemTextPriceTotalLine
                       border={Colors[colorScheme ?? "light"].primary}
@@ -111,7 +111,7 @@ function ListGridItem({ item, listId }: Readonly<ListProps>) {
                     <Styled.ContainerItemTextPriceTotal>
                       <Text color={Colors[colorScheme ?? "light"].itemProductListAveragePrice}>
                         R${" "}
-                        {total}
+                        {total.toFixed(2).replace(".", ",")}
                       </Text>
                     </Styled.ContainerItemTextPriceTotal>
                   </GridItemWrapperCol>

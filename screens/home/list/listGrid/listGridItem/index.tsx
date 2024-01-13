@@ -299,7 +299,7 @@ export default function ListGridItem({
               <Text
                 color={Colors[colorScheme ?? "light"].itemListTextSecondary}
               >
-                Total: R$ {total.toFixed(2)}
+                Total: R$ {total.toFixed(2).replace(".", ",")}
               </Text>
             </GridItemWrapperInner>
           </GridItemWrapperCol>

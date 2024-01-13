@@ -182,7 +182,7 @@ const ShoppingListContext = createContext<ShoppingListContextType | undefined>(
 );
 
 const showToast = (message: string) => {
-  ToastAndroid.show(message, ToastAndroid.SHORT);
+  ToastAndroid.showWithGravity(message, ToastAndroid.LONG, ToastAndroid.TOP);
 };
 
 const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({

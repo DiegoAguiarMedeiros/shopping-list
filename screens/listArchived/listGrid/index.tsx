@@ -75,7 +75,7 @@ function ListGrid({ listId, listArrItems }: Readonly<ListProps>) {
                 align="right"
               >
                 Total: R${" "}
-                {total.toFixed(2)}
+                {total.toFixed(2).replace(".", ",")}
               </Text>
             </GridItemWrapperInner>
           </GridItemWrapperCol>
