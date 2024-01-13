@@ -16,25 +16,17 @@ export default function ListGrid({ items }: ItemProps) {
   const colorScheme = useColorScheme();
 
   return (
-    <Styled.Container background={Colors[colorScheme ?? "light"].backgroundPrimary}>
-      <Styled.ContainerList>
-        <Styled.ContainerListInner>
-          <Styled.ContainerListItemList>
-            <SafeAreaView>
-              <ScrollView>
-                <Styled.ContainerListItemListItem>
-                  {items.map((item: IList) => (
-                    <ListGridItem
-                      key={"ListGridItem-" + item.uuid}
-                      item={item}
-                    />
-                  ))}
-                </Styled.ContainerListItemListItem>
-              </ScrollView>
-            </SafeAreaView>
-          </Styled.ContainerListItemList>
-        </Styled.ContainerListInner>
-      </Styled.ContainerList>
-    </Styled.Container>
+    <SafeAreaView style={{ width: "100%" }}>
+      <ScrollView keyboardShouldPersistTaps="handled">
+        <Styled.ContainerListItemListItem>
+          {items.map((item: IList) => (
+            <ListGridItem
+              key={"ListGridItem-" + item.uuid}
+              item={item}
+            />
+          ))}
+        </Styled.ContainerListItemListItem>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

@@ -123,8 +123,8 @@ function ListGridItem({
     return height * 50 + 110;
   };
 
-  const heightsUp = [55, 32.2, 24.5, 19.5, 16.2];
-  const heights = [45, 67.8, 75.5, 80.5, 83.8];
+  const heightsUp = [54, 32.1, 24.5, 19.5, 16.2];
+  const heights = [46, 67.8, 75.5, 80.5, 83.8];
 
   return active === item.uuid ? (
     <GridItemInner

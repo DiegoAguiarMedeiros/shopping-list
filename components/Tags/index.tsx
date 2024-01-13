@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import {
   StyleSheet,
   Animated,
-  TouchableOpacity,
+  TouchableHighlight,
   useColorScheme,
   SafeAreaView,
   ScrollView,
@@ -53,7 +53,7 @@ const Tags = ({ tags, isVisible, addTag }: TagsProps) => {
     >
       <Styled.TagsInner>
         <SafeAreaView>
-          <ScrollView>
+          <ScrollView keyboardShouldPersistTaps="handled">
             {tags?.map((tag) => (
               <Styled.TagsItem
                 onPress={() => handleAddTag(tag?.name)}

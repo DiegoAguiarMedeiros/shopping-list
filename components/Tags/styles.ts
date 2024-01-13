@@ -24,7 +24,7 @@ export const TagsInner = styled.View`
   height: auto;
   max-height : 170px;
 `;
-export const TagsItem = styled.TouchableOpacity<{
+export const TagsItem = styled.TouchableHighlight<{
   background: string;
 }>`
   justify-content: center;

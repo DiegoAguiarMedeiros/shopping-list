@@ -47,7 +47,7 @@ export default function AddPriceUnit({
           )}
         </GridItemWrapperRow>
         <GridItemWrapperRow height={100} maxHeight={40}>
-          <GridItemWrapperInner width={85} height={100}>
+          <GridItemWrapperInner width={88} height={100}>
             <InputText
               radius
               placeholder="Valor"

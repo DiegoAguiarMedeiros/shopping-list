@@ -71,7 +71,7 @@ export const ContainerItemTextQtd = styled.Text<{
   padding: 0px 10px;
   margin-bottom: 2px;
 `;
-export const ContainerItemBottomButtonTouchableOpacity = styled.TouchableOpacity<{
+export const ContainerItemBottomButtonTouchableHighlight = styled.TouchableHighlight<{
   text: string;
 }>`
   flex: 1;

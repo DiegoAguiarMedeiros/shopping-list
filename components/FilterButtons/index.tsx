@@ -32,8 +32,10 @@ const FilterButtons = ({ tags, filter, setFilter }: FilterButtonsProps) => {
       }
 
     };
+
     return (
-      <Styled.ButtonContainer>
+
+      tag.name !== "" ? <Styled.ButtonContainer >
         <Button
           onPress={handlePress}
           border={
@@ -53,7 +55,7 @@ const FilterButtons = ({ tags, filter, setFilter }: FilterButtonsProps) => {
           }
           text={tag.name}
         />
-      </Styled.ButtonContainer>
+      </Styled.ButtonContainer > : <></>
     );
   };
 

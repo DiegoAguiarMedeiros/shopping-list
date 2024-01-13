@@ -25,6 +25,8 @@ import getTotalAmountByListUuidController from "../../../../../Domain/UseCases/L
 import getTotalQuantityWithoutAmountByListUuidController from "../../../../../Domain/UseCases/List/GetTotalQuantityWithoutAmountByListUuid";
 import getTotalQuantityAmountByListUuidController from "../../../../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
 import deleteListByUuidController from "../../../../../Domain/UseCases/ListArchived/DeleteListByUuid";
+import GridItem from "../../../../../components/GridItem";
+import { GridItemInner, GridItemWrapperCol, GridItemWrapperInner } from "../../../../../components/GridItemInner";
 
 interface ItemProps {
   item: IList;
@@ -101,50 +103,53 @@ export default function ListGridItem({ item }: ItemProps) {
   );
 
   return (
-    <Swipeable renderRightActions={RightSwipe} rightThreshold={50}>
-      <Styled.ContainerListItem
-        underlayColor={Colors[colorScheme ?? "light"].itemListItemOpenBackgroundUnderlay}
-        background={Colors[colorScheme ?? "light"].backgroundSecondary}
+    <GridItem
+      renderRightActions={RightSwipe} rightThreshold={50} leftThreshold={undefined}>
+      <GridItemInner
+        underlayColor={Colors[colorScheme ?? "light"].itemListBackgroundUnderlay}
         borderColor={
-          Colors[colorScheme ?? "light"].backgroundSecondary
+          Colors[colorScheme ?? "light"].itemListBackgroundBorder
         }
+        background={Colors[colorScheme ?? "light"].itemListBackground}
+        height={60}
+        row
         onPress={handleOpenList}
       >
-        <Styled.ContainerListItemInner>
-          <Styled.ContainerListItemHead>
-            <Styled.ContainerItemTitle>
+        <>
+          <GridItemWrapperCol width={85} height={100} >
+            <GridItemWrapperInner height={100}>
               <Title2
-                color={Colors[colorScheme ?? "light"].text}
+                color={Colors[colorScheme ?? "light"].itemListText}
               >
                 {item.name}
               </Title2>
-            </Styled.ContainerItemTitle>
-            <Styled.ContainerListItemBody>
               <Text
-                color={Colors[colorScheme ?? "light"].textSecondary}
+                color={Colors[colorScheme ?? "light"].itemListTextSecondary}
               >
                 Total: R$ {total.toFixed(2).replace(".", ",")}
               </Text>
-            </Styled.ContainerListItemBody>
-          </Styled.ContainerListItemHead>
-          <Styled.ContainerItemCircleProgress>
-            <CircleProgress
-              activeStrokeColor={
-                Colors[colorScheme ?? "light"]
-                  .circularItemFilled
-              }
-              titleColor={Colors[colorScheme ?? "light"].circularItemText}
-              circleBackgroundColor={
-                Colors[colorScheme ?? "light"].circularItemBackground
-              }
-              filled={totalWithAmount}
-              progress={totalUn && totalWithAmount ? totalWithAmount : 0}
-              total={totalUn}
-              size={22}
-            />
-          </Styled.ContainerItemCircleProgress>
-        </Styled.ContainerListItemInner>
-      </Styled.ContainerListItem>
-    </Swipeable>
+            </GridItemWrapperInner>
+          </GridItemWrapperCol>
+          <GridItemWrapperCol width={15} height={100} >
+            <GridItemWrapperInner height={100}>
+              <CircleProgress
+                activeStrokeColor={
+                  Colors[colorScheme ?? "light"]
+                    .circularItemFilled
+                }
+                titleColor={Colors[colorScheme ?? "light"].circularItemText}
+                circleBackgroundColor={
+                  Colors[colorScheme ?? "light"].circularItemBackground
+                }
+                filled={totalWithAmount}
+                progress={totalUn && totalWithAmount ? totalWithAmount : 0}
+                total={totalUn}
+                size={22}
+              />
+            </GridItemWrapperInner>
+          </GridItemWrapperCol>
+        </>
+      </GridItemInner>
+    </GridItem>
   );
 }

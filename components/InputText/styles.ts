@@ -14,8 +14,8 @@ export const Input = styled.TextInput<{
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: ${(props: { radius: boolean }) =>
     props.radius ? "10px" : "0px"};
-  padding: 10px;
-  font-size: 14px;
+  padding: 10px 15px;
+  font-size: 16px;
   width: 100%;
   height: 100%;
 `;

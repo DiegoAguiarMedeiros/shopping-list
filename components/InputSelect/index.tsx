@@ -18,11 +18,10 @@ const Select = ({ items, selectedValue, onValueChange }: SelectProps) => {
         <Styled.Container>
             <Styled.Select
                 background={Colors[colorScheme ?? "light"].backgroundPrimary}
-                color={Colors[colorScheme ?? "light"].textSecondary}
+                color={Colors[colorScheme ?? "light"].text}
                 selectedValue={selectedValue}
                 onValueChange={(itemValue, index) => onValueChange(itemValue as string, index)}
                 dropdownIconColor={Colors[colorScheme ?? "light"].primary}
-                itemStyle={{ backgroundColor: "#0f0", color: "blue", fontFamily: "Ebrima", fontSize: 17 }}
             >
                 {items.map((item, index) => (
                     <Picker.Item key={`Picker.Item.${item.uuid}`} label={item.name} value={item.uuid} />

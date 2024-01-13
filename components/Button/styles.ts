@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components/native";
 
-export const Button = styled.TouchableOpacity<{
+export const Button = styled.TouchableHighlight<{
   border: string;
   background: string;
   height: string;

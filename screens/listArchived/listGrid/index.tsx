@@ -44,7 +44,7 @@ function ListGrid({ listId, listArrItems }: Readonly<ListProps>) {
         <GridItemWrapperRow height={95} >
 
           <SafeAreaView style={{ width: "100%" }}>
-            <ScrollView style={[{ height: "100%" }]} nestedScrollEnabled>
+            <ScrollView keyboardShouldPersistTaps="handled"  style={[{ height: "100%" }]} nestedScrollEnabled>
               {listArrItems.map((item: IProduct) => (
                 <ListGridItem
                   key={"ListGridItem-" + item.uuid}

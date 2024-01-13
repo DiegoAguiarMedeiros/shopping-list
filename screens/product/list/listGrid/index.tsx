@@ -21,7 +21,7 @@ export default function ListGrid({
   return (
 
     <SafeAreaView style={{ width: "100%" }}>
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps="handled">
         {items.map((item: IProduct) => (
           <ListGridItem
             handleCloseBottomSheet={handleCloseBottomSheet}

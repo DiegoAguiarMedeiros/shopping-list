@@ -1,5 +1,9 @@
 import * as Styled from "./styles";
 
+
+type alignType = "flex-start" | "flex-end" | "center" | "space-between" | "space-around" | "space-evenly";
+
+
 interface GridItemInnerProps {
     background?: string;
     borderColor?: string;
@@ -28,13 +32,13 @@ interface GridItemWrapperRowProps {
     children: React.ReactNode;
     height?: number;
     maxHeight?: number;
-    justify?: "flex-start" | "flex-end" | "center" | "space-between" | "space-around" | "space-evenly";
+    justify?: alignType;
 }
 interface GridItemWrapperColProps {
     children: React.ReactNode;
     width: number;
     height?: number;
-    justify?: "flex-start" | "flex-end" | "center" | "space-between" | "space-around" | "space-evenly";
+    justify?: alignType;
 }
 
 export const GridItemWrapperRow = ({ children, height, maxHeight, justify }: GridItemWrapperRowProps) => {
@@ -56,8 +60,8 @@ interface GridItemWrapperInnerProps {
     children: React.ReactNode;
     width?: number;
     height?: number;
-    justify?: "flex-start" | "flex-end" | "center" | "space-between" | "space-around" | "space-evenly";
-    align?: "flex-start" | "flex-end" | "center" | "space-between" | "space-around" | "space-evenly";
+    justify?: alignType;
+    align?: alignType;
 }
 
 

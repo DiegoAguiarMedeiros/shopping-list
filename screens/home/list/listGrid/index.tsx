@@ -20,7 +20,7 @@ export default function ListGrid({
 
   return (
     <SafeAreaView style={{ width: "100%" }}>
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps="handled">
         <Styled.ContainerListItemListItem>
           {items.map((item: IList) => (
             <ListGridItem

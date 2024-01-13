@@ -21,7 +21,7 @@ import {
 
 const Stack = createStackNavigator();
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { StatusBar, Text, TextInput, TouchableOpacity, View, useColorScheme } from "react-native";
+import { StatusBar, Text, TextInput, TouchableHighlight, View, useColorScheme } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
@@ -199,13 +199,13 @@ function RootLayoutNav() {
       name: <HeaderInputTextSearch style={{ marginLeft: -16 }} placeholder="Buscar..." onChangeText={(item) =>
         setSearch(item)
       } />,
-      right: <TouchableOpacity style={{ marginRight: 20 }} onPress={() => clearHeaderProduct()}>
+      right: <TouchableHighlight style={{ marginRight: 20 }} onPress={() => clearHeaderProduct()}>
         <FontAwesome
           name="times"
           size={25}
           color={Colors[colorScheme ?? "light"].white}
         />
-      </TouchableOpacity>,
+      </TouchableHighlight>,
     })
 
   }
@@ -217,13 +217,13 @@ function RootLayoutNav() {
       name: <Title color={Colors[colorScheme ?? "light"].white}>
         Produtos
       </Title>,
-      right: <TouchableOpacity style={{ marginLeft: 20, marginRight: 20 }} onPress={() => handleShowSearchInput()}>
+      right: <TouchableHighlight style={{ marginLeft: 20, marginRight: 20 }} onPress={() => handleShowSearchInput()}>
         <FontAwesome
           name="search"
           size={25}
           color={Colors[colorScheme ?? "light"].white}
         />
-      </TouchableOpacity>,
+      </TouchableHighlight>,
     })
   }
 
@@ -263,13 +263,13 @@ function RootLayoutNav() {
         name: <Title color={Colors[colorScheme ?? "light"].white}>
           Produtos
         </Title>,
-        right: <TouchableOpacity style={{ marginLeft: 20, marginRight: 20 }} onPress={() => handleShowSearchInput()}>
+        right: <TouchableHighlight style={{ marginLeft: 20, marginRight: 20 }} onPress={() => handleShowSearchInput()}>
           <FontAwesome
             name="search"
             size={25}
             color={Colors[colorScheme ?? "light"].white}
           />
-        </TouchableOpacity>,
+        </TouchableHighlight>,
       })
       setBottomSheetProps({
         ...bottomSheetProps,

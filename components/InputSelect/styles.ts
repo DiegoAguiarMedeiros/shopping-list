@@ -14,8 +14,6 @@ export const Select = styled(Picker) <{
   color: string;
 }>`
   background: ${(props: { background: string }) => props.background};
-  background: #0f0;
-  
   color: ${(props: { color: string }) => props.color};
   border: 1px solid ${(props: { background: string }) => props.background};
   border-radius: 10px;

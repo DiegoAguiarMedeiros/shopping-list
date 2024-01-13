@@ -1,10 +1,10 @@
 import React from "react";
-import { TouchableOpacityProps, useColorScheme } from "react-native";
+import { TouchableHighlightProps, useColorScheme } from "react-native";
 import Colors from "../../constants/Colors";
 import * as Styled from "./styles";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Text } from "../Text/";
-export interface ButtonProps extends TouchableOpacityProps {
+export interface ButtonProps extends TouchableHighlightProps {
   text?: string;
   textColor?: string;
   background: string;
@@ -820,17 +820,19 @@ const Button: React.FC<ButtonProps> = ({
       background={background}
       height={text === undefined ? "100%" : "35px"}
     >
-      {icon !== undefined ? (
-        <FontAwesome
-          size={20}
-          style={{ marginBottom: -3, marginRight: 10 }}
-          name={icon}
-          color={textColor ?? Colors[colorScheme ?? "light"].white}
-        />
-      ) : null}
-      {text !== undefined ? (
-        <Text color={textColor ?? Colors[colorScheme ?? "light"].white} align="center">{text}</Text>
-      ) : null}
+      <>
+        {icon !== undefined ? (
+          <FontAwesome
+            size={20}
+            style={{ marginBottom: -3, marginRight: 10 }}
+            name={icon}
+            color={textColor ?? Colors[colorScheme ?? "light"].white}
+          />
+        ) : null}
+        {text !== undefined ? (
+          <Text color={textColor ?? Colors[colorScheme ?? "light"].white} align="center">{text}</Text>
+        ) : null}
+      </>
     </Styled.Button>
   );
 };

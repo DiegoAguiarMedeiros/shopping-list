@@ -7,7 +7,7 @@ export const Container = styled.View`
   align-items: center;
 `;
 
-export const ButtonContainer = styled.TouchableOpacity`
+export const ButtonContainer = styled.TouchableHighlight`
     padding:0 5px;
     margin: 0 5px;
 `;

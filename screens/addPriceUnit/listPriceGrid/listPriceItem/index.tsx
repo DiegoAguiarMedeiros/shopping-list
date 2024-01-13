@@ -1,4 +1,4 @@
-import { useColorScheme } from "react-native";
+import { Keyboard, useColorScheme } from "react-native";
 import Colors from "../../../../constants/Colors";
 import * as Styled from "./styles";
 import { useEffect, useState } from "react";
@@ -52,6 +52,7 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
 
   const deleteAmountInList = (): void => {
     handleDeleteAmountInList(itemAmount.uuid);
+    Keyboard.dismiss();
   };
 
 

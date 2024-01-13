@@ -1,7 +1,7 @@
 import { Dimensions } from 'react-native';
 import styled, { css } from 'styled-components/native';
 
-export const Button = styled.TouchableOpacity<{
+export const Button = styled.TouchableHighlight<{
   border: string,
   background: string,
   invertSide: boolean,

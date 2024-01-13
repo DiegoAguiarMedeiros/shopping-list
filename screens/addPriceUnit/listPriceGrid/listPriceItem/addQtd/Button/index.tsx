@@ -1,10 +1,10 @@
 import React from "react";
-import { TouchableOpacityProps, useColorScheme } from "react-native";
+import { TouchableHighlightProps, useColorScheme } from "react-native";
 import Colors from "../../../../../../constants/Colors";
 import * as Styled from "./styles";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-interface ButtonProps extends TouchableOpacityProps {
+interface ButtonProps extends TouchableHighlightProps {
   invertSide?: boolean;
   icon?: "minus" | "plus";
 }

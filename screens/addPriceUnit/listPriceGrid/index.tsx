@@ -12,7 +12,7 @@ export default function ListPriceGrid({ item }: Readonly<ListProps>) {
 
   return (
     <SafeAreaView style={{ width: "100%" }}>
-      <ScrollView nestedScrollEnabled>
+      <ScrollView keyboardShouldPersistTaps="handled" nestedScrollEnabled>
         {item.map((itemAmount: IAmount) => {
           return itemAmount ? (
             <ListPriceItem

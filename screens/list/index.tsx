@@ -1,4 +1,4 @@
-import { TouchableOpacity, useColorScheme } from "react-native";
+import { TouchableHighlight, useColorScheme } from "react-native";
 import Colors from "../../constants/Colors";
 import * as Styled from "./styles";
 import React, { useEffect, useState } from "react";
@@ -80,13 +80,13 @@ export default function List({
   }
   const attHeader = (amount: number, un: number) => {
     setActiveRouteHeader({
-      left: <TouchableOpacity style={{ marginLeft: 20, marginRight: 10 }} onPress={() => returnToHome()}>
+      left: <TouchableHighlight style={{ marginLeft: 20, marginRight: 10 }} onPress={() => returnToHome()}>
         <FontAwesome
           name="angle-left"
           size={35}
           color={Colors[colorScheme ?? "light"].white}
         />
-      </TouchableOpacity>,
+      </TouchableHighlight>,
       name: <Title color={Colors[colorScheme ?? "light"].white}>
         {selectedItem?.name!}
       </Title>,

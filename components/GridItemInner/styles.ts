@@ -15,7 +15,7 @@ export const Item = styled.TouchableHighlight<{
   width: 100%;
   display: flex;
   flex-direction: ${(props: { row: boolean }) => props.row ? "row" : "col"};
-  padding: ${(props: { noPadding: boolean }) => props.noPadding ? "0px" : "5px;"}; 
+  padding: ${(props: { noPadding: boolean }) => props.noPadding ? "0px" : "5px 10px;"}; 
   border: 1px solid ${(props: { borderColor: string }) => props.borderColor};
 `;
 export const Wrapper = styled.View<{

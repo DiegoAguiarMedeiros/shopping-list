@@ -5,7 +5,7 @@ export const Container = styled.View`
   width: 100%;
 `;
 
-export const ButtonContainer = styled.TouchableOpacity`
+export const ButtonContainer = styled.TouchableHighlight`
     padding:0;
     margin: 0;
 `;

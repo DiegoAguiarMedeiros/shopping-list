@@ -19,7 +19,7 @@ import getTotalAmountByListProductUuidController from "../../../Domain/UseCases/
 import getTotalQuantityWithoutAmountByListUuidController from "../../../Domain/UseCases/List/GetTotalQuantityWithoutAmountByListUuid";
 import Container from "../../../components/Container";
 import ContainerInner from "../../../components/ContainerInner";
-import { GridItemWrapperCol, GridItemWrapperRow } from "../../../components/GridItemInner";
+import { GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../components/GridItemInner";
 interface ListProps {
   listId: string;
   listArrItems: IProduct[];
@@ -32,6 +32,7 @@ function ListGrid({
   const { list } = useShoppingListContext();
 
   const [active, setActive] = useState("");
+  const [activeHeight, setActiveHeight] = useState(90);
 
 
   const colorScheme = useColorScheme();
@@ -42,9 +43,11 @@ function ListGrid({
 
   const handleOpen = (uuid: string) => {
     setActive(uuid);
+    setActiveHeight(82)
   };
   const handleClose = () => {
     setActive("");
+    setActiveHeight(90)
   };
 
   return (
@@ -54,9 +57,9 @@ function ListGrid({
 
 
       <ContainerInner>
-        <GridItemWrapperRow height={88} >
+        <GridItemWrapperRow height={activeHeight} >
           <SafeAreaView style={{ flex: 1, width: "100%" }}>
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }} nestedScrollEnabled>
+            <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ flexGrow: 1 }} nestedScrollEnabled>
               {listArrItems.map((item: IProduct) => (
                 <ListGridItem
                   key={"ListGridItem-" + item.uuid}
@@ -70,33 +73,24 @@ function ListGrid({
             </ScrollView>
           </SafeAreaView>
         </GridItemWrapperRow>
-        <GridItemWrapperRow height={4} >
-          <Styled.ContainerItemTotalUnitText
-            text={Colors[colorScheme ?? "light"].backgroundSecondary}
-          >
+        <GridItemWrapperRow height={10}>
+          <GridItemWrapperInner width={50} height={100} justify="flex-start">
+
+
             <Text
-              color={
-                colorScheme !== "dark"
-                  ? Colors[colorScheme ?? "light"].black
-                  : Colors[colorScheme ?? "light"].white
-              }
+              color={Colors[colorScheme ?? "light"].text}
             >
               Total Items: {totalQuantity}
             </Text>
-          </Styled.ContainerItemTotalUnitText>
-          <Styled.ContainerItemTotalText
-            text={Colors[colorScheme ?? "light"].backgroundPrimary}
-          >
+          </GridItemWrapperInner>
+          <GridItemWrapperInner width={50} height={100} justify="flex-start">
             <Text
-              color={
-                colorScheme !== "dark"
-                  ? Colors[colorScheme ?? "light"].black
-                  : Colors[colorScheme ?? "light"].white
-              }
+              color={Colors[colorScheme ?? "light"].text}
+              align="right"
             >
               Total: R$ {total.toFixed(2).replace(".", ",")}
             </Text>
-          </Styled.ContainerItemTotalText>
+          </GridItemWrapperInner>
         </GridItemWrapperRow>
       </ContainerInner>
     </Container>

@@ -18,7 +18,7 @@ export const ContainerQtd = styled.View`
     
 `;
 
-export const Button = styled.TouchableOpacity<{
+export const Button = styled.TouchableHighlight<{
     border: string,
     background: string,
 }>`

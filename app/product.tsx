@@ -4,7 +4,7 @@ import { Text, Title } from "../components/Text";
 import Product from "../screens/product";
 import { BottomSheetProps } from "../components/BottomSheet";
 import { useEffect, useState } from "react";
-import { Dimensions, TouchableOpacity, useColorScheme } from "react-native";
+import { Dimensions, TouchableHighlight, useColorScheme } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import InputText from "../components/InputText";
