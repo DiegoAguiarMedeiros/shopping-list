@@ -181,14 +181,15 @@ export default function ListGridItem({
       renderRightActions={LeftSwipe}
       leftThreshold={100} rightThreshold={undefined}>
       <GridItemInner
-        underlayColor={Colors[colorScheme ?? "light"].backgroundTertiary}
+        underlayColor={Colors[colorScheme ?? "light"].itemListBackgroundUnderlay}
         borderColor={
-          Colors[colorScheme ?? "light"].backgroundSecondary
+          Colors[colorScheme ?? "light"].itemListBackgroundBorder
         }
-        background={Colors[colorScheme ?? "light"].backgroundSecondary}
+        background={Colors[colorScheme ?? "light"].itemListBackground}
         height={60}
         row
         onPress={handleOpenList}
+        elevation={colorScheme === "light"}
       >
         <>
           <GridItemWrapperCol width={70} height={100} >
@@ -204,6 +205,7 @@ export default function ListGridItem({
             <GridItemWrapperInner height={100}>
               <SubTitle
                 color={Colors[colorScheme ?? "light"].textSecondary}
+                align="right"
               >
                 Produtos: {getNumberOfProductsByTagsUuidController.handle(item.uuid)}
               </SubTitle>

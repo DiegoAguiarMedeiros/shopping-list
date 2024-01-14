@@ -14,10 +14,12 @@ interface GridItemInnerProps {
     noMargin?: boolean;
     noPadding?: boolean;
     onPress?: () => void;
+    elevation?: boolean;
 }
 
-export const GridItemInner = ({ background, borderColor, underlayColor, children, height, row, noPadding, noMargin, onPress }: GridItemInnerProps) => {
+export const GridItemInner = ({ background, borderColor, underlayColor, children, height, row, noPadding, noMargin, onPress, elevation }: GridItemInnerProps) => {
     return (<Styled.Item
+        elevation={elevation ? 3 : 0}
         background={background ?? "transparent"}
         borderColor={borderColor ?? "transparent"}
         underlayColor={underlayColor ?? "transparent"}

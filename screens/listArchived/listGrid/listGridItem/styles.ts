@@ -98,7 +98,7 @@ export const ContainerItemTextPriceTotalLine = styled.View<{
   border: string;
 }>` 
   border:1px solid ${(props: { border: any }) => props.border};
-  width: 80%;
+  width: 100%;
   height: 1px;
 `;
 export const ButtonView = styled.View`

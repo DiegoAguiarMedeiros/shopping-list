@@ -182,7 +182,11 @@ const ShoppingListContext = createContext<ShoppingListContextType | undefined>(
 );
 
 const showToast = (message: string) => {
-  ToastAndroid.showWithGravity(message, ToastAndroid.LONG, ToastAndroid.TOP);
+  ToastAndroid.showWithGravity(
+    message,
+    ToastAndroid.LONG,
+    ToastAndroid.CENTER,
+  );
 };
 
 const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
@@ -198,7 +202,6 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     useState<IProduct[]>([]);
   const [listAmountArchived, setListAmountArchived] =
     useState<IAmount[]>([]);
-
 
 
 
@@ -399,13 +402,13 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   };
 
 
-  const handleDeleteList = (listUuid: string) => {
+  const handleDeleteList = (listUuid: string, showToastOnScreen = true) => {
     const updatedList: IList[] = JSON.parse(JSON.stringify(list));
     const newupdatedList = updatedList.filter(i => listUuid !== i.uuid)
     deleteList(listUuid);
     setList(newupdatedList);
 
-    showToast("Lista removida com sucesso!");
+    if (showToastOnScreen) { showToast("Lista removida com sucesso!") };
   };
 
   const handleDeleteProduct = (productUuid: string) => {
@@ -438,7 +441,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     const archivedList: IList[] = JSON.parse(JSON.stringify(list));
     const selectedItem = archivedList.find((i) => i.uuid === listUuid);
     if (selectedItem) {
-      handleDeleteList(listUuid);
+      handleDeleteList(listUuid, false);
       saveNewListArchived(selectedItem)
 
       const newList = listArchived ? [selectedItem, ...listArchived] : [selectedItem];

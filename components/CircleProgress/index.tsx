@@ -26,7 +26,7 @@ const CircleProgress = ({
   titleColor,
 }: CircleProgressProps) => {
   const getTitleFontSize = (): number => {
-    if (total < 10) return 14;
+    if (total < 10) return 12;
     if (total < 100) return 9;
     return 7;
   };

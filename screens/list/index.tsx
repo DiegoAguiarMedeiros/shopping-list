@@ -80,7 +80,7 @@ export default function List({
   }
   const attHeader = (amount: number, un: number) => {
     setActiveRouteHeader({
-      left: <TouchableHighlight style={{ marginLeft: 20, marginRight: 10 }} onPress={() => returnToHome()}>
+      left: <TouchableHighlight underlayColor={Colors[colorScheme ?? "light"].primary} style={{ marginLeft: 20, marginRight: 10 }} onPress={() => returnToHome()}>
         <FontAwesome
           name="angle-left"
           size={35}

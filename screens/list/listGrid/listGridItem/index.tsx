@@ -134,6 +134,7 @@ function ListGridItem({
       background={Colors[colorScheme ?? "light"].itemListItemOpenBackground}
       height={calcHeight(listArrItems.length)}
       row
+      elevation={colorScheme === "light"}
     >
       <GridItemWrapperCol width={100} justify="flex-end">
         <GridItemWrapperRow height={heightsUp[listArrItems.length >= 4 ? 4 : listArrItems.length]} justify="flex-end">
@@ -187,6 +188,7 @@ function ListGridItem({
           <GridItemWrapperInner width={10} height={100}>
             <Title
               color={Colors[colorScheme ?? "light"].text}
+              align="right"
             >
               <FontAwesome
                 onPress={() => handleClose()}
@@ -211,13 +213,14 @@ function ListGridItem({
       leftThreshold={undefined} rightThreshold={100}>
       <GridItemInner
         onPress={() => handleOpen(item.uuid)}
-        underlayColor={Colors[colorScheme ?? "light"].backgroundSecondary}
+        underlayColor={Colors[colorScheme ?? "light"].itemListBackgroundUnderlay}
         borderColor={
-          Colors[colorScheme ?? "light"].backgroundSecondary
+          Colors[colorScheme ?? "light"].itemListBackgroundBorder
         }
-        background={Colors[colorScheme ?? "light"].backgroundSecondary}
+        background={Colors[colorScheme ?? "light"].itemListBackground}
         height={60}
         row
+        elevation={colorScheme === "light"}
       >
         <GridItemWrapperRow height={100} justify="flex-end">
           <GridItemWrapperInner width={10} height={100}>
@@ -270,6 +273,7 @@ function ListGridItem({
           <GridItemWrapperInner width={10} height={100}>
             <Title
               color={Colors[colorScheme ?? "light"].text}
+              align="right"
             >
               <FontAwesome
                 onPress={() => handleOpen(item.uuid)}

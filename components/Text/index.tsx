@@ -8,28 +8,30 @@ interface TextProps {
   align?: "center" | "end" | "justify" | "left" | "right" | "start";
 }
 
-const Title: React.FC<TextProps> = ({ children, color }) => {
-  const colorScheme = useColorScheme();
+const Title: React.FC<TextProps> = ({ children, color, align }: TextProps) => {
+
   return (
     <Styled.Title
+      align={align ?? "left"}
       color={color}
     >
       {children}
     </Styled.Title>
   );
 };
-const Title2: React.FC<TextProps> = ({ children, color }) => {
-  const colorScheme = useColorScheme();
+const Title2: React.FC<TextProps> = ({ children, color, align }: TextProps) => {
+
   return (
     <Styled.Title2
+      align={align ?? "left"}
       color={color}
     >
       {children}
     </Styled.Title2>
   );
 };
-const SubTitle: React.FC<TextProps> = ({ children, color, align }) => {
-  const colorScheme = useColorScheme();
+const SubTitle: React.FC<TextProps> = ({ children, color, align }: TextProps) => {
+
   return (
     <Styled.SubTitle
       color={color}
@@ -39,8 +41,8 @@ const SubTitle: React.FC<TextProps> = ({ children, color, align }) => {
     </Styled.SubTitle>
   );
 };
-const Text: React.FC<TextProps> = ({ children, color, align }) => {
-  const colorScheme = useColorScheme();
+const Text: React.FC<TextProps> = ({ children, color, align }: TextProps) => {
+
   return (
     <Styled.Text
       color={color}

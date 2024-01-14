@@ -171,13 +171,15 @@ function ListGridItem({
       renderRightActions={LeftSwipe}
       leftThreshold={100} rightThreshold={undefined}>
       <GridItemInner
-        underlayColor={Colors[colorScheme ?? "light"].backgroundTertiary}
+        underlayColor={Colors[colorScheme ?? "light"].itemListBackgroundUnderlay}
         borderColor={
-          Colors[colorScheme ?? "light"].backgroundSecondary
+          Colors[colorScheme ?? "light"].itemListBackgroundBorder
         }
-        background={Colors[colorScheme ?? "light"].backgroundSecondary}
+        background={Colors[colorScheme ?? "light"].itemListBackground}
         height={60}
         row
+
+        elevation={colorScheme === "light"}
       >
         <GridItemWrapperRow height={100} >
           <GridItemWrapperInner height={100}>

@@ -32,8 +32,11 @@ export default function AveragePrice({
         <>
             <Text
                 color={Colors[colorScheme ?? "light"].textSecondary}
+                align="right"
             >Preço médio</Text>
             <Text
+
+                align="right"
                 color={Colors[colorScheme ?? "light"].itemProductListAveragePrice}
             >R$ {calculateAveragePrice(price).toFixed(2).replace(".", ",")}</Text>
         </>

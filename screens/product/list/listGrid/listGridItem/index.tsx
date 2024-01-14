@@ -167,16 +167,17 @@ export default function ListGridItem({
       renderRightActions={LeftSwipe}
       leftThreshold={100} rightThreshold={undefined}>
       <GridItemInner
-        underlayColor={Colors[colorScheme ?? "light"].backgroundSecondary}
+        underlayColor={Colors[colorScheme ?? "light"].itemListBackgroundUnderlay}
         borderColor={
-          Colors[colorScheme ?? "light"].backgroundSecondary
+          Colors[colorScheme ?? "light"].itemListBackgroundBorder
         }
-        background={Colors[colorScheme ?? "light"].backgroundSecondary}
-        height={lastPrice.length > 0 ? 100 : 60}
+        background={Colors[colorScheme ?? "light"].itemListBackground}
+        height={lastPrice.length > 0 ? 110 : 60}
         row={false}
+        elevation={colorScheme === "light"}
       >
         <>
-          <GridItemWrapperRow height={lastPrice.length > 0 ? 30 : 100} >
+          <GridItemWrapperRow height={lastPrice.length > 0 ? 35 : 100} >
             <GridItemWrapperInner height={100}>
               <Title2
                 color={Colors[colorScheme ?? "light"].text}
@@ -193,7 +194,7 @@ export default function ListGridItem({
               <LastPrices lastPrices={lastPrice.map(price => ((price.price.toFixed(2))))} />
 
             </GridItemWrapperInner> : <></>}
-            {lastPrice.length > 0 ? <GridItemWrapperInner width={30} height={100}>
+            {lastPrice.length > 0 ? <GridItemWrapperInner width={30} height={100} justify="flex-start" >
 
               <AveragePrice
                 price={lastPrice}

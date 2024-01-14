@@ -95,7 +95,7 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
             size={28}
             style={{ marginBottom: -3 }}
             name={"trash"}
-            color={Colors[colorScheme ?? "light"].white}
+            color={Colors[colorScheme ?? "light"].itemListItemOpenTrashIcon}
             onPress={deleteAmountInList}
           />
         </GridItemWrapperInner>

@@ -8,6 +8,7 @@ export interface ContainerProps {
   height?: string;
   radius?: boolean;
   noPadding?: boolean;
+  elevation?: boolean;
 }
 
 const Container: React.FC<ContainerProps> = ({
@@ -17,10 +18,11 @@ const Container: React.FC<ContainerProps> = ({
   radius,
   noPadding,
   height,
+  elevation,
   ...rest
 }) => {
   return (
-    <Styled.Container background={background ?? "transparent"} noPadding={noPadding ?? false} height={height ?? "100%"}>
+    <Styled.Container background={background ?? "transparent"} noPadding={noPadding ?? false} height={height ?? "100%"} elevation={elevation ? 24 : 0}>
       {children}
     </Styled.Container>
   );

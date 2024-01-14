@@ -76,7 +76,7 @@ export default function ProductsList({ tagUuid,
 
   useEffect(() => {
     setActiveRouteHeader({
-      left: <TouchableHighlight style={{ marginLeft: 20, marginRight: 10 }} onPress={() => returnToTags()}>
+      left: <TouchableHighlight underlayColor={Colors[colorScheme ?? "light"].primary} style={{ marginLeft: 20, marginRight: 10 }} onPress={() => returnToTags()}>
         <FontAwesome
           name="angle-left"
           size={35}

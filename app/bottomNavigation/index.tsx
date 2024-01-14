@@ -25,6 +25,7 @@ const BottomNavigation: React.FC<RoutesType> = ({
       }
       height="55px"
       noPadding
+      elevation={colorScheme === "light"}
     >
       <ContainerInner>
         <GridItemWrapperRow height={100} >

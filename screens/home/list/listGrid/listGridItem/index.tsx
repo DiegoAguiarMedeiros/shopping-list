@@ -273,6 +273,8 @@ export default function ListGridItem({
     );
   };
 
+  console.log("colorScheme", colorScheme)
+
   return (
     <GridItem
       renderRightActions={LeftSwipe}
@@ -287,6 +289,7 @@ export default function ListGridItem({
         height={60}
         row
         onPress={handleOpenList}
+        elevation={colorScheme === "light"}
       >
         <>
           <GridItemWrapperCol width={85} height={100} >
@@ -304,7 +307,7 @@ export default function ListGridItem({
             </GridItemWrapperInner>
           </GridItemWrapperCol>
           <GridItemWrapperCol width={15} height={100} >
-            <GridItemWrapperInner height={100}>
+            <GridItemWrapperInner height={100} align="flex-end">
               <CircleProgress
                 activeStrokeColor={
                   Colors[colorScheme ?? "light"]

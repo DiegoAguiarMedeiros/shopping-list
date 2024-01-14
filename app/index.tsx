@@ -28,7 +28,6 @@ import * as Font from "expo-font";
 import { FontAwesome } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 import { getOnboarding, setOnboarding } from "../utils/onboarding";
-
 import { Title } from "../components/Text";
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 import Home from "./home";

@@ -2,16 +2,20 @@ import styled from 'styled-components/native';
 
 export const Title = styled.Text<{
   color: string,
+  align: string,
 }>`
   color:${(props: { color: string; }) => props.color};
   font-size: 22px;
   width: 100%;
   font-weight: 800;
+  text-align:${(props: { align: string; }) => props.align};
 `;
 export const Title2 = styled.Text<{
   color: string,
+  align: string,
 }>`
   color:${(props: { color: string; }) => props.color};
+  text-align:${(props: { align: string; }) => props.align};
   font-size: 18px;
   width: 100%;
   font-weight: 500;

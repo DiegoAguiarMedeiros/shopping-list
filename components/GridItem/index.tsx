@@ -38,6 +38,7 @@ const GridItem: React.FC<GridItemProps> = ({
 }) => {
   return (
     <Swipeable
+      containerStyle={{ padding: 1 }}
       renderRightActions={renderRightActions ?? undefined}
       renderLeftActions={renderLeftActions ?? undefined}
       rightThreshold={rightThreshold ?? undefined}
