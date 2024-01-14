@@ -62,6 +62,7 @@ export default function List({
   const [tags, setTags] = useState(selectedItem?.tags ? ["Todos", ...selectedItem?.tags] : []);
   const [listArr, setListArr] = useState(selectedItem);
 
+
   const [listArrItems, setListArrItems] = useState(getListProductController.handle(selectedItem?.items ? selectedItem?.items : []));
 
   const totalQuantity = getTotalQuantityAmountByListUuidController.handle(listId);

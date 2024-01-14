@@ -273,8 +273,6 @@ export default function ListGridItem({
     );
   };
 
-  console.log("colorScheme", colorScheme)
-
   return (
     <GridItem
       renderRightActions={LeftSwipe}

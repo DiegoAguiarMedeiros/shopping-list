@@ -33,6 +33,7 @@ import deleteProductFromListByUuidController from "../../../../Domain/UseCases/L
 import getTagsController from "../../../../Domain/UseCases/ListProduct/GetTagsByProductUuidArray";
 import GridItem from "../../../../components/GridItem";
 import { GridItemInner, GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../../components/GridItemInner";
+import IAmount from "../../../../Domain/Model/IAmount";
 
 interface ListProps {
   item: IProduct;
@@ -126,6 +127,20 @@ function ListGridItem({
   const heightsUp = [54, 32.1, 24.5, 19.5, 16.2];
   const heights = [46, 67.8, 75.5, 80.5, 83.8];
 
+  const showUnitFromAmount = (amounts: IAmount[]): string => {
+    let checkUnit: boolean = true;
+    let unit: string = ""
+    let quantity: Number = 0
+    amounts.forEach(amount => {
+      if (checkUnit) unit = amount.type ? "Kg" : "Un";
+      if (!amount.type) checkUnit = false;
+      quantity = Number(quantity) + Number(amount.quantity);
+    })
+    if (unit === "Un") return `${unit}: ${quantity.toFixed(0)}`
+    return `${unit}: ${quantity.toFixed(3)}`
+  }
+
+
   return active === item.uuid ? (
     <GridItemInner
       underlayColor={Colors[colorScheme ?? "light"].itemListItemOpenBackgroundUnderlay}
@@ -178,7 +193,7 @@ function ListGridItem({
                   <Text
                     color={Colors[colorScheme ?? "light"].itemListItemOpenTextSecondary}
                   >
-                    Un: {listArrItems.length === 0 ? listArrItems.length : quantity}
+                    {showUnitFromAmount(listArrItems)}
                   </Text>
                 </GridItemWrapperInner>
               </GridItemWrapperRow>
@@ -263,7 +278,7 @@ function ListGridItem({
                   <Text
                     color={Colors[colorScheme ?? "light"].textSecondary}
                   >
-                    Un: {listArrItems.length === 0 ? listArrItems.length : quantity}
+                    {showUnitFromAmount(listArrItems)}
                   </Text>
                 </GridItemWrapperInner>
               </GridItemWrapperRow>
