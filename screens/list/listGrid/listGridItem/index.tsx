@@ -34,6 +34,7 @@ import getTagsController from "../../../../Domain/UseCases/ListProduct/GetTagsBy
 import GridItem from "../../../../components/GridItem";
 import { GridItemInner, GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../../components/GridItemInner";
 import IAmount from "../../../../Domain/Model/IAmount";
+import GridItemNoSwipeable from "../../../../components/GridItemNoSwipeable";
 
 interface ListProps {
   item: IProduct;
@@ -88,7 +89,7 @@ function ListGridItem({
           <Styled.ButtonInner
             underlayColor={
               Colors[colorScheme ?? "light"]
-                .swipeIcon
+                .swipeIconUnderlay
             }
             onPress={handleDelete}
           >
@@ -116,7 +117,7 @@ function ListGridItem({
 
   const calcHeight = (height: number): number => {
     if (height === 0) {
-      return 1 * 40 + 60;
+      return 1 * 45 + 70;
     }
     if (height > 4) {
       return 310;
@@ -124,12 +125,11 @@ function ListGridItem({
     return height * 50 + 110;
   };
 
-  const heightsUp = [54, 32.1, 24.5, 19.5, 16.2];
-  const heights = [46, 67.8, 75.5, 80.5, 83.8];
+  const heights = [46.99, 64.3, 73.75, 79.3, 82.95];
 
   const showUnitFromAmount = (amounts: IAmount[]): string => {
     let checkUnit: boolean = true;
-    let unit: string = ""
+    let unit: string = "Un"
     let quantity: Number = 0
     amounts.forEach(amount => {
       if (checkUnit) unit = amount.type ? "Kg" : "Un";
@@ -142,85 +142,89 @@ function ListGridItem({
 
 
   return active === item.uuid ? (
-    <GridItemInner
-      underlayColor={Colors[colorScheme ?? "light"].itemListItemOpenBackgroundUnderlay}
+    <GridItemNoSwipeable>
+      <GridItemInner
+        underlayColor={Colors[colorScheme ?? "light"].itemListItemOpenBackgroundUnderlay}
 
-      borderColor={Colors[colorScheme ?? "light"].itemListItemOpenBackgroundBorder}
-      background={Colors[colorScheme ?? "light"].itemListItemOpenBackground}
-      height={calcHeight(listArrItems.length)}
-      row
-      elevation={colorScheme === "light"}
-    >
-      <GridItemWrapperCol width={100} justify="flex-end">
-        <GridItemWrapperRow height={heightsUp[listArrItems.length >= 4 ? 4 : listArrItems.length]} justify="flex-end">
-          <GridItemWrapperInner width={10} height={100}>
+        borderColor={Colors[colorScheme ?? "light"].itemListItemOpenBackgroundBorder}
+        background={Colors[colorScheme ?? "light"].itemListItemOpenBackground}
+        height={calcHeight(listArrItems.length)}
+        row
+        elevation={colorScheme === "light"}
+      >
+        <GridItemWrapperCol width={100} justify="flex-end">
+          <GridItemWrapperRow height={100} maxHeight={50} justify="flex-end">
+            <GridItemWrapperInner width={10} height={100}>
 
-            <Title
-              color={Colors[colorScheme ?? "light"].itemListItemOpenIcon}
-            >
-              <FontAwesome
-                size={28}
-                style={{ marginBottom: -3 }}
-                color={
-                  listArrItems.length > 0
-                    ? Colors[colorScheme ?? "light"].itemListItemOpenIconFilled
-                    : Colors[colorScheme ?? "light"].itemListItemOpenIcon
-                }
-                name={listArrItems.length > 0 ? "check-circle-o" : "circle-o"}
-              />
-            </Title>
-          </GridItemWrapperInner>
-          <GridItemWrapperInner width={80} height={100}>
+              <Title
+                color={Colors[colorScheme ?? "light"].itemListItemOpenIcon}
+              >
+                <FontAwesome
+                  size={28}
+                  style={{ marginBottom: -3 }}
+                  color={
+                    listArrItems.length > 0
+                      ? Colors[colorScheme ?? "light"].itemListItemOpenIconFilled
+                      : Colors[colorScheme ?? "light"].itemListItemOpenIcon
+                  }
+                  name={listArrItems.length > 0 ? "check-circle-o" : "circle-o"}
+                />
+              </Title>
+            </GridItemWrapperInner>
+            <GridItemWrapperInner width={80} height={100}>
+              <GridItemWrapperCol width={100}>
+                <GridItemWrapperInner width={100} height={50} justify="flex-end">
+                  <Title2
+                    color={Colors[colorScheme ?? "light"].itemListItemOpenText}
+                  >
+                    {item.name}
+                  </Title2>
+                </GridItemWrapperInner>
+                <GridItemWrapperRow height={50}>
+                  <GridItemWrapperInner width={50} height={100} justify="flex-start">
+
+
+                    <Text
+                      color={Colors[colorScheme ?? "light"].itemListItemOpenTextSecondary}
+
+                    >
+                      Total: R$ {total.toFixed(2).replace(".", ",")}
+                    </Text>
+                  </GridItemWrapperInner>
+                  <GridItemWrapperInner width={50} height={100}
+                    justify="flex-start">
+                    <Text
+                      color={Colors[colorScheme ?? "light"].itemListItemOpenTextSecondary}
+                    >
+                      {showUnitFromAmount(listArrItems)}
+                    </Text>
+                  </GridItemWrapperInner>
+                </GridItemWrapperRow>
+
+              </GridItemWrapperCol>
+            </GridItemWrapperInner>
+            <GridItemWrapperInner width={10} height={100}>
+              <Title
+                color={Colors[colorScheme ?? "light"].text}
+                align="right"
+              >
+                <FontAwesome
+                  onPress={() => handleClose()}
+                  size={28}
+                  style={{ marginBottom: -3 }}
+                  name="angle-up"
+                />
+              </Title>
+            </GridItemWrapperInner>
+          </GridItemWrapperRow>
+          <GridItemWrapperRow height={heights[listArrItems.length >= 4 ? 4 : listArrItems.length]} justify="flex-end">
             <GridItemWrapperCol width={100}>
-              <GridItemWrapperInner width={100} height={50}>
-                <Title2
-                  color={Colors[colorScheme ?? "light"].itemListItemOpenText}
-                >
-                  {item.name}
-                </Title2>
-              </GridItemWrapperInner>
-              <GridItemWrapperRow height={50}>
-                <GridItemWrapperInner width={50} height={100}>
-
-
-                  <Text
-                    color={Colors[colorScheme ?? "light"].itemListItemOpenTextSecondary}
-                  >
-                    Total: R$ {total.toFixed(2).replace(".", ",")}
-                  </Text>
-                </GridItemWrapperInner>
-                <GridItemWrapperInner width={50} height={100}>
-                  <Text
-                    color={Colors[colorScheme ?? "light"].itemListItemOpenTextSecondary}
-                  >
-                    {showUnitFromAmount(listArrItems)}
-                  </Text>
-                </GridItemWrapperInner>
-              </GridItemWrapperRow>
-
+              <AddPriceUnit listProductUuid={listIditemuuid} listArrItems={listArrItems} />
             </GridItemWrapperCol>
-          </GridItemWrapperInner>
-          <GridItemWrapperInner width={10} height={100}>
-            <Title
-              color={Colors[colorScheme ?? "light"].text}
-              align="right"
-            >
-              <FontAwesome
-                onPress={() => handleClose()}
-                size={28}
-                style={{ marginBottom: -3 }}
-                name="angle-up"
-              />
-            </Title>
-          </GridItemWrapperInner>
-        </GridItemWrapperRow>
-        <GridItemWrapperRow height={heights[listArrItems.length >= 4 ? 4 : listArrItems.length]} justify="flex-end">
-          <GridItemWrapperCol width={100}>
-            <AddPriceUnit listProductUuid={listIditemuuid} listArrItems={listArrItems} />
-          </GridItemWrapperCol>
-        </GridItemWrapperRow>
-      </GridItemWrapperCol>
-    </GridItemInner>
+          </GridItemWrapperRow>
+        </GridItemWrapperCol>
+      </GridItemInner>
+    </GridItemNoSwipeable>
 
   ) : (
     <GridItem
@@ -233,11 +237,11 @@ function ListGridItem({
           Colors[colorScheme ?? "light"].itemListBackgroundBorder
         }
         background={Colors[colorScheme ?? "light"].itemListBackground}
-        height={60}
+        height={70}
         row
         elevation={colorScheme === "light"}
       >
-        <GridItemWrapperRow height={100} justify="flex-end">
+        <GridItemWrapperRow height={100} maxHeight={60} justify="flex-end">
           <GridItemWrapperInner width={10} height={100}>
 
             <Title
@@ -257,7 +261,7 @@ function ListGridItem({
           </GridItemWrapperInner>
           <GridItemWrapperInner width={80} height={100}>
             <GridItemWrapperCol width={100}>
-              <GridItemWrapperInner width={100} height={50}>
+              <GridItemWrapperInner width={100} height={50} justify="flex-end">
                 <Title2
                   color={Colors[colorScheme ?? "light"].text}
                 >
@@ -265,7 +269,8 @@ function ListGridItem({
                 </Title2>
               </GridItemWrapperInner>
               <GridItemWrapperRow height={50}>
-                <GridItemWrapperInner width={50} height={100}>
+                <GridItemWrapperInner width={50} height={100}
+                  justify="flex-start">
 
 
                   <Text
@@ -274,7 +279,8 @@ function ListGridItem({
                     Total: R$ {total.toFixed(2).replace(".", ",")}
                   </Text>
                 </GridItemWrapperInner>
-                <GridItemWrapperInner width={50} height={100}>
+                <GridItemWrapperInner width={50} height={100}
+                  justify="flex-start">
                   <Text
                     color={Colors[colorScheme ?? "light"].textSecondary}
                   >

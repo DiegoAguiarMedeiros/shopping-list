@@ -111,7 +111,7 @@ export default function ListGridItem({ item }: ItemProps) {
           Colors[colorScheme ?? "light"].itemListBackgroundBorder
         }
         background={Colors[colorScheme ?? "light"].itemListBackground}
-        height={60}
+        height={70}
         row
         onPress={handleOpenList}
 

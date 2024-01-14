@@ -154,7 +154,7 @@ export default function ListGridItem({
           <Styled.ButtonInner
             underlayColor={
               Colors[colorScheme ?? "light"]
-                .backgroundPrimary
+                .swipeIconUnderlay
             }
             onPress={handleEdit}
           >
@@ -223,7 +223,7 @@ export default function ListGridItem({
           <Styled.ButtonInner
             underlayColor={
               Colors[colorScheme ?? "light"]
-                .backgroundPrimary
+                .swipeIconUnderlay
             }
             onPress={archivedList}
           >
@@ -247,7 +247,7 @@ export default function ListGridItem({
           <Styled.ButtonInner
             underlayColor={
               Colors[colorScheme ?? "light"]
-                .backgroundPrimary
+                .swipeIconUnderlay
             }
             onPress={handleDelete}
           >
@@ -284,7 +284,7 @@ export default function ListGridItem({
           Colors[colorScheme ?? "light"].itemListBackgroundBorder
         }
         background={Colors[colorScheme ?? "light"].itemListBackground}
-        height={60}
+        height={70}
         row
         onPress={handleOpenList}
         elevation={colorScheme === "light"}

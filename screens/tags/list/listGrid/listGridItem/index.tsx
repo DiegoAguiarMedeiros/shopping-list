@@ -126,7 +126,7 @@ export default function ListGridItem({
           <Styled.ButtonInner
             underlayColor={
               Colors[colorScheme ?? "light"]
-                .swipeIcon
+                .swipeIconUnderlay
             }
             onPress={handleEdit}
           >
@@ -150,7 +150,7 @@ export default function ListGridItem({
           <Styled.ButtonInner
             underlayColor={
               Colors[colorScheme ?? "light"]
-                .swipeIcon
+                .swipeIconUnderlay
             }
             onPress={handleDelete}
           >
