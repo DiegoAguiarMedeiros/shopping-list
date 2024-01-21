@@ -96,22 +96,34 @@ const NewItemForm = ({
   };
   return (
     <Styled.Container>
-
       <Styled.InputContainer>
-        {products
-          ?
-          <Select items={products} selectedValue={newItem.item} onValueChange={onValueChange} />
-          :
-          <></>}
+        {products ? (
+          <Select
+            items={products}
+            selectedValue={newItem.item}
+            onValueChange={onValueChange}
+          />
+        ) : (
+          <></>
+        )}
       </Styled.InputContainer>
       <Styled.ButtonsContainer>
         <Styled.ButtonWrapper>
           <Button
             text="Cancelar"
-            border={Colors[colorScheme ?? "light"].bottomSheetButtonCancelBorder}
-            background={Colors[colorScheme ?? "light"].bottomSheetButtonCancelBackground}
-            textColor={Colors[colorScheme ?? "light"].bottomSheetButtonCancelText}
+            border={
+              Colors[colorScheme ?? "light"].bottomSheetButtonCancelBorder
+            }
+            background={
+              Colors[colorScheme ?? "light"].bottomSheetButtonCancelBackground
+            }
+            textColor={
+              Colors[colorScheme ?? "light"].bottomSheetButtonCancelText
+            }
             onPress={closeBottomSheet}
+            underlayColor={
+              Colors[colorScheme ?? "light"].bottomSheetButtonCancelUnderlay
+            }
           />
         </Styled.ButtonWrapper>
         <Styled.ButtonWrapper>
@@ -119,8 +131,13 @@ const NewItemForm = ({
             text={buttonTextArr[buttonText]}
             textColor={Colors[colorScheme ?? "light"].bottomSheetButtonAddText}
             border={Colors[colorScheme ?? "light"].bottomSheetButtonAddBorder}
-            background={Colors[colorScheme ?? "light"].bottomSheetButtonAddBackground}
+            background={
+              Colors[colorScheme ?? "light"].bottomSheetButtonAddBackground
+            }
             onPress={addListItem}
+            underlayColor={
+              Colors[colorScheme ?? "light"].bottomSheetButtonAddUnderlay
+            }
           />
         </Styled.ButtonWrapper>
       </Styled.ButtonsContainer>

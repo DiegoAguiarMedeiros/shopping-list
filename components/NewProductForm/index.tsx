@@ -145,6 +145,9 @@ const NewProductForm = ({
             background={Colors[colorScheme ?? "light"].bottomSheetButtonCancelBackground}
             textColor={Colors[colorScheme ?? "light"].bottomSheetButtonCancelText}
             onPress={closeBottomSheet}
+            underlayColor={
+              Colors[colorScheme ?? "light"].bottomSheetButtonCancelUnderlay
+            }
           />
         </Styled.ButtonWrapper>
         <Styled.ButtonWrapper>
@@ -154,6 +157,9 @@ const NewProductForm = ({
             border={Colors[colorScheme ?? "light"].bottomSheetButtonAddBorder}
             background={Colors[colorScheme ?? "light"].bottomSheetButtonAddBackground}
             onPress={functions[action]}
+            underlayColor={
+              Colors[colorScheme ?? "light"].bottomSheetButtonAddUnderlay
+            }
           />
         </Styled.ButtonWrapper>
       </Styled.ButtonsContainer>

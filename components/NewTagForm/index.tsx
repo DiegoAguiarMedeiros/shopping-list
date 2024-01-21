@@ -106,10 +106,19 @@ const NewTagForm = ({
         <Styled.ButtonWrapper>
           <Button
             text="Cancelar"
-            border={Colors[colorScheme ?? "light"].bottomSheetButtonCancelBorder}
-            background={Colors[colorScheme ?? "light"].bottomSheetButtonCancelBackground}
-            textColor={Colors[colorScheme ?? "light"].bottomSheetButtonCancelText}
+            border={
+              Colors[colorScheme ?? "light"].bottomSheetButtonCancelBorder
+            }
+            background={
+              Colors[colorScheme ?? "light"].bottomSheetButtonCancelBackground
+            }
+            textColor={
+              Colors[colorScheme ?? "light"].bottomSheetButtonCancelText
+            }
             onPress={closeBottomSheet}
+            underlayColor={
+              Colors[colorScheme ?? "light"].bottomSheetButtonCancelUnderlay
+            }
           />
         </Styled.ButtonWrapper>
         <Styled.ButtonWrapper>
@@ -117,8 +126,13 @@ const NewTagForm = ({
             text={buttonTextArr[buttonText]}
             textColor={Colors[colorScheme ?? "light"].bottomSheetButtonAddText}
             border={Colors[colorScheme ?? "light"].bottomSheetButtonAddBorder}
-            background={Colors[colorScheme ?? "light"].bottomSheetButtonAddBackground}
+            background={
+              Colors[colorScheme ?? "light"].bottomSheetButtonAddBackground
+            }
             onPress={functions[action]}
+            underlayColor={
+              Colors[colorScheme ?? "light"].bottomSheetButtonAddUnderlay
+            }
           />
         </Styled.ButtonWrapper>
       </Styled.ButtonsContainer>

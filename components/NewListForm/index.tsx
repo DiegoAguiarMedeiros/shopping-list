@@ -108,10 +108,19 @@ const NewListForm = ({
         <Styled.ButtonWrapper>
           <Button
             text="Cancelar"
-            border={Colors[colorScheme ?? "light"].bottomSheetButtonCancelBorder}
-            background={Colors[colorScheme ?? "light"].bottomSheetButtonCancelBackground}
-            textColor={Colors[colorScheme ?? "light"].bottomSheetButtonCancelText}
+            border={
+              Colors[colorScheme ?? "light"].bottomSheetButtonCancelBorder
+            }
+            background={
+              Colors[colorScheme ?? "light"].bottomSheetButtonCancelBackground
+            }
+            textColor={
+              Colors[colorScheme ?? "light"].bottomSheetButtonCancelText
+            }
             onPress={closeBottomSheet}
+            underlayColor={
+              Colors[colorScheme ?? "light"].bottomSheetButtonCancelBackground
+            }
           />
         </Styled.ButtonWrapper>
         <Styled.ButtonWrapper>
@@ -119,7 +128,9 @@ const NewListForm = ({
             text={buttonTextArr[buttonText]}
             textColor={Colors[colorScheme ?? "light"].bottomSheetButtonAddText}
             border={Colors[colorScheme ?? "light"].bottomSheetButtonAddBorder}
-            background={Colors[colorScheme ?? "light"].bottomSheetButtonAddBackground}
+            background={
+              Colors[colorScheme ?? "light"].bottomSheetButtonAddBackground
+            }
             onPress={functions[action]}
           />
         </Styled.ButtonWrapper>

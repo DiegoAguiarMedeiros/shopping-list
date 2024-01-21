@@ -25,11 +25,9 @@ const HeaderInputTextSearch: React.FC<InputProps> = ({ placeholder, ...rest }) =
       ref={inputRef}
       background={Colors[colorScheme ?? "light"].secondary}
       border={Colors[colorScheme ?? "light"].secondary}
-      color={Colors[colorScheme ?? "light"].text}
+      color={Colors[colorScheme ?? "light"].white}
       placeholder={placeholder}
-      placeholderTextColor={
-        Colors[colorScheme ?? "light"].textSecondary
-      }
+      placeholderTextColor={Colors[colorScheme ?? "light"].white}
       {...rest}
     />
   );

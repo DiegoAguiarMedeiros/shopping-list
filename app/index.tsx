@@ -195,87 +195,114 @@ function RootLayoutNav() {
   const handleShowSearchInput = () => {
     setActiveRouteHeader({
       left: null,
-      name: <HeaderInputTextSearch style={{ marginLeft: -16 }} placeholder="Buscar..." onChangeText={(item) =>
-        setSearch(item)
-      } />,
-      right: <TouchableHighlight style={{ marginRight: 20 }} onPress={() => clearHeaderProduct()}>
-        <FontAwesome
-          name="times"
-          size={25}
-          color={Colors[colorScheme ?? "light"].white}
+      name: (
+        <HeaderInputTextSearch
+          style={{ marginLeft: -16 }}
+          placeholder="Buscar..."
+          onChangeText={(item) => setSearch(item)}
         />
-      </TouchableHighlight>,
-    })
-
-  }
+      ),
+      right: (
+        <TouchableHighlight
+          underlayColor={Colors[colorScheme ?? "light"].secondary}
+          style={{ marginRight: 20 }}
+          onPress={() => clearHeaderProduct()}
+        >
+          <FontAwesome
+            name="times"
+            size={25}
+            color={Colors[colorScheme ?? "light"].white}
+          />
+        </TouchableHighlight>
+      ),
+    });
+  };
 
   const clearHeaderProduct = () => {
-    setSearch("")
+    setSearch("");
     setActiveRouteHeader({
       left: null,
-      name: <Title color={Colors[colorScheme ?? "light"].white}>
-        Produtos
-      </Title>,
-      right: <TouchableHighlight style={{ marginLeft: 20, marginRight: 20 }} onPress={() => handleShowSearchInput()}>
-        <FontAwesome
-          name="search"
-          size={25}
-          color={Colors[colorScheme ?? "light"].white}
-        />
-      </TouchableHighlight>,
-    })
-  }
+      name: (
+        <Title color={Colors[colorScheme ?? "light"].white}>Produtos</Title>
+      ),
+      right: (
+        <TouchableHighlight
+          underlayColor={Colors[colorScheme ?? "light"].primary}
+          style={{ marginLeft: 20, marginRight: 20 }}
+          onPress={() => handleShowSearchInput()}
+        >
+          <FontAwesome
+            name="search"
+            size={25}
+            color={Colors[colorScheme ?? "light"].white}
+          />
+        </TouchableHighlight>
+      ),
+    });
+  };
 
-
-  const handleChangeRoute = (route: "home" | "product" | "tags" | "history"): void => {
-
+  const handleChangeRoute = (
+    route: "home" | "product" | "tags" | "history"
+  ): void => {
     const forms = {
-      home: <NewListForm
-        action="addList"
-        buttonText="add"
-        onClose={handleCloseBottomSheetList}
-      />,
-      product: <NewProductForm
-        action="addList"
-        buttonText="add"
-        onClose={handleCloseBottomSheetProduct}
-      />,
-      tags: <NewTagForm
-        action="addTag"
-        buttonText="add"
-        onClose={handleCloseBottomSheetTag}
-      />
-    }
+      home: (
+        <NewListForm
+          action="addList"
+          buttonText="add"
+          onClose={handleCloseBottomSheetList}
+        />
+      ),
+      product: (
+        <NewProductForm
+          action="addList"
+          buttonText="add"
+          onClose={handleCloseBottomSheetProduct}
+        />
+      ),
+      tags: (
+        <NewTagForm
+          action="addTag"
+          buttonText="add"
+          onClose={handleCloseBottomSheetTag}
+        />
+      ),
+    };
 
     if (route != "history" && route != "product") {
       setBottomSheetProps({
         ...bottomSheetProps,
         isVisible: false,
         height: "add",
-        children: forms[route]
-      })
+        children: forms[route],
+      });
     }
     if (route === "product") {
-      setSearch("")
+      setSearch("");
       setActiveRouteHeader({
         left: null,
-        name: <Title color={Colors[colorScheme ?? "light"].white}>
-          Produtos
-        </Title>,
-        right: <TouchableHighlight style={{ marginLeft: 20, marginRight: 20 }} onPress={() => handleShowSearchInput()}>
-          <FontAwesome
-            name="search"
-            size={25}
-            color={Colors[colorScheme ?? "light"].white}
-          />
-        </TouchableHighlight>,
-      })
+        name: (
+          <Title color={Colors[colorScheme ?? "light"].white}>Produtos</Title>
+        ),
+        right: (
+          <TouchableHighlight
+            underlayColor={Colors[colorScheme ?? "light"].primary}
+            style={{ marginLeft: 20, marginRight: 20 }}
+            onPress={() => handleShowSearchInput()}
+          >
+            <FontAwesome
+              name="search"
+              size={25}
+              color={Colors[colorScheme ?? "light"].white}
+            />
+          </TouchableHighlight>
+        ),
+      });
       setBottomSheetProps({
         ...bottomSheetProps,
         isVisible: false,
         height: "edit",
-        children: forms[route]
-      })
+        children: forms[route],
+      });
     }
 
     if (route === "history") {
@@ -283,11 +310,11 @@ function RootLayoutNav() {
         ...bottomSheetProps,
         children: <></>,
         isVisible: false,
-      })
+      });
     }
     setActiveRoute(route);
     router.push({ pathname: route });
-  }
+  };
 
   const routes: RoutesProps[] = [
     {
