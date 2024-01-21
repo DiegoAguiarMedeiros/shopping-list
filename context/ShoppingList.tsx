@@ -420,19 +420,21 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   };
 
   const handleDeleteProductFromList = (listUuid: string, productUuid: string) => {
-    deleteProductFromList(listUuid, productUuid)
-    const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
-    const newListProduct = updatedList.filter(product => product.uuid !== productUuid)
-    setListProduct(newListProduct);
+    deleteProductFromList(listUuid, productUuid);
 
+    console.log("newList");
     const newList = list.map((l) => {
+      console.log("newList map");
+      console.log("listUuid", listUuid);
+      console.log("l.uuid", l.uuid);
       if (l.uuid === listUuid) {
-        const newItems = l.items.filter(product => product !== productUuid)
+        console.log("if");
+        const newItems = l.items.filter((product) => product !== productUuid);
         l.items = newItems;
         l.tags = getTagsByProductUuidArrayController.handle(newItems);
       }
       return l;
-    })
+    });
     setList([...newList]);
     showToast("Produto removido com sucesso!");
   };
