@@ -19,7 +19,7 @@ export default function AddPriceUnit({
   listArrItems,
   listProductUuid
 }: Readonly<AddPriceUnitProps>) {
-  const { handleAddAmount } = useShoppingListContext();
+  const { handleAddAmount, getTheme } = useShoppingListContext();
   const [newItem, setNewItem] = useState("");
   const colorScheme = useColorScheme();
 
@@ -35,8 +35,9 @@ export default function AddPriceUnit({
   return (
     <Container noPadding>
       <ContainerInner>
-
-        <GridItemWrapperRow height={heights[listArrItems.length >= 4 ? 4 : listArrItems.length]} >
+        <GridItemWrapperRow
+          height={heights[listArrItems.length >= 4 ? 4 : listArrItems.length]}
+        >
           {listArrItems.length > 0 ? (
             <ListPriceGrid
               item={listArrItems}
@@ -61,24 +62,17 @@ export default function AddPriceUnit({
           </GridItemWrapperInner>
           <GridItemWrapperInner width={15} height={100}>
             <Button
-              border={
-                Colors[colorScheme ?? "light"].itemListItemOpenButtonSendBorder
-              }
+              border={Colors[getTheme()].itemListItemOpenButtonSendBorder}
               radius
               icon="send"
               background={
-                Colors[colorScheme ?? "light"].itemListItemOpenButtonSendBackGround
+                Colors[getTheme()].itemListItemOpenButtonSendBackGround
               }
-              textColor={
-                Colors[colorScheme ?? "light"].itemListItemOpenButtonSendText
-              }
+              textColor={Colors[getTheme()].itemListItemOpenButtonSendText}
               onPress={addAmount}
             />
           </GridItemWrapperInner>
-
-
         </GridItemWrapperRow>
-
       </ContainerInner>
     </Container>
   );

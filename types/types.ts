@@ -852,6 +852,7 @@ interface RoutesProps {
   func: () => void;
 }
 interface RoutesType {
+  theme:"light"|"dark"
   routes: RoutesProps[];
   active: string;
   setActiveRoute: React.Dispatch<React.SetStateAction<string>>;

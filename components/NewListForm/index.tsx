@@ -33,7 +33,7 @@ const NewListForm = ({
   items,
 }: NewListFormProps) => {
   const colorScheme = useColorScheme();
-  const { handleAddList, handleCopyList, handleEditList } =
+  const { handleAddList, handleCopyList, handleEditList, getTheme } =
     useShoppingListContext();
   const [newItem, setNewItem] = useState({
     item: items ? items.name : "",
@@ -108,29 +108,19 @@ const NewListForm = ({
         <Styled.ButtonWrapper>
           <Button
             text="Cancelar"
-            border={
-              Colors[colorScheme ?? "light"].bottomSheetButtonCancelBorder
-            }
-            background={
-              Colors[colorScheme ?? "light"].bottomSheetButtonCancelBackground
-            }
-            textColor={
-              Colors[colorScheme ?? "light"].bottomSheetButtonCancelText
-            }
+            border={Colors[getTheme()].bottomSheetButtonCancelBorder}
+            background={Colors[getTheme()].bottomSheetButtonCancelBackground}
+            textColor={Colors[getTheme()].bottomSheetButtonCancelText}
             onPress={closeBottomSheet}
-            underlayColor={
-              Colors[colorScheme ?? "light"].bottomSheetButtonCancelBackground
-            }
+            underlayColor={Colors[getTheme()].bottomSheetButtonCancelBackground}
           />
         </Styled.ButtonWrapper>
         <Styled.ButtonWrapper>
           <Button
             text={buttonTextArr[buttonText]}
-            textColor={Colors[colorScheme ?? "light"].bottomSheetButtonAddText}
-            border={Colors[colorScheme ?? "light"].bottomSheetButtonAddBorder}
-            background={
-              Colors[colorScheme ?? "light"].bottomSheetButtonAddBackground
-            }
+            textColor={Colors[getTheme()].bottomSheetButtonAddText}
+            border={Colors[getTheme()].bottomSheetButtonAddBorder}
+            background={Colors[getTheme()].bottomSheetButtonAddBackground}
             onPress={functions[action]}
           />
         </Styled.ButtonWrapper>

@@ -51,7 +51,8 @@ export default function ListGridItem({
     listArchived,
     listProduct,
     handleDeleteList,
-    handleArchived
+    handleArchived,
+    getTheme,
   } = useShoppingListContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
@@ -143,7 +144,6 @@ export default function ListGridItem({
     }
   ) => {
     return (
-
       <Animated.View
         style={{
           width: 200,
@@ -152,49 +152,35 @@ export default function ListGridItem({
       >
         <Styled.ButtonView>
           <Styled.ButtonInner
-            underlayColor={
-              Colors[colorScheme ?? "light"]
-                .swipeIconUnderlay
-            }
+            underlayColor={Colors[getTheme()].swipeIconUnderlay}
             onPress={handleEdit}
           >
             <>
-              <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].swipeIcon}
-              >
+              <Styled.ButtonTextIcon text={Colors[getTheme()].swipeIcon}>
                 <FontAwesome
                   size={18}
                   style={{ marginBottom: -3 }}
                   name="pencil"
                 />
               </Styled.ButtonTextIcon>
-              <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].swipeIcon}
-              >
+              <Styled.ButtonText text={Colors[getTheme()].swipeIcon}>
                 Editar
               </Styled.ButtonText>
             </>
           </Styled.ButtonInner>
           <Styled.ButtonInner
-            underlayColor={
-              Colors[colorScheme ?? "light"]
-                .text
-            }
+            underlayColor={Colors[getTheme()].text}
             onPress={handleCopy}
           >
             <>
-              <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].swipeIcon}
-              >
+              <Styled.ButtonTextIcon text={Colors[getTheme()].swipeIcon}>
                 <FontAwesome
                   size={18}
                   style={{ marginBottom: -3 }}
                   name="copy"
                 />
               </Styled.ButtonTextIcon>
-              <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].swipeIcon}
-              >
+              <Styled.ButtonText text={Colors[getTheme()].swipeIcon}>
                 Copiar
               </Styled.ButtonText>
             </>
@@ -221,49 +207,35 @@ export default function ListGridItem({
       >
         <Styled.ButtonView>
           <Styled.ButtonInner
-            underlayColor={
-              Colors[colorScheme ?? "light"]
-                .swipeIconUnderlay
-            }
+            underlayColor={Colors[getTheme()].swipeIconUnderlay}
             onPress={archivedList}
           >
             <>
-              <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].swipeIcon}
-              >
+              <Styled.ButtonTextIcon text={Colors[getTheme()].swipeIcon}>
                 <FontAwesome
                   size={18}
                   style={{ marginBottom: -3 }}
                   name="archive"
                 />
               </Styled.ButtonTextIcon>
-              <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].swipeIcon}
-              >
+              <Styled.ButtonText text={Colors[getTheme()].swipeIcon}>
                 Arquivar
               </Styled.ButtonText>
             </>
           </Styled.ButtonInner>
           <Styled.ButtonInner
-            underlayColor={
-              Colors[colorScheme ?? "light"]
-                .swipeIconUnderlay
-            }
+            underlayColor={Colors[getTheme()].swipeIconUnderlay}
             onPress={handleDelete}
           >
             <>
-              <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].swipeIcon}
-              >
+              <Styled.ButtonTextIcon text={Colors[getTheme()].swipeIcon}>
                 <FontAwesome
                   size={18}
                   style={{ marginBottom: -3 }}
                   name="trash"
                 />
               </Styled.ButtonTextIcon>
-              <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].swipeIcon}
-              >
+              <Styled.ButtonText text={Colors[getTheme()].swipeIcon}>
                 Deletar
               </Styled.ButtonText>
             </>
@@ -277,43 +249,36 @@ export default function ListGridItem({
     <GridItem
       renderRightActions={LeftSwipe}
       renderLeftActions={RightSwipe}
-      leftThreshold={100} rightThreshold={undefined}>
+      leftThreshold={100}
+      rightThreshold={undefined}
+    >
       <GridItemInner
-        underlayColor={Colors[colorScheme ?? "light"].itemListBackgroundUnderlay}
-        borderColor={
-          Colors[colorScheme ?? "light"].itemListBackgroundBorder
-        }
-        background={Colors[colorScheme ?? "light"].itemListBackground}
+        underlayColor={Colors[getTheme()].itemListBackgroundUnderlay}
+        borderColor={Colors[getTheme()].itemListBackgroundBorder}
+        background={Colors[getTheme()].itemListBackground}
         height={70}
         row
         onPress={handleOpenList}
         elevation={colorScheme === "light"}
       >
         <>
-          <GridItemWrapperCol width={85} height={100} >
+          <GridItemWrapperCol width={85} height={100}>
             <GridItemWrapperInner height={100}>
-              <Title2
-                color={Colors[colorScheme ?? "light"].itemListText}
-              >
+              <Title2 color={Colors[getTheme()].itemListText}>
                 {item.name}
               </Title2>
-              <Text
-                color={Colors[colorScheme ?? "light"].itemListTextSecondary}
-              >
+              <Text color={Colors[getTheme()].itemListTextSecondary}>
                 Total: R$ {total.toFixed(2).replace(".", ",")}
               </Text>
             </GridItemWrapperInner>
           </GridItemWrapperCol>
-          <GridItemWrapperCol width={15} height={100} >
+          <GridItemWrapperCol width={15} height={100}>
             <GridItemWrapperInner height={100} align="flex-end">
               <CircleProgress
-                activeStrokeColor={
-                  Colors[colorScheme ?? "light"]
-                    .circularItemFilled
-                }
-                titleColor={Colors[colorScheme ?? "light"].circularItemText}
+                activeStrokeColor={Colors[getTheme()].circularItemFilled}
+                titleColor={Colors[getTheme()].circularItemText}
                 circleBackgroundColor={
-                  Colors[colorScheme ?? "light"].circularItemBackground
+                  Colors[getTheme()].circularItemBackground
                 }
                 filled={totalWithAmount}
                 progress={totalUn && totalWithAmount ? totalWithAmount : 0}

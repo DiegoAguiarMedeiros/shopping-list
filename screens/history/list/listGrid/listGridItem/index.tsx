@@ -33,9 +33,7 @@ interface ItemProps {
 }
 
 export default function ListGridItem({ item }: ItemProps) {
-  const {
-    handleDeleteListArchived
-  } = useShoppingListContext();
+  const { handleDeleteListArchived, getTheme } = useShoppingListContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
   const total = getTotalAmountByListUuidController.handle(item.uuid);
@@ -72,25 +70,18 @@ export default function ListGridItem({ item }: ItemProps) {
         >
           <Styled.ButtonView>
             <Styled.ButtonInner
-              underlayColor={
-                Colors[colorScheme ?? "light"]
-                  .textSecondary
-              }
+              underlayColor={Colors[getTheme()].textSecondary}
               onPress={handleDelete}
             >
               <>
-                <Styled.ButtonTextIcon
-                  text={Colors[colorScheme ?? "light"].text}
-                >
+                <Styled.ButtonTextIcon text={Colors[getTheme()].text}>
                   <FontAwesome
                     size={18}
                     style={{ marginBottom: -3 }}
                     name="trash"
                   />
                 </Styled.ButtonTextIcon>
-                <Styled.ButtonText
-                  text={Colors[colorScheme ?? "light"].text}
-                >
+                <Styled.ButtonText text={Colors[getTheme()].text}>
                   Deletar
                 </Styled.ButtonText>
               </>
@@ -104,44 +95,37 @@ export default function ListGridItem({ item }: ItemProps) {
 
   return (
     <GridItem
-      renderRightActions={RightSwipe} rightThreshold={50} leftThreshold={undefined}>
+      renderRightActions={RightSwipe}
+      rightThreshold={50}
+      leftThreshold={undefined}
+    >
       <GridItemInner
-        underlayColor={Colors[colorScheme ?? "light"].itemListBackgroundUnderlay}
-        borderColor={
-          Colors[colorScheme ?? "light"].itemListBackgroundBorder
-        }
-        background={Colors[colorScheme ?? "light"].itemListBackground}
+        underlayColor={Colors[getTheme()].itemListBackgroundUnderlay}
+        borderColor={Colors[getTheme()].itemListBackgroundBorder}
+        background={Colors[getTheme()].itemListBackground}
         height={70}
         row
         onPress={handleOpenList}
-
         elevation={colorScheme === "light"}
       >
         <>
-          <GridItemWrapperCol width={85} height={100} >
+          <GridItemWrapperCol width={85} height={100}>
             <GridItemWrapperInner height={100}>
-              <Title2
-                color={Colors[colorScheme ?? "light"].itemListText}
-              >
+              <Title2 color={Colors[getTheme()].itemListText}>
                 {item.name}
               </Title2>
-              <Text
-                color={Colors[colorScheme ?? "light"].itemListTextSecondary}
-              >
+              <Text color={Colors[getTheme()].itemListTextSecondary}>
                 Total: R$ {total.toFixed(2).replace(".", ",")}
               </Text>
             </GridItemWrapperInner>
           </GridItemWrapperCol>
-          <GridItemWrapperCol width={15} height={100} >
+          <GridItemWrapperCol width={15} height={100}>
             <GridItemWrapperInner height={100} align="flex-end">
               <CircleProgress
-                activeStrokeColor={
-                  Colors[colorScheme ?? "light"]
-                    .circularItemFilled
-                }
-                titleColor={Colors[colorScheme ?? "light"].circularItemText}
+                activeStrokeColor={Colors[getTheme()].circularItemFilled}
+                titleColor={Colors[getTheme()].circularItemText}
                 circleBackgroundColor={
-                  Colors[colorScheme ?? "light"].circularItemBackground
+                  Colors[getTheme()].circularItemBackground
                 }
                 filled={totalWithAmount}
                 progress={totalUn && totalWithAmount ? totalWithAmount : 0}

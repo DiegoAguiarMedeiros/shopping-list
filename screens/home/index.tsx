@@ -23,7 +23,7 @@ export default function Home({
   handleCloseBottomSheet,
 }: Readonly<HomeProps>) {
   const colorScheme = useColorScheme();
-  const { list, listProduct, amount, tags, listArchived } =
+  const { list, listProduct, amount, tags, listArchived ,getTheme} =
     useShoppingListContext();
   const isFocused = useIsFocused();
 
@@ -33,10 +33,8 @@ export default function Home({
   // console.log("tags", tags);
   // console.log("listArchived", listArchived);
   return (
-    <Container background={Colors[colorScheme ?? "light"].backgroundPrimary}>
-      <ContainerInner
-        background={Colors[colorScheme ?? "light"].backgroundPrimary}
-      >
+    <Container background={Colors[getTheme()].backgroundPrimary}>
+      <ContainerInner background={Colors[getTheme()].backgroundPrimary}>
         {isFocused &&
           (list && list.length > 0 ? (
             <ListComponent

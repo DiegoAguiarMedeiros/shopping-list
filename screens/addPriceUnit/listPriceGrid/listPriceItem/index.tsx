@@ -25,10 +25,8 @@ interface ListProps {
 }
 
 export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
-  const {
-    handleEditItemsAmount,
-    handleDeleteAmountInList
-  } = useShoppingListContext();
+  const { handleEditItemsAmount, handleDeleteAmountInList, getTheme } =
+    useShoppingListContext();
   const [selectedValueSwitch, setSelectedValueSwitch] = useState(
     itemAmount.type
   );
@@ -58,17 +56,17 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
 
   return (
     <GridItemInner
-      underlayColor={Colors[colorScheme ?? "light"].backgroundPrimary}
+      underlayColor={Colors[getTheme()].backgroundPrimary}
       height={40}
       noPadding
     >
-      <GridItemWrapperRow height={100} >
+      <GridItemWrapperRow height={100}>
         <GridItemWrapperInner width={20} height={100}>
           <Text
             color={
               colorScheme !== "dark"
-                ? Colors[colorScheme ?? "light"].black
-                : Colors[colorScheme ?? "light"].white
+                ? Colors[getTheme()].black
+                : Colors[getTheme()].white
             }
             align="center"
           >
@@ -90,12 +88,12 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
             label={{ on: "Kg", off: "Un" }}
           />
         </GridItemWrapperInner>
-        <GridItemWrapperInner width={20} height={100} >
+        <GridItemWrapperInner width={20} height={100}>
           <FontAwesome
             size={28}
             style={{ marginBottom: -3 }}
             name={"trash"}
-            color={Colors[colorScheme ?? "light"].itemListItemOpenTrashIcon}
+            color={Colors[getTheme()].itemListItemOpenTrashIcon}
             onPress={deleteAmountInList}
           />
         </GridItemWrapperInner>

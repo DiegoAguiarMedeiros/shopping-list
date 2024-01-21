@@ -41,91 +41,78 @@ interface ListProps {
 function ListGridItem({ item, listId }: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
 
+  const { getTheme } = useShoppingListContext();
   const listIditemuuid = `${listId}-${item.uuid}`;
 
-  const listArrItems = getAmountByListProductUuidController.handle(listIditemuuid);
-  const total = getTotlaAmountByListProductUuidController.handle(listIditemuuid);
-  const quantity = getTotalQuantityAmountByListProductUuidController.handle(listIditemuuid);
+  const listArrItems =
+    getAmountByListProductUuidController.handle(listIditemuuid);
+  const total =
+    getTotlaAmountByListProductUuidController.handle(listIditemuuid);
+  const quantity =
+    getTotalQuantityAmountByListProductUuidController.handle(listIditemuuid);
   return (
     <>
       {listArrItems.length == 0 ? (
         <GridItemInner
-          underlayColor={Colors[colorScheme ?? "light"].itemListBackgroundUnderlay}
-          borderColor={
-            Colors[colorScheme ?? "light"].itemListBackgroundBorder
-          }
-          background={Colors[colorScheme ?? "light"].itemListBackground}
+          underlayColor={Colors[getTheme()].itemListBackgroundUnderlay}
+          borderColor={Colors[getTheme()].itemListBackgroundBorder}
+          background={Colors[getTheme()].itemListBackground}
           height={60}
           row
           elevation={colorScheme === "light"}
         >
           <GridItemWrapperCol width={100}>
-
-            <Title2
-              color={Colors[colorScheme ?? "light"].text}
-            >
-              {item.name}
-            </Title2>
+            <Title2 color={Colors[getTheme()].text}>{item.name}</Title2>
           </GridItemWrapperCol>
         </GridItemInner>
       ) : (
         listArrItems.map((amount) => (
           <GridItemInner
-            underlayColor={Colors[colorScheme ?? "light"].itemListBackgroundUnderlay}
-            borderColor={
-              Colors[colorScheme ?? "light"].itemListBackgroundBorder
-            }
-            background={Colors[colorScheme ?? "light"].itemListBackground}
+            underlayColor={Colors[getTheme()].itemListBackgroundUnderlay}
+            borderColor={Colors[getTheme()].itemListBackgroundBorder}
+            background={Colors[getTheme()].itemListBackground}
             height={60}
             row
             elevation={colorScheme === "light"}
             key={`ContainerListItemListItem-` + amount.uuid}
           >
             <>
-              <GridItemWrapperCol width={60} height={100} >
-                <Title2
-                  color={Colors[colorScheme ?? "light"].text}
-                >
-                  {item.name}
-                </Title2>
+              <GridItemWrapperCol width={60} height={100}>
+                <Title2 color={Colors[getTheme()].text}>{item.name}</Title2>
               </GridItemWrapperCol>
-              <GridItemWrapperCol width={40} height={100} >
-                <GridItemWrapperRow height={100} >
-                  <GridItemWrapperCol width={50} height={100} >
-                    <Text
-                      color={Colors[colorScheme ?? "light"].text}
-                    >
-                      {`${amount.quantity}`}
-                      {" "}
-                      {amount.type ? `Kg` : `Un`}
+              <GridItemWrapperCol width={40} height={100}>
+                <GridItemWrapperRow height={100}>
+                  <GridItemWrapperCol width={50} height={100}>
+                    <Text color={Colors[getTheme()].text}>
+                      {`${amount.quantity}`} {amount.type ? `Kg` : `Un`}
                       {" x"}
                     </Text>
                   </GridItemWrapperCol>
-                  <GridItemWrapperCol width={50} height={100} >
-                    <Text
-                      color={Colors[colorScheme ?? "light"].text}
-                      align="right"
-                    >
+                  <GridItemWrapperCol width={50} height={100}>
+                    <Text color={Colors[getTheme()].text} align="right">
                       R$ {Number(amount.amount).toFixed(2).replace(".", ",")}
                     </Text>
                     <Styled.ContainerItemTextPriceTotalLine
-                      border={Colors[colorScheme ?? "light"].primary}
+                      border={Colors[getTheme()].primary}
                     />
                     <Styled.ContainerItemTextPriceTotal>
-                      <Text color={Colors[colorScheme ?? "light"].itemProductListAveragePrice}
-                        align="right">
+                      <Text
+                        color={Colors[getTheme()].itemProductListAveragePrice}
+                        align="right"
+                      >
                         R${" "}
-                        {(Number(amount.quantity) * Number(amount.amount)).toFixed(2).replace(".", ",")}
+                        {(Number(amount.quantity) * Number(amount.amount))
+                          .toFixed(2)
+                          .replace(".", ",")}
                       </Text>
                     </Styled.ContainerItemTextPriceTotal>
                   </GridItemWrapperCol>
                 </GridItemWrapperRow>
               </GridItemWrapperCol>
             </>
-          </GridItemInner >
+          </GridItemInner>
         ))
-      )
-      }
+      )}
     </>
   );
 }

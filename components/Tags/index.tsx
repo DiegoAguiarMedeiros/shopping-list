@@ -11,6 +11,7 @@ import Colors from "../../constants/Colors";
 import * as Styled from "./styles";
 import { Title } from "../Text";
 import { TagsIterface } from "../../types/types";
+import { useShoppingListContext } from "../../context/ShoppingList";
 type TagsProps = {
   tags: TagsIterface[];
   isVisible: boolean;
@@ -21,6 +22,7 @@ const Tags = ({ tags, isVisible, addTag }: TagsProps) => {
   const colorScheme = useColorScheme();
   const [tagsIsVisible, setTagsIsVisible] = useState(isVisible);
 
+  const { getTheme } = useShoppingListContext();
   const returnMarginTop = (tags: number): string => {
     switch (tags) {
       case 0:
@@ -49,7 +51,7 @@ const Tags = ({ tags, isVisible, addTag }: TagsProps) => {
     <Styled.Tags
       isVisible={tagsIsVisible}
       marginTop={returnMarginTop(tags.length)}
-      background={Colors[colorScheme ?? "light"].backgroundPrimary}
+      background={Colors[getTheme()].backgroundPrimary}
     >
       <Styled.TagsInner>
         <SafeAreaView>
@@ -58,16 +60,14 @@ const Tags = ({ tags, isVisible, addTag }: TagsProps) => {
               <Styled.TagsItem
                 onPress={() => handleAddTag(tag?.name)}
                 key={`tagContainer-${tag.id}`}
-                background={
-                  Colors[colorScheme ?? "light"].backgroundPrimary
-                }
+                background={Colors[getTheme()].backgroundPrimary}
               >
                 <Title
                   key={`tagTitle-${tag.id}`}
                   color={
                     colorScheme !== "dark"
-                      ? Colors[colorScheme ?? "light"].black
-                      : Colors[colorScheme ?? "light"].white
+                      ? Colors[getTheme()].black
+                      : Colors[getTheme()].white
                   }
                 >
                   {tag?.name}

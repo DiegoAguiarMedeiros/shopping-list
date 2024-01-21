@@ -8,12 +8,10 @@ import Container from "../../components/Container";
 
 export default function History() {
   const colorScheme = useColorScheme();
-  const { listArchived, listProductArchived, listAmountArchived } =
+  const { listArchived, listProductArchived, getTheme } =
     useShoppingListContext();
   return (
-    <Container
-      background={Colors[colorScheme ?? "light"].backgroundPrimary}
-    >
+    <Container background={Colors[getTheme()].backgroundPrimary}>
       {listArchived && listArchived.length > 0 ? (
         <ListComponent items={listArchived} />
       ) : (

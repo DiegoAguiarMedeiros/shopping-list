@@ -52,9 +52,7 @@ function ListGridItem({
   handleCloseBottomSheet,
 }: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
-  const {
-    handleDeleteProduct
-  } = useShoppingListContext();
+  const { handleDeleteProduct, getTheme } = useShoppingListContext();
 
   const handleEdit = () => {
     setBottomSheetProps({
@@ -93,20 +91,14 @@ function ListGridItem({
       >
         <GridItemInner row>
           <>
-            <GridItemWrapperCol width={50} >
+            <GridItemWrapperCol width={50}>
               <Styled.ButtonInner
-                underlayColor={
-                  Colors[colorScheme ?? "light"]
-                    .textSecondary
-                }
+                underlayColor={Colors[getTheme()].textSecondary}
                 onPress={handleEdit}
               >
                 <>
                   <GridItemWrapperInner height={60}>
-
-                    <Styled.ButtonTextIcon
-                      text={Colors[colorScheme ?? "light"].text}
-                    >
+                    <Styled.ButtonTextIcon text={Colors[getTheme()].text}>
                       <FontAwesome
                         size={18}
                         style={{ marginBottom: -3 }}
@@ -116,11 +108,7 @@ function ListGridItem({
                   </GridItemWrapperInner>
 
                   <GridItemWrapperInner height={40} justify={"flex-end"}>
-
-                    <Text
-                      color={Colors[colorScheme ?? "light"].text}
-                      align="center"
-                    >
+                    <Text color={Colors[getTheme()].text} align="center">
                       Editar
                     </Text>
                   </GridItemWrapperInner>
@@ -128,19 +116,14 @@ function ListGridItem({
               </Styled.ButtonInner>
             </GridItemWrapperCol>
 
-            <GridItemWrapperCol width={50} >
+            <GridItemWrapperCol width={50}>
               <Styled.ButtonInner
-                underlayColor={
-                  Colors[colorScheme ?? "light"]
-                    .textSecondary
-                }
+                underlayColor={Colors[getTheme()].textSecondary}
                 onPress={handleDelete}
               >
                 <>
-                  <GridItemWrapperInner height={60} >
-                    <Styled.ButtonTextIcon
-                      text={Colors[colorScheme ?? "light"].text}
-                    >
+                  <GridItemWrapperInner height={60}>
+                    <Styled.ButtonTextIcon text={Colors[getTheme()].text}>
                       <FontAwesome
                         size={18}
                         style={{ marginBottom: -3 }}
@@ -149,10 +132,7 @@ function ListGridItem({
                     </Styled.ButtonTextIcon>
                   </GridItemWrapperInner>
                   <GridItemWrapperInner height={40} justify={"flex-end"}>
-                    <Text
-                      color={Colors[colorScheme ?? "light"].text}
-                      align="center"
-                    >
+                    <Text color={Colors[getTheme()].text} align="center">
                       Deletar
                     </Text>
                   </GridItemWrapperInner>
@@ -161,33 +141,27 @@ function ListGridItem({
             </GridItemWrapperCol>
           </>
         </GridItemInner>
-      </Animated.View >
+      </Animated.View>
     );
   };
-
 
   return (
     <GridItem
       renderRightActions={LeftSwipe}
-      leftThreshold={100} rightThreshold={undefined}>
+      leftThreshold={100}
+      rightThreshold={undefined}
+    >
       <GridItemInner
-        underlayColor={Colors[colorScheme ?? "light"].itemListBackgroundUnderlay}
-        borderColor={
-          Colors[colorScheme ?? "light"].itemListBackgroundBorder
-        }
-        background={Colors[colorScheme ?? "light"].itemListBackground}
+        underlayColor={Colors[getTheme()].itemListBackgroundUnderlay}
+        borderColor={Colors[getTheme()].itemListBackgroundBorder}
+        background={Colors[getTheme()].itemListBackground}
         height={60}
         row
-
         elevation={colorScheme === "light"}
       >
-        <GridItemWrapperRow height={100} >
+        <GridItemWrapperRow height={100}>
           <GridItemWrapperInner height={100}>
-            <Title2
-              color={Colors[colorScheme ?? "light"].text}
-            >
-              {item.name}
-            </Title2>
+            <Title2 color={Colors[getTheme()].text}>{item.name}</Title2>
           </GridItemWrapperInner>
         </GridItemWrapperRow>
       </GridItemInner>

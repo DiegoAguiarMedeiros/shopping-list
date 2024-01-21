@@ -45,8 +45,7 @@ const NewItemForm = ({
   });
 
 
-  const { list, handleAddListItem } =
-    useShoppingListContext();
+  const { list, handleAddListItem, getTheme } = useShoppingListContext();
   const selectedItem = list.find((i) => i.uuid === listId);
 
   const products = GetListProducts.handle().filter(product => (!selectedItem?.items!.includes(product.uuid)));
@@ -111,33 +110,21 @@ const NewItemForm = ({
         <Styled.ButtonWrapper>
           <Button
             text="Cancelar"
-            border={
-              Colors[colorScheme ?? "light"].bottomSheetButtonCancelBorder
-            }
-            background={
-              Colors[colorScheme ?? "light"].bottomSheetButtonCancelBackground
-            }
-            textColor={
-              Colors[colorScheme ?? "light"].bottomSheetButtonCancelText
-            }
+            border={Colors[getTheme()].bottomSheetButtonCancelBorder}
+            background={Colors[getTheme()].bottomSheetButtonCancelBackground}
+            textColor={Colors[getTheme()].bottomSheetButtonCancelText}
             onPress={closeBottomSheet}
-            underlayColor={
-              Colors[colorScheme ?? "light"].bottomSheetButtonCancelUnderlay
-            }
+            underlayColor={Colors[getTheme()].bottomSheetButtonCancelUnderlay}
           />
         </Styled.ButtonWrapper>
         <Styled.ButtonWrapper>
           <Button
             text={buttonTextArr[buttonText]}
-            textColor={Colors[colorScheme ?? "light"].bottomSheetButtonAddText}
-            border={Colors[colorScheme ?? "light"].bottomSheetButtonAddBorder}
-            background={
-              Colors[colorScheme ?? "light"].bottomSheetButtonAddBackground
-            }
+            textColor={Colors[getTheme()].bottomSheetButtonAddText}
+            border={Colors[getTheme()].bottomSheetButtonAddBorder}
+            background={Colors[getTheme()].bottomSheetButtonAddBackground}
             onPress={addListItem}
-            underlayColor={
-              Colors[colorScheme ?? "light"].bottomSheetButtonAddUnderlay
-            }
+            underlayColor={Colors[getTheme()].bottomSheetButtonAddUnderlay}
           />
         </Styled.ButtonWrapper>
       </Styled.ButtonsContainer>

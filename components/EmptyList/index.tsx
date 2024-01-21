@@ -7,6 +7,7 @@ import Button from "../Button";
 import { Text } from "../Text";
 import Container from "../Container";
 import ContainerInner from "../ContainerInner";
+import { useShoppingListContext } from "../../context/ShoppingList";
 
 interface Image {
   image: any;
@@ -22,25 +23,25 @@ type EmptyListProps = {
 
 export default function EmptyList({ mensage }: EmptyListProps) {
   const colorScheme = useColorScheme();
+
+  const { getTheme } = useShoppingListContext();
   return (
-    <Container
-      background={Colors[colorScheme ?? "light"].backgroundPrimary}
-    >
+    <Container background={Colors[getTheme()].backgroundPrimary}>
       <ContainerInner
         justify="center"
-        background={Colors[colorScheme ?? "light"].backgroundPrimary}>
-
+        background={Colors[getTheme()].backgroundPrimary}
+      >
         <Styled.SlideContainerInnerImage>
           <Styled.SlideImage source={img.image} />
         </Styled.SlideContainerInnerImage>
         <Styled.ListEmptyTextmessage
-          text={Colors[colorScheme ?? "light"].backgroundPrimary}
+          text={Colors[getTheme()].backgroundPrimary}
         >
           <Text
             color={
               colorScheme !== "dark"
-                ? Colors[colorScheme ?? "light"].black
-                : Colors[colorScheme ?? "light"].white
+                ? Colors[getTheme()].black
+                : Colors[getTheme()].white
             }
           >
             {mensage}

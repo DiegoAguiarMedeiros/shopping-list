@@ -25,21 +25,19 @@ export default function Tags({
   handleCloseBottomSheet,
 }: TagsProps) {
   const colorScheme = useColorScheme();
-  const { tags } = useShoppingListContext();
+  const { tags, getTheme } = useShoppingListContext();
   return (
-    <Container
-      background={Colors[colorScheme ?? "light"].backgroundPrimary}
-    >
-      <ContainerInner
-        background={Colors[colorScheme ?? "light"].backgroundPrimary}>
+    <Container background={Colors[getTheme()].backgroundPrimary}>
+      <ContainerInner background={Colors[getTheme()].backgroundPrimary}>
         {tags && tags.length > 0 ? (
           <ListComponent
             items={tags}
             setBottomSheetProps={setBottomSheetProps}
             handleCloseBottomSheet={handleCloseBottomSheet}
           />
-        ) :
-          <EmptyList mensage="Você não tem nenhuma categoria cadastrada" />}
+        ) : (
+          <EmptyList mensage="Você não tem nenhuma categoria cadastrada" />
+        )}
       </ContainerInner>
     </Container>
   );

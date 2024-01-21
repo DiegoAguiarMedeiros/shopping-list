@@ -3,6 +3,7 @@ import { TextInput, TextInputProps, useColorScheme } from "react-native";
 
 import Colors from "../../constants/Colors";
 import * as Styled from "./styles";
+import { useShoppingListContext } from "../../context/ShoppingList";
 
 interface InputProps extends TextInputProps {
   placeholder: string;
@@ -11,6 +12,7 @@ interface InputProps extends TextInputProps {
 const HeaderInputTextSearch: React.FC<InputProps> = ({ placeholder, ...rest }) => {
   const colorScheme = useColorScheme();
 
+  const { getTheme } = useShoppingListContext();
   const inputRef = useRef<TextInput>(null);
 
 
@@ -23,11 +25,11 @@ const HeaderInputTextSearch: React.FC<InputProps> = ({ placeholder, ...rest }) =
   return (
     <Styled.Input
       ref={inputRef}
-      background={Colors[colorScheme ?? "light"].secondary}
-      border={Colors[colorScheme ?? "light"].secondary}
-      color={Colors[colorScheme ?? "light"].white}
+      background={Colors[getTheme()].secondary}
+      border={Colors[getTheme()].secondary}
+      color={Colors[getTheme()].white}
       placeholder={placeholder}
-      placeholderTextColor={Colors[colorScheme ?? "light"].white}
+      placeholderTextColor={Colors[getTheme()].white}
       {...rest}
     />
   );

@@ -53,11 +53,8 @@ function ListGridItem({
   active
 }: ListProps) {
   const colorScheme = useColorScheme();
-  const {
-    list,
-    listProduct,
-    handleDeleteProductFromList
-  } = useShoppingListContext();
+  const { getTheme, listProduct, handleDeleteProductFromList } =
+    useShoppingListContext();
   const listIditemuuid = `${listId}-${item.uuid}`;
 
   const listArrItems = getAmountByListProductUuidController.handle(listIditemuuid);
@@ -82,30 +79,23 @@ function ListGridItem({
       <Animated.View
         style={{
           width: 100,
-          overflow: "hidden"
+          overflow: "hidden",
         }}
       >
         <Styled.ButtonView>
           <Styled.ButtonInner
-            underlayColor={
-              Colors[colorScheme ?? "light"]
-                .swipeIconUnderlay
-            }
+            underlayColor={Colors[getTheme()].swipeIconUnderlay}
             onPress={handleDelete}
           >
             <>
-              <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].swipeIcon}
-              >
+              <Styled.ButtonTextIcon text={Colors[getTheme()].swipeIcon}>
                 <FontAwesome
                   size={18}
                   style={{ marginBottom: -3 }}
                   name="trash"
                 />
               </Styled.ButtonTextIcon>
-              <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].swipeIcon}
-              >
+              <Styled.ButtonText text={Colors[getTheme()].swipeIcon}>
                 Deletar
               </Styled.ButtonText>
             </>
@@ -129,25 +119,23 @@ function ListGridItem({
 
   const showUnitFromAmount = (amounts: IAmount[]): string => {
     let checkUnit: boolean = true;
-    let unit: string = "Un"
-    let quantity: Number = 0
-    amounts.forEach(amount => {
+    let unit: string = "Un";
+    let quantity: Number = 0;
+    amounts.forEach((amount) => {
       if (checkUnit) unit = amount.type ? "Kg" : "Un";
       if (!amount.type) checkUnit = false;
       quantity = Number(quantity) + Number(amount.quantity);
-    })
-    if (unit === "Un") return `${unit}: ${quantity.toFixed(0)}`
-    return `${unit}: ${quantity.toFixed(3)}`
-  }
-
+    });
+    if (unit === "Un") return `${unit}: ${quantity.toFixed(0)}`;
+    return `${unit}: ${quantity.toFixed(3)}`;
+  };
 
   return active === item.uuid ? (
     <GridItemNoSwipeable>
       <GridItemInner
-        underlayColor={Colors[colorScheme ?? "light"].itemListItemOpenBackgroundUnderlay}
-
-        borderColor={Colors[colorScheme ?? "light"].itemListItemOpenBackgroundBorder}
-        background={Colors[colorScheme ?? "light"].itemListItemOpenBackground}
+        underlayColor={Colors[getTheme()].itemListItemOpenBackgroundUnderlay}
+        borderColor={Colors[getTheme()].itemListItemOpenBackgroundBorder}
+        background={Colors[getTheme()].itemListItemOpenBackground}
         height={calcHeight(listArrItems.length)}
         row
         elevation={colorScheme === "light"}
@@ -155,17 +143,14 @@ function ListGridItem({
         <GridItemWrapperCol width={100} justify="flex-end">
           <GridItemWrapperRow height={100} maxHeight={50} justify="flex-end">
             <GridItemWrapperInner width={10} height={100}>
-
-              <Title
-                color={Colors[colorScheme ?? "light"].itemListItemOpenIcon}
-              >
+              <Title color={Colors[getTheme()].itemListItemOpenIcon}>
                 <FontAwesome
                   size={28}
                   style={{ marginBottom: -3 }}
                   color={
                     listArrItems.length > 0
-                      ? Colors[colorScheme ?? "light"].itemListItemOpenIconFilled
-                      : Colors[colorScheme ?? "light"].itemListItemOpenIcon
+                      ? Colors[getTheme()].itemListItemOpenIconFilled
+                      : Colors[getTheme()].itemListItemOpenIcon
                   }
                   name={listArrItems.length > 0 ? "check-circle-o" : "circle-o"}
                 />
@@ -173,41 +158,43 @@ function ListGridItem({
             </GridItemWrapperInner>
             <GridItemWrapperInner width={80} height={100}>
               <GridItemWrapperCol width={100}>
-                <GridItemWrapperInner width={100} height={50} justify="flex-end">
-                  <Title2
-                    color={Colors[colorScheme ?? "light"].itemListItemOpenText}
-                  >
+                <GridItemWrapperInner
+                  width={100}
+                  height={50}
+                  justify="flex-end"
+                >
+                  <Title2 color={Colors[getTheme()].itemListItemOpenText}>
                     {item.name}
                   </Title2>
                 </GridItemWrapperInner>
                 <GridItemWrapperRow height={50}>
-                  <GridItemWrapperInner width={50} height={100} justify="flex-start">
-
-
+                  <GridItemWrapperInner
+                    width={50}
+                    height={100}
+                    justify="flex-start"
+                  >
                     <Text
-                      color={Colors[colorScheme ?? "light"].itemListItemOpenTextSecondary}
-
+                      color={Colors[getTheme()].itemListItemOpenTextSecondary}
                     >
                       Total: R$ {total.toFixed(2).replace(".", ",")}
                     </Text>
                   </GridItemWrapperInner>
-                  <GridItemWrapperInner width={50} height={100}
-                    justify="flex-start">
+                  <GridItemWrapperInner
+                    width={50}
+                    height={100}
+                    justify="flex-start"
+                  >
                     <Text
-                      color={Colors[colorScheme ?? "light"].itemListItemOpenTextSecondary}
+                      color={Colors[getTheme()].itemListItemOpenTextSecondary}
                     >
                       {showUnitFromAmount(listArrItems)}
                     </Text>
                   </GridItemWrapperInner>
                 </GridItemWrapperRow>
-
               </GridItemWrapperCol>
             </GridItemWrapperInner>
             <GridItemWrapperInner width={10} height={100}>
-              <Title
-                color={Colors[colorScheme ?? "light"].text}
-                align="right"
-              >
+              <Title color={Colors[getTheme()].text} align="right">
                 <FontAwesome
                   onPress={() => handleClose()}
                   size={28}
@@ -217,43 +204,45 @@ function ListGridItem({
               </Title>
             </GridItemWrapperInner>
           </GridItemWrapperRow>
-          <GridItemWrapperRow height={heights[listArrItems.length >= 4 ? 4 : listArrItems.length]} justify="flex-end">
+          <GridItemWrapperRow
+            height={heights[listArrItems.length >= 4 ? 4 : listArrItems.length]}
+            justify="flex-end"
+          >
             <GridItemWrapperCol width={100}>
-              <AddPriceUnit listProductUuid={listIditemuuid} listArrItems={listArrItems} />
+              <AddPriceUnit
+                listProductUuid={listIditemuuid}
+                listArrItems={listArrItems}
+              />
             </GridItemWrapperCol>
           </GridItemWrapperRow>
         </GridItemWrapperCol>
       </GridItemInner>
     </GridItemNoSwipeable>
-
   ) : (
     <GridItem
       renderRightActions={RightSwipe}
-      leftThreshold={undefined} rightThreshold={100}>
+      leftThreshold={undefined}
+      rightThreshold={100}
+    >
       <GridItemInner
         onPress={() => handleOpen(item.uuid)}
-        underlayColor={Colors[colorScheme ?? "light"].itemListBackgroundUnderlay}
-        borderColor={
-          Colors[colorScheme ?? "light"].itemListBackgroundBorder
-        }
-        background={Colors[colorScheme ?? "light"].itemListBackground}
+        underlayColor={Colors[getTheme()].itemListBackgroundUnderlay}
+        borderColor={Colors[getTheme()].itemListBackgroundBorder}
+        background={Colors[getTheme()].itemListBackground}
         height={70}
         row
         elevation={colorScheme === "light"}
       >
         <GridItemWrapperRow height={100} maxHeight={60} justify="flex-end">
           <GridItemWrapperInner width={10} height={100}>
-
-            <Title
-              color={Colors[colorScheme ?? "light"].text}
-            >
+            <Title color={Colors[getTheme()].text}>
               <FontAwesome
                 size={28}
                 style={{ marginBottom: -3 }}
                 color={
                   listArrItems.length > 0
-                    ? Colors[colorScheme ?? "light"].itemListIconFilled
-                    : Colors[colorScheme ?? "light"].itemListIcon
+                    ? Colors[getTheme()].itemListIconFilled
+                    : Colors[getTheme()].itemListIcon
                 }
                 name={listArrItems.length > 0 ? "check-circle-o" : "circle-o"}
               />
@@ -262,40 +251,32 @@ function ListGridItem({
           <GridItemWrapperInner width={80} height={100}>
             <GridItemWrapperCol width={100}>
               <GridItemWrapperInner width={100} height={50} justify="flex-end">
-                <Title2
-                  color={Colors[colorScheme ?? "light"].text}
-                >
-                  {item.name}
-                </Title2>
+                <Title2 color={Colors[getTheme()].text}>{item.name}</Title2>
               </GridItemWrapperInner>
               <GridItemWrapperRow height={50}>
-                <GridItemWrapperInner width={50} height={100}
-                  justify="flex-start">
-
-
-                  <Text
-                    color={Colors[colorScheme ?? "light"].textSecondary}
-                  >
+                <GridItemWrapperInner
+                  width={50}
+                  height={100}
+                  justify="flex-start"
+                >
+                  <Text color={Colors[getTheme()].textSecondary}>
                     Total: R$ {total.toFixed(2).replace(".", ",")}
                   </Text>
                 </GridItemWrapperInner>
-                <GridItemWrapperInner width={50} height={100}
-                  justify="flex-start">
-                  <Text
-                    color={Colors[colorScheme ?? "light"].textSecondary}
-                  >
+                <GridItemWrapperInner
+                  width={50}
+                  height={100}
+                  justify="flex-start"
+                >
+                  <Text color={Colors[getTheme()].textSecondary}>
                     {showUnitFromAmount(listArrItems)}
                   </Text>
                 </GridItemWrapperInner>
               </GridItemWrapperRow>
-
             </GridItemWrapperCol>
           </GridItemWrapperInner>
           <GridItemWrapperInner width={10} height={100}>
-            <Title
-              color={Colors[colorScheme ?? "light"].text}
-              align="right"
-            >
+            <Title color={Colors[getTheme()].text} align="right">
               <FontAwesome
                 onPress={() => handleOpen(item.uuid)}
                 size={28}
@@ -305,8 +286,8 @@ function ListGridItem({
             </Title>
           </GridItemWrapperInner>
         </GridItemWrapperRow>
-      </GridItemInner >
-    </GridItem >
+      </GridItemInner>
+    </GridItem>
   );
 }
 

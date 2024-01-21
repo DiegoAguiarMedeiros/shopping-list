@@ -49,6 +49,7 @@ import NewTagForm from "../components/NewTagForm";
 import { useRouter } from "expo-router";
 import NewProductForm from "../components/NewProductForm";
 import ProductsList from "./ProductsList";
+import ConfigScreen from "./config";
 import NewItemForm from "../components/NewItemForm";
 import HeaderInputTextSearch from "../components/HeaderInputTextSearch";
 // Keep the splash screen visible while we fetch resources
@@ -57,6 +58,7 @@ SplashScreen.preventAutoHideAsync();
 export default function App() {
   const [active, setActive] = useState(false);
   const [appIsReady, setAppIsReady] = useState(false);
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
   const [activeRoute, setActiveRoute] = useState<string>("home");
   const colorScheme = useColorScheme();
   useEffect(() => {
@@ -111,27 +113,34 @@ export default function App() {
   };
   return (
     <>
-      <StatusBar
-        backgroundColor={Colors[colorScheme ?? "light"].primary}
-      />
-      <ShoppingListProvider>
+      <StatusBar backgroundColor={Colors[theme].primary} />
+      <ShoppingListProvider theme={theme}>
         {!active && <OnboardingScreen closeOnboarding={closeOnboarding} />}
-        {appIsReady && active && <RootLayoutNav />}
+        {appIsReady && active && (
+          <RootLayoutNav theme={theme} setTheme={setTheme} />
+        )}
       </ShoppingListProvider>
     </>
   );
 }
 
-function RootLayoutNav() {
+type RootLayoutNavProps = {
+  theme: "light" | "dark";
+  setTheme: React.Dispatch<React.SetStateAction<"light" | "dark">>;
+};
+
+function RootLayoutNav({ theme, setTheme }: RootLayoutNavProps) {
   const colorScheme = useColorScheme();
   const router = useRouter();
   const [activeRoute, setActiveRoute] = useState<string>("home");
-  const [activeRouteHeader, setActiveRouteHeader] = useState<{ name: React.ReactNode, left: React.ReactNode | null, right: React.ReactNode | null }>({
+  const [activeRouteHeader, setActiveRouteHeader] = useState<{
+    name: React.ReactNode;
+    left: React.ReactNode | null;
+    right: React.ReactNode | null;
+  }>({
     left: null,
-    name: <Title color={Colors[colorScheme ?? "light"].white}>
-      Listas
-    </Title>,
-    right: null
+    name: <Title color={Colors[theme].white}>Listas</Title>,
+    right: null,
   });
 
   const [search, setSearch] = useState("");
@@ -189,9 +198,6 @@ function RootLayoutNav() {
     isVisible: false,
   });
 
-
-
-
   const handleShowSearchInput = () => {
     setActiveRouteHeader({
       left: null,
@@ -204,15 +210,11 @@ function RootLayoutNav() {
       ),
       right: (
         <TouchableHighlight
-          underlayColor={Colors[colorScheme ?? "light"].secondary}
+          underlayColor={Colors[theme].secondary}
           style={{ marginRight: 20 }}
           onPress={() => clearHeaderProduct()}
         >
-          <FontAwesome
-            name="times"
-            size={25}
-            color={Colors[colorScheme ?? "light"].white}
-          />
+          <FontAwesome name="times" size={25} color={Colors[theme].white} />
         </TouchableHighlight>
       ),
     });
@@ -222,20 +224,14 @@ function RootLayoutNav() {
     setSearch("");
     setActiveRouteHeader({
       left: null,
-      name: (
-        <Title color={Colors[colorScheme ?? "light"].white}>Produtos</Title>
-      ),
+      name: <Title color={Colors[theme].white}>Produtos</Title>,
       right: (
         <TouchableHighlight
-          underlayColor={Colors[colorScheme ?? "light"].primary}
+          underlayColor={Colors[theme].primary}
           style={{ marginLeft: 20, marginRight: 20 }}
           onPress={() => handleShowSearchInput()}
         >
-          <FontAwesome
-            name="search"
-            size={25}
-            color={Colors[colorScheme ?? "light"].white}
-          />
+          <FontAwesome name="search" size={25} color={Colors[theme].white} />
         </TouchableHighlight>
       ),
     });
@@ -280,20 +276,14 @@ function RootLayoutNav() {
       setSearch("");
       setActiveRouteHeader({
         left: null,
-        name: (
-          <Title color={Colors[colorScheme ?? "light"].white}>Produtos</Title>
-        ),
+        name: <Title color={Colors[theme].white}>Produtos</Title>,
         right: (
           <TouchableHighlight
-            underlayColor={Colors[colorScheme ?? "light"].primary}
+            underlayColor={Colors[theme].primary}
             style={{ marginLeft: 20, marginRight: 20 }}
             onPress={() => handleShowSearchInput()}
           >
-            <FontAwesome
-              name="search"
-              size={25}
-              color={Colors[colorScheme ?? "light"].white}
-            />
+            <FontAwesome name="search" size={25} color={Colors[theme].white} />
           </TouchableHighlight>
         ),
       });
@@ -321,8 +311,7 @@ function RootLayoutNav() {
       name: "home",
       icon: "shopping-bag",
       addButton: false,
-      func: () =>
-        handleChangeRoute("home"),
+      func: () => handleChangeRoute("home"),
     },
     {
       name: "product",
@@ -334,7 +323,10 @@ function RootLayoutNav() {
       name: "add",
       icon: "plus",
       addButton: true,
-      func: () => activeRoute !== "history" ? setBottomSheetProps({ ...bottomSheetProps, isVisible: true }) : null,
+      func: () =>
+        activeRoute !== "history"
+          ? setBottomSheetProps({ ...bottomSheetProps, isVisible: true })
+          : null,
     },
     {
       name: "tags",
@@ -356,20 +348,30 @@ function RootLayoutNav() {
         screenOptions={{
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           headerStyle: {
-            backgroundColor:
-              Colors[colorScheme ?? "light"].primary,
+            backgroundColor: Colors[theme].primary,
           },
-          headerTintColor: Colors[colorScheme ?? "light"].primary,
+          headerTintColor: Colors[theme].primary,
         }}
       >
         <Stack.Screen
           name={"home"}
           options={{
             headerLeft: () => null,
+            headerRight: () => (
+              <TouchableHighlight
+                underlayColor={Colors[theme].primary}
+                style={{ marginLeft: 20, marginRight: 20 }}
+                onPress={() => router.push({ pathname: "config" })}
+              >
+                <FontAwesome
+                  name="gear"
+                  size={25}
+                  color={Colors[theme].white}
+                />
+              </TouchableHighlight>
+            ),
             headerTitle: (props) => (
-              <Title color={Colors[colorScheme ?? "light"].white}>
-                Listas
-              </Title>
+              <Title color={Colors[theme].white}>Listas</Title>
             ),
           }}
         >
@@ -403,9 +405,7 @@ function RootLayoutNav() {
           options={{
             headerLeft: () => null,
             headerTitle: (props) => (
-              <Title color={Colors[colorScheme ?? "light"].white}>
-                Categorias
-              </Title>
+              <Title color={Colors[theme].white}>Categorias</Title>
             ),
           }}
         >
@@ -458,27 +458,45 @@ function RootLayoutNav() {
             headerRight: () => activeRouteHeader.right,
           }}
         >
-          {() => (
-            <ItemsArchived
-              setActiveRouteHeader={setActiveRouteHeader}
-            />
-          )}
+          {() => <ItemsArchived setActiveRouteHeader={setActiveRouteHeader} />}
         </Stack.Screen>
         <Stack.Screen
           name="history"
           component={History}
           options={{
             headerTitle: (props) => (
-              <Title color={Colors[colorScheme ?? "light"].white}>
-                Histórico
-              </Title>
+              <Title color={Colors[theme].white}>Histórico</Title>
             ),
             headerLeft: () => null,
           }}
         />
+        <Stack.Screen
+          name="config"
+          options={{
+            headerTitle: (props) => (
+              <Title color={Colors[theme].white}>Configurações</Title>
+            ),
+            headerLeft: () => (
+              <TouchableHighlight
+                underlayColor={Colors[theme].primary}
+                style={{ marginLeft: 20, marginRight: 10 }}
+                onPress={() => router.push({ pathname: "home" })}
+              >
+                <FontAwesome
+                  name="angle-left"
+                  size={35}
+                  color={Colors[theme].white}
+                />
+              </TouchableHighlight>
+            ),
+          }}
+        >
+          {() => <ConfigScreen setTheme={setTheme} />}
+        </Stack.Screen>
       </Stack.Navigator>
       <BottomSheet {...bottomSheetProps} />
       <BottomNavigation
+        theme={theme}
         routes={routes}
         active={activeRoute}
         setActiveRoute={setActiveRoute}

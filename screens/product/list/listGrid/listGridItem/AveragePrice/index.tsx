@@ -6,39 +6,38 @@ import Colors from "../../../../../../constants/Colors";
 import { Text } from "../../../../../../components/Text";
 import Container from "../../../../../../components/Container";
 import { ILastPrices } from "../../../../../../Domain/Model/IProduct";
+import { useShoppingListContext } from "../../../../../../context/ShoppingList";
 interface AveragePriceProps {
-    price: ILastPrices[];
+  price: ILastPrices[];
 }
 
-export default function AveragePrice({
-    price,
-}: Readonly<AveragePriceProps>) {
+export default function AveragePrice({ price }: Readonly<AveragePriceProps>) {
+  const colorScheme = useColorScheme();
 
-    const colorScheme = useColorScheme();
+  const { getTheme } = useShoppingListContext();
+  const calculateAveragePrice = (items: ILastPrices[]): number => {
+    const prices: number[] = items.map((item) => item.price);
 
-    const calculateAveragePrice = (items: ILastPrices[]): number => {
-        const prices: number[] = items.map(item => item.price);
-
-        if (prices.length === 0) {
-            return 0; // Return 0 for an empty array, or handle this case differently
-        }
-
-        const sum = prices.reduce((total, price) => total + price, 0);
-        const average = sum / prices.length;
-        return average;
+    if (prices.length === 0) {
+      return 0; // Return 0 for an empty array, or handle this case differently
     }
 
-    return (
-        <>
-            <Text
-                color={Colors[colorScheme ?? "light"].textSecondary}
-                align="right"
-            >Preço médio</Text>
-            <Text
+    const sum = prices.reduce((total, price) => total + price, 0);
+    const average = sum / prices.length;
+    return average;
+  };
 
-                align="right"
-                color={Colors[colorScheme ?? "light"].itemProductListAveragePrice}
-            >R$ {calculateAveragePrice(price).toFixed(2).replace(".", ",")}</Text>
-        </>
-    );
+  return (
+    <>
+      <Text color={Colors[getTheme()].textSecondary} align="right">
+        Preço médio
+      </Text>
+      <Text
+        align="right"
+        color={Colors[getTheme()].itemProductListAveragePrice}
+      >
+        R$ {calculateAveragePrice(price).toFixed(2).replace(".", ",")}
+      </Text>
+    </>
+  );
 }

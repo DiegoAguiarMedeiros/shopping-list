@@ -32,19 +32,21 @@ function ListGrid({ listId, listArrItems }: Readonly<ListProps>) {
 
   const colorScheme = useColorScheme();
 
+  const { getTheme } = useShoppingListContext();
 
   const total = getTotalAmountByListUuidController.handle(listId);
 
 
   return (
-    <Container
-      background={"transparent"}
-    >
+    <Container background={"transparent"}>
       <ContainerInner>
-        <GridItemWrapperRow height={95} >
-
+        <GridItemWrapperRow height={95}>
           <SafeAreaView style={{ width: "100%" }}>
-            <ScrollView keyboardShouldPersistTaps="handled" style={[{ height: "100%" }]} nestedScrollEnabled>
+            <ScrollView
+              keyboardShouldPersistTaps="handled"
+              style={[{ height: "100%" }]}
+              nestedScrollEnabled
+            >
               {listArrItems.map((item: IProduct) => (
                 <ListGridItem
                   key={"ListGridItem-" + item.uuid}
@@ -55,27 +57,19 @@ function ListGrid({ listId, listArrItems }: Readonly<ListProps>) {
             </ScrollView>
           </SafeAreaView>
         </GridItemWrapperRow>
-        <GridItemWrapperRow height={5} >
-          <GridItemWrapperCol width={50} height={100} >
-
+        <GridItemWrapperRow height={5}>
+          <GridItemWrapperCol width={50} height={100}>
             <GridItemWrapperInner height={100}>
-              <Text
-                color={Colors[colorScheme ?? "light"].text}
-              >
+              <Text color={Colors[getTheme()].text}>
                 Items:{" "}
                 {getTotalQuantityAmountByListUuidController.handle(listId)}
               </Text>
             </GridItemWrapperInner>
           </GridItemWrapperCol>
-          <GridItemWrapperCol width={50} height={100} >
-
+          <GridItemWrapperCol width={50} height={100}>
             <GridItemWrapperInner height={100}>
-              <Text
-                color={Colors[colorScheme ?? "light"].text}
-                align="right"
-              >
-                Total: R${" "}
-                {total.toFixed(2).replace(".", ",")}
+              <Text color={Colors[getTheme()].text} align="right">
+                Total: R$ {total.toFixed(2).replace(".", ",")}
               </Text>
             </GridItemWrapperInner>
           </GridItemWrapperCol>

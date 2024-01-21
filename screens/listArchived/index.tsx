@@ -35,9 +35,7 @@ interface ListProps {
 
 export default function ListArchived({ listId, setActiveRouteHeader }: ListProps) {
   const colorScheme = useColorScheme();
-  const {
-    listArchived
-  } = useShoppingListContext();
+  const { listArchived, getTheme } = useShoppingListContext();
   const listArr = listArchived.find((i) => i.uuid === listId);
   const [filter, setFilter] = useState("Todos");
 
@@ -50,32 +48,36 @@ export default function ListArchived({ listId, setActiveRouteHeader }: ListProps
 
   useEffect(() => {
     setActiveRouteHeader({
-      left: <TouchableHighlight underlayColor={Colors[colorScheme ?? "light"].primary} style={{ marginLeft: 20, marginRight: 10 }} onPress={() => returnToTags()}>
-        <FontAwesome
-          name="angle-left"
-          size={35}
-          color={Colors[colorScheme ?? "light"].white}
-        />
-      </TouchableHighlight>,
-      name: <Title color={Colors[colorScheme ?? "light"].white}>
-        {listArr?.name!}
-      </Title>,
+      left: (
+        <TouchableHighlight
+          underlayColor={Colors[getTheme()].primary}
+          style={{ marginLeft: 20, marginRight: 10 }}
+          onPress={() => returnToTags()}
+        >
+          <FontAwesome
+            name="angle-left"
+            size={35}
+            color={Colors[getTheme()].white}
+          />
+        </TouchableHighlight>
+      ),
+      name: <Title color={Colors[getTheme()].white}>{listArr?.name!}</Title>,
       right: null,
     });
-  }, [])
+  }, []);
 
   return (
-    <Container
-      background={Colors[colorScheme ?? "light"].backgroundPrimary}
-      noPadding
-    >
+    <Container background={Colors[getTheme()].backgroundPrimary} noPadding>
       <ContainerInner
         justify="center"
-        background={Colors[colorScheme ?? "light"].backgroundPrimary}>
+        background={Colors[getTheme()].backgroundPrimary}
+      >
         {listArrItems.length > 0 ? (
-          <ListGrid filter={filter}
+          <ListGrid
+            filter={filter}
             listArrItems={listArrItems}
-            listId={listId} />
+            listId={listId}
+          />
         ) : (
           <EmptyList mensage="Você não tem nenhum item na lista" />
         )}

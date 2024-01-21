@@ -31,6 +31,7 @@ import { ToastAndroid } from "react-native";
 
 
 type ShoppingListProviderProps = {
+  theme: "light" | "dark";
   children: React.ReactNode;
 };
 
@@ -61,6 +62,7 @@ type ShoppingListContextType = {
   handleDeleteAmountInList: (amountUuid: string) => void;
   changeAmountQuantity: (newQuantity: string, amountUuid: string) => IAmount;
   handleAmountInputChange: (value: string, amountUuid: string) => IAmount;
+  getTheme(): "light" | "dark";
 };
 
 const getListsFromStorage = (): IList[] => {
@@ -190,6 +192,7 @@ const showToast = (message: string) => {
 };
 
 const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
+  theme,
   children,
 }) => {
   const [list, setList] = useState<IList[]>([]);
@@ -198,13 +201,10 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   const [amount, setAmount] = useState<IAmount[]>([]);
   const [listArchived, setListArchived] = useState<IList[]>([]);
 
-  const [listProductArchived, setListProductArchived] =
-    useState<IProduct[]>([]);
-  const [listAmountArchived, setListAmountArchived] =
-    useState<IAmount[]>([]);
-
-
-
+  const [listProductArchived, setListProductArchived] = useState<IProduct[]>(
+    []
+  );
+  const [listAmountArchived, setListAmountArchived] = useState<IAmount[]>([]);
 
   const loadList = (): void => {
     const listArr = getListsFromStorage();
@@ -240,7 +240,6 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     const newListItem = returnNewList(listName);
     saveNewList(newListItem);
 
-
     const newList = list ? [newListItem, ...list] : [newListItem];
     const newListToSorted = sortArrayOfObjects(newList, "name");
     setList(newListToSorted);
@@ -261,18 +260,14 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     }
   };
 
-
   const handleEditList = (listUuid: string, listName: string): void => {
     const updatedList: IList[] = JSON.parse(JSON.stringify(list));
     const selectedItem = list.find((item) => item.uuid === listUuid);
     if (selectedItem) {
       selectedItem.name = listName;
 
-      const newUpdatedList = updatedList.map(item =>
-      (item.uuid === selectedItem.uuid ?
-        selectedItem
-        :
-        item)
+      const newUpdatedList = updatedList.map((item) =>
+        item.uuid === selectedItem.uuid ? selectedItem : item
       );
       saveNewList(selectedItem);
       setList(sortArrayOfObjects(newUpdatedList, "name"));
@@ -282,15 +277,15 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   };
 
   const handleAddListItem = (listUuid: string, item: string): void => {
-    addProductToListByUuidController.handle(listUuid, item)
-    const product = getListProductController.handle([item])
+    addProductToListByUuidController.handle(listUuid, item);
+    const product = getListProductController.handle([item]);
 
     const newProductList = listProduct.map((l) => {
       if (l.uuid === listUuid) {
-        return product[0]
+        return product[0];
       }
       return l;
-    })
+    });
     setListProduct(sortArrayOfObjects(newProductList, "name"));
 
     const newList = list.map((l) => {
@@ -299,7 +294,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         if (!l.tags.includes(product[0].tag)) l.tags.push(product[0].tag);
       }
       return l;
-    })
+    });
     setList([...newList]);
     showToast("Produto adicionado com sucesso!");
   };
@@ -308,24 +303,26 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     const newProduct = returnNewProduct(productName, tag);
     saveNewProduct(newProduct);
 
-    const newListProduct = listProduct ? [newProduct, ...listProduct] : [newProduct];
+    const newListProduct = listProduct
+      ? [newProduct, ...listProduct]
+      : [newProduct];
     const newListProductToSorted = sortArrayOfObjects(newListProduct, "name");
     setListProduct(newListProductToSorted);
 
     showToast("Produto criado com sucesso!");
   };
 
-  const handleEditListProduct = (listUuid: string, productName: string): void => {
+  const handleEditListProduct = (
+    listUuid: string,
+    productName: string
+  ): void => {
     const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
     const selectedItem = listProduct.find((item) => item.uuid === listUuid);
     if (selectedItem) {
       selectedItem.name = productName;
 
-      const newUpdatedList = updatedList.map(item =>
-      (item.uuid === selectedItem.uuid ?
-        selectedItem
-        :
-        item)
+      const newUpdatedList = updatedList.map((item) =>
+        item.uuid === selectedItem.uuid ? selectedItem : item
       );
       saveNewProduct(selectedItem);
       setListProduct(sortArrayOfObjects(newUpdatedList, "name"));
@@ -335,7 +332,6 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   };
 
   const handleAddTag = (tag: string): void => {
-
     const newTag = returnNewTag(tag);
     saveNewTag(newTag);
     const newTags = tags ? [newTag, ...tags] : [newTag];
@@ -345,17 +341,13 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     showToast("Categoria criada com sucesso!");
   };
 
-
   const handleEditTag = (tagUuid: string, tag: string): void => {
     const updatedTag: ITag[] = JSON.parse(JSON.stringify(tags));
     const selectedTag = tags.find((item) => item.uuid === tagUuid);
     if (selectedTag) {
       selectedTag.name = tag;
-      const newUpdatedList = updatedTag.map(item =>
-      (item.uuid === selectedTag.uuid ?
-        selectedTag
-        :
-        item)
+      const newUpdatedList = updatedTag.map((item) =>
+        item.uuid === selectedTag.uuid ? selectedTag : item
       );
       saveNewTag(selectedTag);
       setTags(sortArrayOfObjects(newUpdatedList, "name"));
@@ -364,7 +356,10 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     }
   };
 
-  const handleAddAmount = (newAmount: string, listProductUuid: string): void => {
+  const handleAddAmount = (
+    newAmount: string,
+    listProductUuid: string
+  ): void => {
     const newListItem = returnNewItemAmount(newAmount, listProductUuid);
     saveAmountByUuidController.handle(newListItem);
     const productUuid = listProductUuid.substring(36 + 1, 36 * 2 + 1);
@@ -380,46 +375,50 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
       } else {
         product.lastPrices = {};
       }
-      const amounts = getAmountByListProductUuidController.handle(listProductUuid);
+      const amounts =
+        getAmountByListProductUuidController.handle(listProductUuid);
       const average = calculateAverageAmount(amounts);
-      product.lastPrices[listProductUuid] = { uuid: listProductUuid, price: average };
-      const newUpdatedList = listProduct.map(item => {
+      product.lastPrices[listProductUuid] = {
+        uuid: listProductUuid,
+        price: average,
+      };
+      const newUpdatedList = listProduct.map((item) => {
         if (item.uuid === productUuid) {
           return product;
         }
         return item;
-      }
-      );
+      });
 
       setListProduct([...newUpdatedList]);
     }
 
-
-    saveNewAmount(newListItem)
-    amount ?
-      setAmount([newListItem, ...amount]) :
-      setAmount([newListItem]);
+    saveNewAmount(newListItem);
+    amount ? setAmount([newListItem, ...amount]) : setAmount([newListItem]);
   };
-
 
   const handleDeleteList = (listUuid: string, showToastOnScreen = true) => {
     const updatedList: IList[] = JSON.parse(JSON.stringify(list));
-    const newupdatedList = updatedList.filter(i => listUuid !== i.uuid)
+    const newupdatedList = updatedList.filter((i) => listUuid !== i.uuid);
     deleteList(listUuid);
     setList(newupdatedList);
 
-    if (showToastOnScreen) { showToast("Lista removida com sucesso!") };
+    if (showToastOnScreen) {
+      showToast("Lista removida com sucesso!");
+    }
   };
 
   const handleDeleteProduct = (productUuid: string) => {
     const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
-    const newupdatedList = updatedList.filter(i => productUuid !== i.uuid)
+    const newupdatedList = updatedList.filter((i) => productUuid !== i.uuid);
     deleteProduct(productUuid);
     setListProduct(newupdatedList);
     showToast("Produto deletado com sucesso!");
   };
 
-  const handleDeleteProductFromList = (listUuid: string, productUuid: string) => {
+  const handleDeleteProductFromList = (
+    listUuid: string,
+    productUuid: string
+  ) => {
     deleteProductFromList(listUuid, productUuid);
 
     console.log("newList");
@@ -444,9 +443,11 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     const selectedItem = archivedList.find((i) => i.uuid === listUuid);
     if (selectedItem) {
       handleDeleteList(listUuid, false);
-      saveNewListArchived(selectedItem)
+      saveNewListArchived(selectedItem);
 
-      const newList = listArchived ? [selectedItem, ...listArchived] : [selectedItem];
+      const newList = listArchived
+        ? [selectedItem, ...listArchived]
+        : [selectedItem];
       const newListToSorted = sortArrayOfObjects(newList, "name");
       setListArchived(newListToSorted);
       showToast("Lista arquivada com sucesso!");
@@ -455,70 +456,81 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
 
   const handleDeleteListArchived = (listUuid: string) => {
     const updatedList: IList[] = JSON.parse(JSON.stringify(listArchived));
-    const newupdatedList = updatedList.filter(i => listUuid !== i.uuid)
+    const newupdatedList = updatedList.filter((i) => listUuid !== i.uuid);
     deleteListArchived(listUuid);
     setListArchived(newupdatedList);
     showToast("Lista arquivada deletada com sucesso!");
   };
 
-
   const handleEditItemsAmount = (amountUuid: string, type: boolean): void => {
-    const amountlist = amount.map(amount => {
+    const amountlist = amount.map((amount) => {
       if (amount.uuid === amountUuid) {
         amount.type = type;
         amount.quantity = "1";
-        saveNewAmount(amount)
+        saveNewAmount(amount);
       }
-      return amount
-    })
+      return amount;
+    });
     setAmount(amountlist);
   };
 
   const handleDeleteAmountInList = (amountUuid: string): void => {
-    deleteAmount(amountUuid)
+    deleteAmount(amountUuid);
     const updatedAmount: IAmount[] = JSON.parse(
-      JSON.stringify(amount.filter(a => a.uuid !== amountUuid))
+      JSON.stringify(amount.filter((a) => a.uuid !== amountUuid))
     );
     setAmount(updatedAmount);
   };
 
-  const changeAmountQuantity = (newQuantity: string, amountUuid: string): IAmount => {
+  const changeAmountQuantity = (
+    newQuantity: string,
+    amountUuid: string
+  ): IAmount => {
     const updatedAmount: IAmount[] = JSON.parse(
-      JSON.stringify(amount.filter(a => a.uuid === amountUuid))
+      JSON.stringify(amount.filter((a) => a.uuid === amountUuid))
     );
     updatedAmount[0].quantity = newQuantity;
-    const amountlist = amount.map(a => {
+    const amountlist = amount.map((a) => {
       if (a.uuid === updatedAmount[0].uuid) {
         saveNewAmount(updatedAmount[0]);
-        return updatedAmount[0]
+        return updatedAmount[0];
       }
-      return a
-    })
+      return a;
+    });
     setAmount(amountlist);
     return updatedAmount[0];
   };
 
-  const handleAmountInputChange = (value: string, amountUuid: string): IAmount => {
+  const handleAmountInputChange = (
+    value: string,
+    amountUuid: string
+  ): IAmount => {
     const updatedAmount: IAmount[] = JSON.parse(
-      JSON.stringify(amount.filter(a => a.uuid === amountUuid))
+      JSON.stringify(amount.filter((a) => a.uuid === amountUuid))
     );
     updatedAmount[0].quantity = value;
-    const amountlist = amount.map(a => {
+    const amountlist = amount.map((a) => {
       if (a.uuid === amountUuid) {
         saveNewAmount(updatedAmount[0]);
-        return updatedAmount[0]
+        return updatedAmount[0];
       }
-      return a
-    })
+      return a;
+    });
     setAmount(amountlist);
     return updatedAmount[0];
   };
 
   const handleDeleteTag = (tagUuid: string) => {
-    const updatedList: ITag[] = JSON.parse(JSON.stringify(tags.filter(i => tagUuid !== i.uuid)));
+    const updatedList: ITag[] = JSON.parse(
+      JSON.stringify(tags.filter((i) => tagUuid !== i.uuid))
+    );
     deleteTag(tagUuid);
     setTags(updatedList);
     showToast("Categoria removida com sucesso!");
+  };
+
+  const getTheme = (): "light" | "dark" => {
+    return theme;
   };
 
   useEffect(() => {
@@ -530,7 +542,6 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     loadListProductArchived();
     loadListAmountArchived();
   }, []);
-
 
   return (
     <ShoppingListContext.Provider
@@ -561,6 +572,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         changeAmountQuantity: changeAmountQuantity,
         handleAmountInputChange: handleAmountInputChange,
         handleDeleteTag: handleDeleteTag,
+        getTheme: getTheme,
       }}
     >
       {children}

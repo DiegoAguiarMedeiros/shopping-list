@@ -3,6 +3,7 @@ import { TouchableHighlightProps, useColorScheme } from "react-native";
 import Colors from "../../../../../../constants/Colors";
 import * as Styled from "./styles";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useShoppingListContext } from "../../../../../../context/ShoppingList";
 
 interface ButtonProps extends TouchableHighlightProps {
   invertSide?: boolean;
@@ -17,12 +18,13 @@ const Button: React.FC<ButtonProps> = ({
   ...rest
 }) => {
   const colorScheme = useColorScheme();
+  const { getTheme } = useShoppingListContext();
   return (
     <Styled.Button
       onPress={onPress}
       {...rest}
-      border={Colors[colorScheme ?? "light"].itemListItemOpenButtonBorder}
-      background={Colors[colorScheme ?? "light"].itemListItemOpenButtonBackGround}
+      border={Colors[getTheme()].itemListItemOpenButtonBorder}
+      background={Colors[getTheme()].itemListItemOpenButtonBackGround}
       invertSide={invertSide!}
     >
       {icon !== undefined ? (
@@ -30,7 +32,7 @@ const Button: React.FC<ButtonProps> = ({
           size={20}
           style={{ marginBottom: -3 }}
           name={icon}
-          color={Colors[colorScheme ?? "light"].itemListItemOpenButtonText}
+          color={Colors[getTheme()].itemListItemOpenButtonText}
         />
       ) : null}
     </Styled.Button>

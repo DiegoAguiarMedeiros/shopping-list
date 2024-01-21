@@ -4,6 +4,7 @@ import Colors from "../../constants/Colors";
 import * as Styled from "./styles";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Text } from "../Text/";
+import { useShoppingListContext } from "../../context/ShoppingList";
 export interface ButtonProps extends TouchableHighlightProps {
   text?: string;
   textColor?: string;
@@ -811,12 +812,14 @@ const Button: React.FC<ButtonProps> = ({
   ...rest
 }) => {
   const colorScheme = useColorScheme();
+
+  const { getTheme } = useShoppingListContext();
   return (
     <Styled.Button
       radius={!radius}
       onPress={onPress}
       {...rest}
-      border={border ?? Colors[colorScheme ?? "light"].primary}
+      border={border ?? Colors[getTheme()].primary}
       background={background}
       height={text === undefined ? "100%" : "35px"}
     >
@@ -826,11 +829,13 @@ const Button: React.FC<ButtonProps> = ({
             size={20}
             style={{ marginBottom: -3, marginRight: 10 }}
             name={icon}
-            color={textColor ?? Colors[colorScheme ?? "light"].white}
+            color={textColor ?? Colors[getTheme()].white}
           />
         ) : null}
         {text !== undefined ? (
-          <Text color={textColor ?? Colors[colorScheme ?? "light"].white} align="center">{text}</Text>
+          <Text color={textColor ?? Colors[getTheme()].white} align="center">
+            {text}
+          </Text>
         ) : null}
       </>
     </Styled.Button>

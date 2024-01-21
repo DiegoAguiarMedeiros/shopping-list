@@ -3,6 +3,7 @@ import { Animated, useColorScheme } from "react-native";
 import * as Styled from "./styles";
 import Colors from "../../constants/Colors";
 import { useEffect, useRef } from "react";
+import { useShoppingListContext } from "../../context/ShoppingList";
 
 const AnimatedBottomSheet = Animated.createAnimatedComponent(
   Styled.BottomSheet
@@ -17,6 +18,7 @@ export type BottomSheetProps = {
 const BottomSheet = ({ isVisible, children, height }: BottomSheetProps) => {
   const colorScheme = useColorScheme();
 
+  const { getTheme } = useShoppingListContext();
   const animation = useRef(new Animated.Value(0)).current;
 
   const translateY = animation.interpolate({
@@ -41,7 +43,7 @@ const BottomSheet = ({ isVisible, children, height }: BottomSheetProps) => {
     <AnimatedBottomSheet
       style={{
         height: heightArr[height],
-        backgroundColor: Colors[colorScheme ?? "light"].backgroundBottomSheet,
+        backgroundColor: Colors[getTheme()].backgroundBottomSheet,
         transform: [{ translateY }],
       }}
     >

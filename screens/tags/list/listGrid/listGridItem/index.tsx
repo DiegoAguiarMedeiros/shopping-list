@@ -44,9 +44,7 @@ export default function ListGridItem({
   setBottomSheetProps,
   handleCloseBottomSheet,
 }: Readonly<ItemProps>) {
-  const {
-    handleDeleteTag
-  } = useShoppingListContext();
+  const { handleDeleteTag, getTheme } = useShoppingListContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
 
@@ -124,49 +122,35 @@ export default function ListGridItem({
       >
         <Styled.ButtonView>
           <Styled.ButtonInner
-            underlayColor={
-              Colors[colorScheme ?? "light"]
-                .swipeIconUnderlay
-            }
+            underlayColor={Colors[getTheme()].swipeIconUnderlay}
             onPress={handleEdit}
           >
             <>
-              <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].swipeIcon}
-              >
+              <Styled.ButtonTextIcon text={Colors[getTheme()].swipeIcon}>
                 <FontAwesome
                   size={18}
                   style={{ marginBottom: -3 }}
                   name="pencil"
                 />
               </Styled.ButtonTextIcon>
-              <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].swipeIcon}
-              >
+              <Styled.ButtonText text={Colors[getTheme()].swipeIcon}>
                 Editar
               </Styled.ButtonText>
             </>
           </Styled.ButtonInner>
           <Styled.ButtonInner
-            underlayColor={
-              Colors[colorScheme ?? "light"]
-                .swipeIconUnderlay
-            }
+            underlayColor={Colors[getTheme()].swipeIconUnderlay}
             onPress={handleDelete}
           >
             <>
-              <Styled.ButtonTextIcon
-                text={Colors[colorScheme ?? "light"].swipeIcon}
-              >
+              <Styled.ButtonTextIcon text={Colors[getTheme()].swipeIcon}>
                 <FontAwesome
                   size={18}
                   style={{ marginBottom: -3 }}
                   name="trash"
                 />
               </Styled.ButtonTextIcon>
-              <Styled.ButtonText
-                text={Colors[colorScheme ?? "light"].swipeIcon}
-              >
+              <Styled.ButtonText text={Colors[getTheme()].swipeIcon}>
                 Deletar
               </Styled.ButtonText>
             </>
@@ -179,40 +163,34 @@ export default function ListGridItem({
   return (
     <GridItem
       renderRightActions={LeftSwipe}
-      leftThreshold={100} rightThreshold={undefined}>
+      leftThreshold={100}
+      rightThreshold={undefined}
+    >
       <GridItemInner
-        underlayColor={Colors[colorScheme ?? "light"].itemListBackgroundUnderlay}
-        borderColor={
-          Colors[colorScheme ?? "light"].itemListBackgroundBorder
-        }
-        background={Colors[colorScheme ?? "light"].itemListBackground}
+        underlayColor={Colors[getTheme()].itemListBackgroundUnderlay}
+        borderColor={Colors[getTheme()].itemListBackgroundBorder}
+        background={Colors[getTheme()].itemListBackground}
         height={60}
         row
         onPress={handleOpenList}
         elevation={colorScheme === "light"}
       >
         <>
-          <GridItemWrapperCol width={70} height={100} >
+          <GridItemWrapperCol width={70} height={100}>
             <GridItemWrapperInner height={100}>
-              <Title2
-                color={Colors[colorScheme ?? "light"].text}
-              >
-                {item.name}
-              </Title2>
+              <Title2 color={Colors[getTheme()].text}>{item.name}</Title2>
             </GridItemWrapperInner>
           </GridItemWrapperCol>
-          <GridItemWrapperCol width={30} height={100} >
+          <GridItemWrapperCol width={30} height={100}>
             <GridItemWrapperInner height={100}>
-              <SubTitle
-                color={Colors[colorScheme ?? "light"].textSecondary}
-                align="right"
-              >
-                Produtos: {getNumberOfProductsByTagsUuidController.handle(item.uuid)}
+              <SubTitle color={Colors[getTheme()].textSecondary} align="right">
+                Produtos:{" "}
+                {getNumberOfProductsByTagsUuidController.handle(item.uuid)}
               </SubTitle>
             </GridItemWrapperInner>
           </GridItemWrapperCol>
         </>
       </GridItemInner>
-    </GridItem >
+    </GridItem>
   );
 }

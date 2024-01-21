@@ -52,9 +52,7 @@ export default function ProductsList({ tagUuid,
   handleCloseBottomSheet,
   handleCloseBottomSheetTag }: Readonly<ProductsListProps>) {
   const colorScheme = useColorScheme();
-  const {
-    listProduct
-  } = useShoppingListContext();
+  const { listProduct, getTheme } = useShoppingListContext();
   const tag = getTagByUuidController.handle(tagUuid);
 
   const [listArrItems, setListArrItems] = useState<IProduct[]>(getListProductsByTagUuidUseCase.handle(tagUuid));
@@ -76,29 +74,30 @@ export default function ProductsList({ tagUuid,
 
   useEffect(() => {
     setActiveRouteHeader({
-      left: <TouchableHighlight underlayColor={Colors[colorScheme ?? "light"].primary} style={{ marginLeft: 20, marginRight: 10 }} onPress={() => returnToTags()}>
-        <FontAwesome
-          name="angle-left"
-          size={35}
-          color={Colors[colorScheme ?? "light"].white}
-        />
-      </TouchableHighlight>,
-      name: <Title color={Colors[colorScheme ?? "light"].white}>
-        {tag.name}
-      </Title>,
+      left: (
+        <TouchableHighlight
+          underlayColor={Colors[getTheme()].primary}
+          style={{ marginLeft: 20, marginRight: 10 }}
+          onPress={() => returnToTags()}
+        >
+          <FontAwesome
+            name="angle-left"
+            size={35}
+            color={Colors[getTheme()].white}
+          />
+        </TouchableHighlight>
+      ),
+      name: <Title color={Colors[getTheme()].white}>{tag.name}</Title>,
       right: null,
-    })
-  }, [])
+    });
+  }, []);
 
   return (
-
-    <Container
-      background={Colors[colorScheme ?? "light"].backgroundPrimary}
-      noPadding
-    >
+    <Container background={Colors[getTheme()].backgroundPrimary} noPadding>
       <ContainerInner
         justify="center"
-        background={Colors[colorScheme ?? "light"].backgroundPrimary}>
+        background={Colors[getTheme()].backgroundPrimary}
+      >
         {listArrItems && listArrItems.length > 0 ? (
           <ListGrid
             setBottomSheetProps={setBottomSheetProps}
@@ -107,12 +106,11 @@ export default function ProductsList({ tagUuid,
             tagUuid={tagUuid}
             handleCloseBottomSheet={handleCloseBottomSheet}
           />
-        ) :
+        ) : (
           <EmptyList mensage="Você não tem nenhum produto cadastrado nesta Categoria" />
-        }
+        )}
       </ContainerInner>
-    </Container >
-
+    </Container>
   );
 }
 

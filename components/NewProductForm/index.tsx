@@ -38,7 +38,7 @@ const NewProductForm = ({
   items,
 }: NewListFormProps) => {
   const colorScheme = useColorScheme();
-  const { handleAddListProduct, handleEditListProduct } =
+  const { handleAddListProduct, handleEditListProduct, getTheme } =
     useShoppingListContext();
   const [newItem, setNewItem] = useState({
     item: items ? items.name : "",
@@ -114,15 +114,18 @@ const NewProductForm = ({
           value={newItem.item}
           onSubmitEditing={functions[action]}
         />
-
       </Styled.InputContainer>
-      {!tagUuid && tags ?
+      {!tagUuid && tags ? (
         <Styled.InputContainer>
-          <Select items={tags} selectedValue={newItem.tag} onValueChange={onValueChange} />
+          <Select
+            items={tags}
+            selectedValue={newItem.tag}
+            onValueChange={onValueChange}
+          />
         </Styled.InputContainer>
-        :
+      ) : (
         <></>
-      }
+      )}
       {/* <SelectDropdown
           data={countries}
           buttonTextAfterSelection={(selectedItem, index) => {
@@ -141,25 +144,21 @@ const NewProductForm = ({
         <Styled.ButtonWrapper>
           <Button
             text="Cancelar"
-            border={Colors[colorScheme ?? "light"].bottomSheetButtonCancelBorder}
-            background={Colors[colorScheme ?? "light"].bottomSheetButtonCancelBackground}
-            textColor={Colors[colorScheme ?? "light"].bottomSheetButtonCancelText}
+            border={Colors[getTheme()].bottomSheetButtonCancelBorder}
+            background={Colors[getTheme()].bottomSheetButtonCancelBackground}
+            textColor={Colors[getTheme()].bottomSheetButtonCancelText}
             onPress={closeBottomSheet}
-            underlayColor={
-              Colors[colorScheme ?? "light"].bottomSheetButtonCancelUnderlay
-            }
+            underlayColor={Colors[getTheme()].bottomSheetButtonCancelUnderlay}
           />
         </Styled.ButtonWrapper>
         <Styled.ButtonWrapper>
           <Button
             text={buttonTextArr[buttonText]}
-            textColor={Colors[colorScheme ?? "light"].bottomSheetButtonAddText}
-            border={Colors[colorScheme ?? "light"].bottomSheetButtonAddBorder}
-            background={Colors[colorScheme ?? "light"].bottomSheetButtonAddBackground}
+            textColor={Colors[getTheme()].bottomSheetButtonAddText}
+            border={Colors[getTheme()].bottomSheetButtonAddBorder}
+            background={Colors[getTheme()].bottomSheetButtonAddBackground}
             onPress={functions[action]}
-            underlayColor={
-              Colors[colorScheme ?? "light"].bottomSheetButtonAddUnderlay
-            }
+            underlayColor={Colors[getTheme()].bottomSheetButtonAddUnderlay}
           />
         </Styled.ButtonWrapper>
       </Styled.ButtonsContainer>

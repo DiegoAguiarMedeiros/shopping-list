@@ -53,11 +53,7 @@ export default function List({
   listId,
   handleCloseBottomSheetList, setActiveRouteHeader }: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
-  const {
-    list,
-    listProduct,
-    amount,
-  } = useShoppingListContext();
+  const { list, listProduct, amount, getTheme } = useShoppingListContext();
   const selectedItem = list.find((i) => i.uuid === listId);
   const [tags, setTags] = useState(selectedItem?.tags ? ["Todos", ...selectedItem?.tags] : []);
   const [listArr, setListArr] = useState(selectedItem);
@@ -81,38 +77,42 @@ export default function List({
   }
   const attHeader = (amount: number, un: number) => {
     setActiveRouteHeader({
-      left: <TouchableHighlight underlayColor={Colors[colorScheme ?? "light"].primary} style={{ marginLeft: 20, marginRight: 10 }} onPress={() => returnToHome()}>
-        <FontAwesome
-          name="angle-left"
-          size={35}
-          color={Colors[colorScheme ?? "light"].white}
-        />
-      </TouchableHighlight>,
-      name: <Title color={Colors[colorScheme ?? "light"].white}>
-        {selectedItem?.name!}
-      </Title>,
-      right: <Styled.Container>
-        <CircleProgress
-          activeStrokeColor={
-            Colors[colorScheme ?? "light"]
-              .circularHeaderFilled
-          }
-          titleColor={
-            Colors[colorScheme ?? "light"].circularHeaderText
-          }
-          circleBackgroundColor={
-            Colors[colorScheme ?? "light"].circularHeaderBackground
-          }
-          filled={amount}
-          progress={un && amount ? amount : 0}
-          total={un}
-          size={24}
-        /></Styled.Container>,
-    })
-  }
+      left: (
+        <TouchableHighlight
+          underlayColor={Colors[getTheme()].primary}
+          style={{ marginLeft: 20, marginRight: 10 }}
+          onPress={() => returnToHome()}
+        >
+          <FontAwesome
+            name="angle-left"
+            size={35}
+            color={Colors[getTheme()].white}
+          />
+        </TouchableHighlight>
+      ),
+      name: (
+        <Title color={Colors[getTheme()].white}>{selectedItem?.name!}</Title>
+      ),
+      right: (
+        <Styled.Container>
+          <CircleProgress
+            activeStrokeColor={Colors[getTheme()].circularHeaderFilled}
+            titleColor={Colors[getTheme()].circularHeaderText}
+            circleBackgroundColor={Colors[getTheme()].circularHeaderBackground}
+            filled={amount}
+            progress={un && amount ? amount : 0}
+            total={un}
+            size={24}
+          />
+        </Styled.Container>
+      ),
+    });
+  };
 
   useEffect(() => {
-    const productsList = getListProductController.handle(selectedItem?.items ? selectedItem?.items : []);
+    const productsList = getListProductController.handle(
+      selectedItem?.items ? selectedItem?.items : []
+    );
     setTags(selectedItem?.tags ? ["Todos", ...selectedItem?.tags] : []);
 
     if (filter === "Todos") {
@@ -120,54 +120,56 @@ export default function List({
 
       const newTotal: TotalType = {
         un: getTotalQuantityAmountByListUuidController.handle(listId),
-        amount: getTotalQuantityWithoutAmountByListUuidController.handle(listId),
+        amount:
+          getTotalQuantityWithoutAmountByListUuidController.handle(listId),
       };
       setTotal(newTotal);
       attHeader(newTotal.amount, newTotal.un);
       return;
     }
 
-    const filteredProductsList = productsList.filter(product => getTagUuidByTagNameController.handle(filter) === product.tag)
+    const filteredProductsList = productsList.filter(
+      (product) => getTagUuidByTagNameController.handle(filter) === product.tag
+    );
     const newTotal: TotalType = {
-      un: getTotalQuantityAmountByListUuidController.handle(listId, filteredProductsList),
-      amount: getTotalQuantityWithoutAmountByListUuidController.handle(listId, filteredProductsList),
+      un: getTotalQuantityAmountByListUuidController.handle(
+        listId,
+        filteredProductsList
+      ),
+      amount: getTotalQuantityWithoutAmountByListUuidController.handle(
+        listId,
+        filteredProductsList
+      ),
     };
 
     setTotal(newTotal);
     setListArrItems(filteredProductsList);
     attHeader(newTotal.amount, newTotal.un);
 
-    return () => { };
+    return () => {};
   }, [filter, amount, listProduct, list]);
 
-
   return (
-    <Container
-      noPadding
-    >
+    <Container noPadding>
       <Header
-        background={Colors[colorScheme ?? "light"].backgroundPrimary}
-        bottom={listArr && listArr.tags.length > 0 ? (
-          <FilterButtons
-            tags={tags}
-            filter={filter}
-            setFilter={setFilter}
-          />
-        ) : null}
+        background={Colors[getTheme()].backgroundPrimary}
+        bottom={
+          listArr && listArr.tags.length > 0 ? (
+            <FilterButtons tags={tags} filter={filter} setFilter={setFilter} />
+          ) : null
+        }
       />
       <ContainerInner
         justify="center"
-        background={Colors[colorScheme ?? "light"].backgroundPrimary}>
+        background={Colors[getTheme()].backgroundPrimary}
+      >
         {listArrItems.length > 0 ? (
-          <ListGrid
-            listArrItems={listArrItems}
-            listId={listId}
-          />
+          <ListGrid listArrItems={listArrItems} listId={listId} />
         ) : (
           <EmptyList mensage="Você não tem nenhuma item na lista" />
         )}
       </ContainerInner>
-    </Container >
+    </Container>
   );
 }
 

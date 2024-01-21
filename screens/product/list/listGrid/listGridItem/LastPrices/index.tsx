@@ -7,6 +7,7 @@ import { TagsIterface } from "../../../../../../types/types";
 import ITag from "../../../../../../Domain/Model/ITag";
 import getTagByUuidController from "../../../../../../Domain/UseCases/Tag/GetTagByUuid";
 import { SubTitle, Text } from "../../../../../../components/Text";
+import { useShoppingListContext } from "../../../../../../context/ShoppingList";
 
 interface LastPricesProps {
   lastPrices: string[];
@@ -14,12 +15,16 @@ interface LastPricesProps {
 
 const LastPrices = ({ lastPrices }: LastPricesProps) => {
   const colorScheme = useColorScheme();
+  const { getTheme } = useShoppingListContext();
   const renderButton = (item: any) => {
-
     return (
       <Styled.ButtonContainer>
-        <Styled.ButtonText border={Colors[colorScheme ?? "light"].itemProductListLastPriceButtonBorder}>
-          <Text color={Colors[colorScheme ?? "light"].itemProductListLastPriceButtonText}>R$ {Number(item.item).toFixed(2).replace(".", ",")}</Text>
+        <Styled.ButtonText
+          border={Colors[getTheme()].itemProductListLastPriceButtonBorder}
+        >
+          <Text color={Colors[getTheme()].itemProductListLastPriceButtonText}>
+            R$ {Number(item.item).toFixed(2).replace(".", ",")}
+          </Text>
         </Styled.ButtonText>
       </Styled.ButtonContainer>
     );
@@ -27,11 +32,7 @@ const LastPrices = ({ lastPrices }: LastPricesProps) => {
 
   return (
     <Styled.Container>
-      <Text
-        color={Colors[colorScheme ?? "light"].textSecondary}
-      >
-        Últimos Preços
-      </Text>
+      <Text color={Colors[getTheme()].textSecondary}>Últimos Preços</Text>
       <FlatList
         horizontal
         data={lastPrices}

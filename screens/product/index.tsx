@@ -27,22 +27,25 @@ export default function Product({
   search,
 }: Readonly<ProductProps>) {
   const colorScheme = useColorScheme();
-  const { listProduct } = useShoppingListContext();
+  const { listProduct, getTheme } = useShoppingListContext();
   return (
-    <Container
-      background={Colors[colorScheme ?? "light"].backgroundPrimary}
-    >
-      <ContainerInner
-        background={Colors[colorScheme ?? "light"].backgroundPrimary}>
+    <Container background={Colors[getTheme()].backgroundPrimary}>
+      <ContainerInner background={Colors[getTheme()].backgroundPrimary}>
         {listProduct && listProduct.length > 0 ? (
           <ListComponent
-            items={search != "" ? listProduct.filter(product => (product.name.toLowerCase().includes(search.toLowerCase()))) : listProduct}
+            items={
+              search != ""
+                ? listProduct.filter((product) =>
+                    product.name.toLowerCase().includes(search.toLowerCase())
+                  )
+                : listProduct
+            }
             setBottomSheetProps={setBottomSheetProps}
             handleCloseBottomSheet={handleCloseBottomSheet}
           />
-        ) :
+        ) : (
           <EmptyList mensage="Você não tem nenhum produto cadastrado" />
-        }
+        )}
       </ContainerInner>
     </Container>
   );
