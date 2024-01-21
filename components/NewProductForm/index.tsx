@@ -63,12 +63,14 @@ const NewProductForm = ({
 
 
   const addList = (): void => {
-    closeBottomSheet();
-    handleAddListProduct(newItem.item, tagUuid ?? newItem.tag)
+    if (newItem.item !== "") {
+      closeBottomSheet();
+      handleAddListProduct(newItem.item, tagUuid ?? newItem.tag)
+    }
   };
 
   const editList = (): void => {
-    if (newItem?.item) {
+    if (newItem?.item !== "") {
       closeBottomSheet();
       handleEditListProduct(items?.uuid!, newItem.item);
     }

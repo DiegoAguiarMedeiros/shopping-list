@@ -95,7 +95,9 @@ function ListGridItem({ item, listId }: Readonly<ListProps>) {
                     <Text
                       color={Colors[colorScheme ?? "light"].text}
                     >
-                      {`${amount.quantity} ${item.unit}`}
+                      {`${amount.quantity}`}
+                      {" "}
+                      {amount.type ? `Kg` : `Un`}
                       {" x"}
                     </Text>
                   </GridItemWrapperCol>

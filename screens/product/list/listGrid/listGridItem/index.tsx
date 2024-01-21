@@ -172,7 +172,7 @@ export default function ListGridItem({
           Colors[colorScheme ?? "light"].itemListBackgroundBorder
         }
         background={Colors[colorScheme ?? "light"].itemListBackground}
-        height={lastPrice.length > 0 ? 110 : 60}
+        height={lastPrice.length > 0 ? 115 : 60}
         row={false}
         elevation={colorScheme === "light"}
       >
