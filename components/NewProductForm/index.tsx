@@ -18,9 +18,14 @@ import saveListProductByUuid from "../../Domain/UseCases/ListProduct/SaveListPro
 import GetTags from "../../Domain/UseCases/Tag/GetTags";
 import Select from "../InputSelect";
 import Tag from "../../Domain/Model/Implementation/Tag";
-const countries = ["Egypt", "Canada", "Australia", "Ireland"]
-const countries2 = [{ label: "Selecione uma categoria", value: "" }, { label: "Canada", value: "1" }, { label: "Australia", value: "2" }, { label: "Ireland", value: "3" },]
-
+import I18n from "i18n-js";
+const countries = ["Egypt", "Canada", "Australia", "Ireland"];
+const countries2 = [
+  { label: "Selecione uma categoria", value: "" },
+  { label: "Canada", value: "1" },
+  { label: "Australia", value: "2" },
+  { label: "Ireland", value: "3" },
+];
 
 export type NewListFormProps = {
   onClose: () => void;
@@ -46,7 +51,7 @@ const NewProductForm = ({
   });
   const tags = GetTags.handle();
   if (tags) {
-    tags.unshift({ name: "Selecionar Categoria", uuid: "" });
+    tags.unshift({ name: I18n.t("selectCategory"), uuid: "" });
   }
   const clearInput = () => {
     setNewItem({
@@ -61,11 +66,10 @@ const NewProductForm = ({
     Keyboard.dismiss();
   };
 
-
   const addList = (): void => {
     if (newItem.item !== "") {
       closeBottomSheet();
-      handleAddListProduct(newItem.item, tagUuid ?? newItem.tag)
+      handleAddListProduct(newItem.item, tagUuid ?? newItem.tag);
     }
   };
 
@@ -77,8 +81,8 @@ const NewProductForm = ({
   };
 
   const buttonTextArr = {
-    add: "Adicionar",
-    edit: "Editar",
+    add: I18n.t("add"),
+    edit: I18n.t("edit"),
   };
 
   const functions = {
@@ -104,7 +108,7 @@ const NewProductForm = ({
     <Styled.Container>
       <Styled.InputContainer>
         <InputText
-          placeholder={"Nome do produto..."}
+          placeholder={I18n.t("productsName")}
           onChangeText={(item) => {
             setNewItem({
               ...newItem,
@@ -143,7 +147,7 @@ const NewProductForm = ({
       <Styled.ButtonsContainer>
         <Styled.ButtonWrapper>
           <Button
-            text="Cancelar"
+            text={I18n.t("cancel")}
             border={Colors[getTheme()].bottomSheetButtonCancelBorder}
             background={Colors[getTheme()].bottomSheetButtonCancelBackground}
             textColor={Colors[getTheme()].bottomSheetButtonCancelText}

@@ -860,6 +860,8 @@ interface RoutesType {
   bottomSheetProps: BottomSheetProps;
 }
 
+type languageType = "en"|"pt"|"es";
+
 export {
   ListType,
   ListItemInterface,
@@ -872,4 +874,5 @@ export {
   TotalType,
   RoutesProps,
   RoutesType,
+  languageType
 };

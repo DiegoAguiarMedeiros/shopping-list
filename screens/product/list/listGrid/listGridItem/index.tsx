@@ -20,7 +20,7 @@ import AveragePrice from "./AveragePrice";
 import LastPrices from "./LastPrices";
 import GridItem from "../../../../../components/GridItem";
 import { GridItemInner, GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../../../components/GridItemInner";
-
+import I18n from "i18n-js";
 
 interface ItemProps {
   item: IProduct;
@@ -101,11 +101,11 @@ export default function ListGridItem({
                         color={Colors[getTheme()].swipeIcon}
                         align="center"
                       >
-                        Editar
+                        {I18n.t("edit")}
                       </SubTitle>
                     ) : (
                       <Text color={Colors[getTheme()].swipeIcon} align="center">
-                        Editar
+                        {I18n.t("edit")}
                       </Text>
                     )}
                   </GridItemWrapperInner>
@@ -137,11 +137,11 @@ export default function ListGridItem({
                         color={Colors[getTheme()].swipeIcon}
                         align="center"
                       >
-                        Deletar
+                        {I18n.t("delete")}
                       </SubTitle>
                     ) : (
                       <Text color={Colors[getTheme()].swipeIcon} align="center">
-                        Deletar
+                        {I18n.t("delete")}
                       </Text>
                     )}
                   </GridItemWrapperInner>

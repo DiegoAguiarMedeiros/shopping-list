@@ -34,6 +34,7 @@ import getTagsController from "../../Domain/UseCases/ListProduct/GetTagsByProduc
 import Container from "../../components/Container";
 import Header from "../../components/Header";
 import ContainerInner from "../../components/ContainerInner";
+import I18n from "i18n-js";
 type TotalType = {
   amount: number;
   un: number;
@@ -42,27 +43,36 @@ type TotalType = {
 interface ListProps {
   listId: string;
   handleCloseBottomSheetList: () => void;
-  setActiveRouteHeader: React.Dispatch<React.SetStateAction<{
-    name: React.ReactNode;
-    left: React.ReactNode | null;
-    right: React.ReactNode | null;
-  }>>
+  setActiveRouteHeader: React.Dispatch<
+    React.SetStateAction<{
+      name: React.ReactNode;
+      left: React.ReactNode | null;
+      right: React.ReactNode | null;
+    }>
+  >;
 }
 
 export default function List({
   listId,
-  handleCloseBottomSheetList, setActiveRouteHeader }: Readonly<ListProps>) {
+  handleCloseBottomSheetList,
+  setActiveRouteHeader,
+}: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
   const { list, listProduct, amount, getTheme } = useShoppingListContext();
   const selectedItem = list.find((i) => i.uuid === listId);
-  const [tags, setTags] = useState(selectedItem?.tags ? ["Todos", ...selectedItem?.tags] : []);
+  const [tags, setTags] = useState(
+    selectedItem?.tags ? ["Todos", ...selectedItem?.tags] : []
+  );
   const [listArr, setListArr] = useState(selectedItem);
 
+  const [listArrItems, setListArrItems] = useState(
+    getListProductController.handle(
+      selectedItem?.items ? selectedItem?.items : []
+    )
+  );
 
-  const [listArrItems, setListArrItems] = useState(getListProductController.handle(selectedItem?.items ? selectedItem?.items : []));
-
-  const totalQuantity = getTotalQuantityAmountByListUuidController.handle(listId);
-
+  const totalQuantity =
+    getTotalQuantityAmountByListUuidController.handle(listId);
 
   const [filter, setFilter] = useState("Todos");
   const [total, setTotal] = useState<TotalType>({
@@ -73,8 +83,8 @@ export default function List({
 
   const returnToHome = () => {
     handleCloseBottomSheetList();
-    router.push({ pathname: "/home" })
-  }
+    router.push({ pathname: "/home" });
+  };
   const attHeader = (amount: number, un: number) => {
     setActiveRouteHeader({
       left: (
@@ -166,7 +176,7 @@ export default function List({
         {listArrItems.length > 0 ? (
           <ListGrid listArrItems={listArrItems} listId={listId} />
         ) : (
-          <EmptyList mensage="Você não tem nenhuma item na lista" />
+          <EmptyList mensage={I18n.t("noItemsInTheList")} />
         )}
       </ContainerInner>
     </Container>

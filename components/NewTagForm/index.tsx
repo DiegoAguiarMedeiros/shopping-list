@@ -16,6 +16,7 @@ import { IList } from "../../Domain/Model/IList";
 import ITag from "../../Domain/Model/ITag";
 import { IProduct } from "../../Domain/Model/IProduct";
 import saveTagByUuidController from "../../Domain/UseCases/Tag/SaveTagByUuid";
+import I18n from "i18n-js";
 
 export type NewTagFormProps = {
   onClose: () => void;
@@ -24,12 +25,7 @@ export type NewTagFormProps = {
   tag?: Tag;
 };
 
-const NewTagForm = ({
-  onClose,
-  buttonText,
-  action,
-  tag,
-}: NewTagFormProps) => {
+const NewTagForm = ({ onClose, buttonText, action, tag }: NewTagFormProps) => {
   const colorScheme = useColorScheme();
   const { handleAddTag, handleEditTag, getTheme } = useShoppingListContext();
   const [newItem, setNewItem] = useState({
@@ -59,7 +55,7 @@ const NewTagForm = ({
   const addTag = (): void => {
     if (newItem.item) {
       closeBottomSheet();
-      handleAddTag(newItem.item)
+      handleAddTag(newItem.item);
     }
   };
 
@@ -71,9 +67,9 @@ const NewTagForm = ({
   };
 
   const buttonTextArr = {
-    add: "Adicionar",
-    edit: "Editar",
-    copy: "Copiar",
+    add: I18n.t("add"),
+    edit: I18n.t("edit"),
+    copy: I18n.t("copy"),
   };
 
   const functions = {
@@ -91,7 +87,7 @@ const NewTagForm = ({
     <Styled.Container>
       <Styled.InputContainer>
         <InputText
-          placeholder={"Nome da sua categoria..."}
+          placeholder={I18n.t("categoryName")}
           onChangeText={(item) => {
             setNewItem({
               item: item,
@@ -104,7 +100,7 @@ const NewTagForm = ({
       <Styled.ButtonsContainer>
         <Styled.ButtonWrapper>
           <Button
-            text="Cancelar"
+            text={I18n.t("cancel")}
             border={Colors[getTheme()].bottomSheetButtonCancelBorder}
             background={Colors[getTheme()].bottomSheetButtonCancelBackground}
             textColor={Colors[getTheme()].bottomSheetButtonCancelText}

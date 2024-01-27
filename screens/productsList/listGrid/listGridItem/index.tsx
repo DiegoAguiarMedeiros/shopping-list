@@ -35,6 +35,7 @@ import GridItem from "../../../../components/GridItem";
 import { GridItemInner, GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../../components/GridItemInner";
 import DeleteProductByUuid from "../../../../Domain/UseCases/ListProduct/DeleteProductByUuid";
 import NewProductForm from "../../../../components/NewProductForm";
+import I18n from "i18n-js";
 
 interface ListProps {
   item: IProduct;
@@ -133,7 +134,7 @@ function ListGridItem({
                   </GridItemWrapperInner>
                   <GridItemWrapperInner height={40} justify={"flex-end"}>
                     <Text color={Colors[getTheme()].text} align="center">
-                      Deletar
+                      {I18n.t("delete")}
                     </Text>
                   </GridItemWrapperInner>
                 </>

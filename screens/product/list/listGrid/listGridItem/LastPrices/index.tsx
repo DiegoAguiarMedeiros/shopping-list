@@ -8,6 +8,7 @@ import ITag from "../../../../../../Domain/Model/ITag";
 import getTagByUuidController from "../../../../../../Domain/UseCases/Tag/GetTagByUuid";
 import { SubTitle, Text } from "../../../../../../components/Text";
 import { useShoppingListContext } from "../../../../../../context/ShoppingList";
+import I18n from "i18n-js";
 
 interface LastPricesProps {
   lastPrices: string[];
@@ -32,7 +33,9 @@ const LastPrices = ({ lastPrices }: LastPricesProps) => {
 
   return (
     <Styled.Container>
-      <Text color={Colors[getTheme()].textSecondary}>Últimos Preços</Text>
+      <Text color={Colors[getTheme()].textSecondary}>
+        {I18n.t("latestPrices")}
+      </Text>
       <FlatList
         horizontal
         data={lastPrices}

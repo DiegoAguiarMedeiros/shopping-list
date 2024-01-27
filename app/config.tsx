@@ -1,9 +1,19 @@
 import Config from "../screens/config";
+import { languageType } from "../types/types";
 
 type ConfigScreenProps = {
-  setTheme: React.Dispatch<React.SetStateAction<"light" | "dark">>;
+  currentLanguage: languageType;
+  handleLanguageChange: (newLanguage: languageType) => void;
 };
 
-export default function ConfigScreen({ setTheme }: ConfigScreenProps) {
-  return <Config setTheme={setTheme} />;
+export default function ConfigScreen({
+  currentLanguage,
+  handleLanguageChange,
+}: ConfigScreenProps) {
+  return (
+    <Config
+      currentLanguage={currentLanguage}
+      handleLanguageChange={handleLanguageChange}
+    />
+  );
 }

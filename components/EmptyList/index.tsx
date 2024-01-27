@@ -22,8 +22,6 @@ type EmptyListProps = {
 };
 
 export default function EmptyList({ mensage }: EmptyListProps) {
-  const colorScheme = useColorScheme();
-
   const { getTheme } = useShoppingListContext();
   return (
     <Container background={Colors[getTheme()].backgroundPrimary}>
@@ -39,7 +37,7 @@ export default function EmptyList({ mensage }: EmptyListProps) {
         >
           <Text
             color={
-              colorScheme !== "dark"
+              getTheme() !== "dark"
                 ? Colors[getTheme()].black
                 : Colors[getTheme()].white
             }

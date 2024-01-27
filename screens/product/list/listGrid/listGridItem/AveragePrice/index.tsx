@@ -7,6 +7,7 @@ import { Text } from "../../../../../../components/Text";
 import Container from "../../../../../../components/Container";
 import { ILastPrices } from "../../../../../../Domain/Model/IProduct";
 import { useShoppingListContext } from "../../../../../../context/ShoppingList";
+import I18n from "i18n-js";
 interface AveragePriceProps {
   price: ILastPrices[];
 }
@@ -30,7 +31,7 @@ export default function AveragePrice({ price }: Readonly<AveragePriceProps>) {
   return (
     <>
       <Text color={Colors[getTheme()].textSecondary} align="right">
-        Preço médio
+        {I18n.t("averagePrice")}
       </Text>
       <Text
         align="right"

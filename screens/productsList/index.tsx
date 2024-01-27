@@ -27,6 +27,7 @@ import Header from "../../components/Header";
 import getListProductsByTagUuidUseCase from "../../Domain/UseCases/ListProduct/GetListProductsByTagUuid";
 import getTagByUuidController from "../../Domain/UseCases/Tag/GetTagByUuid";
 import { IProduct } from "../../Domain/Model/IProduct";
+import I18n from "i18n-js";
 type TotalType = {
   amount: number;
   un: number;
@@ -107,7 +108,7 @@ export default function ProductsList({ tagUuid,
             handleCloseBottomSheet={handleCloseBottomSheet}
           />
         ) : (
-          <EmptyList mensage="Você não tem nenhum produto cadastrado nesta Categoria" />
+          <EmptyList mensage={I18n.t("noProductsInThisCategory")} />
         )}
       </ContainerInner>
     </Container>

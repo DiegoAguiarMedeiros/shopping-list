@@ -25,6 +25,7 @@ import GetListProducts from "../../Domain/UseCases/ListProduct/GetListProducts";
 import addProductToListByUuidController from "../../Domain/UseCases/List/AddProductToListByUuid";
 import Select from "../InputSelect";
 import getListProductController from "../../Domain/UseCases/ListProduct/GetListProductByUuid";
+import I18n from "i18n-js";
 
 export type NewItemFormProps = {
   onClose: () => void;
@@ -44,15 +45,28 @@ const NewItemForm = ({
     item: items ? items.name : "",
   });
 
-
   const { list, handleAddListItem, getTheme } = useShoppingListContext();
   const selectedItem = list.find((i) => i.uuid === listId);
 
-  const products = GetListProducts.handle().filter(product => (!selectedItem?.items!.includes(product.uuid)));
+  const products = GetListProducts.handle().filter(
+    (product) => !selectedItem?.items!.includes(product.uuid)
+  );
   if (products.length > 0) {
-    products.unshift({ name: "Selecionar Produto", uuid: "", amount: [], tag: "", unit: "Un" });
+    products.unshift({
+      name: I18n.t("selectProduct"),
+      uuid: "",
+      amount: [],
+      tag: "",
+      unit: "Un",
+    });
   } else {
-    products.unshift({ name: "Nenhum Produto", uuid: "", amount: [], tag: "", unit: "Un" });
+    products.unshift({
+      name: I18n.t("noProducts"),
+      uuid: "",
+      amount: [],
+      tag: "",
+      unit: "Un",
+    });
   }
 
   const clearInput = () => {
@@ -67,7 +81,6 @@ const NewItemForm = ({
     Keyboard.dismiss();
   };
 
-
   const addListItem = (): void => {
     if (newItem.item != "") {
       closeBottomSheet();
@@ -76,11 +89,9 @@ const NewItemForm = ({
   };
 
   const buttonTextArr = {
-    add: "Adicionar",
-    edit: "Editar",
+    add: I18n.t("add"),
+    edit: I18n.t("edit"),
   };
-
-
 
   useEffect(() => {
     setNewItem({
@@ -109,7 +120,7 @@ const NewItemForm = ({
       <Styled.ButtonsContainer>
         <Styled.ButtonWrapper>
           <Button
-            text="Cancelar"
+            text={I18n.t("cancel")}
             border={Colors[getTheme()].bottomSheetButtonCancelBorder}
             background={Colors[getTheme()].bottomSheetButtonCancelBackground}
             textColor={Colors[getTheme()].bottomSheetButtonCancelText}

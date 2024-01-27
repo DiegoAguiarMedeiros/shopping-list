@@ -35,6 +35,7 @@ import getTotalQuantityWithoutAmountByListUuidController from "../../../../../Do
 import GridItem from "../../../../../components/GridItem";
 import { GridItemInner, GridItemWrapperCol, GridItemWrapperInner } from "../../../../../components/GridItemInner";
 import getNumberOfProductsByTagsUuidController from "../../../../../Domain/UseCases/ListProduct/GetNumberOfProductsByTagsUuid";
+import I18n from "i18n-js";
 interface ItemProps {
   item: IList;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -63,8 +64,7 @@ export default function ListGridItem({
   const total = getTotalAmountByListUuidController.handle(item.uuid);
   const totalWithAmount =
     getTotalQuantityWithoutAmountByListUuidController.handle(item.uuid);
-  const totalUn =
-    getTotalQuantityAmountByListUuidController.handle(item.uuid);
+  const totalUn = getTotalQuantityAmountByListUuidController.handle(item.uuid);
 
   const handleCloseBottomSheetProductList = () => {
     setBottomSheetProps({
@@ -72,7 +72,8 @@ export default function ListGridItem({
         <NewItemForm
           buttonText="add"
           onClose={handleCloseBottomSheetProductList}
-          listId={item.uuid} />
+          listId={item.uuid}
+        />
       ),
       height: "add",
       isVisible: false,
@@ -80,8 +81,6 @@ export default function ListGridItem({
   };
 
   const handleOpenList = useCallback(() => {
-
-
     setBottomSheetProps({
       isVisible: false,
       height: "add",
@@ -164,7 +163,7 @@ export default function ListGridItem({
                 />
               </Styled.ButtonTextIcon>
               <Styled.ButtonText text={Colors[getTheme()].swipeIcon}>
-                Editar
+                {I18n.t("edit")}
               </Styled.ButtonText>
             </>
           </Styled.ButtonInner>
@@ -181,7 +180,7 @@ export default function ListGridItem({
                 />
               </Styled.ButtonTextIcon>
               <Styled.ButtonText text={Colors[getTheme()].swipeIcon}>
-                Copiar
+                {I18n.t("copy")}
               </Styled.ButtonText>
             </>
           </Styled.ButtonInner>
@@ -219,7 +218,7 @@ export default function ListGridItem({
                 />
               </Styled.ButtonTextIcon>
               <Styled.ButtonText text={Colors[getTheme()].swipeIcon}>
-                Arquivar
+                {I18n.t("archive")}
               </Styled.ButtonText>
             </>
           </Styled.ButtonInner>
@@ -236,7 +235,7 @@ export default function ListGridItem({
                 />
               </Styled.ButtonTextIcon>
               <Styled.ButtonText text={Colors[getTheme()].swipeIcon}>
-                Deletar
+                {I18n.t("delete")}
               </Styled.ButtonText>
             </>
           </Styled.ButtonInner>
@@ -268,7 +267,7 @@ export default function ListGridItem({
                 {item.name}
               </Title2>
               <Text color={Colors[getTheme()].itemListTextSecondary}>
-                Total: R$ {total.toFixed(2).replace(".", ",")}
+                {I18n.t("total")}: R$ {total.toFixed(2).replace(".", ",")}
               </Text>
             </GridItemWrapperInner>
           </GridItemWrapperCol>

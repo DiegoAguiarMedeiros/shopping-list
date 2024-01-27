@@ -35,6 +35,7 @@ import GridItem from "../../../../components/GridItem";
 import { GridItemInner, GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../../components/GridItemInner";
 import IAmount from "../../../../Domain/Model/IAmount";
 import GridItemNoSwipeable from "../../../../components/GridItemNoSwipeable";
+import I18n from "i18n-js";
 
 interface ListProps {
   item: IProduct;
@@ -96,7 +97,7 @@ function ListGridItem({
                 />
               </Styled.ButtonTextIcon>
               <Styled.ButtonText text={Colors[getTheme()].swipeIcon}>
-                Deletar
+              {I18n.t("delete")}
               </Styled.ButtonText>
             </>
           </Styled.ButtonInner>
@@ -176,7 +177,7 @@ function ListGridItem({
                     <Text
                       color={Colors[getTheme()].itemListItemOpenTextSecondary}
                     >
-                      Total: R$ {total.toFixed(2).replace(".", ",")}
+                      {I18n.t("total")}: R$ {total.toFixed(2).replace(".", ",")}
                     </Text>
                   </GridItemWrapperInner>
                   <GridItemWrapperInner
@@ -260,7 +261,7 @@ function ListGridItem({
                   justify="flex-start"
                 >
                   <Text color={Colors[getTheme()].textSecondary}>
-                    Total: R$ {total.toFixed(2).replace(".", ",")}
+                  {I18n.t("total")}: R$ {total.toFixed(2).replace(".", ",")}
                   </Text>
                 </GridItemWrapperInner>
                 <GridItemWrapperInner

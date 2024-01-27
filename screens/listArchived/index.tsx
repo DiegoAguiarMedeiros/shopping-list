@@ -19,6 +19,7 @@ import getListProductController from "../../Domain/UseCases/ListProduct/GetListP
 import Container from "../../components/Container";
 import ContainerInner from "../../components/ContainerInner";
 import Header from "../../components/Header";
+import I18n from "i18n-js";
 type TotalType = {
   amount: number;
   un: number;
@@ -79,7 +80,7 @@ export default function ListArchived({ listId, setActiveRouteHeader }: ListProps
             listId={listId}
           />
         ) : (
-          <EmptyList mensage="Você não tem nenhum item na lista" />
+          <EmptyList mensage={I18n.t("noItemsInTheList")} />
         )}
       </ContainerInner>
     </Container>

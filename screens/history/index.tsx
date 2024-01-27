@@ -5,6 +5,7 @@ import ListComponent from "./list";
 import Colors from "../../constants/Colors";
 import * as Styled from "./styles";
 import Container from "../../components/Container";
+import I18n from "i18n-js";
 
 export default function History() {
   const colorScheme = useColorScheme();
@@ -15,7 +16,7 @@ export default function History() {
       {listArchived && listArchived.length > 0 ? (
         <ListComponent items={listArchived} />
       ) : (
-        <EmptyList mensage="Você não tem nenhuma lista arquivada" />
+        <EmptyList mensage={I18n.t("noArchivedLists")} />
       )}
     </Container>
   );

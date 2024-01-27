@@ -27,11 +27,18 @@ import deleteAmountByUuidController from "../Domain/UseCases/Amount/DeleteAmount
 import deleteTagByUuidController from "../Domain/UseCases/Tag/DeleteTagByUuid";
 import getAmountByListProductUuidController from "../Domain/UseCases/Amount/GetAmountByListProductUuid";
 import { sortArrayOfObjects } from "../utils/functions";
-import { ToastAndroid } from "react-native";
-
+import { ToastAndroid, useColorScheme } from "react-native";
+import saveThemeController from "../Domain/UseCases/Config/SaveTheme";
+import getThemeController from "../Domain/UseCases/Config/GetTheme";
+import { languageType } from "../types/types";
+import getLanguageController from "../Domain/UseCases/Config/GetLanguage";
+import saveLanguageController from "../Domain/UseCases/Config/SaveLanguage";
 
 type ShoppingListProviderProps = {
   theme: "light" | "dark";
+  setTheme: React.Dispatch<React.SetStateAction<"light" | "dark">>;
+  lang: languageType;
+  handleLanguageChange: (newLanguage: languageType) => void;
   children: React.ReactNode;
 };
 
@@ -63,6 +70,9 @@ type ShoppingListContextType = {
   changeAmountQuantity: (newQuantity: string, amountUuid: string) => IAmount;
   handleAmountInputChange: (value: string, amountUuid: string) => IAmount;
   getTheme(): "light" | "dark";
+  saveTheme(theme: "light" | "dark"): void;
+  getLang(): languageType;
+  saveLang: (lang: languageType) => void;
 };
 
 const getListsFromStorage = (): IList[] => {
@@ -71,14 +81,12 @@ const getListsFromStorage = (): IList[] => {
 const getTagsFromStorage = (): ITag[] => {
   return getTagsController.handle();
 };
-const getListProductFromStorage =
-  (): IProduct[] => {
-    return GetListProducts.handle();
-  };
-const getListAmountFromStorage =
-  (): IAmount[] => {
-    return GetAmountsController.handle();
-  };
+const getListProductFromStorage = (): IProduct[] => {
+  return GetListProducts.handle();
+};
+const getListAmountFromStorage = (): IAmount[] => {
+  return GetAmountsController.handle();
+};
 
 const getListArchivedFromStorage = (): IList[] => {
   return getListsArchivedController.handle();
@@ -86,10 +94,9 @@ const getListArchivedFromStorage = (): IList[] => {
 const getListProductArchivedFromStorage = (): IProduct[] => {
   return GetListProducts.handle();
 };
-const getItemAmountArchivedFromStorage =
-  (): IAmount[] => {
-    return GetAmountsController.handle();
-  };
+const getItemAmountArchivedFromStorage = (): IAmount[] => {
+  return GetAmountsController.handle();
+};
 
 const saveNewList = (newList: IList): void => {
   saveListByUuidController.handle(newList);
@@ -105,11 +112,10 @@ const saveNewAmount = (newAmount: IAmount): void => {
 };
 const saveNewListArchived = (newList: IList): void => {
   saveListArchivedByUuidController.handle(newList);
-
 };
 
 const calculateAverageAmount = (items: IAmount[]): number => {
-  const amounts: number[] = items.map(item => parseFloat(item.amount));
+  const amounts: number[] = items.map((item) => parseFloat(item.amount));
 
   if (amounts.length === 0) {
     return 0; // Return 0 for an empty array, or handle this case differently
@@ -118,7 +124,7 @@ const calculateAverageAmount = (items: IAmount[]): number => {
   const sum = amounts.reduce((total, amount) => total + amount, 0);
   const average = sum / amounts.length;
   return average;
-}
+};
 
 const deleteList = (listUuid: string): void => {
   deleteListByUuidController.handle(listUuid);
@@ -136,7 +142,7 @@ const deleteListArchived = (listUuid: string): void => {
   deleteListArchivedByUuidController.handle(listUuid);
 };
 const deleteAmount = (amountUuid: string): void => {
-  deleteAmountByUuidController.handle(amountUuid)
+  deleteAmountByUuidController.handle(amountUuid);
 };
 
 const returnNewList = (listName: string): IList => {
@@ -168,13 +174,16 @@ const returnNewTag = (tag: string): ITag => {
   return item;
 };
 
-const returnNewItemAmount = (newAmount: string, listProductUuid: string): IAmount => {
+const returnNewItemAmount = (
+  newAmount: string,
+  listProductUuid: string
+): IAmount => {
   const item: IAmount = {
     uuid: String(UUIDGenerator.v4()),
     amount: newAmount,
     type: false,
     quantity: "1",
-    listProductUuid
+    listProductUuid,
   };
   return item;
 };
@@ -184,15 +193,14 @@ const ShoppingListContext = createContext<ShoppingListContextType | undefined>(
 );
 
 const showToast = (message: string) => {
-  ToastAndroid.showWithGravity(
-    message,
-    ToastAndroid.LONG,
-    ToastAndroid.CENTER,
-  );
+  ToastAndroid.showWithGravity(message, ToastAndroid.LONG, ToastAndroid.CENTER);
 };
 
 const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   theme,
+  setTheme,
+  lang,
+  handleLanguageChange,
   children,
 }) => {
   const [list, setList] = useState<IList[]>([]);
@@ -201,6 +209,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   const [amount, setAmount] = useState<IAmount[]>([]);
   const [listArchived, setListArchived] = useState<IList[]>([]);
 
+  const colorScheme = useColorScheme();
   const [listProductArchived, setListProductArchived] = useState<IProduct[]>(
     []
   );
@@ -420,14 +429,8 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     productUuid: string
   ) => {
     deleteProductFromList(listUuid, productUuid);
-
-    console.log("newList");
     const newList = list.map((l) => {
-      console.log("newList map");
-      console.log("listUuid", listUuid);
-      console.log("l.uuid", l.uuid);
       if (l.uuid === listUuid) {
-        console.log("if");
         const newItems = l.items.filter((product) => product !== productUuid);
         l.items = newItems;
         l.tags = getTagsByProductUuidArrayController.handle(newItems);
@@ -529,8 +532,29 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     showToast("Categoria removida com sucesso!");
   };
 
+  const loadTheme = (): void => {
+    const loadedTheme = getThemeController.handle();
+    if (colorScheme) setTheme(colorScheme);
+    if (loadedTheme === "light" || loadedTheme === "dark")
+      setTheme(loadedTheme);
+  };
   const getTheme = (): "light" | "dark" => {
     return theme;
+  };
+  const saveTheme = (theme: "light" | "dark"): void => {
+    setTheme(theme);
+    saveThemeController.handle(theme);
+  };
+  const getLang = (): languageType => {
+    return lang;
+  };
+  const loadLang = (): void => {
+    const loadedLang = getLanguageController.handle();
+    handleLanguageChange(loadedLang);
+  };
+  const saveLang = (lang: languageType): void => {
+    handleLanguageChange(lang);
+    saveLanguageController.handle(lang);
   };
 
   useEffect(() => {
@@ -541,6 +565,8 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     loadListArchived();
     loadListProductArchived();
     loadListAmountArchived();
+    loadTheme();
+    loadLang();
   }, []);
 
   return (
@@ -573,6 +599,9 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         handleAmountInputChange: handleAmountInputChange,
         handleDeleteTag: handleDeleteTag,
         getTheme: getTheme,
+        saveTheme: saveTheme,
+        getLang: getLang,
+        saveLang: saveLang,
       }}
     >
       {children}

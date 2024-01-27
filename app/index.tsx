@@ -42,7 +42,7 @@ import {
 } from "../context/ShoppingList";
 import Colors from "../constants/Colors";
 import NewListForm from "../components/NewListForm";
-import { RoutesProps } from "../types/types";
+import { RoutesProps, languageType } from "../types/types";
 import ProductTab from "./product";
 import tagsTab from "./tags";
 import NewTagForm from "../components/NewTagForm";
@@ -52,15 +52,55 @@ import ProductsList from "./ProductsList";
 import ConfigScreen from "./config";
 import NewItemForm from "../components/NewItemForm";
 import HeaderInputTextSearch from "../components/HeaderInputTextSearch";
+import getThemeController from "../Domain/UseCases/Config/GetTheme";
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
+
+import en from "../i18n/en";
+import pt from "../i18n/pt-br";
+import es from "../i18n/es";
+import I18n from "i18n-js";
+import getLanguageController from "../Domain/UseCases/Config/GetLanguage";
+
+I18n.fallbacks = true;
+I18n.translations = {
+  en,
+  pt,
+  es,
+};
+
+// Set the default language
+const loadedLanguage = getLanguageController.handle();
+I18n.defaultLocale = loadedLanguage;
+
+// Set the initial locale
+I18n.locale = I18n.defaultLocale;
 
 export default function App() {
   const [active, setActive] = useState(false);
   const [appIsReady, setAppIsReady] = useState(false);
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
-  const [activeRoute, setActiveRoute] = useState<string>("home");
   const colorScheme = useColorScheme();
+
+  const returnTheme = (): "light" | "dark" => {
+    const loadedTheme = getThemeController.handle();
+    if (loadedTheme === "light" || loadedTheme === "dark") return loadedTheme;
+    if (colorScheme) return colorScheme;
+    return "light";
+  };
+  const [theme, setTheme] = useState<"light" | "dark">(returnTheme());
+  const [activeRoute, setActiveRoute] = useState<string>("home");
+  const [currentLanguage, setCurrentLanguage] = useState<languageType>(
+    I18n.defaultLocale as languageType
+  );
+
+  const handleLanguageChange = (newLanguage: languageType) => {
+    // Update the language in state
+    setCurrentLanguage(newLanguage);
+
+    // Set the new language in react-native-i18n
+    I18n.locale = newLanguage;
+  };
+
   useEffect(() => {
     getOnboarding().then((result) => setActive(result));
     async function prepare() {
@@ -114,10 +154,19 @@ export default function App() {
   return (
     <>
       <StatusBar backgroundColor={Colors[theme].primary} />
-      <ShoppingListProvider theme={theme}>
+      <ShoppingListProvider
+        theme={theme}
+        setTheme={setTheme}
+        lang={currentLanguage}
+        handleLanguageChange={handleLanguageChange}
+      >
         {!active && <OnboardingScreen closeOnboarding={closeOnboarding} />}
         {appIsReady && active && (
-          <RootLayoutNav theme={theme} setTheme={setTheme} />
+          <RootLayoutNav
+            theme={theme}
+            currentLanguage={currentLanguage}
+            handleLanguageChange={handleLanguageChange}
+          />
         )}
       </ShoppingListProvider>
     </>
@@ -126,10 +175,15 @@ export default function App() {
 
 type RootLayoutNavProps = {
   theme: "light" | "dark";
-  setTheme: React.Dispatch<React.SetStateAction<"light" | "dark">>;
+  currentLanguage: languageType;
+  handleLanguageChange: (newLanguage: languageType) => void;
 };
 
-function RootLayoutNav({ theme, setTheme }: RootLayoutNavProps) {
+function RootLayoutNav({
+  theme,
+  currentLanguage,
+  handleLanguageChange,
+}: RootLayoutNavProps) {
   const colorScheme = useColorScheme();
   const router = useRouter();
   const [activeRoute, setActiveRoute] = useState<string>("home");
@@ -276,7 +330,7 @@ function RootLayoutNav({ theme, setTheme }: RootLayoutNavProps) {
       setSearch("");
       setActiveRouteHeader({
         left: null,
-        name: <Title color={Colors[theme].white}>Produtos</Title>,
+        name: <Title color={Colors[theme].white}>{I18n.t("products")}</Title>,
         right: (
           <TouchableHighlight
             underlayColor={Colors[theme].primary}
@@ -371,7 +425,7 @@ function RootLayoutNav({ theme, setTheme }: RootLayoutNavProps) {
               </TouchableHighlight>
             ),
             headerTitle: (props) => (
-              <Title color={Colors[theme].white}>Listas</Title>
+              <Title color={Colors[theme].white}>{I18n.t("lists")}</Title>
             ),
           }}
         >
@@ -405,7 +459,7 @@ function RootLayoutNav({ theme, setTheme }: RootLayoutNavProps) {
           options={{
             headerLeft: () => null,
             headerTitle: (props) => (
-              <Title color={Colors[theme].white}>Categorias</Title>
+              <Title color={Colors[theme].white}>{I18n.t("categories")}</Title>
             ),
           }}
         >
@@ -465,7 +519,7 @@ function RootLayoutNav({ theme, setTheme }: RootLayoutNavProps) {
           component={History}
           options={{
             headerTitle: (props) => (
-              <Title color={Colors[theme].white}>Histórico</Title>
+              <Title color={Colors[theme].white}>{I18n.t("historic")}</Title>
             ),
             headerLeft: () => null,
           }}
@@ -474,7 +528,7 @@ function RootLayoutNav({ theme, setTheme }: RootLayoutNavProps) {
           name="config"
           options={{
             headerTitle: (props) => (
-              <Title color={Colors[theme].white}>Configurações</Title>
+              <Title color={Colors[theme].white}>{I18n.t("settings")}</Title>
             ),
             headerLeft: () => (
               <TouchableHighlight
@@ -491,7 +545,12 @@ function RootLayoutNav({ theme, setTheme }: RootLayoutNavProps) {
             ),
           }}
         >
-          {() => <ConfigScreen setTheme={setTheme} />}
+          {() => (
+            <ConfigScreen
+              currentLanguage={currentLanguage}
+              handleLanguageChange={handleLanguageChange}
+            />
+          )}
         </Stack.Screen>
       </Stack.Navigator>
       <BottomSheet {...bottomSheetProps} />

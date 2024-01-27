@@ -11,6 +11,7 @@ import NewListForm from "../../components/NewListForm";
 import Button from "../../components/Button";
 import Container from "../../components/Container";
 import ContainerInner from "../../components/ContainerInner";
+import I18n from "i18n-js";
 
 interface HomeProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -43,7 +44,7 @@ export default function Home({
               handleCloseBottomSheet={handleCloseBottomSheet}
             />
           ) : (
-            <EmptyList mensage="Você não tem nenhuma lista criada" />
+            <EmptyList mensage={I18n.t("noListCreated")} />
           ))}
       </ContainerInner>
     </Container>

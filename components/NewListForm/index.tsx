@@ -16,6 +16,7 @@ import ITag from "../../Domain/Model/ITag";
 import { IProduct } from "../../Domain/Model/IProduct";
 import saveListByUuidController from "../../Domain/UseCases/List/SaveListByUuid";
 import getListProductController from "../../Domain/UseCases/ListProduct/GetListProductByUuid";
+import I18n from "i18n-js";
 
 export type NewListFormProps = {
   onClose: () => void;
@@ -56,14 +57,12 @@ const NewListForm = ({
     handleAddList(newItem.item);
   };
 
-
   const copyList = (): void => {
     if (newItem.item) {
       closeBottomSheet();
       handleCopyList(items?.uuid!, newItem.item);
     }
   };
-
 
   const editList = (): void => {
     if (newItem.item) {
@@ -73,9 +72,9 @@ const NewListForm = ({
   };
 
   const buttonTextArr = {
-    add: "Adicionar",
-    edit: "Editar",
-    copy: "Copiar",
+    add: I18n.t("add"),
+    edit: I18n.t("edit"),
+    copy: I18n.t("copy"),
   };
 
   const functions = {
@@ -94,7 +93,7 @@ const NewListForm = ({
     <Styled.Container>
       <Styled.InputContainer>
         <InputText
-          placeholder={"Nome da sua lista..."}
+          placeholder={I18n.t("listName")}
           onChangeText={(item) => {
             setNewItem({
               item: item,
@@ -107,7 +106,7 @@ const NewListForm = ({
       <Styled.ButtonsContainer>
         <Styled.ButtonWrapper>
           <Button
-            text="Cancelar"
+            text={I18n.t("cancel")}
             border={Colors[getTheme()].bottomSheetButtonCancelBorder}
             background={Colors[getTheme()].bottomSheetButtonCancelBackground}
             textColor={Colors[getTheme()].bottomSheetButtonCancelText}

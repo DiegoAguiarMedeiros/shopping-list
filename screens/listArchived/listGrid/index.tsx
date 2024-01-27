@@ -22,6 +22,7 @@ import getTotalAmountByListUuidController from "../../../Domain/UseCases/List/Ge
 import ContainerInner from "../../../components/ContainerInner";
 import Container from "../../../components/Container";
 import { GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../components/GridItemInner";
+import I18n from "i18n-js";
 interface ListProps {
   listArrItems: IProduct[];
   filter: string;
@@ -61,7 +62,7 @@ function ListGrid({ listId, listArrItems }: Readonly<ListProps>) {
           <GridItemWrapperCol width={50} height={100}>
             <GridItemWrapperInner height={100}>
               <Text color={Colors[getTheme()].text}>
-                Items:{" "}
+              {I18n.t("items")}:{" "}
                 {getTotalQuantityAmountByListUuidController.handle(listId)}
               </Text>
             </GridItemWrapperInner>
@@ -69,7 +70,7 @@ function ListGrid({ listId, listArrItems }: Readonly<ListProps>) {
           <GridItemWrapperCol width={50} height={100}>
             <GridItemWrapperInner height={100}>
               <Text color={Colors[getTheme()].text} align="right">
-                Total: R$ {total.toFixed(2).replace(".", ",")}
+              {I18n.t("total")}: R$ {total.toFixed(2).replace(".", ",")}
               </Text>
             </GridItemWrapperInner>
           </GridItemWrapperCol>

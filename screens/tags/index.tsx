@@ -12,6 +12,7 @@ import Button from "../../components/Button";
 import ListComponent from "./list";
 import Container from "../../components/Container";
 import ContainerInner from "../../components/ContainerInner";
+import I18n from "i18n-js";
 
 interface TagsProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -36,7 +37,7 @@ export default function Tags({
             handleCloseBottomSheet={handleCloseBottomSheet}
           />
         ) : (
-          <EmptyList mensage="Você não tem nenhuma categoria cadastrada" />
+          <EmptyList mensage={I18n.t("noCategories")} />
         )}
       </ContainerInner>
     </Container>

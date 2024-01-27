@@ -33,6 +33,7 @@ import getNumberOfProductsByTagsUuidController from "../../../../../Domain/UseCa
 import GridItem from "../../../../../components/GridItem";
 import { GridItemInner, GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../../../components/GridItemInner";
 import NewProductForm from "../../../../../components/NewProductForm";
+import I18n from "i18n-js";
 interface ItemProps {
   item: Tag;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -134,7 +135,7 @@ export default function ListGridItem({
                 />
               </Styled.ButtonTextIcon>
               <Styled.ButtonText text={Colors[getTheme()].swipeIcon}>
-                Editar
+                {I18n.t("edit")}
               </Styled.ButtonText>
             </>
           </Styled.ButtonInner>
@@ -151,7 +152,7 @@ export default function ListGridItem({
                 />
               </Styled.ButtonTextIcon>
               <Styled.ButtonText text={Colors[getTheme()].swipeIcon}>
-                Deletar
+                {I18n.t("delete")}
               </Styled.ButtonText>
             </>
           </Styled.ButtonInner>
@@ -184,7 +185,7 @@ export default function ListGridItem({
           <GridItemWrapperCol width={30} height={100}>
             <GridItemWrapperInner height={100}>
               <SubTitle color={Colors[getTheme()].textSecondary} align="right">
-                Produtos:{" "}
+                {I18n.t("products")}:{" "}
                 {getNumberOfProductsByTagsUuidController.handle(item.uuid)}
               </SubTitle>
             </GridItemWrapperInner>

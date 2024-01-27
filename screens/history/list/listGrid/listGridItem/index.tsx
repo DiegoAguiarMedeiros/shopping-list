@@ -27,6 +27,7 @@ import getTotalQuantityAmountByListUuidController from "../../../../../Domain/Us
 import deleteListByUuidController from "../../../../../Domain/UseCases/ListArchived/DeleteListByUuid";
 import GridItem from "../../../../../components/GridItem";
 import { GridItemInner, GridItemWrapperCol, GridItemWrapperInner } from "../../../../../components/GridItemInner";
+import I18n from "i18n-js";
 
 interface ItemProps {
   item: IList;
@@ -82,7 +83,7 @@ export default function ListGridItem({ item }: ItemProps) {
                   />
                 </Styled.ButtonTextIcon>
                 <Styled.ButtonText text={Colors[getTheme()].text}>
-                  Deletar
+                {I18n.t("delete")}
                 </Styled.ButtonText>
               </>
             </Styled.ButtonInner>
@@ -115,7 +116,7 @@ export default function ListGridItem({ item }: ItemProps) {
                 {item.name}
               </Title2>
               <Text color={Colors[getTheme()].itemListTextSecondary}>
-                Total: R$ {total.toFixed(2).replace(".", ",")}
+                {I18n.t("total")}: R$ {total.toFixed(2).replace(".", ",")}
               </Text>
             </GridItemWrapperInner>
           </GridItemWrapperCol>

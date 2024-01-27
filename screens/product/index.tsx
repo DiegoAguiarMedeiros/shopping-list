@@ -12,6 +12,7 @@ import Button from "../../components/Button";
 import ListComponent from "./list";
 import Container from "../../components/Container";
 import ContainerInner from "../../components/ContainerInner";
+import I18n from "i18n-js";
 
 
 interface ProductProps {
@@ -44,7 +45,7 @@ export default function Product({
             handleCloseBottomSheet={handleCloseBottomSheet}
           />
         ) : (
-          <EmptyList mensage="Você não tem nenhum produto cadastrado" />
+          <EmptyList mensage={I18n.t("noProductsRegistered")} />
         )}
       </ContainerInner>
     </Container>
