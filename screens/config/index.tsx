@@ -15,6 +15,10 @@ import { useShoppingListContext } from "../../context/ShoppingList";
 import * as Styled from "./styles";
 import { languageType } from "../../types/types";
 import I18n from "i18n-js";
+import Select from "../../components/InputSelect";
+
+import currencyArr from "../../constants/Currency";
+
 type ConfigProps = {
   currentLanguage: languageType;
   handleLanguageChange: (newLanguage: languageType) => void;
@@ -48,10 +52,12 @@ export default function Config({
   handleLanguageChange,
 }: ConfigProps) {
   const colorScheme = useColorScheme();
-  const { getTheme, saveTheme, saveLang } = useShoppingListContext();
+  const { getTheme, saveTheme, saveLang, saveCurrency, getCurrency } =
+    useShoppingListContext();
   const [selectedValueSwitch, setSelectedValueSwitch] = useState(
     getTheme() === "dark" ? false : true
   );
+  const [currency, setCurrency] = useState(getCurrency());
 
   const languages: languages[] = [
     {
@@ -76,6 +82,10 @@ export default function Config({
     saveLang(lang);
     handleLanguageChange(lang);
   };
+  const onValueChange = (currency: string, itemIndex: number): void => {
+    setCurrency(currency);
+    saveCurrency(currency);
+  };
 
   return (
     <Container background={Colors[getTheme()].backgroundPrimary}>
@@ -84,7 +94,7 @@ export default function Config({
           underlayColor={Colors[getTheme()].itemListBackgroundUnderlay}
           borderColor={Colors[getTheme()].itemListBackgroundBorder}
           background={Colors[getTheme()].itemListBackground}
-          height={300}
+          height={400}
           elevation={getTheme() === "light"}
         >
           <>
@@ -111,14 +121,14 @@ export default function Config({
                 />
               </GridItemWrapperInner>
             </GridItemWrapperRow>
-            <GridItemWrapperRow height={20}>
+            <GridItemWrapperRow height={10}>
               <GridItemWrapperInner width={100} height={100}>
                 <Title2 color={Colors[getTheme()].text}>
                   {I18n.t("colors")}
                 </Title2>
               </GridItemWrapperInner>
             </GridItemWrapperRow>
-            <GridItemWrapperRow height={20}>
+            <GridItemWrapperRow height={10}>
               <GridItemWrapperInner width={50} height={100}>
                 <SubTitle color={Colors[getTheme()].text}>
                   {getTheme() === "dark" ? "Tema Escuro" : "Tema Claro"}
@@ -159,6 +169,25 @@ export default function Config({
                   </Styled.langTouch>
                 </GridItemWrapperInner>
               ))}
+            </GridItemWrapperRow>
+            <GridItemWrapperRow height={10}>
+              <GridItemWrapperInner width={100} height={100}>
+                <Title2 color={Colors[getTheme()].text}>
+                  {I18n.t("currency")} ({currency})
+                </Title2>
+              </GridItemWrapperInner>
+            </GridItemWrapperRow>
+            <GridItemWrapperRow height={10}>
+              <Select
+                items={currencyArr.map((currency) => {
+                  return {
+                    ...currency,
+                    name: I18n.t(currency.name),
+                  };
+                })}
+                selectedValue={currency}
+                onValueChange={onValueChange}
+              />
             </GridItemWrapperRow>
           </>
         </GridItemInner>

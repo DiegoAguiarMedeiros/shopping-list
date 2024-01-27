@@ -33,7 +33,7 @@ function ListGrid({ listId, listArrItems }: Readonly<ListProps>) {
 
   const colorScheme = useColorScheme();
 
-  const { getTheme } = useShoppingListContext();
+  const { getTheme, getCurrency } = useShoppingListContext();
 
   const total = getTotalAmountByListUuidController.handle(listId);
 
@@ -62,7 +62,7 @@ function ListGrid({ listId, listArrItems }: Readonly<ListProps>) {
           <GridItemWrapperCol width={50} height={100}>
             <GridItemWrapperInner height={100}>
               <Text color={Colors[getTheme()].text}>
-              {I18n.t("items")}:{" "}
+                {I18n.t("items")}:{" "}
                 {getTotalQuantityAmountByListUuidController.handle(listId)}
               </Text>
             </GridItemWrapperInner>
@@ -70,7 +70,8 @@ function ListGrid({ listId, listArrItems }: Readonly<ListProps>) {
           <GridItemWrapperCol width={50} height={100}>
             <GridItemWrapperInner height={100}>
               <Text color={Colors[getTheme()].text} align="right">
-              {I18n.t("total")}: R$ {total.toFixed(2).replace(".", ",")}
+                {I18n.t("total")}: {getCurrency()}{" "}
+                {total.toFixed(2).replace(".", ",")}
               </Text>
             </GridItemWrapperInner>
           </GridItemWrapperCol>

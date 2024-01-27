@@ -15,7 +15,7 @@ interface AveragePriceProps {
 export default function AveragePrice({ price }: Readonly<AveragePriceProps>) {
   const colorScheme = useColorScheme();
 
-  const { getTheme } = useShoppingListContext();
+  const { getTheme, getCurrency } = useShoppingListContext();
   const calculateAveragePrice = (items: ILastPrices[]): number => {
     const prices: number[] = items.map((item) => item.price);
 
@@ -37,7 +37,8 @@ export default function AveragePrice({ price }: Readonly<AveragePriceProps>) {
         align="right"
         color={Colors[getTheme()].itemProductListAveragePrice}
       >
-        R$ {calculateAveragePrice(price).toFixed(2).replace(".", ",")}
+        {getCurrency()}{" "}
+        {calculateAveragePrice(price).toFixed(2).replace(".", ",")}
       </Text>
     </>
   );

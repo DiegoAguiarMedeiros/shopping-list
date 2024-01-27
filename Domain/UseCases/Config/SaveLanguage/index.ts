@@ -1,9 +1,9 @@
-import SaveLanguageController from "./SaveLanguageController";
-import SaveLanguageUseCase from "./SaveLanguageUseCase";
+import SaveCurrencyController from "./SaveCurrencyController";
+import SaveCurrencyUseCase from "./SaveCurrencyUseCase";
 import storageMMKV from "../../../Service/Implementation/MMKVStorage";
 
 
-const saveLanguageUseCase = new SaveLanguageUseCase(storageMMKV);
-const saveLanguageController = new SaveLanguageController(saveLanguageUseCase);
+const saveCurrencyUseCase = new SaveCurrencyUseCase(storageMMKV);
+const saveCurrencyController = new SaveCurrencyController(saveCurrencyUseCase);
 
-export default saveLanguageController;
+export default saveCurrencyController;

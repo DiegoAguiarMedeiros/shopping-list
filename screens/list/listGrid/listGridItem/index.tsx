@@ -54,7 +54,7 @@ function ListGridItem({
   active
 }: ListProps) {
   const colorScheme = useColorScheme();
-  const { getTheme, listProduct, handleDeleteProductFromList } =
+  const { getTheme, listProduct, handleDeleteProductFromList, getCurrency } =
     useShoppingListContext();
   const listIditemuuid = `${listId}-${item.uuid}`;
 
@@ -177,7 +177,8 @@ function ListGridItem({
                     <Text
                       color={Colors[getTheme()].itemListItemOpenTextSecondary}
                     >
-                      {I18n.t("total")}: R$ {total.toFixed(2).replace(".", ",")}
+                      {I18n.t("total")}: {getCurrency()}{" "}
+                      {total.toFixed(2).replace(".", ",")}
                     </Text>
                   </GridItemWrapperInner>
                   <GridItemWrapperInner
@@ -261,7 +262,8 @@ function ListGridItem({
                   justify="flex-start"
                 >
                   <Text color={Colors[getTheme()].textSecondary}>
-                  {I18n.t("total")}: R$ {total.toFixed(2).replace(".", ",")}
+                    {I18n.t("total")}: {getCurrency()}{" "}
+                    {total.toFixed(2).replace(".", ",")}
                   </Text>
                 </GridItemWrapperInner>
                 <GridItemWrapperInner

@@ -60,7 +60,7 @@ import en from "../i18n/en";
 import pt from "../i18n/pt-br";
 import es from "../i18n/es";
 import I18n from "i18n-js";
-import getLanguageController from "../Domain/UseCases/Config/GetLanguage";
+import getLanguageController from "../Domain/UseCases/Config/GetCurrency";
 
 I18n.fallbacks = true;
 I18n.translations = {

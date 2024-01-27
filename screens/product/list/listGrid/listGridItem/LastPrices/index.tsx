@@ -16,7 +16,7 @@ interface LastPricesProps {
 
 const LastPrices = ({ lastPrices }: LastPricesProps) => {
   const colorScheme = useColorScheme();
-  const { getTheme } = useShoppingListContext();
+  const { getTheme, getCurrency } = useShoppingListContext();
   const renderButton = (item: any) => {
     return (
       <Styled.ButtonContainer>
@@ -24,7 +24,7 @@ const LastPrices = ({ lastPrices }: LastPricesProps) => {
           border={Colors[getTheme()].itemProductListLastPriceButtonBorder}
         >
           <Text color={Colors[getTheme()].itemProductListLastPriceButtonText}>
-            R$ {Number(item.item).toFixed(2).replace(".", ",")}
+            {getCurrency()} {Number(item.item).toFixed(2).replace(".", ",")}
           </Text>
         </Styled.ButtonText>
       </Styled.ButtonContainer>

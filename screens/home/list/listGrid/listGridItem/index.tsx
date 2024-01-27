@@ -54,6 +54,7 @@ export default function ListGridItem({
     handleDeleteList,
     handleArchived,
     getTheme,
+    getCurrency,
   } = useShoppingListContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
@@ -267,7 +268,8 @@ export default function ListGridItem({
                 {item.name}
               </Title2>
               <Text color={Colors[getTheme()].itemListTextSecondary}>
-                {I18n.t("total")}: R$ {total.toFixed(2).replace(".", ",")}
+                {I18n.t("total")}: {getCurrency()}{" "}
+                {total.toFixed(2).replace(".", ",")}
               </Text>
             </GridItemWrapperInner>
           </GridItemWrapperCol>

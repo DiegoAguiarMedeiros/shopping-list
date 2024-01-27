@@ -41,7 +41,7 @@ interface ListProps {
 function ListGridItem({ item, listId }: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
 
-  const { getTheme } = useShoppingListContext();
+  const { getTheme, getCurrency } = useShoppingListContext();
   const listIditemuuid = `${listId}-${item.uuid}`;
 
   const listArrItems =
@@ -90,7 +90,8 @@ function ListGridItem({ item, listId }: Readonly<ListProps>) {
                   </GridItemWrapperCol>
                   <GridItemWrapperCol width={50} height={100}>
                     <Text color={Colors[getTheme()].text} align="right">
-                      R$ {Number(amount.amount).toFixed(2).replace(".", ",")}
+                      {getCurrency()}{" "}
+                      {Number(amount.amount).toFixed(2).replace(".", ",")}
                     </Text>
                     <Styled.ContainerItemTextPriceTotalLine
                       border={Colors[getTheme()].primary}
@@ -100,7 +101,7 @@ function ListGridItem({ item, listId }: Readonly<ListProps>) {
                         color={Colors[getTheme()].itemProductListAveragePrice}
                         align="right"
                       >
-                        R${" "}
+                        {getCurrency()}{" "}
                         {(Number(amount.quantity) * Number(amount.amount))
                           .toFixed(2)
                           .replace(".", ",")}

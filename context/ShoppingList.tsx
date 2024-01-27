@@ -33,6 +33,8 @@ import getThemeController from "../Domain/UseCases/Config/GetTheme";
 import { languageType } from "../types/types";
 import getLanguageController from "../Domain/UseCases/Config/GetLanguage";
 import saveLanguageController from "../Domain/UseCases/Config/SaveLanguage";
+import getCurrencyController from "../Domain/UseCases/Config/GetCurrency";
+import saveCurrencyController from "../Domain/UseCases/Config/SaveLanguage";
 
 type ShoppingListProviderProps = {
   theme: "light" | "dark";
@@ -73,6 +75,8 @@ type ShoppingListContextType = {
   saveTheme(theme: "light" | "dark"): void;
   getLang(): languageType;
   saveLang: (lang: languageType) => void;
+  getCurrency: () => string;
+  saveCurrency: (currency: string) => void;
 };
 
 const getListsFromStorage = (): IList[] => {
@@ -204,6 +208,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   children,
 }) => {
   const [list, setList] = useState<IList[]>([]);
+  const [currency, setCurrency] = useState<string>("");
   const [tags, setTags] = useState<ITag[]>([]);
   const [listProduct, setListProduct] = useState<IProduct[]>([]);
   const [amount, setAmount] = useState<IAmount[]>([]);
@@ -556,6 +561,17 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     handleLanguageChange(lang);
     saveLanguageController.handle(lang);
   };
+  const getCurrency = (): string => {
+    return currency;
+  };
+  const loadCurrency = (): void => {
+    const loadedLang = getCurrencyController.handle();
+    setCurrency(loadedLang);
+  };
+  const saveCurrency = (currency: string): void => {
+    setCurrency(currency);
+    saveCurrencyController.handle(currency);
+  };
 
   useEffect(() => {
     loadList();
@@ -567,6 +583,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     loadListAmountArchived();
     loadTheme();
     loadLang();
+    loadCurrency();
   }, []);
 
   return (
@@ -602,6 +619,8 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         saveTheme: saveTheme,
         getLang: getLang,
         saveLang: saveLang,
+        getCurrency: getCurrency,
+        saveCurrency: saveCurrency,
       }}
     >
       {children}

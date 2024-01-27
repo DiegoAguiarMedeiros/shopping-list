@@ -34,7 +34,7 @@ const Select = ({ items, selectedValue, onValueChange }: SelectProps) => {
               backgroundColor: Colors[getTheme()].backgroundPrimary,
               color: Colors[getTheme()].text,
             }}
-            key={`Picker.Item.${item.uuid}`}
+            key={`Picker.Item.${item.uuid}.index`}
             label={item.name}
             value={item.uuid}
           />

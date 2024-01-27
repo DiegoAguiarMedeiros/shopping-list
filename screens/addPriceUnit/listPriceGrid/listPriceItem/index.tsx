@@ -25,8 +25,12 @@ interface ListProps {
 }
 
 export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
-  const { handleEditItemsAmount, handleDeleteAmountInList, getTheme } =
-    useShoppingListContext();
+  const {
+    handleEditItemsAmount,
+    handleDeleteAmountInList,
+    getTheme,
+    getCurrency,
+  } = useShoppingListContext();
   const [selectedValueSwitch, setSelectedValueSwitch] = useState(
     itemAmount.type
   );
@@ -70,7 +74,8 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
             }
             align="center"
           >
-            R$ {Number(itemAmount.amount).toFixed(2).replace(".", ",")}
+            {getCurrency()}{" "}
+            {Number(itemAmount.amount).toFixed(2).replace(".", ",")}
           </Text>
         </GridItemWrapperInner>
         <GridItemWrapperInner width={30} height={100}>

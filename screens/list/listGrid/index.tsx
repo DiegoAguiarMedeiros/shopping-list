@@ -20,16 +20,14 @@ import getTotalQuantityWithoutAmountByListUuidController from "../../../Domain/U
 import Container from "../../../components/Container";
 import ContainerInner from "../../../components/ContainerInner";
 import { GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../components/GridItemInner";
+import I18n from "i18n-js";
 interface ListProps {
   listId: string;
   listArrItems: IProduct[];
 }
 
-function ListGrid({
-  listArrItems,
-  listId,
-}: Readonly<ListProps>) {
-  const { getTheme } = useShoppingListContext();
+function ListGrid({ listArrItems, listId }: Readonly<ListProps>) {
+  const { getTheme, getCurrency } = useShoppingListContext();
 
   const [active, setActive] = useState("");
   const [activeHeight, setActiveHeight] = useState(90);
@@ -79,12 +77,13 @@ function ListGrid({
         <GridItemWrapperRow height={10}>
           <GridItemWrapperInner width={50} height={100} justify="flex-start">
             <Text color={Colors[getTheme()].text}>
-              Total Items: {totalQuantity}
+              {I18n.t("totalItems")}: {totalQuantity}
             </Text>
           </GridItemWrapperInner>
           <GridItemWrapperInner width={50} height={100} justify="flex-start">
             <Text color={Colors[getTheme()].text} align="right">
-              Total: R$ {total.toFixed(2).replace(".", ",")}
+              {I18n.t("total")}: {getCurrency()}{" "}
+              {total.toFixed(2).replace(".", ",")}
             </Text>
           </GridItemWrapperInner>
         </GridItemWrapperRow>
