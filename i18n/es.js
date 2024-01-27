@@ -33,6 +33,7 @@ export default {
   latestPrices: 'Últimos Precios',
   averagePrice: 'Precio Promedio',
   currency: 'Moneda',
+  search: 'Buscar',
   "Albania Lek": "Lek Albanés",
     "Afghanistan Afghani": "Afghani Afgano",
     "Argentina Peso": "Peso Argentino",

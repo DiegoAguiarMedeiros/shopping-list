@@ -55,7 +55,7 @@ import HeaderInputTextSearch from "../components/HeaderInputTextSearch";
 import getThemeController from "../Domain/UseCases/Config/GetTheme";
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
-
+import * as Localization from "expo-localization";
 import en from "../i18n/en";
 import pt from "../i18n/pt-br";
 import es from "../i18n/es";
@@ -258,7 +258,7 @@ function RootLayoutNav({
       name: (
         <HeaderInputTextSearch
           style={{ marginLeft: -16 }}
-          placeholder="Buscar..."
+          placeholder={I18n.t("seacrh")}
           onChangeText={(item) => setSearch(item)}
         />
       ),

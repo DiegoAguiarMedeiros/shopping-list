@@ -33,6 +33,7 @@ export default {
     latestPrices: 'Latest Prices',
     averagePrice: 'Average Price',
     currency: 'Currency',
+    search: 'Search',
     "Albania Lek":"Albania Lek",
   "Afghanistan Afghani":"Afghanistan Afghani",
   "Argentina Peso":"Argentina Peso",
