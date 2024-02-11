@@ -38,9 +38,9 @@ const Switch: React.FC<SwitchProps> = ({ value, onValueChange, label }) => {
             onValueChange={onValueChange}
             trackColor={{
               false: getColor().white,
-              true: getColor().secondary,
+              true: getColor().primary,
             }}
-            thumbColor={value ? getColor().white : getColor().secondary}
+            thumbColor={value ? getColor().white : getColor().primary}
           />
         </GridItemWrapperInner>
       </GridItemWrapperRow>
