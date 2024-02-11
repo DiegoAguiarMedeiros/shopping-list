@@ -151,7 +151,7 @@ export default function Config({
                     background={
                       currentColor === cor
                         ? currentTheme.primary
-                        : currentTheme.backgroundPrimary
+                        : currentTheme.configItemBackground
                     }
                   >
                     <Styled.Color background={cor} />
@@ -177,7 +177,7 @@ export default function Config({
                     background={
                       currentLanguage === lang.lang
                         ? currentTheme.primary
-                        : currentTheme.backgroundPrimary
+                        : currentTheme.configItemBackground
                     }
                   >
                     <Styled.SlideImage source={returFlag(lang.lang)} />

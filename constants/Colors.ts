@@ -92,6 +92,7 @@ export type colorTheme = {
   itemProductListAveragePrice: string,
   itemProductListLastPriceButtonBorder: string,
   itemProductListLastPriceButtonText: string,
+  configItemBackground: string,
 } 
 
 export type typeTheme = {
@@ -174,6 +175,7 @@ export const Colors:colors ={
       itemProductListAveragePrice: "#43BCAE",
       itemProductListLastPriceButtonBorder: "#43BCAE",
       itemProductListLastPriceButtonText: "#43BCAE",
+      configItemBackground: "#FFF",
     },
     dark: {
       primary:"#43BCAE",
@@ -240,6 +242,7 @@ export const Colors:colors ={
       itemProductListAveragePrice: "#43BCAE",
       itemProductListLastPriceButtonBorder: "#43BCAE",
       itemProductListLastPriceButtonText: primaryDarkFontColor,
+      configItemBackground: "#4F4E4E",
     }
   },
   "#00BFFF":{
@@ -308,6 +311,7 @@ export const Colors:colors ={
       itemProductListAveragePrice: "#00BFFF",
       itemProductListLastPriceButtonBorder: "#00BFFF",
       itemProductListLastPriceButtonText: "#00BFFF",
+      configItemBackground: "#FFF",
     },
     dark: {
       primary:"#00BFFF",
@@ -374,6 +378,7 @@ export const Colors:colors ={
       itemProductListAveragePrice: "#00BFFF",
       itemProductListLastPriceButtonBorder: "#00BFFF",
       itemProductListLastPriceButtonText: primaryDarkFontColor,
+      configItemBackground: "#4F4E4E",
     }
   },
   "#FF69B4":{
@@ -442,6 +447,7 @@ export const Colors:colors ={
       itemProductListAveragePrice: "#FF69B4",
       itemProductListLastPriceButtonBorder: "#FF69B4",
       itemProductListLastPriceButtonText: "#FF69B4",
+      configItemBackground: "#FFF",
     },
     dark: {
       primary:"#FF69B4",
@@ -508,6 +514,7 @@ export const Colors:colors ={
       itemProductListAveragePrice: "#FF69B4",
       itemProductListLastPriceButtonBorder: "#FF69B4",
       itemProductListLastPriceButtonText: primaryDarkFontColor,
+      configItemBackground: "#4F4E4E",
     }
   }
 };
