@@ -594,7 +594,6 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   };
   const loadColor = (): void => {
     const loadedLang = getColorController.handle();
-    console.log("loadedLang ", loadedLang);
     setColor(loadedLang);
   };
   const saveColor = (color: ColorList): void => {

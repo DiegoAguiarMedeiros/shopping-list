@@ -103,7 +103,7 @@ export default function Config({
   };
   useEffect(() => {
     setCurrentTheme(getNewLoadColor());
-  }, [currentColor]);
+  }, [currentColor, selectedValueSwitch]);
 
   return (
     <Container background={currentTheme.backgroundPrimary}>

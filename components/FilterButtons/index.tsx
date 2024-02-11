@@ -54,6 +54,7 @@ const FilterButtons = ({ tags, filter, setFilter }: FilterButtonsProps) => {
               ? getColor().filterButtonActiveText
               : getColor().filterButtonText
           }
+          underlayColor={getColor().filterButtonActiveBackground}
           text={tag.name}
         />
       </Styled.ButtonContainer>

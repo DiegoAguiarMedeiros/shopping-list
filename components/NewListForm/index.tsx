@@ -120,6 +120,7 @@ const NewListForm = ({
             border={getColor().bottomSheetButtonAddBorder}
             background={getColor().bottomSheetButtonAddBackground}
             onPress={functions[action]}
+            underlayColor={getColor().bottomSheetButtonAddUnderlay}
           />
         </Styled.ButtonWrapper>
       </Styled.ButtonsContainer>

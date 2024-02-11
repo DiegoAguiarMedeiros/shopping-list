@@ -6,7 +6,7 @@ export const Container = styled.View`
 `;
 
 export const ButtonContainer = styled.TouchableHighlight`
-    padding:0;
+    padding:2px;
     margin: 0;
 `;
 

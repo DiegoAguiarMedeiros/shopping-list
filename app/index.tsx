@@ -285,7 +285,7 @@ function RootLayoutNav({
       name: (
         <HeaderInputTextSearch
           style={{ marginLeft: -16 }}
-          placeholder={I18n.t("seacrh")}
+          placeholder={I18n.t("search")}
           onChangeText={(item) => setSearch(item)}
         />
       ),
