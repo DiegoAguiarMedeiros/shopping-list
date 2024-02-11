@@ -1,5 +1,5 @@
 import { TouchableHighlight, useColorScheme } from "react-native";
-import Colors from "../../constants/Colors";
+
 import * as Styled from "./styles";
 import React, { useEffect, useState } from "react";
 import { useShoppingListContext } from "../../context/ShoppingList";
@@ -58,7 +58,8 @@ export default function List({
   setActiveRouteHeader,
 }: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
-  const { list, listProduct, amount, getTheme } = useShoppingListContext();
+  const { list, listProduct, amount, getTheme, getColor } =
+    useShoppingListContext();
   const selectedItem = list.find((i) => i.uuid === listId);
   const [tags, setTags] = useState(
     selectedItem?.tags ? ["Todos", ...selectedItem?.tags] : []
@@ -89,26 +90,20 @@ export default function List({
     setActiveRouteHeader({
       left: (
         <TouchableHighlight
-          underlayColor={Colors[getTheme()].primary}
+          underlayColor={getColor().primary}
           style={{ marginLeft: 20, marginRight: 10 }}
           onPress={() => returnToHome()}
         >
-          <FontAwesome
-            name="angle-left"
-            size={35}
-            color={Colors[getTheme()].white}
-          />
+          <FontAwesome name="angle-left" size={35} color={getColor().white} />
         </TouchableHighlight>
       ),
-      name: (
-        <Title color={Colors[getTheme()].white}>{selectedItem?.name!}</Title>
-      ),
+      name: <Title color={getColor().white}>{selectedItem?.name!}</Title>,
       right: (
         <Styled.Container>
           <CircleProgress
-            activeStrokeColor={Colors[getTheme()].circularHeaderFilled}
-            titleColor={Colors[getTheme()].circularHeaderText}
-            circleBackgroundColor={Colors[getTheme()].circularHeaderBackground}
+            activeStrokeColor={getColor().circularHeaderFilled}
+            titleColor={getColor().circularHeaderText}
+            circleBackgroundColor={getColor().circularHeaderBackground}
             filled={amount}
             progress={un && amount ? amount : 0}
             total={un}
@@ -162,7 +157,7 @@ export default function List({
   return (
     <Container noPadding>
       <Header
-        background={Colors[getTheme()].backgroundPrimary}
+        background={getColor().backgroundPrimary}
         bottom={
           listArr && listArr.tags.length > 0 ? (
             <FilterButtons tags={tags} filter={filter} setFilter={setFilter} />
@@ -171,7 +166,7 @@ export default function List({
       />
       <ContainerInner
         justify="center"
-        background={Colors[getTheme()].backgroundPrimary}
+        background={getColor().backgroundPrimary}
       >
         {listArrItems.length > 0 ? (
           <ListGrid listArrItems={listArrItems} listId={listId} />

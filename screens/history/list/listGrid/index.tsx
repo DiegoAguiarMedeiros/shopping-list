@@ -1,5 +1,4 @@
 import { useColorScheme, SafeAreaView, ScrollView } from "react-native";
-import Colors from "../../../../constants/Colors";
 import * as Styled from "./styles";
 import {
   BottomSheetProps,
@@ -20,10 +19,7 @@ export default function ListGrid({ items }: ItemProps) {
       <ScrollView keyboardShouldPersistTaps="handled">
         <Styled.ContainerListItemListItem>
           {items.map((item: IList) => (
-            <ListGridItem
-              key={"ListGridItem-" + item.uuid}
-              item={item}
-            />
+            <ListGridItem key={"ListGridItem-" + item.uuid} item={item} />
           ))}
         </Styled.ContainerListItemListItem>
       </ScrollView>

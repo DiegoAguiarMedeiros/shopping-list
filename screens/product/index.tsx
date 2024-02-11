@@ -3,7 +3,7 @@ import { KeyboardAvoidingView, useColorScheme } from "react-native";
 import EmptyList from "../../components/EmptyList";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
-import Colors from "../../constants/Colors";
+
 import * as Styled from "./styles";
 import BottomSheet, { BottomSheetProps } from "../../components/BottomSheet";
 import React, { useState } from "react";
@@ -13,7 +13,6 @@ import ListComponent from "./list";
 import Container from "../../components/Container";
 import ContainerInner from "../../components/ContainerInner";
 import I18n from "i18n-js";
-
 
 interface ProductProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -28,10 +27,10 @@ export default function Product({
   search,
 }: Readonly<ProductProps>) {
   const colorScheme = useColorScheme();
-  const { listProduct, getTheme } = useShoppingListContext();
+  const { listProduct, getTheme, getColor } = useShoppingListContext();
   return (
-    <Container background={Colors[getTheme()].backgroundPrimary}>
-      <ContainerInner background={Colors[getTheme()].backgroundPrimary}>
+    <Container background={getColor().backgroundPrimary}>
+      <ContainerInner background={getColor().backgroundPrimary}>
         {listProduct && listProduct.length > 0 ? (
           <ListComponent
             items={

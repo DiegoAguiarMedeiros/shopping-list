@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Switch as RNSwitch, useColorScheme } from "react-native";
-import Colors from "../../constants/Colors";
+
 import { Text } from "../Text";
 import Container from "../Container";
 import { GridItemWrapperInner, GridItemWrapperRow } from "../GridItemInner";
@@ -20,17 +20,13 @@ interface SwitchProps {
 const Switch: React.FC<SwitchProps> = ({ value, onValueChange, label }) => {
   const colorScheme = useColorScheme();
 
-  const { getTheme } = useShoppingListContext();
+  const { getTheme, getColor } = useShoppingListContext();
   return (
     <Container noPadding>
       <GridItemWrapperRow height={100}>
         <GridItemWrapperInner width={50} height={100} align="flex-end">
           <Text
-            color={
-              colorScheme !== "dark"
-                ? Colors[getTheme()].black
-                : Colors[getTheme()].white
-            }
+            color={colorScheme !== "dark" ? getColor().black : getColor().white}
             align="right"
           >
             {label[value ? "on" : "off"]}
@@ -41,12 +37,10 @@ const Switch: React.FC<SwitchProps> = ({ value, onValueChange, label }) => {
             value={value}
             onValueChange={onValueChange}
             trackColor={{
-              false: Colors[getTheme()].white,
-              true: Colors[getTheme()].secondary,
+              false: getColor().white,
+              true: getColor().secondary,
             }}
-            thumbColor={
-              value ? Colors[getTheme()].white : Colors[getTheme()].secondary
-            }
+            thumbColor={value ? getColor().white : getColor().secondary}
           />
         </GridItemWrapperInner>
       </GridItemWrapperRow>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useColorScheme } from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
-import Colors from "../../constants/Colors";
+
 import { Text, Title } from "../../components/Text";
 import * as Styled from "./styles";
 import { useShoppingListContext } from "../../context/ShoppingList";
@@ -19,12 +19,12 @@ interface OnboadingProps {
 }
 const OnboardingScreen = ({ closeOnboarding }: OnboadingProps) => {
   const colorScheme = useColorScheme();
-  const { getTheme } = useShoppingListContext();
+  const { getTheme, getColor } = useShoppingListContext();
   const renderItem = ({ item }: { item: Slide }) => (
-    <Styled.Container background={Colors[getTheme()].backgroundPrimary}>
-      <Styled.SlideContainer background={Colors[getTheme()].backgroundPrimary}>
+    <Styled.Container background={getColor().backgroundPrimary}>
+      <Styled.SlideContainer background={getColor().backgroundPrimary}>
         <Styled.SlideContainerInnerTitle>
-          <Styled.SlideTitle text={Colors[getTheme()].backgroundPrimary}>
+          <Styled.SlideTitle text={getColor().backgroundPrimary}>
             {item.title}
           </Styled.SlideTitle>
         </Styled.SlideContainerInnerTitle>
@@ -32,7 +32,7 @@ const OnboardingScreen = ({ closeOnboarding }: OnboadingProps) => {
           <Styled.SlideImage source={item.image} />
         </Styled.SlideContainerInnerImage>
         <Styled.SlideContainerInnerText>
-          <Styled.SlideText text={Colors[getTheme()].backgroundPrimary}>
+          <Styled.SlideText text={getColor().backgroundPrimary}>
             {item.text}
           </Styled.SlideText>
         </Styled.SlideContainerInnerText>
@@ -42,9 +42,9 @@ const OnboardingScreen = ({ closeOnboarding }: OnboadingProps) => {
   const slides: Slide[] = [
     {
       key: "slide1",
-      title: <Title color={Colors[getTheme()].text}>Welcome</Title>,
+      title: <Title color={getColor().text}>Welcome</Title>,
       text: (
-        <Text color={Colors[getTheme()].text}>
+        <Text color={getColor().text}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </Text>
       ),
@@ -53,9 +53,9 @@ const OnboardingScreen = ({ closeOnboarding }: OnboadingProps) => {
     },
     {
       key: "slide2",
-      title: <Title color={Colors[getTheme()].text}>Get Started</Title>,
+      title: <Title color={getColor().text}>Get Started</Title>,
       text: (
-        <Text color={Colors[getTheme()].text}>
+        <Text color={getColor().text}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </Text>
       ),
@@ -68,22 +68,22 @@ const OnboardingScreen = ({ closeOnboarding }: OnboadingProps) => {
       data={slides}
       renderItem={renderItem}
       renderSkipButton={() => (
-        <Title color={Colors[getTheme()].textSecondary}>Pular</Title>
+        <Title color={getColor().textSecondary}>Pular</Title>
       )}
       renderNextButton={() => (
-        <Title color={Colors[getTheme()].textSecondary}>Próximo</Title>
+        <Title color={getColor().textSecondary}>Próximo</Title>
       )}
       renderDoneButton={() => (
-        <Title color={Colors[getTheme()].textSecondary}>Fechar</Title>
+        <Title color={getColor().textSecondary}>Fechar</Title>
       )}
       renderPrevButton={() => (
-        <Title color={Colors[getTheme()].textSecondary}>Voltar</Title>
+        <Title color={getColor().textSecondary}>Voltar</Title>
       )}
       showPrevButton
       showSkipButton
-      dotStyle={{ backgroundColor: Colors[getTheme()].text }}
+      dotStyle={{ backgroundColor: getColor().text }}
       activeDotStyle={{
-        backgroundColor: Colors[getTheme()].info,
+        backgroundColor: getColor().info,
       }}
       onDone={closeOnboarding}
     />

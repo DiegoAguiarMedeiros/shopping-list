@@ -1,6 +1,5 @@
 import React from "react";
 import { TouchableHighlightProps, useColorScheme } from "react-native";
-import Colors from "../../../../../../constants/Colors";
 import * as Styled from "./styles";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useShoppingListContext } from "../../../../../../context/ShoppingList";
@@ -18,13 +17,13 @@ const Button: React.FC<ButtonProps> = ({
   ...rest
 }) => {
   const colorScheme = useColorScheme();
-  const { getTheme } = useShoppingListContext();
+  const { getTheme, getColor } = useShoppingListContext();
   return (
     <Styled.Button
       onPress={onPress}
       {...rest}
-      border={Colors[getTheme()].itemListItemOpenButtonBorder}
-      background={Colors[getTheme()].itemListItemOpenButtonBackGround}
+      border={getColor().itemListItemOpenButtonBorder}
+      background={getColor().itemListItemOpenButtonBackGround}
       invertSide={invertSide!}
     >
       {icon !== undefined ? (
@@ -32,7 +31,7 @@ const Button: React.FC<ButtonProps> = ({
           size={20}
           style={{ marginBottom: -3 }}
           name={icon}
-          color={Colors[getTheme()].itemListItemOpenButtonText}
+          color={getColor().itemListItemOpenButtonText}
         />
       ) : null}
     </Styled.Button>

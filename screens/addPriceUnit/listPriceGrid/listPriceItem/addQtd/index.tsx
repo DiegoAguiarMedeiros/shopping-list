@@ -5,7 +5,6 @@ import {
   GestureResponderEvent,
   Switch as RNSwitch,
 } from "react-native";
-import Colors from "../../../../../constants/Colors";
 import * as Styled from "./styles";
 import { useEffect, useState } from "react";
 import Button from "./Button";

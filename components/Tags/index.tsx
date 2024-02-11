@@ -7,7 +7,7 @@ import {
   SafeAreaView,
   ScrollView,
 } from "react-native";
-import Colors from "../../constants/Colors";
+
 import * as Styled from "./styles";
 import { Title } from "../Text";
 import { TagsIterface } from "../../types/types";
@@ -22,7 +22,7 @@ const Tags = ({ tags, isVisible, addTag }: TagsProps) => {
   const colorScheme = useColorScheme();
   const [tagsIsVisible, setTagsIsVisible] = useState(isVisible);
 
-  const { getTheme } = useShoppingListContext();
+  const { getTheme, getColor } = useShoppingListContext();
   const returnMarginTop = (tags: number): string => {
     switch (tags) {
       case 0:
@@ -51,7 +51,7 @@ const Tags = ({ tags, isVisible, addTag }: TagsProps) => {
     <Styled.Tags
       isVisible={tagsIsVisible}
       marginTop={returnMarginTop(tags.length)}
-      background={Colors[getTheme()].backgroundPrimary}
+      background={getColor().backgroundPrimary}
     >
       <Styled.TagsInner>
         <SafeAreaView>
@@ -60,14 +60,12 @@ const Tags = ({ tags, isVisible, addTag }: TagsProps) => {
               <Styled.TagsItem
                 onPress={() => handleAddTag(tag?.name)}
                 key={`tagContainer-${tag.id}`}
-                background={Colors[getTheme()].backgroundPrimary}
+                background={getColor().backgroundPrimary}
               >
                 <Title
                   key={`tagTitle-${tag.id}`}
                   color={
-                    colorScheme !== "dark"
-                      ? Colors[getTheme()].black
-                      : Colors[getTheme()].white
+                    colorScheme !== "dark" ? getColor().black : getColor().white
                   }
                 >
                   {tag?.name}

@@ -1,5 +1,4 @@
 import { useColorScheme, Animated } from "react-native";
-import Colors from "../../../../constants/Colors";
 import * as Styled from "./styles";
 import React, { useState } from "react";
 import {
@@ -20,16 +19,18 @@ import {
 } from "../../../../utils/functions";
 import { Swipeable } from "react-native-gesture-handler";
 import { Title, Text, Title2 } from "../../../../components/Text";
-import {
-  useShoppingListContext,
-} from "../../../../context/ShoppingList";
+import { useShoppingListContext } from "../../../../context/ShoppingList";
 import { IProduct } from "../../../../Domain/Model/IProduct";
 import getAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetAmountByListProductUuid";
 import getTotalQuantityAmountByListUuidController from "../../../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
 import getTotlaAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetTotalAmountByListProductUuid";
 import getTotalQuantityAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetTotalQuantityAmountByListProductUuid";
 import GridItem from "../../../../components/GridItem";
-import { GridItemInner, GridItemWrapperCol, GridItemWrapperRow } from "../../../../components/GridItemInner";
+import {
+  GridItemInner,
+  GridItemWrapperCol,
+  GridItemWrapperRow,
+} from "../../../../components/GridItemInner";
 import ContainerInner from "../../../../components/ContainerInner";
 import Container from "../../../../components/Container";
 
@@ -41,7 +42,7 @@ interface ListProps {
 function ListGridItem({ item, listId }: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
 
-  const { getTheme, getCurrency } = useShoppingListContext();
+  const { getTheme, getCurrency, getColor } = useShoppingListContext();
   const listIditemuuid = `${listId}-${item.uuid}`;
 
   const listArrItems =
@@ -54,23 +55,23 @@ function ListGridItem({ item, listId }: Readonly<ListProps>) {
     <>
       {listArrItems.length == 0 ? (
         <GridItemInner
-          underlayColor={Colors[getTheme()].itemListBackgroundUnderlay}
-          borderColor={Colors[getTheme()].itemListBackgroundBorder}
-          background={Colors[getTheme()].itemListBackground}
+          underlayColor={getColor().itemListBackgroundUnderlay}
+          borderColor={getColor().itemListBackgroundBorder}
+          background={getColor().itemListBackground}
           height={60}
           row
           elevation={colorScheme === "light"}
         >
           <GridItemWrapperCol width={100}>
-            <Title2 color={Colors[getTheme()].text}>{item.name}</Title2>
+            <Title2 color={getColor().text}>{item.name}</Title2>
           </GridItemWrapperCol>
         </GridItemInner>
       ) : (
         listArrItems.map((amount) => (
           <GridItemInner
-            underlayColor={Colors[getTheme()].itemListBackgroundUnderlay}
-            borderColor={Colors[getTheme()].itemListBackgroundBorder}
-            background={Colors[getTheme()].itemListBackground}
+            underlayColor={getColor().itemListBackgroundUnderlay}
+            borderColor={getColor().itemListBackgroundBorder}
+            background={getColor().itemListBackground}
             height={60}
             row
             elevation={colorScheme === "light"}
@@ -78,27 +79,27 @@ function ListGridItem({ item, listId }: Readonly<ListProps>) {
           >
             <>
               <GridItemWrapperCol width={60} height={100}>
-                <Title2 color={Colors[getTheme()].text}>{item.name}</Title2>
+                <Title2 color={getColor().text}>{item.name}</Title2>
               </GridItemWrapperCol>
               <GridItemWrapperCol width={40} height={100}>
                 <GridItemWrapperRow height={100}>
                   <GridItemWrapperCol width={50} height={100}>
-                    <Text color={Colors[getTheme()].text}>
+                    <Text color={getColor().text}>
                       {`${amount.quantity}`} {amount.type ? `Kg` : `Un`}
                       {" x"}
                     </Text>
                   </GridItemWrapperCol>
                   <GridItemWrapperCol width={50} height={100}>
-                    <Text color={Colors[getTheme()].text} align="right">
+                    <Text color={getColor().text} align="right">
                       {getCurrency()}{" "}
                       {Number(amount.amount).toFixed(2).replace(".", ",")}
                     </Text>
                     <Styled.ContainerItemTextPriceTotalLine
-                      border={Colors[getTheme()].primary}
+                      border={getColor().primary}
                     />
                     <Styled.ContainerItemTextPriceTotal>
                       <Text
-                        color={Colors[getTheme()].itemProductListAveragePrice}
+                        color={getColor().itemProductListAveragePrice}
                         align="right"
                       >
                         {getCurrency()}{" "}

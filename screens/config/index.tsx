@@ -2,7 +2,7 @@ import { useColorScheme } from "react-native";
 
 import Switch from "../../components/Switch";
 import { SubTitle, Text, Title2 } from "../../components/Text";
-import Colors from "../../constants/Colors";
+
 import Container from "../../components/Container";
 import ContainerInner from "../../components/ContainerInner";
 import {
@@ -10,7 +10,7 @@ import {
   GridItemWrapperInner,
   GridItemWrapperRow,
 } from "../../components/GridItemInner";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useShoppingListContext } from "../../context/ShoppingList";
 import * as Styled from "./styles";
 import { languageType } from "../../types/types";
@@ -18,10 +18,13 @@ import I18n from "i18n-js";
 import Select from "../../components/InputSelect";
 
 import currencyArr from "../../constants/Currency";
+import { ColorList, colorTheme, typeTheme } from "../../constants/Colors";
 
 type ConfigProps = {
   currentLanguage: languageType;
   handleLanguageChange: (newLanguage: languageType) => void;
+  currentColor: ColorList;
+  handleColorChange: (color: ColorList) => void;
 };
 
 interface Image {
@@ -50,10 +53,20 @@ type languages = {
 export default function Config({
   currentLanguage,
   handleLanguageChange,
+  currentColor,
+  handleColorChange,
 }: ConfigProps) {
   const colorScheme = useColorScheme();
-  const { getTheme, saveTheme, saveLang, saveCurrency, getCurrency } =
-    useShoppingListContext();
+  const {
+    getTheme,
+    saveTheme,
+    saveLang,
+    saveCurrency,
+    getCurrency,
+    getColor,
+    getNewLoadColor,
+  } = useShoppingListContext();
+  const [currentTheme, setCurrentTheme] = useState<colorTheme>(getColor());
   const [selectedValueSwitch, setSelectedValueSwitch] = useState(
     getTheme() === "dark" ? false : true
   );
@@ -74,6 +87,8 @@ export default function Config({
     },
   ];
 
+  const cores: ColorList[] = ["#43BCAE", "#00BFFF", "#FF69B4"];
+
   const changeTheme = () => {
     saveTheme(selectedValueSwitch ? "dark" : "light");
     setSelectedValueSwitch(!selectedValueSwitch);
@@ -86,28 +101,29 @@ export default function Config({
     setCurrency(currency);
     saveCurrency(currency);
   };
+  useEffect(() => {
+    setCurrentTheme(getNewLoadColor());
+  }, [currentColor]);
 
   return (
-    <Container background={Colors[getTheme()].backgroundPrimary}>
-      <ContainerInner background={Colors[getTheme()].backgroundPrimary}>
+    <Container background={currentTheme.backgroundPrimary}>
+      <ContainerInner background={currentTheme.backgroundPrimary}>
         <GridItemInner
-          underlayColor={Colors[getTheme()].itemListBackgroundUnderlay}
-          borderColor={Colors[getTheme()].itemListBackgroundBorder}
-          background={Colors[getTheme()].itemListBackground}
-          height={400}
+          underlayColor={currentTheme.itemListBackgroundUnderlay}
+          borderColor={currentTheme.itemListBackgroundBorder}
+          background={currentTheme.itemListBackground}
+          height={450}
           elevation={getTheme() === "light"}
         >
           <>
             <GridItemWrapperRow height={10}>
               <GridItemWrapperInner width={100} height={100}>
-                <Title2 color={Colors[getTheme()].text}>
-                  {I18n.t("theme")}
-                </Title2>
+                <Title2 color={currentTheme.text}>{I18n.t("theme")}</Title2>
               </GridItemWrapperInner>
             </GridItemWrapperRow>
             <GridItemWrapperRow height={10}>
               <GridItemWrapperInner width={50} height={100}>
-                <SubTitle color={Colors[getTheme()].text}>
+                <SubTitle color={currentTheme.text}>
                   {getTheme() === "dark"
                     ? I18n.t("darkTheme")
                     : I18n.t("lightTheme")}
@@ -121,35 +137,34 @@ export default function Config({
                 />
               </GridItemWrapperInner>
             </GridItemWrapperRow>
-            <GridItemWrapperRow height={10}>
+            <GridItemWrapperRow height={15}>
               <GridItemWrapperInner width={100} height={100}>
-                <Title2 color={Colors[getTheme()].text}>
-                  {I18n.t("colors")}
-                </Title2>
+                <Title2 color={currentTheme.text}>{I18n.t("colors")}</Title2>
               </GridItemWrapperInner>
             </GridItemWrapperRow>
             <GridItemWrapperRow height={10}>
-              <GridItemWrapperInner width={50} height={100}>
-                <SubTitle color={Colors[getTheme()].text}>
-                  {getTheme() === "dark" ? "Tema Escuro" : "Tema Claro"}
-                </SubTitle>
-              </GridItemWrapperInner>
-              <GridItemWrapperInner width={50} height={100}>
-                <Switch
-                  value={selectedValueSwitch}
-                  label={{ on: "", off: "" }}
-                  onValueChange={() => changeTheme()}
-                />
-              </GridItemWrapperInner>
+              {cores.map((cor) => (
+                <GridItemWrapperInner width={33} height={100} key={`${cor}`}>
+                  <Styled.langTouch
+                    onPress={() => handleColorChange(cor)}
+                    underlayColor={currentTheme.secondary}
+                    background={
+                      currentColor === cor
+                        ? currentTheme.primary
+                        : currentTheme.backgroundPrimary
+                    }
+                  >
+                    <Styled.Color background={cor} />
+                  </Styled.langTouch>
+                </GridItemWrapperInner>
+              ))}
             </GridItemWrapperRow>
-            <GridItemWrapperRow height={20}>
+            <GridItemWrapperRow height={15}>
               <GridItemWrapperInner width={100} height={100}>
-                <Title2 color={Colors[getTheme()].text}>
-                  {I18n.t("language")}
-                </Title2>
+                <Title2 color={currentTheme.text}>{I18n.t("language")}</Title2>
               </GridItemWrapperInner>
             </GridItemWrapperRow>
-            <GridItemWrapperRow height={20}>
+            <GridItemWrapperRow height={10}>
               {languages.map((lang) => (
                 <GridItemWrapperInner
                   width={33}
@@ -158,11 +173,11 @@ export default function Config({
                 >
                   <Styled.langTouch
                     onPress={() => changeLang(lang.lang)}
-                    underlayColor={Colors[getTheme()].secondary}
+                    underlayColor={currentTheme.secondary}
                     background={
                       currentLanguage === lang.lang
-                        ? Colors[getTheme()].primary
-                        : Colors[getTheme()].backgroundPrimary
+                        ? currentTheme.primary
+                        : currentTheme.backgroundPrimary
                     }
                   >
                     <Styled.SlideImage source={returFlag(lang.lang)} />
@@ -170,9 +185,9 @@ export default function Config({
                 </GridItemWrapperInner>
               ))}
             </GridItemWrapperRow>
-            <GridItemWrapperRow height={10}>
+            <GridItemWrapperRow height={15}>
               <GridItemWrapperInner width={100} height={100}>
-                <Title2 color={Colors[getTheme()].text}>
+                <Title2 color={currentTheme.text}>
                   {I18n.t("currency")} ({currency})
                 </Title2>
               </GridItemWrapperInner>

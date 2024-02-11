@@ -1,5 +1,4 @@
 import { useColorScheme, Animated } from "react-native";
-import Colors from "../../../../../constants/Colors";
 import * as Styled from "./styles";
 import { useCallback, useRef } from "react";
 import {
@@ -16,9 +15,7 @@ import { useRouter } from "expo-router";
 import { Swipeable } from "react-native-gesture-handler";
 import { removeUndefinedFromArray } from "../../../../../utils/functions";
 import { Title, Text, Title2 } from "../../../../../components/Text";
-import {
-  useShoppingListContext,
-} from "../../../../../context/ShoppingList";
+import { useShoppingListContext } from "../../../../../context/ShoppingList";
 import CircleProgress from "../../../../../components/CircleProgress";
 import { IList } from "../../../../../Domain/Model/IList";
 import getTotalAmountByListUuidController from "../../../../../Domain/UseCases/List/GetTotalAmountByListUuid";
@@ -26,7 +23,11 @@ import getTotalQuantityWithoutAmountByListUuidController from "../../../../../Do
 import getTotalQuantityAmountByListUuidController from "../../../../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
 import deleteListByUuidController from "../../../../../Domain/UseCases/ListArchived/DeleteListByUuid";
 import GridItem from "../../../../../components/GridItem";
-import { GridItemInner, GridItemWrapperCol, GridItemWrapperInner } from "../../../../../components/GridItemInner";
+import {
+  GridItemInner,
+  GridItemWrapperCol,
+  GridItemWrapperInner,
+} from "../../../../../components/GridItemInner";
 import I18n from "i18n-js";
 
 interface ItemProps {
@@ -34,16 +35,14 @@ interface ItemProps {
 }
 
 export default function ListGridItem({ item }: ItemProps) {
-  const { handleDeleteListArchived, getTheme, getCurrency } =
+  const { handleDeleteListArchived, getTheme, getCurrency, getColor } =
     useShoppingListContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
   const total = getTotalAmountByListUuidController.handle(item.uuid);
   const totalWithAmount =
     getTotalQuantityWithoutAmountByListUuidController.handle(item.uuid);
-  const totalUn =
-    getTotalQuantityAmountByListUuidController.handle(item.uuid);
-
+  const totalUn = getTotalQuantityAmountByListUuidController.handle(item.uuid);
 
   const handleOpenList = useCallback(() => {
     router.push({ pathname: "/ItemsArchived", params: { listId: item.uuid } });
@@ -72,19 +71,19 @@ export default function ListGridItem({ item }: ItemProps) {
         >
           <Styled.ButtonView>
             <Styled.ButtonInner
-              underlayColor={Colors[getTheme()].textSecondary}
+              underlayColor={getColor().textSecondary}
               onPress={handleDelete}
             >
               <>
-                <Styled.ButtonTextIcon text={Colors[getTheme()].text}>
+                <Styled.ButtonTextIcon text={getColor().text}>
                   <FontAwesome
                     size={18}
                     style={{ marginBottom: -3 }}
                     name="trash"
                   />
                 </Styled.ButtonTextIcon>
-                <Styled.ButtonText text={Colors[getTheme()].text}>
-                {I18n.t("delete")}
+                <Styled.ButtonText text={getColor().text}>
+                  {I18n.t("delete")}
                 </Styled.ButtonText>
               </>
             </Styled.ButtonInner>
@@ -102,9 +101,9 @@ export default function ListGridItem({ item }: ItemProps) {
       leftThreshold={undefined}
     >
       <GridItemInner
-        underlayColor={Colors[getTheme()].itemListBackgroundUnderlay}
-        borderColor={Colors[getTheme()].itemListBackgroundBorder}
-        background={Colors[getTheme()].itemListBackground}
+        underlayColor={getColor().itemListBackgroundUnderlay}
+        borderColor={getColor().itemListBackgroundBorder}
+        background={getColor().itemListBackground}
         height={70}
         row
         onPress={handleOpenList}
@@ -113,10 +112,8 @@ export default function ListGridItem({ item }: ItemProps) {
         <>
           <GridItemWrapperCol width={85} height={100}>
             <GridItemWrapperInner height={100}>
-              <Title2 color={Colors[getTheme()].itemListText}>
-                {item.name}
-              </Title2>
-              <Text color={Colors[getTheme()].itemListTextSecondary}>
+              <Title2 color={getColor().itemListText}>{item.name}</Title2>
+              <Text color={getColor().itemListTextSecondary}>
                 {I18n.t("total")}: {getCurrency()}{" "}
                 {total.toFixed(2).replace(".", ",")}
               </Text>
@@ -125,11 +122,9 @@ export default function ListGridItem({ item }: ItemProps) {
           <GridItemWrapperCol width={15} height={100}>
             <GridItemWrapperInner height={100} align="flex-end">
               <CircleProgress
-                activeStrokeColor={Colors[getTheme()].circularItemFilled}
-                titleColor={Colors[getTheme()].circularItemText}
-                circleBackgroundColor={
-                  Colors[getTheme()].circularItemBackground
-                }
+                activeStrokeColor={getColor().circularItemFilled}
+                titleColor={getColor().circularItemText}
+                circleBackgroundColor={getColor().circularItemBackground}
                 filled={totalWithAmount}
                 progress={totalUn && totalWithAmount ? totalWithAmount : 0}
                 total={totalUn}

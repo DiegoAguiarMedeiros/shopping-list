@@ -1,14 +1,9 @@
 import { StyleSheet } from "react-native";
 import { Text } from "../components/Text";
 import History from "../screens/history";
-import View from "../components/Themed";
 
 export default function TabThreeScreen() {
-  return (
-    <View style={styles.container}>
-      <History />
-    </View>
-  );
+  return <History />;
 }
 
 const styles = StyleSheet.create({

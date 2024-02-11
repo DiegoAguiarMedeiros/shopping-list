@@ -3,7 +3,7 @@ import { KeyboardAvoidingView, useColorScheme } from "react-native";
 import EmptyList from "../../components/EmptyList";
 import ListComponent from "./list";
 import { useIsFocused } from "@react-navigation/native";
-import Colors from "../../constants/Colors";
+
 import * as Styled from "./styles";
 import BottomSheet, { BottomSheetProps } from "../../components/BottomSheet";
 import { useEffect, useState } from "react";
@@ -24,18 +24,17 @@ export default function Home({
   handleCloseBottomSheet,
 }: Readonly<HomeProps>) {
   const colorScheme = useColorScheme();
-  const { list, listProduct, amount, tags, listArchived ,getTheme} =
+  const { list, listProduct, amount, tags, listArchived, getTheme, getColor } =
     useShoppingListContext();
   const isFocused = useIsFocused();
-
   // console.log("list", list);
   // console.log("listProduct", listProduct);
   // console.log("amount", amount);
   // console.log("tags", tags);
   // console.log("listArchived", listArchived);
   return (
-    <Container background={Colors[getTheme()].backgroundPrimary}>
-      <ContainerInner background={Colors[getTheme()].backgroundPrimary}>
+    <Container background={getColor().backgroundPrimary}>
+      <ContainerInner background={getColor().backgroundPrimary}>
         {isFocused &&
           (list && list.length > 0 ? (
             <ListComponent

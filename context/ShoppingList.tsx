@@ -34,7 +34,16 @@ import { languageType } from "../types/types";
 import getLanguageController from "../Domain/UseCases/Config/GetLanguage";
 import saveLanguageController from "../Domain/UseCases/Config/SaveLanguage";
 import getCurrencyController from "../Domain/UseCases/Config/GetCurrency";
-import saveCurrencyController from "../Domain/UseCases/Config/SaveLanguage";
+import saveCurrencyController from "../Domain/UseCases/Config/SaveCurrency";
+import getColorController from "../Domain/UseCases/Config/GetColor";
+import saveColorController from "../Domain/UseCases/Config/SaveColor";
+import {
+  ColorList,
+  Colors,
+  colorTheme,
+  colors,
+  typeTheme,
+} from "../constants/Colors";
 
 type ShoppingListProviderProps = {
   theme: "light" | "dark";
@@ -77,6 +86,9 @@ type ShoppingListContextType = {
   saveLang: (lang: languageType) => void;
   getCurrency: () => string;
   saveCurrency: (currency: string) => void;
+  getColor: () => colorTheme;
+  getNewLoadColor: () => colorTheme;
+  saveColor: (color: ColorList) => void;
 };
 
 const getListsFromStorage = (): IList[] => {
@@ -209,6 +221,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
 }) => {
   const [list, setList] = useState<IList[]>([]);
   const [currency, setCurrency] = useState<string>("");
+  const [color, setColor] = useState<ColorList>("#43BCAE");
   const [tags, setTags] = useState<ITag[]>([]);
   const [listProduct, setListProduct] = useState<IProduct[]>([]);
   const [amount, setAmount] = useState<IAmount[]>([]);
@@ -572,6 +585,22 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     setCurrency(currency);
     saveCurrencyController.handle(currency);
   };
+  const getColor = (): colorTheme => {
+    return Colors[color][getTheme()];
+  };
+  const getNewLoadColor = (): colorTheme => {
+    loadColor();
+    return Colors[getColorController.handle()][getTheme()];
+  };
+  const loadColor = (): void => {
+    const loadedLang = getColorController.handle();
+    console.log("loadedLang ", loadedLang);
+    setColor(loadedLang);
+  };
+  const saveColor = (color: ColorList): void => {
+    setColor(color);
+    saveColorController.handle(color);
+  };
 
   useEffect(() => {
     loadList();
@@ -584,6 +613,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     loadTheme();
     loadLang();
     loadCurrency();
+    loadColor();
   }, []);
 
   return (
@@ -621,6 +651,9 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         saveLang: saveLang,
         getCurrency: getCurrency,
         saveCurrency: saveCurrency,
+        saveColor: saveColor,
+        getColor: getColor,
+        getNewLoadColor: getNewLoadColor,
       }}
     >
       {children}

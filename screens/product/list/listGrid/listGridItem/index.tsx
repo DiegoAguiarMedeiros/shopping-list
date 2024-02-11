@@ -1,5 +1,4 @@
 import { useColorScheme, Animated } from "react-native";
-import Colors from "../../../../../constants/Colors";
 import * as Styled from "./styles";
 import { useCallback } from "react";
 
@@ -7,9 +6,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
 import { Title, SubTitle, Text, Title2 } from "../../../../../components/Text";
-import {
-  useShoppingListContext,
-} from "../../../../../context/ShoppingList";
+import { useShoppingListContext } from "../../../../../context/ShoppingList";
 
 import { BottomSheetProps } from "../../../../../components/BottomSheet";
 import DeleteProductByUuid from "../../../../../Domain/UseCases/ListProduct/DeleteProductByUuid";
@@ -19,7 +16,12 @@ import { ILastPrices, IProduct } from "../../../../../Domain/Model/IProduct";
 import AveragePrice from "./AveragePrice";
 import LastPrices from "./LastPrices";
 import GridItem from "../../../../../components/GridItem";
-import { GridItemInner, GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../../../components/GridItemInner";
+import {
+  GridItemInner,
+  GridItemWrapperCol,
+  GridItemWrapperInner,
+  GridItemWrapperRow,
+} from "../../../../../components/GridItemInner";
 import I18n from "i18n-js";
 
 interface ItemProps {
@@ -33,7 +35,7 @@ export default function ListGridItem({
   setBottomSheetProps,
   handleCloseBottomSheet,
 }: Readonly<ItemProps>) {
-  const { handleDeleteProduct, getTheme } = useShoppingListContext();
+  const { handleDeleteProduct, getTheme, getColor } = useShoppingListContext();
 
   const colorScheme = useColorScheme();
   const router = useRouter();
@@ -78,12 +80,12 @@ export default function ListGridItem({
           <>
             <GridItemWrapperCol width={50}>
               <Styled.ButtonInner
-                underlayColor={Colors[getTheme()].swipeIconUnderlay}
+                underlayColor={getColor().swipeIconUnderlay}
                 onPress={handleEdit}
               >
                 <>
                   <GridItemWrapperInner height={lastPrice.length > 0 ? 50 : 60}>
-                    <Styled.ButtonTextIcon text={Colors[getTheme()].swipeIcon}>
+                    <Styled.ButtonTextIcon text={getColor().swipeIcon}>
                       <FontAwesome
                         size={lastPrice.length > 0 ? 26 : 18}
                         style={{ marginBottom: -3 }}
@@ -97,14 +99,11 @@ export default function ListGridItem({
                     justify={lastPrice.length > 0 ? "flex-start" : "flex-end"}
                   >
                     {lastPrice.length > 0 ? (
-                      <SubTitle
-                        color={Colors[getTheme()].swipeIcon}
-                        align="center"
-                      >
+                      <SubTitle color={getColor().swipeIcon} align="center">
                         {I18n.t("edit")}
                       </SubTitle>
                     ) : (
-                      <Text color={Colors[getTheme()].swipeIcon} align="center">
+                      <Text color={getColor().swipeIcon} align="center">
                         {I18n.t("edit")}
                       </Text>
                     )}
@@ -115,12 +114,12 @@ export default function ListGridItem({
 
             <GridItemWrapperCol width={50}>
               <Styled.ButtonInner
-                underlayColor={Colors[getTheme()].swipeIconUnderlay}
+                underlayColor={getColor().swipeIconUnderlay}
                 onPress={handleDelete}
               >
                 <>
                   <GridItemWrapperInner height={lastPrice.length > 0 ? 50 : 60}>
-                    <Styled.ButtonTextIcon text={Colors[getTheme()].swipeIcon}>
+                    <Styled.ButtonTextIcon text={getColor().swipeIcon}>
                       <FontAwesome
                         size={lastPrice.length > 0 ? 26 : 18}
                         style={{ marginBottom: -3 }}
@@ -133,14 +132,11 @@ export default function ListGridItem({
                     justify={lastPrice.length > 0 ? "flex-start" : "flex-end"}
                   >
                     {lastPrice.length > 0 ? (
-                      <SubTitle
-                        color={Colors[getTheme()].swipeIcon}
-                        align="center"
-                      >
+                      <SubTitle color={getColor().swipeIcon} align="center">
                         {I18n.t("delete")}
                       </SubTitle>
                     ) : (
-                      <Text color={Colors[getTheme()].swipeIcon} align="center">
+                      <Text color={getColor().swipeIcon} align="center">
                         {I18n.t("delete")}
                       </Text>
                     )}
@@ -160,9 +156,9 @@ export default function ListGridItem({
       rightThreshold={undefined}
     >
       <GridItemInner
-        underlayColor={Colors[getTheme()].itemListBackgroundUnderlay}
-        borderColor={Colors[getTheme()].itemListBackgroundBorder}
-        background={Colors[getTheme()].itemListBackground}
+        underlayColor={getColor().itemListBackgroundUnderlay}
+        borderColor={getColor().itemListBackgroundBorder}
+        background={getColor().itemListBackground}
         height={lastPrice.length > 0 ? 115 : 60}
         row={false}
         elevation={colorScheme === "light"}
@@ -170,7 +166,7 @@ export default function ListGridItem({
         <>
           <GridItemWrapperRow height={lastPrice.length > 0 ? 35 : 100}>
             <GridItemWrapperInner height={100}>
-              <Title2 color={Colors[getTheme()].text}>{item.name}</Title2>
+              <Title2 color={getColor().text}>{item.name}</Title2>
             </GridItemWrapperInner>
           </GridItemWrapperRow>
           <GridItemWrapperRow height={lastPrice.length > 0 ? 67 : 0}>

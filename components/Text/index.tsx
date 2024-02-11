@@ -1,6 +1,6 @@
 import React from "react";
 import * as Styled from "./styles";
-import Colors from "../../constants/Colors";
+
 import { useColorScheme } from "react-native";
 interface TextProps {
   children: React.ReactNode;

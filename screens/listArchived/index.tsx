@@ -1,10 +1,8 @@
 import { TouchableHighlight, useColorScheme } from "react-native";
-import Colors from "../../constants/Colors";
+
 import * as Styled from "./styles";
 import React, { useEffect, useState } from "react";
-import {
-  useShoppingListContext,
-} from "../../context/ShoppingList";
+import { useShoppingListContext } from "../../context/ShoppingList";
 import { ItemInterface } from "../../types/types";
 import { removeUndefinedFromArray } from "../../utils/functions";
 import { useRouter } from "expo-router";
@@ -27,51 +25,54 @@ type TotalType = {
 
 interface ListProps {
   listId: string;
-  setActiveRouteHeader: React.Dispatch<React.SetStateAction<{
-    name: React.ReactNode;
-    left: React.ReactNode | null;
-    right: React.ReactNode | null;
-  }>>
+  setActiveRouteHeader: React.Dispatch<
+    React.SetStateAction<{
+      name: React.ReactNode;
+      left: React.ReactNode | null;
+      right: React.ReactNode | null;
+    }>
+  >;
 }
 
-export default function ListArchived({ listId, setActiveRouteHeader }: ListProps) {
+export default function ListArchived({
+  listId,
+  setActiveRouteHeader,
+}: ListProps) {
   const colorScheme = useColorScheme();
-  const { listArchived, getTheme } = useShoppingListContext();
+  const { listArchived, getTheme, getColor } = useShoppingListContext();
   const listArr = listArchived.find((i) => i.uuid === listId);
   const [filter, setFilter] = useState("Todos");
 
-  const listArrItems = getListProductController.handle(listArr?.items ? listArr?.items : []);
+  const listArrItems = getListProductController.handle(
+    listArr?.items ? listArr?.items : []
+  );
   const router = useRouter();
 
   const returnToTags = () => {
-    router.push({ pathname: "/history" })
-  }
+    router.push({ pathname: "/history" });
+  };
 
   useEffect(() => {
     setActiveRouteHeader({
       left: (
         <TouchableHighlight
-          underlayColor={Colors[getTheme()].primary}
+          underlayColor={getColor().primary}
           style={{ marginLeft: 20, marginRight: 10 }}
           onPress={() => returnToTags()}
         >
-          <FontAwesome
-            name="angle-left"
-            size={35}
-            color={Colors[getTheme()].white}
-          />
+          <FontAwesome name="angle-left" size={35} color={getColor().white} />
         </TouchableHighlight>
       ),
-      name: <Title color={Colors[getTheme()].white}>{listArr?.name!}</Title>,
+      name: <Title color={getColor().white}>{listArr?.name!}</Title>,
       right: null,
     });
   }, []);
 
   return (
-    <Container background={Colors[getTheme()].backgroundPrimary} noPadding>
+    <Container background={getColor().backgroundPrimary} noPadding>
       <ContainerInner
         justify="center"
-        background={Colors[getTheme()].backgroundPrimary}
+        background={getColor().backgroundPrimary}
       >
         {listArrItems.length > 0 ? (
           <ListGrid

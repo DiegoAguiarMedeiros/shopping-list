@@ -1,10 +1,9 @@
 import React from 'react';
 import { TextInputProps, useColorScheme } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
-import Colors from '../../constants/Colors';
-import * as Styled from './styles';
-import ITag from '../../Domain/Model/ITag';
-import { IProduct } from '../../Domain/Model/IProduct';
+import { Picker } from "@react-native-picker/picker";
+import * as Styled from "./styles";
+import ITag from "../../Domain/Model/ITag";
+import { IProduct } from "../../Domain/Model/IProduct";
 import { useShoppingListContext } from "../../context/ShoppingList";
 
 type SelectProps = {
@@ -16,23 +15,23 @@ type SelectProps = {
 const Select = ({ items, selectedValue, onValueChange }: SelectProps) => {
   const colorScheme = useColorScheme();
 
-  const { getTheme } = useShoppingListContext();
+  const { getTheme, getColor } = useShoppingListContext();
   return (
     <Styled.Container>
       <Styled.Select
-        background={Colors[getTheme()].backgroundPrimary}
-        color={Colors[getTheme()].textSecondary}
+        background={getColor().backgroundPrimary}
+        color={getColor().textSecondary}
         selectedValue={selectedValue}
         onValueChange={(itemValue, index) =>
           onValueChange(itemValue as string, index)
         }
-        dropdownIconColor={Colors[getTheme()].primary}
+        dropdownIconColor={getColor().primary}
       >
         {items.map((item, index) => (
           <Picker.Item
             style={{
-              backgroundColor: Colors[getTheme()].backgroundPrimary,
-              color: Colors[getTheme()].text,
+              backgroundColor: getColor().backgroundPrimary,
+              color: getColor().text,
             }}
             key={`Picker.Item.${item.uuid}.index`}
             label={item.name}

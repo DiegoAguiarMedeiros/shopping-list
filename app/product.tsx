@@ -6,7 +6,6 @@ import { BottomSheetProps } from "../components/BottomSheet";
 import { useEffect, useState } from "react";
 import { Dimensions, TouchableHighlight, useColorScheme } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import Colors from "../constants/Colors";
 import InputText from "../components/InputText";
 import HeaderInputTextSearch from "../components/HeaderInputTextSearch";
 

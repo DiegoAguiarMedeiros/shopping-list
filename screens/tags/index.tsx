@@ -3,7 +3,7 @@ import { KeyboardAvoidingView, useColorScheme } from "react-native";
 import EmptyList from "../../components/EmptyList";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
-import Colors from "../../constants/Colors";
+
 import * as Styled from "./styles";
 import BottomSheet, { BottomSheetProps } from "../../components/BottomSheet";
 import { useState } from "react";
@@ -26,10 +26,10 @@ export default function Tags({
   handleCloseBottomSheet,
 }: TagsProps) {
   const colorScheme = useColorScheme();
-  const { tags, getTheme } = useShoppingListContext();
+  const { tags, getTheme, getColor } = useShoppingListContext();
   return (
-    <Container background={Colors[getTheme()].backgroundPrimary}>
-      <ContainerInner background={Colors[getTheme()].backgroundPrimary}>
+    <Container background={getColor().backgroundPrimary}>
+      <ContainerInner background={getColor().backgroundPrimary}>
         {tags && tags.length > 0 ? (
           <ListComponent
             items={tags}

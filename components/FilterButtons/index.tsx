@@ -1,7 +1,7 @@
 import React from "react";
 import { FlatList, Dimensions, useColorScheme } from "react-native";
 import Button from "../Button";
-import Colors from "../../constants/Colors";
+
 import * as Styled from "./styles";
 import { TagsIterface } from "../../types/types";
 import ITag from "../../Domain/Model/ITag";
@@ -17,7 +17,7 @@ interface FilterButtonsProps {
 const FilterButtons = ({ tags, filter, setFilter }: FilterButtonsProps) => {
   const colorScheme = useColorScheme();
 
-  const { getTheme } = useShoppingListContext();
+  const { getTheme, getColor } = useShoppingListContext();
   const renderButton = (item: any) => {
     let tag;
     if (item.item !== "Todos") {
@@ -33,7 +33,6 @@ const FilterButtons = ({ tags, filter, setFilter }: FilterButtonsProps) => {
       } else {
         setFilter(item.item);
       }
-
     };
 
     return tag.name !== "" ? (
@@ -42,18 +41,18 @@ const FilterButtons = ({ tags, filter, setFilter }: FilterButtonsProps) => {
           onPress={handlePress}
           border={
             filter === tag.name
-              ? Colors[getTheme()].filterButtonActiveBorder
-              : Colors[getTheme()].filterButtonBorder
+              ? getColor().filterButtonActiveBorder
+              : getColor().filterButtonBorder
           }
           background={
             filter === tag.name
-              ? Colors[getTheme()].filterButtonActiveBackground
-              : Colors[getTheme()].filterButtonBackground
+              ? getColor().filterButtonActiveBackground
+              : getColor().filterButtonBackground
           }
           textColor={
             filter === tag.name
-              ? Colors[getTheme()].filterButtonActiveText
-              : Colors[getTheme()].filterButtonText
+              ? getColor().filterButtonActiveText
+              : getColor().filterButtonText
           }
           text={tag.name}
         />

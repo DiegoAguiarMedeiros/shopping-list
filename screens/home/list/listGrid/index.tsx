@@ -1,5 +1,4 @@
 import { useColorScheme, SafeAreaView, ScrollView } from "react-native";
-import Colors from "../../../../constants/Colors";
 import * as Styled from "./styles";
 import { ListInterface, ListType } from "../../../../types/types";
 import { BottomSheetProps } from "../../../../components/BottomSheet";

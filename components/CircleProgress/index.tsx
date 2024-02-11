@@ -1,7 +1,7 @@
 import React from "react";
 import { TextInputProps, useColorScheme } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import Colors from "../../constants/Colors";
+
 import * as Progress from "react-native-progress";
 import CircularProgress from "react-native-circular-progress-indicator";
 import Container from "../Container";

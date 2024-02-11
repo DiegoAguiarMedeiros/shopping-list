@@ -1,5 +1,4 @@
 import { useColorScheme, SafeAreaView, ScrollView } from "react-native";
-import Colors from "../../../constants/Colors";
 import * as Styled from "./styles";
 import React, { useEffect, useState } from "react";
 import { ItemInterface, TagsIterface } from "../../../types/types";
@@ -19,7 +18,11 @@ import getTotalAmountByListProductUuidController from "../../../Domain/UseCases/
 import getTotalQuantityWithoutAmountByListUuidController from "../../../Domain/UseCases/List/GetTotalQuantityWithoutAmountByListUuid";
 import Container from "../../../components/Container";
 import ContainerInner from "../../../components/ContainerInner";
-import { GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../components/GridItemInner";
+import {
+  GridItemWrapperCol,
+  GridItemWrapperInner,
+  GridItemWrapperRow,
+} from "../../../components/GridItemInner";
 import I18n from "i18n-js";
 interface ListProps {
   listId: string;
@@ -27,7 +30,7 @@ interface ListProps {
 }
 
 function ListGrid({ listArrItems, listId }: Readonly<ListProps>) {
-  const { getTheme, getCurrency } = useShoppingListContext();
+  const { getTheme, getCurrency, getColor } = useShoppingListContext();
 
   const [active, setActive] = useState("");
   const [activeHeight, setActiveHeight] = useState(90);
@@ -76,12 +79,12 @@ function ListGrid({ listArrItems, listId }: Readonly<ListProps>) {
         </GridItemWrapperRow>
         <GridItemWrapperRow height={10}>
           <GridItemWrapperInner width={50} height={100} justify="flex-start">
-            <Text color={Colors[getTheme()].text}>
+            <Text color={getColor().text}>
               {I18n.t("totalItems")}: {totalQuantity}
             </Text>
           </GridItemWrapperInner>
           <GridItemWrapperInner width={50} height={100} justify="flex-start">
-            <Text color={Colors[getTheme()].text} align="right">
+            <Text color={getColor().text} align="right">
               {I18n.t("total")}: {getCurrency()}{" "}
               {total.toFixed(2).replace(".", ",")}
             </Text>

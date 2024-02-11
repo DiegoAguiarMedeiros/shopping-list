@@ -7,6 +7,14 @@ export const langTouch = styled.TouchableHighlight<{
   padding: 5px;
 `
 export const SlideImage = styled.Image`
-  width: 50px;
-  height: 35px;
+  width: 40px;
+  height: 30px;
+`;
+export const Color = styled.View<{
+  background: string;
+}>`
+
+background: ${(props: { background: any }) => props.background};
+  width: 40px;
+  height: 30px;
 `;

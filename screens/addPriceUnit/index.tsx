@@ -1,5 +1,5 @@
 import { useColorScheme } from "react-native";
-import Colors from "../../constants/Colors";
+
 import { useState } from "react";
 import { useShoppingListContext } from "../../context/ShoppingList";
 import InputText from "../../components/InputText";
@@ -8,7 +8,10 @@ import ListPriceGrid from "./listPriceGrid";
 import IAmount from "../../Domain/Model/IAmount";
 import Container from "../../components/Container";
 import ContainerInner from "../../components/ContainerInner";
-import { GridItemWrapperInner, GridItemWrapperRow } from "../../components/GridItemInner";
+import {
+  GridItemWrapperInner,
+  GridItemWrapperRow,
+} from "../../components/GridItemInner";
 
 interface AddPriceUnitProps {
   listProductUuid: string;
@@ -17,9 +20,9 @@ interface AddPriceUnitProps {
 
 export default function AddPriceUnit({
   listArrItems,
-  listProductUuid
+  listProductUuid,
 }: Readonly<AddPriceUnitProps>) {
-  const { handleAddAmount, getTheme } = useShoppingListContext();
+  const { handleAddAmount, getTheme, getColor } = useShoppingListContext();
   const [newItem, setNewItem] = useState("");
   const colorScheme = useColorScheme();
 
@@ -62,13 +65,11 @@ export default function AddPriceUnit({
           </GridItemWrapperInner>
           <GridItemWrapperInner width={15} height={100}>
             <Button
-              border={Colors[getTheme()].itemListItemOpenButtonSendBorder}
+              border={getColor().itemListItemOpenButtonSendBorder}
               radius
               icon="send"
-              background={
-                Colors[getTheme()].itemListItemOpenButtonSendBackGround
-              }
-              textColor={Colors[getTheme()].itemListItemOpenButtonSendText}
+              background={getColor().itemListItemOpenButtonSendBackGround}
+              textColor={getColor().itemListItemOpenButtonSendText}
               onPress={addAmount}
             />
           </GridItemWrapperInner>

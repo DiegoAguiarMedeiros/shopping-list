@@ -1,5 +1,4 @@
 import { useColorScheme, Animated } from "react-native";
-import Colors from "../../../../../constants/Colors";
 import * as Styled from "./styles";
 import { useCallback, useRef } from "react";
 import {
@@ -15,9 +14,7 @@ import { useRouter } from "expo-router";
 import { Swipeable } from "react-native-gesture-handler";
 import { removeUndefinedFromArray } from "../../../../../utils/functions";
 import { Title, Text, SubTitle, Title2 } from "../../../../../components/Text";
-import {
-  useShoppingListContext,
-} from "../../../../../context/ShoppingList";
+import { useShoppingListContext } from "../../../../../context/ShoppingList";
 import CircleProgress from "../../../../../components/CircleProgress";
 
 import { BottomSheetProps } from "../../../../../components/BottomSheet";
@@ -31,7 +28,12 @@ import NewTagForm from "../../../../../components/NewTagForm";
 import ITag from "../../../../../Domain/Model/ITag";
 import getNumberOfProductsByTagsUuidController from "../../../../../Domain/UseCases/ListProduct/GetNumberOfProductsByTagsUuid";
 import GridItem from "../../../../../components/GridItem";
-import { GridItemInner, GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../../../components/GridItemInner";
+import {
+  GridItemInner,
+  GridItemWrapperCol,
+  GridItemWrapperInner,
+  GridItemWrapperRow,
+} from "../../../../../components/GridItemInner";
 import NewProductForm from "../../../../../components/NewProductForm";
 import I18n from "i18n-js";
 interface ItemProps {
@@ -45,7 +47,7 @@ export default function ListGridItem({
   setBottomSheetProps,
   handleCloseBottomSheet,
 }: Readonly<ItemProps>) {
-  const { handleDeleteTag, getTheme } = useShoppingListContext();
+  const { handleDeleteTag, getTheme, getColor } = useShoppingListContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
 
@@ -65,8 +67,6 @@ export default function ListGridItem({
   };
 
   const handleOpenList = useCallback(() => {
-
-
     setBottomSheetProps({
       isVisible: false,
       height: "add",
@@ -123,35 +123,35 @@ export default function ListGridItem({
       >
         <Styled.ButtonView>
           <Styled.ButtonInner
-            underlayColor={Colors[getTheme()].swipeIconUnderlay}
+            underlayColor={getColor().swipeIconUnderlay}
             onPress={handleEdit}
           >
             <>
-              <Styled.ButtonTextIcon text={Colors[getTheme()].swipeIcon}>
+              <Styled.ButtonTextIcon text={getColor().swipeIcon}>
                 <FontAwesome
                   size={18}
                   style={{ marginBottom: -3 }}
                   name="pencil"
                 />
               </Styled.ButtonTextIcon>
-              <Styled.ButtonText text={Colors[getTheme()].swipeIcon}>
+              <Styled.ButtonText text={getColor().swipeIcon}>
                 {I18n.t("edit")}
               </Styled.ButtonText>
             </>
           </Styled.ButtonInner>
           <Styled.ButtonInner
-            underlayColor={Colors[getTheme()].swipeIconUnderlay}
+            underlayColor={getColor().swipeIconUnderlay}
             onPress={handleDelete}
           >
             <>
-              <Styled.ButtonTextIcon text={Colors[getTheme()].swipeIcon}>
+              <Styled.ButtonTextIcon text={getColor().swipeIcon}>
                 <FontAwesome
                   size={18}
                   style={{ marginBottom: -3 }}
                   name="trash"
                 />
               </Styled.ButtonTextIcon>
-              <Styled.ButtonText text={Colors[getTheme()].swipeIcon}>
+              <Styled.ButtonText text={getColor().swipeIcon}>
                 {I18n.t("delete")}
               </Styled.ButtonText>
             </>
@@ -168,9 +168,9 @@ export default function ListGridItem({
       rightThreshold={undefined}
     >
       <GridItemInner
-        underlayColor={Colors[getTheme()].itemListBackgroundUnderlay}
-        borderColor={Colors[getTheme()].itemListBackgroundBorder}
-        background={Colors[getTheme()].itemListBackground}
+        underlayColor={getColor().itemListBackgroundUnderlay}
+        borderColor={getColor().itemListBackgroundBorder}
+        background={getColor().itemListBackground}
         height={60}
         row
         onPress={handleOpenList}
@@ -179,12 +179,12 @@ export default function ListGridItem({
         <>
           <GridItemWrapperCol width={70} height={100}>
             <GridItemWrapperInner height={100}>
-              <Title2 color={Colors[getTheme()].text}>{item.name}</Title2>
+              <Title2 color={getColor().text}>{item.name}</Title2>
             </GridItemWrapperInner>
           </GridItemWrapperCol>
           <GridItemWrapperCol width={30} height={100}>
             <GridItemWrapperInner height={100}>
-              <SubTitle color={Colors[getTheme()].textSecondary} align="right">
+              <SubTitle color={getColor().textSecondary} align="right">
                 {I18n.t("products")}:{" "}
                 {getNumberOfProductsByTagsUuidController.handle(item.uuid)}
               </SubTitle>

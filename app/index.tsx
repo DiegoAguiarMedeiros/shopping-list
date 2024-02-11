@@ -40,7 +40,7 @@ import OnboardingScreen from "../screens/onboarding";
 import {
   ShoppingListProvider,
 } from "../context/ShoppingList";
-import Colors from "../constants/Colors";
+import { ColorList, Colors, typeTheme } from "../constants/Colors";
 import NewListForm from "../components/NewListForm";
 import { RoutesProps, languageType } from "../types/types";
 import ProductTab from "./product";
@@ -61,6 +61,8 @@ import pt from "../i18n/pt-br";
 import es from "../i18n/es";
 import I18n from "i18n-js";
 import getLanguageController from "../Domain/UseCases/Config/GetCurrency";
+import getColorController from "../Domain/UseCases/Config/GetColor";
+import saveColorController from "../Domain/UseCases/Config/SaveColor";
 
 I18n.fallbacks = true;
 I18n.translations = {
@@ -79,6 +81,14 @@ I18n.locale = I18n.defaultLocale;
 export default function App() {
   const [active, setActive] = useState(false);
   const [appIsReady, setAppIsReady] = useState(false);
+  const colorLoaded = getColorController.handle();
+  const [currentColor, setCurrentColor] = useState<{
+    color: ColorList;
+    theme: typeTheme;
+  }>({
+    color: colorLoaded,
+    theme: Colors[colorLoaded],
+  });
   const colorScheme = useColorScheme();
 
   const returnTheme = (): "light" | "dark" => {
@@ -93,6 +103,14 @@ export default function App() {
     I18n.defaultLocale as languageType
   );
 
+  const handleColorChange = (color: ColorList) => {
+    // Update the language in state
+    setCurrentColor({
+      color: color,
+      theme: Colors[color],
+    });
+    saveColorController.handle(color);
+  };
   const handleLanguageChange = (newLanguage: languageType) => {
     // Update the language in state
     setCurrentLanguage(newLanguage);
@@ -153,7 +171,7 @@ export default function App() {
   };
   return (
     <>
-      <StatusBar backgroundColor={Colors[theme].primary} />
+      <StatusBar backgroundColor={currentColor.theme[theme].primary} />
       <ShoppingListProvider
         theme={theme}
         setTheme={setTheme}
@@ -163,8 +181,11 @@ export default function App() {
         {!active && <OnboardingScreen closeOnboarding={closeOnboarding} />}
         {appIsReady && active && (
           <RootLayoutNav
+            currentColor={currentColor.color}
+            color={currentColor.theme}
             theme={theme}
             currentLanguage={currentLanguage}
+            handleColorChange={handleColorChange}
             handleLanguageChange={handleLanguageChange}
           />
         )}
@@ -175,14 +196,20 @@ export default function App() {
 
 type RootLayoutNavProps = {
   theme: "light" | "dark";
+  color: typeTheme;
+  currentColor: ColorList;
   currentLanguage: languageType;
   handleLanguageChange: (newLanguage: languageType) => void;
+  handleColorChange: (color: ColorList) => void;
 };
 
 function RootLayoutNav({
   theme,
+  color,
+  currentColor,
   currentLanguage,
   handleLanguageChange,
+  handleColorChange,
 }: RootLayoutNavProps) {
   const colorScheme = useColorScheme();
   const router = useRouter();
@@ -193,7 +220,7 @@ function RootLayoutNav({
     right: React.ReactNode | null;
   }>({
     left: null,
-    name: <Title color={Colors[theme].white}>Listas</Title>,
+    name: <Title color={color[theme].white}>Listas</Title>,
     right: null,
   });
 
@@ -264,11 +291,11 @@ function RootLayoutNav({
       ),
       right: (
         <TouchableHighlight
-          underlayColor={Colors[theme].secondary}
+          underlayColor={color[theme].secondary}
           style={{ marginRight: 20 }}
           onPress={() => clearHeaderProduct()}
         >
-          <FontAwesome name="times" size={25} color={Colors[theme].white} />
+          <FontAwesome name="times" size={25} color={color[theme].white} />
         </TouchableHighlight>
       ),
     });
@@ -278,14 +305,14 @@ function RootLayoutNav({
     setSearch("");
     setActiveRouteHeader({
       left: null,
-      name: <Title color={Colors[theme].white}>Produtos</Title>,
+      name: <Title color={color[theme].white}>Produtos</Title>,
       right: (
         <TouchableHighlight
-          underlayColor={Colors[theme].primary}
+          underlayColor={color[theme].primary}
           style={{ marginLeft: 20, marginRight: 20 }}
           onPress={() => handleShowSearchInput()}
         >
-          <FontAwesome name="search" size={25} color={Colors[theme].white} />
+          <FontAwesome name="search" size={25} color={color[theme].white} />
         </TouchableHighlight>
       ),
     });
@@ -330,14 +357,14 @@ function RootLayoutNav({
       setSearch("");
       setActiveRouteHeader({
         left: null,
-        name: <Title color={Colors[theme].white}>{I18n.t("products")}</Title>,
+        name: <Title color={color[theme].white}>{I18n.t("products")}</Title>,
         right: (
           <TouchableHighlight
-            underlayColor={Colors[theme].primary}
+            underlayColor={color[theme].primary}
             style={{ marginLeft: 20, marginRight: 20 }}
             onPress={() => handleShowSearchInput()}
           >
-            <FontAwesome name="search" size={25} color={Colors[theme].white} />
+            <FontAwesome name="search" size={25} color={color[theme].white} />
           </TouchableHighlight>
         ),
       });
@@ -402,9 +429,9 @@ function RootLayoutNav({
         screenOptions={{
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           headerStyle: {
-            backgroundColor: Colors[theme].primary,
+            backgroundColor: color[theme].primary,
           },
-          headerTintColor: Colors[theme].primary,
+          headerTintColor: color[theme].primary,
         }}
       >
         <Stack.Screen
@@ -413,19 +440,15 @@ function RootLayoutNav({
             headerLeft: () => null,
             headerRight: () => (
               <TouchableHighlight
-                underlayColor={Colors[theme].primary}
+                underlayColor={color[theme].primary}
                 style={{ marginLeft: 20, marginRight: 20 }}
                 onPress={() => router.push({ pathname: "config" })}
               >
-                <FontAwesome
-                  name="gear"
-                  size={25}
-                  color={Colors[theme].white}
-                />
+                <FontAwesome name="gear" size={25} color={color[theme].white} />
               </TouchableHighlight>
             ),
             headerTitle: (props) => (
-              <Title color={Colors[theme].white}>{I18n.t("lists")}</Title>
+              <Title color={color[theme].white}>{I18n.t("lists")}</Title>
             ),
           }}
         >
@@ -459,7 +482,7 @@ function RootLayoutNav({
           options={{
             headerLeft: () => null,
             headerTitle: (props) => (
-              <Title color={Colors[theme].white}>{I18n.t("categories")}</Title>
+              <Title color={color[theme].white}>{I18n.t("categories")}</Title>
             ),
           }}
         >
@@ -519,7 +542,7 @@ function RootLayoutNav({
           component={History}
           options={{
             headerTitle: (props) => (
-              <Title color={Colors[theme].white}>{I18n.t("historic")}</Title>
+              <Title color={color[theme].white}>{I18n.t("historic")}</Title>
             ),
             headerLeft: () => null,
           }}
@@ -528,18 +551,18 @@ function RootLayoutNav({
           name="config"
           options={{
             headerTitle: (props) => (
-              <Title color={Colors[theme].white}>{I18n.t("settings")}</Title>
+              <Title color={color[theme].white}>{I18n.t("settings")}</Title>
             ),
             headerLeft: () => (
               <TouchableHighlight
-                underlayColor={Colors[theme].primary}
+                underlayColor={color[theme].primary}
                 style={{ marginLeft: 20, marginRight: 10 }}
                 onPress={() => router.push({ pathname: "home" })}
               >
                 <FontAwesome
                   name="angle-left"
                   size={35}
-                  color={Colors[theme].white}
+                  color={color[theme].white}
                 />
               </TouchableHighlight>
             ),
@@ -548,6 +571,8 @@ function RootLayoutNav({
           {() => (
             <ConfigScreen
               currentLanguage={currentLanguage}
+              currentColor={currentColor}
+              handleColorChange={handleColorChange}
               handleLanguageChange={handleLanguageChange}
             />
           )}
@@ -555,6 +580,7 @@ function RootLayoutNav({
       </Stack.Navigator>
       <BottomSheet {...bottomSheetProps} />
       <BottomNavigation
+        color={color}
         theme={theme}
         routes={routes}
         active={activeRoute}

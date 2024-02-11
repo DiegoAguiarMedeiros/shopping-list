@@ -2,7 +2,6 @@ import { StyleSheet } from "react-native";
 import { Text } from "../components/Text";
 import Home from "../screens/home";
 
-import View from "../components/Themed";
 import { BottomSheetProps } from "../components/BottomSheet";
 import { useEffect } from "react";
 interface TabOneScreenProps {
@@ -20,13 +19,11 @@ export default function TabOneScreen({
 
 
   return (
-    <View style={styles.container}>
-      <Home
-        setBottomSheetProps={setBottomSheetProps}
-        bottomSheetProps={bottomSheetProps}
-        handleCloseBottomSheet={handleCloseBottomSheet}
-      />
-    </View>
+    <Home
+      setBottomSheetProps={setBottomSheetProps}
+      bottomSheetProps={bottomSheetProps}
+      handleCloseBottomSheet={handleCloseBottomSheet}
+    />
   );
 }
 

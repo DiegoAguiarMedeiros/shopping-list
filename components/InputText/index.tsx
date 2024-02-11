@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { TextInput, TextInputProps, useColorScheme } from "react-native";
 
-import Colors from "../../constants/Colors";
+
 import * as Styled from "./styles";
 import { useShoppingListContext } from "../../context/ShoppingList";
 
@@ -14,7 +14,7 @@ const InputText: React.FC<InputProps> = ({ placeholder, radius, ...rest }) => {
   const colorScheme = useColorScheme();
   const inputRef = useRef<TextInput>(null);
 
-  const { getTheme } = useShoppingListContext();
+  const { getTheme, getColor } = useShoppingListContext();
 
   useEffect(() => {
     if (inputRef.current) {
@@ -26,10 +26,10 @@ const InputText: React.FC<InputProps> = ({ placeholder, radius, ...rest }) => {
     <Styled.Input
       ref={inputRef}
       radius={!radius}
-      background={Colors[getTheme()].backgroundPrimary}
-      color={Colors[getTheme()].textSecondary}
+      background={getColor().backgroundPrimary}
+      color={getColor().textSecondary}
       placeholder={placeholder}
-      placeholderTextColor={Colors[getTheme()].textSecondary}
+      placeholderTextColor={getColor().textSecondary}
       {...rest}
     />
   );

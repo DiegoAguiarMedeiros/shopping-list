@@ -1,5 +1,4 @@
 import { useColorScheme } from "react-native";
-import Colors from "../../../constants/Colors";
 import * as Styled from "./styles";
 import { useState } from "react";
 import { ListInterface } from "../../../types/types";

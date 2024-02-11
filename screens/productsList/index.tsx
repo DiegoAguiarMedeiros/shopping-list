@@ -1,12 +1,9 @@
 import { TouchableHighlight, useColorScheme } from "react-native";
-import Colors from "../../constants/Colors";
+
 import * as Styled from "./styles";
 import React, { useEffect, useState } from "react";
 import { useShoppingListContext } from "../../context/ShoppingList";
-import {
-  ItemInterface,
-  ListItemInterface,
-} from "../../types/types";
+import { ItemInterface, ListItemInterface } from "../../types/types";
 
 import { useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -39,28 +36,34 @@ interface ProductsListProps {
   bottomSheetProps: BottomSheetProps;
   handleCloseBottomSheet: () => void;
   handleCloseBottomSheetTag: () => void;
-  setActiveRouteHeader: React.Dispatch<React.SetStateAction<{
-    name: React.ReactNode;
-    left: React.ReactNode | null;
-    right: React.ReactNode | null;
-  }>>
+  setActiveRouteHeader: React.Dispatch<
+    React.SetStateAction<{
+      name: React.ReactNode;
+      left: React.ReactNode | null;
+      right: React.ReactNode | null;
+    }>
+  >;
 }
 
-export default function ProductsList({ tagUuid,
+export default function ProductsList({
+  tagUuid,
   setActiveRouteHeader,
   bottomSheetProps,
   setBottomSheetProps,
   handleCloseBottomSheet,
-  handleCloseBottomSheetTag }: Readonly<ProductsListProps>) {
+  handleCloseBottomSheetTag,
+}: Readonly<ProductsListProps>) {
   const colorScheme = useColorScheme();
-  const { listProduct, getTheme } = useShoppingListContext();
+  const { listProduct, getTheme, getColor } = useShoppingListContext();
   const tag = getTagByUuidController.handle(tagUuid);
 
-  const [listArrItems, setListArrItems] = useState<IProduct[]>(getListProductsByTagUuidUseCase.handle(tagUuid));
+  const [listArrItems, setListArrItems] = useState<IProduct[]>(
+    getListProductsByTagUuidUseCase.handle(tagUuid)
+  );
 
   useEffect(() => {
-    setListArrItems(getListProductsByTagUuidUseCase.handle(tagUuid))
-  }, [listProduct])
+    setListArrItems(getListProductsByTagUuidUseCase.handle(tagUuid));
+  }, [listProduct]);
 
   const router = useRouter();
 
@@ -70,34 +73,30 @@ export default function ProductsList({ tagUuid,
 
   const returnToTags = () => {
     handleCloseBottomSheetTag();
-    router.push({ pathname: "/tags" })
-  }
+    router.push({ pathname: "/tags" });
+  };
 
   useEffect(() => {
     setActiveRouteHeader({
       left: (
         <TouchableHighlight
-          underlayColor={Colors[getTheme()].primary}
+          underlayColor={getColor().primary}
           style={{ marginLeft: 20, marginRight: 10 }}
           onPress={() => returnToTags()}
         >
-          <FontAwesome
-            name="angle-left"
-            size={35}
-            color={Colors[getTheme()].white}
-          />
+          <FontAwesome name="angle-left" size={35} color={getColor().white} />
         </TouchableHighlight>
       ),
-      name: <Title color={Colors[getTheme()].white}>{tag.name}</Title>,
+      name: <Title color={getColor().white}>{tag.name}</Title>,
       right: null,
     });
   }, []);
 
   return (
-    <Container background={Colors[getTheme()].backgroundPrimary} noPadding>
+    <Container background={getColor().backgroundPrimary} noPadding>
       <ContainerInner
         justify="center"
-        background={Colors[getTheme()].backgroundPrimary}
+        background={getColor().backgroundPrimary}
       >
         {listArrItems && listArrItems.length > 0 ? (
           <ListGrid

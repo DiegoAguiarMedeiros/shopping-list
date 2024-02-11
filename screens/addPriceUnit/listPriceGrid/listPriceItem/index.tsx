@@ -1,5 +1,4 @@
 import { Keyboard, useColorScheme } from "react-native";
-import Colors from "../../../../constants/Colors";
 import * as Styled from "./styles";
 import { useEffect, useState } from "react";
 import {
@@ -17,7 +16,12 @@ import IAmount from "../../../../Domain/Model/IAmount";
 import deleteAmountByUuidController from "../../../../Domain/UseCases/Amount/DeleteAmountByUuid";
 import saveAmountByUuidController from "../../../../Domain/UseCases/Amount/SaveAmountByUuid";
 import Container from "../../../../components/Container";
-import { GridItemInner, GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../../components/GridItemInner";
+import {
+  GridItemInner,
+  GridItemWrapperCol,
+  GridItemWrapperInner,
+  GridItemWrapperRow,
+} from "../../../../components/GridItemInner";
 
 interface ListProps {
   itemAmount: IAmount;
@@ -30,26 +34,23 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
     handleDeleteAmountInList,
     getTheme,
     getCurrency,
+    getColor,
   } = useShoppingListContext();
   const [selectedValueSwitch, setSelectedValueSwitch] = useState(
     itemAmount.type
   );
-  const [newItemAmount, setNewItemAmount] = useState<IAmount>(
-    itemAmount
-  );
+  const [newItemAmount, setNewItemAmount] = useState<IAmount>(itemAmount);
 
   const colorScheme = useColorScheme();
 
   const editItemsAmount = (): void => {
     handleEditItemsAmount(itemAmount.uuid, !selectedValueSwitch);
-    const updatedList: IAmount = JSON.parse(
-      JSON.stringify(itemAmount)
-    );
+    const updatedList: IAmount = JSON.parse(JSON.stringify(itemAmount));
     updatedList.type = !selectedValueSwitch;
     updatedList.quantity = "1";
     setSelectedValueSwitch(!selectedValueSwitch);
     setNewItemAmount(updatedList);
-    saveAmountByUuidController.handle(updatedList)
+    saveAmountByUuidController.handle(updatedList);
   };
 
   const deleteAmountInList = (): void => {
@@ -57,21 +58,16 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
     Keyboard.dismiss();
   };
 
-
   return (
     <GridItemInner
-      underlayColor={Colors[getTheme()].backgroundPrimary}
+      underlayColor={getColor().backgroundPrimary}
       height={40}
       noPadding
     >
       <GridItemWrapperRow height={100}>
         <GridItemWrapperInner width={20} height={100}>
           <Text
-            color={
-              colorScheme !== "dark"
-                ? Colors[getTheme()].black
-                : Colors[getTheme()].white
-            }
+            color={colorScheme !== "dark" ? getColor().black : getColor().white}
             align="center"
           >
             {getCurrency()}{" "}
@@ -98,7 +94,7 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
             size={28}
             style={{ marginBottom: -3 }}
             name={"trash"}
-            color={Colors[getTheme()].itemListItemOpenTrashIcon}
+            color={getColor().itemListItemOpenTrashIcon}
             onPress={deleteAmountInList}
           />
         </GridItemWrapperInner>

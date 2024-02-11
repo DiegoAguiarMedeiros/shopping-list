@@ -1,7 +1,6 @@
 import React from "react";
 import { FlatList, Dimensions, useColorScheme } from "react-native";
 import Button from "../../../../../../components/Button";
-import Colors from "../../../../../../constants/Colors";
 import * as Styled from "./styles";
 import { TagsIterface } from "../../../../../../types/types";
 import ITag from "../../../../../../Domain/Model/ITag";
@@ -16,14 +15,14 @@ interface LastPricesProps {
 
 const LastPrices = ({ lastPrices }: LastPricesProps) => {
   const colorScheme = useColorScheme();
-  const { getTheme, getCurrency } = useShoppingListContext();
+  const { getTheme, getCurrency, getColor } = useShoppingListContext();
   const renderButton = (item: any) => {
     return (
       <Styled.ButtonContainer>
         <Styled.ButtonText
-          border={Colors[getTheme()].itemProductListLastPriceButtonBorder}
+          border={getColor().itemProductListLastPriceButtonBorder}
         >
-          <Text color={Colors[getTheme()].itemProductListLastPriceButtonText}>
+          <Text color={getColor().itemProductListLastPriceButtonText}>
             {getCurrency()} {Number(item.item).toFixed(2).replace(".", ",")}
           </Text>
         </Styled.ButtonText>
@@ -33,9 +32,7 @@ const LastPrices = ({ lastPrices }: LastPricesProps) => {
 
   return (
     <Styled.Container>
-      <Text color={Colors[getTheme()].textSecondary}>
-        {I18n.t("latestPrices")}
-      </Text>
+      <Text color={getColor().textSecondary}>{I18n.t("latestPrices")}</Text>
       <FlatList
         horizontal
         data={lastPrices}

@@ -1,18 +1,21 @@
 import React from "react";
 import { useColorScheme } from "react-native";
-import Colors from "../../constants/Colors";
+
 import * as Styled from "./styles";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useRouter } from "expo-router";
 import { RoutesType } from "../../types/types";
 import Container from "../../components/Container";
 import ContainerInner from "../../components/ContainerInner";
-import { GridItemWrapperInner, GridItemWrapperRow } from "../../components/GridItemInner";
+import {
+  GridItemWrapperInner,
+  GridItemWrapperRow,
+} from "../../components/GridItemInner";
 import { Text } from "../../components/Text";
 import { useShoppingListContext } from "../../context/ShoppingList";
 
 const BottomNavigation: React.FC<RoutesType> = ({
-  theme,
+  color,
   routes,
   active,
 }: RoutesType) => {
@@ -22,8 +25,8 @@ const BottomNavigation: React.FC<RoutesType> = ({
   const { getTheme } = useShoppingListContext();
   return (
     <Container
-      background={Colors[getTheme()].backgroundPrimary}
-      border={Colors[getTheme()].primary}
+      background={color[getTheme()].backgroundPrimary}
+      border={color[getTheme()].primary}
       height="55px"
       noPadding
       elevation={colorScheme === "light"}
@@ -40,16 +43,16 @@ const BottomNavigation: React.FC<RoutesType> = ({
                 align="center"
               >
                 <Styled.ItemAddButton
-                  background={Colors[getTheme()].primary}
+                  background={color[getTheme()].primary}
                   key={`ItemAdd-${r.name}`}
                   onPress={() => r.func()}
-                  boder={Colors[getTheme()].primary}
+                  boder={color[getTheme()].primary}
                 >
-                  <Text color={Colors[getTheme()].white} align="center">
+                  <Text color={color[getTheme()].white} align="center">
                     <FontAwesome
                       size={25}
                       name={r.icon}
-                      color={Colors[getTheme()].white}
+                      color={color[getTheme()].white}
                     />
                   </Text>
                 </Styled.ItemAddButton>
@@ -63,16 +66,16 @@ const BottomNavigation: React.FC<RoutesType> = ({
                 <Styled.Item
                   onPress={() => r.func()}
                   active={r.name === active}
-                  boder={Colors[getTheme()].primary}
+                  boder={color[getTheme()].primary}
                 >
-                  <Text color={Colors[getTheme()].primary} align="center">
+                  <Text color={color[getTheme()].primary} align="center">
                     <FontAwesome
                       size={25}
                       name={r.icon}
                       color={
                         r.name === active
-                          ? Colors[getTheme()].menuButtonActiveColor
-                          : Colors[getTheme()].menuButtonColor
+                          ? color[getTheme()].menuButtonActiveColor
+                          : color[getTheme()].menuButtonColor
                       }
                     />
                   </Text>

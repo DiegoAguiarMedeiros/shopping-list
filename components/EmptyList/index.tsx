@@ -1,5 +1,5 @@
 import { useColorScheme } from "react-native";
-import Colors from "../../constants/Colors";
+
 import * as Styled from "./styles";
 import { useState } from "react";
 import { BottomSheetProps } from "../../types/types";
@@ -22,25 +22,19 @@ type EmptyListProps = {
 };
 
 export default function EmptyList({ mensage }: EmptyListProps) {
-  const { getTheme } = useShoppingListContext();
+  const { getTheme, getColor } = useShoppingListContext();
   return (
-    <Container background={Colors[getTheme()].backgroundPrimary}>
+    <Container background={getColor().backgroundPrimary}>
       <ContainerInner
         justify="center"
-        background={Colors[getTheme()].backgroundPrimary}
+        background={getColor().backgroundPrimary}
       >
         <Styled.SlideContainerInnerImage>
           <Styled.SlideImage source={img.image} />
         </Styled.SlideContainerInnerImage>
-        <Styled.ListEmptyTextmessage
-          text={Colors[getTheme()].backgroundPrimary}
-        >
+        <Styled.ListEmptyTextmessage text={getColor().backgroundPrimary}>
           <Text
-            color={
-              getTheme() !== "dark"
-                ? Colors[getTheme()].black
-                : Colors[getTheme()].white
-            }
+            color={getTheme() !== "dark" ? getColor().black : getColor().white}
           >
             {mensage}
           </Text>

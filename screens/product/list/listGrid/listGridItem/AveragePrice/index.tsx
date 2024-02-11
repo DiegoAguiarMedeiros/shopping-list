@@ -1,7 +1,6 @@
 
 import { useColorScheme } from "react-native";
 import * as Styled from "./styles";
-import Colors from "../../../../../../constants/Colors";
 
 import { Text } from "../../../../../../components/Text";
 import Container from "../../../../../../components/Container";
@@ -15,7 +14,7 @@ interface AveragePriceProps {
 export default function AveragePrice({ price }: Readonly<AveragePriceProps>) {
   const colorScheme = useColorScheme();
 
-  const { getTheme, getCurrency } = useShoppingListContext();
+  const { getTheme, getCurrency, getColor } = useShoppingListContext();
   const calculateAveragePrice = (items: ILastPrices[]): number => {
     const prices: number[] = items.map((item) => item.price);
 
@@ -30,13 +29,10 @@ export default function AveragePrice({ price }: Readonly<AveragePriceProps>) {
 
   return (
     <>
-      <Text color={Colors[getTheme()].textSecondary} align="right">
+      <Text color={getColor().textSecondary} align="right">
         {I18n.t("averagePrice")}
       </Text>
-      <Text
-        align="right"
-        color={Colors[getTheme()].itemProductListAveragePrice}
-      >
+      <Text align="right" color={getColor().itemProductListAveragePrice}>
         {getCurrency()}{" "}
         {calculateAveragePrice(price).toFixed(2).replace(".", ",")}
       </Text>

@@ -1,5 +1,4 @@
 import { useColorScheme, SafeAreaView, ScrollView } from "react-native";
-import Colors from "../../../constants/Colors";
 import * as Styled from "./styles";
 import React, { useEffect, useState } from "react";
 import {
@@ -9,9 +8,7 @@ import {
 } from "../../../types/types";
 import ListGridItem from "./listGridItem";
 import { removeUndefinedFromArray } from "../../../utils/functions";
-import {
-  useShoppingListContext,
-} from "../../../context/ShoppingList";
+import { useShoppingListContext } from "../../../context/ShoppingList";
 
 import { Text } from "../../../components/Text";
 import getListProductController from "../../../Domain/UseCases/ListProduct/GetListProductByUuid";
@@ -21,7 +18,11 @@ import getTotalQuantityWithoutAmountByListUuidController from "../../../Domain/U
 import getTotalAmountByListUuidController from "../../../Domain/UseCases/List/GetTotalAmountByListUuid";
 import ContainerInner from "../../../components/ContainerInner";
 import Container from "../../../components/Container";
-import { GridItemWrapperCol, GridItemWrapperInner, GridItemWrapperRow } from "../../../components/GridItemInner";
+import {
+  GridItemWrapperCol,
+  GridItemWrapperInner,
+  GridItemWrapperRow,
+} from "../../../components/GridItemInner";
 import I18n from "i18n-js";
 interface ListProps {
   listArrItems: IProduct[];
@@ -30,14 +31,11 @@ interface ListProps {
 }
 
 function ListGrid({ listId, listArrItems }: Readonly<ListProps>) {
-
   const colorScheme = useColorScheme();
 
-  const { getTheme, getCurrency } = useShoppingListContext();
+  const { getTheme, getCurrency, getColor } = useShoppingListContext();
 
   const total = getTotalAmountByListUuidController.handle(listId);
-
-
   return (
     <Container background={"transparent"}>
       <ContainerInner>
@@ -61,7 +59,7 @@ function ListGrid({ listId, listArrItems }: Readonly<ListProps>) {
         <GridItemWrapperRow height={5}>
           <GridItemWrapperCol width={50} height={100}>
             <GridItemWrapperInner height={100}>
-              <Text color={Colors[getTheme()].text}>
+              <Text color={getColor().text}>
                 {I18n.t("items")}:{" "}
                 {getTotalQuantityAmountByListUuidController.handle(listId)}
               </Text>
@@ -69,7 +67,7 @@ function ListGrid({ listId, listArrItems }: Readonly<ListProps>) {
           </GridItemWrapperCol>
           <GridItemWrapperCol width={50} height={100}>
             <GridItemWrapperInner height={100}>
-              <Text color={Colors[getTheme()].text} align="right">
+              <Text color={getColor().text} align="right">
                 {I18n.t("total")}: {getCurrency()}{" "}
                 {total.toFixed(2).replace(".", ",")}
               </Text>
