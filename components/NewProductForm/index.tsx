@@ -75,7 +75,7 @@ const NewProductForm = ({
   const editList = (): void => {
     if (newItem?.item !== "") {
       closeBottomSheet();
-      handleEditListProduct(items?.uuid!, newItem.item);
+      handleEditListProduct(items?.uuid!, newItem.item, newItem.tag);
     }
   };
 

@@ -44,6 +44,7 @@ import {
   colors,
   typeTheme,
 } from "../constants/Colors";
+import getListByProductUuidController from "../Domain/UseCases/List/GetListByProductUuid";
 
 type ShoppingListProviderProps = {
   theme: "light" | "dark";
@@ -66,7 +67,11 @@ type ShoppingListContextType = {
   handleEditList: (listUuid: string, listName: string) => void;
   handleAddListItem: (listUuid: string, listName: string) => void;
   handleAddListProduct: (productName: string, tag: string) => void;
-  handleEditListProduct: (listUuid: string, productName: string) => void;
+  handleEditListProduct: (
+    listUuid: string,
+    productName: string,
+    tag: string
+  ) => void;
   handleAddTag: (tag: string) => void;
   handleEditTag: (tagUuid: string, tag: string) => void;
   handleAddAmount: (newAmount: string, listProductUuid: string) => void;
@@ -341,18 +346,44 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
 
   const handleEditListProduct = (
     listUuid: string,
-    productName: string
+    productName: string,
+    tag: string
   ): void => {
     const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
     const selectedItem = listProduct.find((item) => item.uuid === listUuid);
     if (selectedItem) {
       selectedItem.name = productName;
+      if (selectedItem.tag !== tag) {
+        selectedItem.tag = tag;
+      }
 
       const newUpdatedList = updatedList.map((item) =>
         item.uuid === selectedItem.uuid ? selectedItem : item
       );
       saveNewProduct(selectedItem);
       setListProduct(sortArrayOfObjects(newUpdatedList, "name"));
+
+      if (selectedItem.tag === tag) {
+        const listToUpdateTags = getListByProductUuidController.handle(
+          selectedItem.uuid
+        );
+
+        console.log("listToUpdateTags", listToUpdateTags);
+
+        const newList = list.map((l) => {
+          console.log("l.uuid", l.uuid);
+          if (listToUpdateTags.includes(l.uuid)) {
+            console.log(
+              "getTagsByProductUuidArrayController.handle(l.items)",
+              getTagsByProductUuidArrayController.handle(l.items)
+            );
+            l.tags = getTagsByProductUuidArrayController.handle(l.items);
+          }
+          return l;
+        });
+        console.log("newList", newList);
+        setList([...newList]);
+      }
 
       showToast("Produto editado com sucesso!");
     }
