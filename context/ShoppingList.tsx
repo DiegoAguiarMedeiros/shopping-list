@@ -45,6 +45,7 @@ import {
   typeTheme,
 } from "../constants/Colors";
 import getListByProductUuidController from "../Domain/UseCases/List/GetListByProductUuid";
+import I18n from "i18n-js";
 
 type ShoppingListProviderProps = {
   theme: "light" | "dark";
@@ -214,7 +215,11 @@ const ShoppingListContext = createContext<ShoppingListContextType | undefined>(
 );
 
 const showToast = (message: string) => {
-  ToastAndroid.showWithGravity(message, ToastAndroid.LONG, ToastAndroid.CENTER);
+  ToastAndroid.showWithGravity(
+    I18n.t(message),
+    ToastAndroid.LONG,
+    ToastAndroid.CENTER
+  );
 };
 
 const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
@@ -276,7 +281,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     const newListToSorted = sortArrayOfObjects(newList, "name");
     setList(newListToSorted);
 
-    showToast("Lista criada com sucesso!");
+    showToast("listCreatedSuccessfully");
   };
 
   const handleCopyList = (listUuid: string, listName: string): void => {
@@ -288,7 +293,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
       saveNewList(newList);
       setList(sortArrayOfObjects([newList, ...list], "name"));
 
-      showToast("Lista copiada com sucesso!");
+      showToast("listCopiedSuccessfully");
     }
   };
 
@@ -304,7 +309,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
       saveNewList(selectedItem);
       setList(sortArrayOfObjects(newUpdatedList, "name"));
 
-      showToast("Lista editada com sucesso!");
+      showToast("listEditedSuccessfully");
     }
   };
 
@@ -328,7 +333,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
       return l;
     });
     setList([...newList]);
-    showToast("Produto adicionado com sucesso!");
+    showToast("productAddedSuccessfully");
   };
 
   const handleAddListProduct = (productName: string, tag: string): void => {
@@ -341,7 +346,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     const newListProductToSorted = sortArrayOfObjects(newListProduct, "name");
     setListProduct(newListProductToSorted);
 
-    showToast("Produto criado com sucesso!");
+    showToast("productCreatedSuccessfully");
   };
 
   const handleEditListProduct = (
@@ -385,7 +390,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         setList([...newList]);
       }
 
-      showToast("Produto editado com sucesso!");
+      showToast("productEditedSuccessfully");
     }
   };
 
@@ -396,7 +401,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     const newTagsToSorted = sortArrayOfObjects(newTags, "name");
     setTags(newTagsToSorted);
 
-    showToast("Categoria criada com sucesso!");
+    showToast("categoryCreatedSuccessfully");
   };
 
   const handleEditTag = (tagUuid: string, tag: string): void => {
@@ -410,7 +415,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
       saveNewTag(selectedTag);
       setTags(sortArrayOfObjects(newUpdatedList, "name"));
 
-      showToast("Categoria editada com sucesso!");
+      showToast("categoryEditedSuccessfully");
     }
   };
 
@@ -461,7 +466,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     setList(newupdatedList);
 
     if (showToastOnScreen) {
-      showToast("Lista removida com sucesso!");
+      showToast("listDeletedSuccessfully");
     }
   };
 
@@ -487,7 +492,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
       return l;
     });
     setList([...newList]);
-    showToast("Produto removido com sucesso!");
+    showToast("productDeletedSuccessfully");
   };
 
   const handleArchived = (listUuid: string): void => {
@@ -502,7 +507,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         : [selectedItem];
       const newListToSorted = sortArrayOfObjects(newList, "name");
       setListArchived(newListToSorted);
-      showToast("Lista arquivada com sucesso!");
+      showToast("listArchivedSuccessfully");
     }
   };
 
@@ -511,7 +516,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     const newupdatedList = updatedList.filter((i) => listUuid !== i.uuid);
     deleteListArchived(listUuid);
     setListArchived(newupdatedList);
-    showToast("Lista arquivada deletada com sucesso!");
+    showToast("archivedListSuccessfullyDeleted");
   };
 
   const handleEditItemsAmount = (amountUuid: string, type: boolean): void => {
@@ -578,7 +583,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     );
     deleteTag(tagUuid);
     setTags(updatedList);
-    showToast("Categoria removida com sucesso!");
+    showToast("categoryDeletedSuccessfully");
   };
 
   const loadTheme = (): void => {
