@@ -266,9 +266,7 @@ export default function ListGridItem({
         <>
           <GridItemWrapperCol width={85} height={100}>
             <GridItemWrapperInner height={100}>
-              <Title2 color={getColor().itemListText}>
-                {item.name} {item.createAt}
-              </Title2>
+              <Title2 color={getColor().itemListText}>{item.name}</Title2>
               <Text color={getColor().itemListTextSecondary}>
                 {I18n.t("total")}: {getCurrency()}{" "}
                 {total.toFixed(2).replace(".", ",")}
