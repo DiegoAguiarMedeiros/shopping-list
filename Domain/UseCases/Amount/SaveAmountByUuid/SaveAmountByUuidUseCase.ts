@@ -13,7 +13,6 @@ export default class SaveAmountByUuidUseCase {
         private saveProduct: IControllerSaveListProductByUuid) { }
     execute = (data: IAmount): void => {
         try {
-            const firstUUIDLength = 36; // Assuming the length of the first UUID is 36 characters
 
             this.MMKVStorage.set(data.uuid, JSON.stringify(data));
             const amount = this.getAmount.handle();
@@ -26,37 +25,10 @@ export default class SaveAmountByUuidUseCase {
                 newListInterface[data.uuid] = data;
                 this.saveAmount.handle(newListInterface);
             }
-            const productUuid = data.listProductUuid.substring(firstUUIDLength + 1, firstUUIDLength * 2 + 1);
-            const product = this.getProduct.handle([productUuid]);
-            const amounts = this.getProductAmount.handle(data.listProductUuid);
-            const average = this.calculateAverageAmount(amounts);
-            amounts.push(data)
-            if (product[0].lastPrices) {
-                const keys = Object.keys(product[0].lastPrices);
-                const numberOfPrices = Object.keys(product[0].lastPrices).length;
-                if (numberOfPrices > 2) {
-                    delete product[0].lastPrices[keys[0]];
-                }
-                delete product[0].lastPrices[data.listProductUuid];
-            } else {
-                product[0].lastPrices = {};
-            }
-            product[0].lastPrices[data.listProductUuid] = { uuid: data.listProductUuid, price: average };
-            this.saveProduct.handle(product[0]);
+
         } catch (error) {
             console.error("SaveAmountUseCase", error);
         }
     };
 
-    calculateAverageAmount(items: IAmount[]): number {
-        const amounts: number[] = items.map(item => parseFloat(item.amount));
-
-        if (amounts.length === 0) {
-            return 0; // Return 0 for an empty array, or handle this case differently
-        }
-
-        const sum = amounts.reduce((total, amount) => total + amount, 0);
-        const average = sum / amounts.length;
-        return average;
-    }
 }

@@ -46,6 +46,7 @@ import {
 } from "../constants/Colors";
 import getListByProductUuidController from "../Domain/UseCases/List/GetListByProductUuid";
 import I18n from "i18n-js";
+import getLastPricesByProductUuidController from "../Domain/UseCases/ListArchived/GetLastPricesByProductUuid";
 
 type ShoppingListProviderProps = {
   theme: "light" | "dark";
@@ -95,6 +96,7 @@ type ShoppingListContextType = {
   getColor: () => colorTheme;
   getNewLoadColor: () => colorTheme;
   saveColor: (color: ColorList) => void;
+  getLastPrices: (productUuid: string) => string[];
 };
 
 const getListsFromStorage = (): IList[] => {
@@ -173,6 +175,7 @@ const returnNewList = (listName: string): IList => {
     name: listName,
     tags: [],
     items: [],
+    createAt: new Date().getTime(),
   };
   return item;
 };
@@ -372,21 +375,12 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         const listToUpdateTags = getListByProductUuidController.handle(
           selectedItem.uuid
         );
-
-        console.log("listToUpdateTags", listToUpdateTags);
-
         const newList = list.map((l) => {
-          console.log("l.uuid", l.uuid);
           if (listToUpdateTags.includes(l.uuid)) {
-            console.log(
-              "getTagsByProductUuidArrayController.handle(l.items)",
-              getTagsByProductUuidArrayController.handle(l.items)
-            );
             l.tags = getTagsByProductUuidArrayController.handle(l.items);
           }
           return l;
         });
-        console.log("newList", newList);
         setList([...newList]);
       }
 
@@ -425,36 +419,6 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   ): void => {
     const newListItem = returnNewItemAmount(newAmount, listProductUuid);
     saveAmountByUuidController.handle(newListItem);
-    const productUuid = listProductUuid.substring(36 + 1, 36 * 2 + 1);
-    const product = listProduct.find((product) => product.uuid === productUuid);
-    if (product) {
-      if (product?.lastPrices) {
-        const keys = Object.keys(product.lastPrices);
-        const numberOfPrices = Object.keys(product.lastPrices).length;
-        if (numberOfPrices > 2) {
-          delete product.lastPrices[keys[0]];
-        }
-        delete product.lastPrices[listProductUuid];
-      } else {
-        product.lastPrices = {};
-      }
-      const amounts =
-        getAmountByListProductUuidController.handle(listProductUuid);
-      const average = calculateAverageAmount(amounts);
-      product.lastPrices[listProductUuid] = {
-        uuid: listProductUuid,
-        price: average,
-      };
-      const newUpdatedList = listProduct.map((item) => {
-        if (item.uuid === productUuid) {
-          return product;
-        }
-        return item;
-      });
-
-      setListProduct([...newUpdatedList]);
-    }
-
     saveNewAmount(newListItem);
     amount ? setAmount([newListItem, ...amount]) : setAmount([newListItem]);
   };
@@ -501,7 +465,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     if (selectedItem) {
       handleDeleteList(listUuid, false);
       saveNewListArchived(selectedItem);
-
+      selectedItem.createAt = new Date().getTime();
       const newList = listArchived
         ? [selectedItem, ...listArchived]
         : [selectedItem];
@@ -637,6 +601,10 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     saveColorController.handle(color);
   };
 
+  const getLastPrices = (productUuid: string): string[] => {
+    return getLastPricesByProductUuidController.handle(productUuid);
+  };
+
   useEffect(() => {
     loadList();
     loadListProduct();
@@ -689,6 +657,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         saveColor: saveColor,
         getColor: getColor,
         getNewLoadColor: getNewLoadColor,
+        getLastPrices: getLastPrices,
       }}
     >
       {children}

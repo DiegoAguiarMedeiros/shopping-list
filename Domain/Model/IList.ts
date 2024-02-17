@@ -5,6 +5,7 @@ export interface IList {
   name: string;
   tags: string[];
   items: string[];
+  createAt: number;
 }
 
 export type IListInterface<T> = {

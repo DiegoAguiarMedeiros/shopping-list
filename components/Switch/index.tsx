@@ -25,10 +25,7 @@ const Switch: React.FC<SwitchProps> = ({ value, onValueChange, label }) => {
     <Container noPadding>
       <GridItemWrapperRow height={100}>
         <GridItemWrapperInner width={50} height={100} align="flex-end">
-          <Text
-            color={colorScheme !== "dark" ? getColor().black : getColor().white}
-            align="right"
-          >
+          <Text color={getColor().itemListItemOpenTextSecondary} align="right">
             {label[value ? "on" : "off"]}
           </Text>
         </GridItemWrapperInner>

@@ -7,6 +7,6 @@ export default class GetCurrencyUseCase {
       if (data) {
         return data;
       }
-      return "pt";
+      return "R$";
     }
 }

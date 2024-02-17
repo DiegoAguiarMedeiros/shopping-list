@@ -22,7 +22,7 @@ export interface IControllerGetTags {
   handle(): ITag[];
 }
 export interface IControllerGetLists {
-  handle(): IList[] | null;
+  handle(): IList[];
 }
 export interface IControllerSaveListProduct {
   handle(data: IListInterface<IProduct>): void;
@@ -59,4 +59,7 @@ export interface IControllerSaveAmount {
 }
 export interface IControllerDeleteAmountByUuid {
   handle(key: string): void;
+}
+export interface IControllerGetListsByProductUuid {
+  handle(key: string): IList[];
 }

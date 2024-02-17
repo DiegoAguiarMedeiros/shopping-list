@@ -66,10 +66,7 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
     >
       <GridItemWrapperRow height={100}>
         <GridItemWrapperInner width={20} height={100}>
-          <Text
-            color={colorScheme !== "dark" ? getColor().black : getColor().white}
-            align="center"
-          >
+          <Text color={getColor().itemListItemOpenTextSecondary} align="center">
             {getCurrency()}{" "}
             {Number(itemAmount.amount).toFixed(2).replace(".", ",")}
           </Text>

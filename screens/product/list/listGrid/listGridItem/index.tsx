@@ -35,12 +35,13 @@ export default function ListGridItem({
   setBottomSheetProps,
   handleCloseBottomSheet,
 }: Readonly<ItemProps>) {
-  const { handleDeleteProduct, getTheme, getColor } = useShoppingListContext();
+  const { handleDeleteProduct, getTheme, getColor, getLastPrices } =
+    useShoppingListContext();
 
   const colorScheme = useColorScheme();
   const router = useRouter();
   const tag = GetTagByUuid.handle(item.tag);
-  const lastPrice = item.lastPrices ? Object.values(item.lastPrices) : [];
+  const lastPrice = getLastPrices(item.uuid);
   const handleEdit = () => {
     setBottomSheetProps({
       height: "edit",
@@ -177,7 +178,7 @@ export default function ListGridItem({
                 justify="flex-start"
               >
                 <LastPrices
-                  lastPrices={lastPrice.map((price) => price.price.toFixed(2))}
+                  lastPrices={lastPrice}
                 />
               </GridItemWrapperInner>
             ) : (
