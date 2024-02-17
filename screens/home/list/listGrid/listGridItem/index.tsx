@@ -1,6 +1,6 @@
 import { useColorScheme, Animated } from "react-native";
 import * as Styled from "./styles";
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import {
   ItemInterface,
   ListInterface,
@@ -63,7 +63,19 @@ export default function ListGridItem({
   const items = removeUndefinedFromArray(
     getListProductController.handle(item.items)
   );
+  const gridItemRef = useRef<any>();
+  const handleCloseSwipeableFromParent = () => {
+    // Access the handleCloseSwipeable function from the ref
+    console.log("handleCloseSwipeableFromParent ", gridItemRef.current);
+    if (gridItemRef.current) {
+      gridItemRef.current.handleCloseSwipeable();
+    }
+  };
 
+  useEffect(() => {
+    console.log("useEffect ");
+    handleCloseSwipeableFromParent();
+  }, [item.name]);
   const total = getTotalAmountByListUuidController.handle(item.uuid);
   const totalWithAmount =
     getTotalQuantityWithoutAmountByListUuidController.handle(item.uuid);
@@ -253,6 +265,7 @@ export default function ListGridItem({
       renderLeftActions={RightSwipe}
       leftThreshold={100}
       rightThreshold={undefined}
+      ref={gridItemRef}
     >
       <GridItemInner
         underlayColor={getColor().itemListBackgroundUnderlay}

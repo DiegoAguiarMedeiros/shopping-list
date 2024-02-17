@@ -33,7 +33,6 @@ function ListGrid({ listArrItems, listId }: Readonly<ListProps>) {
   const { getTheme, getCurrency, getColor } = useShoppingListContext();
 
   const [active, setActive] = useState("");
-  const [activeHeight, setActiveHeight] = useState(90);
 
   const colorScheme = useColorScheme();
   const totalQuantity = getTotalQuantityAmountByListUuidController.handle(
@@ -47,17 +46,15 @@ function ListGrid({ listArrItems, listId }: Readonly<ListProps>) {
 
   const handleOpen = (uuid: string) => {
     setActive(uuid);
-    setActiveHeight(82);
   };
   const handleClose = () => {
     setActive("");
-    setActiveHeight(90);
   };
 
   return (
     <Container background={"transparent"}>
       <ContainerInner>
-        <GridItemWrapperRow height={activeHeight}>
+        <GridItemWrapperRow height={90}>
           <SafeAreaView style={{ flex: 1, width: "100%" }}>
             <ScrollView
               keyboardShouldPersistTaps="handled"

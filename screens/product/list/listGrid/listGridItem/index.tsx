@@ -1,6 +1,6 @@
 import { useColorScheme, Animated } from "react-native";
 import * as Styled from "./styles";
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
@@ -42,6 +42,19 @@ export default function ListGridItem({
   const router = useRouter();
   const tag = GetTagByUuid.handle(item.tag);
   const lastPrice = getLastPrices(item.uuid);
+  const gridItemRef = useRef<any>();
+  const handleCloseSwipeableFromParent = () => {
+    // Access the handleCloseSwipeable function from the ref
+    console.log("handleCloseSwipeableFromParent ", gridItemRef.current);
+    if (gridItemRef.current) {
+      gridItemRef.current.handleCloseSwipeable();
+    }
+  };
+
+  useEffect(() => {
+    console.log("useEffect ");
+    handleCloseSwipeableFromParent();
+  }, [item.name]);
   const handleEdit = () => {
     setBottomSheetProps({
       height: "edit",
@@ -155,6 +168,7 @@ export default function ListGridItem({
       renderRightActions={LeftSwipe}
       leftThreshold={100}
       rightThreshold={undefined}
+      ref={gridItemRef}
     >
       <GridItemInner
         underlayColor={getColor().itemListBackgroundUnderlay}
@@ -177,9 +191,7 @@ export default function ListGridItem({
                 height={100}
                 justify="flex-start"
               >
-                <LastPrices
-                  lastPrices={lastPrice}
-                />
+                <LastPrices lastPrices={lastPrice} />
               </GridItemWrapperInner>
             ) : (
               <></>

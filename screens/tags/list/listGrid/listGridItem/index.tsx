@@ -1,6 +1,6 @@
 import { useColorScheme, Animated } from "react-native";
 import * as Styled from "./styles";
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import {
   ItemInterface,
   ListInterface,
@@ -50,7 +50,19 @@ export default function ListGridItem({
   const { handleDeleteTag, getTheme, getColor } = useShoppingListContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
+  const gridItemRef = useRef<any>();
+  const handleCloseSwipeableFromParent = () => {
+    // Access the handleCloseSwipeable function from the ref
+    console.log("handleCloseSwipeableFromParent ", gridItemRef.current);
+    if (gridItemRef.current) {
+      gridItemRef.current.handleCloseSwipeable();
+    }
+  };
 
+  useEffect(() => {
+    console.log("useEffect ");
+    handleCloseSwipeableFromParent();
+  }, [item.name]);
   const handleCloseBottomSheetProduct = () => {
     setBottomSheetProps({
       children: (
@@ -166,6 +178,7 @@ export default function ListGridItem({
       renderRightActions={LeftSwipe}
       leftThreshold={100}
       rightThreshold={undefined}
+      ref={gridItemRef}
     >
       <GridItemInner
         underlayColor={getColor().itemListBackgroundUnderlay}

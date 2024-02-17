@@ -1,6 +1,6 @@
 import { useColorScheme, Animated } from "react-native";
 import * as Styled from "./styles";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   ItemInterface,
   ListItemAmountInterface,
@@ -116,17 +116,8 @@ function ListGridItem({
     );
   }
 
-  const calcHeight = (height: number): number => {
-    if (height === 0) {
-      return 1 * 45 + 70;
-    }
-    if (height > 4) {
-      return 310;
-    }
-    return height * 50 + 110;
-  };
-
-  const heights = [46.99, 64.3, 73.75, 79.3, 82.95];
+  const itemHeights = [115, 180, 240, 280, 330];
+  const heights = [46.99, 68.5, 77.5, 81, 84];
 
   const showUnitFromAmount = (amounts: IAmount[]): string => {
     let checkUnit: boolean = true;
@@ -147,7 +138,7 @@ function ListGridItem({
         underlayColor={getColor().itemListItemOpenBackgroundUnderlay}
         borderColor={getColor().itemListItemOpenBackgroundBorder}
         background={getColor().itemListItemOpenBackground}
-        height={calcHeight(listArrItems.length)}
+        height={itemHeights[listArrItems.length > 4 ? 4 : listArrItems.length]}
         row
         elevation={colorScheme === "light"}
       >

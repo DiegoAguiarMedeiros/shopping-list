@@ -71,18 +71,18 @@ export default function ListGridItem({ item }: ItemProps) {
         >
           <Styled.ButtonView>
             <Styled.ButtonInner
-              underlayColor={getColor().textSecondary}
+              underlayColor={getColor().swipeIconUnderlay}
               onPress={handleDelete}
             >
               <>
-                <Styled.ButtonTextIcon text={getColor().text}>
+                <Styled.ButtonTextIcon text={getColor().swipeIcon}>
                   <FontAwesome
                     size={18}
                     style={{ marginBottom: -3 }}
                     name="trash"
                   />
                 </Styled.ButtonTextIcon>
-                <Styled.ButtonText text={getColor().text}>
+                <Styled.ButtonText text={getColor().swipeIcon}>
                   {I18n.t("delete")}
                 </Styled.ButtonText>
               </>

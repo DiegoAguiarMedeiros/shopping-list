@@ -27,6 +27,7 @@ export default function Home({
   const { list, listProduct, amount, tags, listArchived, getTheme, getColor } =
     useShoppingListContext();
   const isFocused = useIsFocused();
+
   // console.log("list", list);
   // console.log("listProduct", listProduct);
   // console.log("amount", amount);
