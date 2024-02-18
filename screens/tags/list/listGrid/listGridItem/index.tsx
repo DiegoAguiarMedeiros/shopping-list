@@ -53,14 +53,12 @@ export default function ListGridItem({
   const gridItemRef = useRef<any>();
   const handleCloseSwipeableFromParent = () => {
     // Access the handleCloseSwipeable function from the ref
-    console.log("handleCloseSwipeableFromParent ", gridItemRef.current);
     if (gridItemRef.current) {
       gridItemRef.current.handleCloseSwipeable();
     }
   };
 
   useEffect(() => {
-    console.log("useEffect ");
     handleCloseSwipeableFromParent();
   }, [item.name]);
   const handleCloseBottomSheetProduct = () => {

@@ -13,7 +13,7 @@ interface ListProps {
   listArrItems: IProduct[];
   deleteItem: (item: ItemInterface) => void;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
-  handleCloseBottomSheet: () => void;
+  handleCloseBottomSheet: (tagUuid: string) => void;
 }
 
 function ListGrid({

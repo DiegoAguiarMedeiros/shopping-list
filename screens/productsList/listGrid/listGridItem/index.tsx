@@ -46,7 +46,7 @@ interface ListProps {
   tagUuid: string;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   deleteItem: (item: ItemInterface) => void;
-  handleCloseBottomSheet: () => void;
+  handleCloseBottomSheet: (tagUuid: string) => void;
 }
 
 function ListGridItem({
@@ -61,14 +61,12 @@ function ListGridItem({
   const gridItemRef = useRef<any>();
   const handleCloseSwipeableFromParent = () => {
     // Access the handleCloseSwipeable function from the ref
-    console.log("handleCloseSwipeableFromParent ", gridItemRef.current);
     if (gridItemRef.current) {
       gridItemRef.current.handleCloseSwipeable();
     }
   };
 
   useEffect(() => {
-    console.log("useEffect ");
     handleCloseSwipeableFromParent();
   }, [item.name]);
 
@@ -80,7 +78,7 @@ function ListGridItem({
           action="editList"
           buttonText="edit"
           items={item}
-          onClose={handleCloseBottomSheet}
+          onClose={() => handleCloseBottomSheet(item.tag)}
         />
       ),
       isVisible: true,

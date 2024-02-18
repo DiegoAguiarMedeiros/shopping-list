@@ -34,7 +34,7 @@ interface ProductsListProps {
   tagUuid: string;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   bottomSheetProps: BottomSheetProps;
-  handleCloseBottomSheet: () => void;
+  handleCloseBottomSheet: (tagUuid: string) => void;
   handleCloseBottomSheetTag: () => void;
   setActiveRouteHeader: React.Dispatch<
     React.SetStateAction<{

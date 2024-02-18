@@ -5,15 +5,17 @@ import ProductsList from "../screens/productsList";
 import { BottomSheetProps } from "../components/BottomSheet";
 
 interface ProductListTabProps {
-    setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
-    bottomSheetProps: BottomSheetProps;
-    handleCloseBottomSheet: () => void;
-    handleCloseBottomSheetTag: () => void;
-    setActiveRouteHeader: React.Dispatch<React.SetStateAction<{
-        name: React.ReactNode;
-        left: React.ReactNode | null;
-        right: React.ReactNode | null;
-    }>>
+  setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
+  bottomSheetProps: BottomSheetProps;
+  handleCloseBottomSheet: (tagUuid: string) => void;
+  handleCloseBottomSheetTag: () => void;
+  setActiveRouteHeader: React.Dispatch<
+    React.SetStateAction<{
+      name: React.ReactNode;
+      left: React.ReactNode | null;
+      right: React.ReactNode | null;
+    }>
+  >;
 }
 
 

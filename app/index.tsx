@@ -252,6 +252,20 @@ function RootLayoutNav({
       isVisible: false,
     });
   };
+  const handleCloseBottomSheetProductWithTag = (tag: string) => {
+    setBottomSheetProps({
+      children: (
+        <NewProductForm
+          action="addList"
+          buttonText="add"
+          onClose={handleCloseBottomSheetProduct}
+          tagUuid={tag}
+        />
+      ),
+      height: "add",
+      isVisible: false,
+    });
+  };
 
   const handleCloseBottomSheetTag = () => {
     setBottomSheetProps({
@@ -522,7 +536,7 @@ function RootLayoutNav({
               setActiveRouteHeader={setActiveRouteHeader}
               setBottomSheetProps={setBottomSheetProps}
               bottomSheetProps={bottomSheetProps}
-              handleCloseBottomSheet={handleCloseBottomSheetProduct}
+              handleCloseBottomSheet={handleCloseBottomSheetProductWithTag}
               handleCloseBottomSheetTag={handleCloseBottomSheetTag}
             />
           )}

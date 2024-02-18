@@ -52,7 +52,6 @@ const GridItem: React.ForwardRefRenderFunction<any, GridItemProps> = (
 
   useImperativeHandle(ref, () => ({
     handleCloseSwipeable: () => {
-      console.log("useImperativeHandle", swipeableRef);
       if (swipeableRef.current) {
         swipeableRef.current.close();
       }
