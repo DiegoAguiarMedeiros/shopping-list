@@ -12,13 +12,13 @@ import ITag from "../../../Domain/Model/ITag";
 import Container from "../../../components/Container";
 import ContainerInner from "../../../components/ContainerInner";
 interface ItemProps {
-  items: ITag[];
+  tags: string[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
 }
 
 export default function List({
-  items,
+  tags,
   setBottomSheetProps,
   handleCloseBottomSheet,
 }: ItemProps) {
@@ -26,7 +26,7 @@ export default function List({
 
   return (
     <ListGrid
-      items={items}
+      tags={tags}
       setBottomSheetProps={setBottomSheetProps}
       handleCloseBottomSheet={handleCloseBottomSheet}
     />

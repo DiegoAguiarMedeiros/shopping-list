@@ -16,10 +16,10 @@ export interface IControllerSaveListByUuid {
   handle(data: IList): void;
 }
 export interface IControllerSaveTag {
-  handle(data: IListInterface<ITag>): void;
+  handle(data: string[]): void;
 }
 export interface IControllerGetTags {
-  handle(): ITag[];
+  handle(): string[];
 }
 export interface IControllerGetLists {
   handle(): IList[];

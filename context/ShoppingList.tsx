@@ -47,6 +47,7 @@ import {
 import getListByProductUuidController from "../Domain/UseCases/List/GetListByProductUuid";
 import I18n from "i18n-js";
 import getLastPricesByProductUuidController from "../Domain/UseCases/ListArchived/GetLastPricesByProductUuid";
+import getTagByUuidController from "../Domain/UseCases/Tag/GetTagByUuid";
 
 type ShoppingListProviderProps = {
   theme: "light" | "dark";
@@ -57,13 +58,14 @@ type ShoppingListProviderProps = {
 };
 
 type ShoppingListContextType = {
-  list: IList[];
-  listProduct: IProduct[];
-  tags: ITag[];
-  amount: IAmount[];
-  listArchived: IList[];
-  listProductArchived: IProduct[];
-  listAmountArchived: IAmount[];
+  getList: () => IList[];
+  getListProduct: () => IProduct[];
+  getTags: () => string[];
+  getTagByUuid: (uuid: string) => ITag;
+  getListAmount: () => IAmount[];
+  getListArchived: () => IList[];
+  getListProductArchived: () => IProduct[];
+  getListAmountArchived: () => IAmount[];
   handleAddList: (listName: string) => void;
   handleCopyList: (listUuid: string, listName: string) => void;
   handleEditList: (listUuid: string, listName: string) => void;
@@ -74,7 +76,7 @@ type ShoppingListContextType = {
     productName: string,
     tag: string
   ) => void;
-  handleAddTag: (tag: string) => void;
+  handleAddTag: (tag: string) => ITag;
   handleEditTag: (tagUuid: string, tag: string) => void;
   handleAddAmount: (newAmount: string, listProductUuid: string) => void;
   handleDeleteList: (listUuid: string) => void;
@@ -102,8 +104,11 @@ type ShoppingListContextType = {
 const getListsFromStorage = (): IList[] => {
   return getListsController.handle();
 };
-const getTagsFromStorage = (): ITag[] => {
+const getTagsFromStorage = (): string[] => {
   return getTagsController.handle();
+};
+const getTagsyUuidFromStorage = (uuid: string): ITag => {
+  return getTagByUuidController.handle(uuid);
 };
 const getListProductFromStorage = (): IProduct[] => {
   return GetListProducts.handle();
@@ -232,124 +237,98 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   handleLanguageChange,
   children,
 }) => {
-  const [list, setList] = useState<IList[]>([]);
-  const [currency, setCurrency] = useState<string>("");
-  const [color, setColor] = useState<ColorList>("#43BCAE");
-  const [tags, setTags] = useState<ITag[]>([]);
-  const [listProduct, setListProduct] = useState<IProduct[]>([]);
-  const [amount, setAmount] = useState<IAmount[]>([]);
-  const [listArchived, setListArchived] = useState<IList[]>([]);
-
   const colorScheme = useColorScheme();
-  const [listProductArchived, setListProductArchived] = useState<IProduct[]>(
-    []
-  );
-  const [listAmountArchived, setListAmountArchived] = useState<IAmount[]>([]);
+  const [color, setColor] = useState<ColorList>("#43BCAE");
 
-  const loadList = (): void => {
-    const listArr = getListsFromStorage();
-    setList(listArr);
+  const getList = (): IList[] => {
+    return getListsFromStorage();
   };
-  const loadListProduct = (): void => {
-    const listItemArr = getListProductFromStorage();
-    setListProduct(listItemArr);
+  const getListProduct = (): IProduct[] => {
+    return getListProductFromStorage();
   };
-  const loadListAmount = (): void => {
-    const itemAmountListArr = getListAmountFromStorage();
-    setAmount(itemAmountListArr);
+  const getListAmount = (): IAmount[] => {
+    return getListAmountFromStorage();
   };
-  const loadTags = (): void => {
-    const tagsArr = getTagsFromStorage();
-    setTags(tagsArr);
+  const getTags = (): string[] => {
+    return getTagsFromStorage();
+  };
+  const getTagByUuid = (uuid: string): ITag => {
+    return getTagsyUuidFromStorage(uuid);
   };
 
-  const loadListArchived = (): void => {
-    const listArr = getListArchivedFromStorage();
-    setListArchived(listArr);
+  const getListArchived = (): IList[] => {
+    return getListArchivedFromStorage();
   };
-  const loadListProductArchived = (): void => {
-    const listItemArr = getListProductArchivedFromStorage();
-    setListProductArchived(listItemArr);
+  const getListProductArchived = (): IProduct[] => {
+    return getListProductArchivedFromStorage();
   };
-  const loadListAmountArchived = (): void => {
-    const listAmountArr = getItemAmountArchivedFromStorage();
-    setListAmountArchived(listAmountArr);
+  const getListAmountArchived = (): IAmount[] => {
+    return getItemAmountArchivedFromStorage();
   };
 
   const handleAddList = (listName: string): void => {
     const newListItem = returnNewList(listName);
     saveNewList(newListItem);
-
-    const newList = list ? [newListItem, ...list] : [newListItem];
-    const newListToSorted = sortArrayOfObjects(newList, "name");
-    setList(newListToSorted);
-
     showToast("listCreatedSuccessfully");
   };
 
   const handleCopyList = (listUuid: string, listName: string): void => {
-    const newList = returnNewList(listName);
-    const selectedItem = list.find((item) => item.uuid === listUuid);
-    if (selectedItem) {
-      newList.items = selectedItem.items;
-      newList.tags = selectedItem.tags;
-      saveNewList(newList);
-      setList(sortArrayOfObjects([newList, ...list], "name"));
-
-      showToast("listCopiedSuccessfully");
-    }
+    // const newList = returnNewList(listName);
+    // const list = getList();
+    // const selectedItem = list.find((item) => item.uuid === listUuid);
+    // if (selectedItem) {
+    //   newList.items = selectedItem.items;
+    //   newList.tags = selectedItem.tags;
+    //   saveNewList(newList);
+    //   setList(sortArrayOfObjects([newList, ...list], "name"));
+    //   showToast("listCopiedSuccessfully");
+    // }
   };
 
   const handleEditList = (listUuid: string, listName: string): void => {
-    const updatedList: IList[] = JSON.parse(JSON.stringify(list));
-    const selectedItem = list.find((item) => item.uuid === listUuid);
-    if (selectedItem) {
-      selectedItem.name = listName;
-
-      const newUpdatedList = updatedList.map((item) =>
-        item.uuid === selectedItem.uuid ? selectedItem : item
-      );
-      saveNewList(selectedItem);
-      setList(sortArrayOfObjects(newUpdatedList, "name"));
-
-      showToast("listEditedSuccessfully");
-    }
+    // const updatedList: IList[] = JSON.parse(JSON.stringify(list));
+    // const selectedItem = list.find((item) => item.uuid === listUuid);
+    // if (selectedItem) {
+    //   selectedItem.name = listName;
+    //   const newUpdatedList = updatedList.map((item) =>
+    //     item.uuid === selectedItem.uuid ? selectedItem : item
+    //   );
+    //   saveNewList(selectedItem);
+    //   setList(sortArrayOfObjects(newUpdatedList, "name"));
+    //   showToast("listEditedSuccessfully");
+    // }
   };
 
   const handleAddListItem = (listUuid: string, item: string): void => {
-    addProductToListByUuidController.handle(listUuid, item);
-    const product = getListProductController.handle([item]);
-
-    const newProductList = listProduct.map((l) => {
-      if (l.uuid === listUuid) {
-        return product[0];
-      }
-      return l;
-    });
-    setListProduct(sortArrayOfObjects(newProductList, "name"));
-
-    const newList = list.map((l) => {
-      if (l.uuid === listUuid) {
-        l.items.push(item);
-        if (!l.tags.includes(product[0].tag)) l.tags.push(product[0].tag);
-      }
-      return l;
-    });
-    setList([...newList]);
-    showToast("productAddedSuccessfully");
+    // addProductToListByUuidController.handle(listUuid, item);
+    // const product = getListProductController.handle([item]);
+    // const newProductList = listProduct.map((l) => {
+    //   if (l.uuid === listUuid) {
+    //     return product[0];
+    //   }
+    //   return l;
+    // });
+    // setListProduct(sortArrayOfObjects(newProductList, "name"));
+    // const newList = list.map((l) => {
+    //   if (l.uuid === listUuid) {
+    //     l.items.push(item);
+    //     if (!l.tags.includes(product[0].tag)) l.tags.push(product[0].tag);
+    //   }
+    //   return l;
+    // });
+    // setList([...newList]);
+    // showToast("productAddedSuccessfully");
   };
 
   const handleAddListProduct = (productName: string, tag: string): void => {
-    const newProduct = returnNewProduct(productName, tag);
-    saveNewProduct(newProduct);
-
-    const newListProduct = listProduct
-      ? [newProduct, ...listProduct]
-      : [newProduct];
-    const newListProductToSorted = sortArrayOfObjects(newListProduct, "name");
-    setListProduct(newListProductToSorted);
-
-    showToast("productCreatedSuccessfully");
+    // const newProduct = returnNewProduct(productName, tag);
+    // saveNewProduct(newProduct);
+    // const newListProduct = listProduct
+    //   ? [newProduct, ...listProduct]
+    //   : [newProduct];
+    // const newListProductToSorted = sortArrayOfObjects(newListProduct, "name");
+    // setListProduct(newListProductToSorted);
+    // showToast("productCreatedSuccessfully");
   };
 
   const handleEditListProduct = (
@@ -357,207 +336,196 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     productName: string,
     tag: string
   ): void => {
-    const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
-    const selectedItem = listProduct.find((item) => item.uuid === listUuid);
-    if (selectedItem) {
-      selectedItem.name = productName;
-      if (selectedItem.tag !== tag) {
-        selectedItem.tag = tag;
-      }
-
-      const newUpdatedList = updatedList.map((item) =>
-        item.uuid === selectedItem.uuid ? selectedItem : item
-      );
-      saveNewProduct(selectedItem);
-      setListProduct(sortArrayOfObjects(newUpdatedList, "name"));
-
-      if (selectedItem.tag === tag) {
-        const listToUpdateTags = getListByProductUuidController.handle(
-          selectedItem.uuid
-        );
-        const newList = list.map((l) => {
-          if (listToUpdateTags.includes(l.uuid)) {
-            l.tags = getTagsByProductUuidArrayController.handle(l.items);
-          }
-          return l;
-        });
-        setList([...newList]);
-      }
-
-      showToast("productEditedSuccessfully");
-    }
+    // const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
+    // const selectedItem = listProduct.find((item) => item.uuid === listUuid);
+    // if (selectedItem) {
+    //   selectedItem.name = productName;
+    //   if (selectedItem.tag !== tag) {
+    //     selectedItem.tag = tag;
+    //   }
+    //   const newUpdatedList = updatedList.map((item) =>
+    //     item.uuid === selectedItem.uuid ? selectedItem : item
+    //   );
+    //   saveNewProduct(selectedItem);
+    //   setListProduct(sortArrayOfObjects(newUpdatedList, "name"));
+    //   if (selectedItem.tag === tag) {
+    //     const listToUpdateTags = getListByProductUuidController.handle(
+    //       selectedItem.uuid
+    //     );
+    //     const newList = list.map((l) => {
+    //       if (listToUpdateTags.includes(l.uuid)) {
+    //         l.tags = getTagsByProductUuidArrayController.handle(l.items);
+    //       }
+    //       return l;
+    //     });
+    //     setList([...newList]);
+    //   }
+    //   showToast("productEditedSuccessfully");
+    // }
   };
 
-  const handleAddTag = (tag: string): void => {
+  const handleAddTag = (tag: string): ITag => {
     const newTag = returnNewTag(tag);
     saveNewTag(newTag);
-    const newTags = tags ? [newTag, ...tags] : [newTag];
-    const newTagsToSorted = sortArrayOfObjects(newTags, "name");
-    setTags(newTagsToSorted);
-
     showToast("categoryCreatedSuccessfully");
+    return newTag;
   };
 
   const handleEditTag = (tagUuid: string, tag: string): void => {
-    const updatedTag: ITag[] = JSON.parse(JSON.stringify(tags));
-    const selectedTag = tags.find((item) => item.uuid === tagUuid);
-    if (selectedTag) {
-      selectedTag.name = tag;
-      const newUpdatedList = updatedTag.map((item) =>
-        item.uuid === selectedTag.uuid ? selectedTag : item
-      );
-      saveNewTag(selectedTag);
-      setTags(sortArrayOfObjects(newUpdatedList, "name"));
-
-      showToast("categoryEditedSuccessfully");
-    }
+    // const updatedTag: ITag[] = JSON.parse(JSON.stringify(tags));
+    // const selectedTag = tags.find((item) => item.uuid === tagUuid);
+    // if (selectedTag) {
+    //   selectedTag.name = tag;
+    //   const newUpdatedList = updatedTag.map((item) =>
+    //     item.uuid === selectedTag.uuid ? selectedTag : item
+    //   );
+    //   saveNewTag(selectedTag);
+    //   setTags(sortArrayOfObjects(newUpdatedList, "name"));
+    //   showToast("categoryEditedSuccessfully");
+    // }
   };
 
   const handleAddAmount = (
     newAmount: string,
     listProductUuid: string
   ): void => {
-    const newListItem = returnNewItemAmount(newAmount, listProductUuid);
-    saveAmountByUuidController.handle(newListItem);
-    saveNewAmount(newListItem);
-    amount ? setAmount([newListItem, ...amount]) : setAmount([newListItem]);
+    // const newListItem = returnNewItemAmount(newAmount, listProductUuid);
+    // saveAmountByUuidController.handle(newListItem);
+    // saveNewAmount(newListItem);
+    // amount ? setAmount([newListItem, ...amount]) : setAmount([newListItem]);
   };
 
   const handleDeleteList = (listUuid: string, showToastOnScreen = true) => {
-    const updatedList: IList[] = JSON.parse(JSON.stringify(list));
-    const newupdatedList = updatedList.filter((i) => listUuid !== i.uuid);
-    deleteList(listUuid);
-    setList(newupdatedList);
-
-    if (showToastOnScreen) {
-      showToast("listDeletedSuccessfully");
-    }
+    // const updatedList: IList[] = JSON.parse(JSON.stringify(list));
+    // const newupdatedList = updatedList.filter((i) => listUuid !== i.uuid);
+    // deleteList(listUuid);
+    // setList(newupdatedList);
+    // if (showToastOnScreen) {
+    //   showToast("listDeletedSuccessfully");
+    // }
   };
 
   const handleDeleteProduct = (productUuid: string) => {
-    const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
-    const newupdatedList = updatedList.filter((i) => productUuid !== i.uuid);
-    deleteProduct(productUuid);
-    setListProduct(newupdatedList);
-    showToast("Produto deletado com sucesso!");
+    // const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
+    // const newupdatedList = updatedList.filter((i) => productUuid !== i.uuid);
+    // deleteProduct(productUuid);
+    // setListProduct(newupdatedList);
+    // showToast("Produto deletado com sucesso!");
   };
 
   const handleDeleteProductFromList = (
     listUuid: string,
     productUuid: string
   ) => {
-    deleteProductFromList(listUuid, productUuid);
-    const newList = list.map((l) => {
-      if (l.uuid === listUuid) {
-        const newItems = l.items.filter((product) => product !== productUuid);
-        l.items = newItems;
-        l.tags = getTagsByProductUuidArrayController.handle(newItems);
-      }
-      return l;
-    });
-    setList([...newList]);
-    showToast("productDeletedSuccessfully");
+    // deleteProductFromList(listUuid, productUuid);
+    // const newList = list.map((l) => {
+    //   if (l.uuid === listUuid) {
+    //     const newItems = l.items.filter((product) => product !== productUuid);
+    //     l.items = newItems;
+    //     l.tags = getTagsByProductUuidArrayController.handle(newItems);
+    //   }
+    //   return l;
+    // });
+    // setList([...newList]);
+    // showToast("productDeletedSuccessfully");
   };
 
   const handleArchived = (listUuid: string): void => {
-    const archivedList: IList[] = JSON.parse(JSON.stringify(list));
-    const selectedItem = archivedList.find((i) => i.uuid === listUuid);
-    if (selectedItem) {
-      handleDeleteList(listUuid, false);
-      saveNewListArchived(selectedItem);
-      selectedItem.createAt = new Date().getTime();
-      const newList = listArchived
-        ? [selectedItem, ...listArchived]
-        : [selectedItem];
-      const newListToSorted = sortArrayOfObjects(newList, "name");
-      setListArchived(newListToSorted);
-      showToast("listArchivedSuccessfully");
-    }
+    // const archivedList: IList[] = JSON.parse(JSON.stringify(list));
+    // const selectedItem = archivedList.find((i) => i.uuid === listUuid);
+    // if (selectedItem) {
+    //   handleDeleteList(listUuid, false);
+    //   saveNewListArchived(selectedItem);
+    //   selectedItem.createAt = new Date().getTime();
+    //   const newList = listArchived
+    //     ? [selectedItem, ...listArchived]
+    //     : [selectedItem];
+    //   const newListToSorted = sortArrayOfObjects(newList, "name");
+    //   setListArchived(newListToSorted);
+    //   showToast("listArchivedSuccessfully");
+    // }
   };
 
   const handleDeleteListArchived = (listUuid: string) => {
-    const updatedList: IList[] = JSON.parse(JSON.stringify(listArchived));
-    const newupdatedList = updatedList.filter((i) => listUuid !== i.uuid);
-    deleteListArchived(listUuid);
-    setListArchived(newupdatedList);
-    showToast("archivedListSuccessfullyDeleted");
+    // const updatedList: IList[] = JSON.parse(JSON.stringify(listArchived));
+    // const newupdatedList = updatedList.filter((i) => listUuid !== i.uuid);
+    // deleteListArchived(listUuid);
+    // setListArchived(newupdatedList);
+    // showToast("archivedListSuccessfullyDeleted");
   };
 
   const handleEditItemsAmount = (amountUuid: string, type: boolean): void => {
-    const amountlist = amount.map((amount) => {
-      if (amount.uuid === amountUuid) {
-        amount.type = type;
-        amount.quantity = "1";
-        saveNewAmount(amount);
-      }
-      return amount;
-    });
-    setAmount(amountlist);
+    // const amountlist = amount.map((amount) => {
+    //   if (amount.uuid === amountUuid) {
+    //     amount.type = type;
+    //     amount.quantity = "1";
+    //     saveNewAmount(amount);
+    //   }
+    //   return amount;
+    // });
+    // setAmount(amountlist);
   };
 
   const handleDeleteAmountInList = (amountUuid: string): void => {
-    deleteAmount(amountUuid);
-    const updatedAmount: IAmount[] = JSON.parse(
-      JSON.stringify(amount.filter((a) => a.uuid !== amountUuid))
-    );
-    setAmount(updatedAmount);
+    // deleteAmount(amountUuid);
+    // const updatedAmount: IAmount[] = JSON.parse(
+    //   JSON.stringify(amount.filter((a) => a.uuid !== amountUuid))
+    // );
+    // setAmount(updatedAmount);
   };
 
   const changeAmountQuantity = (
     newQuantity: string,
     amountUuid: string
   ): IAmount => {
-    const updatedAmount: IAmount[] = JSON.parse(
-      JSON.stringify(amount.filter((a) => a.uuid === amountUuid))
-    );
-    updatedAmount[0].quantity = newQuantity;
-    const amountlist = amount.map((a) => {
-      if (a.uuid === updatedAmount[0].uuid) {
-        saveNewAmount(updatedAmount[0]);
-        return updatedAmount[0];
-      }
-      return a;
-    });
-    setAmount(amountlist);
-    return updatedAmount[0];
+    // const updatedAmount: IAmount[] = JSON.parse(
+    //   JSON.stringify(amount.filter((a) => a.uuid === amountUuid))
+    // );
+    // updatedAmount[0].quantity = newQuantity;
+    // const amountlist = amount.map((a) => {
+    //   if (a.uuid === updatedAmount[0].uuid) {
+    //     saveNewAmount(updatedAmount[0]);
+    //     return updatedAmount[0];
+    //   }
+    //   return a;
+    // });
+    // setAmount(amountlist);
+    // return updatedAmount[0];
   };
 
   const handleAmountInputChange = (
     value: string,
     amountUuid: string
   ): IAmount => {
-    const updatedAmount: IAmount[] = JSON.parse(
-      JSON.stringify(amount.filter((a) => a.uuid === amountUuid))
-    );
-    updatedAmount[0].quantity = value;
-    const amountlist = amount.map((a) => {
-      if (a.uuid === amountUuid) {
-        saveNewAmount(updatedAmount[0]);
-        return updatedAmount[0];
-      }
-      return a;
-    });
-    setAmount(amountlist);
-    return updatedAmount[0];
+    // const updatedAmount: IAmount[] = JSON.parse(
+    //   JSON.stringify(amount.filter((a) => a.uuid === amountUuid))
+    // );
+    // updatedAmount[0].quantity = value;
+    // const amountlist = amount.map((a) => {
+    //   if (a.uuid === amountUuid) {
+    //     saveNewAmount(updatedAmount[0]);
+    //     return updatedAmount[0];
+    //   }
+    //   return a;
+    // });
+    // setAmount(amountlist);
+    // return updatedAmount[0];
   };
 
   const handleDeleteTag = (tagUuid: string) => {
-    const updatedList: ITag[] = JSON.parse(
-      JSON.stringify(tags.filter((i) => tagUuid !== i.uuid))
-    );
-    deleteTag(tagUuid);
-    setTags(updatedList);
-    showToast("categoryDeletedSuccessfully");
+    // const updatedList: ITag[] = JSON.parse(
+    //   JSON.stringify(tags.filter((i) => tagUuid !== i.uuid))
+    // );
+    // deleteTag(tagUuid);
+    // setTags(updatedList);
+    // showToast("categoryDeletedSuccessfully");
   };
 
-  const loadTheme = (): void => {
+  const getTheme = (): "light" | "dark" => {
     const loadedTheme = getThemeController.handle();
     if (colorScheme) setTheme(colorScheme);
-    if (loadedTheme === "light" || loadedTheme === "dark")
-      setTheme(loadedTheme);
-  };
-  const getTheme = (): "light" | "dark" => {
-    return theme;
+    if (loadedTheme === "light" || loadedTheme === "dark") return loadedTheme;
+    return "light";
   };
   const saveTheme = (theme: "light" | "dark"): void => {
     setTheme(theme);
@@ -575,14 +543,10 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     saveLanguageController.handle(lang);
   };
   const getCurrency = (): string => {
-    return currency;
+    return getCurrencyController.handle();
   };
-  const loadCurrency = (): void => {
-    const loadedLang = getCurrencyController.handle();
-    setCurrency(loadedLang);
-  };
+
   const saveCurrency = (currency: string): void => {
-    setCurrency(currency);
     saveCurrencyController.handle(currency);
   };
   const getColor = (): colorTheme => {
@@ -606,29 +570,21 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   };
 
   useEffect(() => {
-    loadList();
-    loadListProduct();
-    loadListAmount();
-    loadTags();
-    loadListArchived();
-    loadListProductArchived();
-    loadListAmountArchived();
-    loadTheme();
     loadLang();
-    loadCurrency();
     loadColor();
   }, []);
 
   return (
     <ShoppingListContext.Provider
       value={{
-        list: list!,
-        listProduct: listProduct!,
-        amount: amount!,
-        tags: tags!,
-        listArchived: listArchived!,
-        listProductArchived: listProductArchived!,
-        listAmountArchived: listAmountArchived!,
+        getList: getList,
+        getListProduct: getListProduct,
+        getListAmount: getListAmount,
+        getTags: getTags,
+        getTagByUuid: getTagByUuid,
+        getListArchived: getListArchived,
+        getListProductArchived: getListProductArchived,
+        getListAmountArchived: getListAmountArchived,
         handleAddList: handleAddList,
         handleCopyList: handleCopyList,
         handleEditList: handleEditList,

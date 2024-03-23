@@ -8,7 +8,7 @@ import {
 // import { useFonts } from "expo-font";
 // import { useEffect, useState } from "react";
 // import { useColorScheme, Text } from "react-native";
-import BottomNavigation from "./bottomNavigation";
+import BottomNavigation from "../components/bottomNavigation";
 
 // import {
 //   ShoppingListProvider,
@@ -21,7 +21,14 @@ import {
 
 const Stack = createStackNavigator();
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { StatusBar, Text, TextInput, TouchableHighlight, View, useColorScheme } from "react-native";
+import {
+  StatusBar,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  View,
+  useColorScheme,
+} from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
@@ -37,14 +44,11 @@ import ItemsArchived from "./ItemsArchived";
 import History from "./history";
 import BottomSheet, { BottomSheetProps } from "../components/BottomSheet";
 import OnboardingScreen from "../screens/onboarding";
-import {
-  ShoppingListProvider,
-} from "../context/ShoppingList";
+import { ShoppingListProvider } from "../context/ShoppingList";
 import { ColorList, Colors, typeTheme } from "../constants/Colors";
 import NewListForm from "../components/NewListForm";
 import { RoutesProps, languageType } from "../types/types";
 import ProductTab from "./product";
-import tagsTab from "./tags";
 import NewTagForm from "../components/NewTagForm";
 import { useRouter } from "expo-router";
 import NewProductForm from "../components/NewProductForm";
@@ -226,6 +230,10 @@ function RootLayoutNav({
 
   const [search, setSearch] = useState("");
 
+  const tagRef = useRef<{ handleAddNewTag: (uuid: string) => void } | null>(
+    null
+  );
+
   const handleCloseBottomSheetList = () => {
     setBottomSheetProps({
       children: (
@@ -271,6 +279,7 @@ function RootLayoutNav({
     setBottomSheetProps({
       children: (
         <NewTagForm
+          tagRef={tagRef}
           action="addTag"
           buttonText="add"
           onClose={handleCloseBottomSheetTag}
@@ -352,6 +361,7 @@ function RootLayoutNav({
       ),
       tags: (
         <NewTagForm
+          tagRef={tagRef}
           action="addTag"
           buttonText="add"
           onClose={handleCloseBottomSheetTag}
@@ -502,6 +512,7 @@ function RootLayoutNav({
         >
           {() => (
             <Tags
+              ref={tagRef}
               setBottomSheetProps={setBottomSheetProps}
               bottomSheetProps={bottomSheetProps}
               handleCloseBottomSheet={handleCloseBottomSheetTag}

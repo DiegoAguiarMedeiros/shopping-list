@@ -3,13 +3,11 @@ import ITag from "../../../Model/ITag";
 import GetTagsUseCase from "./GetTagsUseCase";
 
 export default class GetTagsController {
-  constructor(private getTagsUseCase: GetTagsUseCase) { }
+  constructor(private getTagsUseCase: GetTagsUseCase) {}
 
-  handle = (): ITag[] => {
+  handle = (): string[] => {
     try {
-      const result = this.getTagsUseCase.execute("SLSHOPPINGTAG");
-      let data: ITag[] = sortArrayOfObjects(Object.values(result), "name");
-      return result ? data : [];
+      return this.getTagsUseCase.execute("SLSHOPPINGTAG");
     } catch (err) {
       console.error("GetTagsController: ", err);
       return [];

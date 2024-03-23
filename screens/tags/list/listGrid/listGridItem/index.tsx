@@ -1,6 +1,6 @@
 import { useColorScheme, Animated } from "react-native";
 import * as Styled from "./styles";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ItemInterface,
   ListInterface,
@@ -37,17 +37,18 @@ import {
 import NewProductForm from "../../../../../components/NewProductForm";
 import I18n from "i18n-js";
 interface ItemProps {
-  item: Tag;
+  tag: Tag;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
 }
 
 export default function ListGridItem({
-  item,
+  tag,
   setBottomSheetProps,
   handleCloseBottomSheet,
 }: Readonly<ItemProps>) {
   const { handleDeleteTag, getTheme, getColor } = useShoppingListContext();
+
   const colorScheme = useColorScheme();
   const router = useRouter();
   const gridItemRef = useRef<any>();
@@ -60,7 +61,8 @@ export default function ListGridItem({
 
   useEffect(() => {
     handleCloseSwipeableFromParent();
-  }, [item.name]);
+  }, [tag.name]);
+
   const handleCloseBottomSheetProduct = () => {
     setBottomSheetProps({
       children: (
@@ -68,7 +70,7 @@ export default function ListGridItem({
           action="addList"
           buttonText="add"
           onClose={handleCloseBottomSheetProduct}
-          tagUuid={item.uuid}
+          tagUuid={tag.uuid}
         />
       ),
       height: "add",
@@ -85,12 +87,12 @@ export default function ListGridItem({
           onClose={handleCloseBottomSheetProduct}
           action="addList"
           buttonText="add"
-          tagUuid={item.uuid}
+          tagUuid={tag.uuid}
         />
       ),
     });
-    router.push({ pathname: "/ProductsList", params: { tagUuid: item.uuid } });
-  }, [item.uuid, router]);
+    router.push({ pathname: "/ProductsList", params: { tagUuid: tag.uuid } });
+  }, [tag.uuid, router]);
 
   const handleEdit = () => {
     setBottomSheetProps({
@@ -103,7 +105,7 @@ export default function ListGridItem({
         <NewTagForm
           action="editTag"
           buttonText="edit"
-          tag={item}
+          tag={tag}
           onClose={handleCloseBottomSheet}
         />
       ),
@@ -112,7 +114,7 @@ export default function ListGridItem({
   };
 
   const handleDelete = () => {
-    handleDeleteTag(item.uuid);
+    handleDeleteTag(tag.uuid);
   };
 
   const LeftSwipe = (
@@ -190,14 +192,14 @@ export default function ListGridItem({
         <>
           <GridItemWrapperCol width={70} height={100}>
             <GridItemWrapperInner height={100}>
-              <Title2 color={getColor().text}>{item.name}</Title2>
+              <Title2 color={getColor().text}>{tag.name}</Title2>
             </GridItemWrapperInner>
           </GridItemWrapperCol>
           <GridItemWrapperCol width={30} height={100}>
             <GridItemWrapperInner height={100}>
               <SubTitle color={getColor().textSecondary} align="right">
                 {I18n.t("products")}:{" "}
-                {getNumberOfProductsByTagsUuidController.handle(item.uuid)}
+                {getNumberOfProductsByTagsUuidController.handle(tag.uuid)}
               </SubTitle>
             </GridItemWrapperInner>
           </GridItemWrapperCol>

@@ -5,13 +5,10 @@ import * as Styled from "./styles";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useRouter } from "expo-router";
 import { RoutesType } from "../../types/types";
-import Container from "../../components/Container";
-import ContainerInner from "../../components/ContainerInner";
-import {
-  GridItemWrapperInner,
-  GridItemWrapperRow,
-} from "../../components/GridItemInner";
-import { Text } from "../../components/Text";
+import Container from "../Container";
+import ContainerInner from "../ContainerInner";
+import { GridItemWrapperInner, GridItemWrapperRow } from "../GridItemInner";
+import { Text } from "../Text";
 import { useShoppingListContext } from "../../context/ShoppingList";
 
 const BottomNavigation: React.FC<RoutesType> = ({

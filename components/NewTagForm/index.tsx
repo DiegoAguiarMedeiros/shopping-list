@@ -22,9 +22,18 @@ export type NewTagFormProps = {
   buttonText: "add" | "edit";
   action: "addTag" | "editTag";
   tag?: Tag;
+  tagRef: React.MutableRefObject<{
+    handleAddNewTag: (uuid: string) => void;
+  } | null>;
 };
 
-const NewTagForm = ({ onClose, buttonText, action, tag }: NewTagFormProps) => {
+const NewTagForm = ({
+  onClose,
+  buttonText,
+  action,
+  tag,
+  tagRef,
+}: NewTagFormProps) => {
   const colorScheme = useColorScheme();
   const { handleAddTag, handleEditTag, getTheme, getColor } =
     useShoppingListContext();
@@ -55,7 +64,10 @@ const NewTagForm = ({ onClose, buttonText, action, tag }: NewTagFormProps) => {
   const addTag = (): void => {
     if (newItem.item) {
       closeBottomSheet();
-      handleAddTag(newItem.item);
+      const newTag = handleAddTag(newItem.item);
+      if (tagRef.current) {
+        tagRef.current.handleAddNewTag(newTag.uuid);
+      }
     }
   };
 
