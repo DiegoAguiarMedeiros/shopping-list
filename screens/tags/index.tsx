@@ -20,6 +20,10 @@ interface TagsProps {
   bottomSheetProps: BottomSheetProps;
   handleCloseBottomSheet: () => void;
   tags: string[];
+  productListRef: React.MutableRefObject<{
+    handleAddProduct: (uuid: string) => void;
+  } | null>;
+  tagRef: React.RefObject<{ handleAddNewTag: (tag: string) => void }>;
 }
 
 export default function Tags({
@@ -27,6 +31,8 @@ export default function Tags({
   setBottomSheetProps,
   handleCloseBottomSheet,
   tags,
+  productListRef,
+  tagRef,
 }: TagsProps) {
   const colorScheme = useColorScheme();
   const { getColor } = useShoppingListContext();
@@ -36,6 +42,8 @@ export default function Tags({
       <ContainerInner background={getColor().backgroundPrimary}>
         {tags && tags.length > 0 ? (
           <ListComponent
+            productListRef={productListRef}
+            tagRef={tagRef}
             tags={tags}
             setBottomSheetProps={setBottomSheetProps}
             handleCloseBottomSheet={handleCloseBottomSheet}

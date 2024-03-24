@@ -15,17 +15,26 @@ interface ItemProps {
   tags: string[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
+  productListRef: React.MutableRefObject<{
+    handleAddProduct: (uuid: string) => void;
+  } | null>;
+
+  tagRef: React.RefObject<{ handleAddNewTag: (tag: string) => void }>;
 }
 
 export default function List({
   tags,
   setBottomSheetProps,
   handleCloseBottomSheet,
+  productListRef,
+  tagRef,
 }: ItemProps) {
   const colorScheme = useColorScheme();
 
   return (
     <ListGrid
+      tagRef={tagRef}
+      productListRef={productListRef}
       tags={tags}
       setBottomSheetProps={setBottomSheetProps}
       handleCloseBottomSheet={handleCloseBottomSheet}

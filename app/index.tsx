@@ -233,6 +233,18 @@ function RootLayoutNav({
   const tagRef = useRef<{ handleAddNewTag: (uuid: string) => void } | null>(
     null
   );
+  const productListRef = useRef<{
+    handleAddProduct: (uuid: string) => void;
+  } | null>(null);
+
+  useEffect(() => {
+    if (productListRef.current) {
+      console.log("productListRef.current", productListRef.current);
+    }
+    if (tagRef.current) {
+      console.log("tagRef.current", tagRef.current);
+    }
+  }, []);
 
   const handleCloseBottomSheetList = () => {
     setBottomSheetProps({
@@ -251,6 +263,7 @@ function RootLayoutNav({
     setBottomSheetProps({
       children: (
         <NewProductForm
+          productListRef={productListRef}
           action="addList"
           buttonText="add"
           onClose={handleCloseBottomSheetProduct}
@@ -264,6 +277,7 @@ function RootLayoutNav({
     setBottomSheetProps({
       children: (
         <NewProductForm
+          productListRef={productListRef}
           action="addList"
           buttonText="add"
           onClose={handleCloseBottomSheetProduct}
@@ -354,6 +368,7 @@ function RootLayoutNav({
       ),
       product: (
         <NewProductForm
+          productListRef={productListRef}
           action="addList"
           buttonText="add"
           onClose={handleCloseBottomSheetProduct}
@@ -512,6 +527,7 @@ function RootLayoutNav({
         >
           {() => (
             <Tags
+              productListRef={productListRef}
               ref={tagRef}
               setBottomSheetProps={setBottomSheetProps}
               bottomSheetProps={bottomSheetProps}
@@ -544,6 +560,7 @@ function RootLayoutNav({
         >
           {() => (
             <ProductsList
+              ref={productListRef}
               setActiveRouteHeader={setActiveRouteHeader}
               setBottomSheetProps={setBottomSheetProps}
               bottomSheetProps={bottomSheetProps}

@@ -3,7 +3,7 @@ import SaveAmountByUuidUseCase from "./SaveAmountByUuidUseCase";
 import saveAmountController from "../SaveAmount"
 import getAmountsController from "../GetAmounts"
 import GetAmountByListProductUuid from "../GetAmountByListProductUuid"
-import GetListProductByUuid from "../../ListProduct/GetListProductByUuid"
+import GetListProductByUuid from "../../ListProduct/GetProductByUuid";
 import SaveListProductByUuid from "../../ListProduct/SaveListProductByUuid"
 
 import storageMMKV from "../../../Service/Implementation/MMKVStorage";

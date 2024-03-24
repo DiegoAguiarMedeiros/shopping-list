@@ -14,7 +14,7 @@ import CircleProgress from "../../components/CircleProgress";
 import FilterButtons from "../../components/FilterButtons";
 import { Title } from "../../components/Text";
 import { BottomSheetProps } from "../../components/BottomSheet";
-import getListProductController from "../../Domain/UseCases/ListProduct/GetListProductByUuid";
+import getListProductController from "../../Domain/UseCases/ListProduct/GetProductByUuid";
 import getTotalQuantityAmountByListUuidController from "../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
 import getTagUuidByTagNameController from "../../Domain/UseCases/Tag/GetTagUuidByTagName";
 import getTotalQuantityWithoutAmountByListUuidController from "../../Domain/UseCases/List/GetTotalQuantityWithoutAmountByListUuid";
@@ -25,13 +25,15 @@ import getListProductsByTagUuidUseCase from "../../Domain/UseCases/ListProduct/G
 import getTagByUuidController from "../../Domain/UseCases/Tag/GetTagByUuid";
 import { IProduct } from "../../Domain/Model/IProduct";
 import I18n from "i18n-js";
+import ITag from "../../Domain/Model/ITag";
 type TotalType = {
   amount: number;
   un: number;
 };
 
 interface ProductsListProps {
-  tagUuid: string;
+  tag: ITag;
+  products: string[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   bottomSheetProps: BottomSheetProps;
   handleCloseBottomSheet: (tagUuid: string) => void;
@@ -46,7 +48,8 @@ interface ProductsListProps {
 }
 
 export default function ProductsList({
-  tagUuid,
+  products,
+  tag,
   setActiveRouteHeader,
   bottomSheetProps,
   setBottomSheetProps,
@@ -54,16 +57,7 @@ export default function ProductsList({
   handleCloseBottomSheetTag,
 }: Readonly<ProductsListProps>) {
   const colorScheme = useColorScheme();
-  const { listProduct, getTheme, getColor } = useShoppingListContext();
-  const tag = getTagByUuidController.handle(tagUuid);
-
-  const [listArrItems, setListArrItems] = useState<IProduct[]>(
-    getListProductsByTagUuidUseCase.handle(tagUuid)
-  );
-
-  useEffect(() => {
-    setListArrItems(getListProductsByTagUuidUseCase.handle(tagUuid));
-  }, [listProduct]);
+  const { getTheme, getColor } = useShoppingListContext();
 
   const router = useRouter();
 
@@ -98,12 +92,12 @@ export default function ProductsList({
         justify="center"
         background={getColor().backgroundPrimary}
       >
-        {listArrItems && listArrItems.length > 0 ? (
+        {products && products.length > 0 ? (
           <ListGrid
             setBottomSheetProps={setBottomSheetProps}
             deleteItem={deleteItem}
-            listArrItems={listArrItems}
-            tagUuid={tagUuid}
+            products={products}
+            tagUuid={tag.uuid}
             handleCloseBottomSheet={handleCloseBottomSheet}
           />
         ) : (

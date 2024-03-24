@@ -15,15 +15,7 @@ export default class SaveListProductByUuidUseCase {
     try {
       this.mmkv.set(key, JSON.stringify(data));
       const lists = this.getListProducts.handle();
-      if (lists) {
-        lists.push(data);
-        const newListInterface: IListInterface<IProduct> = convertToInterface(lists);
-        this.saveListProducts.handle(newListInterface);
-      } else {
-        const newListInterface: IListInterface<IProduct> = {}
-        newListInterface[data.uuid] = data;
-        this.saveListProducts.handle(newListInterface);
-      }
+      this.saveListProducts.handle([...lists, data.uuid]);
     } catch (error) {
       console.error("SaveListProductByUuidUseCase", error);
     }

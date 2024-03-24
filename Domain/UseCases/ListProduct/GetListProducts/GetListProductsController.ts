@@ -1,19 +1,18 @@
 import { sortArrayOfObjects } from "../../../../utils/functions";
 import { IProduct } from "../../../Model/IProduct";
 import { IControllerGetListProducts } from "../../interface/IController";
-import GetListsUseCase from "./GetListProductsUseCase";
+import GetListProductsUseCase from "./GetListProductsUseCase";
 
-export default class GetListProductsController implements IControllerGetListProducts {
-  constructor(private getListsUseCase: GetListsUseCase) { }
+export default class GetListProductsController
+  implements IControllerGetListProducts
+{
+  constructor(private getListProductsUseCase: GetListProductsUseCase) {}
 
-  handle = (): IProduct[] => {
+  handle = (): string[] => {
     try {
-      const result = this.getListsUseCase.execute("SLSHOPPINGLISTPRODUCT");
-      let data: IProduct[] = sortArrayOfObjects(Object.values(result), "name");
-      return result ? data : [];
+      return this.getListProductsUseCase.execute("SLSHOPPINGLISTPRODUCT");
     } catch (err) {
       console.error("GetListProductsController: ", err);
-
       return [];
     }
   };

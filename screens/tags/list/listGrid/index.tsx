@@ -10,11 +10,18 @@ interface ItemProps {
   tags: string[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
+  productListRef: React.MutableRefObject<{
+    handleAddProduct: (uuid: string) => void;
+  } | null>;
+
+  tagRef: React.RefObject<{ handleAddNewTag: (tag: string) => void }>;
 }
 export default function ListGrid({
   tags,
   setBottomSheetProps,
   handleCloseBottomSheet,
+  productListRef,
+  tagRef,
 }: ItemProps) {
   const colorScheme = useColorScheme();
   const { getTagByUuid } = useShoppingListContext();
@@ -26,6 +33,8 @@ export default function ListGrid({
 
           return (
             <ListGridItem
+              tagRef={tagRef}
+              productListRef={productListRef}
               handleCloseBottomSheet={handleCloseBottomSheet}
               setBottomSheetProps={setBottomSheetProps}
               key={"ListGridItem-" + tag.uuid}

@@ -14,7 +14,7 @@ import GetAmountsController from "../Domain/UseCases/Amount/GetAmounts";
 import UUIDGenerator from "react-native-uuid";
 import saveListByUuidController from "../Domain/UseCases/List/SaveListByUuid";
 import addProductToListByUuidController from "../Domain/UseCases/List/AddProductToListByUuid";
-import getListProductController from "../Domain/UseCases/ListProduct/GetListProductByUuid";
+import getListProductController from "../Domain/UseCases/ListProduct/GetProductByUuid";
 import saveListProductByUuidController from "../Domain/UseCases/ListProduct/SaveListProductByUuid";
 import saveTagByUuidController from "../Domain/UseCases/Tag/SaveTagByUuid";
 import saveAmountByUuidController from "../Domain/UseCases/Amount/SaveAmountByUuid";
@@ -48,6 +48,7 @@ import getListByProductUuidController from "../Domain/UseCases/List/GetListByPro
 import I18n from "i18n-js";
 import getLastPricesByProductUuidController from "../Domain/UseCases/ListArchived/GetLastPricesByProductUuid";
 import getTagByUuidController from "../Domain/UseCases/Tag/GetTagByUuid";
+import getListProductsByTagUuidController from "../Domain/UseCases/ListProduct/GetListProductsByTagUuid";
 
 type ShoppingListProviderProps = {
   theme: "light" | "dark";
@@ -61,6 +62,9 @@ type ShoppingListContextType = {
   getList: () => IList[];
   getListProduct: () => IProduct[];
   getTags: () => string[];
+  getTagsObject: () => ITag[];
+  getProductsByTagUuid: (tag: string) => string[];
+  getProductByUuid: (tag: string) => IProduct | null;
   getTagByUuid: (uuid: string) => ITag;
   getListAmount: () => IAmount[];
   getListArchived: () => IList[];
@@ -70,7 +74,7 @@ type ShoppingListContextType = {
   handleCopyList: (listUuid: string, listName: string) => void;
   handleEditList: (listUuid: string, listName: string) => void;
   handleAddListItem: (listUuid: string, listName: string) => void;
-  handleAddListProduct: (productName: string, tag: string) => void;
+  handleAddListProduct: (productName: string, tag: string) => string;
   handleEditListProduct: (
     listUuid: string,
     productName: string,
@@ -107,7 +111,16 @@ const getListsFromStorage = (): IList[] => {
 const getTagsFromStorage = (): string[] => {
   return getTagsController.handle();
 };
-const getTagsyUuidFromStorage = (uuid: string): ITag => {
+const getTagsObjectFromStorage = (): string[] => {
+  return getTagsController.handle();
+};
+const getProductsByTagUuidFromStorage = (tag: string): string[] => {
+  return getListProductsByTagUuidController.handle(tag);
+};
+const getProductsByUuidFromStorage = (product: string): IProduct | null => {
+  return getListProductController.handle(product);
+};
+const getTagsByUuidFromStorage = (uuid: string): ITag => {
   return getTagByUuidController.handle(uuid);
 };
 const getListProductFromStorage = (): IProduct[] => {
@@ -252,8 +265,18 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   const getTags = (): string[] => {
     return getTagsFromStorage();
   };
+  const getTagsObject = (): ITag[] => {
+    const tags = getTagsFromStorage();
+    return tags.map((tag) => getTagByUuidController.handle(tag));
+  };
+  const getProductsByTagUuid = (tag: string): string[] => {
+    return getProductsByTagUuidFromStorage(tag);
+  };
+  const getProductByUuid = (product: string): IProduct | null => {
+    return getProductsByUuidFromStorage(product);
+  };
   const getTagByUuid = (uuid: string): ITag => {
-    return getTagsyUuidFromStorage(uuid);
+    return getTagsByUuidFromStorage(uuid);
   };
 
   const getListArchived = (): IList[] => {
@@ -320,15 +343,11 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     // showToast("productAddedSuccessfully");
   };
 
-  const handleAddListProduct = (productName: string, tag: string): void => {
-    // const newProduct = returnNewProduct(productName, tag);
-    // saveNewProduct(newProduct);
-    // const newListProduct = listProduct
-    //   ? [newProduct, ...listProduct]
-    //   : [newProduct];
-    // const newListProductToSorted = sortArrayOfObjects(newListProduct, "name");
-    // setListProduct(newListProductToSorted);
-    // showToast("productCreatedSuccessfully");
+  const handleAddListProduct = (productName: string, tag: string): string => {
+    const newProduct = returnNewProduct(productName, tag);
+    saveNewProduct(newProduct);
+    showToast("productCreatedSuccessfully");
+    return newProduct.uuid;
   };
 
   const handleEditListProduct = (
@@ -580,7 +599,10 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         getList: getList,
         getListProduct: getListProduct,
         getListAmount: getListAmount,
+        getProductByUuid: getProductByUuid,
         getTags: getTags,
+        getTagsObject: getTagsObject,
+        getProductsByTagUuid: getProductsByTagUuid,
         getTagByUuid: getTagByUuid,
         getListArchived: getListArchived,
         getListProductArchived: getListProductArchived,

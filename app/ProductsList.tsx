@@ -1,8 +1,11 @@
-import { useSearchParams } from "expo-router";
+import { useGlobalSearchParams, useSearchParams } from "expo-router";
 import { Text } from "../components/Text";
 
 import ProductsList from "../screens/productsList";
 import { BottomSheetProps } from "../components/BottomSheet";
+import { useImperativeHandle, useState } from "react";
+import React from "react";
+import { useShoppingListContext } from "../context/ShoppingList";
 
 interface ProductListTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -18,24 +21,45 @@ interface ProductListTabProps {
   >;
 }
 
+const ProductList = React.forwardRef(
+  (
+    {
+      setActiveRouteHeader,
+      setBottomSheetProps,
+      bottomSheetProps,
+      handleCloseBottomSheet,
+      handleCloseBottomSheetTag,
+    }: ProductListTabProps,
+    ref: any
+  ) => {
+    const { tagUuid } = useGlobalSearchParams();
 
-export default function ProductList({
-    setActiveRouteHeader,
-    setBottomSheetProps,
-    bottomSheetProps,
-    handleCloseBottomSheet,
-    handleCloseBottomSheetTag }: ProductListTabProps) {
-    const { tagUuid } = useSearchParams();
+    const { getProductsByTagUuid, getTagByUuid } = useShoppingListContext();
+    const tag = getTagByUuid(tagUuid && !Array.isArray(tagUuid) ? tagUuid : "");
+    const [products, setProducts] = useState<string[]>(
+      getProductsByTagUuid(tagUuid && !Array.isArray(tagUuid) ? tagUuid : "")
+    );
 
+    useImperativeHandle(ref, () => ({
+      handleAddProduct(product: string) {
+        setProducts((prev) => [...prev, product]);
+      },
+    }));
 
     return tagUuid ? (
-        <ProductsList setBottomSheetProps={setBottomSheetProps}
-            bottomSheetProps={bottomSheetProps}
-            handleCloseBottomSheet={handleCloseBottomSheet}
-            handleCloseBottomSheetTag={handleCloseBottomSheetTag}
-            setActiveRouteHeader={setActiveRouteHeader}
-            tagUuid={Array.isArray(tagUuid) ? tagUuid[0] : tagUuid} />
+      <ProductsList
+        tag={tag}
+        products={products}
+        setBottomSheetProps={setBottomSheetProps}
+        bottomSheetProps={bottomSheetProps}
+        handleCloseBottomSheet={handleCloseBottomSheet}
+        handleCloseBottomSheetTag={handleCloseBottomSheetTag}
+        setActiveRouteHeader={setActiveRouteHeader}
+      />
     ) : (
-        <></>
+      <></>
     );
-}
+  }
+);
+
+export default ProductList;

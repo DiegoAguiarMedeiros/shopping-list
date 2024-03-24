@@ -4,11 +4,11 @@ import { IListInterface } from "../../../Model/IList";
 import { IProduct } from "../../../Model/IProduct";
 
 export default class SaveListProductsController implements IControllerSaveListProduct {
-  constructor(private saveListProductsUseCase: SaveListProductsUseCase) { }
+  constructor(private saveListProductsUseCase: SaveListProductsUseCase) {}
 
-  handle = (data: IListInterface<IProduct>): void => {
+  handle = (data: string[]): void => {
     try {
-      this.saveListProductsUseCase.execute('SLSHOPPINGLISTPRODUCT', data);
+      this.saveListProductsUseCase.execute("SLSHOPPINGLISTPRODUCT", data);
     } catch (err) {
       console.error("SaveListProductsController: ", err);
     }

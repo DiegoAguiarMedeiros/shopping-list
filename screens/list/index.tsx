@@ -25,7 +25,7 @@ import { Title, Text } from "../../components/Text";
 import BottomSheet, { BottomSheetProps } from "../../components/BottomSheet";
 import Button from "../../components/Button";
 import NewItemForm from "../../components/NewItemForm";
-import getListProductController from "../../Domain/UseCases/ListProduct/GetListProductByUuid";
+import getListProductController from "../../Domain/UseCases/ListProduct/GetProductByUuid";
 import getTotalQuantityAmountByListUuidController from "../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
 import getTotalAmountByListUuidController from "../../Domain/UseCases/List/GetTotalAmountByListUuid";
 import getTagUuidByTagNameController from "../../Domain/UseCases/Tag/GetTagUuidByTagName";

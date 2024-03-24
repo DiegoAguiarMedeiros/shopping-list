@@ -14,7 +14,7 @@ import { IList } from "../../Domain/Model/IList";
 import ITag from "../../Domain/Model/ITag";
 import { IProduct } from "../../Domain/Model/IProduct";
 import saveListByUuidController from "../../Domain/UseCases/List/SaveListByUuid";
-import getListProductController from "../../Domain/UseCases/ListProduct/GetListProductByUuid";
+import getListProductController from "../../Domain/UseCases/ListProduct/GetProductByUuid";
 import I18n from "i18n-js";
 
 export type NewListFormProps = {

@@ -2,8 +2,12 @@ import GetListProductsByTagUuidController from "./GetListProductsByTagUuidContro
 import GetListProductsByTagUuidUseCase from "./GetListProductsByTagUuidUseCase";
 
 import getProducts from "../GetListProducts";
+import getProductsByUuid from "../GetProductByUuid";
 
-const getListProductsByTagUuidUseCase = new GetListProductsByTagUuidUseCase(getProducts);
+const getListProductsByTagUuidUseCase = new GetListProductsByTagUuidUseCase(
+  getProducts,
+  getProductsByUuid
+);
 const getListProductsByTagUuidController = new GetListProductsByTagUuidController(getListProductsByTagUuidUseCase);
 
 export default getListProductsByTagUuidController;

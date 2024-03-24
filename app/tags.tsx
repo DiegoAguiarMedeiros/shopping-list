@@ -11,6 +11,9 @@ interface TagsTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   bottomSheetProps: BottomSheetProps;
   handleCloseBottomSheet: () => void;
+  productListRef: React.MutableRefObject<{
+    handleAddProduct: (uuid: string) => void;
+  } | null>;
 }
 
 const TagsTab = React.forwardRef(
@@ -19,6 +22,7 @@ const TagsTab = React.forwardRef(
       setBottomSheetProps,
       bottomSheetProps,
       handleCloseBottomSheet,
+      productListRef,
     }: TagsTabProps,
     ref: any
   ) => {
@@ -33,6 +37,8 @@ const TagsTab = React.forwardRef(
 
     return (
       <Tags
+        tagRef={ref}
+        productListRef={productListRef}
         tags={tags}
         setBottomSheetProps={setBottomSheetProps}
         bottomSheetProps={bottomSheetProps}

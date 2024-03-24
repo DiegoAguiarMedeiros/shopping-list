@@ -25,13 +25,16 @@ export interface IControllerGetLists {
   handle(): IList[];
 }
 export interface IControllerSaveListProduct {
-  handle(data: IListInterface<IProduct>): void;
+  handle(data: string[]): void;
 }
 export interface IControllerSaveListProductByUuid {
   handle(data: IProduct): void;
 }
 export interface IControllerGetListProducts {
-  handle(): IProduct[];
+  handle(): string[];
+}
+export interface IControllerGetProductsByUuid {
+  handle(productsUuid: string): IProduct | null;
 }
 export interface IControllerGetListProductsByUuid {
   handle(productsUuid: string[]): IProduct[];

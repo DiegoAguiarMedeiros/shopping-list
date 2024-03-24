@@ -1,7 +1,7 @@
 import GetTotalQuantityWithoutAmountByListUuidController from "./GetTotalQuantityWithoutAmountByListUuidController";
 import GetTotalQuantityWithoutAmountByListUuidUseCase from "./GetTotalQuantityWithoutAmountByListUuidUseCase";
 import GetListByUuid from "../GetListByUuid"
-import GetListProductByUuid from "../../ListProduct/GetListProductByUuid"
+import GetListProductByUuid from "../../ListProduct/GetProductByUuid";
 import GetTotalQuantityWithoutAmountByListProductUuid from "../../Amount/GetTotalQuantityWithoutAmountByListProductUuid"
 
 const getTotalQuantityWithoutAmountByListUuidUseCase = new GetTotalQuantityWithoutAmountByListUuidUseCase(GetListByUuid, GetListProductByUuid, GetTotalQuantityWithoutAmountByListProductUuid);

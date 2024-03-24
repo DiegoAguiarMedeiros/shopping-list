@@ -21,7 +21,7 @@ import { BottomSheetProps } from "../../../../../components/BottomSheet";
 import NewListForm from "../../../../../components/NewListForm";
 import List from "../../../../../Domain/Model/Implementation/List";
 import { IList, IListInterface } from "../../../../../Domain/Model/IList";
-import getListProductController from "../../../../../Domain/UseCases/ListProduct/GetListProductByUuid";
+import getListProductController from "../../../../../Domain/UseCases/ListProduct/GetProductByUuid";
 import deleteListByUuid from "../../../../../Domain/UseCases/List/DeleteListByUuid";
 import saveListArchivedByUuidController from "../../../../../Domain/UseCases/ListArchived/SaveListByUuid";
 import NewProductForm from "../../../../../components/NewProductForm";

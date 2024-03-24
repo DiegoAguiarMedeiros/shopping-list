@@ -21,7 +21,7 @@ import { BottomSheetProps } from "../../../../../components/BottomSheet";
 import NewListForm from "../../../../../components/NewListForm";
 import Tag from "../../../../../Domain/Model/Implementation/Tag";
 import { IList, IListInterface } from "../../../../../Domain/Model/IList";
-import getListProductController from "../../../../../Domain/UseCases/ListProduct/GetListProductByUuid";
+import getListProductController from "../../../../../Domain/UseCases/ListProduct/GetProductByUuid";
 import deleteTagByUuidController from "../../../../../Domain/UseCases/Tag/DeleteTagByUuid";
 import saveListArchivedByUuidController from "../../../../../Domain/UseCases/ListArchived/SaveListByUuid";
 import NewTagForm from "../../../../../components/NewTagForm";
@@ -40,12 +40,18 @@ interface ItemProps {
   tag: Tag;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
+  productListRef: React.MutableRefObject<{
+    handleAddProduct: (uuid: string) => void;
+  } | null>;
+  tagRef: React.RefObject<{ handleAddNewTag: (tag: string) => void }>;
 }
 
 export default function ListGridItem({
   tag,
   setBottomSheetProps,
   handleCloseBottomSheet,
+  productListRef,
+  tagRef,
 }: Readonly<ItemProps>) {
   const { handleDeleteTag, getTheme, getColor } = useShoppingListContext();
 
@@ -67,6 +73,7 @@ export default function ListGridItem({
     setBottomSheetProps({
       children: (
         <NewProductForm
+          productListRef={productListRef}
           action="addList"
           buttonText="add"
           onClose={handleCloseBottomSheetProduct}
@@ -84,6 +91,7 @@ export default function ListGridItem({
       height: "add",
       children: (
         <NewProductForm
+          productListRef={productListRef}
           onClose={handleCloseBottomSheetProduct}
           action="addList"
           buttonText="add"
@@ -103,6 +111,7 @@ export default function ListGridItem({
       height: "add",
       children: (
         <NewTagForm
+          tagRef={tagRef}
           action="editTag"
           buttonText="edit"
           tag={tag}

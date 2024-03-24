@@ -1,7 +1,7 @@
 import GetTagsByProductUuidArrayController from "./GetTagsByProductUuidArrayController";
 import GetTagsByProductUuidArrayUseCase from "./GetTagsByProductUuidArrayUseCase";
 
-import getList from "../GetListProductByUuid";
+import getList from "../GetProductByUuid";
 
 const getTagsByProductUuidArrayUseCase = new GetTagsByProductUuidArrayUseCase(getList);
 const getTagsByProductUuidArrayController = new GetTagsByProductUuidArrayController(getTagsByProductUuidArrayUseCase);

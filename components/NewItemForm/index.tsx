@@ -23,7 +23,7 @@ import ITag from "../../Domain/Model/ITag";
 import GetListProducts from "../../Domain/UseCases/ListProduct/GetListProducts";
 import addProductToListByUuidController from "../../Domain/UseCases/List/AddProductToListByUuid";
 import Select from "../InputSelect";
-import getListProductController from "../../Domain/UseCases/ListProduct/GetListProductByUuid";
+import getListProductController from "../../Domain/UseCases/ListProduct/GetProductByUuid";
 import I18n from "i18n-js";
 
 export type NewItemFormProps = {

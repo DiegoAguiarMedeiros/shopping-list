@@ -32,6 +32,9 @@ export type NewListFormProps = {
   buttonText: "add" | "edit";
   action: "addList" | "editList";
   items?: IProduct;
+  productListRef: React.MutableRefObject<{
+    handleAddProduct: (uuid: string) => void;
+  } | null>;
 };
 
 const NewProductForm = ({
@@ -40,15 +43,21 @@ const NewProductForm = ({
   buttonText,
   action,
   items,
+  productListRef,
 }: NewListFormProps) => {
+  console.log("productListRef", productListRef);
   const colorScheme = useColorScheme();
-  const { handleAddListProduct, handleEditListProduct, getTheme, getColor } =
-    useShoppingListContext();
+  const {
+    handleAddListProduct,
+    handleEditListProduct,
+    getTagsObject,
+    getColor,
+  } = useShoppingListContext();
   const [newItem, setNewItem] = useState({
     item: items ? items.name : "",
     tag: tagUuid || "",
   });
-  const tags = GetTags.handle();
+  const tags = getTagsObject();
   if (tags) {
     tags.unshift({ name: I18n.t("selectCategory"), uuid: "" });
   }
@@ -68,7 +77,13 @@ const NewProductForm = ({
   const addList = (): void => {
     if (newItem.item !== "") {
       closeBottomSheet();
-      handleAddListProduct(newItem.item, tagUuid ?? newItem.tag);
+      const newProductUuid = handleAddListProduct(
+        newItem.item,
+        tagUuid ?? newItem.tag
+      );
+      if (productListRef.current) {
+        productListRef.current.handleAddProduct(newProductUuid);
+      }
     }
   };
 
