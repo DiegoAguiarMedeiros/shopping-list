@@ -6,7 +6,6 @@ import getTagsController from "../Domain/UseCases/Tag/GetTags";
 import saveListsController from "../Domain/UseCases/List/SaveLists";
 import getListsArchivedController from "../Domain/UseCases/ListArchived/GetLists";
 import saveListArchivedByUuidController from "../Domain/UseCases/ListArchived/SaveListByUuid";
-import GetListProducts from "../Domain/UseCases/ListProduct/GetListProducts";
 import ITag from "../Domain/Model/ITag";
 import { IProduct } from "../Domain/Model/IProduct";
 import GetAmountsController from "../Domain/UseCases/Amount/GetAmounts";
@@ -49,6 +48,8 @@ import I18n from "i18n-js";
 import getLastPricesByProductUuidController from "../Domain/UseCases/ListArchived/GetLastPricesByProductUuid";
 import getTagByUuidController from "../Domain/UseCases/Tag/GetTagByUuid";
 import getListProductsByTagUuidController from "../Domain/UseCases/ListProduct/GetListProductsByTagUuid";
+import getAllProductsController from "../Domain/UseCases/ListProduct/GetAllProducts";
+import getAllProductsObjectsController from "../Domain/UseCases/ListProduct/GetAllProductsObjects";
 
 type ShoppingListProviderProps = {
   theme: "light" | "dark";
@@ -56,11 +57,14 @@ type ShoppingListProviderProps = {
   lang: languageType;
   handleLanguageChange: (newLanguage: languageType) => void;
   children: React.ReactNode;
+  color: ColorList;
+  setColor: React.Dispatch<React.SetStateAction<ColorList>>;
 };
 
 type ShoppingListContextType = {
   getList: () => IList[];
-  getListProduct: () => IProduct[];
+  getAllProducts: () => string[];
+  getAllProductsObjects: () => IProduct[];
   getTags: () => string[];
   getTagsObject: () => ITag[];
   getProductsByTagUuid: (tag: string) => string[];
@@ -68,7 +72,6 @@ type ShoppingListContextType = {
   getTagByUuid: (uuid: string) => ITag;
   getListAmount: () => IAmount[];
   getListArchived: () => IList[];
-  getListProductArchived: () => IProduct[];
   getListAmountArchived: () => IAmount[];
   handleAddList: (listName: string) => void;
   handleCopyList: (listUuid: string, listName: string) => void;
@@ -117,15 +120,21 @@ const getTagsObjectFromStorage = (): string[] => {
 const getProductsByTagUuidFromStorage = (tag: string): string[] => {
   return getListProductsByTagUuidController.handle(tag);
 };
+const getAllProductsFromStorage = (): string[] => {
+  return getAllProductsController.handle();
+};
+const getAllProductsObjectsFromStorage = (): IProduct[] => {
+  return getAllProductsObjectsController.handle();
+};
 const getProductsByUuidFromStorage = (product: string): IProduct | null => {
   return getListProductController.handle(product);
 };
 const getTagsByUuidFromStorage = (uuid: string): ITag => {
   return getTagByUuidController.handle(uuid);
 };
-const getListProductFromStorage = (): IProduct[] => {
-  return GetListProducts.handle();
-};
+// const getListProductFromStorage = (): IProduct[] => {
+//   return GetListProducts.handle();
+// };
 const getListAmountFromStorage = (): IAmount[] => {
   return GetAmountsController.handle();
 };
@@ -133,9 +142,9 @@ const getListAmountFromStorage = (): IAmount[] => {
 const getListArchivedFromStorage = (): IList[] => {
   return getListsArchivedController.handle();
 };
-const getListProductArchivedFromStorage = (): IProduct[] => {
-  return GetListProducts.handle();
-};
+// const getListProductArchivedFromStorage = (): IProduct[] => {
+//   return GetListProducts.handle();
+// };
 const getItemAmountArchivedFromStorage = (): IAmount[] => {
   return GetAmountsController.handle();
 };
@@ -249,16 +258,17 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   lang,
   handleLanguageChange,
   children,
+  color,
+  setColor,
 }) => {
   const colorScheme = useColorScheme();
-  const [color, setColor] = useState<ColorList>("#43BCAE");
 
   const getList = (): IList[] => {
     return getListsFromStorage();
   };
-  const getListProduct = (): IProduct[] => {
-    return getListProductFromStorage();
-  };
+  // const getListProduct = (): IProduct[] => {
+  //   return getListProductFromStorage();
+  // };
   const getListAmount = (): IAmount[] => {
     return getListAmountFromStorage();
   };
@@ -272,6 +282,12 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   const getProductsByTagUuid = (tag: string): string[] => {
     return getProductsByTagUuidFromStorage(tag);
   };
+  const getAllProducts = (): string[] => {
+    return getAllProductsFromStorage();
+  };
+  const getAllProductsObjects = (): IProduct[] => {
+    return getAllProductsObjectsFromStorage();
+  };
   const getProductByUuid = (product: string): IProduct | null => {
     return getProductsByUuidFromStorage(product);
   };
@@ -282,9 +298,9 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   const getListArchived = (): IList[] => {
     return getListArchivedFromStorage();
   };
-  const getListProductArchived = (): IProduct[] => {
-    return getListProductArchivedFromStorage();
-  };
+  // const getListProductArchived = (): IProduct[] => {
+  //   return getListProductArchivedFromStorage();
+  // };
   const getListAmountArchived = (): IAmount[] => {
     return getItemAmountArchivedFromStorage();
   };
@@ -391,17 +407,12 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   };
 
   const handleEditTag = (tagUuid: string, tag: string): void => {
-    // const updatedTag: ITag[] = JSON.parse(JSON.stringify(tags));
-    // const selectedTag = tags.find((item) => item.uuid === tagUuid);
-    // if (selectedTag) {
-    //   selectedTag.name = tag;
-    //   const newUpdatedList = updatedTag.map((item) =>
-    //     item.uuid === selectedTag.uuid ? selectedTag : item
-    //   );
-    //   saveNewTag(selectedTag);
-    //   setTags(sortArrayOfObjects(newUpdatedList, "name"));
-    //   showToast("categoryEditedSuccessfully");
-    // }
+    const newTag: ITag = {
+      name: tag,
+      uuid: tagUuid,
+    };
+    saveNewTag(newTag);
+    showToast("categoryEditedSuccessfully");
   };
 
   const handleAddAmount = (
@@ -532,14 +543,18 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   };
 
   const handleDeleteTag = (tagUuid: string) => {
-    // const updatedList: ITag[] = JSON.parse(
-    //   JSON.stringify(tags.filter((i) => tagUuid !== i.uuid))
-    // );
-    // deleteTag(tagUuid);
-    // setTags(updatedList);
-    // showToast("categoryDeletedSuccessfully");
+    deleteTag(tagUuid);
+    showToast("categoryDeletedSuccessfully");
   };
 
+  const loadTheme = (): void => {
+    const loadedTheme = getThemeController.handle();
+    if (loadedTheme === "light" || loadedTheme === "dark") {
+      setTheme(loadedTheme);
+    } else {
+      setTheme("light");
+    }
+  };
   const getTheme = (): "light" | "dark" => {
     const loadedTheme = getThemeController.handle();
     if (colorScheme) setTheme(colorScheme);
@@ -591,13 +606,15 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   useEffect(() => {
     loadLang();
     loadColor();
+    loadTheme();
   }, []);
 
   return (
     <ShoppingListContext.Provider
       value={{
+        getAllProducts: getAllProducts,
+        getAllProductsObjects: getAllProductsObjects,
         getList: getList,
-        getListProduct: getListProduct,
         getListAmount: getListAmount,
         getProductByUuid: getProductByUuid,
         getTags: getTags,
@@ -605,7 +622,6 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         getProductsByTagUuid: getProductsByTagUuid,
         getTagByUuid: getTagByUuid,
         getListArchived: getListArchived,
-        getListProductArchived: getListProductArchived,
         getListAmountArchived: getListAmountArchived,
         handleAddList: handleAddList,
         handleCopyList: handleCopyList,

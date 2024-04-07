@@ -28,72 +28,73 @@ const secondaryLightFontColor = "#00000088";
 const tertiaryLightFontColor = "#00000078";
 
 export type colorTheme = {
-  primary:string,
-  secondary:string,
-  tertiary:string,
-  white:string,
-  whiteLighter: string,
-  black:string,
-  warning:string,
-  alert:string,
-  info:string,
-  text:string,
-  textSecondary: string,
-  textTertiary: string,
-  backgroundPrimary: string,
-  backgroundSecondary: string,
-  backgroundTertiary: string,
-  menuButtonColor: string,
-  menuButtonActiveColor: string,
-  backgroundBottomSheet: string,
-  bottomSheetButtonAddBackground: string,
-  bottomSheetButtonCancelBackground: string,
-  bottomSheetButtonAddBorder: string,
-  bottomSheetButtonCancelBorder: string,
-  bottomSheetButtonAddText: string,
-  bottomSheetButtonCancelText: string,
-  bottomSheetButtonAddUnderlay: string,
-  bottomSheetButtonCancelUnderlay: string,
-  itemListBackground: string,
-  itemListBackgroundUnderlay: string,
-  itemListBackgroundBorder: string,
-  itemListText: string,
-  itemListIcon: string,
-  itemListIconFilled: string,
-  itemListTextSecondary: string,
-  itemListItemOpenBackground: string,
-  itemListItemOpenBackgroundUnderlay: string,
-  itemListItemOpenBackgroundBorder: string,
-  itemListItemOpenText: string,
-  itemListItemOpenTextSecondary: string,
-  itemListItemOpenButtonBorder: string,
-  itemListItemOpenButtonBackGround: string,
-  itemListItemOpenIcon: string,
-  itemListItemOpenIconFilled: string,
-  itemListItemOpenButtonText: string,
-  itemListItemOpenButtonSendBorder: string,
-  itemListItemOpenButtonSendBackGround: string,
-  itemListItemOpenButtonSendText: string,
-  itemListItemOpenTrashIcon: string,
-  swipeIcon: string,
-  swipeIconUnderlay: string
-  circularItemBackground: string,
-  circularItemText: string,
-  circularItemFilled: string,
-  circularHeaderBackground: string,
-  circularHeaderText: string,
-  circularHeaderFilled: string,
-  filterButtonBackground: string,
-  filterButtonBorder: string,
-  filterButtonText: string,
-  filterButtonActiveBackground: string,
-  filterButtonActiveBorder: string,
-  filterButtonActiveText: string,
-  itemProductListAveragePrice: string,
-  itemProductListLastPriceButtonBorder: string,
-  itemProductListLastPriceButtonText: string,
-  configItemBackground: string,
-} 
+  theme: string;
+  primary: string;
+  secondary: string;
+  tertiary: string;
+  white: string;
+  whiteLighter: string;
+  black: string;
+  warning: string;
+  alert: string;
+  info: string;
+  text: string;
+  textSecondary: string;
+  textTertiary: string;
+  backgroundPrimary: string;
+  backgroundSecondary: string;
+  backgroundTertiary: string;
+  menuButtonColor: string;
+  menuButtonActiveColor: string;
+  backgroundBottomSheet: string;
+  bottomSheetButtonAddBackground: string;
+  bottomSheetButtonCancelBackground: string;
+  bottomSheetButtonAddBorder: string;
+  bottomSheetButtonCancelBorder: string;
+  bottomSheetButtonAddText: string;
+  bottomSheetButtonCancelText: string;
+  bottomSheetButtonAddUnderlay: string;
+  bottomSheetButtonCancelUnderlay: string;
+  itemListBackground: string;
+  itemListBackgroundUnderlay: string;
+  itemListBackgroundBorder: string;
+  itemListText: string;
+  itemListIcon: string;
+  itemListIconFilled: string;
+  itemListTextSecondary: string;
+  itemListItemOpenBackground: string;
+  itemListItemOpenBackgroundUnderlay: string;
+  itemListItemOpenBackgroundBorder: string;
+  itemListItemOpenText: string;
+  itemListItemOpenTextSecondary: string;
+  itemListItemOpenButtonBorder: string;
+  itemListItemOpenButtonBackGround: string;
+  itemListItemOpenIcon: string;
+  itemListItemOpenIconFilled: string;
+  itemListItemOpenButtonText: string;
+  itemListItemOpenButtonSendBorder: string;
+  itemListItemOpenButtonSendBackGround: string;
+  itemListItemOpenButtonSendText: string;
+  itemListItemOpenTrashIcon: string;
+  swipeIcon: string;
+  swipeIconUnderlay: string;
+  circularItemBackground: string;
+  circularItemText: string;
+  circularItemFilled: string;
+  circularHeaderBackground: string;
+  circularHeaderText: string;
+  circularHeaderFilled: string;
+  filterButtonBackground: string;
+  filterButtonBorder: string;
+  filterButtonText: string;
+  filterButtonActiveBackground: string;
+  filterButtonActiveBorder: string;
+  filterButtonActiveText: string;
+  itemProductListAveragePrice: string;
+  itemProductListLastPriceButtonBorder: string;
+  itemProductListLastPriceButtonText: string;
+  configItemBackground: string;
+}; 
 
 export type typeTheme = {
   light:colorTheme
@@ -108,11 +109,12 @@ export type colors = {
   "#FF69B4":typeTheme
 }
 
-export const Colors:colors ={
-  "#43BCAE":{
+export const Colors: colors = {
+  "#43BCAE": {
     light: {
-      primary:"#43BCAE",
-      secondary:"#43BCAE50",
+      theme: "light",
+      primary: "#43BCAE",
+      secondary: "#43BCAE50",
       tertiary,
       white,
       whiteLighter: "#ffffff80",
@@ -178,8 +180,9 @@ export const Colors:colors ={
       configItemBackground: "#FFF",
     },
     dark: {
-      primary:"#43BCAE",
-      secondary:"#43BCAE50",
+      theme: "dark",
+      primary: "#43BCAE",
+      secondary: "#43BCAE50",
       tertiary,
       white,
       whiteLighter: "#ffffff80",
@@ -243,12 +246,13 @@ export const Colors:colors ={
       itemProductListLastPriceButtonBorder: "#43BCAE",
       itemProductListLastPriceButtonText: primaryDarkFontColor,
       configItemBackground: "#4F4E4E",
-    }
+    },
   },
-  "#00BFFF":{
+  "#00BFFF": {
     light: {
-      primary:"#00BFFF",
-      secondary:"#00BFFF50",
+      theme: "light",
+      primary: "#00BFFF",
+      secondary: "#00BFFF50",
       tertiary,
       white,
       whiteLighter: "#ffffff80",
@@ -314,8 +318,9 @@ export const Colors:colors ={
       configItemBackground: "#FFF",
     },
     dark: {
-      primary:"#00BFFF",
-      secondary:"#00BFFF50",
+      theme: "dark",
+      primary: "#00BFFF",
+      secondary: "#00BFFF50",
       tertiary,
       white,
       whiteLighter: "#ffffff80",
@@ -379,12 +384,13 @@ export const Colors:colors ={
       itemProductListLastPriceButtonBorder: "#00BFFF",
       itemProductListLastPriceButtonText: primaryDarkFontColor,
       configItemBackground: "#4F4E4E",
-    }
+    },
   },
-  "#FF69B4":{
+  "#FF69B4": {
     light: {
-      primary:"#FF69B4",
-      secondary:"#FF69B450",
+      theme: "light",
+      primary: "#FF69B4",
+      secondary: "#FF69B450",
       tertiary,
       white,
       whiteLighter: "#ffffff80",
@@ -450,8 +456,9 @@ export const Colors:colors ={
       configItemBackground: "#FFF",
     },
     dark: {
-      primary:"#FF69B4",
-      secondary:"#FF69B450",
+      theme: "dark",
+      primary: "#FF69B4",
+      secondary: "#FF69B450",
       tertiary,
       white,
       whiteLighter: "#ffffff80",
@@ -515,6 +522,6 @@ export const Colors:colors ={
       itemProductListLastPriceButtonBorder: "#FF69B4",
       itemProductListLastPriceButtonText: primaryDarkFontColor,
       configItemBackground: "#4F4E4E",
-    }
-  }
+    },
+  },
 };

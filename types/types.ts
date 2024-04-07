@@ -1,5 +1,5 @@
 import { BottomSheetProps } from "../components/BottomSheet";
-import { typeTheme } from "../constants/Colors";
+import { colorTheme, typeTheme } from "../constants/Colors";
 
 //ok
 interface ItemAmountInterface {
@@ -853,8 +853,7 @@ interface RoutesProps {
   func: () => void;
 }
 interface RoutesType {
-  theme:"light"|"dark";
-  color:typeTheme;
+  color: colorTheme;
   routes: RoutesProps[];
   active: string;
   setActiveRoute: React.Dispatch<React.SetStateAction<string>>;
