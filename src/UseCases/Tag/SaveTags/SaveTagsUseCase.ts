@@ -1,5 +1,4 @@
 import IMMKVStorage from "../../../Service/IMMKVStorage";
-import { AsyncStorageStatic } from "@react-native-async-storage/async-storage";
 
 export default class SaveITagsUseCase {
   constructor(private MMKVStorage: IMMKVStorage) {}

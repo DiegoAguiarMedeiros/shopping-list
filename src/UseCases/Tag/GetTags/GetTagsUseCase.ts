@@ -1,5 +1,4 @@
 import IStorage from "../../../Service/IMMKVStorage";
-import { IList, IListInterface } from "../../../Model/IList";
 
 export default class GetTagsUseCase {
   constructor(private mmkv: IStorage) {}

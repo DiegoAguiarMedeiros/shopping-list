@@ -3,14 +3,11 @@ import { IControllerGetLists } from "../../interface/IController";
 import GetListsUseCase from "./GetListsUseCase";
 
 export default class GetListsController implements IControllerGetLists {
-  constructor(private getListsUseCase: GetListsUseCase) { }
+  constructor(private getListsUseCase: GetListsUseCase) {}
 
-  handle = (): IList[] => {
+  handle = (): string[] => {
     try {
-      const result = this.getListsUseCase.execute("SLSHOPPINGLIST");
-      let data: IList[];
-      result ? (data = Object.values(result)) : (data = []);
-      return data;
+      return this.getListsUseCase.execute("SLSHOPPINGLIST");
     } catch (err) {
       console.error("GetListsController: ", err);
       return [];

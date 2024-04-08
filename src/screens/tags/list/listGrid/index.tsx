@@ -1,10 +1,7 @@
-import { useColorScheme, SafeAreaView, ScrollView } from "react-native";
-import * as Styled from "./styles";
-import { ListInterface, ListType } from "../../../../types/types";
+import { SafeAreaView, ScrollView } from "react-native";
 import { BottomSheetProps } from "../../../../components/BottomSheet";
 
 import ListGridItem from "./listGridItem";
-import ITag from "../../../../Domain/Model/ITag";
 import { useShoppingListContext } from "../../../../context/ShoppingList";
 interface ItemProps {
   tags: string[];
@@ -22,8 +19,7 @@ export default function ListGrid({
   handleCloseBottomSheet,
   productListRef,
   tagRef,
-}: ItemProps) {
-  const colorScheme = useColorScheme();
+}: Readonly<ItemProps>) {
   const { getTagByUuid } = useShoppingListContext();
   return (
     <SafeAreaView style={{ width: "100%" }}>

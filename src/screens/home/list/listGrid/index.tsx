@@ -1,34 +1,36 @@
-import { useColorScheme, SafeAreaView, ScrollView } from "react-native";
+import { SafeAreaView, ScrollView } from "react-native";
 import * as Styled from "./styles";
-import { ListInterface, ListType } from "../../../../types/types";
 import { BottomSheetProps } from "../../../../components/BottomSheet";
 
 import ListGridItem from "./listGridItem";
-import { IList } from "../../../../Domain/Model/IList";
+import { useShoppingListContext } from "../../../../context/ShoppingList";
 interface ItemProps {
-  items: IList[];
+  lists: string[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
 }
 export default function ListGrid({
-  items,
+  lists,
   setBottomSheetProps,
   handleCloseBottomSheet,
-}: ItemProps) {
-  const colorScheme = useColorScheme();
-
+}: Readonly<ItemProps>) {
+  const { getListByUuid } = useShoppingListContext();
   return (
     <SafeAreaView style={{ width: "100%" }}>
       <ScrollView keyboardShouldPersistTaps="handled">
         <Styled.ContainerListItemListItem>
-          {items.map((item: IList) => (
-            <ListGridItem
-              handleCloseBottomSheet={handleCloseBottomSheet}
-              setBottomSheetProps={setBottomSheetProps}
-              key={"ListGridItem-" + item.uuid}
-              item={item}
-            />
-          ))}
+          {lists.map((l: string) => {
+            const list = getListByUuid(l);
+
+            return (
+              <ListGridItem
+                handleCloseBottomSheet={handleCloseBottomSheet}
+                setBottomSheetProps={setBottomSheetProps}
+                key={"ListGridItem-" + list.uuid}
+                list={list}
+              />
+            );
+          })}
         </Styled.ContainerListItemListItem>
       </ScrollView>
     </SafeAreaView>

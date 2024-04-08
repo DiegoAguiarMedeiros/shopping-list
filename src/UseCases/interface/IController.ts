@@ -4,7 +4,7 @@ import { IProduct } from "../../Model/IProduct";
 import IAmount from "../../Model/IAmount";
 
 export interface IControllerSaveList {
-  handle(data: IListInterface<IList>): void;
+  handle(data: string[]): void;
 }
 export interface IControllerDeleteList {
   handle(key: string): void;
@@ -22,6 +22,9 @@ export interface IControllerGetTags {
   handle(): string[];
 }
 export interface IControllerGetLists {
+  handle(): string[];
+}
+export interface IControllerGetListsObjects {
   handle(): IList[];
 }
 export interface IControllerSaveListProduct {

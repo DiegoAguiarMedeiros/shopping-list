@@ -6,13 +6,13 @@ import {
 import { useRouter } from "expo-router";
 import I18n from "i18n-js";
 import { useState, useRef, useEffect } from "react";
-import { useColorScheme, TouchableHighlight } from "react-native";
+import { TouchableHighlight } from "react-native";
 import Items from "../screens/list/Items";
 import ItemsArchived from "../screens/listArchived/ItemsArchived";
 import ConfigScreen from "../screens/config/config";
 import ProductTab from "../screens/product/product";
 import { colorTheme, ColorList } from "../../constants/Colors";
-import Home from "../screens/home/homeContainer";
+import Home from "../screens/home/HomeContainer";
 import ProductsList from "../screens/productsList/ProductsList";
 import { languageType, RoutesProps } from "../../types/types";
 import BottomNavigation from "../components/BottomNavigation";
@@ -42,7 +42,6 @@ const Navigation: React.FC<NavigationProps> = ({
   handleLanguageChange,
   handleColorChange,
 }) => {
-  const colorScheme = useColorScheme();
   const router = useRouter();
   const [activeRoute, setActiveRoute] = useState<string>("home");
   const [activeRouteHeader, setActiveRouteHeader] = useState<{
@@ -56,6 +55,9 @@ const Navigation: React.FC<NavigationProps> = ({
   });
   const [search, setSearch] = useState("");
 
+  const listRef = useRef<{ handleAddNewList: (uuid: string) => void } | null>(
+    null
+  );
   const tagRef = useRef<{ handleAddNewTag: (uuid: string) => void } | null>(
     null
   );
@@ -79,6 +81,7 @@ const Navigation: React.FC<NavigationProps> = ({
     setBottomSheetProps({
       children: (
         <NewListForm
+          listRef={listRef}
           color={color}
           action="addList"
           buttonText="add"
@@ -144,6 +147,7 @@ const Navigation: React.FC<NavigationProps> = ({
   const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
     children: (
       <NewListForm
+        listRef={listRef}
         color={color}
         action="addList"
         buttonText="add"
@@ -200,6 +204,7 @@ const Navigation: React.FC<NavigationProps> = ({
     const forms = {
       home: (
         <NewListForm
+          listRef={listRef}
           color={color}
           action="addList"
           buttonText="add"
@@ -335,6 +340,7 @@ const Navigation: React.FC<NavigationProps> = ({
         >
           {() => (
             <Home
+              ref={listRef}
               color={color}
               setBottomSheetProps={setBottomSheetProps}
               handleCloseBottomSheet={handleCloseBottomSheetList}

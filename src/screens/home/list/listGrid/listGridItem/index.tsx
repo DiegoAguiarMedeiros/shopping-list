@@ -1,26 +1,14 @@
 import { useColorScheme, Animated } from "react-native";
 import * as Styled from "./styles";
 import { useCallback, useEffect, useRef } from "react";
-import {
-  ItemInterface,
-  ListInterface,
-  ListItemAmountInterface,
-  ListItemInterface,
-  ListType,
-} from "../../../../../types/types";
-import { FontAwesome } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
-
-import { Swipeable } from "react-native-gesture-handler";
 import { removeUndefinedFromArray } from "../../../../../utils/functions";
-import { Title, Text, SubTitle, Title2 } from "../../../../../components/Text";
+import { Text, Title2 } from "../../../../../components/Text";
 import { useShoppingListContext } from "../../../../../context/ShoppingList";
 import CircleProgress from "../../../../../components/CircleProgress";
 
 import { BottomSheetProps } from "../../../../../components/BottomSheet";
 import NewListForm from "../../../../../components/NewListForm";
-import { IList, IListInterface } from "../../../../../Model/IList";
-import NewProductForm from "../../../../../components/NewProductForm";
+import { IList } from "../../../../../Model/IList";
 import NewItemForm from "../../../../../components/NewItemForm";
 import GridItem from "../../../../../components/GridItem";
 import {
@@ -29,32 +17,26 @@ import {
   GridItemWrapperInner,
 } from "../../../../../components/GridItemInner";
 import I18n from "i18n-js";
+import { useRouter } from "expo-router";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 interface ItemProps {
-  item: IList;
+  list: IList;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
 }
 
 export default function ListGridItem({
-  item,
+  list,
   setBottomSheetProps,
   handleCloseBottomSheet,
-}: ItemProps) {
-  const {
-    list,
-    listArchived,
-    listProduct,
-    handleDeleteList,
-    handleArchived,
-    getTheme,
-    getCurrency,
-    getColor,
-  } = useShoppingListContext();
+}: Readonly<ItemProps>) {
+  const { handleDeleteList, handleArchived, getCurrency, getColor } =
+    useShoppingListContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
-  const items = removeUndefinedFromArray(
-    getListProductController.handle(item.items)
-  );
+  // const items = removeUndefinedFromArray(
+  //   getListProductController.handle(list.items)
+  // );
   const gridItemRef = useRef<any>();
   const handleCloseSwipeableFromParent = () => {
     // Access the handleCloseSwipeable function from the ref
@@ -65,77 +47,76 @@ export default function ListGridItem({
 
   useEffect(() => {
     handleCloseSwipeableFromParent();
-  }, [item.name]);
-  const total = getTotalAmountByListUuidController.handle(item.uuid);
-  const totalWithAmount =
-    getTotalQuantityWithoutAmountByListUuidController.handle(item.uuid);
-  const totalUn = getTotalQuantityAmountByListUuidController.handle(item.uuid);
+  }, [list.name]);
+  const total = 0; /*getTotalAmountByListUuidController.handle(list.uuid)*/
+  const totalWithAmount = 0;
+  /*getTotalQuantityWithoutAmountByListUuidController.handle(list.uuid)*/ const totalUn = 0; /*getTotalQuantityAmountByListUuidController.handle(list.uuid)*/
 
   const handleCloseBottomSheetProductList = () => {
-    setBottomSheetProps({
-      children: (
-        <NewItemForm
-          buttonText="add"
-          onClose={handleCloseBottomSheetProductList}
-          listId={item.uuid}
-        />
-      ),
-      height: "add",
-      isVisible: false,
-    });
+    // setBottomSheetProps({
+    //   children: (
+    //     <NewItemForm
+    //       buttonText="add"
+    //       onClose={handleCloseBottomSheetProductList}
+    //       listId={list.uuid}
+    //     />
+    //   ),
+    //   height: "add",
+    //   isVisible: false,
+    // });
   };
 
   const handleOpenList = useCallback(() => {
-    setBottomSheetProps({
-      isVisible: false,
-      height: "add",
-      children: (
-        <NewItemForm
-          onClose={handleCloseBottomSheetProductList}
-          buttonText="add"
-          listId={item.uuid}
-        />
-      ),
-    });
-    router.push({ pathname: "/Items", params: { listId: item.uuid } });
-  }, [item.uuid, router]);
+    // setBottomSheetProps({
+    //   isVisible: false,
+    //   height: "add",
+    //   children: (
+    //     <NewItemForm
+    //       onClose={handleCloseBottomSheetProductList}
+    //       buttonText="add"
+    //       listId={list.uuid}
+    //     />
+    //   ),
+    // });
+    router.push({ pathname: "/Items", params: { listId: list.uuid } });
+  }, [list.uuid, router]);
 
   const handleEdit = () => {
-    setBottomSheetProps({
-      height: "add",
-      children: (
-        <NewListForm
-          action="editList"
-          buttonText="edit"
-          items={item}
-          onClose={handleCloseBottomSheet}
-        />
-      ),
-      isVisible: true,
-    });
+    // setBottomSheetProps({
+    //   height: "add",
+    //   children: (
+    //     <NewListForm
+    //       action="editList"
+    //       buttonText="edit"
+    //       items={item}
+    //       onClose={handleCloseBottomSheet}
+    //     />
+    //   ),
+    //   isVisible: true,
+    // });
   };
 
   const handleCopy = () => {
-    setBottomSheetProps({
-      height: "add",
-      children: (
-        <NewListForm
-          action="copyList"
-          buttonText="copy"
-          items={item}
-          onClose={handleCloseBottomSheet}
-        />
-      ),
-      isVisible: true,
-    });
+    // setBottomSheetProps({
+    //   height: "add",
+    //   children: (
+    //     <NewListForm
+    //       action="copyList"
+    //       buttonText="copy"
+    //       items={item}
+    //       onClose={handleCloseBottomSheet}
+    //     />
+    //   ),
+    //   isVisible: true,
+    // });
   };
 
   const handleDelete = () => {
-    handleDeleteList(item.uuid);
+    handleDeleteList(list.uuid);
   };
 
   const archivedList = (): void => {
-    handleArchived(item.uuid);
+    handleArchived(list.uuid);
   };
 
   const RightSwipe = (
@@ -269,7 +250,7 @@ export default function ListGridItem({
         <>
           <GridItemWrapperCol width={85} height={100}>
             <GridItemWrapperInner height={100}>
-              <Title2 color={getColor().itemListText}>{item.name}</Title2>
+              <Title2 color={getColor().itemListText}>{list.name}</Title2>
               <Text color={getColor().itemListTextSecondary}>
                 {I18n.t("total")}: {getCurrency()}{" "}
                 {total.toFixed(2).replace(".", ",")}

@@ -1,28 +1,19 @@
-import { useColorScheme } from "react-native";
-import { Text } from "../Text";
 import * as Styled from "./styles";
 import InputText from "../InputText";
 import Button from "../Button";
 import { useEffect, useState } from "react";
-import { ItemInterface, ListInterface, TagsIterface } from "../../types/types";
-import UUIDGenerator from "react-native-uuid";
 
 import { useShoppingListContext } from "../../context/ShoppingList";
 import { Keyboard } from "react-native";
-import { getTags, removeUndefinedFromArray } from "../../utils/functions";
-import Tag from "../../Domain/Model/Implementation/Tag";
-import { IList } from "../../Domain/Model/IList";
-import ITag from "../../Domain/Model/ITag";
-import { IProduct } from "../../Domain/Model/IProduct";
-import saveTagByUuidController from "../../Domain/UseCases/Tag/SaveTagByUuid";
 import I18n from "i18n-js";
-import { colorTheme } from "../../constants/Colors";
+import { colorTheme } from "../../../constants/Colors";
+import ITag from "../../Model/ITag";
 
 export type NewTagFormProps = {
   onClose: () => void;
   buttonText: "add" | "edit";
   action: "addTag" | "editTag";
-  tag?: Tag;
+  tag?: ITag;
   tagRef: React.MutableRefObject<{
     handleAddNewTag: (uuid: string) => void;
   } | null>;
@@ -37,9 +28,7 @@ const NewTagForm = ({
   tagRef,
   color,
 }: NewTagFormProps) => {
-  const colorScheme = useColorScheme();
-  const { handleAddTag, handleEditTag, getTheme, getColor } =
-    useShoppingListContext();
+  const { handleAddTag, handleEditTag } = useShoppingListContext();
   const [newItem, setNewItem] = useState({
     item: tag ? tag.name : "",
   });
@@ -54,14 +43,6 @@ const NewTagForm = ({
     clearInput();
     onClose();
     Keyboard.dismiss();
-  };
-
-  const returnNewTag = (): ITag => {
-    const item: ITag = {
-      uuid: String(UUIDGenerator.v4()),
-      name: newItem.item,
-    };
-    return item;
   };
 
   const addTag = (): void => {

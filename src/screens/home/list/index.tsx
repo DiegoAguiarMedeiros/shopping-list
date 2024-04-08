@@ -10,13 +10,13 @@ import { Text } from "../../../components/Text";
 import NewListForm from "../../../components/NewListForm";
 import { IList } from "../../../Domain/Model/IList";
 interface ItemProps {
-  items: IList[];
+  lists: string[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
 }
 
 export default function List({
-  items,
+  lists,
   setBottomSheetProps,
   handleCloseBottomSheet,
 }: ItemProps) {
@@ -24,7 +24,7 @@ export default function List({
 
   return (
     <ListGrid
-      items={items}
+      lists={lists}
       setBottomSheetProps={setBottomSheetProps}
       handleCloseBottomSheet={handleCloseBottomSheet}
     />

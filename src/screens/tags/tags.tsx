@@ -1,8 +1,7 @@
 import { useSearchParams } from "expo-router";
-import { Text } from "../../../components/Text";
 
 import Tags from "../tags";
-import { BottomSheetProps } from "../../../components/BottomSheet";
+import { BottomSheetProps } from "../../components/BottomSheet";
 import { useEffect, useImperativeHandle, useRef, useState } from "react";
 import React from "react";
 import { useShoppingListContext } from "../../context/ShoppingList";

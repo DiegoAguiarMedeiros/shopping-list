@@ -1,8 +1,8 @@
-import IMMKVStorage from "../../../../Domain/Service/IMMKVStorage";
+import IMMKVStorage from "../../../Service/IMMKVStorage";
 import { IList, IListInterface } from "../../../Model/IList";
 
 export default class GetListUseCase {
-  constructor(private mmkv: IMMKVStorage) { }
+  constructor(private mmkv: IMMKVStorage) {}
 
   execute = (key: string): IList => {
     try {
@@ -15,7 +15,7 @@ export default class GetListUseCase {
         uuid: "",
         name: "",
         tags: [],
-        items: []
+        items: [],
       };
       return result;
     } catch (error) {
@@ -24,7 +24,7 @@ export default class GetListUseCase {
         uuid: "",
         name: "",
         tags: [],
-        items: []
+        items: [],
       };
       return result;
     }

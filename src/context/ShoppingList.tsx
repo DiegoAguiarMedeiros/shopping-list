@@ -50,6 +50,7 @@ import getTagByUuidController from "../UseCases/Tag/GetTagByUuid";
 import getListProductsByTagUuidController from "../UseCases/ListProduct/GetListProductsByTagUuid";
 import getAllProductsController from "../UseCases/ListProduct/GetAllProducts";
 import getAllProductsObjectsController from "../UseCases/ListProduct/GetAllProductsObjects";
+import getListByUuidController from "../UseCases/List/GetListByUuid";
 
 type ShoppingListProviderProps = {
   theme: "light" | "dark";
@@ -62,18 +63,20 @@ type ShoppingListProviderProps = {
 };
 
 type ShoppingListContextType = {
-  getList: () => IList[];
+  getLists: () => string[];
+  getListsObject: () => IList[];
   getAllProducts: () => string[];
   getAllProductsObjects: () => IProduct[];
   getTags: () => string[];
   getTagsObject: () => ITag[];
   getProductsByTagUuid: (tag: string) => string[];
   getProductByUuid: (tag: string) => IProduct | null;
+  getListByUuid: (uuid: string) => IList;
   getTagByUuid: (uuid: string) => ITag;
   getListAmount: () => IAmount[];
   getListArchived: () => IList[];
   getListAmountArchived: () => IAmount[];
-  handleAddList: (listName: string) => void;
+  handleAddList: (list: string) => IList;
   handleCopyList: (listUuid: string, listName: string) => void;
   handleEditList: (listUuid: string, listName: string) => void;
   handleAddListItem: (listUuid: string, listName: string) => void;
@@ -108,7 +111,10 @@ type ShoppingListContextType = {
   getLastPrices: (productUuid: string) => string[];
 };
 
-const getListsFromStorage = (): IList[] => {
+const getListsFromStorage = (): string[] => {
+  return getListsController.handle();
+};
+const getListsObjectFromStorage = (): IList[] => {
   return getListsController.handle();
 };
 const getTagsFromStorage = (): string[] => {
@@ -128,6 +134,9 @@ const getAllProductsObjectsFromStorage = (): IProduct[] => {
 };
 const getProductsByUuidFromStorage = (product: string): IProduct | null => {
   return getListProductController.handle(product);
+};
+const getListsByUuidFromStorage = (uuid: string): IList => {
+  return getListByUuidController.handle(uuid);
 };
 const getTagsByUuidFromStorage = (uuid: string): ITag => {
   return getTagByUuidController.handle(uuid);
@@ -263,8 +272,11 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
 }) => {
   const colorScheme = useColorScheme();
 
-  const getList = (): IList[] => {
+  const getLists = (): string[] => {
     return getListsFromStorage();
+  };
+  const getListsObject = (): IList[] => {
+    return getListsObjectFromStorage();
   };
   // const getListProduct = (): IProduct[] => {
   //   return getListProductFromStorage();
@@ -291,6 +303,9 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   const getProductByUuid = (product: string): IProduct | null => {
     return getProductsByUuidFromStorage(product);
   };
+  const getListByUuid = (uuid: string): IList => {
+    return getListsByUuidFromStorage(uuid);
+  };
   const getTagByUuid = (uuid: string): ITag => {
     return getTagsByUuidFromStorage(uuid);
   };
@@ -303,12 +318,6 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   // };
   const getListAmountArchived = (): IAmount[] => {
     return getItemAmountArchivedFromStorage();
-  };
-
-  const handleAddList = (listName: string): void => {
-    const newListItem = returnNewList(listName);
-    saveNewList(newListItem);
-    showToast("listCreatedSuccessfully");
   };
 
   const handleCopyList = (listUuid: string, listName: string): void => {
@@ -397,6 +406,13 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     //   }
     //   showToast("productEditedSuccessfully");
     // }
+  };
+
+  const handleAddList = (list: string): IList => {
+    const newListItem = returnNewList(list);
+    saveNewList(newListItem);
+    showToast("listCreatedSuccessfully");
+    return newListItem;
   };
 
   const handleAddTag = (tag: string): ITag => {
@@ -612,9 +628,11 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   return (
     <ShoppingListContext.Provider
       value={{
+        getListByUuid: getListByUuid,
         getAllProducts: getAllProducts,
         getAllProductsObjects: getAllProductsObjects,
-        getList: getList,
+        getLists: getLists,
+        getListsObject: getListsObject,
         getListAmount: getListAmount,
         getProductByUuid: getProductByUuid,
         getTags: getTags,

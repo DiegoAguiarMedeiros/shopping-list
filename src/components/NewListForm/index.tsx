@@ -1,22 +1,13 @@
-import { TextInput, useColorScheme } from "react-native";
-import { Text } from "../Text";
+import { useColorScheme } from "react-native";
 import * as Styled from "./styles";
 import InputText from "../InputText";
 import Button from "../Button";
-import { useEffect, useRef, useState } from "react";
-import { ItemInterface, ListInterface, TagsIterface } from "../../types/types";
-import UUIDGenerator from "react-native-uuid";
+import { useEffect, useState } from "react";
 import { useShoppingListContext } from "../../context/ShoppingList";
 import { Keyboard } from "react-native";
-import { getTags, removeUndefinedFromArray } from "../../utils/functions";
-import List from "../../Domain/Model/Implementation/List";
-import { IList } from "../../Domain/Model/IList";
-import ITag from "../../Domain/Model/ITag";
-import { IProduct } from "../../Domain/Model/IProduct";
-import saveListByUuidController from "../../Domain/UseCases/List/SaveListByUuid";
-import getListProductController from "../../Domain/UseCases/ListProduct/GetProductByUuid";
+import { IList } from "../../Model/IList";
 import I18n from "i18n-js";
-import { colorTheme } from "../../constants/Colors";
+import { colorTheme } from "../../../constants/Colors";
 
 export type NewListFormProps = {
   onClose: () => void;
@@ -25,6 +16,9 @@ export type NewListFormProps = {
   action: "addList" | "editList" | "copyList";
   items?: IList;
   color: colorTheme;
+  listRef: React.MutableRefObject<{
+    handleAddNewList: (uuid: string) => void;
+  } | null>;
 };
 
 const NewListForm = ({
@@ -34,6 +28,7 @@ const NewListForm = ({
   action,
   items,
   color,
+  listRef,
 }: NewListFormProps) => {
   const colorScheme = useColorScheme();
   const { handleAddList, handleCopyList, handleEditList, getTheme, getColor } =
@@ -56,7 +51,10 @@ const NewListForm = ({
 
   const addList = (): void => {
     closeBottomSheet();
-    handleAddList(newItem.item);
+    const newList = handleAddList(newItem.item);
+    if (listRef.current) {
+      listRef.current.handleAddNewList(newList.uuid);
+    }
   };
 
   const copyList = (): void => {
