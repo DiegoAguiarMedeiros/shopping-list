@@ -1,75 +1,23 @@
-// import FontAwesome from "@expo/vector-icons/FontAwesome";
-
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
-// import { useFonts } from "expo-font";
-// import { useEffect, useState } from "react";
-// import { useColorScheme, Text } from "react-native";
-import BottomNavigation from "../components/BottomNavigation";
-
-// import {
-//   ShoppingListProvider,
-//   ShoppingListArchivedProvider,
-// } from "../context/ShoppingList";
-import {
-  CardStyleInterpolators,
-  createStackNavigator,
-} from "@react-navigation/stack";
-
-const Stack = createStackNavigator();
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import {
-  StatusBar,
-  Text,
-  TextInput,
-  TouchableHighlight,
-  View,
-  useColorScheme,
-} from "react-native";
-import Entypo from "@expo/vector-icons/Entypo";
+import React, { useEffect, useState } from "react";
+import { StatusBar, useColorScheme } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 import { FontAwesome } from "@expo/vector-icons";
-import { useFonts } from "expo-font";
-import { getOnboarding, setOnboarding } from "../utils/onboarding";
-import { Title } from "../components/Text";
-import { StatusBar as ExpoStatusBar } from "expo-status-bar";
-import Home from "../src/screens/home/home";
-import Tags from "../src/screens/tags/tags";
-import Items from "../src/screens/list/Items";
-import ItemsArchived from "../src/screens/listArchived/ItemsArchived";
-import History from "../src/screens/history/history";
-import BottomSheet, { BottomSheetProps } from "../components/BottomSheet";
-import OnboardingScreen from "../screens/onboarding";
-import {
-  ShoppingListProvider,
-  useShoppingListContext,
-} from "../context/ShoppingList";
+import { getOnboarding, setOnboarding } from "../src/utils/onboarding";
+import OnboardingScreen from "../src/screens/onboarding";
+import { ShoppingListProvider } from "../src/context/ShoppingList";
 import { ColorList, Colors, colorTheme, typeTheme } from "../constants/Colors";
-import NewListForm from "../components/NewListForm";
-import { RoutesProps, languageType } from "../types/types";
-import ProductTab from "../src/screens/product/product";
-import NewTagForm from "../components/NewTagForm";
-import { useRouter } from "expo-router";
-import NewProductForm from "../components/NewProductForm";
-import ProductsList from "../src/screens/productsList/ProductsList";
-import ConfigScreen from "../src/screens/config/config";
-import NewItemForm from "../components/NewItemForm";
-import HeaderInputTextSearch from "../components/HeaderInputTextSearch";
-import getThemeController from "../Domain/UseCases/Config/GetTheme";
+import { languageType } from "../src/types/types";
+import getThemeController from "../src/UseCases/Config/GetTheme";
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
-import * as Localization from "expo-localization";
 import en from "../i18n/en";
 import pt from "../i18n/pt-br";
 import es from "../i18n/es";
 import I18n from "i18n-js";
-import getLanguageController from "../Domain/UseCases/Config/GetCurrency";
-import getColorController from "../Domain/UseCases/Config/GetColor";
-import saveColorController from "../Domain/UseCases/Config/SaveColor";
+import getLanguageController from "../src/UseCases/Config/GetCurrency";
+import getColorController from "../src/UseCases/Config/GetColor";
+import saveColorController from "../src/UseCases/Config/SaveColor";
 import Navigation from "../src/navigation";
 
 I18n.fallbacks = true;
@@ -107,7 +55,6 @@ export default function App() {
   };
   const [theme, setTheme] = useState<"light" | "dark">(returnTheme());
   const [color, setColor] = useState<ColorList>("#43BCAE");
-  const [activeRoute, setActiveRoute] = useState<string>("home");
   const [currentLanguage, setCurrentLanguage] = useState<languageType>(
     I18n.defaultLocale as languageType
   );
@@ -163,17 +110,6 @@ export default function App() {
     prepare();
   }, []);
 
-  const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
-      // This tells the splash screen to hide immediately! If we call this after
-      // `setAppIsReady`, then we may see a blank screen while the app is
-      // loading its initial state and rendering its first pixels. So instead,
-      // we hide the splash screen once we know the root view has already
-      // performed layout.
-      await SplashScreen.hideAsync();
-    }
-  }, [appIsReady]);
-
   if (!appIsReady) {
     return null;
   }
@@ -207,5 +143,3 @@ export default function App() {
     </>
   );
 }
-
-

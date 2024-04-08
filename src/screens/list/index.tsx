@@ -1,19 +1,8 @@
-import { TouchableHighlight, useColorScheme } from "react-native";
+import { TouchableHighlight } from "react-native";
 
 import * as Styled from "./styles";
 import React, { useEffect, useState } from "react";
 import { useShoppingListContext } from "../../context/ShoppingList";
-import {
-  ItemInterface,
-  ListItemAmountInterface,
-  ListItemInterface,
-  ListType,
-} from "../../types/types";
-import {
-  getTagsFromListItemInterface,
-  removeDuplicates,
-  removeUndefinedFromArray,
-} from "../../utils/functions";
 import { useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
@@ -21,21 +10,13 @@ import EmptyList from "../../components/EmptyList";
 import ListGrid from "./listGrid";
 import CircleProgress from "../../components/CircleProgress";
 import FilterButtons from "../../components/FilterButtons";
-import { Title, Text } from "../../components/Text";
-import BottomSheet, { BottomSheetProps } from "../../components/BottomSheet";
-import Button from "../../components/Button";
-import NewItemForm from "../../components/NewItemForm";
-import getListProductController from "../../Domain/UseCases/ListProduct/GetProductByUuid";
-import getTotalQuantityAmountByListUuidController from "../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
-import getTotalAmountByListUuidController from "../../Domain/UseCases/List/GetTotalAmountByListUuid";
-import getTagUuidByTagNameController from "../../Domain/UseCases/Tag/GetTagUuidByTagName";
-import getTotalQuantityWithoutAmountByListUuidController from "../../Domain/UseCases/List/GetTotalQuantityWithoutAmountByListUuid";
-import getTagsController from "../../Domain/UseCases/ListProduct/GetTagsByProductUuidArray";
+import { Title } from "../../components/Text";
+
 import Container from "../../components/Container";
 import Header from "../../components/Header";
 import ContainerInner from "../../components/ContainerInner";
 import I18n from "i18n-js";
-import { colorTheme } from "../../constants/Colors";
+import { colorTheme } from "../../../constants/Colors";
 type TotalType = {
   amount: number;
   un: number;
@@ -176,4 +157,3 @@ export default function List({
     </Container>
   );
 }
-

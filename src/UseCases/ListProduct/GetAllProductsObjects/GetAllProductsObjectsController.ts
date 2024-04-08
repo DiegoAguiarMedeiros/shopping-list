@@ -1,4 +1,4 @@
-import { sortArrayOfObjects } from "../../../../utils/functions";
+import { sortArrayOfObjects } from "../../../utils/functions";
 import { IProduct } from "../../../Model/IProduct";
 import { IControllerGetAllProductsObject } from "../../interface/IController";
 import GetAllProductsObjectsUseCase from "./GetAllProductsObjectsUseCase";

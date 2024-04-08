@@ -1,8 +1,8 @@
 import { StyleSheet } from "react-native";
-import { Text } from "../../../components/Text";
-import Home from "../screens/home";
+import { Text } from "../../components/Text";
+import Home from "./index";
 
-import { BottomSheetProps } from "../../../components/BottomSheet";
+import { BottomSheetProps } from "../../components/BottomSheet";
 import { useEffect } from "react";
 import { colorTheme } from "../../../constants/Colors";
 interface TabOneScreenProps {

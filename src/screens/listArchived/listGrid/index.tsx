@@ -11,11 +11,7 @@ import { removeUndefinedFromArray } from "../../../utils/functions";
 import { useShoppingListContext } from "../../../context/ShoppingList";
 
 import { Text } from "../../../components/Text";
-import getListProductController from "../../../Domain/UseCases/ListProduct/GetProductByUuid";
-import { IProduct } from "../../../Domain/Model/IProduct";
-import getTotalQuantityAmountByListUuidController from "../../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
-import getTotalQuantityWithoutAmountByListUuidController from "../../../Domain/UseCases/List/GetTotalQuantityWithoutAmountByListUuid";
-import getTotalAmountByListUuidController from "../../../Domain/UseCases/List/GetTotalAmountByListUuid";
+import { IProduct } from "../../../Model/IProduct";
 import ContainerInner from "../../../components/ContainerInner";
 import Container from "../../../components/Container";
 import {

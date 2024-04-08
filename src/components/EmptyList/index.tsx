@@ -8,14 +8,14 @@ import { Text } from "../Text";
 import Container from "../Container";
 import ContainerInner from "../ContainerInner";
 import { useShoppingListContext } from "../../context/ShoppingList";
-import { colorTheme } from "../../constants/Colors";
+import { colorTheme } from "../../../constants/Colors";
 
 interface Image {
   image: any;
 }
 
 const img: Image = {
-  image: require("../../assets/images/emptyList.png"),
+  image: require("../../../assets/images/emptyList.png"),
 };
 
 type EmptyListProps = {

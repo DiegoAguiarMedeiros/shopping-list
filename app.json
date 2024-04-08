@@ -12,9 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#1E1E1E"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.diegoamdeiros.smartList"
@@ -35,8 +33,6 @@
         "projectId": "fdb89e50-65eb-4c2a-a499-67b1c2f41499"
       }
     },
-    "plugins": [
-      "expo-localization"
-    ]
+    "plugins": ["expo-localization"]
   }
 }

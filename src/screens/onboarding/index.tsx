@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { useColorScheme } from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
 
 import { Text, Title } from "../../components/Text";
@@ -18,8 +16,7 @@ interface OnboadingProps {
   closeOnboarding: () => void;
 }
 const OnboardingScreen = ({ closeOnboarding }: OnboadingProps) => {
-  const colorScheme = useColorScheme();
-  const { getTheme, getColor } = useShoppingListContext();
+  const { getColor } = useShoppingListContext();
   const renderItem = ({ item }: { item: Slide }) => (
     <Styled.Container background={getColor().backgroundPrimary}>
       <Styled.SlideContainer background={getColor().backgroundPrimary}>
@@ -48,7 +45,7 @@ const OnboardingScreen = ({ closeOnboarding }: OnboadingProps) => {
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </Text>
       ),
-      image: require("../../assets/images/onboarding-image-1.png"),
+      image: require("../../../assets/images/onboarding-image-1.png"),
       backgroundColor: "#59b2ab",
     },
     {
@@ -59,7 +56,7 @@ const OnboardingScreen = ({ closeOnboarding }: OnboadingProps) => {
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </Text>
       ),
-      image: require("../../assets/images/onboarding-image-2.png"),
+      image: require("../../../assets/images/onboarding-image-2.png"),
       backgroundColor: "#febe29",
     },
   ];

@@ -4,8 +4,6 @@ import Button from "../Button";
 
 import * as Styled from "./styles";
 import { TagsIterface } from "../../types/types";
-import ITag from "../../Domain/Model/ITag";
-import getTagByUuidController from "../../Domain/UseCases/Tag/GetTagByUuid";
 import { useShoppingListContext } from "../../context/ShoppingList";
 
 interface FilterButtonsProps {
@@ -21,14 +19,14 @@ const FilterButtons = ({ tags, filter, setFilter }: FilterButtonsProps) => {
   const renderButton = (item: any) => {
     let tag;
     if (item.item !== "Todos") {
-      tag = getTagByUuidController.handle(item.item);
+      // tag = getTagByUuidController.handle(item.item);
     } else {
       tag = { name: item.item };
     }
 
     const handlePress = () => {
       if (item.item !== "Todos") {
-        const tag = getTagByUuidController.handle(item.item);
+        // const tag = getTagByUuidController.handle(item.item);
         setFilter(tag.name);
       } else {
         setFilter(item.item);

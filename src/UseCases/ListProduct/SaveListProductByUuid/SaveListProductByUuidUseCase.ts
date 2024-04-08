@@ -2,7 +2,7 @@ import IMMKVStorage from "../../../Service/IMMKVStorage";
 import { IList, IListInterface } from "../../../Model/IList";
 import { IControllerGetListProducts, IControllerSaveListProduct } from "../../interface/IController";
 import { IProduct } from "../../../Model/IProduct";
-import { convertToInterface } from "../../../../utils/functions";
+import { convertToInterface } from "../../../utils/functions";
 
 export default class SaveListProductByUuidUseCase {
   constructor(

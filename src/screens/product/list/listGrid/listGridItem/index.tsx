@@ -9,10 +9,8 @@ import { Title, SubTitle, Text, Title2 } from "../../../../../components/Text";
 import { useShoppingListContext } from "../../../../../context/ShoppingList";
 
 import { BottomSheetProps } from "../../../../../components/BottomSheet";
-import DeleteProductByUuid from "../../../../../Domain/UseCases/ListProduct/DeleteProductByUuid";
-import GetTagByUuid from "../../../../../Domain/UseCases/Tag/GetTagByUuid";
 import NewProductForm from "../../../../../components/NewProductForm";
-import { ILastPrices, IProduct } from "../../../../../Domain/Model/IProduct";
+import { ILastPrices, IProduct } from "../../../../../Model/IProduct";
 import AveragePrice from "./AveragePrice";
 import LastPrices from "./LastPrices";
 import GridItem from "../../../../../components/GridItem";
@@ -23,7 +21,7 @@ import {
   GridItemWrapperRow,
 } from "../../../../../components/GridItemInner";
 import I18n from "i18n-js";
-import { colorTheme } from "../../../../../constants/Colors";
+import { colorTheme } from "../../../../../../constants/Colors";
 
 interface ItemProps {
   item: IProduct;

@@ -1,5 +1,5 @@
 import { ColorList, typeTheme } from "../../../constants/Colors";
-import Config from "../screens/config";
+import Config from "./index";
 import { languageType } from "../../../types/types";
 
 type ConfigScreenProps = {
@@ -14,7 +14,7 @@ export default function ConfigScreen({
   currentColor,
   handleLanguageChange,
   handleColorChange,
-}: ConfigScreenProps) {
+}: Readonly<ConfigScreenProps>) {
   return (
     <Config
       currentLanguage={currentLanguage}

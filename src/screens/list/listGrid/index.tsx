@@ -11,11 +11,7 @@ import Button from "../../../components/Button";
 import { BottomSheetProps } from "../../../components/BottomSheet";
 import BottomSheet from "../../../components/BottomSheet";
 import { removeUndefinedFromArray } from "../../../utils/functions";
-import ITag from "../../../Domain/Model/ITag";
-import { IProduct } from "../../../Domain/Model/IProduct";
-import getTotalQuantityAmountByListUuidController from "../../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
-import getTotalAmountByListProductUuidController from "../../../Domain/UseCases/List/GetTotalAmountByListUuid";
-import getTotalQuantityWithoutAmountByListUuidController from "../../../Domain/UseCases/List/GetTotalQuantityWithoutAmountByListUuid";
+import { IProduct } from "../../../Model/IProduct";
 import Container from "../../../components/Container";
 import ContainerInner from "../../../components/ContainerInner";
 import {

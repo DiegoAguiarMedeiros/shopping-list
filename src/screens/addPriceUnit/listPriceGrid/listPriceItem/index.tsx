@@ -12,9 +12,7 @@ import { Text } from "../../../../components/Text";
 import Switch from "../../../../components/Switch";
 import AddQtd from "./addQtd";
 import { useShoppingListContext } from "../../../../context/ShoppingList";
-import IAmount from "../../../../Domain/Model/IAmount";
-import deleteAmountByUuidController from "../../../../Domain/UseCases/Amount/DeleteAmountByUuid";
-import saveAmountByUuidController from "../../../../Domain/UseCases/Amount/SaveAmountByUuid";
+import IAmount from "../../../../Model/IAmount";
 import Container from "../../../../components/Container";
 import {
   GridItemInner,

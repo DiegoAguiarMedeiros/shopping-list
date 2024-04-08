@@ -1,13 +1,12 @@
 import { StyleSheet } from "react-native";
-import { Text } from "../../../components/Text";
-import History from "../screens/history";
+import History from "./index";
 import { colorTheme } from "../../../constants/Colors";
 
 interface HistoryProps {
   color: colorTheme;
 }
 
-export default function HistoryScreen({ color }: HistoryProps) {
+export default function HistoryScreen({ color }: Readonly<HistoryProps>) {
   return <History color={color} />;
 }
 

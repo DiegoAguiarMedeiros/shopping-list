@@ -18,11 +18,8 @@ import {
 import UUIDGenerator from "react-native-uuid";
 import { useShoppingListContext } from "../../context/ShoppingList";
 import Tags from "../Tags";
-import ITag from "../../Domain/Model/ITag";
-import GetListProducts from "../../Domain/UseCases/ListProduct/GetAllProducts";
-import addProductToListByUuidController from "../../Domain/UseCases/List/AddProductToListByUuid";
+import ITag from "../../Model/ITag";
 import Select from "../InputSelect";
-import getListProductController from "../../Domain/UseCases/ListProduct/GetProductByUuid";
 import I18n from "i18n-js";
 
 export type NewItemFormProps = {

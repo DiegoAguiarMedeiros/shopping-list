@@ -1,8 +1,5 @@
 import { useSearchParams } from "expo-router";
-import { Text } from "../../../components/Text";
-
-import List from "../screens/list";
-import { BottomSheetProps } from "../../../components/BottomSheet";
+import List from "./index";
 import { colorTheme } from "../../../constants/Colors";
 
 interface ItemsTabProps {

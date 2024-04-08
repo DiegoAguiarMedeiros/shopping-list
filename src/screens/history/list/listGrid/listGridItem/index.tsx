@@ -13,15 +13,10 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
 import { Swipeable } from "react-native-gesture-handler";
-import { removeUndefinedFromArray } from "../../../../../utils/functions";
 import { Title, Text, Title2 } from "../../../../../components/Text";
 import { useShoppingListContext } from "../../../../../context/ShoppingList";
 import CircleProgress from "../../../../../components/CircleProgress";
-import { IList } from "../../../../../Domain/Model/IList";
-import getTotalAmountByListUuidController from "../../../../../Domain/UseCases/List/GetTotalAmountByListUuid";
-import getTotalQuantityWithoutAmountByListUuidController from "../../../../../Domain/UseCases/List/GetTotalQuantityWithoutAmountByListUuid";
-import getTotalQuantityAmountByListUuidController from "../../../../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
-import deleteListByUuidController from "../../../../../Domain/UseCases/ListArchived/DeleteListByUuid";
+import { IList } from "../../../../../Model/IList";
 import GridItem from "../../../../../components/GridItem";
 import {
   GridItemInner,
@@ -29,7 +24,7 @@ import {
   GridItemWrapperInner,
 } from "../../../../../components/GridItemInner";
 import I18n from "i18n-js";
-import { colorTheme } from "../../../../../constants/Colors";
+import { colorTheme } from "../../../../../../constants/Colors";
 
 interface ItemProps {
   item: IList;

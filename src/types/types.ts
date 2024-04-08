@@ -1,5 +1,5 @@
 import { BottomSheetProps } from "../components/BottomSheet";
-import { colorTheme, typeTheme } from "../../constants/Colors";
+import { colorTheme, typeTheme } from "../constants/Colors";
 
 //ok
 interface ItemAmountInterface {

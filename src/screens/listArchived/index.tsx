@@ -13,7 +13,7 @@ import ListGrid from "./listGrid";
 import CircleProgress from "../../components/CircleProgress";
 import FilterButtons from "../../components/FilterButtons";
 import { Title } from "../../components/Text";
-import getListProductController from "../../Domain/UseCases/ListProduct/GetProductByUuid";
+import getListProductController from "../../UseCases/ListProduct/GetProductByUuid";
 import Container from "../../components/Container";
 import ContainerInner from "../../components/ContainerInner";
 import Header from "../../components/Header";

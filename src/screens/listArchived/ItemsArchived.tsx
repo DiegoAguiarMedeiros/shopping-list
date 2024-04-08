@@ -1,7 +1,6 @@
 import { useSearchParams } from "expo-router";
-import { Text } from "../../../components/Text";
 
-import ListArchived from "../screens/listArchived";
+import ListArchived from "./index";
 
 interface ItemsArchivedProps {
   setActiveRouteHeader: React.Dispatch<

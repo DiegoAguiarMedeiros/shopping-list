@@ -19,23 +19,15 @@ import CircleProgress from "../../../../../components/CircleProgress";
 
 import { BottomSheetProps } from "../../../../../components/BottomSheet";
 import NewListForm from "../../../../../components/NewListForm";
-import List from "../../../../../Domain/Model/Implementation/List";
-import { IList, IListInterface } from "../../../../../Domain/Model/IList";
-import getListProductController from "../../../../../Domain/UseCases/ListProduct/GetProductByUuid";
-import deleteListByUuid from "../../../../../Domain/UseCases/List/DeleteListByUuid";
-import saveListArchivedByUuidController from "../../../../../Domain/UseCases/ListArchived/SaveListByUuid";
+import { IList, IListInterface } from "../../../../../Model/IList";
 import NewProductForm from "../../../../../components/NewProductForm";
 import NewItemForm from "../../../../../components/NewItemForm";
-import getTotalAmountByListUuidController from "../../../../../Domain/UseCases/List/GetTotalAmountByListUuid";
-import getTotalQuantityAmountByListUuidController from "../../../../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
-import getTotalQuantityWithoutAmountByListUuidController from "../../../../../Domain/UseCases/List/GetTotalQuantityWithoutAmountByListUuid";
 import GridItem from "../../../../../components/GridItem";
 import {
   GridItemInner,
   GridItemWrapperCol,
   GridItemWrapperInner,
 } from "../../../../../components/GridItemInner";
-import getNumberOfProductsByTagsUuidController from "../../../../../Domain/UseCases/ListProduct/GetNumberOfProductsByTagsUuid";
 import I18n from "i18n-js";
 interface ItemProps {
   item: IList;

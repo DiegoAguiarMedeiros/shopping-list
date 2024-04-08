@@ -17,7 +17,7 @@ import {
   getTotalAmount,
   getTotalAmountUn,
   removeUndefinedFromArray,
-} from "../../../../utils/functions";
+} from "../../../utils/functions";
 import { Swipeable } from "react-native-gesture-handler";
 import { Title, Text, Title2 } from "../../../../components/Text";
 import { useShoppingListContext } from "../../../../context/ShoppingList";

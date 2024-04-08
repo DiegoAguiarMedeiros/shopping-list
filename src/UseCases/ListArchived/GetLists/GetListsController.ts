@@ -1,9 +1,9 @@
-import { sortArrayOfObjects } from "../../../../utils/functions";
+import { sortArrayOfObjects } from "../../../utils/functions";
 import { IList, IListInterface } from "../../../Model/IList";
 import GetListsUseCase from "./GetListsUseCase";
 
 export default class GetListsController {
-  constructor(private getListsUseCase: GetListsUseCase) { }
+  constructor(private getListsUseCase: GetListsUseCase) {}
 
   handle = (): IList[] => {
     try {

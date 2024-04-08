@@ -5,7 +5,7 @@ import ProductsList from "./index";
 import { BottomSheetProps } from "../../../components/BottomSheet";
 import { useImperativeHandle, useState } from "react";
 import React from "react";
-import { useShoppingListContext } from "../../../context/ShoppingList";
+import { useShoppingListContext } from "../../context/ShoppingList";
 import { colorTheme } from "../../../constants/Colors";
 
 interface ProductListTabProps {

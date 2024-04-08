@@ -17,8 +17,8 @@ import { languageType } from "../../types/types";
 import I18n from "i18n-js";
 import Select from "../../components/InputSelect";
 
-import currencyArr from "../../constants/Currency";
-import { ColorList, colorTheme, typeTheme } from "../../constants/Colors";
+import currencyArr from "../../../constants/Currency";
+import { ColorList, colorTheme, typeTheme } from "../../../constants/Colors";
 
 type ConfigProps = {
   currentLanguage: languageType;
@@ -34,15 +34,15 @@ interface Image {
 }
 
 const img: Image = {
-  pt: require("../../assets/images/flags/pt.png"),
-  en: require("../../assets/images/flags/en.png"),
-  es: require("../../assets/images/flags/es.png"),
+  pt: require("../../../assets/images/flags/pt.png"),
+  en: require("../../../assets/images/flags/en.png"),
+  es: require("../../../assets/images/flags/es.png"),
 };
 
 const returFlag = (flag: languageType) => {
-  if (flag === "pt") return require("../../assets/images/flags/pt.png");
-  if (flag === "es") return require("../../assets/images/flags/es.png");
-  if (flag === "en") return require("../../assets/images/flags/en.png");
+  if (flag === "pt") return require("../../../assets/images/flags/pt.png");
+  if (flag === "es") return require("../../../assets/images/flags/es.png");
+  if (flag === "en") return require("../../../assets/images/flags/en.png");
 };
 
 type languages = {

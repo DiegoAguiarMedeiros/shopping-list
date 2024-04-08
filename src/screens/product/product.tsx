@@ -1,15 +1,10 @@
-import { useSearchParams } from "expo-router";
-import { Text, Title } from "../../../components/Text";
-
-import Product from "../screens/product";
-import { BottomSheetProps } from "../../../components/BottomSheet";
-import { useEffect, useImperativeHandle, useState } from "react";
-import { Dimensions, TouchableHighlight, useColorScheme } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import Product from "./index";
+import { BottomSheetProps } from "../../components/BottomSheet";
+import { useImperativeHandle, useState } from "react";
 import { colorTheme } from "../../../constants/Colors";
-import { useShoppingListContext } from "../../../context/ShoppingList";
+import { useShoppingListContext } from "../../context/ShoppingList";
 import React from "react";
-import { IProduct } from "../../../Domain/Model/IProduct";
+import { IProduct } from "../../Model/IProduct";
 
 interface ProductTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;

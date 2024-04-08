@@ -1,13 +1,7 @@
 import { useColorScheme, Animated } from "react-native";
 import * as Styled from "./styles";
-import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  ItemInterface,
-  ListInterface,
-  ListItemAmountInterface,
-  ListItemInterface,
-  ListType,
-} from "../../../../../types/types";
+import { useCallback, useEffect, useRef } from "react";
+
 import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
@@ -19,14 +13,7 @@ import CircleProgress from "../../../../../components/CircleProgress";
 
 import { BottomSheetProps } from "../../../../../components/BottomSheet";
 import NewListForm from "../../../../../components/NewListForm";
-import Tag from "../../../../../Domain/Model/Implementation/Tag";
-import { IList, IListInterface } from "../../../../../Domain/Model/IList";
-import getListProductController from "../../../../../Domain/UseCases/ListProduct/GetProductByUuid";
-import deleteTagByUuidController from "../../../../../Domain/UseCases/Tag/DeleteTagByUuid";
-import saveListArchivedByUuidController from "../../../../../Domain/UseCases/ListArchived/SaveListByUuid";
 import NewTagForm from "../../../../../components/NewTagForm";
-import ITag from "../../../../../Domain/Model/ITag";
-import getNumberOfProductsByTagsUuidController from "../../../../../Domain/UseCases/ListProduct/GetNumberOfProductsByTagsUuid";
 import GridItem from "../../../../../components/GridItem";
 import {
   GridItemInner,
@@ -36,8 +23,10 @@ import {
 } from "../../../../../components/GridItemInner";
 import NewProductForm from "../../../../../components/NewProductForm";
 import I18n from "i18n-js";
+import ITag from "../../../../../Model/ITag";
+
 interface ItemProps {
-  tag: Tag;
+  tag: ITag;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
   productListRef: React.MutableRefObject<{

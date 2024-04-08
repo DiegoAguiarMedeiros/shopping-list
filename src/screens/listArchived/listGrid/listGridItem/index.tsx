@@ -10,21 +10,11 @@ import {
   ListType,
 } from "../../../../types/types";
 import { FontAwesome } from "@expo/vector-icons";
-import {
-  getTags,
-  getTagsFromListItemInterface,
-  getTotalAmount,
-  getTotalAmountUn,
-  removeUndefinedFromArray,
-} from "../../../../utils/functions";
+
 import { Swipeable } from "react-native-gesture-handler";
 import { Title, Text, Title2 } from "../../../../components/Text";
 import { useShoppingListContext } from "../../../../context/ShoppingList";
-import { IProduct } from "../../../../Domain/Model/IProduct";
-import getAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetAmountByListProductUuid";
-import getTotalQuantityAmountByListUuidController from "../../../../Domain/UseCases/List/GetTotalQuantityAmountByListUuid";
-import getTotlaAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetTotalAmountByListProductUuid";
-import getTotalQuantityAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetTotalQuantityAmountByListProductUuid";
+import { IProduct } from "../../../../Model/IProduct";
 import GridItem from "../../../../components/GridItem";
 import {
   GridItemInner,

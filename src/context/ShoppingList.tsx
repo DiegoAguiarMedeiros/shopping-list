@@ -1,55 +1,55 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { IList, IListInterface } from "../Domain/Model/IList";
-import IAmount from "../Domain/Model/IAmount";
-import getListsController from "../Domain/UseCases/List/GetLists";
-import getTagsController from "../Domain/UseCases/Tag/GetTags";
-import saveListsController from "../Domain/UseCases/List/SaveLists";
-import getListsArchivedController from "../Domain/UseCases/ListArchived/GetLists";
-import saveListArchivedByUuidController from "../Domain/UseCases/ListArchived/SaveListByUuid";
-import ITag from "../Domain/Model/ITag";
-import { IProduct } from "../Domain/Model/IProduct";
-import GetAmountsController from "../Domain/UseCases/Amount/GetAmounts";
+import { IList, IListInterface } from "../Model/IList";
+import IAmount from "../Model/IAmount";
+import getListsController from "../UseCases/List/GetLists";
+import getTagsController from "../UseCases/Tag/GetTags";
+import saveListsController from "../UseCases/List/SaveLists";
+import getListsArchivedController from "../UseCases/ListArchived/GetLists";
+import saveListArchivedByUuidController from "../UseCases/ListArchived/SaveListByUuid";
+import ITag from "../Model/ITag";
+import { IProduct } from "../Model/IProduct";
+import GetAmountsController from "../UseCases/Amount/GetAmounts";
 
 import UUIDGenerator from "react-native-uuid";
-import saveListByUuidController from "../Domain/UseCases/List/SaveListByUuid";
-import addProductToListByUuidController from "../Domain/UseCases/List/AddProductToListByUuid";
-import getListProductController from "../Domain/UseCases/ListProduct/GetProductByUuid";
-import saveListProductByUuidController from "../Domain/UseCases/ListProduct/SaveListProductByUuid";
-import saveTagByUuidController from "../Domain/UseCases/Tag/SaveTagByUuid";
-import saveAmountByUuidController from "../Domain/UseCases/Amount/SaveAmountByUuid";
-import deleteListByUuidController from "../Domain/UseCases/List/DeleteListByUuid";
-import deleteListArchivedByUuidController from "../Domain/UseCases/ListArchived/DeleteListByUuid";
-import deleteProductFromListByUuidController from "../Domain/UseCases/List/DeleteProductFromListByUuid";
-import getTagsByProductUuidArrayController from "../Domain/UseCases/ListProduct/GetTagsByProductUuidArray";
-import DeleteProductByUuid from "../Domain/UseCases/ListProduct/DeleteProductByUuid";
-import deleteAmountByUuidController from "../Domain/UseCases/Amount/DeleteAmountByUuid";
-import deleteTagByUuidController from "../Domain/UseCases/Tag/DeleteTagByUuid";
-import getAmountByListProductUuidController from "../Domain/UseCases/Amount/GetAmountByListProductUuid";
+import saveListByUuidController from "../UseCases/List/SaveListByUuid";
+import addProductToListByUuidController from "../UseCases/List/AddProductToListByUuid";
+import getListProductController from "../UseCases/ListProduct/GetProductByUuid";
+import saveListProductByUuidController from "../UseCases/ListProduct/SaveListProductByUuid";
+import saveTagByUuidController from "../UseCases/Tag/SaveTagByUuid";
+import saveAmountByUuidController from "../UseCases/Amount/SaveAmountByUuid";
+import deleteListByUuidController from "../UseCases/List/DeleteListByUuid";
+import deleteListArchivedByUuidController from "../UseCases/ListArchived/DeleteListByUuid";
+import deleteProductFromListByUuidController from "../UseCases/List/DeleteProductFromListByUuid";
+import getTagsByProductUuidArrayController from "../UseCases/ListProduct/GetTagsByProductUuidArray";
+import DeleteProductByUuid from "../UseCases/ListProduct/DeleteProductByUuid";
+import deleteAmountByUuidController from "../UseCases/Amount/DeleteAmountByUuid";
+import deleteTagByUuidController from "../UseCases/Tag/DeleteTagByUuid";
+import getAmountByListProductUuidController from "../UseCases/Amount/GetAmountByListProductUuid";
 import { sortArrayOfObjects } from "../utils/functions";
 import { ToastAndroid, useColorScheme } from "react-native";
-import saveThemeController from "../Domain/UseCases/Config/SaveTheme";
-import getThemeController from "../Domain/UseCases/Config/GetTheme";
-import { languageType } from "../types/types";
-import getLanguageController from "../Domain/UseCases/Config/GetLanguage";
-import saveLanguageController from "../Domain/UseCases/Config/SaveLanguage";
-import getCurrencyController from "../Domain/UseCases/Config/GetCurrency";
-import saveCurrencyController from "../Domain/UseCases/Config/SaveCurrency";
-import getColorController from "../Domain/UseCases/Config/GetColor";
-import saveColorController from "../Domain/UseCases/Config/SaveColor";
+import saveThemeController from "../UseCases/Config/SaveTheme";
+import getThemeController from "../UseCases/Config/GetTheme";
+import { languageType } from "../../types/types";
+import getLanguageController from "../UseCases/Config/GetLanguage";
+import saveLanguageController from "../UseCases/Config/SaveLanguage";
+import getCurrencyController from "../UseCases/Config/GetCurrency";
+import saveCurrencyController from "../UseCases/Config/SaveCurrency";
+import getColorController from "../UseCases/Config/GetColor";
+import saveColorController from "../UseCases/Config/SaveColor";
 import {
   ColorList,
   Colors,
   colorTheme,
   colors,
   typeTheme,
-} from "../constants/Colors";
-import getListByProductUuidController from "../Domain/UseCases/List/GetListByProductUuid";
+} from "../../constants/Colors";
+import getListByProductUuidController from "../UseCases/List/GetListByProductUuid";
 import I18n from "i18n-js";
-import getLastPricesByProductUuidController from "../Domain/UseCases/ListArchived/GetLastPricesByProductUuid";
-import getTagByUuidController from "../Domain/UseCases/Tag/GetTagByUuid";
-import getListProductsByTagUuidController from "../Domain/UseCases/ListProduct/GetListProductsByTagUuid";
-import getAllProductsController from "../Domain/UseCases/ListProduct/GetAllProducts";
-import getAllProductsObjectsController from "../Domain/UseCases/ListProduct/GetAllProductsObjects";
+import getLastPricesByProductUuidController from "../UseCases/ListArchived/GetLastPricesByProductUuid";
+import getTagByUuidController from "../UseCases/Tag/GetTagByUuid";
+import getListProductsByTagUuidController from "../UseCases/ListProduct/GetListProductsByTagUuid";
+import getAllProductsController from "../UseCases/ListProduct/GetAllProducts";
+import getAllProductsObjectsController from "../UseCases/ListProduct/GetAllProductsObjects";
 
 type ShoppingListProviderProps = {
   theme: "light" | "dark";
@@ -670,8 +670,4 @@ const useShoppingListContext = () => {
   return context;
 };
 
-
-export {
-  ShoppingListProvider,
-  useShoppingListContext
-};
+export { ShoppingListProvider, useShoppingListContext };

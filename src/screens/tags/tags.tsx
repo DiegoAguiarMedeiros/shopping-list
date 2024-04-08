@@ -5,7 +5,7 @@ import Tags from "../tags";
 import { BottomSheetProps } from "../../../components/BottomSheet";
 import { useEffect, useImperativeHandle, useRef, useState } from "react";
 import React from "react";
-import { useShoppingListContext } from "../../../context/ShoppingList";
+import { useShoppingListContext } from "../../context/ShoppingList";
 import { colorTheme } from "../../../constants/Colors";
 
 interface TagsTabProps {
