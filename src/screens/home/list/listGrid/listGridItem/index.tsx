@@ -19,19 +19,33 @@ import {
 import I18n from "i18n-js";
 import { useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { colorTheme } from "../../../../../../constants/Colors";
 interface ItemProps {
   list: IList;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
+  color: colorTheme;
+  listRef: React.MutableRefObject<{
+    handleAddNewList: (uuid: string) => void;
+    handleAddNewListArray: (list: string[]) => void;
+  } | null>;
 }
 
 export default function ListGridItem({
   list,
   setBottomSheetProps,
   handleCloseBottomSheet,
+  color,
+  listRef,
 }: Readonly<ItemProps>) {
-  const { handleDeleteList, handleArchived, getCurrency, getColor } =
-    useShoppingListContext();
+  const {
+    handleDeleteList,
+    handleArchived,
+    getCurrency,
+    getTotalAmountByListUuid,
+    getTotalQuantityWithoutAmountByListUuid,
+    getTotalQuantityAmountByListUuid,
+  } = useShoppingListContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
   // const items = removeUndefinedFromArray(
@@ -48,9 +62,10 @@ export default function ListGridItem({
   useEffect(() => {
     handleCloseSwipeableFromParent();
   }, [list.name]);
-  const total = 0; /*getTotalAmountByListUuidController.handle(list.uuid)*/
-  const totalWithAmount = 0;
-  /*getTotalQuantityWithoutAmountByListUuidController.handle(list.uuid)*/ const totalUn = 0; /*getTotalQuantityAmountByListUuidController.handle(list.uuid)*/
+  const total = getTotalAmountByListUuid(list.uuid);
+  const totalWithAmount = getTotalQuantityWithoutAmountByListUuid(list.uuid);
+  const totalUn = 0;
+  getTotalQuantityAmountByListUuid(list.uuid);
 
   const handleCloseBottomSheetProductList = () => {
     // setBottomSheetProps({
@@ -82,41 +97,48 @@ export default function ListGridItem({
   }, [list.uuid, router]);
 
   const handleEdit = () => {
-    // setBottomSheetProps({
-    //   height: "add",
-    //   children: (
-    //     <NewListForm
-    //       action="editList"
-    //       buttonText="edit"
-    //       items={item}
-    //       onClose={handleCloseBottomSheet}
-    //     />
-    //   ),
-    //   isVisible: true,
-    // });
+    setBottomSheetProps({
+      height: "add",
+      children: (
+        <NewListForm
+          action="editList"
+          buttonText="edit"
+          list={list}
+          onClose={handleCloseBottomSheet}
+          color={color}
+          listRef={listRef}
+        />
+      ),
+      isVisible: true,
+      backgroundBottomSheet: color.backgroundBottomSheet,
+    });
   };
 
   const handleCopy = () => {
-    // setBottomSheetProps({
-    //   height: "add",
-    //   children: (
-    //     <NewListForm
-    //       action="copyList"
-    //       buttonText="copy"
-    //       items={item}
-    //       onClose={handleCloseBottomSheet}
-    //     />
-    //   ),
-    //   isVisible: true,
-    // });
+    setBottomSheetProps({
+      height: "add",
+      children: (
+        <NewListForm
+          action="copyList"
+          buttonText="copy"
+          list={list}
+          onClose={handleCloseBottomSheet}
+          color={color}
+          listRef={listRef}
+          handleCloseSwipeableFromParent={handleCloseSwipeableFromParent}
+        />
+      ),
+      isVisible: true,
+      backgroundBottomSheet: color.backgroundBottomSheet,
+    });
   };
 
   const handleDelete = () => {
-    handleDeleteList(list.uuid);
+    handleDeleteList(list.uuid, listRef);
   };
 
   const archivedList = (): void => {
-    handleArchived(list.uuid);
+    handleArchived(list.uuid, listRef);
   };
 
   const RightSwipe = (
@@ -137,35 +159,32 @@ export default function ListGridItem({
       >
         <Styled.ButtonView>
           <Styled.ButtonInner
-            underlayColor={getColor().swipeIconUnderlay}
+            underlayColor={color.swipeIconUnderlay}
             onPress={handleEdit}
           >
             <>
-              <Styled.ButtonTextIcon text={getColor().swipeIcon}>
+              <Styled.ButtonTextIcon text={color.swipeIcon}>
                 <FontAwesome
                   size={18}
                   style={{ marginBottom: -3 }}
                   name="pencil"
                 />
               </Styled.ButtonTextIcon>
-              <Styled.ButtonText text={getColor().swipeIcon}>
+              <Styled.ButtonText text={color.swipeIcon}>
                 {I18n.t("edit")}
               </Styled.ButtonText>
             </>
           </Styled.ButtonInner>
-          <Styled.ButtonInner
-            underlayColor={getColor().text}
-            onPress={handleCopy}
-          >
+          <Styled.ButtonInner underlayColor={color.text} onPress={handleCopy}>
             <>
-              <Styled.ButtonTextIcon text={getColor().swipeIcon}>
+              <Styled.ButtonTextIcon text={color.swipeIcon}>
                 <FontAwesome
                   size={18}
                   style={{ marginBottom: -3 }}
                   name="copy"
                 />
               </Styled.ButtonTextIcon>
-              <Styled.ButtonText text={getColor().swipeIcon}>
+              <Styled.ButtonText text={color.swipeIcon}>
                 {I18n.t("copy")}
               </Styled.ButtonText>
             </>
@@ -192,35 +211,35 @@ export default function ListGridItem({
       >
         <Styled.ButtonView>
           <Styled.ButtonInner
-            underlayColor={getColor().swipeIconUnderlay}
+            underlayColor={color.swipeIconUnderlay}
             onPress={archivedList}
           >
             <>
-              <Styled.ButtonTextIcon text={getColor().swipeIcon}>
+              <Styled.ButtonTextIcon text={color.swipeIcon}>
                 <FontAwesome
                   size={18}
                   style={{ marginBottom: -3 }}
                   name="archive"
                 />
               </Styled.ButtonTextIcon>
-              <Styled.ButtonText text={getColor().swipeIcon}>
+              <Styled.ButtonText text={color.swipeIcon}>
                 {I18n.t("archive")}
               </Styled.ButtonText>
             </>
           </Styled.ButtonInner>
           <Styled.ButtonInner
-            underlayColor={getColor().swipeIconUnderlay}
+            underlayColor={color.swipeIconUnderlay}
             onPress={handleDelete}
           >
             <>
-              <Styled.ButtonTextIcon text={getColor().swipeIcon}>
+              <Styled.ButtonTextIcon text={color.swipeIcon}>
                 <FontAwesome
                   size={18}
                   style={{ marginBottom: -3 }}
                   name="trash"
                 />
               </Styled.ButtonTextIcon>
-              <Styled.ButtonText text={getColor().swipeIcon}>
+              <Styled.ButtonText text={color.swipeIcon}>
                 {I18n.t("delete")}
               </Styled.ButtonText>
             </>
@@ -239,9 +258,9 @@ export default function ListGridItem({
       ref={gridItemRef}
     >
       <GridItemInner
-        underlayColor={getColor().itemListBackgroundUnderlay}
-        borderColor={getColor().itemListBackgroundBorder}
-        background={getColor().itemListBackground}
+        underlayColor={color.itemListBackgroundUnderlay}
+        borderColor={color.itemListBackgroundBorder}
+        background={color.itemListBackground}
         height={70}
         row
         onPress={handleOpenList}
@@ -250,8 +269,8 @@ export default function ListGridItem({
         <>
           <GridItemWrapperCol width={85} height={100}>
             <GridItemWrapperInner height={100}>
-              <Title2 color={getColor().itemListText}>{list.name}</Title2>
-              <Text color={getColor().itemListTextSecondary}>
+              <Title2 color={color.itemListText}>{list.name}</Title2>
+              <Text color={color.itemListTextSecondary}>
                 {I18n.t("total")}: {getCurrency()}{" "}
                 {total.toFixed(2).replace(".", ",")}
               </Text>
@@ -260,9 +279,9 @@ export default function ListGridItem({
           <GridItemWrapperCol width={15} height={100}>
             <GridItemWrapperInner height={100} align="flex-end">
               <CircleProgress
-                activeStrokeColor={getColor().circularItemFilled}
-                titleColor={getColor().circularItemText}
-                circleBackgroundColor={getColor().circularItemBackground}
+                activeStrokeColor={color.circularItemFilled}
+                titleColor={color.circularItemText}
+                circleBackgroundColor={color.circularItemBackground}
                 filled={totalWithAmount}
                 progress={totalUn && totalWithAmount ? totalWithAmount : 0}
                 total={totalUn}

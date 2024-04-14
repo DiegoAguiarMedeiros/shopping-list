@@ -11,25 +11,13 @@ import {
 
 import { BottomSheetProps } from "../../../../components/BottomSheet";
 import { FontAwesome } from "@expo/vector-icons";
-import {
-  getTags,
-  getTagsFromListItemInterface,
-  getTotalAmount,
-  getTotalAmountUn,
-  removeUndefinedFromArray,
-} from "../../../utils/functions";
 import { Swipeable } from "react-native-gesture-handler";
 import { Title, Text, Title2 } from "../../../../components/Text";
 import { useShoppingListContext } from "../../../../context/ShoppingList";
 
 import AddPriceUnit from "../../../addPriceUnit";
 import NewItemForm from "../../../../components/NewItemForm";
-import { IProduct } from "../../../../Domain/Model/IProduct";
-import getAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetAmountByListProductUuid";
-import getTotlaAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetTotalAmountByListProductUuid";
-import getTotalQuantityAmountByListProductUuidController from "../../../../Domain/UseCases/Amount/GetTotalQuantityAmountByListProductUuid";
-import deleteProductFromListByUuidController from "../../../../Domain/UseCases/List/DeleteProductFromListByUuid";
-import getTagsController from "../../../../Domain/UseCases/ListProduct/GetTagsByProductUuidArray";
+import { IProduct } from "../../../../Model/IProduct";
 import GridItem from "../../../../components/GridItem";
 import {
   GridItemInner,
@@ -37,10 +25,9 @@ import {
   GridItemWrapperInner,
   GridItemWrapperRow,
 } from "../../../../components/GridItemInner";
-import DeleteProductByUuid from "../../../../Domain/UseCases/ListProduct/DeleteProductByUuid";
 import NewProductForm from "../../../../components/NewProductForm";
 import I18n from "i18n-js";
-import { colorTheme } from "../../../../constants/Colors";
+import { colorTheme } from "../../../../../constants/Colors";
 
 interface ListProps {
   item: IProduct;

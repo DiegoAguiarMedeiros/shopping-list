@@ -1,8 +1,7 @@
-import { IListInterface } from "../../../Model/IList";
 import DeleteListByUuidUseCase from "./DeleteListByUuidUseCase";
 
 export default class DeleteListByUuidController {
-  constructor(private DeleteListByUuidUseCase: DeleteListByUuidUseCase) { }
+  constructor(private DeleteListByUuidUseCase: DeleteListByUuidUseCase) {}
 
   handle = (uuid: string): void => {
     try {

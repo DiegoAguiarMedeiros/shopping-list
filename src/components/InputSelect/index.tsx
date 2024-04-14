@@ -2,10 +2,10 @@ import React from 'react';
 import { TextInputProps, useColorScheme } from 'react-native';
 import { Picker } from "@react-native-picker/picker";
 import * as Styled from "./styles";
-import ITag from "../../Domain/Model/ITag";
-import { IProduct } from "../../Domain/Model/IProduct";
+import ITag from "../../Model/ITag";
+import { IProduct } from "../../Model/IProduct";
 import { useShoppingListContext } from "../../context/ShoppingList";
-import { colorTheme } from '../../constants/Colors';
+import { colorTheme } from "../../../constants/Colors";
 
 type SelectProps = {
   items: ITag[] | IProduct[];
@@ -23,7 +23,7 @@ const Select = ({
   return (
     <Styled.Container>
       <Styled.Select
-        background={color.backgroundPrimary}
+        background={color.itemListBackgroundUnderlay}
         color={color.textSecondary}
         selectedValue={selectedValue}
         onValueChange={(itemValue, index) =>
@@ -34,7 +34,7 @@ const Select = ({
         {items.map((item, index) => (
           <Picker.Item
             style={{
-              backgroundColor: color.backgroundPrimary,
+              backgroundColor: color.itemListBackgroundUnderlay,
               color: color.text,
             }}
             key={`Picker.Item.${item.uuid}.index`}

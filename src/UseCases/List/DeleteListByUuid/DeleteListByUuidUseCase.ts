@@ -1,20 +1,21 @@
 import IMMKVStorage from "../../../Service/IMMKVStorage";
 import { IList, IListInterface } from "../../../Model/IList";
-import { IControllerSaveList } from "../../interface/IController";
+import {
+  IControllerDelete,
+  IControllerGetLists,
+  IControllerSaveList,
+} from "../../interface/IController";
 
 export default class DeleteListUseCase {
-  constructor(private mmkv: IMMKVStorage,
-    private saveLists: IControllerSaveList) { }
+  constructor(
+    private mmkv: IMMKVStorage,
+    private removeList: IControllerDelete
+  ) {}
 
-  execute = (key: string): void => {
+  execute = (listUuid: string): void => {
     try {
-      this.mmkv.delete(key);
-      const listsStringOrNull = this.mmkv.get('SLSHOPPINGLIST');
-      if (listsStringOrNull) {
-        const lists: IListInterface<IList> = listsStringOrNull ? JSON.parse(listsStringOrNull) : listsStringOrNull;
-        delete lists[key];
-        this.saveLists.handle(lists);
-      }
+      this.mmkv.delete(listUuid);
+      this.removeList.handle(listUuid);
     } catch (error) {
       console.error("DeleteListUseCase", error);
     }

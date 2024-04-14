@@ -13,25 +13,28 @@ interface HomeProps {
   handleCloseBottomSheet: () => void;
   color: colorTheme;
   lists: string[];
+  listRef: React.MutableRefObject<{
+    handleAddNewList: (uuid: string) => void;
+    handleAddNewListArray: (list: string[]) => void;
+  } | null>;
 }
 export default function Home({
   setBottomSheetProps,
   handleCloseBottomSheet,
   color,
   lists,
+  listRef,
 }: Readonly<HomeProps>) {
   const isFocused = useIsFocused();
-  console.log("lists", lists);
-  // console.log("listProduct", listProduct);
-  // console.log("amount", amount);
-  // console.log("tags", getTags());
-  // console.log("listArchived", listArchived);
+  // console.log("lists", lists);
   return (
     <Container background={color.backgroundPrimary}>
       <ContainerInner background={color.backgroundPrimary}>
         {isFocused &&
           (lists && lists.length > 0 ? (
             <ListComponent
+              listRef={listRef}
+              color={color}
               lists={lists}
               setBottomSheetProps={setBottomSheetProps}
               handleCloseBottomSheet={handleCloseBottomSheet}

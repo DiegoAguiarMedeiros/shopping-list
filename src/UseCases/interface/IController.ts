@@ -66,6 +66,9 @@ export interface IControllerSaveAmountByUuid {
 export interface IControllerSaveAmount {
   handle(data: IListInterface<IAmount>): void;
 }
+export interface IControllerDelete {
+  handle(key: string): void;
+}
 export interface IControllerDeleteAmountByUuid {
   handle(key: string): void;
 }

@@ -9,16 +9,10 @@ import UUIDGenerator from "react-native-uuid";
 import { useShoppingListContext } from "../../context/ShoppingList";
 import { Keyboard } from "react-native";
 import { getTags, removeUndefinedFromArray } from "../../utils/functions";
-import List from "../../Domain/Model/Implementation/List";
-import { IList } from "../../Domain/Model/IList";
-import ITag from "../../Domain/Model/ITag";
-import { IProduct } from "../../Domain/Model/IProduct";
-import saveListProductByUuid from "../../Domain/UseCases/ListProduct/SaveListProductByUuid";
-import GetTags from "../../Domain/UseCases/Tag/GetTags";
+import { IProduct } from "../../Model/IProduct";
 import Select from "../InputSelect";
-import Tag from "../../Domain/Model/Implementation/Tag";
 import I18n from "i18n-js";
-import { colorTheme } from "../../constants/Colors";
+import { colorTheme } from "../../../constants/Colors";
 const countries = ["Egypt", "Canada", "Australia", "Ireland"];
 const countries2 = [
   { label: "Selecione uma categoria", value: "" },

@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
-import History from "./index";
-import { colorTheme } from "../../../constants/Colors";
+import History from "../src/screens/history/index";
+import { colorTheme } from "../constants/Colors";
 
 interface HistoryProps {
   color: colorTheme;

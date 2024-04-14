@@ -1,29 +1,28 @@
-import { useColorScheme } from "react-native";
-import * as Styled from "./styles";
-import { useState } from "react";
-import { ListInterface } from "../../../types/types";
+import { colorTheme } from "../../../../constants/Colors";
 import { BottomSheetProps } from "../../../components/BottomSheet";
-import Button from "../../../components/Button";
 import ListGrid from "./listGrid";
-import BottomSheet from "../../../components/BottomSheet";
-import { Text } from "../../../components/Text";
-import NewListForm from "../../../components/NewListForm";
-import { IList } from "../../../Domain/Model/IList";
 interface ItemProps {
   lists: string[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
+  color: colorTheme;
+  listRef: React.MutableRefObject<{
+    handleAddNewList: (uuid: string) => void;
+    handleAddNewListArray: (list: string[]) => void;
+  } | null>;
 }
 
 export default function List({
   lists,
   setBottomSheetProps,
   handleCloseBottomSheet,
-}: ItemProps) {
-  const colorScheme = useColorScheme();
-
+  color,
+  listRef,
+}: Readonly<ItemProps>) {
   return (
     <ListGrid
+      listRef={listRef}
+      color={color}
       lists={lists}
       setBottomSheetProps={setBottomSheetProps}
       handleCloseBottomSheet={handleCloseBottomSheet}

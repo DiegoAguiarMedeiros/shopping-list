@@ -1,7 +1,7 @@
 import IMMKVStorage from "../../../Service/IMMKVStorage";
 import { IProduct } from "../../../Model/IProduct";
 
-export default class GetProductUseCase {
+export default class GetProductByUuidUseCase {
   constructor(private MMKVStorage: IMMKVStorage) {}
 
   execute = (key: string): IProduct | null => {
@@ -13,7 +13,7 @@ export default class GetProductUseCase {
       }
       return null;
     } catch (error) {
-      console.error("GetProductUseCase", error);
+      console.error("GetProductByUuidUseCase", error);
       return null;
     }
   };

@@ -1,12 +1,11 @@
 import { useGlobalSearchParams, useSearchParams } from "expo-router";
-import { Text } from "../../../components/Text";
 
-import ProductsList from "./index";
-import { BottomSheetProps } from "../../../components/BottomSheet";
+import ProductsList from "../src/screens/productsList/index";
+import { BottomSheetProps } from "../src/components/BottomSheet";
 import { useImperativeHandle, useState } from "react";
 import React from "react";
-import { useShoppingListContext } from "../../context/ShoppingList";
-import { colorTheme } from "../../../constants/Colors";
+import { useShoppingListContext } from "../src/context/ShoppingList";
+import { colorTheme } from "../constants/Colors";
 
 interface ProductListTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;

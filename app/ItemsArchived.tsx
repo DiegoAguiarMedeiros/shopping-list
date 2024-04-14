@@ -1,9 +1,8 @@
 import { useSearchParams } from "expo-router";
-import List from "./index";
-import { colorTheme } from "../../../constants/Colors";
 
-interface ItemsTabProps {
-  handleCloseBottomSheetList: () => void;
+import ListArchived from "../src/screens/listArchived/index";
+
+interface ItemsArchivedProps {
   setActiveRouteHeader: React.Dispatch<
     React.SetStateAction<{
       name: React.ReactNode;
@@ -11,21 +10,14 @@ interface ItemsTabProps {
       right: React.ReactNode | null;
     }>
   >;
-  color: colorTheme;
 }
-
-export default function Items({
-  handleCloseBottomSheetList,
+export default function ItemsArchived({
   setActiveRouteHeader,
-  color,
-}: ItemsTabProps) {
+}: ItemsArchivedProps) {
   const { listId } = useSearchParams();
-
   return listId ? (
-    <List
-      color={color}
+    <ListArchived
       setActiveRouteHeader={setActiveRouteHeader}
-      handleCloseBottomSheetList={handleCloseBottomSheetList}
       listId={Array.isArray(listId) ? listId[0] : listId}
     />
   ) : (

@@ -1,11 +1,9 @@
-import { useSearchParams } from "expo-router";
-
-import Tags from "../tags";
-import { BottomSheetProps } from "../../components/BottomSheet";
-import { useEffect, useImperativeHandle, useRef, useState } from "react";
+import Tags from "../src/screens/tags";
+import { BottomSheetProps } from "../src/components/BottomSheet";
+import { useImperativeHandle, useState } from "react";
 import React from "react";
-import { useShoppingListContext } from "../../context/ShoppingList";
-import { colorTheme } from "../../../constants/Colors";
+import { useShoppingListContext } from "../src/context/ShoppingList";
+import { colorTheme } from "../constants/Colors";
 
 interface TagsTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;

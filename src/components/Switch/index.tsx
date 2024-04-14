@@ -5,6 +5,7 @@ import { Text } from "../Text";
 import Container from "../Container";
 import { GridItemWrapperInner, GridItemWrapperRow } from "../GridItemInner";
 import { useShoppingListContext } from "../../context/ShoppingList";
+import { colorTheme } from "../../../constants/Colors";
 
 interface LabelOnOff {
   on: string;
@@ -15,17 +16,20 @@ interface SwitchProps {
   value: boolean;
   onValueChange: (value: boolean) => void;
   label: LabelOnOff;
+  color: colorTheme;
 }
 
-const Switch: React.FC<SwitchProps> = ({ value, onValueChange, label }) => {
-  const colorScheme = useColorScheme();
-
-  const { getTheme, getColor } = useShoppingListContext();
+const Switch: React.FC<SwitchProps> = ({
+  value,
+  onValueChange,
+  label,
+  color,
+}) => {
   return (
     <Container noPadding>
       <GridItemWrapperRow height={100}>
         <GridItemWrapperInner width={50} height={100} align="flex-end">
-          <Text color={getColor().itemListItemOpenTextSecondary} align="right">
+          <Text color={color.itemListItemOpenTextSecondary} align="right">
             {label[value ? "on" : "off"]}
           </Text>
         </GridItemWrapperInner>
@@ -34,10 +38,10 @@ const Switch: React.FC<SwitchProps> = ({ value, onValueChange, label }) => {
             value={value}
             onValueChange={onValueChange}
             trackColor={{
-              false: getColor().white,
-              true: getColor().primary,
+              false: color.itemListBackgroundBorder,
+              true: color.primary,
             }}
-            thumbColor={value ? getColor().white : getColor().primary}
+            thumbColor={value ? color.white : color.primary}
           />
         </GridItemWrapperInner>
       </GridItemWrapperRow>

@@ -1,9 +1,11 @@
-import GetProductUseCase from "./GetProductByUuidUseCase";
-import GetProductController from "./GetProductByUuidController";
+import GetProductByUuidUseCase from "./GetProductByUuidUseCase";
+import GetProductByUuidController from "./GetProductByUuidController";
 import storageMMKV from "../../../Service/Implementation/MMKVStorage";
 
-const getProductUseCase = new GetProductUseCase(storageMMKV);
+const getProductByUuidUseCase = new GetProductByUuidUseCase(storageMMKV);
 
-const getProductController = new GetProductController(getProductUseCase);
+const getProductByUuidController = new GetProductByUuidController(
+  getProductByUuidUseCase
+);
 
-export default getProductController;
+export default getProductByUuidController;

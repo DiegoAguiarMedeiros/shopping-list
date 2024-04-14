@@ -14,11 +14,12 @@ export type NewListFormProps = {
   listId?: string;
   buttonText: "add" | "edit" | "copy";
   action: "addList" | "editList" | "copyList";
-  items?: IList;
+  list?: IList;
   color: colorTheme;
   listRef: React.MutableRefObject<{
     handleAddNewList: (uuid: string) => void;
   } | null>;
+  handleCloseSwipeableFromParent?: () => void;
 };
 
 const NewListForm = ({
@@ -26,20 +27,21 @@ const NewListForm = ({
   listId,
   buttonText,
   action,
-  items,
+  list,
   color,
   listRef,
+  handleCloseSwipeableFromParent,
 }: NewListFormProps) => {
   const colorScheme = useColorScheme();
   const { handleAddList, handleCopyList, handleEditList, getTheme, getColor } =
     useShoppingListContext();
-  const [newItem, setNewItem] = useState({
-    item: items ? items.name : "",
+  const [newList, setNewList] = useState<{ list: string }>({
+    list: list ? list.name : "",
   });
 
   const clearInput = () => {
-    setNewItem({
-      item: "",
+    setNewList({
+      list: "",
     });
   };
 
@@ -51,23 +53,27 @@ const NewListForm = ({
 
   const addList = (): void => {
     closeBottomSheet();
-    const newList = handleAddList(newItem.item);
+    const list = handleAddList(newList.list);
     if (listRef.current) {
-      listRef.current.handleAddNewList(newList.uuid);
+      listRef.current.handleAddNewList(list.uuid);
     }
   };
 
   const copyList = (): void => {
-    if (newItem.item) {
+    if (newList.list) {
       closeBottomSheet();
-      handleCopyList(items?.uuid!, newItem.item);
+      const returnList = handleCopyList(list?.uuid!, newList.list);
+      if (listRef.current) {
+        listRef.current.handleAddNewList(returnList.uuid);
+        handleCloseSwipeableFromParent && handleCloseSwipeableFromParent();
+      }
     }
   };
 
   const editList = (): void => {
-    if (newItem.item) {
+    if (newList.list) {
       closeBottomSheet();
-      handleEditList(items?.uuid!, newItem.item);
+      handleEditList(list?.uuid!, newList.list);
     }
   };
 
@@ -84,10 +90,10 @@ const NewListForm = ({
   };
 
   useEffect(() => {
-    setNewItem({
-      item: items ? items.name : "",
+    setNewList({
+      list: list ? list.name : "",
     });
-  }, [items]);
+  }, [list]);
 
   return (
     <Styled.Container>
@@ -98,11 +104,11 @@ const NewListForm = ({
           placeholderTextColor={color.textSecondary}
           placeholder={I18n.t("listName")}
           onChangeText={(item) => {
-            setNewItem({
-              item: item,
+            setNewList({
+              list: item,
             });
           }}
-          value={newItem.item}
+          value={newList.list}
           onSubmitEditing={functions[action]}
         />
       </Styled.InputContainer>

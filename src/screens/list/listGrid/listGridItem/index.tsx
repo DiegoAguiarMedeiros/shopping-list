@@ -7,7 +7,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Title, Text, Title2 } from "../../../../components/Text";
 import { useShoppingListContext } from "../../../../context/ShoppingList";
 
-import AddPriceUnit from "../../../addPriceUnit";
+import AddPriceUnit from "../../../../components/addPriceUnit";
 import { IProduct } from "../../../../Model/IProduct";
 import GridItem from "../../../../components/GridItem";
 import {
@@ -35,13 +35,8 @@ function ListGridItem({
   active,
 }: ListProps) {
   const colorScheme = useColorScheme();
-  const {
-    getTheme,
-    listProduct,
-    handleDeleteProductFromList,
-    getCurrency,
-    getColor,
-  } = useShoppingListContext();
+  const { handleDeleteProductFromList, getCurrency, getColor } =
+    useShoppingListContext();
   const listIditemuuid = `${listId}-${item.uuid}`;
 
   const listArrItems =

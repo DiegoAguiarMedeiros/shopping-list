@@ -1,15 +1,13 @@
 import { sortArrayOfObjects } from "../../../utils/functions";
 import { IList, IListInterface } from "../../../Model/IList";
 import GetListsUseCase from "./GetListsUseCase";
+import { IControllerGetLists } from "../../interface/IController";
 
-export default class GetListsController {
+export default class GetListsController implements IControllerGetLists {
   constructor(private getListsUseCase: GetListsUseCase) {}
-
-  handle = (): IList[] => {
+  handle = (): string[] => {
     try {
-      const result = this.getListsUseCase.execute("SLSHOPPINGLISTARCHIVED");
-      let data: IList[] = sortArrayOfObjects(Object.values(result), "name");
-      return result ? data : [];
+      return this.getListsUseCase.execute("SLSHOPPINGLISTARCHIVED");
     } catch (err) {
       console.error("GetListsController: ", err);
       return [];

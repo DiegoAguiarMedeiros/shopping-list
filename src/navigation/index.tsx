@@ -7,13 +7,13 @@ import { useRouter } from "expo-router";
 import I18n from "i18n-js";
 import { useState, useRef, useEffect } from "react";
 import { TouchableHighlight } from "react-native";
-import Items from "../screens/list/Items";
-import ItemsArchived from "../screens/listArchived/ItemsArchived";
-import ConfigScreen from "../screens/config/config";
-import ProductTab from "../screens/product/product";
+import Items from "../../app/Items";
+import ItemsArchived from "../../app/ItemsArchived";
+import ConfigScreen from "../../app/config";
+import ProductTab from "../../app/product";
 import { colorTheme, ColorList } from "../../constants/Colors";
-import Home from "../screens/home/HomeContainer";
-import ProductsList from "../screens/productsList/ProductsList";
+import Home from "../../app/home";
+import ProductsList from "../../app/productsList";
 import { languageType, RoutesProps } from "../../types/types";
 import BottomNavigation from "../components/BottomNavigation";
 import BottomSheet, { BottomSheetProps } from "../components/BottomSheet";
@@ -21,9 +21,9 @@ import HeaderInputTextSearch from "../components/HeaderInputTextSearch";
 import NewListForm from "../components/NewListForm";
 import NewProductForm from "../components/NewProductForm";
 import NewTagForm from "../components/NewTagForm";
-import Tags from "../screens/tags/tags";
+import Tags from "../../app/tags";
 import { Title } from "../components/Text";
-import History from "../screens/history/history";
+import History from "../../app/history";
 
 const Stack = createStackNavigator();
 
@@ -67,15 +67,6 @@ const Navigation: React.FC<NavigationProps> = ({
   const productRef = useRef<{
     handleAddProduct: (uuid: string) => void;
   } | null>(null);
-
-  useEffect(() => {
-    if (productListRef.current) {
-      console.log("productListRef.current", productListRef.current);
-    }
-    if (tagRef.current) {
-      console.log("tagRef.current", tagRef.current);
-    }
-  }, []);
 
   const handleCloseBottomSheetList = () => {
     setBottomSheetProps({
@@ -459,6 +450,7 @@ const Navigation: React.FC<NavigationProps> = ({
         >
           {() => (
             <ConfigScreen
+              color={color}
               currentLanguage={currentLanguage}
               currentColor={currentColor}
               handleColorChange={handleColorChange}

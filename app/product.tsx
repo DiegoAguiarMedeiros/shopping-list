@@ -1,10 +1,10 @@
-import Product from "./index";
-import { BottomSheetProps } from "../../components/BottomSheet";
+import Product from "../src/screens/product/index";
+import { BottomSheetProps } from "../src/components/BottomSheet";
 import { useImperativeHandle, useState } from "react";
-import { colorTheme } from "../../../constants/Colors";
-import { useShoppingListContext } from "../../context/ShoppingList";
+import { colorTheme } from "../constants/Colors";
+import { useShoppingListContext } from "../src/context/ShoppingList";
 import React from "react";
-import { IProduct } from "../../Model/IProduct";
+import { IProduct } from "../src/Model/IProduct";
 
 interface ProductTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
