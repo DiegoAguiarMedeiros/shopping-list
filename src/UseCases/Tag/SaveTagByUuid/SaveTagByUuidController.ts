@@ -6,7 +6,7 @@ export default class SaveTagByUuidController {
 
   handle = (data: ITag): void => {
     try {
-      this.SaveTagByUuidUseCase.execute(data.uuid, data);
+      this.SaveTagByUuidUseCase.execute(data);
     } catch (err) {
       console.error("SaveTagByUuidController: ", err);
     }

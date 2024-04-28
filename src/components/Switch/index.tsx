@@ -38,10 +38,12 @@ const Switch: React.FC<SwitchProps> = ({
             value={value}
             onValueChange={onValueChange}
             trackColor={{
-              false: color.itemListBackgroundBorder,
-              true: color.primary,
+              false: color.switchTrackColorFalse,
+              true: color.switchTrackColorTrue,
             }}
-            thumbColor={value ? color.white : color.primary}
+            thumbColor={
+              value ? color.switchThumbColorTrue : color.switchThumbColorFalse
+            }
           />
         </GridItemWrapperInner>
       </GridItemWrapperRow>

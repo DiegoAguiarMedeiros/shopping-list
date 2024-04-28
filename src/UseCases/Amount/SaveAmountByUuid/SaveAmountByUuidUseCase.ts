@@ -23,16 +23,9 @@ export default class SaveAmountByUuidUseCase {
     try {
       this.MMKVStorage.set(data.uuid, JSON.stringify(data));
       const amount = this.getAmount.handle();
-      if (amount) {
-        amount.push(data);
-        const newListInterface: IListInterface<IAmount> =
-          convertToInterface(amount);
-        this.saveAmount.handle(newListInterface);
-      } else {
-        const newListInterface: IListInterface<IAmount> = {};
-        newListInterface[data.uuid] = data;
-        this.saveAmount.handle(newListInterface);
-      }
+      if (!amount.includes(data.uuid))
+        this.saveAmount.handle([...amount, data.uuid]);
+
     } catch (error) {
       console.error("SaveAmountUseCase", error);
     }

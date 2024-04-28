@@ -1,16 +1,6 @@
-import { useColorScheme } from "react-native";
-import * as Styled from "./styles";
-import { useState } from "react";
-import { ListInterface } from "../../../types/types";
 import { BottomSheetProps } from "../../../components/BottomSheet";
-import Button from "../../../components/Button";
 import ListGrid from "./listGrid";
-import BottomSheet from "../../../components/BottomSheet";
-import { Text } from "../../../components/Text";
-import NewListForm from "../../../components/NewListForm";
-import ITag from "../../../Domain/Model/ITag";
-import Container from "../../../components/Container";
-import ContainerInner from "../../../components/ContainerInner";
+import { colorTheme } from "../../../../constants/Colors";
 interface ItemProps {
   tags: string[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -18,7 +8,7 @@ interface ItemProps {
   productListRef: React.MutableRefObject<{
     handleAddProduct: (uuid: string) => void;
   } | null>;
-
+  color: colorTheme;
   tagRef: React.RefObject<{ handleAddNewTag: (tag: string) => void }>;
 }
 
@@ -28,11 +18,11 @@ export default function List({
   handleCloseBottomSheet,
   productListRef,
   tagRef,
-}: ItemProps) {
-  const colorScheme = useColorScheme();
-
+  color,
+}: Readonly<ItemProps>) {
   return (
     <ListGrid
+      color={color}
       tagRef={tagRef}
       productListRef={productListRef}
       tags={tags}

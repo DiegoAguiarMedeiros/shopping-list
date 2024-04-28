@@ -5,30 +5,27 @@ import { useCallback, useEffect, useRef } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
-import { Swipeable } from "react-native-gesture-handler";
-import { removeUndefinedFromArray } from "../../../../../utils/functions";
-import { Title, Text, SubTitle, Title2 } from "../../../../../components/Text";
+import { SubTitle, Title2 } from "../../../../../components/Text";
 import { useShoppingListContext } from "../../../../../context/ShoppingList";
-import CircleProgress from "../../../../../components/CircleProgress";
 
 import { BottomSheetProps } from "../../../../../components/BottomSheet";
-import NewListForm from "../../../../../components/NewListForm";
 import NewTagForm from "../../../../../components/NewTagForm";
 import GridItem from "../../../../../components/GridItem";
 import {
   GridItemInner,
   GridItemWrapperCol,
   GridItemWrapperInner,
-  GridItemWrapperRow,
 } from "../../../../../components/GridItemInner";
 import NewProductForm from "../../../../../components/NewProductForm";
 import I18n from "i18n-js";
 import ITag from "../../../../../Model/ITag";
+import { colorTheme } from "../../../../../../constants/Colors";
 
 interface ItemProps {
   tag: ITag;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
+  color: colorTheme;
   productListRef: React.MutableRefObject<{
     handleAddProduct: (uuid: string) => void;
   } | null>;
@@ -41,8 +38,10 @@ export default function ListGridItem({
   handleCloseBottomSheet,
   productListRef,
   tagRef,
+  color,
 }: Readonly<ItemProps>) {
-  const { handleDeleteTag, getTheme, getColor } = useShoppingListContext();
+  const { handleDeleteTag, getNumberOfProductsByTagsUuid } =
+    useShoppingListContext();
 
   const colorScheme = useColorScheme();
   const router = useRouter();
@@ -62,6 +61,7 @@ export default function ListGridItem({
     setBottomSheetProps({
       children: (
         <NewProductForm
+          color={color}
           productListRef={productListRef}
           action="addList"
           buttonText="add"
@@ -71,6 +71,7 @@ export default function ListGridItem({
       ),
       height: "add",
       isVisible: false,
+      backgroundBottomSheet: color.backgroundBottomSheet,
     });
   };
 
@@ -80,6 +81,7 @@ export default function ListGridItem({
       height: "add",
       children: (
         <NewProductForm
+          color={color}
           productListRef={productListRef}
           onClose={handleCloseBottomSheetProduct}
           action="addList"
@@ -87,6 +89,7 @@ export default function ListGridItem({
           tagUuid={tag.uuid}
         />
       ),
+      backgroundBottomSheet: color.backgroundBottomSheet,
     });
     router.push({ pathname: "/ProductsList", params: { tagUuid: tag.uuid } });
   }, [tag.uuid, router]);
@@ -100,6 +103,7 @@ export default function ListGridItem({
       height: "add",
       children: (
         <NewTagForm
+          color={color}
           tagRef={tagRef}
           action="editTag"
           buttonText="edit"
@@ -108,6 +112,7 @@ export default function ListGridItem({
         />
       ),
       isVisible: true,
+      backgroundBottomSheet: color.backgroundBottomSheet,
     });
   };
 
@@ -133,35 +138,35 @@ export default function ListGridItem({
       >
         <Styled.ButtonView>
           <Styled.ButtonInner
-            underlayColor={getColor().swipeIconUnderlay}
+            underlayColor={color.swipeIconUnderlay}
             onPress={handleEdit}
           >
             <>
-              <Styled.ButtonTextIcon text={getColor().swipeIcon}>
+              <Styled.ButtonTextIcon text={color.swipeIcon}>
                 <FontAwesome
                   size={18}
                   style={{ marginBottom: -3 }}
                   name="pencil"
                 />
               </Styled.ButtonTextIcon>
-              <Styled.ButtonText text={getColor().swipeIcon}>
+              <Styled.ButtonText text={color.swipeIcon}>
                 {I18n.t("edit")}
               </Styled.ButtonText>
             </>
           </Styled.ButtonInner>
           <Styled.ButtonInner
-            underlayColor={getColor().swipeIconUnderlay}
+            underlayColor={color.swipeIconUnderlay}
             onPress={handleDelete}
           >
             <>
-              <Styled.ButtonTextIcon text={getColor().swipeIcon}>
+              <Styled.ButtonTextIcon text={color.swipeIcon}>
                 <FontAwesome
                   size={18}
                   style={{ marginBottom: -3 }}
                   name="trash"
                 />
               </Styled.ButtonTextIcon>
-              <Styled.ButtonText text={getColor().swipeIcon}>
+              <Styled.ButtonText text={color.swipeIcon}>
                 {I18n.t("delete")}
               </Styled.ButtonText>
             </>
@@ -179,9 +184,9 @@ export default function ListGridItem({
       ref={gridItemRef}
     >
       <GridItemInner
-        underlayColor={getColor().itemListBackgroundUnderlay}
-        borderColor={getColor().itemListBackgroundBorder}
-        background={getColor().itemListBackground}
+        underlayColor={color.itemListBackgroundUnderlay}
+        borderColor={color.itemListBackgroundBorder}
+        background={color.itemListBackground}
         height={60}
         row
         onPress={handleOpenList}
@@ -190,14 +195,13 @@ export default function ListGridItem({
         <>
           <GridItemWrapperCol width={70} height={100}>
             <GridItemWrapperInner height={100}>
-              <Title2 color={getColor().text}>{tag.name}</Title2>
+              <Title2 color={color.text}>{tag.name}</Title2>
             </GridItemWrapperInner>
           </GridItemWrapperCol>
           <GridItemWrapperCol width={30} height={100}>
             <GridItemWrapperInner height={100}>
-              <SubTitle color={getColor().textSecondary} align="right">
-                {I18n.t("products")}:{" "}
-                {getNumberOfProductsByTagsUuidController.handle(tag.uuid)}
+              <SubTitle color={color.textSecondary} align="right">
+                {I18n.t("products")}: {getNumberOfProductsByTagsUuid(tag.uuid)}
               </SubTitle>
             </GridItemWrapperInner>
           </GridItemWrapperCol>

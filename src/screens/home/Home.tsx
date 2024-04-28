@@ -26,7 +26,7 @@ export default function Home({
   listRef,
 }: Readonly<HomeProps>) {
   const isFocused = useIsFocused();
-  // console.log("lists", lists);
+
   return (
     <Container background={color.backgroundPrimary}>
       <ContainerInner background={color.backgroundPrimary}>

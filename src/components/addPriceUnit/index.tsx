@@ -5,30 +5,35 @@ import { useShoppingListContext } from "../../context/ShoppingList";
 import InputText from "../../components/InputText";
 import Button from "../../components/Button";
 import ListPriceGrid from "./listPriceGrid";
-import IAmount from "../../Domain/Model/IAmount";
+import IAmount from "../../Model/IAmount";
 import Container from "../../components/Container";
 import ContainerInner from "../../components/ContainerInner";
 import {
   GridItemWrapperInner,
   GridItemWrapperRow,
 } from "../../components/GridItemInner";
+import { colorTheme } from "../../../constants/Colors";
 
 interface AddPriceUnitProps {
   listProductUuid: string;
   listArrItems: IAmount[];
+  color: colorTheme;
+  setListArrItems: React.Dispatch<React.SetStateAction<IAmount[]>>;
 }
 
 export default function AddPriceUnit({
-  listArrItems,
   listProductUuid,
+  color,
+  listArrItems,
+  setListArrItems,
 }: Readonly<AddPriceUnitProps>) {
-  const { handleAddAmount, getTheme, getColor } = useShoppingListContext();
+  const { handleAddAmount } = useShoppingListContext();
   const [newItem, setNewItem] = useState("");
-  const colorScheme = useColorScheme();
 
   const addAmount = (): void => {
     if (newItem != "") {
-      handleAddAmount(newItem, listProductUuid);
+      const newAmount = handleAddAmount(newItem, listProductUuid);
+      setListArrItems((prev) => [...prev, newAmount]);
       setNewItem("");
     }
   };
@@ -43,6 +48,8 @@ export default function AddPriceUnit({
         >
           {listArrItems.length > 0 ? (
             <ListPriceGrid
+              setListArrItems={setListArrItems}
+              color={color}
               item={listArrItems}
               key={"ListPriceGrid-" + listProductUuid}
             />
@@ -53,9 +60,9 @@ export default function AddPriceUnit({
         <GridItemWrapperRow height={100} maxHeight={40}>
           <GridItemWrapperInner width={88} height={100}>
             <InputText
-              background={getColor().backgroundPrimary}
-              color={getColor().textSecondary}
-              placeholderTextColor={getColor().textSecondary}
+              background={color.backgroundPrimary}
+              color={color.textSecondary}
+              placeholderTextColor={color.textSecondary}
               radius
               placeholder="Valor"
               onChangeText={(valor) => {
@@ -68,11 +75,11 @@ export default function AddPriceUnit({
           </GridItemWrapperInner>
           <GridItemWrapperInner width={15} height={100}>
             <Button
-              border={getColor().itemListItemOpenButtonSendBorder}
+              border={color.itemListItemOpenButtonSendBorder}
               radius
               icon="send"
-              background={getColor().itemListItemOpenButtonSendBackGround}
-              textColor={getColor().itemListItemOpenButtonSendText}
+              background={color.itemListItemOpenButtonSendBackGround}
+              textColor={color.itemListItemOpenButtonSendText}
               onPress={addAmount}
             />
           </GridItemWrapperInner>

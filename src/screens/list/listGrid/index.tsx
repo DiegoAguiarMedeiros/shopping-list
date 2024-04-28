@@ -20,25 +20,21 @@ import {
   GridItemWrapperRow,
 } from "../../../components/GridItemInner";
 import I18n from "i18n-js";
+import { IList } from "../../../Model/IList";
+import { colorTheme } from "../../../../constants/Colors";
 interface ListProps {
   listId: string;
-  listArrItems: IProduct[];
+  list: IProduct[];
+  color: colorTheme;
 }
 
-function ListGrid({ listArrItems, listId }: Readonly<ListProps>) {
-  const { getTheme, getCurrency, getColor } = useShoppingListContext();
+function ListGrid({ list, listId, color }: Readonly<ListProps>) {
+  const { getProductByUuid, getCurrency } = useShoppingListContext();
 
   const [active, setActive] = useState("");
 
-  const colorScheme = useColorScheme();
-  const totalQuantity = getTotalQuantityAmountByListUuidController.handle(
-    listId,
-    listArrItems
-  );
-  const total = getTotalAmountByListProductUuidController.handle(
-    listId,
-    listArrItems
-  );
+  const totalQuantity = 0;
+  const total = 0;
 
   const handleOpen = (uuid: string) => {
     setActive(uuid);
@@ -57,27 +53,30 @@ function ListGrid({ listArrItems, listId }: Readonly<ListProps>) {
               contentContainerStyle={{ flexGrow: 1 }}
               nestedScrollEnabled
             >
-              {listArrItems.map((item: IProduct) => (
-                <ListGridItem
-                  key={"ListGridItem-" + item.uuid}
-                  handleOpen={handleOpen}
-                  handleClose={handleClose}
-                  item={item}
-                  listId={listId}
-                  active={active}
-                />
-              ))}
+              {list.map((item) => {
+                return (
+                  <ListGridItem
+                    color={color}
+                    key={"ListGridItem-" + item.uuid}
+                    handleOpen={handleOpen}
+                    handleClose={handleClose}
+                    item={item}
+                    listId={listId}
+                    active={active}
+                  />
+                );
+              })}
             </ScrollView>
           </SafeAreaView>
         </GridItemWrapperRow>
         <GridItemWrapperRow height={10}>
           <GridItemWrapperInner width={50} height={100} justify="flex-start">
-            <Text color={getColor().text}>
+            <Text color={color.text}>
               {I18n.t("totalItems")}: {totalQuantity}
             </Text>
           </GridItemWrapperInner>
           <GridItemWrapperInner width={50} height={100} justify="flex-start">
-            <Text color={getColor().text} align="right">
+            <Text color={color.text} align="right">
               {I18n.t("total")}: {getCurrency()}{" "}
               {total.toFixed(2).replace(".", ",")}
             </Text>

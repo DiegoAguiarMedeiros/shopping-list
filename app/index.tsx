@@ -65,6 +65,7 @@ export default function App() {
 
   const handleColorChange = (color: ColorList) => {
     // Update the language in state
+    setColor(color);
     setCurrentColor({
       color: color,
       theme: Colors[color],
@@ -118,6 +119,8 @@ export default function App() {
     setActive(true);
     setOnboarding(true);
   };
+
+  const colorTheme = getColor();
   return (
     <>
       <StatusBar backgroundColor={currentColor.theme[theme].primary} />
@@ -129,11 +132,16 @@ export default function App() {
         lang={currentLanguage}
         handleLanguageChange={handleLanguageChange}
       >
-        {!active && <OnboardingScreen closeOnboarding={closeOnboarding} />}
+        {!active && (
+          <OnboardingScreen
+            color={colorTheme}
+            closeOnboarding={closeOnboarding}
+          />
+        )}
         {appIsReady && active && (
           <Navigation
             currentColor={currentColor.color}
-            color={getColor()}
+            color={colorTheme}
             currentLanguage={currentLanguage}
             handleColorChange={handleColorChange}
             handleLanguageChange={handleLanguageChange}

@@ -13,8 +13,8 @@ import ListComponent from "./list";
 import Container from "../../components/Container";
 import ContainerInner from "../../components/ContainerInner";
 import I18n from "i18n-js";
-import { colorTheme } from "../../constants/Colors";
-import { IProduct } from "../../Domain/Model/IProduct";
+import { colorTheme } from "../../../constants/Colors";
+import { IProduct } from "../../Model/IProduct";
 
 interface ProductProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;

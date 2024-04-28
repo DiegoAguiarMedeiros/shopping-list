@@ -5,55 +5,63 @@ import Button from "../Button";
 import * as Styled from "./styles";
 import { TagsIterface } from "../../types/types";
 import { useShoppingListContext } from "../../context/ShoppingList";
+import { colorTheme } from "../../../constants/Colors";
+import getTagByUuidController from "../../UseCases/Tag/GetTagByUuid";
+import ITag from "../../Model/ITag";
 
 interface FilterButtonsProps {
   tags: string[];
   filter: string;
   setFilter: React.Dispatch<React.SetStateAction<string>>;
+  color: colorTheme;
+  getTagByUuid: (uuid: string) => ITag;
 }
 
-const FilterButtons = ({ tags, filter, setFilter }: FilterButtonsProps) => {
-  const colorScheme = useColorScheme();
-
-  const { getTheme, getColor } = useShoppingListContext();
+const FilterButtons = ({
+  tags,
+  filter,
+  setFilter,
+  color,
+  getTagByUuid,
+}: FilterButtonsProps) => {
   const renderButton = (item: any) => {
-    let tag;
+    let tag: any;
     if (item.item !== "Todos") {
-      // tag = getTagByUuidController.handle(item.item);
+      tag = getTagByUuid(item.item);
     } else {
       tag = { name: item.item };
     }
 
     const handlePress = () => {
       if (item.item !== "Todos") {
-        // const tag = getTagByUuidController.handle(item.item);
-        setFilter(tag.name);
+        const tag = getTagByUuid(item.item);
+        setFilter(tag?.name);
       } else {
         setFilter(item.item);
       }
     };
 
-    return tag.name !== "" ? (
+    return tag?.name !== "" ? (
       <Styled.ButtonContainer>
         <Button
           onPress={handlePress}
           border={
-            filter === tag.name
-              ? getColor().filterButtonActiveBorder
-              : getColor().filterButtonBorder
+            filter === tag?.name
+              ? color.filterButtonActiveBorder
+              : color.filterButtonBorder
           }
           background={
-            filter === tag.name
-              ? getColor().filterButtonActiveBackground
-              : getColor().filterButtonBackground
+            filter === tag?.name
+              ? color.filterButtonActiveBackground
+              : color.filterButtonBackground
           }
           textColor={
-            filter === tag.name
-              ? getColor().filterButtonActiveText
-              : getColor().filterButtonText
+            filter === tag?.name
+              ? color.filterButtonActiveText
+              : color.filterButtonText
           }
-          underlayColor={getColor().filterButtonActiveBackground}
-          text={tag.name}
+          underlayColor={color.filterButtonActiveBackground}
+          text={tag?.name}
         />
       </Styled.ButtonContainer>
     ) : (

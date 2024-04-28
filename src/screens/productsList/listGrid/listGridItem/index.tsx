@@ -15,8 +15,6 @@ import { Swipeable } from "react-native-gesture-handler";
 import { Title, Text, Title2 } from "../../../../components/Text";
 import { useShoppingListContext } from "../../../../context/ShoppingList";
 
-import AddPriceUnit from "../../../addPriceUnit";
-import NewItemForm from "../../../../components/NewItemForm";
 import { IProduct } from "../../../../Model/IProduct";
 import GridItem from "../../../../components/GridItem";
 import {
@@ -51,7 +49,7 @@ function ListGridItem({
   color,
 }: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
-  const { handleDeleteProduct, getTheme, getColor } = useShoppingListContext();
+  const { handleDeleteProduct, getTheme } = useShoppingListContext();
   const gridItemRef = useRef<any>();
   const handleCloseSwipeableFromParent = () => {
     // Access the handleCloseSwipeable function from the ref
@@ -78,6 +76,7 @@ function ListGridItem({
         />
       ),
       isVisible: true,
+      backgroundBottomSheet: color.backgroundBottomSheet,
     });
   };
 
@@ -105,12 +104,12 @@ function ListGridItem({
           <>
             <GridItemWrapperCol width={50}>
               <Styled.ButtonInner
-                underlayColor={getColor().swipeIconUnderlay}
+                underlayColor={color.swipeIconUnderlay}
                 onPress={handleEdit}
               >
                 <>
                   <GridItemWrapperInner height={60}>
-                    <Styled.ButtonTextIcon text={getColor().swipeIcon}>
+                    <Styled.ButtonTextIcon text={color.swipeIcon}>
                       <FontAwesome
                         size={18}
                         style={{ marginBottom: -3 }}
@@ -120,7 +119,7 @@ function ListGridItem({
                   </GridItemWrapperInner>
 
                   <GridItemWrapperInner height={40} justify={"flex-end"}>
-                    <Text color={getColor().swipeIcon} align="center">
+                    <Text color={color.swipeIcon} align="center">
                       Editar
                     </Text>
                   </GridItemWrapperInner>
@@ -130,12 +129,12 @@ function ListGridItem({
 
             <GridItemWrapperCol width={50}>
               <Styled.ButtonInner
-                underlayColor={getColor().swipeIconUnderlay}
+                underlayColor={color.swipeIconUnderlay}
                 onPress={handleDelete}
               >
                 <>
                   <GridItemWrapperInner height={60}>
-                    <Styled.ButtonTextIcon text={getColor().swipeIcon}>
+                    <Styled.ButtonTextIcon text={color.swipeIcon}>
                       <FontAwesome
                         size={18}
                         style={{ marginBottom: -3 }}
@@ -144,7 +143,7 @@ function ListGridItem({
                     </Styled.ButtonTextIcon>
                   </GridItemWrapperInner>
                   <GridItemWrapperInner height={40} justify={"flex-end"}>
-                    <Text color={getColor().swipeIcon} align="center">
+                    <Text color={color.swipeIcon} align="center">
                       {I18n.t("delete")}
                     </Text>
                   </GridItemWrapperInner>
@@ -165,16 +164,16 @@ function ListGridItem({
       ref={gridItemRef}
     >
       <GridItemInner
-        underlayColor={getColor().itemListBackgroundUnderlay}
-        borderColor={getColor().itemListBackgroundBorder}
-        background={getColor().itemListBackground}
+        underlayColor={color.itemListBackgroundUnderlay}
+        borderColor={color.itemListBackgroundBorder}
+        background={color.itemListBackground}
         height={60}
         row
         elevation={colorScheme === "light"}
       >
         <GridItemWrapperRow height={100}>
           <GridItemWrapperInner height={100}>
-            <Title2 color={getColor().text}>{item.name}</Title2>
+            <Title2 color={color.text}>{item.name}</Title2>
           </GridItemWrapperInner>
         </GridItemWrapperRow>
       </GridItemInner>

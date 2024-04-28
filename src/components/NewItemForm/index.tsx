@@ -1,32 +1,20 @@
 import { Keyboard, useColorScheme } from "react-native";
-import { Text } from "../Text";
 import * as Styled from "./styles";
 import Button from "../Button";
 import { useEffect, useState } from "react";
-import {
-  ItemInterface,
-  ListInterface,
-  ListItemInterface,
-  ListType,
-  TagsIterface,
-} from "../../types/types";
-import {
-  checkTags,
-  getTags,
-  removeUndefinedFromArray,
-} from "../../utils/functions";
-import UUIDGenerator from "react-native-uuid";
+import { ItemInterface } from "../../types/types";
 import { useShoppingListContext } from "../../context/ShoppingList";
-import Tags from "../Tags";
-import ITag from "../../Model/ITag";
 import Select from "../InputSelect";
 import I18n from "i18n-js";
+import { colorTheme } from "../../../constants/Colors";
+import { IList } from "../../Model/IList";
 
 export type NewItemFormProps = {
   onClose: () => void;
   listId: string;
   buttonText: "add" | "edit";
   items?: ItemInterface;
+  color: colorTheme;
 };
 
 const NewItemForm = ({
@@ -34,19 +22,15 @@ const NewItemForm = ({
   listId,
   buttonText,
   items,
+  color,
 }: NewItemFormProps) => {
-  const colorScheme = useColorScheme();
   const [newItem, setNewItem] = useState({
     item: items ? items.name : "",
   });
 
-  const { list, handleAddListItem, getTheme, getColor } =
-    useShoppingListContext();
-  const selectedItem = list.find((i) => i.uuid === listId);
+  const { handleAddListItem, getAllProductsObjects } = useShoppingListContext();
 
-  const products = GetListProducts.handle().filter(
-    (product) => !selectedItem?.items!.includes(product.uuid)
-  );
+  const products = getAllProductsObjects();
   if (products.length > 0) {
     products.unshift({
       name: I18n.t("selectProduct"),
@@ -105,6 +89,7 @@ const NewItemForm = ({
       <Styled.InputContainer>
         {products ? (
           <Select
+            color={color}
             items={products}
             selectedValue={newItem.item}
             onValueChange={onValueChange}
@@ -117,21 +102,21 @@ const NewItemForm = ({
         <Styled.ButtonWrapper>
           <Button
             text={I18n.t("cancel")}
-            border={getColor().bottomSheetButtonCancelBorder}
-            background={getColor().bottomSheetButtonCancelBackground}
-            textColor={getColor().bottomSheetButtonCancelText}
+            border={color.bottomSheetButtonCancelBorder}
+            background={color.bottomSheetButtonCancelBackground}
+            textColor={color.bottomSheetButtonCancelText}
             onPress={closeBottomSheet}
-            underlayColor={getColor().bottomSheetButtonCancelUnderlay}
+            underlayColor={color.bottomSheetButtonCancelUnderlay}
           />
         </Styled.ButtonWrapper>
         <Styled.ButtonWrapper>
           <Button
             text={buttonTextArr[buttonText]}
-            textColor={getColor().bottomSheetButtonAddText}
-            border={getColor().bottomSheetButtonAddBorder}
-            background={getColor().bottomSheetButtonAddBackground}
+            textColor={color.bottomSheetButtonAddText}
+            border={color.bottomSheetButtonAddBorder}
+            background={color.bottomSheetButtonAddBackground}
             onPress={addListItem}
-            underlayColor={getColor().bottomSheetButtonAddUnderlay}
+            underlayColor={color.bottomSheetButtonAddUnderlay}
           />
         </Styled.ButtonWrapper>
       </Styled.ButtonsContainer>

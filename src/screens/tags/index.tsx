@@ -40,6 +40,7 @@ export default function Tags({
       <ContainerInner background={color.backgroundPrimary}>
         {tags && tags.length > 0 ? (
           <ListComponent
+            color={color}
             productListRef={productListRef}
             tagRef={tagRef}
             tags={tags}

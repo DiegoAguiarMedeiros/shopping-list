@@ -12,9 +12,9 @@ export default class SaveTagByUuidUseCase {
     private getTags: IControllerGetTags
   ) {}
 
-  execute = (key: string, data: ITag): void => {
+  execute = (data: ITag): void => {
     try {
-      this.mmkv.set(key, JSON.stringify(data));
+      this.mmkv.set(data.uuid, JSON.stringify(data));
       const tags = this.getTags.handle();
       if (!tags.includes(data.uuid)) this.saveTags.handle([...tags, data.uuid]);
     } catch (error) {

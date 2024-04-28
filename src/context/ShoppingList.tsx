@@ -53,6 +53,9 @@ import getTotalAmountByListUuidController from "../UseCases/List/GetTotalAmountB
 import getTotalQuantityWithoutAmountByListUuidController from "../UseCases/List/GetTotalQuantityWithoutAmountByListUuid";
 import getTotalQuantityAmountByListUuidController from "../UseCases/List/GetTotalQuantityAmountByListUuid";
 import removeListByUuidController from "../UseCases/List/RemoveListByUuid";
+import getNumberOfProductsByTagsUuidController from "../UseCases/ListProduct/GetNumberOfProductsByTagsUuid";
+import getTagUuidByTagNameController from "../UseCases/Tag/GetTagUuidByTagName";
+import getAmountByUuidController from "../UseCases/Amount/GetAmountByUuid";
 
 type ShoppingListProviderProps = {
   theme: "light" | "dark";
@@ -71,17 +74,21 @@ type ShoppingListContextType = {
   getAllProductsObjects: () => IProduct[];
   getTags: () => string[];
   getTagsObject: () => ITag[];
+  getTagUuidByTagName: (name: string) => string;
   getProductsByTagUuid: (tag: string) => string[];
   getProductByUuid: (tag: string) => IProduct | null;
+  getListItemsByListUuid: (uuid: string) => string[];
   getListByUuid: (uuid: string) => IList;
   getTagByUuid: (uuid: string) => ITag;
+  getAmountByUuid: (amountUuid: string) => IAmount;
+  getAmountByListProductUuid: (listProductUuid: string) => IAmount[];
   getListAmount: () => IAmount[];
   getListArchived: () => string[];
   getListAmountArchived: () => IAmount[];
   handleAddList: (list: string) => IList;
   handleCopyList: (listUuid: string, listName: string) => IList;
   handleEditList: (listUuid: string, listName: string) => void;
-  handleAddListItem: (listUuid: string, listName: string) => void;
+  handleAddListItem: (listUuid: string, itemUuid: string) => void;
   handleAddListProduct: (productName: string, tag: string) => string;
   handleEditListProduct: (
     listUuid: string,
@@ -90,7 +97,7 @@ type ShoppingListContextType = {
   ) => void;
   handleAddTag: (tag: string) => ITag;
   handleEditTag: (tagUuid: string, tag: string) => void;
-  handleAddAmount: (newAmount: string, listProductUuid: string) => void;
+  handleAddAmount: (newAmount: string, listProductUuid: string) => newListItem;
   handleDeleteList: (
     listUuid: string,
     listRef: React.MutableRefObject<{
@@ -124,8 +131,15 @@ type ShoppingListContextType = {
   saveColor: (color: ColorList) => void;
   getLastPrices: (productUuid: string) => string[];
   getTotalAmountByListUuid: (uuid: string) => number;
-  getTotalQuantityWithoutAmountByListUuid: (uuid: string) => number;
-  getTotalQuantityAmountByListUuid: (uuid: string) => number;
+  getTotalQuantityWithoutAmountByListUuid: (
+    uuid: string,
+    productsList?: IProduct[]
+  ) => number;
+  getTotalQuantityAmountByListUuid: (
+    uuid: string,
+    productsList?: IProduct[]
+  ) => number;
+  getNumberOfProductsByTagsUuid: (uuid: string) => number;
 };
 
 const getListsFromStorage = (): string[] => {
@@ -138,15 +152,31 @@ const getTotalAmountByListUuidFromStorage = (uuid: string): number => {
   return getTotalAmountByListUuidController.handle(uuid);
 };
 const getTotalQuantityWithoutAmountByListUuidFromStorage = (
-  uuid: string
+  uuid: string,
+  productsList?: IProduct[]
 ): number => {
-  return getTotalQuantityWithoutAmountByListUuidController.handle(uuid);
+  return getTotalQuantityWithoutAmountByListUuidController.handle(
+    uuid,
+    productsList
+  );
 };
-const getTotalQuantityAmountByListUuidFromStorage = (uuid: string): number => {
-  return getTotalQuantityAmountByListUuidController.handle(uuid);
+const getListItemsByListUuidFromStorage = (uuid: string): string[] => {
+  return [];
+};
+const getTotalQuantityAmountByListUuidFromStorage = (
+  uuid: string,
+  productsList?: IProduct[]
+): number => {
+  return getTotalQuantityAmountByListUuidController.handle(uuid, productsList);
+};
+const getNumberOfProductsByTagsUuidFromStorage = (uuid: string): number => {
+  return getNumberOfProductsByTagsUuidController.handle(uuid);
 };
 const getTagsFromStorage = (): string[] => {
   return getTagsController.handle();
+};
+const getTagUuidByTagNameFromStorage = (name: string): string => {
+  return getTagUuidByTagNameController.handle(name);
 };
 const getTagsObjectFromStorage = (): string[] => {
   return getTagsController.handle();
@@ -172,6 +202,14 @@ const getTagsByUuidFromStorage = (uuid: string): ITag => {
 // const getListProductFromStorage = (): IProduct[] => {
 //   return GetListProducts.handle();
 // };
+const getAmountByUuidFromStorage = (amountUuid: string): IAmount => {
+  return getAmountByUuidController.handle(amountUuid);
+};
+const getAmountByListProductUuidFromStorage = (
+  listProductUuid: string
+): IAmount[] => {
+  return getAmountByListProductUuidController.handle(listProductUuid);
+};
 const getListAmountFromStorage = (): IAmount[] => {
   return GetAmountsController.handle();
 };
@@ -189,6 +227,11 @@ const getItemAmountArchivedFromStorage = (): IAmount[] => {
 const saveNewList = (newList: IList): void => {
   saveListByUuidController.handle(newList);
 };
+
+const addProductToListByUuid = (listUuid: string, itemUuid: string) => {
+  addProductToListByUuidController.handle(listUuid, itemUuid);
+};
+
 const saveNewProduct = (newProduct: IProduct): void => {
   saveListProductByUuidController.handle(newProduct);
 };
@@ -309,20 +352,41 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   const getTotalAmountByListUuid = (uuid: string): number => {
     return getTotalAmountByListUuidFromStorage(uuid);
   };
-  const getTotalQuantityWithoutAmountByListUuid = (uuid: string): number => {
-    return getTotalQuantityWithoutAmountByListUuidFromStorage(uuid);
+  const getTotalQuantityWithoutAmountByListUuid = (
+    uuid: string,
+    productsList?: IProduct[]
+  ): number => {
+    return getTotalQuantityWithoutAmountByListUuidFromStorage(
+      uuid,
+      productsList
+    );
   };
-  const getTotalQuantityAmountByListUuid = (uuid: string): number => {
-    return getTotalQuantityAmountByListUuidFromStorage(uuid);
+  const getTotalQuantityAmountByListUuid = (
+    uuid: string,
+    productsList?: IProduct[]
+  ): number => {
+    return getTotalQuantityAmountByListUuidFromStorage(uuid, productsList);
   };
-  // const getListProduct = (): IProduct[] => {
-  //   return getListProductFromStorage();
-  // };
+  const getNumberOfProductsByTagsUuid = (uuid: string): number => {
+    return getNumberOfProductsByTagsUuidFromStorage(uuid);
+  };
+  const getListItemsByListUuid = (listUuid: string): string[] => {
+    return getListItemsByListUuidFromStorage(listUuid);
+  };
+  const getAmountByListProductUuid = (listProductUuid: string): IAmount[] => {
+    return getAmountByListProductUuidFromStorage(listProductUuid);
+  };
+  const getAmountByUuid = (amountUuid: string): IAmount => {
+    return getAmountByUuidFromStorage(amountUuid);
+  };
   const getListAmount = (): IAmount[] => {
     return getListAmountFromStorage();
   };
   const getTags = (): string[] => {
     return getTagsFromStorage();
+  };
+  const getTagUuidByTagName = (name: string): string => {
+    return getTagUuidByTagNameFromStorage(name);
   };
   const getTagsObject = (): ITag[] => {
     const tags = getTagsFromStorage();
@@ -377,7 +441,8 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     showToast("listEditedSuccessfully");
   };
 
-  const handleAddListItem = (listUuid: string, item: string): void => {
+  const handleAddListItem = (listUuid: string, itemUuid: string): void => {
+    addProductToListByUuid(listUuid, itemUuid);
     // addProductToListByUuidController.handle(listUuid, item);
     // const product = getProductByUuidController.handle([item]);
     // const newProductList = listProduct.map((l) => {
@@ -395,7 +460,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     //   return l;
     // });
     // setList([...newList]);
-    // showToast("productAddedSuccessfully");
+    showToast("productAddedSuccessfully");
   };
 
   const handleAddListProduct = (productName: string, tag: string): string => {
@@ -464,11 +529,11 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   const handleAddAmount = (
     newAmount: string,
     listProductUuid: string
-  ): void => {
-    // const newListItem = returnNewItemAmount(newAmount, listProductUuid);
-    // saveAmountByUuidController.handle(newListItem);
-    // saveNewAmount(newListItem);
-    // amount ? setAmount([newListItem, ...amount]) : setAmount([newListItem]);
+  ): IAmount => {
+    const newListItem = returnNewItemAmount(newAmount, listProductUuid);
+    saveAmountByUuidController.handle(newListItem);
+    saveNewAmount(newListItem);
+    return newListItem;
   };
 
   const handleDeleteList = (
@@ -543,42 +608,23 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   };
 
   const handleEditItemsAmount = (amountUuid: string, type: boolean): void => {
-    // const amountlist = amount.map((amount) => {
-    //   if (amount.uuid === amountUuid) {
-    //     amount.type = type;
-    //     amount.quantity = "1";
-    //     saveNewAmount(amount);
-    //   }
-    //   return amount;
-    // });
-    // setAmount(amountlist);
+    const amount = getAmountByUuid(amountUuid);
+    amount.type = type;
+    saveNewAmount(amount);
   };
 
   const handleDeleteAmountInList = (amountUuid: string): void => {
-    // deleteAmount(amountUuid);
-    // const updatedAmount: IAmount[] = JSON.parse(
-    //   JSON.stringify(amount.filter((a) => a.uuid !== amountUuid))
-    // );
-    // setAmount(updatedAmount);
+    deleteAmount(amountUuid);
   };
 
   const changeAmountQuantity = (
     newQuantity: string,
     amountUuid: string
   ): IAmount => {
-    // const updatedAmount: IAmount[] = JSON.parse(
-    //   JSON.stringify(amount.filter((a) => a.uuid === amountUuid))
-    // );
-    // updatedAmount[0].quantity = newQuantity;
-    // const amountlist = amount.map((a) => {
-    //   if (a.uuid === updatedAmount[0].uuid) {
-    //     saveNewAmount(updatedAmount[0]);
-    //     return updatedAmount[0];
-    //   }
-    //   return a;
-    // });
-    // setAmount(amountlist);
-    // return updatedAmount[0];
+    const amount = getAmountByUuid(amountUuid);
+    amount.quantity = newQuantity;
+    saveNewAmount(amount);
+    return amount;
   };
 
   const handleAmountInputChange = (
@@ -620,7 +666,6 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     return "light";
   };
   const saveTheme = (theme: "light" | "dark"): void => {
-    console.log("saveTheme theme ", theme);
     setTheme(theme);
     saveThemeController.handle(theme);
   };
@@ -674,6 +719,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         getListByUuid: getListByUuid,
         getAllProducts: getAllProducts,
         getAllProductsObjects: getAllProductsObjects,
+        getListItemsByListUuid: getListItemsByListUuid,
         getLists: getLists,
         getListsObject: getListsObject,
         getListAmount: getListAmount,
@@ -682,7 +728,10 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         getTagsObject: getTagsObject,
         getProductsByTagUuid: getProductsByTagUuid,
         getTagByUuid: getTagByUuid,
+        getTagUuidByTagName: getTagUuidByTagName,
         getListArchived: getListArchived,
+        getAmountByUuid: getAmountByUuid,
+        getAmountByListProductUuid: getAmountByListProductUuid,
         getListAmountArchived: getListAmountArchived,
         handleAddList: handleAddList,
         handleCopyList: handleCopyList,
@@ -717,6 +766,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         getTotalQuantityWithoutAmountByListUuid:
           getTotalQuantityWithoutAmountByListUuid,
         getTotalQuantityAmountByListUuid: getTotalQuantityAmountByListUuid,
+        getNumberOfProductsByTagsUuid: getNumberOfProductsByTagsUuid,
       }}
     >
       {children}

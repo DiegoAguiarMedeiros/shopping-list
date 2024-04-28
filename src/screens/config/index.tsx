@@ -60,7 +60,6 @@ export default function Config({
 }: Readonly<ConfigProps>) {
   const { saveTheme, saveLang, saveCurrency, getCurrency } =
     useShoppingListContext();
-  const [currentTheme, setCurrentTheme] = useState<colorTheme>(color);
   const [currency, setCurrency] = useState(getCurrency());
 
   const languages: languages[] = [
@@ -81,7 +80,6 @@ export default function Config({
   const cores: ColorList[] = ["#43BCAE", "#00BFFF", "#FF69B4"];
 
   const changeTheme = () => {
-    console.log("color.theme", color.theme);
     saveTheme(color.theme === "light" ? "dark" : "light");
   };
   const changeLang = (lang: languageType) => {
@@ -92,9 +90,6 @@ export default function Config({
     setCurrency(currency);
     saveCurrency(currency);
   };
-  useEffect(() => {
-    setCurrentTheme(color);
-  }, [currentColor]);
 
   return (
     <Container background={color.backgroundPrimary}>

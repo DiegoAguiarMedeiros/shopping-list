@@ -31,9 +31,7 @@ const HomeContainer = React.forwardRef(
         setLists(list);
       },
     }));
-
-    console.log("getLists ", getLists());
-    console.log("getListArchived ", getListArchived());
+    
     return (
       <Home
         listRef={ref}

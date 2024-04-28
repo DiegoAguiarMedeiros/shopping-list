@@ -13,7 +13,7 @@ import ConfigScreen from "../../app/config";
 import ProductTab from "../../app/product";
 import { colorTheme, ColorList } from "../../constants/Colors";
 import Home from "../../app/home";
-import ProductsList from "../../app/productsList";
+import ProductsList from "../../app/ProductsList";
 import { languageType, RoutesProps } from "../../types/types";
 import BottomNavigation from "../components/BottomNavigation";
 import BottomSheet, { BottomSheetProps } from "../components/BottomSheet";

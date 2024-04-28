@@ -1,39 +1,29 @@
-import {
-  useColorScheme,
-  SafeAreaView,
-  ScrollView,
-  GestureResponderEvent,
-  Switch as RNSwitch,
-} from "react-native";
 import * as Styled from "./styles";
-import { useEffect, useState } from "react";
 import Button from "./Button";
-import { Link } from "expo-router";
 import InputText from "./InputText";
-import Select from "../../../../../components/InputSelect";
-import Switch from "../../../../../components/Switch";
-import { useNavigation } from "@react-navigation/native";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useShoppingListContext } from "../../../../../context/ShoppingList";
 
-import IAmount from "../../../../../Domain/Model/IAmount";
-import { IListInterface } from "../../../../../Domain/Model/IList";
-import saveAmountByUuidController from "../../../../../Domain/UseCases/Amount/SaveAmountByUuid";
+import IAmount from "../../../../../Model/IAmount";
+import { colorTheme } from "../../../../../../constants/Colors";
 interface ListPriceGridProps {
   amountItem: IAmount;
   selectedValueSwitch: boolean;
   newItemAmount: IAmount;
-  setNewItemAmount: React.Dispatch<React.SetStateAction<IAmount>>
+  setNewItemAmount: React.Dispatch<React.SetStateAction<IAmount>>;
+  color: colorTheme;
+  handleUpdateListArrItems: (amount: IAmount) => void;
 }
 
 export default function ListPriceGrid({
   amountItem,
   selectedValueSwitch,
   newItemAmount,
-  setNewItemAmount
+  setNewItemAmount,
+  color,
+  handleUpdateListArrItems,
 }: Readonly<ListPriceGridProps>) {
-  const colorScheme = useColorScheme();
-  const { changeAmountQuantity, handleAmountInputChange } = useShoppingListContext();
+  const { changeAmountQuantity, handleAmountInputChange } =
+    useShoppingListContext();
 
   const formatInput = (value: string): string => {
     let newValue = value.replace(".", "");
@@ -53,17 +43,28 @@ export default function ListPriceGrid({
 
   const minusAmount = (): void => {
     if (Number(amountItem.quantity) > 1) {
-      const updatedList = changeAmountQuantity(String(Number(amountItem.quantity) - 1), amountItem.uuid)
+      const updatedList = changeAmountQuantity(
+        String(Number(amountItem.quantity) - 1),
+        amountItem.uuid
+      );
       setNewItemAmount(updatedList);
+      handleUpdateListArrItems(updatedList);
     }
   };
   const plusAmount = (): void => {
-    const updatedList = changeAmountQuantity(String(Number(amountItem.quantity) + 1), amountItem.uuid)
+    const updatedList = changeAmountQuantity(
+      String(Number(amountItem.quantity) + 1),
+      amountItem.uuid
+    );
     setNewItemAmount(updatedList);
+    handleUpdateListArrItems(updatedList);
   };
 
   const handleInputChange = (value: string) => {
-    const updatedList = handleAmountInputChange(formatInput(value), amountItem.uuid)
+    const updatedList = handleAmountInputChange(
+      formatInput(value),
+      amountItem.uuid
+    );
     setNewItemAmount(updatedList);
   };
 
@@ -71,6 +72,7 @@ export default function ListPriceGrid({
     <Styled.Container>
       {selectedValueSwitch ? (
         <InputText
+          color={color}
           radius={true}
           keyboardType="decimal-pad"
           placeholder="0.000"
@@ -81,6 +83,7 @@ export default function ListPriceGrid({
         <>
           <Styled.ContainerMinusPlus>
             <Button
+              color={color}
               icon="minus"
               invertSide={true}
               onPress={minusAmount}
@@ -88,16 +91,14 @@ export default function ListPriceGrid({
           </Styled.ContainerMinusPlus>
           <Styled.ContainerQtd>
             <InputText
+              color={color}
               radius={false}
               placeholder="Valor"
-              value={newItemAmount.quantity}
+              value={newItemAmount?.quantity}
             />
           </Styled.ContainerQtd>
           <Styled.ContainerMinusPlus>
-            <Button
-              icon="plus"
-              onPress={plusAmount}
-            />
+            <Button color={color} icon="plus" onPress={plusAmount} />
           </Styled.ContainerMinusPlus>
         </>
       )}

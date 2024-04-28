@@ -2,24 +2,29 @@ import React from "react";
 import { TextInputProps, useColorScheme } from "react-native";
 
 import * as Styled from "./styles";
-import { useShoppingListContext } from "../../../../../../context/ShoppingList";
+import { colorTheme } from "../../../../../../../constants/Colors";
 
 interface InputProps extends TextInputProps {
   placeholder: string;
   radius: boolean;
+  color: colorTheme;
 }
 
-const InputText: React.FC<InputProps> = ({ placeholder, radius, ...rest }) => {
+const InputText: React.FC<InputProps> = ({
+  placeholder,
+  radius,
+  color,
+  ...rest
+}) => {
   const colorScheme = useColorScheme();
 
-  const { getTheme, getColor } = useShoppingListContext();
   return (
     <Styled.Input
       radius={radius}
-      background={getColor().backgroundPrimary}
-      color={getColor().text}
+      background={color.backgroundPrimary}
+      color={color.text}
       placeholder={placeholder}
-      placeholderTextColor={getColor().textSecondary}
+      placeholderTextColor={color.textSecondary}
       {...rest}
     />
   );

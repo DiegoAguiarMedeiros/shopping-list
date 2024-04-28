@@ -1,8 +1,10 @@
 import GetAmountByListProductUuidController from "./GetAmountByListProductUuidController";
 import GetAmountByListProductUuidUseCase from "./GetAmountByListProductUuidUseCase";
-import GetAmounts from "../GetAmounts"
+import GetAmountsObjects from "../GetAmountsObjects";
 
-const getAmountByListProductUuidUseCase = new GetAmountByListProductUuidUseCase(GetAmounts);
+const getAmountByListProductUuidUseCase = new GetAmountByListProductUuidUseCase(
+  GetAmountsObjects
+);
 const getAmountByListProductUuidController = new GetAmountByListProductUuidController(getAmountByListProductUuidUseCase);
 
 export default getAmountByListProductUuidController;

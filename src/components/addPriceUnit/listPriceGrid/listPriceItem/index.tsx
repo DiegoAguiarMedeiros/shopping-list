@@ -20,26 +20,25 @@ import {
   GridItemWrapperInner,
   GridItemWrapperRow,
 } from "../../../../components/GridItemInner";
+import { colorTheme } from "../../../../../constants/Colors";
 
 interface ListProps {
   itemAmount: IAmount;
-  listItemId: string;
+  color: colorTheme;
+  setListArrItems: React.Dispatch<React.SetStateAction<IAmount[]>>;
 }
 
-export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
-  const {
-    handleEditItemsAmount,
-    handleDeleteAmountInList,
-    getTheme,
-    getCurrency,
-    getColor,
-  } = useShoppingListContext();
+export default function ListPriceGrid({
+  itemAmount,
+  color,
+  setListArrItems,
+}: Readonly<ListProps>) {
+  const { handleEditItemsAmount, handleDeleteAmountInList, getCurrency } =
+    useShoppingListContext();
   const [selectedValueSwitch, setSelectedValueSwitch] = useState(
     itemAmount.type
   );
   const [newItemAmount, setNewItemAmount] = useState<IAmount>(itemAmount);
-
-  const colorScheme = useColorScheme();
 
   const editItemsAmount = (): void => {
     handleEditItemsAmount(itemAmount.uuid, !selectedValueSwitch);
@@ -48,29 +47,42 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
     updatedList.quantity = "1";
     setSelectedValueSwitch(!selectedValueSwitch);
     setNewItemAmount(updatedList);
-    saveAmountByUuidController.handle(updatedList);
+  };
+
+  const handleUpdateListArrItems = (amount: IAmount): void => {
+    setListArrItems((prev) =>
+      prev.map((p) => {
+        if (p.uuid === amount.uuid) {
+          return amount;
+        }
+        return p;
+      })
+    );
   };
 
   const deleteAmountInList = (): void => {
     handleDeleteAmountInList(itemAmount.uuid);
+    setListArrItems((prev) => prev.filter((p) => p.uuid !== itemAmount.uuid));
     Keyboard.dismiss();
   };
 
   return (
     <GridItemInner
-      underlayColor={getColor().backgroundPrimary}
+      underlayColor={color.backgroundPrimary}
       height={40}
       noPadding
     >
       <GridItemWrapperRow height={100}>
         <GridItemWrapperInner width={20} height={100}>
-          <Text color={getColor().itemListItemOpenTextSecondary} align="center">
+          <Text color={color.itemListItemOpenTextSecondary} align="center">
             {getCurrency()}{" "}
             {Number(itemAmount.amount).toFixed(2).replace(".", ",")}
           </Text>
         </GridItemWrapperInner>
         <GridItemWrapperInner width={30} height={100}>
           <AddQtd
+            handleUpdateListArrItems={handleUpdateListArrItems}
+            color={color}
             amountItem={itemAmount}
             selectedValueSwitch={selectedValueSwitch}
             newItemAmount={newItemAmount}
@@ -79,6 +91,7 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
         </GridItemWrapperInner>
         <GridItemWrapperInner width={30} height={100}>
           <Switch
+            color={color}
             value={selectedValueSwitch}
             onValueChange={editItemsAmount}
             label={{ on: "Kg", off: "Un" }}
@@ -89,7 +102,7 @@ export default function ListPriceGrid({ itemAmount, listItemId }: ListProps) {
             size={28}
             style={{ marginBottom: -3 }}
             name={"trash"}
-            color={getColor().itemListItemOpenTrashIcon}
+            color={color.itemListItemOpenTrashIcon}
             onPress={deleteAmountInList}
           />
         </GridItemWrapperInner>

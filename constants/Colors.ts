@@ -94,20 +94,24 @@ export type colorTheme = {
   itemProductListLastPriceButtonBorder: string;
   itemProductListLastPriceButtonText: string;
   configItemBackground: string;
-}; 
+  switchTrackColorTrue: string;
+  switchTrackColorFalse: string;
+  switchThumbColorTrue: string;
+  switchThumbColorFalse: string;
+};
 
 export type typeTheme = {
-  light:colorTheme
-  dark:colorTheme
-}
+  light: colorTheme;
+  dark: colorTheme;
+};
 
-export type ColorList = "#43BCAE" | "#00BFFF" | "#FF69B4"
+export type ColorList = "#43BCAE" | "#00BFFF" | "#FF69B4";
 
 export type colors = {
-  "#43BCAE":typeTheme
-  "#00BFFF":typeTheme
-  "#FF69B4":typeTheme
-}
+  "#43BCAE": typeTheme;
+  "#00BFFF": typeTheme;
+  "#FF69B4": typeTheme;
+};
 
 export const Colors: colors = {
   "#43BCAE": {
@@ -178,6 +182,10 @@ export const Colors: colors = {
       itemProductListLastPriceButtonBorder: "#43BCAE",
       itemProductListLastPriceButtonText: "#43BCAE",
       configItemBackground: "#FFF",
+      switchTrackColorTrue: "#43BCAE88",
+      switchTrackColorFalse: "#CCC",
+      switchThumbColorTrue: "#43BCAE",
+      switchThumbColorFalse: "#43BCAE",
     },
     dark: {
       theme: "dark",
@@ -246,6 +254,10 @@ export const Colors: colors = {
       itemProductListLastPriceButtonBorder: "#43BCAE",
       itemProductListLastPriceButtonText: primaryDarkFontColor,
       configItemBackground: "#4F4E4E",
+      switchTrackColorTrue: "#43BCAE88",
+      switchTrackColorFalse: "#5F5E5E",
+      switchThumbColorTrue: "#43BCAE",
+      switchThumbColorFalse: "#43BCAE",
     },
   },
   "#00BFFF": {
@@ -316,6 +328,10 @@ export const Colors: colors = {
       itemProductListLastPriceButtonBorder: "#00BFFF",
       itemProductListLastPriceButtonText: "#00BFFF",
       configItemBackground: "#FFF",
+      switchTrackColorTrue: "#00BFFF88",
+      switchTrackColorFalse: "#CCC",
+      switchThumbColorTrue: "#00BFFF",
+      switchThumbColorFalse: "#00BFFF",
     },
     dark: {
       theme: "dark",
@@ -384,6 +400,10 @@ export const Colors: colors = {
       itemProductListLastPriceButtonBorder: "#00BFFF",
       itemProductListLastPriceButtonText: primaryDarkFontColor,
       configItemBackground: "#4F4E4E",
+      switchTrackColorTrue: "#00BFFF88",
+      switchTrackColorFalse: "#5F5E5E",
+      switchThumbColorTrue: "#00BFFF",
+      switchThumbColorFalse: "#00BFFF",
     },
   },
   "#FF69B4": {
@@ -453,7 +473,11 @@ export const Colors: colors = {
       itemProductListAveragePrice: "#FF69B4",
       itemProductListLastPriceButtonBorder: "#FF69B4",
       itemProductListLastPriceButtonText: "#FF69B4",
-      configItemBackground: "#FFF",
+      configItemBackground: "#4F4E4E",
+      switchTrackColorTrue: "#FF69B488",
+      switchTrackColorFalse: "#CCC",
+      switchThumbColorTrue: "#FF69B4",
+      switchThumbColorFalse: "#FF69B4",
     },
     dark: {
       theme: "dark",
@@ -522,6 +546,10 @@ export const Colors: colors = {
       itemProductListLastPriceButtonBorder: "#FF69B4",
       itemProductListLastPriceButtonText: primaryDarkFontColor,
       configItemBackground: "#4F4E4E",
+      switchTrackColorTrue: "#FF69B488",
+      switchTrackColorFalse: "#5F5E5E",
+      switchThumbColorTrue: "#FF69B4",
+      switchThumbColorFalse: "#FF69B4",
     },
   },
 };

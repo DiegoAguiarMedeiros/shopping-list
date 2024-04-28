@@ -5,11 +5,10 @@ import { ItemInterface } from "../../../types/types";
 import ListGridItem from "./listGridItem";
 
 import { BottomSheetProps } from "../../../components/BottomSheet";
-import { IProduct } from "../../../Domain/Model/IProduct";
 import Container from "../../../components/Container";
 import ContainerInner from "../../../components/ContainerInner";
 import { useShoppingListContext } from "../../../context/ShoppingList";
-import { colorTheme } from "../../../constants/Colors";
+import { colorTheme } from "../../../../constants/Colors";
 interface ListProps {
   tagUuid: string;
   products: string[];
@@ -29,6 +28,7 @@ function ListGrid({
   setBottomSheetProps,
   handleCloseBottomSheet,
   productRef,
+  color,
 }: Readonly<ListProps>) {
   const { getProductByUuid } = useShoppingListContext();
   return (

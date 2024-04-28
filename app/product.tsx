@@ -1,4 +1,4 @@
-import Product from "../src/screens/product/index";
+import Product from "../src/screens/product";
 import { BottomSheetProps } from "../src/components/BottomSheet";
 import { useImperativeHandle, useState } from "react";
 import { colorTheme } from "../constants/Colors";

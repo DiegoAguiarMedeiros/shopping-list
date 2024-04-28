@@ -3,6 +3,7 @@ import { BottomSheetProps } from "../../../../components/BottomSheet";
 
 import ListGridItem from "./listGridItem";
 import { useShoppingListContext } from "../../../../context/ShoppingList";
+import { colorTheme } from "../../../../../constants/Colors";
 interface ItemProps {
   tags: string[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -12,6 +13,7 @@ interface ItemProps {
   } | null>;
 
   tagRef: React.RefObject<{ handleAddNewTag: (tag: string) => void }>;
+  color: colorTheme;
 }
 export default function ListGrid({
   tags,
@@ -19,6 +21,7 @@ export default function ListGrid({
   handleCloseBottomSheet,
   productListRef,
   tagRef,
+  color,
 }: Readonly<ItemProps>) {
   const { getTagByUuid } = useShoppingListContext();
   return (
@@ -29,6 +32,7 @@ export default function ListGrid({
 
           return (
             <ListGridItem
+              color={color}
               tagRef={tagRef}
               productListRef={productListRef}
               handleCloseBottomSheet={handleCloseBottomSheet}

@@ -43,8 +43,6 @@ export default function ListGridItem({
   const { handleDeleteProduct, getLastPrices } = useShoppingListContext();
 
   const colorScheme = useColorScheme();
-  const router = useRouter();
-  const tag = GetTagByUuid.handle(item.tag);
   const lastPrice = getLastPrices(item.uuid);
   const gridItemRef = useRef<any>();
   const handleCloseSwipeableFromParent = () => {

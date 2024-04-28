@@ -64,35 +64,38 @@ export default function ListGridItem({
   }, [list.name]);
   const total = getTotalAmountByListUuid(list.uuid);
   const totalWithAmount = getTotalQuantityWithoutAmountByListUuid(list.uuid);
-  const totalUn = 0;
-  getTotalQuantityAmountByListUuid(list.uuid);
+  const totalUn = getTotalQuantityAmountByListUuid(list.uuid);
 
   const handleCloseBottomSheetProductList = () => {
-    // setBottomSheetProps({
-    //   children: (
-    //     <NewItemForm
-    //       buttonText="add"
-    //       onClose={handleCloseBottomSheetProductList}
-    //       listId={list.uuid}
-    //     />
-    //   ),
-    //   height: "add",
-    //   isVisible: false,
-    // });
+    setBottomSheetProps({
+      children: (
+        <NewItemForm
+          color={color}
+          buttonText="add"
+          onClose={handleCloseBottomSheetProductList}
+          listId={list.uuid}
+        />
+      ),
+      height: "add",
+      isVisible: false,
+      backgroundBottomSheet: color.backgroundBottomSheet,
+    });
   };
 
   const handleOpenList = useCallback(() => {
-    // setBottomSheetProps({
-    //   isVisible: false,
-    //   height: "add",
-    //   children: (
-    //     <NewItemForm
-    //       onClose={handleCloseBottomSheetProductList}
-    //       buttonText="add"
-    //       listId={list.uuid}
-    //     />
-    //   ),
-    // });
+    setBottomSheetProps({
+      isVisible: false,
+      height: "add",
+      children: (
+        <NewItemForm
+          color={color}
+          onClose={handleCloseBottomSheetProductList}
+          buttonText="add"
+          listId={list.uuid}
+        />
+      ),
+      backgroundBottomSheet: color.backgroundBottomSheet,
+    });
     router.push({ pathname: "/Items", params: { listId: list.uuid } });
   }, [list.uuid, router]);
 
