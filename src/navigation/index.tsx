@@ -24,6 +24,8 @@ import NewTagForm from "../components/NewTagForm";
 import Tags from "../../app/tags";
 import { Title } from "../components/Text";
 import History from "../../app/history";
+import { IProduct } from "../Model/IProduct";
+import { IList, IListInterface } from "../Model/IList";
 
 const Stack = createStackNavigator();
 
@@ -61,6 +63,10 @@ const Navigation: React.FC<NavigationProps> = ({
   const tagRef = useRef<{ handleAddNewTag: (uuid: string) => void } | null>(
     null
   );
+  const listItemRef = useRef<{
+    handleAddItem: (list: IList) => void;
+  } | null>(null);
+
   const productListRef = useRef<{
     handleAddProduct: (uuid: string) => void;
   } | null>(null);
@@ -331,6 +337,7 @@ const Navigation: React.FC<NavigationProps> = ({
         >
           {() => (
             <Home
+              listItemRef={listItemRef}
               ref={listRef}
               color={color}
               setBottomSheetProps={setBottomSheetProps}
@@ -385,6 +392,7 @@ const Navigation: React.FC<NavigationProps> = ({
         >
           {() => (
             <Items
+              ref={listItemRef}
               color={color}
               setActiveRouteHeader={setActiveRouteHeader}
               handleCloseBottomSheetList={handleCloseBottomSheetList}

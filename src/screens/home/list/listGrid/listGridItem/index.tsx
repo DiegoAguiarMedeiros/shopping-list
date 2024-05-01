@@ -20,6 +20,7 @@ import I18n from "i18n-js";
 import { useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { colorTheme } from "../../../../../../constants/Colors";
+import { IProduct } from "../../../../../Model/IProduct";
 interface ItemProps {
   list: IList;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -29,6 +30,9 @@ interface ItemProps {
     handleAddNewList: (uuid: string) => void;
     handleAddNewListArray: (list: string[]) => void;
   } | null>;
+  listItemRef: React.MutableRefObject<{
+    handleAddItem: (list: IList) => void;
+  } | null>;
 }
 
 export default function ListGridItem({
@@ -37,6 +41,7 @@ export default function ListGridItem({
   handleCloseBottomSheet,
   color,
   listRef,
+  listItemRef,
 }: Readonly<ItemProps>) {
   const {
     handleDeleteList,
@@ -70,6 +75,7 @@ export default function ListGridItem({
     setBottomSheetProps({
       children: (
         <NewItemForm
+          listItemRef={listItemRef}
           color={color}
           buttonText="add"
           onClose={handleCloseBottomSheetProductList}
@@ -88,6 +94,7 @@ export default function ListGridItem({
       height: "add",
       children: (
         <NewItemForm
+          listItemRef={listItemRef}
           color={color}
           onClose={handleCloseBottomSheetProductList}
           buttonText="add"

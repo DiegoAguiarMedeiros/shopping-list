@@ -5,6 +5,8 @@ import { BottomSheetProps } from "../../../../components/BottomSheet";
 import ListGridItem from "./listGridItem";
 import { useShoppingListContext } from "../../../../context/ShoppingList";
 import { colorTheme } from "../../../../../constants/Colors";
+import { IProduct } from "../../../../Model/IProduct";
+import { IList } from "../../../../Model/IList";
 interface ItemProps {
   lists: string[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -14,6 +16,9 @@ interface ItemProps {
     handleAddNewList: (uuid: string) => void;
     handleAddNewListArray: (list: string[]) => void;
   } | null>;
+  listItemRef: React.MutableRefObject<{
+    handleAddItem: (list: IList) => void;
+  } | null>;
 }
 export default function ListGrid({
   lists,
@@ -21,6 +26,7 @@ export default function ListGrid({
   handleCloseBottomSheet,
   color,
   listRef,
+  listItemRef,
 }: Readonly<ItemProps>) {
   const { getListByUuid } = useShoppingListContext();
   return (
@@ -32,6 +38,7 @@ export default function ListGrid({
 
             return (
               <ListGridItem
+                listItemRef={listItemRef}
                 listRef={listRef}
                 color={color}
                 handleCloseBottomSheet={handleCloseBottomSheet}

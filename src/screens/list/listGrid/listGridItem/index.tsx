@@ -29,6 +29,7 @@ interface ListProps {
   active: string;
   color: colorTheme;
   filterUpdate: () => void;
+  setListArrItems: React.Dispatch<React.SetStateAction<IProduct[]>>;
 }
 
 function ListGridItem({
@@ -39,6 +40,7 @@ function ListGridItem({
   handleClose,
   active,
   filterUpdate,
+  setListArrItems,
 }: ListProps) {
   const colorScheme = useColorScheme();
   const {
@@ -53,12 +55,13 @@ function ListGridItem({
   const total = getTotalAmountByListProductUuid(listProductUuid);
   const totalWithAmount = getTotalQuantityWithoutAmountByListUuid(listId);
   const totalUn = getTotalQuantityAmountByListUuid(listId);
-  const [listArrItems, setListArrItems] = useState<IAmount[]>(
+  const [listArrAmountItems, setListArrAmountItems] = useState<IAmount[]>(
     getAmountByListProductUuid(listProductUuid)
   );
   const handleDelete = () => {
     filterUpdate();
     handleDeleteProductFromList(listId, item.uuid);
+    setListArrItems((prev) => prev.filter((p) => p.uuid !== item.uuid));
   };
 
   function RightSwipe(
@@ -122,7 +125,11 @@ function ListGridItem({
         underlayColor={color.itemListItemOpenBackgroundUnderlay}
         borderColor={color.itemListItemOpenBackgroundBorder}
         background={color.itemListItemOpenBackground}
-        height={itemHeights[listArrItems.length > 4 ? 4 : listArrItems.length]}
+        height={
+          itemHeights[
+            listArrAmountItems.length > 4 ? 4 : listArrAmountItems.length
+          ]
+        }
         row
         elevation={colorScheme === "light"}
       >
@@ -134,11 +141,15 @@ function ListGridItem({
                   size={28}
                   style={{ marginBottom: -3 }}
                   color={
-                    listArrItems.length > 0
+                    listArrAmountItems.length > 0
                       ? color.itemListItemOpenIconFilled
                       : color.itemListItemOpenIcon
                   }
-                  name={listArrItems.length > 0 ? "check-circle-o" : "circle-o"}
+                  name={
+                    listArrAmountItems.length > 0
+                      ? "check-circle-o"
+                      : "circle-o"
+                  }
                 />
               </Title>
             </GridItemWrapperInner>
@@ -170,7 +181,7 @@ function ListGridItem({
                     justify="flex-start"
                   >
                     <Text color={color.itemListItemOpenTextSecondary}>
-                      {showUnitFromAmount(listArrItems)}
+                      {showUnitFromAmount(listArrAmountItems)}
                     </Text>
                   </GridItemWrapperInner>
                 </GridItemWrapperRow>
@@ -188,16 +199,20 @@ function ListGridItem({
             </GridItemWrapperInner>
           </GridItemWrapperRow>
           <GridItemWrapperRow
-            height={heights[listArrItems.length >= 4 ? 4 : listArrItems.length]}
+            height={
+              heights[
+                listArrAmountItems.length >= 4 ? 4 : listArrAmountItems.length
+              ]
+            }
             justify="flex-end"
           >
             <GridItemWrapperCol width={100}>
               <AddPriceUnit
                 filterUpdate={filterUpdate}
-                setListArrItems={setListArrItems}
+                setListArrItems={setListArrAmountItems}
                 color={color}
                 listProductUuid={listProductUuid}
-                listArrItems={listArrItems}
+                listArrItems={listArrAmountItems}
               />
             </GridItemWrapperCol>
           </GridItemWrapperRow>
@@ -226,11 +241,13 @@ function ListGridItem({
                 size={28}
                 style={{ marginBottom: -3 }}
                 color={
-                  listArrItems.length > 0
+                  listArrAmountItems.length > 0
                     ? color.itemListIconFilled
                     : color.itemListIcon
                 }
-                name={listArrItems.length > 0 ? "check-circle-o" : "circle-o"}
+                name={
+                  listArrAmountItems.length > 0 ? "check-circle-o" : "circle-o"
+                }
               />
             </Title>
           </GridItemWrapperInner>
@@ -256,7 +273,7 @@ function ListGridItem({
                   justify="flex-start"
                 >
                   <Text color={color.textSecondary}>
-                    {showUnitFromAmount(listArrItems)}
+                    {showUnitFromAmount(listArrAmountItems)}
                   </Text>
                 </GridItemWrapperInner>
               </GridItemWrapperRow>

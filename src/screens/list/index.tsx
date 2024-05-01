@@ -23,7 +23,6 @@ import { TotalType } from "../../types/types";
 
 interface ListProps {
   list: IList;
-  listId: string;
   handleCloseBottomSheetList: () => void;
   setActiveRouteHeader: React.Dispatch<
     React.SetStateAction<{
@@ -37,7 +36,6 @@ interface ListProps {
 
 export default function List({
   list,
-  listId,
   handleCloseBottomSheetList,
   setActiveRouteHeader,
   color,
@@ -136,7 +134,7 @@ export default function List({
   useEffect(() => {
     filterUpdate();
     return () => {};
-  }, [filter]);
+  }, [filter, list]);
 
   return (
     <Container noPadding>
@@ -162,6 +160,7 @@ export default function List({
             color={color}
             list={listArrItems}
             listId={list.uuid}
+            setListArrItems={setListArrItems}
           />
         ) : (
           <EmptyList color={color} mensage={I18n.t("noItemsInTheList")} />

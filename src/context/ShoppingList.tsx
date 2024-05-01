@@ -89,7 +89,7 @@ type ShoppingListContextType = {
   handleAddList: (list: string) => IList;
   handleCopyList: (listUuid: string, listName: string) => IList;
   handleEditList: (listUuid: string, listName: string) => void;
-  handleAddListItem: (listUuid: string, itemUuid: string) => void;
+  handleAddListItem: (listUuid: string, itemUuid: string) => IList;
   handleAddListProduct: (productName: string, tag: string) => string;
   handleEditListProduct: (
     listUuid: string,
@@ -317,20 +317,6 @@ const returnNewTag = (tag: string): ITag => {
   return item;
 };
 
-const returnNewItemAmount = (
-  newAmount: string,
-  listProductUuid: string
-): IAmount => {
-  const item: IAmount = {
-    uuid: String(UUIDGenerator.v4()),
-    amount: newAmount,
-    type: false,
-    quantity: "1",
-    listProductUuid,
-  };
-  return item;
-};
-
 const ShoppingListContext = createContext<ShoppingListContextType | undefined>(
   undefined
 );
@@ -458,26 +444,10 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     showToast("listEditedSuccessfully");
   };
 
-  const handleAddListItem = (listUuid: string, itemUuid: string): void => {
+  const handleAddListItem = (listUuid: string, itemUuid: string): IList => {
     addProductToListByUuid(listUuid, itemUuid);
-    // addProductToListByUuidController.handle(listUuid, item);
-    // const product = getProductByUuidController.handle([item]);
-    // const newProductList = listProduct.map((l) => {
-    //   if (l.uuid === listUuid) {
-    //     return product[0];
-    //   }
-    //   return l;
-    // });
-    // setListProduct(sortArrayOfObjects(newProductList, "name"));
-    // const newList = list.map((l) => {
-    //   if (l.uuid === listUuid) {
-    //     l.items.push(item);
-    //     if (!l.tags.includes(product[0].tag)) l.tags.push(product[0].tag);
-    //   }
-    //   return l;
-    // });
-    // setList([...newList]);
     showToast("productAddedSuccessfully");
+    return getListByUuid(listUuid);
   };
 
   const handleAddListProduct = (productName: string, tag: string): string => {
@@ -577,17 +547,8 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     listUuid: string,
     productUuid: string
   ) => {
-    // deleteProductFromList(listUuid, productUuid);
-    // const newList = list.map((l) => {
-    //   if (l.uuid === listUuid) {
-    //     const newItems = l.items.filter((product) => product !== productUuid);
-    //     l.items = newItems;
-    //     l.tags = getTagsByProductUuidArrayController.handle(newItems);
-    //   }
-    //   return l;
-    // });
-    // setList([...newList]);
-    // showToast("productDeletedSuccessfully");
+    deleteProductFromList(listUuid, productUuid);
+    showToast("productDeletedSuccessfully");
   };
 
   const handleArchived = (

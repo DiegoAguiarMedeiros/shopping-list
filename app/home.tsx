@@ -4,10 +4,13 @@ import { colorTheme } from "../constants/Colors";
 import { useState, useImperativeHandle } from "react";
 import React from "react";
 import { useShoppingListContext } from "../src/context/ShoppingList";
+import { IList } from "../src/Model/IList";
 interface HomeContainerProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
-
+  listItemRef: React.MutableRefObject<{
+    handleAddItem: (list: IList) => void;
+  } | null>;
   color: colorTheme;
 }
 
@@ -17,6 +20,7 @@ const HomeContainer = React.forwardRef(
       setBottomSheetProps,
       handleCloseBottomSheet,
       color,
+      listItemRef,
     }: Readonly<HomeContainerProps>,
     ref: any
   ) => {
@@ -31,9 +35,10 @@ const HomeContainer = React.forwardRef(
         setLists(list);
       },
     }));
-    
+
     return (
       <Home
+        listItemRef={listItemRef}
         listRef={ref}
         lists={lists}
         color={color}

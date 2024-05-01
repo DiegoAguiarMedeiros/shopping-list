@@ -1,4 +1,6 @@
 import { colorTheme } from "../../../../constants/Colors";
+import { IList } from "../../../Model/IList";
+import { IProduct } from "../../../Model/IProduct";
 import { BottomSheetProps } from "../../../components/BottomSheet";
 import ListGrid from "./listGrid";
 interface ItemProps {
@@ -10,6 +12,9 @@ interface ItemProps {
     handleAddNewList: (uuid: string) => void;
     handleAddNewListArray: (list: string[]) => void;
   } | null>;
+  listItemRef: React.MutableRefObject<{
+    handleAddItem: (list: IList) => void;
+  } | null>;
 }
 
 export default function List({
@@ -18,9 +23,11 @@ export default function List({
   handleCloseBottomSheet,
   color,
   listRef,
+  listItemRef,
 }: Readonly<ItemProps>) {
   return (
     <ListGrid
+      listItemRef={listItemRef}
       listRef={listRef}
       color={color}
       lists={lists}

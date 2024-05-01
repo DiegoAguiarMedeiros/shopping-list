@@ -8,6 +8,7 @@ import Select from "../InputSelect";
 import I18n from "i18n-js";
 import { colorTheme } from "../../../constants/Colors";
 import { IList } from "../../Model/IList";
+import { IProduct } from "../../Model/IProduct";
 
 export type NewItemFormProps = {
   onClose: () => void;
@@ -15,6 +16,9 @@ export type NewItemFormProps = {
   buttonText: "add" | "edit";
   items?: ItemInterface;
   color: colorTheme;
+  listItemRef: React.MutableRefObject<{
+    handleAddItem: (list: IList) => void;
+  } | null>;
 };
 
 const NewItemForm = ({
@@ -23,6 +27,7 @@ const NewItemForm = ({
   buttonText,
   items,
   color,
+  listItemRef,
 }: NewItemFormProps) => {
   const [newItem, setNewItem] = useState({
     item: items ? items.name : "",
@@ -64,9 +69,21 @@ const NewItemForm = ({
   const addListItem = (): void => {
     if (newItem.item != "") {
       closeBottomSheet();
-      handleAddListItem(listId, newItem.item);
+      const list = handleAddListItem(listId, newItem.item);
+      console.log("list", list);
+      if (listItemRef?.current) {
+        console.log("list if", list);
+        listItemRef.current.handleAddItem(list);
+      }
     }
   };
+
+  useEffect(() => {
+    console.log("listItemRef", listItemRef);
+    if (listItemRef?.current) {
+      console.log("listItemRef.current", listItemRef.current);
+    }
+  }, []);
 
   const buttonTextArr = {
     add: I18n.t("add"),
