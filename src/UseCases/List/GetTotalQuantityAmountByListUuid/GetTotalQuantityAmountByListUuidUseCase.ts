@@ -10,12 +10,12 @@ export default class GetTotalQuantityAmountByListUuidUseCase {
 
         const list = this.getListByUuid.handle(listUuid);
         const products = productsList ?? this.getProducts.handle(list.items);
-        const totalProducts = products?.map(product => (this.getTotalAmount.handle(`${listUuid}-${product.uuid}`)))
-        let total: number = 0;
-        totalProducts?.forEach((product) => {
-            total = total + product;
+        const total: { total: number } = { total: 0 };
+        products?.forEach((product) => {
+          total.total += this.getTotalAmount.handle(
+            `${listUuid}-${product.uuid}`
+          );
         });
-        return total;
-
+        return total.total;
     }
 }

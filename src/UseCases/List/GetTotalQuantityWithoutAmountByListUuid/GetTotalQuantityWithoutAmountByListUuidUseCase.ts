@@ -11,13 +11,15 @@ export default class GetTotalQuantityWithoutAmountByListUuidUseCase {
     const list = this.getListByUuid.handle(listUuid);
     const products =
       productsList ?? this.getListProductsByUuid.handle(list.items);
-    const totalProducts = products?.map((product) =>
-      this.getTotalAmount.handle(`${listUuid}-${product.uuid}`)
-    );
-    let total: number = 0;
-    totalProducts?.forEach((product) => {
-      total = total + product;
+
+    const totalProducts: { total: number } = { total: 0 };
+    products?.forEach((product) => {
+      const resultAmount = this.getTotalAmount.handle(
+        `${listUuid}-${product.uuid}`
+      );
+      if (resultAmount > 0) totalProducts.total += resultAmount;
     });
-    return total;
+
+    return totalProducts.total;
   }
 }

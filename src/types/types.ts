@@ -56,6 +56,7 @@ interface ListType {
 // }
 
 interface TotalType {
+  total: number;
   amount: number;
   un: number;
 }

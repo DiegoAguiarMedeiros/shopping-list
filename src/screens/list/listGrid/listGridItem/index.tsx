@@ -28,6 +28,7 @@ interface ListProps {
   handleClose: () => void;
   active: string;
   color: colorTheme;
+  filterUpdate: () => void;
 }
 
 function ListGridItem({
@@ -37,24 +38,26 @@ function ListGridItem({
   handleOpen,
   handleClose,
   active,
+  filterUpdate,
 }: ListProps) {
   const colorScheme = useColorScheme();
   const {
     handleDeleteProductFromList,
     getCurrency,
-    getTotalAmountByListUuid,
+    getTotalAmountByListProductUuid,
     getTotalQuantityWithoutAmountByListUuid,
     getTotalQuantityAmountByListUuid,
     getAmountByListProductUuid,
   } = useShoppingListContext();
   const listProductUuid = `${listId}-${item.uuid}`;
-  const total = getTotalAmountByListUuid(listId);
+  const total = getTotalAmountByListProductUuid(listProductUuid);
   const totalWithAmount = getTotalQuantityWithoutAmountByListUuid(listId);
   const totalUn = getTotalQuantityAmountByListUuid(listId);
   const [listArrItems, setListArrItems] = useState<IAmount[]>(
     getAmountByListProductUuid(listProductUuid)
   );
   const handleDelete = () => {
+    filterUpdate();
     handleDeleteProductFromList(listId, item.uuid);
   };
 
@@ -167,7 +170,7 @@ function ListGridItem({
                     justify="flex-start"
                   >
                     <Text color={color.itemListItemOpenTextSecondary}>
-                      {showUnitFromAmount([])}
+                      {showUnitFromAmount(listArrItems)}
                     </Text>
                   </GridItemWrapperInner>
                 </GridItemWrapperRow>
@@ -190,7 +193,8 @@ function ListGridItem({
           >
             <GridItemWrapperCol width={100}>
               <AddPriceUnit
-              setListArrItems={setListArrItems}
+                filterUpdate={filterUpdate}
+                setListArrItems={setListArrItems}
                 color={color}
                 listProductUuid={listProductUuid}
                 listArrItems={listArrItems}
@@ -252,7 +256,7 @@ function ListGridItem({
                   justify="flex-start"
                 >
                   <Text color={color.textSecondary}>
-                    {showUnitFromAmount([])}
+                    {showUnitFromAmount(listArrItems)}
                   </Text>
                 </GridItemWrapperInner>
               </GridItemWrapperRow>

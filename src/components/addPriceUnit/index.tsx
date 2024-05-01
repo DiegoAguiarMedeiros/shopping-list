@@ -19,6 +19,7 @@ interface AddPriceUnitProps {
   listArrItems: IAmount[];
   color: colorTheme;
   setListArrItems: React.Dispatch<React.SetStateAction<IAmount[]>>;
+  filterUpdate: () => void;
 }
 
 export default function AddPriceUnit({
@@ -26,6 +27,7 @@ export default function AddPriceUnit({
   color,
   listArrItems,
   setListArrItems,
+  filterUpdate,
 }: Readonly<AddPriceUnitProps>) {
   const { handleAddAmount } = useShoppingListContext();
   const [newItem, setNewItem] = useState("");
@@ -35,6 +37,7 @@ export default function AddPriceUnit({
       const newAmount = handleAddAmount(newItem, listProductUuid);
       setListArrItems((prev) => [...prev, newAmount]);
       setNewItem("");
+      filterUpdate();
     }
   };
 
@@ -48,6 +51,7 @@ export default function AddPriceUnit({
         >
           {listArrItems.length > 0 ? (
             <ListPriceGrid
+              filterUpdate={filterUpdate}
               setListArrItems={setListArrItems}
               color={color}
               item={listArrItems}

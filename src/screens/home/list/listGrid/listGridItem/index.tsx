@@ -63,8 +63,8 @@ export default function ListGridItem({
     handleCloseSwipeableFromParent();
   }, [list.name]);
   const total = getTotalAmountByListUuid(list.uuid);
-  const totalWithAmount = getTotalQuantityWithoutAmountByListUuid(list.uuid);
-  const totalUn = getTotalQuantityAmountByListUuid(list.uuid);
+  const totalUn = getTotalQuantityWithoutAmountByListUuid(list.uuid);
+  const totalWithAmount = getTotalQuantityAmountByListUuid(list.uuid);
 
   const handleCloseBottomSheetProductList = () => {
     setBottomSheetProps({

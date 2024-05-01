@@ -56,6 +56,7 @@ import removeListByUuidController from "../UseCases/List/RemoveListByUuid";
 import getNumberOfProductsByTagsUuidController from "../UseCases/ListProduct/GetNumberOfProductsByTagsUuid";
 import getTagUuidByTagNameController from "../UseCases/Tag/GetTagUuidByTagName";
 import getAmountByUuidController from "../UseCases/Amount/GetAmountByUuid";
+import getTotalAmountByListProductUuidController from "../UseCases/Amount/GetTotalAmountByListProductUuid";
 
 type ShoppingListProviderProps = {
   theme: "light" | "dark";
@@ -130,7 +131,11 @@ type ShoppingListContextType = {
   getNewLoadColor: () => colorTheme;
   saveColor: (color: ColorList) => void;
   getLastPrices: (productUuid: string) => string[];
-  getTotalAmountByListUuid: (uuid: string) => number;
+  getTotalAmountByListUuid: (uuid: string, productsList?: IProduct[]) => number;
+  getTotalAmountByListProductUuid: (
+    uuid: string,
+    productsList?: IProduct[]
+  ) => number;
   getTotalQuantityWithoutAmountByListUuid: (
     uuid: string,
     productsList?: IProduct[]
@@ -148,8 +153,14 @@ const getListsFromStorage = (): string[] => {
 const getListsObjectFromStorage = (): IList[] => {
   return getListsController.handle();
 };
-const getTotalAmountByListUuidFromStorage = (uuid: string): number => {
-  return getTotalAmountByListUuidController.handle(uuid);
+const getTotalAmountByListUuidFromStorage = (
+  uuid: string,
+  productsList?: IProduct[]
+): number => {
+  return getTotalAmountByListUuidController.handle(uuid, productsList);
+};
+const getTotalAmountByListProductUuidFromStorage = (uuid: string): number => {
+  return getTotalAmountByListProductUuidController.handle(uuid);
 };
 const getTotalQuantityWithoutAmountByListUuidFromStorage = (
   uuid: string,
@@ -349,8 +360,14 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   const getListsObject = (): IList[] => {
     return getListsObjectFromStorage();
   };
-  const getTotalAmountByListUuid = (uuid: string): number => {
-    return getTotalAmountByListUuidFromStorage(uuid);
+  const getTotalAmountByListUuid = (
+    uuid: string,
+    productsList?: IProduct[]
+  ): number => {
+    return getTotalAmountByListUuidFromStorage(uuid, productsList);
+  };
+  const getTotalAmountByListProductUuid = (uuid: string): number => {
+    return getTotalAmountByListProductUuidFromStorage(uuid);
   };
   const getTotalQuantityWithoutAmountByListUuid = (
     uuid: string,
@@ -763,6 +780,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         getNewLoadColor: getNewLoadColor,
         getLastPrices: getLastPrices,
         getTotalAmountByListUuid: getTotalAmountByListUuid,
+        getTotalAmountByListProductUuid: getTotalAmountByListProductUuid,
         getTotalQuantityWithoutAmountByListUuid:
           getTotalQuantityWithoutAmountByListUuid,
         getTotalQuantityAmountByListUuid: getTotalQuantityAmountByListUuid,

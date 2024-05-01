@@ -19,10 +19,7 @@ import I18n from "i18n-js";
 import { colorTheme } from "../../../constants/Colors";
 import { IList } from "../../Model/IList";
 import { IProduct } from "../../Model/IProduct";
-type TotalType = {
-  amount: number;
-  un: number;
-};
+import { TotalType } from "../../types/types";
 
 interface ListProps {
   list: IList;
@@ -51,9 +48,10 @@ export default function List({
     getTagByUuid,
     getProductByUuid,
     getTagUuidByTagName,
+    getTotalAmountByListUuid,
   } = useShoppingListContext();
   const [tags, setTags] = useState(list?.tags ? ["Todos", ...list.tags] : []);
-  const totalQuantity = getTotalQuantityAmountByListUuid(list.uuid);
+
   const productsList: IProduct[] = [];
   list.items.forEach((i: string) => {
     const result = getProductByUuid(i);
@@ -63,6 +61,7 @@ export default function List({
   const [listArrItems, setListArrItems] = useState(productsList);
   const [filter, setFilter] = useState("Todos");
   const [total, setTotal] = useState<TotalType>({
+    total: 0,
     amount: 0,
     un: 0,
   });
@@ -110,11 +109,9 @@ export default function List({
     if (filter === "Todos") {
       setListArrItems(productsList);
       const newTotal: TotalType = {
-        un: getTotalQuantityAmountByListUuid(list.uuid, productsList),
-        amount: getTotalQuantityWithoutAmountByListUuid(
-          list.uuid,
-          productsList
-        ),
+        total: getTotalAmountByListUuid(list.uuid, productsList),
+        un: getTotalQuantityWithoutAmountByListUuid(list.uuid, productsList),
+        amount: getTotalQuantityAmountByListUuid(list.uuid, productsList),
       };
       setTotal(newTotal);
       attHeader(newTotal.amount, newTotal.un);
@@ -124,8 +121,12 @@ export default function List({
       (product) => getTagUuidByTagName(filter) === product.tag
     );
     const newTotal: TotalType = {
-      un: getTotalQuantityAmountByListUuid(list.uuid, productsList),
-      amount: getTotalQuantityWithoutAmountByListUuid(list.uuid, productsList),
+      total: getTotalAmountByListUuid(list.uuid, filteredProductsList),
+      un: getTotalQuantityWithoutAmountByListUuid(
+        list.uuid,
+        filteredProductsList
+      ),
+      amount: getTotalQuantityAmountByListUuid(list.uuid, filteredProductsList),
     };
     setTotal(newTotal);
     setListArrItems(filteredProductsList);
@@ -135,7 +136,7 @@ export default function List({
   useEffect(() => {
     filterUpdate();
     return () => {};
-  }, [filter, list]);
+  }, [filter]);
 
   return (
     <Container noPadding>
@@ -155,7 +156,13 @@ export default function List({
       />
       <ContainerInner justify="center" background={color.backgroundPrimary}>
         {list.items.length > 0 ? (
-          <ListGrid color={color} list={listArrItems} listId={list.uuid} />
+          <ListGrid
+            filterUpdate={filterUpdate}
+            total={total}
+            color={color}
+            list={listArrItems}
+            listId={list.uuid}
+          />
         ) : (
           <EmptyList color={color} mensage={I18n.t("noItemsInTheList")} />
         )}

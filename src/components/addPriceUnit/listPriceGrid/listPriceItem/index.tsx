@@ -26,12 +26,14 @@ interface ListProps {
   itemAmount: IAmount;
   color: colorTheme;
   setListArrItems: React.Dispatch<React.SetStateAction<IAmount[]>>;
+  filterUpdate: () => void;
 }
 
 export default function ListPriceGrid({
   itemAmount,
   color,
   setListArrItems,
+  filterUpdate,
 }: Readonly<ListProps>) {
   const { handleEditItemsAmount, handleDeleteAmountInList, getCurrency } =
     useShoppingListContext();
@@ -47,6 +49,7 @@ export default function ListPriceGrid({
     updatedList.quantity = "1";
     setSelectedValueSwitch(!selectedValueSwitch);
     setNewItemAmount(updatedList);
+    filterUpdate();
   };
 
   const handleUpdateListArrItems = (amount: IAmount): void => {
@@ -64,6 +67,7 @@ export default function ListPriceGrid({
     handleDeleteAmountInList(itemAmount.uuid);
     setListArrItems((prev) => prev.filter((p) => p.uuid !== itemAmount.uuid));
     Keyboard.dismiss();
+    filterUpdate();
   };
 
   return (
@@ -81,6 +85,7 @@ export default function ListPriceGrid({
         </GridItemWrapperInner>
         <GridItemWrapperInner width={30} height={100}>
           <AddQtd
+            filterUpdate={filterUpdate}
             handleUpdateListArrItems={handleUpdateListArrItems}
             color={color}
             amountItem={itemAmount}

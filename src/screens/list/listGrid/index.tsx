@@ -1,7 +1,7 @@
 import { useColorScheme, SafeAreaView, ScrollView } from "react-native";
 import * as Styled from "./styles";
 import React, { useEffect, useState } from "react";
-import { ItemInterface, TagsIterface } from "../../../types/types";
+import { ItemInterface, TagsIterface, TotalType } from "../../../types/types";
 import ListGridItem from "./listGridItem";
 import { useShoppingListContext } from "../../../context/ShoppingList";
 import { Text } from "../../../components/Text";
@@ -26,15 +26,20 @@ interface ListProps {
   listId: string;
   list: IProduct[];
   color: colorTheme;
+  total: TotalType;
+  filterUpdate: () => void;
 }
 
-function ListGrid({ list, listId, color }: Readonly<ListProps>) {
+function ListGrid({
+  list,
+  listId,
+  color,
+  total,
+  filterUpdate,
+}: Readonly<ListProps>) {
   const { getProductByUuid, getCurrency } = useShoppingListContext();
 
   const [active, setActive] = useState("");
-
-  const totalQuantity = 0;
-  const total = 0;
 
   const handleOpen = (uuid: string) => {
     setActive(uuid);
@@ -56,6 +61,7 @@ function ListGrid({ list, listId, color }: Readonly<ListProps>) {
               {list.map((item) => {
                 return (
                   <ListGridItem
+                    filterUpdate={filterUpdate}
                     color={color}
                     key={"ListGridItem-" + item.uuid}
                     handleOpen={handleOpen}
@@ -72,13 +78,13 @@ function ListGrid({ list, listId, color }: Readonly<ListProps>) {
         <GridItemWrapperRow height={10}>
           <GridItemWrapperInner width={50} height={100} justify="flex-start">
             <Text color={color.text}>
-              {I18n.t("totalItems")}: {totalQuantity}
+              {I18n.t("totalItems")}: {total.un}
             </Text>
           </GridItemWrapperInner>
           <GridItemWrapperInner width={50} height={100} justify="flex-start">
             <Text color={color.text} align="right">
               {I18n.t("total")}: {getCurrency()}{" "}
-              {total.toFixed(2).replace(".", ",")}
+              {total.total.toFixed(2).replace(".", ",")}
             </Text>
           </GridItemWrapperInner>
         </GridItemWrapperRow>
