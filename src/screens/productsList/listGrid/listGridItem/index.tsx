@@ -49,7 +49,7 @@ function ListGridItem({
   color,
 }: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
-  const { handleDeleteProduct, getTheme } = useShoppingListContext();
+  const { handleDeleteProduct } = useShoppingListContext();
   const gridItemRef = useRef<any>();
   const handleCloseSwipeableFromParent = () => {
     // Access the handleCloseSwipeable function from the ref

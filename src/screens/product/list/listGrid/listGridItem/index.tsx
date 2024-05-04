@@ -1,16 +1,15 @@
 import { useColorScheme, Animated } from "react-native";
 import * as Styled from "./styles";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import { FontAwesome } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
 
-import { Title, SubTitle, Text, Title2 } from "../../../../../components/Text";
+import { SubTitle, Text, Title2 } from "../../../../../components/Text";
 import { useShoppingListContext } from "../../../../../context/ShoppingList";
 
 import { BottomSheetProps } from "../../../../../components/BottomSheet";
 import NewProductForm from "../../../../../components/NewProductForm";
-import { ILastPrices, IProduct } from "../../../../../Model/IProduct";
+import { IProduct } from "../../../../../Model/IProduct";
 import AveragePrice from "./AveragePrice";
 import LastPrices from "./LastPrices";
 import GridItem from "../../../../../components/GridItem";
@@ -194,7 +193,7 @@ export default function ListGridItem({
                 height={100}
                 justify="flex-start"
               >
-                <LastPrices lastPrices={lastPrice} />
+                <LastPrices color={color} lastPrices={lastPrice} />
               </GridItemWrapperInner>
             ) : (
               <></>
@@ -205,7 +204,7 @@ export default function ListGridItem({
                 height={100}
                 justify="flex-start"
               >
-                <AveragePrice price={lastPrice} />
+                <AveragePrice color={color} price={lastPrice} />
               </GridItemWrapperInner>
             ) : (
               <></>

@@ -32,6 +32,7 @@ interface ListProps {
     }>
   >;
   color: colorTheme;
+  setList: React.Dispatch<React.SetStateAction<IList>>;
 }
 
 export default function List({
@@ -39,6 +40,7 @@ export default function List({
   handleCloseBottomSheetList,
   setActiveRouteHeader,
   color,
+  setList,
 }: Readonly<ListProps>) {
   const {
     getTotalQuantityAmountByListUuid,
@@ -160,7 +162,7 @@ export default function List({
             color={color}
             list={listArrItems}
             listId={list.uuid}
-            setListArrItems={setListArrItems}
+            setList={setList}
           />
         ) : (
           <EmptyList color={color} mensage={I18n.t("noItemsInTheList")} />

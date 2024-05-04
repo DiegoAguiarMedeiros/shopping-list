@@ -2,12 +2,15 @@ import DeleteListByUuidUseCase from "./DeleteListByUuidUseCase";
 import DeleteListByUuidController from "./DeleteListByUuidController";
 
 
-import saveLists from "../SaveListArchived";
+import RemoveListByUuid from "../RemoveListByUuid";
 import storageMMKV from "../../../Service/Implementation/MMKVStorage";
 
 
 
-const deleteListByUuidUseCase = new DeleteListByUuidUseCase(storageMMKV, saveLists);
+const deleteListByUuidUseCase = new DeleteListByUuidUseCase(
+  storageMMKV,
+  RemoveListByUuid
+);
 
 const deleteListByUuidController = new DeleteListByUuidController(
   deleteListByUuidUseCase

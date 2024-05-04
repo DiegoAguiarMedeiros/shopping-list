@@ -1,18 +1,12 @@
-import { IListInterface } from "../../../Model/IList";
+import { IList, IListInterface } from "../../../Model/IList";
 import GetListByUuidUseCase from "./GetListByUuidUseCase";
 
 export default class GetListByUuidController {
-  constructor(private getListByUuidUseCase: GetListByUuidUseCase) { }
+  constructor(private getListByUuidUseCase: GetListByUuidUseCase) {}
 
-  handle = (uuid: string): IListInterface<IList> | null => {
+  handle = (uuid: string): IList => {
     try {
-      const result = this.getListByUuidUseCase.execute(uuid);
-
-      if (result) {
-        return result;
-      }
-
-      return null;
+      return this.getListByUuidUseCase.execute(uuid);
     } catch (err) {
       console.error("GetListByUuidController: ", err);
       return null;

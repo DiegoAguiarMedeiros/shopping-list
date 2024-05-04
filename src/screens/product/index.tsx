@@ -1,14 +1,6 @@
-import { useShoppingListContext } from "../../context/ShoppingList";
-import { KeyboardAvoidingView, useColorScheme } from "react-native";
 import EmptyList from "../../components/EmptyList";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useIsFocused } from "@react-navigation/native";
-
-import * as Styled from "./styles";
-import BottomSheet, { BottomSheetProps } from "../../components/BottomSheet";
-import React, { useState } from "react";
-import NewListForm from "../../components/NewListForm";
-import Button from "../../components/Button";
+import { BottomSheetProps } from "../../components/BottomSheet";
+import React from "react";
 import ListComponent from "./list";
 import Container from "../../components/Container";
 import ContainerInner from "../../components/ContainerInner";

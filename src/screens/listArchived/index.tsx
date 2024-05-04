@@ -1,30 +1,26 @@
 import { TouchableHighlight, useColorScheme } from "react-native";
 
-import * as Styled from "./styles";
 import React, { useEffect, useState } from "react";
 import { useShoppingListContext } from "../../context/ShoppingList";
-import { ItemInterface } from "../../types/types";
-import { removeUndefinedFromArray } from "../../utils/functions";
 import { useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import EmptyList from "../../components/EmptyList";
 import ListGrid from "./listGrid";
-import CircleProgress from "../../components/CircleProgress";
-import FilterButtons from "../../components/FilterButtons";
 import { Title } from "../../components/Text";
-import getListProductController from "../../UseCases/ListProduct/GetProductByUuid";
 import Container from "../../components/Container";
 import ContainerInner from "../../components/ContainerInner";
-import Header from "../../components/Header";
 import I18n from "i18n-js";
+import { colorTheme } from "../../../constants/Colors";
+import { IProduct } from "../../Model/IProduct";
+import { IList } from "../../Model/IList";
 type TotalType = {
   amount: number;
   un: number;
 };
 
 interface ListProps {
-  listId: string;
+  list: IList;
   setActiveRouteHeader: React.Dispatch<
     React.SetStateAction<{
       name: React.ReactNode;
@@ -32,20 +28,22 @@ interface ListProps {
       right: React.ReactNode | null;
     }>
   >;
+  color: colorTheme;
 }
 
 export default function ListArchived({
-  listId,
+  list,
   setActiveRouteHeader,
-}: ListProps) {
-  const colorScheme = useColorScheme();
-  const { listArchived, getTheme, getColor } = useShoppingListContext();
-  const listArr = listArchived.find((i) => i.uuid === listId);
+  color,
+}: Readonly<ListProps>) {
+  const { getProductByUuid } = useShoppingListContext();
   const [filter, setFilter] = useState("Todos");
 
-  const listArrItems = getListProductController.handle(
-    listArr?.items ? listArr?.items : []
-  );
+  const listArrItems: IProduct[] = [];
+  list.items.forEach((i: string) => {
+    const result = getProductByUuid(i);
+    if (result) listArrItems.push(result);
+  });
   const router = useRouter();
 
   const returnToTags = () => {
@@ -56,32 +54,30 @@ export default function ListArchived({
     setActiveRouteHeader({
       left: (
         <TouchableHighlight
-          underlayColor={getColor().primary}
+          underlayColor={color.primary}
           style={{ marginLeft: 20, marginRight: 10 }}
           onPress={() => returnToTags()}
         >
-          <FontAwesome name="angle-left" size={35} color={getColor().white} />
+          <FontAwesome name="angle-left" size={35} color={color.white} />
         </TouchableHighlight>
       ),
-      name: <Title color={getColor().white}>{listArr?.name!}</Title>,
+      name: <Title color={color.white}>{list?.name!}</Title>,
       right: null,
     });
   }, []);
 
   return (
-    <Container background={getColor().backgroundPrimary} noPadding>
-      <ContainerInner
-        justify="center"
-        background={getColor().backgroundPrimary}
-      >
+    <Container background={color.backgroundPrimary} noPadding>
+      <ContainerInner justify="center" background={color.backgroundPrimary}>
         {listArrItems.length > 0 ? (
           <ListGrid
+            color={color}
             filter={filter}
             listArrItems={listArrItems}
-            listId={listId}
+            listId={list.uuid}
           />
         ) : (
-          <EmptyList mensage={I18n.t("noItemsInTheList")} />
+          <EmptyList color={color} mensage={I18n.t("noItemsInTheList")} />
         )}
       </ContainerInner>
     </Container>

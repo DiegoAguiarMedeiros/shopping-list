@@ -4,18 +4,18 @@ import { TextInput, TextInputProps, useColorScheme } from "react-native";
 
 import * as Styled from "./styles";
 import { useShoppingListContext } from "../../context/ShoppingList";
+import { colorTheme } from "../../../constants/Colors";
 
 interface InputProps extends TextInputProps {
   placeholder: string;
+  color: colorTheme;
 }
 
 const HeaderInputTextSearch: React.FC<InputProps> = ({
   placeholder,
+  color,
   ...rest
 }) => {
-  const colorScheme = useColorScheme();
-
-  const { getTheme, getColor } = useShoppingListContext();
   const inputRef = useRef<TextInput>(null);
 
   useEffect(() => {
@@ -27,11 +27,11 @@ const HeaderInputTextSearch: React.FC<InputProps> = ({
   return (
     <Styled.Input
       ref={inputRef}
-      background={getColor().secondary}
-      border={getColor().secondary}
-      color={getColor().white}
+      background={color.secondary}
+      border={color.secondary}
+      color={color.white}
       placeholder={placeholder}
-      placeholderTextColor={getColor().white}
+      placeholderTextColor={color.white}
       {...rest}
     />
   );

@@ -1,12 +1,9 @@
-import { useColorScheme, SafeAreaView, ScrollView } from "react-native";
-import * as Styled from "./styles";
-import { ListInterface, ListType } from "../../../../types/types";
+import { SafeAreaView, ScrollView } from "react-native";
 import { BottomSheetProps } from "../../../../components/BottomSheet";
 
 import ListGridItem from "./listGridItem";
-import { IProduct } from "../../../../Domain/Model/IProduct";
-import Container from "../../../../components/Container";
-import { colorTheme } from "../../../../constants/Colors";
+import { IProduct } from "../../../../Model/IProduct";
+import { colorTheme } from "../../../../../constants/Colors";
 interface ItemProps {
   items: IProduct[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;

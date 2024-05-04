@@ -1,19 +1,11 @@
 import { useColorScheme, Animated } from "react-native";
 import * as Styled from "./styles";
-import { useCallback, useRef } from "react";
-import {
-  BottomSheetProps,
-  ItemInterface,
-  ListInterface,
-  ListItemAmountInterface,
-  ListItemInterface,
-  ListType,
-} from "../../../../../types/types";
+import { useCallback } from "react";
+
 import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
-import { Swipeable } from "react-native-gesture-handler";
-import { Title, Text, Title2 } from "../../../../../components/Text";
+import { Text, Title2 } from "../../../../../components/Text";
 import { useShoppingListContext } from "../../../../../context/ShoppingList";
 import CircleProgress from "../../../../../components/CircleProgress";
 import { IList } from "../../../../../Model/IList";
@@ -29,16 +21,26 @@ import { colorTheme } from "../../../../../../constants/Colors";
 interface ItemProps {
   item: IList;
   color: colorTheme;
+  setListArchived: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-export default function ListGridItem({ item, color }: ItemProps) {
-  const { handleDeleteListArchived, getCurrency } = useShoppingListContext();
+export default function ListGridItem({
+  item,
+  color,
+  setListArchived,
+}: Readonly<ItemProps>) {
+  const {
+    handleDeleteListArchived,
+    getCurrency,
+    getTotalAmountByListUuid,
+    getTotalQuantityWithoutAmountByListUuid,
+    getTotalQuantityAmountByListUuid,
+  } = useShoppingListContext();
   const colorScheme = useColorScheme();
   const router = useRouter();
-  const total = getTotalAmountByListUuidController.handle(item.uuid);
-  const totalWithAmount =
-    getTotalQuantityWithoutAmountByListUuidController.handle(item.uuid);
-  const totalUn = getTotalQuantityAmountByListUuidController.handle(item.uuid);
+  const total = getTotalAmountByListUuid(item.uuid);
+  const totalWithAmount = getTotalQuantityWithoutAmountByListUuid(item.uuid);
+  const totalUn = getTotalQuantityAmountByListUuid(item.uuid);
 
   const handleOpenList = useCallback(() => {
     router.push({ pathname: "/ItemsArchived", params: { listId: item.uuid } });
@@ -46,6 +48,7 @@ export default function ListGridItem({ item, color }: ItemProps) {
 
   const handleDelete = () => {
     handleDeleteListArchived(item.uuid);
+    setListArchived((prev) => prev.filter((p) => p !== item.uuid));
   };
 
   const RightSwipe = useCallback(

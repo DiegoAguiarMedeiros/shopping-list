@@ -70,20 +70,11 @@ const NewItemForm = ({
     if (newItem.item != "") {
       closeBottomSheet();
       const list = handleAddListItem(listId, newItem.item);
-      console.log("list", list);
       if (listItemRef?.current) {
-        console.log("list if", list);
         listItemRef.current.handleAddItem(list);
       }
     }
   };
-
-  useEffect(() => {
-    console.log("listItemRef", listItemRef);
-    if (listItemRef?.current) {
-      console.log("listItemRef.current", listItemRef.current);
-    }
-  }, []);
 
   const buttonTextArr = {
     add: I18n.t("add"),

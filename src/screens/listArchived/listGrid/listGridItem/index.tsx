@@ -23,45 +23,42 @@ import {
 } from "../../../../components/GridItemInner";
 import ContainerInner from "../../../../components/ContainerInner";
 import Container from "../../../../components/Container";
+import { colorTheme } from "../../../../../constants/Colors";
 
 interface ListProps {
   item: IProduct;
   listId: string;
+  color: colorTheme;
 }
 
-function ListGridItem({ item, listId }: Readonly<ListProps>) {
+function ListGridItem({ item, listId, color }: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
 
-  const { getTheme, getCurrency, getColor } = useShoppingListContext();
+  const { getCurrency, getAmountByListProductUuid } = useShoppingListContext();
   const listIditemuuid = `${listId}-${item.uuid}`;
 
-  const listArrItems =
-    getAmountByListProductUuidController.handle(listIditemuuid);
-  const total =
-    getTotlaAmountByListProductUuidController.handle(listIditemuuid);
-  const quantity =
-    getTotalQuantityAmountByListProductUuidController.handle(listIditemuuid);
+  const listArrItems = getAmountByListProductUuid(listIditemuuid);
   return (
     <>
       {listArrItems.length == 0 ? (
         <GridItemInner
-          underlayColor={getColor().itemListBackgroundUnderlay}
-          borderColor={getColor().itemListBackgroundBorder}
-          background={getColor().itemListBackground}
+          underlayColor={color.itemListBackgroundUnderlay}
+          borderColor={color.itemListBackgroundBorder}
+          background={color.itemListBackground}
           height={60}
           row
           elevation={colorScheme === "light"}
         >
           <GridItemWrapperCol width={100}>
-            <Title2 color={getColor().text}>{item.name}</Title2>
+            <Title2 color={color.text}>{item.name}</Title2>
           </GridItemWrapperCol>
         </GridItemInner>
       ) : (
         listArrItems.map((amount) => (
           <GridItemInner
-            underlayColor={getColor().itemListBackgroundUnderlay}
-            borderColor={getColor().itemListBackgroundBorder}
-            background={getColor().itemListBackground}
+            underlayColor={color.itemListBackgroundUnderlay}
+            borderColor={color.itemListBackgroundBorder}
+            background={color.itemListBackground}
             height={60}
             row
             elevation={colorScheme === "light"}
@@ -69,27 +66,27 @@ function ListGridItem({ item, listId }: Readonly<ListProps>) {
           >
             <>
               <GridItemWrapperCol width={60} height={100}>
-                <Title2 color={getColor().text}>{item.name}</Title2>
+                <Title2 color={color.text}>{item.name}</Title2>
               </GridItemWrapperCol>
               <GridItemWrapperCol width={40} height={100}>
                 <GridItemWrapperRow height={100}>
                   <GridItemWrapperCol width={50} height={100}>
-                    <Text color={getColor().text}>
+                    <Text color={color.text}>
                       {`${amount.quantity}`} {amount.type ? `Kg` : `Un`}
                       {" x"}
                     </Text>
                   </GridItemWrapperCol>
                   <GridItemWrapperCol width={50} height={100}>
-                    <Text color={getColor().text} align="right">
+                    <Text color={color.text} align="right">
                       {getCurrency()}{" "}
                       {Number(amount.amount).toFixed(2).replace(".", ",")}
                     </Text>
                     <Styled.ContainerItemTextPriceTotalLine
-                      border={getColor().primary}
+                      border={color.primary}
                     />
                     <Styled.ContainerItemTextPriceTotal>
                       <Text
-                        color={getColor().itemProductListAveragePrice}
+                        color={color.itemProductListAveragePrice}
                         align="right"
                       >
                         {getCurrency()}{" "}

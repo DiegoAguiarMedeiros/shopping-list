@@ -1,4 +1,4 @@
-import { useSearchParams } from "expo-router";
+import { useGlobalSearchParams } from "expo-router";
 import List from "../src/screens/list/index";
 import { colorTheme } from "../constants/Colors";
 import { useShoppingListContext } from "../src/context/ShoppingList";
@@ -19,32 +19,6 @@ interface ProductsListProps {
   color: colorTheme;
 }
 
-// export default function Items({
-//   handleCloseBottomSheetList,
-//   setActiveRouteHeader,
-//   color,
-//   ref,
-// }: ProductsListProps) {
-//   const { listId } = useSearchParams();
-
-//   const { getListByUuid } = useShoppingListContext();
-//   const [list, setList] = useState<IList>(
-//     getListByUuid(!Array.isArray(listId) && listId ? listId : "")
-//   );
-
-//   return listId ? (
-//     <List
-//       ref={ref}
-//       list={list}
-//       color={color}
-//       setActiveRouteHeader={setActiveRouteHeader}
-//       handleCloseBottomSheetList={handleCloseBottomSheetList}
-//     />
-//   ) : (
-//     <></>
-//   );
-// }
-
 const Items = React.forwardRef(
   (
     {
@@ -54,7 +28,7 @@ const Items = React.forwardRef(
     }: ProductsListProps,
     ref: any
   ) => {
-    const { listId } = useSearchParams();
+    const { listId } = useGlobalSearchParams();
 
     const { getListByUuid } = useShoppingListContext();
     const [list, setList] = useState<IList>(
@@ -69,6 +43,7 @@ const Items = React.forwardRef(
 
     return listId ? (
       <List
+        setList={setList}
         list={list}
         color={color}
         setActiveRouteHeader={setActiveRouteHeader}

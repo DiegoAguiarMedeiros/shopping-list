@@ -309,6 +309,19 @@ const returnNewProduct = (productName: string, tag: string): IProduct => {
   return item;
 };
 
+const returnNewItemAmount = (
+  newAmount: string,
+  listProductUuid: string
+): IAmount => {
+  const amount: IAmount = {
+    uuid: String(UUIDGenerator.v4()),
+    amount: newAmount,
+    type: false,
+    quantity: "1",
+    listProductUuid,
+  };
+  return amount;
+};
 const returnNewTag = (tag: string): ITag => {
   const item: ITag = {
     uuid: String(UUIDGenerator.v4()),
@@ -578,11 +591,8 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   };
 
   const handleDeleteListArchived = (listUuid: string) => {
-    // const updatedList: IList[] = JSON.parse(JSON.stringify(listArchived));
-    // const newupdatedList = updatedList.filter((i) => listUuid !== i.uuid);
-    // deleteListArchived(listUuid);
-    // setListArchived(newupdatedList);
-    // showToast("archivedListSuccessfullyDeleted");
+    deleteListArchived(listUuid);
+    showToast("archivedListSuccessfullyDeleted");
   };
 
   const handleEditItemsAmount = (amountUuid: string, type: boolean): void => {

@@ -28,7 +28,7 @@ interface ListProps {
   color: colorTheme;
   total: TotalType;
   filterUpdate: () => void;
-  setListArrItems: React.Dispatch<React.SetStateAction<IProduct[]>>;
+  setList: React.Dispatch<React.SetStateAction<IList>>;
 }
 
 function ListGrid({
@@ -37,7 +37,7 @@ function ListGrid({
   color,
   total,
   filterUpdate,
-  setListArrItems,
+  setList,
 }: Readonly<ListProps>) {
   const { getProductByUuid, getCurrency } = useShoppingListContext();
 
@@ -71,7 +71,7 @@ function ListGrid({
                     item={item}
                     listId={listId}
                     active={active}
-                    setListArrItems={setListArrItems}
+                    setList={setList}
                   />
                 );
               })}

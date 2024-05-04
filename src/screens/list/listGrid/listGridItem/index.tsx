@@ -20,6 +20,7 @@ import GridItemNoSwipeable from "../../../../components/GridItemNoSwipeable";
 import I18n from "i18n-js";
 import IAmount from "../../../../Model/IAmount";
 import { colorTheme } from "../../../../../constants/Colors";
+import { IList } from "../../../../Model/IList";
 
 interface ListProps {
   item: IProduct;
@@ -29,7 +30,7 @@ interface ListProps {
   active: string;
   color: colorTheme;
   filterUpdate: () => void;
-  setListArrItems: React.Dispatch<React.SetStateAction<IProduct[]>>;
+  setList: React.Dispatch<React.SetStateAction<IList>>;
 }
 
 function ListGridItem({
@@ -40,28 +41,26 @@ function ListGridItem({
   handleClose,
   active,
   filterUpdate,
-  setListArrItems,
+  setList,
 }: ListProps) {
   const colorScheme = useColorScheme();
   const {
     handleDeleteProductFromList,
     getCurrency,
     getTotalAmountByListProductUuid,
-    getTotalQuantityWithoutAmountByListUuid,
-    getTotalQuantityAmountByListUuid,
     getAmountByListProductUuid,
+    getListByUuid,
   } = useShoppingListContext();
   const listProductUuid = `${listId}-${item.uuid}`;
   const total = getTotalAmountByListProductUuid(listProductUuid);
-  const totalWithAmount = getTotalQuantityWithoutAmountByListUuid(listId);
-  const totalUn = getTotalQuantityAmountByListUuid(listId);
+
   const [listArrAmountItems, setListArrAmountItems] = useState<IAmount[]>(
     getAmountByListProductUuid(listProductUuid)
   );
   const handleDelete = () => {
-    filterUpdate();
     handleDeleteProductFromList(listId, item.uuid);
-    setListArrItems((prev) => prev.filter((p) => p.uuid !== item.uuid));
+    const list = getListByUuid(listId);
+    setList(list);
   };
 
   function RightSwipe(

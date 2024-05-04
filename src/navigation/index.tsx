@@ -161,6 +161,7 @@ const Navigation: React.FC<NavigationProps> = ({
       left: null,
       name: (
         <HeaderInputTextSearch
+          color={color}
           style={{ marginLeft: -16 }}
           placeholder={I18n.t("search")}
           onChangeText={(item) => setSearch(item)}
@@ -426,7 +427,12 @@ const Navigation: React.FC<NavigationProps> = ({
             headerRight: () => activeRouteHeader.right,
           }}
         >
-          {() => <ItemsArchived setActiveRouteHeader={setActiveRouteHeader} />}
+          {() => (
+            <ItemsArchived
+              color={color}
+              setActiveRouteHeader={setActiveRouteHeader}
+            />
+          )}
         </Stack.Screen>
         <Stack.Screen
           name="history"

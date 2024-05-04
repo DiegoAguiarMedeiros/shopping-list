@@ -20,18 +20,28 @@ import {
   GridItemWrapperRow,
 } from "../../../components/GridItemInner";
 import I18n from "i18n-js";
+import { IList } from "../../../Model/IList";
+import { colorTheme } from "../../../../constants/Colors";
 interface ListProps {
-  listArrItems: IProduct[];
-  filter: string;
   listId: string;
+  listArrItems: IProduct[];
+  color: colorTheme;
+  filter: string;
 }
 
-function ListGrid({ listId, listArrItems }: Readonly<ListProps>) {
-  const colorScheme = useColorScheme();
+function ListGrid({
+  listArrItems,
+  filter,
+  listId,
+  color,
+}: Readonly<ListProps>) {
+  const {
+    getTotalAmountByListUuid,
+    getCurrency,
+    getTotalQuantityAmountByListUuid,
+  } = useShoppingListContext();
 
-  const { getTheme, getCurrency, getColor } = useShoppingListContext();
-
-  const total = getTotalAmountByListUuidController.handle(listId);
+  const total = getTotalAmountByListUuid(listId);
   return (
     <Container background={"transparent"}>
       <ContainerInner>
@@ -47,6 +57,7 @@ function ListGrid({ listId, listArrItems }: Readonly<ListProps>) {
                   key={"ListGridItem-" + item.uuid}
                   item={item}
                   listId={listId}
+                  color={color}
                 />
               ))}
             </ScrollView>
@@ -55,15 +66,14 @@ function ListGrid({ listId, listArrItems }: Readonly<ListProps>) {
         <GridItemWrapperRow height={5}>
           <GridItemWrapperCol width={50} height={100}>
             <GridItemWrapperInner height={100}>
-              <Text color={getColor().text}>
-                {I18n.t("items")}:{" "}
-                {getTotalQuantityAmountByListUuidController.handle(listId)}
+              <Text color={color.text}>
+                {I18n.t("items")}: {getTotalQuantityAmountByListUuid(listId)}
               </Text>
             </GridItemWrapperInner>
           </GridItemWrapperCol>
           <GridItemWrapperCol width={50} height={100}>
             <GridItemWrapperInner height={100}>
-              <Text color={getColor().text} align="right">
+              <Text color={color.text} align="right">
                 {I18n.t("total")}: {getCurrency()}{" "}
                 {total.toFixed(2).replace(".", ",")}
               </Text>
