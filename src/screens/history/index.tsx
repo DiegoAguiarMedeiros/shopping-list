@@ -14,7 +14,6 @@ interface HistoryProps {
 export default function History({ color }: Readonly<HistoryProps>) {
   const { getListArchived } = useShoppingListContext();
   const [listArchived, setListArchived] = useState<string[]>(getListArchived());
-  console.log("listArchived", listArchived);
   return (
     <Container background={color.backgroundPrimary}>
       {listArchived && listArchived.length > 0 ? (

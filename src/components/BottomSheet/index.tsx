@@ -4,6 +4,7 @@ import * as Styled from "./styles";
 
 import { useEffect, useRef } from "react";
 import { useShoppingListContext } from "../../context/ShoppingList";
+import { colorTheme } from "../../../constants/Colors";
 
 const AnimatedBottomSheet = Animated.createAnimatedComponent(
   Styled.BottomSheet
@@ -12,7 +13,7 @@ const AnimatedBottomSheet = Animated.createAnimatedComponent(
 export type BottomSheetProps = {
   height: "add" | "edit";
   isVisible: boolean;
-  backgroundBottomSheet: string;
+  color: colorTheme;
   children: React.ReactNode;
 };
 
@@ -20,11 +21,8 @@ const BottomSheet = ({
   isVisible,
   children,
   height,
-  backgroundBottomSheet,
+  color,
 }: BottomSheetProps) => {
-  const colorScheme = useColorScheme();
-
-  const { getTheme, getColor } = useShoppingListContext();
   const animation = useRef(new Animated.Value(0)).current;
 
   const translateY = animation.interpolate({
@@ -45,11 +43,16 @@ const BottomSheet = ({
     }).start();
   }, [isVisible, animation]);
 
+  console.log("BottomNavigation color.theme", color.theme);
+  console.log(
+    "BottomNavigation color.backgroundPrimary",
+    color.backgroundPrimary
+  );
   return (
     <AnimatedBottomSheet
       style={{
         height: heightArr[height],
-        backgroundColor: backgroundBottomSheet,
+        backgroundColor: color.backgroundBottomSheet,
         transform: [{ translateY }],
       }}
     >

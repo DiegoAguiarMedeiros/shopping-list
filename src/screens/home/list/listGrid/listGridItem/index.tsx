@@ -84,7 +84,7 @@ export default function ListGridItem({
       ),
       height: "add",
       isVisible: false,
-      backgroundBottomSheet: color.backgroundBottomSheet,
+      color: color,
     });
   };
 
@@ -101,7 +101,7 @@ export default function ListGridItem({
           listId={list.uuid}
         />
       ),
-      backgroundBottomSheet: color.backgroundBottomSheet,
+      color: color,
     });
     router.push({ pathname: "/Items", params: { listId: list.uuid } });
   }, [list.uuid, router]);
@@ -120,7 +120,7 @@ export default function ListGridItem({
         />
       ),
       isVisible: true,
-      backgroundBottomSheet: color.backgroundBottomSheet,
+      color: color,
     });
   };
 
@@ -139,7 +139,7 @@ export default function ListGridItem({
         />
       ),
       isVisible: true,
-      backgroundBottomSheet: color.backgroundBottomSheet,
+      color: color,
     });
   };
 

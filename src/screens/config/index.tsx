@@ -26,6 +26,8 @@ type ConfigProps = {
   currentColor: ColorList;
   handleColorChange: (color: ColorList) => void;
   color: colorTheme;
+  handleThemeChange: (theme: "light" | "dark") => void;
+  currentTheme: "light" | "dark";
 };
 
 interface Image {
@@ -56,6 +58,8 @@ export default function Config({
   handleLanguageChange,
   currentColor,
   handleColorChange,
+  handleThemeChange,
+  currentTheme,
   color,
 }: Readonly<ConfigProps>) {
   const { saveTheme, saveLang, saveCurrency, getCurrency } =
@@ -81,6 +85,7 @@ export default function Config({
 
   const changeTheme = () => {
     saveTheme(color.theme === "light" ? "dark" : "light");
+    handleThemeChange(color.theme === "light" ? "dark" : "light");
   };
   const changeLang = (lang: languageType) => {
     saveLang(lang);
@@ -110,7 +115,7 @@ export default function Config({
             <GridItemWrapperRow height={10}>
               <GridItemWrapperInner width={50} height={100}>
                 <SubTitle color={color.text}>
-                  {color.theme === "dark"
+                  {currentTheme === "dark"
                     ? I18n.t("darkTheme")
                     : I18n.t("lightTheme")}
                 </SubTitle>

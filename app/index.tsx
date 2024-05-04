@@ -63,8 +63,10 @@ export default function App() {
     return Colors[color][theme];
   };
 
+  const handleThemeChange = (theme: "light" | "dark") => {
+    setTheme(theme);
+  };
   const handleColorChange = (color: ColorList) => {
-    // Update the language in state
     setColor(color);
     setCurrentColor({
       color: color,
@@ -73,10 +75,7 @@ export default function App() {
     saveColorController.handle(color);
   };
   const handleLanguageChange = (newLanguage: languageType) => {
-    // Update the language in state
     setCurrentLanguage(newLanguage);
-
-    // Set the new language in react-native-i18n
     I18n.locale = newLanguage;
   };
 
@@ -141,10 +140,12 @@ export default function App() {
         {appIsReady && active && (
           <Navigation
             currentColor={currentColor.color}
+            currentTheme={theme}
             color={colorTheme}
             currentLanguage={currentLanguage}
             handleColorChange={handleColorChange}
             handleLanguageChange={handleLanguageChange}
+            handleThemeChange={handleThemeChange}
           />
         )}
       </ShoppingListProvider>

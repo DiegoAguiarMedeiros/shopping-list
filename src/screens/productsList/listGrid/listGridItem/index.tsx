@@ -76,7 +76,7 @@ function ListGridItem({
         />
       ),
       isVisible: true,
-      backgroundBottomSheet: color.backgroundBottomSheet,
+      color: color,
     });
   };
 

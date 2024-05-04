@@ -71,7 +71,7 @@ export default function ListGridItem({
       ),
       height: "add",
       isVisible: false,
-      backgroundBottomSheet: color.backgroundBottomSheet,
+      color: color,
     });
   };
 
@@ -89,7 +89,7 @@ export default function ListGridItem({
           tagUuid={tag.uuid}
         />
       ),
-      backgroundBottomSheet: color.backgroundBottomSheet,
+      color: color,
     });
     router.push({ pathname: "/ProductsList", params: { tagUuid: tag.uuid } });
   }, [tag.uuid, router]);
@@ -112,7 +112,7 @@ export default function ListGridItem({
         />
       ),
       isVisible: true,
-      backgroundBottomSheet: color.backgroundBottomSheet,
+      color: color,
     });
   };
 

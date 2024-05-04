@@ -5,7 +5,7 @@ import {
 } from "@react-navigation/stack";
 import { useRouter } from "expo-router";
 import I18n from "i18n-js";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { TouchableHighlight } from "react-native";
 import Items from "../../app/Items";
 import ItemsArchived from "../../app/ItemsArchived";
@@ -24,8 +24,7 @@ import NewTagForm from "../components/NewTagForm";
 import Tags from "../../app/tags";
 import { Title } from "../components/Text";
 import History from "../../app/history";
-import { IProduct } from "../Model/IProduct";
-import { IList, IListInterface } from "../Model/IList";
+import { IList } from "../Model/IList";
 
 const Stack = createStackNavigator();
 
@@ -35,6 +34,8 @@ type NavigationProps = {
   currentLanguage: languageType;
   handleLanguageChange: (newLanguage: languageType) => void;
   handleColorChange: (color: ColorList) => void;
+  handleThemeChange: (theme: "light" | "dark") => void;
+  currentTheme: "light" | "dark";
 };
 
 const Navigation: React.FC<NavigationProps> = ({
@@ -43,7 +44,10 @@ const Navigation: React.FC<NavigationProps> = ({
   currentLanguage,
   handleLanguageChange,
   handleColorChange,
+  handleThemeChange,
+  currentTheme,
 }) => {
+  console.log("Navigation currentTheme", currentTheme);
   const router = useRouter();
   const [activeRoute, setActiveRoute] = useState<string>("home");
   const [activeRouteHeader, setActiveRouteHeader] = useState<{
@@ -87,7 +91,7 @@ const Navigation: React.FC<NavigationProps> = ({
       ),
       height: "add",
       isVisible: false,
-      backgroundBottomSheet: color.backgroundBottomSheet,
+      color: color,
     });
   };
   const handleCloseBottomSheetProduct = () => {
@@ -103,7 +107,7 @@ const Navigation: React.FC<NavigationProps> = ({
       ),
       height: "edit",
       isVisible: false,
-      backgroundBottomSheet: color.backgroundBottomSheet,
+      color: color,
     });
   };
   const handleCloseBottomSheetProductWithTag = (tag: string) => {
@@ -120,7 +124,7 @@ const Navigation: React.FC<NavigationProps> = ({
       ),
       height: "add",
       isVisible: false,
-      backgroundBottomSheet: color.backgroundBottomSheet,
+      color: color,
     });
   };
 
@@ -137,7 +141,7 @@ const Navigation: React.FC<NavigationProps> = ({
       ),
       height: "add",
       isVisible: false,
-      backgroundBottomSheet: color.backgroundBottomSheet,
+      color: color,
     });
   };
 
@@ -153,7 +157,7 @@ const Navigation: React.FC<NavigationProps> = ({
     ),
     height: "add",
     isVisible: false,
-    backgroundBottomSheet: color.backgroundBottomSheet,
+    color: color,
   });
 
   const handleShowSearchInput = () => {
@@ -464,16 +468,18 @@ const Navigation: React.FC<NavigationProps> = ({
         >
           {() => (
             <ConfigScreen
+              currentTheme={currentTheme}
               color={color}
               currentLanguage={currentLanguage}
               currentColor={currentColor}
               handleColorChange={handleColorChange}
               handleLanguageChange={handleLanguageChange}
+              handleThemeChange={handleThemeChange}
             />
           )}
         </Stack.Screen>
       </Stack.Navigator>
-      <BottomSheet {...bottomSheetProps} />
+      <BottomSheet {...bottomSheetProps} color={color} />
       <BottomNavigation
         color={color}
         routes={routes}

@@ -1,9 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
-import { TextInput, TextInputProps, useColorScheme } from "react-native";
-
+import React, { useEffect, useRef } from "react";
+import { TextInput, TextInputProps } from "react-native";
 
 import * as Styled from "./styles";
-import { useShoppingListContext } from "../../context/ShoppingList";
 import { colorTheme } from "../../../constants/Colors";
 
 interface InputProps extends TextInputProps {
