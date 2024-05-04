@@ -1,21 +1,49 @@
-import { useSearchParams } from "expo-router";
-import { Text } from "../components/Text";
-
-import Tags from "../screens/tags";
-import { BottomSheetProps } from "../components/BottomSheet";
+import Tags from "../src/screens/tags";
+import { BottomSheetProps } from "../src/components/BottomSheet";
+import { useImperativeHandle, useState } from "react";
+import React from "react";
+import { useShoppingListContext } from "../src/context/ShoppingList";
+import { colorTheme } from "../constants/Colors";
 
 interface TagsTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
-  bottomSheetProps: BottomSheetProps;
   handleCloseBottomSheet: () => void;
+  productListRef: React.MutableRefObject<{
+    handleAddProduct: (uuid: string) => void;
+  } | null>;
+  color: colorTheme;
 }
 
-export default function TagsTab({
-  setBottomSheetProps,
-  bottomSheetProps,
-  handleCloseBottomSheet, }: TagsTabProps) {
-  return (<Tags 
+const TagsTab = React.forwardRef(
+  (
+    {
+      setBottomSheetProps,
+      handleCloseBottomSheet,
+      productListRef,
+      color,
+    }: TagsTabProps,
+    ref: any
+  ) => {
+    const { getTags } = useShoppingListContext();
+    const [tags, setTags] = useState<string[]>(getTags());
+
+    useImperativeHandle(ref, () => ({
+      handleAddNewTag(tag: string) {
+        setTags((prev) => [...prev, tag]);
+      },
+    }));
+
+    return (
+      <Tags
+        color={color}
+        tagRef={ref}
+        productListRef={productListRef}
+        tags={tags}
         setBottomSheetProps={setBottomSheetProps}
-        bottomSheetProps={bottomSheetProps}
-        handleCloseBottomSheet={handleCloseBottomSheet}/>)
-}
+        handleCloseBottomSheet={handleCloseBottomSheet}
+      />
+    );
+  }
+);
+
+export default TagsTab;

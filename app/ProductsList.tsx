@@ -1,12 +1,14 @@
-import { useSearchParams } from "expo-router";
-import { Text } from "../components/Text";
+import { useGlobalSearchParams, useSearchParams } from "expo-router";
 
-import ProductsList from "../screens/productsList";
-import { BottomSheetProps } from "../components/BottomSheet";
+import ProductsList from "../src/screens/productsList/index";
+import { BottomSheetProps } from "../src/components/BottomSheet";
+import { useImperativeHandle, useState } from "react";
+import React from "react";
+import { useShoppingListContext } from "../src/context/ShoppingList";
+import { colorTheme } from "../constants/Colors";
 
 interface ProductListTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
-  bottomSheetProps: BottomSheetProps;
   handleCloseBottomSheet: (tagUuid: string) => void;
   handleCloseBottomSheetTag: () => void;
   setActiveRouteHeader: React.Dispatch<
@@ -16,26 +18,49 @@ interface ProductListTabProps {
       right: React.ReactNode | null;
     }>
   >;
+  color: colorTheme;
 }
 
+const ProductList = React.forwardRef(
+  (
+    {
+      setActiveRouteHeader,
+      setBottomSheetProps,
+      handleCloseBottomSheet,
+      handleCloseBottomSheetTag,
+      color,
+    }: ProductListTabProps,
+    ref: any
+  ) => {
+    const { tagUuid } = useGlobalSearchParams();
 
-export default function ProductList({
-    setActiveRouteHeader,
-    setBottomSheetProps,
-    bottomSheetProps,
-    handleCloseBottomSheet,
-    handleCloseBottomSheetTag }: ProductListTabProps) {
-    const { tagUuid } = useSearchParams();
+    const { getProductsByTagUuid, getTagByUuid } = useShoppingListContext();
+    const tag = getTagByUuid(tagUuid && !Array.isArray(tagUuid) ? tagUuid : "");
+    const [products, setProducts] = useState<string[]>(
+      getProductsByTagUuid(tagUuid && !Array.isArray(tagUuid) ? tagUuid : "")
+    );
 
+    useImperativeHandle(ref, () => ({
+      handleAddProduct(product: string) {
+        setProducts((prev) => [...prev, product]);
+      },
+    }));
 
     return tagUuid ? (
-        <ProductsList setBottomSheetProps={setBottomSheetProps}
-            bottomSheetProps={bottomSheetProps}
-            handleCloseBottomSheet={handleCloseBottomSheet}
-            handleCloseBottomSheetTag={handleCloseBottomSheetTag}
-            setActiveRouteHeader={setActiveRouteHeader}
-            tagUuid={Array.isArray(tagUuid) ? tagUuid[0] : tagUuid} />
+      <ProductsList
+        productRef={ref}
+        color={color}
+        tag={tag}
+        products={products}
+        setBottomSheetProps={setBottomSheetProps}
+        handleCloseBottomSheet={handleCloseBottomSheet}
+        handleCloseBottomSheetTag={handleCloseBottomSheetTag}
+        setActiveRouteHeader={setActiveRouteHeader}
+      />
     ) : (
-        <></>
+      <></>
     );
-}
+  }
+);
+
+export default ProductList;

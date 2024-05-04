@@ -1,32 +1,51 @@
-import { useSearchParams } from "expo-router";
-import { Text, Title } from "../components/Text";
-
-import Product from "../screens/product";
-import { BottomSheetProps } from "../components/BottomSheet";
-import { useEffect, useState } from "react";
-import { Dimensions, TouchableHighlight, useColorScheme } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
-import InputText from "../components/InputText";
-import HeaderInputTextSearch from "../components/HeaderInputTextSearch";
-
+import Product from "../src/screens/product";
+import { BottomSheetProps } from "../src/components/BottomSheet";
+import { useImperativeHandle, useState } from "react";
+import { colorTheme } from "../constants/Colors";
+import { useShoppingListContext } from "../src/context/ShoppingList";
+import React from "react";
+import { IProduct } from "../src/Model/IProduct";
 
 interface ProductTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
-  bottomSheetProps: BottomSheetProps;
   handleCloseBottomSheet: () => void;
   search: string;
+  color: colorTheme;
 }
 
+const ProductTab = React.forwardRef(
+  (
+    {
+      setBottomSheetProps,
+      color,
+      handleCloseBottomSheet,
+      search,
+    }: ProductTabProps,
+    ref: any
+  ) => {
+    const { getAllProductsObjects } = useShoppingListContext();
 
-export default function ProductTab({
-  setBottomSheetProps,
-  bottomSheetProps,
-  handleCloseBottomSheet,
-  search }: Readonly<ProductTabProps>) {
+    const [products, setProducts] = useState<IProduct[]>(
+      getAllProductsObjects()
+    );
 
-  return (<Product
-    search={search}
-    setBottomSheetProps={setBottomSheetProps}
-    bottomSheetProps={bottomSheetProps}
-    handleCloseBottomSheet={handleCloseBottomSheet} />)
-}
+    useImperativeHandle(ref, () => ({
+      handleAddProduct(product: IProduct) {
+        setProducts((prev) => [...prev, product]);
+      },
+    }));
+
+    return (
+      <Product
+        productRef={ref}
+        products={products}
+        search={search}
+        setBottomSheetProps={setBottomSheetProps}
+        color={color}
+        handleCloseBottomSheet={handleCloseBottomSheet}
+      />
+    );
+  }
+);
+
+export default ProductTab;

@@ -1,8 +1,0 @@
-import GetNumberOfProductsByTagsUuidUseCase from "./GetNumberOfProductsByTagsUuidUseCase"
-import GetNumberOfProductsByTagsUuidController from "./GetNumberOfProductsByTagsUuidController"
-import getListProductsController from "../GetListProducts";
-
-const getNumberOfProductsByTagsUuidUseCase = new GetNumberOfProductsByTagsUuidUseCase(getListProductsController);
-const getNumberOfProductsByTagsUuidController = new GetNumberOfProductsByTagsUuidController(getNumberOfProductsByTagsUuidUseCase);
-
-export default getNumberOfProductsByTagsUuidController;

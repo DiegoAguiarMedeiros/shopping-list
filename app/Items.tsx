@@ -1,30 +1,58 @@
-import { useSearchParams } from "expo-router";
-import { Text } from "../components/Text";
+import { useGlobalSearchParams } from "expo-router";
+import List from "../src/screens/list/index";
+import { colorTheme } from "../constants/Colors";
+import { useShoppingListContext } from "../src/context/ShoppingList";
+import { useImperativeHandle, useState } from "react";
+import { IList } from "../src/Model/IList";
+import { IProduct } from "../src/Model/IProduct";
+import React from "react";
 
-import List from "../screens/list";
-import { BottomSheetProps } from "../components/BottomSheet";
-
-interface ItemsTabProps {
+interface ProductsListProps {
   handleCloseBottomSheetList: () => void;
-  setActiveRouteHeader: React.Dispatch<React.SetStateAction<{
-    name: React.ReactNode;
-    left: React.ReactNode | null;
-    right: React.ReactNode | null;
-  }>>
+  setActiveRouteHeader: React.Dispatch<
+    React.SetStateAction<{
+      name: React.ReactNode;
+      left: React.ReactNode | null;
+      right: React.ReactNode | null;
+    }>
+  >;
+  color: colorTheme;
 }
 
+const Items = React.forwardRef(
+  (
+    {
+      handleCloseBottomSheetList,
+      setActiveRouteHeader,
+      color,
+    }: ProductsListProps,
+    ref: any
+  ) => {
+    const { listId } = useGlobalSearchParams();
 
-export default function Items({
-  handleCloseBottomSheetList, setActiveRouteHeader }: ItemsTabProps) {
-  const { listId } = useSearchParams();
+    const { getListByUuid } = useShoppingListContext();
+    const [list, setList] = useState<IList>(
+      getListByUuid(!Array.isArray(listId) && listId ? listId : "")
+    );
 
+    useImperativeHandle(ref, () => ({
+      handleAddItem(list: IList) {
+        setList(list);
+      },
+    }));
 
-  return listId ? (
-    <List
-      setActiveRouteHeader={setActiveRouteHeader}
-      handleCloseBottomSheetList={handleCloseBottomSheetList}
-      listId={Array.isArray(listId) ? listId[0] : listId} />
-  ) : (
-    <></>
-  );
-}
+    return listId ? (
+      <List
+        setList={setList}
+        list={list}
+        color={color}
+        setActiveRouteHeader={setActiveRouteHeader}
+        handleCloseBottomSheetList={handleCloseBottomSheetList}
+      />
+    ) : (
+      <></>
+    );
+  }
+);
+
+export default Items;

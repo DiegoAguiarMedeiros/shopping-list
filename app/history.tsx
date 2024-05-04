@@ -1,9 +1,13 @@
 import { StyleSheet } from "react-native";
-import { Text } from "../components/Text";
-import History from "../screens/history";
+import History from "../src/screens/history/index";
+import { colorTheme } from "../constants/Colors";
 
-export default function TabThreeScreen() {
-  return <History />;
+interface HistoryProps {
+  color: colorTheme;
+}
+
+export default function HistoryScreen({ color }: Readonly<HistoryProps>) {
+  return <History color={color} />;
 }
 
 const styles = StyleSheet.create({
