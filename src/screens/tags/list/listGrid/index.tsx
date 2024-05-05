@@ -5,15 +5,16 @@ import ListGridItem from "./listGridItem";
 import { useShoppingListContext } from "../../../../context/ShoppingList";
 import { colorTheme } from "../../../../../constants/Colors";
 import { IProduct } from "../../../../Model/IProduct";
+import ITag from "../../../../Model/ITag";
 interface ItemProps {
-  tags: string[];
+  tags: ITag[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
   productListRef: React.MutableRefObject<{
     handleAddProduct: (product: IProduct) => void;
   } | null>;
 
-  tagRef: React.RefObject<{ handleAddNewTag: (tag: string) => void }>;
+  tagRef: React.RefObject<{ handleAddNewTag: (tag: ITag) => void }>;
   color: colorTheme;
 }
 export default function ListGrid({
@@ -28,8 +29,7 @@ export default function ListGrid({
   return (
     <SafeAreaView style={{ width: "100%" }}>
       <ScrollView keyboardShouldPersistTaps="handled">
-        {tags.map((t: string) => {
-          const tag = getTagByUuid(t);
+        {tags.map((tag: ITag) => {
 
           return (
             <ListGridItem

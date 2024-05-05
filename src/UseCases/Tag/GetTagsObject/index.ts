@@ -1,11 +1,18 @@
 import storageMMKV from "../../../Service/Implementation/MMKVStorage";
-import GetTagsUseCase from "./GetTagsObjectUseCase";
-import GetTagsController from "./GetTagsObjectController";
+import GetTagsObjectUseCase from "./GetTagsObjectUseCase";
+import GetTagsObjectController from "./GetTagsObjectController";
 import GetTags from "../GetTags";
 import GetTagByUuid from "../GetTagByUuid";
+import { sortArrayOfObjects } from "../../../utils/functions";
 
-const getTagsUseCase = new GetTagsUseCase(GetTags, GetTagByUuid);
+const getTagsObjectUseCase = new GetTagsObjectUseCase(
+  GetTags,
+  GetTagByUuid,
+  sortArrayOfObjects
+);
 
-const getTagsController = new GetTagsController(getTagsUseCase);
+const getTagsObjectController = new GetTagsObjectController(
+  getTagsObjectUseCase
+);
 
-export default getTagsController;
+export default getTagsObjectController;

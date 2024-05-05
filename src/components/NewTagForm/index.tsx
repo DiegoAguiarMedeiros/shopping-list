@@ -15,7 +15,7 @@ export type NewTagFormProps = {
   action: "addTag" | "editTag";
   tag?: ITag;
   tagRef: React.MutableRefObject<{
-    handleAddNewTag: (uuid: string) => void;
+    handleAddNewTag: (tag: ITag) => void;
   } | null>;
   color: colorTheme;
 };
@@ -50,7 +50,7 @@ const NewTagForm = ({
       closeBottomSheet();
       const newTag = handleAddTag(newItem.item);
       if (tagRef.current) {
-        tagRef.current.handleAddNewTag(newTag.uuid);
+        tagRef.current.handleAddNewTag(newTag);
       }
     }
   };

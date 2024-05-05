@@ -14,7 +14,7 @@ import ProductTab from "../../app/product";
 import { colorTheme, ColorList } from "../../constants/Colors";
 import Home from "../../app/home";
 import ProductsList from "../../app/ProductsList";
-import { languageType, RoutesProps } from "../../types/types";
+import { languageType, RoutesProps } from "../types/types";
 import BottomNavigation from "../components/BottomNavigation";
 import BottomSheet, { BottomSheetProps } from "../components/BottomSheet";
 import HeaderInputTextSearch from "../components/HeaderInputTextSearch";
@@ -26,6 +26,7 @@ import { Title } from "../components/Text";
 import History from "../../app/history";
 import { IList } from "../Model/IList";
 import { IProduct } from "../Model/IProduct";
+import ITag from "../Model/ITag";
 
 const Stack = createStackNavigator();
 
@@ -64,9 +65,7 @@ const Navigation: React.FC<NavigationProps> = ({
   const listRef = useRef<{ handleAddNewList: (uuid: string) => void } | null>(
     null
   );
-  const tagRef = useRef<{ handleAddNewTag: (uuid: string) => void } | null>(
-    null
-  );
+  const tagRef = useRef<{ handleAddNewTag: (uuid: ITag) => void } | null>(null);
   const listItemRef = useRef<{
     handleAddItem: (list: IList) => void;
   } | null>(null);

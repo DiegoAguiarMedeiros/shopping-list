@@ -2,15 +2,16 @@ import { BottomSheetProps } from "../../../components/BottomSheet";
 import ListGrid from "./listGrid";
 import { colorTheme } from "../../../../constants/Colors";
 import { IProduct } from "../../../Model/IProduct";
+import ITag from "../../../Model/ITag";
 interface ItemProps {
-  tags: string[];
+  tags: ITag[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
   productListRef: React.MutableRefObject<{
     handleAddProduct: (product: IProduct) => void;
   } | null>;
   color: colorTheme;
-  tagRef: React.RefObject<{ handleAddNewTag: (tag: string) => void }>;
+  tagRef: React.RefObject<{ handleAddNewTag: (tag: ITag) => void }>;
 }
 
 export default function List({

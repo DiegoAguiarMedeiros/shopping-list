@@ -20,11 +20,11 @@ import { IProduct } from "../../Model/IProduct";
 interface TagsProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
-  tags: string[];
+  tags: ITag[];
   productListRef: React.MutableRefObject<{
     handleAddProduct: (product: IProduct) => void;
   } | null>;
-  tagRef: React.RefObject<{ handleAddNewTag: (tag: string) => void }>;
+  tagRef: React.RefObject<{ handleAddNewTag: (tag: ITag) => void }>;
   color: colorTheme;
 }
 

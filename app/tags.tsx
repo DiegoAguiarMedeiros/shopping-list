@@ -5,6 +5,7 @@ import React from "react";
 import { useShoppingListContext } from "../src/context/ShoppingList";
 import { colorTheme } from "../constants/Colors";
 import { IProduct } from "../src/Model/IProduct";
+import ITag from "../src/Model/ITag";
 
 interface TagsTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -25,11 +26,10 @@ const TagsTab = React.forwardRef(
     }: TagsTabProps,
     ref: any
   ) => {
-    const { getTags } = useShoppingListContext();
-    const [tags, setTags] = useState<string[]>(getTags());
-
+    const { getTagsObject } = useShoppingListContext();
+    const [tags, setTags] = useState<ITag[]>(getTagsObject());
     useImperativeHandle(ref, () => ({
-      handleAddNewTag(tag: string) {
+      handleAddNewTag(tag: ITag) {
         setTags((prev) => [...prev, tag]);
       },
     }));

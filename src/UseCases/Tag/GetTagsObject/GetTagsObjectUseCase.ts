@@ -1,5 +1,5 @@
 import ITag from "../../../Model/ITag";
-import IStorage from "../../../Service/IMMKVStorage";
+import { ISortArrayOfObjects } from "../../../utils/functions";
 import {
   IControllerGetTagByUuid,
   IControllerGetTags,
@@ -8,7 +8,8 @@ import {
 export default class GetTagsObjectUseCase {
   constructor(
     private getTags: IControllerGetTags,
-    private getTagsByUuid: IControllerGetTagByUuid
+    private getTagsByUuid: IControllerGetTagByUuid,
+    private sortArrayOfObjects: ISortArrayOfObjects
   ) {}
 
   execute = (): ITag[] => {
@@ -18,7 +19,7 @@ export default class GetTagsObjectUseCase {
       data.forEach((l) => {
         result.push(this.getTagsByUuid.handle(l));
       });
-      return result;
+      return this.sortArrayOfObjects(result, "name");
     } catch (error) {
       console.error("GetTagsObjectUseCase", error);
       return [];

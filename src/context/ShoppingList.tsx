@@ -28,7 +28,6 @@ import { sortArrayOfObjects } from "../utils/functions";
 import { ToastAndroid, useColorScheme } from "react-native";
 import saveThemeController from "../UseCases/Config/SaveTheme";
 import getThemeController from "../UseCases/Config/GetTheme";
-import { languageType } from "../../types/types";
 import getLanguageController from "../UseCases/Config/GetLanguage";
 import saveLanguageController from "../UseCases/Config/SaveLanguage";
 import getCurrencyController from "../UseCases/Config/GetCurrency";
@@ -58,6 +57,8 @@ import getTagUuidByTagNameController from "../UseCases/Tag/GetTagUuidByTagName";
 import getAmountByUuidController from "../UseCases/Amount/GetAmountByUuid";
 import getTotalAmountByListProductUuidController from "../UseCases/Amount/GetTotalAmountByListProductUuid";
 import getProductsToSelectByListUuidController from "../UseCases/ListProduct/GetProductsToSelectByListUuid";
+import { languageType } from "../types/types";
+import getTagsObjectController from "../UseCases/Tag/GetTagsObject";
 
 type ShoppingListProviderProps = {
   theme: "light" | "dark";
@@ -191,8 +192,8 @@ const getTagsFromStorage = (): string[] => {
 const getTagUuidByTagNameFromStorage = (name: string): string => {
   return getTagUuidByTagNameController.handle(name);
 };
-const getTagsObjectFromStorage = (): string[] => {
-  return getTagsController.handle();
+const getTagsObjectFromStorage = (): ITag[] => {
+  return getTagsObjectController.handle();
 };
 const getProductsToSelectByListUuidFromStorage = (
   listUuid: string
@@ -412,8 +413,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     return getTagUuidByTagNameFromStorage(name);
   };
   const getTagsObject = (): ITag[] => {
-    const tags = getTagsFromStorage();
-    return tags.map((tag) => getTagByUuidController.handle(tag));
+    return getTagsObjectFromStorage();
   };
   const getProductsToSelectByListUuid = (listUuid: string): IProduct[] => {
     return getProductsToSelectByListUuidFromStorage(listUuid);

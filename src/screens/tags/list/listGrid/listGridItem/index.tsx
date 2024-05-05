@@ -20,6 +20,7 @@ import NewProductForm from "../../../../../components/NewProductForm";
 import I18n from "i18n-js";
 import ITag from "../../../../../Model/ITag";
 import { colorTheme } from "../../../../../../constants/Colors";
+import { IProduct } from "../../../../../Model/IProduct";
 
 interface ItemProps {
   tag: ITag;
@@ -29,7 +30,7 @@ interface ItemProps {
   productListRef: React.MutableRefObject<{
     handleAddProduct: (product: IProduct) => void;
   } | null>;
-  tagRef: React.RefObject<{ handleAddNewTag: (tag: string) => void }>;
+  tagRef: React.RefObject<{ handleAddNewTag: (tag: ITag) => void }>;
 }
 
 export default function ListGridItem({
