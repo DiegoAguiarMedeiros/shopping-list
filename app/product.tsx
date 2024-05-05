@@ -37,6 +37,7 @@ const ProductTab = React.forwardRef(
 
     return (
       <Product
+        setProducts={setProducts}
         productRef={ref}
         products={products}
         search={search}

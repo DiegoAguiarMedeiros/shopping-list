@@ -4,12 +4,13 @@ import { BottomSheetProps } from "../../../../components/BottomSheet";
 import ListGridItem from "./listGridItem";
 import { useShoppingListContext } from "../../../../context/ShoppingList";
 import { colorTheme } from "../../../../../constants/Colors";
+import { IProduct } from "../../../../Model/IProduct";
 interface ItemProps {
   tags: string[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
   productListRef: React.MutableRefObject<{
-    handleAddProduct: (uuid: string) => void;
+    handleAddProduct: (product: IProduct) => void;
   } | null>;
 
   tagRef: React.RefObject<{ handleAddNewTag: (tag: string) => void }>;

@@ -57,6 +57,7 @@ import getNumberOfProductsByTagsUuidController from "../UseCases/ListProduct/Get
 import getTagUuidByTagNameController from "../UseCases/Tag/GetTagUuidByTagName";
 import getAmountByUuidController from "../UseCases/Amount/GetAmountByUuid";
 import getTotalAmountByListProductUuidController from "../UseCases/Amount/GetTotalAmountByListProductUuid";
+import getProductsToSelectByListUuidController from "../UseCases/ListProduct/GetProductsToSelectByListUuid";
 
 type ShoppingListProviderProps = {
   theme: "light" | "dark";
@@ -76,7 +77,8 @@ type ShoppingListContextType = {
   getTags: () => string[];
   getTagsObject: () => ITag[];
   getTagUuidByTagName: (name: string) => string;
-  getProductsByTagUuid: (tag: string) => string[];
+  getProductsByTagUuid: (tag: string) => IProduct[];
+  getProductsToSelectByListUuid: (listUuid: string) => IProduct[];
   getProductByUuid: (tag: string) => IProduct | null;
   getListItemsByListUuid: (uuid: string) => string[];
   getListByUuid: (uuid: string) => IList;
@@ -90,7 +92,7 @@ type ShoppingListContextType = {
   handleCopyList: (listUuid: string, listName: string) => IList;
   handleEditList: (listUuid: string, listName: string) => void;
   handleAddListItem: (listUuid: string, itemUuid: string) => IList;
-  handleAddListProduct: (productName: string, tag: string) => string;
+  handleAddListProduct: (productName: string, tag: string) => IProduct;
   handleEditListProduct: (
     listUuid: string,
     productName: string,
@@ -192,7 +194,12 @@ const getTagUuidByTagNameFromStorage = (name: string): string => {
 const getTagsObjectFromStorage = (): string[] => {
   return getTagsController.handle();
 };
-const getProductsByTagUuidFromStorage = (tag: string): string[] => {
+const getProductsToSelectByListUuidFromStorage = (
+  listUuid: string
+): IProduct[] => {
+  return getProductsToSelectByListUuidController.handle(listUuid);
+};
+const getProductsByTagUuidFromStorage = (tag: string): IProduct[] => {
   return getListProductsByTagUuidController.handle(tag);
 };
 const getAllProductsFromStorage = (): string[] => {
@@ -408,7 +415,10 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     const tags = getTagsFromStorage();
     return tags.map((tag) => getTagByUuidController.handle(tag));
   };
-  const getProductsByTagUuid = (tag: string): string[] => {
+  const getProductsToSelectByListUuid = (listUuid: string): IProduct[] => {
+    return getProductsToSelectByListUuidFromStorage(listUuid);
+  };
+  const getProductsByTagUuid = (tag: string): IProduct[] => {
     return getProductsByTagUuidFromStorage(tag);
   };
   const getAllProducts = (): string[] => {
@@ -463,11 +473,11 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     return getListByUuid(listUuid);
   };
 
-  const handleAddListProduct = (productName: string, tag: string): string => {
+  const handleAddListProduct = (productName: string, tag: string): IProduct => {
     const newProduct = returnNewProduct(productName, tag);
     saveNewProduct(newProduct);
     showToast("productCreatedSuccessfully");
-    return newProduct.uuid;
+    return newProduct;
   };
 
   const handleEditListProduct = (
@@ -549,11 +559,8 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   };
 
   const handleDeleteProduct = (productUuid: string) => {
-    // const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
-    // const newupdatedList = updatedList.filter((i) => productUuid !== i.uuid);
-    // deleteProduct(productUuid);
-    // setListProduct(newupdatedList);
-    // showToast("Produto deletado com sucesso!");
+    deleteProduct(productUuid);
+    showToast("productDeletedSuccessfully");
   };
 
   const handleDeleteProductFromList = (
@@ -715,6 +722,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
         getTags: getTags,
         getTagsObject: getTagsObject,
         getProductsByTagUuid: getProductsByTagUuid,
+        getProductsToSelectByListUuid: getProductsToSelectByListUuid,
         getTagByUuid: getTagByUuid,
         getTagUuidByTagName: getTagUuidByTagName,
         getListArchived: getListArchived,

@@ -79,7 +79,7 @@ export default function ListGridItem({
           color={color}
           buttonText="add"
           onClose={handleCloseBottomSheetProductList}
-          listId={list.uuid}
+          list={list}
         />
       ),
       height: "add",
@@ -98,7 +98,7 @@ export default function ListGridItem({
           color={color}
           onClose={handleCloseBottomSheetProductList}
           buttonText="add"
-          listId={list.uuid}
+          list={list}
         />
       ),
       color: color,

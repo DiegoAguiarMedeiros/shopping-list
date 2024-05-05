@@ -15,8 +15,9 @@ interface ProductProps {
   search: string;
   products: IProduct[];
   productRef: React.MutableRefObject<{
-    handleAddProduct: (uuid: string) => void;
+    handleAddProduct: (product: IProduct) => void;
   } | null>;
+  setProducts: React.Dispatch<React.SetStateAction<IProduct[]>>;
 }
 
 export default function Product({
@@ -26,12 +27,14 @@ export default function Product({
   color,
   products,
   productRef,
+  setProducts,
 }: Readonly<ProductProps>) {
   return (
     <Container background={color.backgroundPrimary}>
       <ContainerInner background={color.backgroundPrimary}>
         {products && products.length > 0 ? (
           <ListComponent
+            setProducts={setProducts}
             productRef={productRef}
             color={color}
             items={

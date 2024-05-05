@@ -6,6 +6,7 @@ import { useImperativeHandle, useState } from "react";
 import React from "react";
 import { useShoppingListContext } from "../src/context/ShoppingList";
 import { colorTheme } from "../constants/Colors";
+import { IProduct } from "../src/Model/IProduct";
 
 interface ProductListTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -36,18 +37,19 @@ const ProductList = React.forwardRef(
 
     const { getProductsByTagUuid, getTagByUuid } = useShoppingListContext();
     const tag = getTagByUuid(tagUuid && !Array.isArray(tagUuid) ? tagUuid : "");
-    const [products, setProducts] = useState<string[]>(
+    const [products, setProducts] = useState<IProduct[]>(
       getProductsByTagUuid(tagUuid && !Array.isArray(tagUuid) ? tagUuid : "")
     );
 
     useImperativeHandle(ref, () => ({
-      handleAddProduct(product: string) {
+      handleAddProduct(product: IProduct) {
         setProducts((prev) => [...prev, product]);
       },
     }));
 
     return tagUuid ? (
       <ProductsList
+        setProducts={setProducts}
         productRef={ref}
         color={color}
         tag={tag}

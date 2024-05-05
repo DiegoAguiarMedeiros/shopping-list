@@ -9,16 +9,18 @@ import Container from "../../../components/Container";
 import ContainerInner from "../../../components/ContainerInner";
 import { useShoppingListContext } from "../../../context/ShoppingList";
 import { colorTheme } from "../../../../constants/Colors";
+import { IProduct } from "../../../Model/IProduct";
 interface ListProps {
   tagUuid: string;
-  products: string[];
+  products: IProduct[];
   deleteItem: (item: ItemInterface) => void;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: (tagUuid: string) => void;
   productRef: React.MutableRefObject<{
-    handleAddProduct: (uuid: string) => void;
+    handleAddProduct: (product: IProduct) => void;
   } | null>;
   color: colorTheme;
+  setProducts: React.Dispatch<React.SetStateAction<IProduct[]>>;
 }
 
 function ListGrid({
@@ -29,8 +31,8 @@ function ListGrid({
   handleCloseBottomSheet,
   productRef,
   color,
+  setProducts,
 }: Readonly<ListProps>) {
-  const { getProductByUuid } = useShoppingListContext();
   return (
     <Container background={"transparent"}>
       <ContainerInner>
@@ -40,11 +42,11 @@ function ListGrid({
             style={[{ height: "100%" }]}
             nestedScrollEnabled
           >
-            {products.map((p: string) => {
-              const product = getProductByUuid(p);
+            {products.map((product: IProduct) => {
               if (!product) return null;
               return (
                 <ListGridItem
+                  setProducts={setProducts}
                   color={color}
                   productRef={productRef}
                   key={"ListGridItem-" + product.uuid}

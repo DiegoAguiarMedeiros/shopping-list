@@ -3,9 +3,12 @@ import GetAllProductsObjectsController from "./GetAllProductsObjectsController";
 import getAllProductsController from "../GetAllProducts";
 import getProductController from "../GetProductByUuid";
 
+import { sortArrayOfObjects } from "../../../utils/functions";
+
 const getAllProductsObjectsUseCase = new GetAllProductsObjectsUseCase(
   getAllProductsController,
-  getProductController
+  getProductController,
+  sortArrayOfObjects
 );
 
 const getAllProductsObjectsController = new GetAllProductsObjectsController(

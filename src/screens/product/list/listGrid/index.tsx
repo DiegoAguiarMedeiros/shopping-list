@@ -10,8 +10,9 @@ interface ItemProps {
   handleCloseBottomSheet: () => void;
   color: colorTheme;
   productRef: React.MutableRefObject<{
-    handleAddProduct: (uuid: string) => void;
+    handleAddProduct: (product: IProduct) => void;
   } | null>;
+  setProducts: React.Dispatch<React.SetStateAction<IProduct[]>>;
 }
 export default function ListGrid({
   items,
@@ -19,12 +20,14 @@ export default function ListGrid({
   handleCloseBottomSheet,
   color,
   productRef,
+  setProducts,
 }: Readonly<ItemProps>) {
   return (
     <SafeAreaView style={{ width: "100%" }}>
       <ScrollView keyboardShouldPersistTaps="handled">
         {items.map((item: IProduct) => (
           <ListGridItem
+            setProducts={setProducts}
             productRef={productRef}
             color={color}
             handleCloseBottomSheet={handleCloseBottomSheet}

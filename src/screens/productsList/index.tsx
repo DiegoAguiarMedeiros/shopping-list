@@ -20,6 +20,7 @@ import Header from "../../components/Header";
 import I18n from "i18n-js";
 import ITag from "../../Model/ITag";
 import { colorTheme } from "../../../constants/Colors";
+import { IProduct } from "../../Model/IProduct";
 type TotalType = {
   amount: number;
   un: number;
@@ -27,7 +28,7 @@ type TotalType = {
 
 interface ProductsListProps {
   tag: ITag;
-  products: string[];
+  products: IProduct[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: (tagUuid: string) => void;
   handleCloseBottomSheetTag: () => void;
@@ -40,8 +41,9 @@ interface ProductsListProps {
   >;
   color: colorTheme;
   productRef: React.MutableRefObject<{
-    handleAddProduct: (uuid: string) => void;
+    handleAddProduct: (product: IProduct) => void;
   } | null>;
+  setProducts: React.Dispatch<React.SetStateAction<IProduct[]>>;
 }
 
 export default function ProductsList({
@@ -53,6 +55,7 @@ export default function ProductsList({
   handleCloseBottomSheetTag,
   productRef,
   color,
+  setProducts,
 }: Readonly<ProductsListProps>) {
   const router = useRouter();
 
@@ -86,6 +89,7 @@ export default function ProductsList({
       <ContainerInner justify="center" background={color.backgroundPrimary}>
         {products && products.length > 0 ? (
           <ListGrid
+            setProducts={setProducts}
             color={color}
             productRef={productRef}
             setBottomSheetProps={setBottomSheetProps}

@@ -5,7 +5,7 @@ export default class GetListProductsByTagUuidController {
   constructor(
     private GetListProductsByTagUuidUseCase: GetListProductsByTagUuidUseCase
   ) {}
-  handle(tagUuid: string): string[] {
+  handle(tagUuid: string): IProduct[] {
     return this.GetListProductsByTagUuidUseCase.execute(tagUuid);
   }
 }

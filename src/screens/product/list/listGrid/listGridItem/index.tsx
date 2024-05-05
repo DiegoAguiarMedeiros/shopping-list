@@ -28,8 +28,9 @@ interface ItemProps {
   handleCloseBottomSheet: () => void;
   color: colorTheme;
   productRef: React.MutableRefObject<{
-    handleAddProduct: (uuid: string) => void;
+    handleAddProduct: (product: IProduct) => void;
   } | null>;
+  setProducts: React.Dispatch<React.SetStateAction<IProduct[]>>;
 }
 
 export default function ListGridItem({
@@ -38,6 +39,7 @@ export default function ListGridItem({
   handleCloseBottomSheet,
   color,
   productRef,
+  setProducts,
 }: Readonly<ItemProps>) {
   const { handleDeleteProduct, getLastPrices } = useShoppingListContext();
 
@@ -74,6 +76,7 @@ export default function ListGridItem({
 
   const handleDelete = () => {
     handleDeleteProduct(item.uuid);
+    setProducts((prev) => prev.filter((p) => p.uuid !== item.uuid));
   };
 
   const LeftSwipe = (

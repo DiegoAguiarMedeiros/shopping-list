@@ -1,4 +1,3 @@
-import { sortArrayOfObjects } from "../../../utils/functions";
 import { IList, IListInterface } from "../../../Model/IList";
 import GetListsUseCase from "./GetListsUseCase";
 import { IControllerGetLists } from "../../interface/IController";

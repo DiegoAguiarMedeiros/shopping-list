@@ -8,8 +8,9 @@ interface ItemProps {
   handleCloseBottomSheet: () => void;
   color: colorTheme;
   productRef: React.MutableRefObject<{
-    handleAddProduct: (uuid: string) => void;
+    handleAddProduct: (product: IProduct) => void;
   } | null>;
+  setProducts: React.Dispatch<React.SetStateAction<IProduct[]>>;
 }
 
 export default function List({
@@ -18,9 +19,11 @@ export default function List({
   handleCloseBottomSheet,
   color,
   productRef,
+  setProducts,
 }: Readonly<ItemProps>) {
   return (
     <ListGrid
+      setProducts={setProducts}
       productRef={productRef}
       color={color}
       items={items}

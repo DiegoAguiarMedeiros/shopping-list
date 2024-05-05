@@ -12,6 +12,7 @@ type SelectProps = {
   selectedValue: string;
   onValueChange: (itemValue: string, itemIndex: number) => void;
   color: colorTheme;
+  onFocus?: () => void;
 };
 
 const Select = ({
@@ -19,10 +20,12 @@ const Select = ({
   selectedValue,
   onValueChange,
   color,
+  onFocus,
 }: SelectProps) => {
   return (
     <Styled.Container>
       <Styled.Select
+        onFocus={() => onFocus && onFocus()}
         background={color.itemListBackgroundUnderlay}
         color={color.textSecondary}
         selectedValue={selectedValue}

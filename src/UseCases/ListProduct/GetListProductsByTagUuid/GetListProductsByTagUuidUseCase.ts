@@ -1,4 +1,5 @@
 import { IProduct } from "../../../Model/IProduct";
+import { sortArrayOfObjects } from "../../../utils/functions";
 import {
   IControllerGetAllProducts,
   IControllerGetProductsByUuid,
@@ -9,13 +10,13 @@ export default class GetListProductsByTagUuidUseCase {
     private getProducts: IControllerGetAllProducts,
     private getProductsByUuid: IControllerGetProductsByUuid
   ) {}
-  execute(tagUuid: string): string[] {
+  execute(tagUuid: string): IProduct[] {
     const productsUuids = this.getProducts.handle();
-    const result: string[] = [];
+    const result: IProduct[] = [];
     productsUuids.forEach((p) => {
       const product = this.getProductsByUuid.handle(p);
-      if (product && product.tag === tagUuid) result.push(product.uuid);
+      if (product && product.tag === tagUuid) result.push(product);
     });
-    return result;
+    return sortArrayOfObjects(result, "name");
   }
 }

@@ -12,7 +12,7 @@ import { IProduct } from "../../Model/IProduct";
 
 export type NewItemFormProps = {
   onClose: () => void;
-  listId: string;
+  list: IList;
   buttonText: "add" | "edit";
   items?: ItemInterface;
   color: colorTheme;
@@ -23,7 +23,7 @@ export type NewItemFormProps = {
 
 const NewItemForm = ({
   onClose,
-  listId,
+  list,
   buttonText,
   items,
   color,
@@ -33,26 +33,16 @@ const NewItemForm = ({
     item: items ? items.name : "",
   });
 
-  const { handleAddListItem, getAllProductsObjects } = useShoppingListContext();
+  const { handleAddListItem, getListByUuid, getProductsToSelectByListUuid } =
+    useShoppingListContext();
 
-  const products = getAllProductsObjects();
-  if (products.length > 0) {
-    products.unshift({
-      name: I18n.t("selectProduct"),
-      uuid: "",
-      amount: [],
-      tag: "",
-      unit: "Un",
-    });
-  } else {
-    products.unshift({
-      name: I18n.t("noProducts"),
-      uuid: "",
-      amount: [],
-      tag: "",
-      unit: "Un",
-    });
-  }
+  const [products, setProducts] = useState<IProduct[]>(
+    getProductsToSelectByListUuid(list.uuid)
+  );
+
+  const updateSelect = (): void => {
+    setProducts(getProductsToSelectByListUuid(list.uuid));
+  };
 
   const clearInput = () => {
     setNewItem({
@@ -69,10 +59,12 @@ const NewItemForm = ({
   const addListItem = (): void => {
     if (newItem.item != "") {
       closeBottomSheet();
-      const list = handleAddListItem(listId, newItem.item);
+
+      const newList = handleAddListItem(list.uuid, newItem.item);
       if (listItemRef?.current) {
-        listItemRef.current.handleAddItem(list);
+        listItemRef.current.handleAddItem(newList);
       }
+      const l = getListByUuid(list.uuid);
     }
   };
 
@@ -97,6 +89,7 @@ const NewItemForm = ({
       <Styled.InputContainer>
         {products ? (
           <Select
+            onFocus={updateSelect}
             color={color}
             items={products}
             selectedValue={newItem.item}

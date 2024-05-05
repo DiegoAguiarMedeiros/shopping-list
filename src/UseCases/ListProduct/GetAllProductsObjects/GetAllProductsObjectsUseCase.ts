@@ -1,4 +1,5 @@
 import { IProduct } from "../../../Model/IProduct";
+import { ISortArrayOfObjects } from "../../../utils/functions";
 import {
   IControllerGetAllProducts,
   IControllerGetProductsByUuid,
@@ -7,7 +8,8 @@ import {
 export default class GetAllProductsObjectUseCase {
   constructor(
     private getAllProductsController: IControllerGetAllProducts,
-    private getProduct: IControllerGetProductsByUuid
+    private getProduct: IControllerGetProductsByUuid,
+    private sortArrayOfObjects: ISortArrayOfObjects
   ) {}
 
   execute = (): IProduct[] => {
@@ -19,7 +21,7 @@ export default class GetAllProductsObjectUseCase {
           const p = this.getProduct.handle(product);
           if (p) list.push(p);
         });
-        return list;
+        return this.sortArrayOfObjects(list, "name");
       }
       return [];
     } catch (error) {

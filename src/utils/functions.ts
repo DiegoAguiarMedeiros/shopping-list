@@ -1,6 +1,6 @@
-import { IListInterface } from "../Domain/Model/IList";
-import { IProduct } from "../Domain/Model/IProduct";
-import ITag from "../Domain/Model/ITag";
+import { IListInterface } from "../Model/IList";
+import { IProduct } from "../Model/IProduct";
+import ITag from "../Model/ITag";
 import {
   ItemAmountInterface,
   ItemInterface,
@@ -9,6 +9,7 @@ import {
   ListType,
 } from "../types/types";
 
+type ISortArrayOfObjects = <T>(arr: T[], key: keyof T) => T[];
 
 function sortArrayOfObjects<T>(arr: T[], key: keyof T): T[] {
   return arr.slice().sort((a, b) => {
@@ -23,8 +24,6 @@ function sortArrayOfObjects<T>(arr: T[], key: keyof T): T[] {
     return 0;
   });
 }
-
-
 
 function removeDuplicates<T>(arr: T[]): T[] {
   return Array.from(new Set(arr));
@@ -100,15 +99,17 @@ const getTotalWithAmount = (items: ItemAmountInterface[]): number => {
   const total: number =
     items.length > 0
       ? items.reduce((accumulator, currentValue) => {
-        return currentValue.type
-          ? accumulator + 1
-          : accumulator + Number(currentValue?.quantity);
-      }, 0)
+          return currentValue.type
+            ? accumulator + 1
+            : accumulator + Number(currentValue?.quantity);
+        }, 0)
       : 0;
   return total;
 };
 
-function convertToInterface<T extends { uuid: string }>(listArray: T[]): IListInterface<T> {
+function convertToInterface<T extends { uuid: string }>(
+  listArray: T[]
+): IListInterface<T> {
   const listInterface = {} as IListInterface<T>;
   listArray.forEach((item) => {
     listInterface[item.uuid as string] = item as T;
@@ -184,5 +185,6 @@ export {
   checkTags,
   convertToInterface,
   removeDuplicates,
-  sortArrayOfObjects
+  sortArrayOfObjects,
+  ISortArrayOfObjects,
 };

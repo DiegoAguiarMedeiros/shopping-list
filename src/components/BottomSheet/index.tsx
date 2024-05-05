@@ -42,12 +42,6 @@ const BottomSheet = ({
       useNativeDriver: true,
     }).start();
   }, [isVisible, animation]);
-
-  console.log("BottomNavigation color.theme", color.theme);
-  console.log(
-    "BottomNavigation color.backgroundPrimary",
-    color.backgroundPrimary
-  );
   return (
     <AnimatedBottomSheet
       style={{

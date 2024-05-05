@@ -4,12 +4,13 @@ import { useImperativeHandle, useState } from "react";
 import React from "react";
 import { useShoppingListContext } from "../src/context/ShoppingList";
 import { colorTheme } from "../constants/Colors";
+import { IProduct } from "../src/Model/IProduct";
 
 interface TagsTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
   productListRef: React.MutableRefObject<{
-    handleAddProduct: (uuid: string) => void;
+    handleAddProduct: (product: IProduct) => void;
   } | null>;
   color: colorTheme;
 }

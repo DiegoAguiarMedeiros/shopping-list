@@ -25,6 +25,7 @@ import Tags from "../../app/tags";
 import { Title } from "../components/Text";
 import History from "../../app/history";
 import { IList } from "../Model/IList";
+import { IProduct } from "../Model/IProduct";
 
 const Stack = createStackNavigator();
 
@@ -47,7 +48,6 @@ const Navigation: React.FC<NavigationProps> = ({
   handleThemeChange,
   currentTheme,
 }) => {
-  console.log("Navigation currentTheme", currentTheme);
   const router = useRouter();
   const [activeRoute, setActiveRoute] = useState<string>("home");
   const [activeRouteHeader, setActiveRouteHeader] = useState<{
@@ -72,10 +72,10 @@ const Navigation: React.FC<NavigationProps> = ({
   } | null>(null);
 
   const productListRef = useRef<{
-    handleAddProduct: (uuid: string) => void;
+    handleAddProduct: (product: IProduct) => void;
   } | null>(null);
   const productRef = useRef<{
-    handleAddProduct: (uuid: string) => void;
+    handleAddProduct: (product: IProduct) => void;
   } | null>(null);
 
   const handleCloseBottomSheetList = () => {

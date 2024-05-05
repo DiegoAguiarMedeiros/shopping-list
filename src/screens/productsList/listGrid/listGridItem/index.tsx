@@ -34,9 +34,10 @@ interface ListProps {
   deleteItem: (item: ItemInterface) => void;
   handleCloseBottomSheet: (tagUuid: string) => void;
   productRef: React.MutableRefObject<{
-    handleAddProduct: (uuid: string) => void;
+    handleAddProduct: (product: IProduct) => void;
   } | null>;
   color: colorTheme;
+  setProducts: React.Dispatch<React.SetStateAction<IProduct[]>>;
 }
 
 function ListGridItem({
@@ -47,6 +48,7 @@ function ListGridItem({
   handleCloseBottomSheet,
   productRef,
   color,
+  setProducts,
 }: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
   const { handleDeleteProduct } = useShoppingListContext();
@@ -82,6 +84,7 @@ function ListGridItem({
 
   const handleDelete = () => {
     handleDeleteProduct(item.uuid);
+    setProducts((prev) => prev.filter((p) => p.uuid !== item.uuid));
   };
 
   const LeftSwipe = (
