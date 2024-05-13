@@ -32,7 +32,6 @@ const ProductTab = React.forwardRef(
 
     useImperativeHandle(ref, () => ({
       handleAddProduct(product: IProduct) {
-        console.log("handleAddProduct");
         setProducts((prev) => sortArrayOfObjects([...prev, product], "name"));
       },
     }));
