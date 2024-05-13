@@ -5,6 +5,7 @@ import { colorTheme } from "../constants/Colors";
 import { useShoppingListContext } from "../src/context/ShoppingList";
 import React from "react";
 import { IProduct } from "../src/Model/IProduct";
+import { sortArrayOfObjects } from "../src/utils/functions";
 
 interface ProductTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -31,7 +32,8 @@ const ProductTab = React.forwardRef(
 
     useImperativeHandle(ref, () => ({
       handleAddProduct(product: IProduct) {
-        setProducts((prev) => [...prev, product]);
+        console.log("handleAddProduct");
+        setProducts((prev) => sortArrayOfObjects([...prev, product], "name"));
       },
     }));
 

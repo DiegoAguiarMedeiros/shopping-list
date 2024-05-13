@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import { ColorList, colorTheme } from "../constants/Colors";
+import { BottomSheetProps } from "../src/components/BottomSheet";
 import Config from "../src/screens/config/index";
-import { languageType } from "../types/types";
+import { languageType } from "../src/types/types";
 
 type ConfigScreenProps = {
   currentLanguage: languageType;
@@ -10,6 +12,9 @@ type ConfigScreenProps = {
   color: colorTheme;
   handleThemeChange: (theme: "light" | "dark") => void;
   currentTheme: "light" | "dark";
+  handleChangeRoute: (
+    route: "home" | "product" | "tags" | "history" | "config"
+  ) => void;
 };
 
 export default function ConfigScreen({
@@ -20,7 +25,11 @@ export default function ConfigScreen({
   handleThemeChange,
   color,
   currentTheme,
+  handleChangeRoute,
 }: Readonly<ConfigScreenProps>) {
+  useEffect(() => {
+    handleChangeRoute("config");
+  }, []);
   return (
     <Config
       color={color}

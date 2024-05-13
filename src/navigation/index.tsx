@@ -98,7 +98,7 @@ const Navigation: React.FC<NavigationProps> = ({
       children: (
         <NewProductForm
           color={color}
-          productListRef={productListRef}
+          productListRef={productRef}
           action="addList"
           buttonText="add"
           onClose={handleCloseBottomSheetProduct}
@@ -200,7 +200,7 @@ const Navigation: React.FC<NavigationProps> = ({
   };
 
   const handleChangeRoute = (
-    route: "home" | "product" | "tags" | "history"
+    route: "home" | "product" | "tags" | "history" | "config"
   ): void => {
     const forms = {
       home: (
@@ -215,7 +215,7 @@ const Navigation: React.FC<NavigationProps> = ({
       product: (
         <NewProductForm
           color={color}
-          productListRef={productListRef}
+          productListRef={productRef}
           action="addList"
           buttonText="add"
           onClose={handleCloseBottomSheetProduct}
@@ -232,7 +232,7 @@ const Navigation: React.FC<NavigationProps> = ({
       ),
     };
 
-    if (route != "history" && route != "product") {
+    if (route != "history" && route != "product" && route != "config") {
       setBottomSheetProps({
         ...bottomSheetProps,
         isVisible: false,
@@ -263,7 +263,7 @@ const Navigation: React.FC<NavigationProps> = ({
       });
     }
 
-    if (route === "history") {
+    if (route === "history" || route === "config") {
       setBottomSheetProps({
         ...bottomSheetProps,
         children: <></>,
@@ -292,7 +292,7 @@ const Navigation: React.FC<NavigationProps> = ({
       icon: "plus",
       addButton: true,
       func: () =>
-        activeRoute !== "history"
+        activeRoute !== "history" && activeRoute !== "config"
           ? setBottomSheetProps({ ...bottomSheetProps, isVisible: true })
           : null,
     },
@@ -467,6 +467,7 @@ const Navigation: React.FC<NavigationProps> = ({
         >
           {() => (
             <ConfigScreen
+              handleChangeRoute={handleChangeRoute}
               currentTheme={currentTheme}
               color={color}
               currentLanguage={currentLanguage}
