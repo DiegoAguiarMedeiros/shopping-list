@@ -25,6 +25,7 @@ const Button: React.FC<ButtonProps> = ({
       {...rest}
       border={color.itemListItemOpenButtonBorder}
       background={color.itemListItemOpenButtonBackGround}
+      underlayColor={color.itemListItemOpenButtonBackGround}
       invertSide={invertSide!}
     >
       {icon !== undefined ? (

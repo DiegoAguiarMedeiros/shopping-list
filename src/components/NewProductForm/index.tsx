@@ -134,7 +134,9 @@ const NewProductForm = ({
       {!tagUuid && tags ? (
         <Styled.InputContainer>
           <Select
-            color={color}
+            background={color.selectCategory}
+            dropdownIconColor={color.primary}
+            textColor={color.textSecondary}
             items={tags}
             selectedValue={newItem.tag}
             onValueChange={onValueChange}

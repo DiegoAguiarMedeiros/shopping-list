@@ -98,6 +98,9 @@ export type colorTheme = {
   switchTrackColorFalse: string;
   switchThumbColorTrue: string;
   switchThumbColorFalse: string;
+  selectCurrency: string;
+  selectProduct: string;
+  selectCategory: string;
 };
 
 export type typeTheme = {
@@ -186,6 +189,9 @@ export const Colors: colors = {
       switchTrackColorFalse: "#CCC",
       switchThumbColorTrue: "#43BCAE",
       switchThumbColorFalse: "#43BCAE",
+      selectCurrency: "#eee",
+      selectProduct: "#FFF",
+      selectCategory: "#FFF",
     },
     dark: {
       theme: "dark",
@@ -258,6 +264,9 @@ export const Colors: colors = {
       switchTrackColorFalse: "#5F5E5E",
       switchThumbColorTrue: "#43BCAE",
       switchThumbColorFalse: "#43BCAE",
+      selectCurrency: "#1E1E1E",
+      selectProduct: "#1E1E1E",
+      selectCategory: "#1E1E1E",
     },
   },
   "#00BFFF": {
@@ -332,6 +341,9 @@ export const Colors: colors = {
       switchTrackColorFalse: "#CCC",
       switchThumbColorTrue: "#00BFFF",
       switchThumbColorFalse: "#00BFFF",
+      selectCurrency: "#eee",
+      selectProduct: "#FFF",
+      selectCategory: "#FFF",
     },
     dark: {
       theme: "dark",
@@ -404,6 +416,9 @@ export const Colors: colors = {
       switchTrackColorFalse: "#5F5E5E",
       switchThumbColorTrue: "#00BFFF",
       switchThumbColorFalse: "#00BFFF",
+      selectCurrency: "#1E1E1E",
+      selectProduct: "#1E1E1E",
+      selectCategory: "#1E1E1E",
     },
   },
   "#FF69B4": {
@@ -473,11 +488,14 @@ export const Colors: colors = {
       itemProductListAveragePrice: "#FF69B4",
       itemProductListLastPriceButtonBorder: "#FF69B4",
       itemProductListLastPriceButtonText: "#FF69B4",
-      configItemBackground: "#4F4E4E",
+      configItemBackground: "#FFF",
       switchTrackColorTrue: "#FF69B488",
       switchTrackColorFalse: "#CCC",
       switchThumbColorTrue: "#FF69B4",
       switchThumbColorFalse: "#FF69B4",
+      selectCurrency: "#eee",
+      selectProduct: "#FFF",
+      selectCategory: "#FFF",
     },
     dark: {
       theme: "dark",
@@ -550,6 +568,9 @@ export const Colors: colors = {
       switchTrackColorFalse: "#5F5E5E",
       switchThumbColorTrue: "#FF69B4",
       switchThumbColorFalse: "#FF69B4",
+      selectCurrency: "#1E1E1E",
+      selectProduct: "#1E1E1E",
+      selectCategory: "#1E1E1E",
     },
   },
 };

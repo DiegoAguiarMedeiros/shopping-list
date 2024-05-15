@@ -186,7 +186,9 @@ export default function Config({
             </GridItemWrapperRow>
             <GridItemWrapperRow height={10}>
               <Select
-                color={color}
+                background={color.selectCurrency}
+                dropdownIconColor={color.primary}
+                textColor={color.textSecondary}
                 items={currencyArr.map((currency) => {
                   return {
                     ...currency,

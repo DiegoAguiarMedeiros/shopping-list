@@ -90,7 +90,9 @@ const NewItemForm = ({
         {products ? (
           <Select
             onFocus={updateSelect}
-            color={color}
+            background={color.selectProduct}
+            dropdownIconColor={color.primary}
+            textColor={color.textSecondary}
             items={products}
             selectedValue={newItem.item}
             onValueChange={onValueChange}
