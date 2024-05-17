@@ -5,6 +5,7 @@ import { useShoppingListContext } from "../../../../../context/ShoppingList";
 
 import IAmount from "../../../../../Model/IAmount";
 import { colorTheme } from "../../../../../../constants/Colors";
+import { NativeSyntheticEvent, TextInputKeyPressEventData } from "react-native";
 interface ListPriceGridProps {
   amountItem: IAmount;
   selectedValueSwitch: boolean;
@@ -64,12 +65,26 @@ export default function ListPriceGrid({
     filterUpdate();
   };
 
-  const handleInputChange = (value: string) => {
-    const updatedList = handleAmountInputChange(
-      formatInput(value),
-      amountItem.uuid
-    );
-    setNewItemAmount(updatedList);
+  const handleInputChange = (
+    event: NativeSyntheticEvent<TextInputKeyPressEventData>
+  ) => {
+    const { key } = event.nativeEvent;
+    if (/^[\d.]$/.test(key) || key === "Backspace") {
+      if (key === "Backspace") {
+        const updatedList = handleAmountInputChange(
+          formatInput(newItemAmount?.quantity.slice(0, -1)),
+          amountItem.uuid
+        );
+        setNewItemAmount(updatedList);
+      } else {
+        const updatedList = handleAmountInputChange(
+          formatInput(newItemAmount?.quantity + key),
+          amountItem.uuid
+        );
+        setNewItemAmount(updatedList);
+      }
+    }
+
     filterUpdate();
   };
 
@@ -81,7 +96,7 @@ export default function ListPriceGrid({
           radius={true}
           keyboardType="decimal-pad"
           placeholder="0.000"
-          onChangeText={(value) => handleInputChange(value)}
+          onKeyPress={(event) => handleInputChange(event)}
           value={newItemAmount?.quantity}
         />
       ) : (

@@ -626,19 +626,11 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     value: string,
     amountUuid: string
   ): IAmount => {
-    // const updatedAmount: IAmount[] = JSON.parse(
-    //   JSON.stringify(amount.filter((a) => a.uuid === amountUuid))
-    // );
-    // updatedAmount[0].quantity = value;
-    // const amountlist = amount.map((a) => {
-    //   if (a.uuid === amountUuid) {
-    //     saveNewAmount(updatedAmount[0]);
-    //     return updatedAmount[0];
-    //   }
-    //   return a;
-    // });
-    // setAmount(amountlist);
-    // return updatedAmount[0];
+
+    const amount = getAmountByUuid(amountUuid);
+    amount.quantity = value;
+    saveNewAmount(amount);
+    return amount;
   };
 
   const handleDeleteTag = (tagUuid: string) => {
