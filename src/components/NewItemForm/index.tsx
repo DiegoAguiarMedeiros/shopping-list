@@ -8,7 +8,8 @@ import Select from "../InputSelect";
 import I18n from "i18n-js";
 import { colorTheme } from "../../../constants/Colors";
 import { IList } from "../../Model/IList";
-import { IProduct } from "../../Model/IProduct";
+import { IProduct, ITagsProductsMultiSelect } from "../../Model/IProduct";
+import MultiSelect from "../InputMultiSelect";
 
 export type NewItemFormProps = {
   onClose: () => void;
@@ -29,14 +30,16 @@ const NewItemForm = ({
   color,
   listItemRef,
 }: NewItemFormProps) => {
-  const [newItem, setNewItem] = useState({
-    item: items ? items.name : "",
+  const [newItem, setNewItem] = useState<{
+    item: string[];
+  }>({
+    item: [],
   });
 
   const { handleAddListItem, getListByUuid, getProductsToSelectByListUuid } =
     useShoppingListContext();
 
-  const [products, setProducts] = useState<IProduct[]>(
+  const [products, setProducts] = useState<ITagsProductsMultiSelect[]>(
     getProductsToSelectByListUuid(list.uuid)
   );
 
@@ -46,7 +49,7 @@ const NewItemForm = ({
 
   const clearInput = () => {
     setNewItem({
-      item: "",
+      item: [],
     });
   };
 
@@ -57,14 +60,14 @@ const NewItemForm = ({
   };
 
   const addListItem = (): void => {
-    if (newItem.item != "") {
+    if (newItem.item.length > 0) {
       closeBottomSheet();
 
-      const newList = handleAddListItem(list.uuid, newItem.item);
-      if (listItemRef?.current) {
-        listItemRef.current.handleAddItem(newList);
-      }
-      const l = getListByUuid(list.uuid);
+      // const newList = handleAddListItem(list.uuid, newItem.item);
+      // if (listItemRef?.current) {
+      //   listItemRef.current.handleAddItem(newList);
+      // }
+      // const l = getListByUuid(list.uuid);
     }
   };
 
@@ -73,33 +76,21 @@ const NewItemForm = ({
     edit: I18n.t("edit"),
   };
 
-  useEffect(() => {
-    setNewItem({
-      item: items ? items.name : "",
-    });
-  }, [items]);
-
-  const onValueChange = (itemValue: string, itemIndex: number): void => {
-    setNewItem({
-      item: itemValue,
-    });
+  const onValueChange = (itemValue: string[]): void => {
+    // setNewItem({
+    //   item: itemValue,
+    // });
   };
   return (
     <Styled.Container>
       <Styled.InputContainer>
-        {products ? (
-          <Select
-            onFocus={updateSelect}
-            background={color.selectProduct}
-            dropdownIconColor={color.primary}
-            textColor={color.textSecondary}
-            items={products}
-            selectedValue={newItem.item}
-            onValueChange={onValueChange}
-          />
-        ) : (
-          <></>
-        )}
+        <MultiSelect
+          onFocus={updateSelect}
+          color={color}
+          items={products || []}
+          selectedItems={newItem.item}
+          onValueChange={onValueChange}
+        />
       </Styled.InputContainer>
       <Styled.ButtonsContainer>
         <Styled.ButtonWrapper>

@@ -2,16 +2,16 @@ import GetProductsToSelectByListUuidUseCase from "./GetProductsToSelectByListUui
 import GetProductsToSelectByListUuidController from "./GetProductsToSelectByListUuidController";
 
 import GetListByUuid from "../../List/GetListByUuid";
-import getAllProductsController from "../GetAllProducts";
-import getProductController from "../GetProductByUuid";
+import getAllTagsController from "../../Tag/GetTagsObject";
+import getAllProductsController from "../GetListProductsTinyByTagUuid";
 import { sortArrayOfObjects } from "../../../utils/functions";
 
 import I18n from "i18n-js";
 const getProductsToSelectByListUuidUseCase =
   new GetProductsToSelectByListUuidUseCase(
     GetListByUuid,
+    getAllTagsController,
     getAllProductsController,
-    getProductController,
     sortArrayOfObjects,
     I18n
   );

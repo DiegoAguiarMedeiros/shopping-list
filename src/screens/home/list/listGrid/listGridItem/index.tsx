@@ -82,7 +82,7 @@ export default function ListGridItem({
           list={list}
         />
       ),
-      height: "add",
+      height: "addItem",
       isVisible: false,
       color: color,
     });
@@ -91,7 +91,7 @@ export default function ListGridItem({
   const handleOpenList = useCallback(() => {
     setBottomSheetProps({
       isVisible: false,
-      height: "add",
+      height: "addItem",
       children: (
         <NewItemForm
           listItemRef={listItemRef}

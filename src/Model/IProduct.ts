@@ -6,6 +6,10 @@ export interface IProduct {
   unit: "Kg" | "Un";
   tag: string;
 }
+export interface IProductTiny {
+  id: string;
+  name: string;
+}
 
 export type LastPricesInterface = {
   [uuid: string]: ILastPrices;
@@ -14,4 +18,10 @@ export type LastPricesInterface = {
 export interface ILastPrices {
   uuid: string;
   price: number;
-};
+}
+
+export interface ITagsProductsMultiSelect {
+  name: string;
+  id: string;
+  children: IProductTiny[];
+}

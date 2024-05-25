@@ -7,7 +7,7 @@ import saveListsController from "../UseCases/List/SaveLists";
 import getListsArchivedController from "../UseCases/ListArchived/GetListArchived";
 import saveListArchivedByUuidController from "../UseCases/ListArchived/SaveListArchivedByUuid";
 import ITag from "../Model/ITag";
-import { IProduct } from "../Model/IProduct";
+import { IProduct, ITagsProductsMultiSelect } from "../Model/IProduct";
 import GetAmountsController from "../UseCases/Amount/GetAmounts";
 
 import UUIDGenerator from "react-native-uuid";
@@ -79,7 +79,9 @@ type ShoppingListContextType = {
   getTagsObject: () => ITag[];
   getTagUuidByTagName: (name: string) => string;
   getProductsByTagUuid: (tag: string) => IProduct[];
-  getProductsToSelectByListUuid: (listUuid: string) => IProduct[];
+  getProductsToSelectByListUuid: (
+    listUuid: string
+  ) => ITagsProductsMultiSelect[];
   getProductByUuid: (tag: string) => IProduct | null;
   getListItemsByListUuid: (uuid: string) => string[];
   getListByUuid: (uuid: string) => IList;
@@ -197,8 +199,13 @@ const getTagsObjectFromStorage = (): ITag[] => {
 };
 const getProductsToSelectByListUuidFromStorage = (
   listUuid: string
-): IProduct[] => {
-  return getProductsToSelectByListUuidController.handle(listUuid);
+): ITagsProductsMultiSelect[] => {
+  const result = getProductsToSelectByListUuidController.handle(listUuid);
+  console.log(
+    "getProductsToSelectByListUuidController ",
+    JSON.stringify(result)
+  );
+  return result;
 };
 const getProductsByTagUuidFromStorage = (tag: string): IProduct[] => {
   return getListProductsByTagUuidController.handle(tag);
@@ -415,7 +422,9 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   const getTagsObject = (): ITag[] => {
     return getTagsObjectFromStorage();
   };
-  const getProductsToSelectByListUuid = (listUuid: string): IProduct[] => {
+  const getProductsToSelectByListUuid = (
+    listUuid: string
+  ): ITagsProductsMultiSelect[] => {
     return getProductsToSelectByListUuidFromStorage(listUuid);
   };
   const getProductsByTagUuid = (tag: string): IProduct[] => {
@@ -626,7 +635,6 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     value: string,
     amountUuid: string
   ): IAmount => {
-
     const amount = getAmountByUuid(amountUuid);
     amount.quantity = value;
     saveNewAmount(amount);

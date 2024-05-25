@@ -1,64 +1,43 @@
-import { IProduct } from "../../../Model/IProduct";
+import { Children } from "react";
+import { ITagsProductsMultiSelect } from "../../../Model/IProduct";
 import Product from "../../../screens/product";
 import { ISortArrayOfObjects } from "../../../utils/functions";
 import {
-  IControllerGetAllProducts,
+  IControllerGetAllProductsTinyByTagUuid,
   IControllerGetListByUuid,
-  IControllerGetProductsByUuid,
+  IControllerGetTagsObject,
 } from "../../interface/IController";
 
 export default class GetProductsToSelectByListUuidUseCase {
   constructor(
     private getListByUuid: IControllerGetListByUuid,
-    private getAllProductsController: IControllerGetAllProducts,
-    private getProduct: IControllerGetProductsByUuid,
+    private getAllTagsController: IControllerGetTagsObject,
+    private IControllerGetAllProductsTinyByTagUuid: IControllerGetAllProductsTinyByTagUuid,
     private sortArrayOfObjects: ISortArrayOfObjects,
     private i18n: any
   ) {}
-  execute = (listUuid: string): IProduct[] => {
+  execute = (listUuid: string): ITagsProductsMultiSelect[] => {
     try {
       const list = this.getListByUuid.handle(listUuid);
-      const listProducts = this.getAllProductsController.handle();
-      const data = listProducts.filter(
-        (product) => !list.items.includes(product)
-      );
-      if (data.length > 0) {
-        const list: IProduct[] = [];
-        data.forEach((product) => {
-          const p = this.getProduct.handle(product);
-          if (p) list.push(p);
-        });
-        return [
-          {
-            name: this.i18n.t("selectProduct"),
-            uuid: "",
-            amount: [],
-            tag: "",
-            unit: "Un",
-          },
-          ...this.sortArrayOfObjects(list, "name"),
-        ];
-      }
-      return [
-        {
-          name: this.i18n.t("noProducts"),
-          uuid: "",
-          amount: [],
-          tag: "",
-          unit: "Un",
-        },
-      ];
+      const listTags = this.getAllTagsController.handle();
+
+      const data: ITagsProductsMultiSelect[] = listTags.map((tag) => {
+        const product = this.IControllerGetAllProductsTinyByTagUuid.handle(
+          tag.uuid
+        );
+        return {
+          id: tag.uuid,
+          name: tag.name,
+          children: product,
+        };
+      });
+
+      console.log("data", data);
+
+      return this.sortArrayOfObjects(data, "name");
     } catch (error) {
       console.error("GetAllProductsObjectUseCase", error);
-      return [
-        {
-          name: this.i18n.t("noProducts"),
-          uuid: "",
-          amount: [],
-          tag: "",
-          unit: "Un",
-        },
-      ];
+      return [];
     }
   };
 }

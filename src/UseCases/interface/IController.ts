@@ -1,6 +1,6 @@
 import ITag from "../../Model/ITag";
 import { IList, IListInterface } from "../../Model/IList";
-import { IProduct } from "../../Model/IProduct";
+import { IProduct, IProductTiny } from "../../Model/IProduct";
 import IAmount from "../../Model/IAmount";
 import Amount from "../../Model/Implementation/Amount";
 
@@ -51,6 +51,9 @@ export interface IControllerSaveListProductByUuid {
 }
 export interface IControllerGetAllProducts {
   handle(): string[];
+}
+export interface IControllerGetAllProductsTinyByTagUuid {
+  handle(tagUuid: string): IProductTiny[];
 }
 export interface IControllerGetAllProductsObject {
   handle(): IProduct[];
