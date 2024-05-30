@@ -65,7 +65,7 @@ const NewItemForm = ({
     if (listItemRef?.current) {
       listItemRef.current.handleAddItem(newList);
     }
-    const l = getListByUuid(list.uuid);
+    updateSelect();
   };
 
   const buttonTextArr = {
