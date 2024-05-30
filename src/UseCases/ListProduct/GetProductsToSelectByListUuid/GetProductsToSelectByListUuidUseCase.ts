@@ -20,16 +20,23 @@ export default class GetProductsToSelectByListUuidUseCase {
     try {
       const list = this.getListByUuid.handle(listUuid);
       const listTags = this.getAllTagsController.handle();
-
-      const data: ITagsProductsMultiSelect[] = listTags.map((tag) => {
+      const data: ITagsProductsMultiSelect[] = [];
+      listTags.forEach((tag) => {
         const product = this.IControllerGetAllProductsTinyByTagUuid.handle(
           tag.uuid
         );
-        return {
-          id: tag.uuid,
-          name: tag.name,
-          children: product,
-        };
+
+        const filteredProduct = product.filter(
+          (product) => !list.items.includes(product.id)
+        );
+
+        if (filteredProduct.length > 0) {
+          data.push({
+            id: tag.uuid,
+            name: tag.name,
+            children: filteredProduct,
+          });
+        }
       });
       return this.sortArrayOfObjects(data, "name");
     } catch (error) {

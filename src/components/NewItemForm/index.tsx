@@ -60,15 +60,12 @@ const NewItemForm = ({
   };
 
   const addListItem = (): void => {
-    if (newItem.item.length > 0) {
-      closeBottomSheet();
-
-      // const newList = handleAddListItem(list.uuid, newItem.item);
-      // if (listItemRef?.current) {
-      //   listItemRef.current.handleAddItem(newList);
-      // }
-      // const l = getListByUuid(list.uuid);
+    closeBottomSheet();
+    const newList = handleAddListItem(list.uuid, newItem.item);
+    if (listItemRef?.current) {
+      listItemRef.current.handleAddItem(newList);
     }
+    const l = getListByUuid(list.uuid);
   };
 
   const buttonTextArr = {
@@ -77,9 +74,9 @@ const NewItemForm = ({
   };
 
   const onValueChange = (itemValue: string[]): void => {
-    // setNewItem({
-    //   item: itemValue,
-    // });
+    setNewItem({
+      item: itemValue,
+    });
   };
   return (
     <Styled.Container>

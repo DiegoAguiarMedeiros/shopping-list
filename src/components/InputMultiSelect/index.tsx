@@ -23,17 +23,11 @@ type MultiSelectProps = {
 
 const MultiSelect = ({
   items,
-  // selectedItems,
+  selectedItems,
   onValueChange,
   onFocus,
   color,
 }: MultiSelectProps) => {
-  const [selectedItems, setSelectedItems] = useState([]);
-
-  const onSelectedItemsChange = (selectedItems: any) => {
-    setSelectedItems(selectedItems);
-  };
-
   const colors = {
     primary: color.primary,
     success: color.primary,
@@ -136,7 +130,7 @@ const MultiSelect = ({
         selectText={I18n.t("selectProduct")}
         selectedText={I18n.t("selectedProduct")}
         readOnlyHeadings={true}
-        onSelectedItemsChange={onSelectedItemsChange}
+        onSelectedItemsChange={onValueChange}
         selectedItems={selectedItems}
         showCancelButton
         animateDropDowns

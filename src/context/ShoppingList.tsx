@@ -94,7 +94,7 @@ type ShoppingListContextType = {
   handleAddList: (list: string) => IList;
   handleCopyList: (listUuid: string, listName: string) => IList;
   handleEditList: (listUuid: string, listName: string) => void;
-  handleAddListItem: (listUuid: string, itemUuid: string) => IList;
+  handleAddListItem: (listUuid: string, itemUuid: string[]) => IList;
   handleAddListProduct: (productName: string, tag: string) => IProduct;
   handleEditListProduct: (
     listUuid: string,
@@ -250,7 +250,7 @@ const saveNewList = (newList: IList): void => {
   saveListByUuidController.handle(newList);
 };
 
-const addProductToListByUuid = (listUuid: string, itemUuid: string) => {
+const addProductToListByUuid = (listUuid: string, itemUuid: string[]) => {
   addProductToListByUuidController.handle(listUuid, itemUuid);
 };
 
@@ -472,7 +472,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     showToast("listEditedSuccessfully");
   };
 
-  const handleAddListItem = (listUuid: string, itemUuid: string): IList => {
+  const handleAddListItem = (listUuid: string, itemUuid: string[]): IList => {
     addProductToListByUuid(listUuid, itemUuid);
     showToast("productAddedSuccessfully");
     return getListByUuid(listUuid);

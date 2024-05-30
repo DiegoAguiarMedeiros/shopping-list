@@ -17,7 +17,8 @@ export default class GetListByUuidController implements IControllerGetListByUuid
         uuid: "",
         name: "",
         tags: [],
-        items: []
+        items: [],
+        createAt: 0
       };
       return result;
     }

@@ -16,6 +16,7 @@ export default class GetListUseCase {
         name: "",
         tags: [],
         items: [],
+        createAt: 0,
       };
       return result;
     } catch (error) {
@@ -25,6 +26,7 @@ export default class GetListUseCase {
         name: "",
         tags: [],
         items: [],
+        createAt: 0,
       };
       return result;
     }
