@@ -201,10 +201,6 @@ const getProductsToSelectByListUuidFromStorage = (
   listUuid: string
 ): ITagsProductsMultiSelect[] => {
   const result = getProductsToSelectByListUuidController.handle(listUuid);
-  console.log(
-    "getProductsToSelectByListUuidController ",
-    JSON.stringify(result)
-  );
   return result;
 };
 const getProductsByTagUuidFromStorage = (tag: string): IProduct[] => {

@@ -9,7 +9,7 @@ export const Container = styled.View`
 export const InputContainer = styled.View`
   padding: 5px 15px;
   width: 100%;
-  height: 155px;
+  height: 55px;
   flex-direction: row;
 `;
 export const ButtonsContainer = styled.View`

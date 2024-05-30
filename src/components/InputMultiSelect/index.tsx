@@ -52,7 +52,7 @@ const MultiSelect = ({
   const styles: Styles = {
     selectToggle: {
       backgroundColor: color.itemListBackground,
-      height: 55,
+      height: 45,
       alignContent: "center",
       padding: 10,
       borderRadius: 10,
@@ -145,6 +145,7 @@ const MultiSelect = ({
         styles={styles}
         itemFontFamily={itemFontFamily}
         subItemFontFamily={subItemFontFamily}
+        customChipsRenderer={() => {}}
       />
     </Styled.Container>
   );

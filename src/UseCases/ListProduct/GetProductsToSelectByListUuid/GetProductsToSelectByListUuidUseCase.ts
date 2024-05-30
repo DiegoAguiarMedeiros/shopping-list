@@ -31,9 +31,6 @@ export default class GetProductsToSelectByListUuidUseCase {
           children: product,
         };
       });
-
-      console.log("data", data);
-
       return this.sortArrayOfObjects(data, "name");
     } catch (error) {
       console.error("GetAllProductsObjectUseCase", error);

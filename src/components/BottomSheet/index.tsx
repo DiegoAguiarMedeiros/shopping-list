@@ -11,7 +11,7 @@ const AnimatedBottomSheet = Animated.createAnimatedComponent(
 );
 
 export type BottomSheetProps = {
-  height: "add" | "edit" | "addItem";
+  height: "add" | "edit";
   isVisible: boolean;
   color: colorTheme;
   children: React.ReactNode;
@@ -33,7 +33,6 @@ const BottomSheet = ({
   const heightArr = {
     add: 150,
     edit: 200,
-    addItem: 250,
   };
 
   useEffect(() => {
