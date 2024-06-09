@@ -22,6 +22,9 @@ export interface IControllerSaveTag {
 export interface IControllerGetTagByUuid {
   handle(key: string): ITag;
 }
+export interface IControllerGetTagUuidByTagName {
+  handle(name: string): string;
+}
 export interface IControllerGetAmountByUuid {
   handle(key: string): IAmount;
 }

@@ -16,28 +16,42 @@ import { colorTheme } from "../../../constants/Colors";
 
 interface AddPriceUnitProps {
   listProductUuid: string;
-  listArrItems: IAmount[];
+  filter: string;
+  listArrAmountItems: IAmount[];
   color: colorTheme;
-  setListArrItems: React.Dispatch<React.SetStateAction<IAmount[]>>;
-  filterUpdate: () => void;
+  setListArrAmountItems: React.Dispatch<React.SetStateAction<IAmount[]>>;
+  totalUpdate: (total: number, amount: number, un: number) => void;
 }
 
 export default function AddPriceUnit({
   listProductUuid,
   color,
-  listArrItems,
-  setListArrItems,
-  filterUpdate,
+  listArrAmountItems,
+  setListArrAmountItems,
+  totalUpdate,
+  filter,
 }: Readonly<AddPriceUnitProps>) {
-  const { handleAddAmount } = useShoppingListContext();
+  const {
+    handleAddAmount,
+    getTotalAmountByListUuid,
+    getTotalQuantityAmountByListUuid,
+    getTotalQuantityWithoutAmountByListUuid,
+  } = useShoppingListContext();
   const [newItem, setNewItem] = useState("");
-
   const addAmount = (): void => {
     if (newItem != "") {
       const newAmount = handleAddAmount(newItem, listProductUuid);
-      setListArrItems((prev) => [...prev, newAmount]);
+      setListArrAmountItems((prev) => [...prev, newAmount]);
       setNewItem("");
-      filterUpdate();
+
+      totalUpdate(
+        getTotalAmountByListUuid(listProductUuid.slice(0, 36), filter),
+        getTotalQuantityAmountByListUuid(listProductUuid.slice(0, 36), filter),
+        getTotalQuantityWithoutAmountByListUuid(
+          listProductUuid.slice(0, 36),
+          filter
+        )
+      );
     }
   };
 
@@ -47,14 +61,19 @@ export default function AddPriceUnit({
     <Container noPadding>
       <ContainerInner>
         <GridItemWrapperRow
-          height={heights[listArrItems.length >= 4 ? 4 : listArrItems.length]}
+          height={
+            heights[
+              listArrAmountItems.length >= 4 ? 4 : listArrAmountItems.length
+            ]
+          }
         >
-          {listArrItems.length > 0 ? (
+          {listArrAmountItems.length > 0 ? (
             <ListPriceGrid
-              filterUpdate={filterUpdate}
-              setListArrItems={setListArrItems}
+              filter={filter}
+              totalUpdate={totalUpdate}
+              setListArrAmountItems={setListArrAmountItems}
               color={color}
-              item={listArrItems}
+              item={listArrAmountItems}
               key={"ListPriceGrid-" + listProductUuid}
             />
           ) : (

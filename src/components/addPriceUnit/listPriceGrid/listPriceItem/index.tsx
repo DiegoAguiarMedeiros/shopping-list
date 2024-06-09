@@ -25,23 +25,30 @@ import { colorTheme } from "../../../../../constants/Colors";
 interface ListProps {
   itemAmount: IAmount;
   color: colorTheme;
-  setListArrItems: React.Dispatch<React.SetStateAction<IAmount[]>>;
-  filterUpdate: () => void;
+  setListArrAmountItems: React.Dispatch<React.SetStateAction<IAmount[]>>;
+  totalUpdate: (total: number, amount: number, un: number) => void;
+  filter: string;
 }
 
 export default function ListPriceGrid({
   itemAmount,
   color,
-  setListArrItems,
-  filterUpdate,
+  setListArrAmountItems,
+  totalUpdate,
+  filter,
 }: Readonly<ListProps>) {
-  const { handleEditItemsAmount, handleDeleteAmountInList, getCurrency } =
-    useShoppingListContext();
+  const {
+    handleEditItemsAmount,
+    handleDeleteAmountInList,
+    getCurrency,
+    getTotalAmountByListUuid,
+    getTotalQuantityAmountByListUuid,
+    getTotalQuantityWithoutAmountByListUuid,
+  } = useShoppingListContext();
   const [selectedValueSwitch, setSelectedValueSwitch] = useState(
     itemAmount.type
   );
   const [newItemAmount, setNewItemAmount] = useState<IAmount>(itemAmount);
-
   const editItemsAmount = (): void => {
     handleEditItemsAmount(itemAmount.uuid, !selectedValueSwitch);
     const updatedList: IAmount = JSON.parse(JSON.stringify(itemAmount));
@@ -49,11 +56,10 @@ export default function ListPriceGrid({
     updatedList.quantity = "1";
     setSelectedValueSwitch(!selectedValueSwitch);
     setNewItemAmount(updatedList);
-    filterUpdate();
   };
 
   const handleUpdateListArrItems = (amount: IAmount): void => {
-    setListArrItems((prev) =>
+    setListArrAmountItems((prev) =>
       prev.map((p) => {
         if (p.uuid === amount.uuid) {
           return amount;
@@ -65,9 +71,21 @@ export default function ListPriceGrid({
 
   const deleteAmountInList = (): void => {
     handleDeleteAmountInList(itemAmount.uuid);
-    setListArrItems((prev) => prev.filter((p) => p.uuid !== itemAmount.uuid));
+    setListArrAmountItems((prev) =>
+      prev.filter((p) => p.uuid !== itemAmount.uuid)
+    );
     Keyboard.dismiss();
-    filterUpdate();
+    totalUpdate(
+      getTotalAmountByListUuid(itemAmount.listProductUuid.slice(0, 36), filter),
+      getTotalQuantityAmountByListUuid(
+        itemAmount.listProductUuid.slice(0, 36),
+        filter
+      ),
+      getTotalQuantityWithoutAmountByListUuid(
+        itemAmount.listProductUuid.slice(0, 36),
+        filter
+      )
+    );
   };
 
   return (
@@ -85,7 +103,8 @@ export default function ListPriceGrid({
         </GridItemWrapperInner>
         <GridItemWrapperInner width={30} height={100}>
           <AddQtd
-            filterUpdate={filterUpdate}
+            filter={filter}
+            totalUpdate={totalUpdate}
             handleUpdateListArrItems={handleUpdateListArrItems}
             color={color}
             amountItem={itemAmount}

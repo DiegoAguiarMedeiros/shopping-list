@@ -25,11 +25,12 @@ import { IList } from "../../../../Model/IList";
 interface ListProps {
   item: IProduct;
   listId: string;
+  filter: string;
   handleOpen: (uuid: string) => void;
   handleClose: () => void;
   active: string;
   color: colorTheme;
-  filterUpdate: () => void;
+  totalUpdate: (total: number, amount: number, un: number) => void;
   setList: React.Dispatch<React.SetStateAction<IList>>;
 }
 
@@ -40,8 +41,9 @@ function ListGridItem({
   handleOpen,
   handleClose,
   active,
-  filterUpdate,
+  totalUpdate,
   setList,
+  filter,
 }: ListProps) {
   const colorScheme = useColorScheme();
   const {
@@ -108,7 +110,7 @@ function ListGridItem({
   const showUnitFromAmount = (amounts: IAmount[]): string => {
     let checkUnit: boolean = true;
     let unit: string = "Un";
-    let quantity: Number = 0;
+    let quantity: number = 0;
     amounts.forEach((amount) => {
       if (checkUnit) unit = amount.type ? "Kg" : "Un";
       if (!amount.type) checkUnit = false;
@@ -207,11 +209,12 @@ function ListGridItem({
           >
             <GridItemWrapperCol width={100}>
               <AddPriceUnit
-                filterUpdate={filterUpdate}
-                setListArrItems={setListArrAmountItems}
+                filter={filter}
+                totalUpdate={totalUpdate}
+                setListArrAmountItems={setListArrAmountItems}
                 color={color}
                 listProductUuid={listProductUuid}
-                listArrItems={listArrAmountItems}
+                listArrAmountItems={listArrAmountItems}
               />
             </GridItemWrapperCol>
           </GridItemWrapperRow>

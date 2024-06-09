@@ -1,13 +1,9 @@
 import { Dimensions } from "react-native";
 import styled, { css } from "styled-components/native";
 
-export const Container = styled.View<{
-  background: string;
-}>`
-  background: ${(props: { background: any }) => props.background};
-  width: 100%;
-  height: 100%;
-  padding: 15px 10px;
+export const Container = styled.View`
+  margin-top: -10px;
+  margin-right: 22px;
 `;
 
 export const ContainerList = styled.View`

@@ -136,19 +136,13 @@ type ShoppingListContextType = {
   getNewLoadColor: () => colorTheme;
   saveColor: (color: ColorList) => void;
   getLastPrices: (productUuid: string) => string[];
-  getTotalAmountByListUuid: (uuid: string, productsList?: IProduct[]) => number;
-  getTotalAmountByListProductUuid: (
-    uuid: string,
-    productsList?: IProduct[]
-  ) => number;
+  getTotalAmountByListUuid: (uuid: string, filter?: string) => number;
+  getTotalAmountByListProductUuid: (uuid: string, filter?: string) => number;
   getTotalQuantityWithoutAmountByListUuid: (
     uuid: string,
-    productsList?: IProduct[]
+    filter?: string
   ) => number;
-  getTotalQuantityAmountByListUuid: (
-    uuid: string,
-    productsList?: IProduct[]
-  ) => number;
+  getTotalQuantityAmountByListUuid: (uuid: string, filter?: string) => number;
   getNumberOfProductsByTagsUuid: (uuid: string) => number;
 };
 
@@ -160,30 +154,27 @@ const getListsObjectFromStorage = (): IList[] => {
 };
 const getTotalAmountByListUuidFromStorage = (
   uuid: string,
-  productsList?: IProduct[]
+  filter?: string
 ): number => {
-  return getTotalAmountByListUuidController.handle(uuid, productsList);
+  return getTotalAmountByListUuidController.handle(uuid, filter);
 };
 const getTotalAmountByListProductUuidFromStorage = (uuid: string): number => {
   return getTotalAmountByListProductUuidController.handle(uuid);
 };
 const getTotalQuantityWithoutAmountByListUuidFromStorage = (
   uuid: string,
-  productsList?: IProduct[]
+  filter?: string
 ): number => {
-  return getTotalQuantityWithoutAmountByListUuidController.handle(
-    uuid,
-    productsList
-  );
+  return getTotalQuantityWithoutAmountByListUuidController.handle(uuid, filter);
 };
 const getListItemsByListUuidFromStorage = (uuid: string): string[] => {
   return [];
 };
 const getTotalQuantityAmountByListUuidFromStorage = (
   uuid: string,
-  productsList?: IProduct[]
+  filter?: string
 ): number => {
-  return getTotalQuantityAmountByListUuidController.handle(uuid, productsList);
+  return getTotalQuantityAmountByListUuidController.handle(uuid, filter);
 };
 const getNumberOfProductsByTagsUuidFromStorage = (uuid: string): number => {
   return getNumberOfProductsByTagsUuidController.handle(uuid);
@@ -370,29 +361,23 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   const getListsObject = (): IList[] => {
     return getListsObjectFromStorage();
   };
-  const getTotalAmountByListUuid = (
-    uuid: string,
-    productsList?: IProduct[]
-  ): number => {
-    return getTotalAmountByListUuidFromStorage(uuid, productsList);
+  const getTotalAmountByListUuid = (uuid: string, filter?: string): number => {
+    return getTotalAmountByListUuidFromStorage(uuid, filter);
   };
   const getTotalAmountByListProductUuid = (uuid: string): number => {
     return getTotalAmountByListProductUuidFromStorage(uuid);
   };
   const getTotalQuantityWithoutAmountByListUuid = (
     uuid: string,
-    productsList?: IProduct[]
+    filter?: string
   ): number => {
-    return getTotalQuantityWithoutAmountByListUuidFromStorage(
-      uuid,
-      productsList
-    );
+    return getTotalQuantityWithoutAmountByListUuidFromStorage(uuid, filter);
   };
   const getTotalQuantityAmountByListUuid = (
     uuid: string,
-    productsList?: IProduct[]
+    filter?: string
   ): number => {
-    return getTotalQuantityAmountByListUuidFromStorage(uuid, productsList);
+    return getTotalQuantityAmountByListUuidFromStorage(uuid, filter);
   };
   const getNumberOfProductsByTagsUuid = (uuid: string): number => {
     return getNumberOfProductsByTagsUuidFromStorage(uuid);

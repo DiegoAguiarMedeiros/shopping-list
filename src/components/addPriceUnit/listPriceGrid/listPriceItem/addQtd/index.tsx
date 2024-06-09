@@ -13,7 +13,8 @@ interface ListPriceGridProps {
   setNewItemAmount: React.Dispatch<React.SetStateAction<IAmount>>;
   color: colorTheme;
   handleUpdateListArrItems: (amount: IAmount) => void;
-  filterUpdate: () => void;
+  totalUpdate: (total: number, amount: number, un: number) => void;
+  filter: string;
 }
 
 export default function ListPriceGrid({
@@ -23,10 +24,16 @@ export default function ListPriceGrid({
   setNewItemAmount,
   color,
   handleUpdateListArrItems,
-  filterUpdate,
+  totalUpdate,
+  filter,
 }: Readonly<ListPriceGridProps>) {
-  const { changeAmountQuantity, handleAmountInputChange } =
-    useShoppingListContext();
+  const {
+    changeAmountQuantity,
+    handleAmountInputChange,
+    getTotalAmountByListUuid,
+    getTotalQuantityAmountByListUuid,
+    getTotalQuantityWithoutAmountByListUuid,
+  } = useShoppingListContext();
 
   const formatInput = (value: string): string => {
     let newValue = value.replace(".", "");
@@ -52,7 +59,20 @@ export default function ListPriceGrid({
       );
       setNewItemAmount(updatedList);
       handleUpdateListArrItems(updatedList);
-      filterUpdate();
+      totalUpdate(
+        getTotalAmountByListUuid(
+          amountItem.listProductUuid.slice(0, 36),
+          filter
+        ),
+        getTotalQuantityAmountByListUuid(
+          amountItem.listProductUuid.slice(0, 36),
+          filter
+        ),
+        getTotalQuantityWithoutAmountByListUuid(
+          amountItem.listProductUuid.slice(0, 36),
+          filter
+        )
+      );
     }
   };
   const plusAmount = (): void => {
@@ -62,7 +82,17 @@ export default function ListPriceGrid({
     );
     setNewItemAmount(updatedList);
     handleUpdateListArrItems(updatedList);
-    filterUpdate();
+    totalUpdate(
+      getTotalAmountByListUuid(amountItem.listProductUuid.slice(0, 36), filter),
+      getTotalQuantityAmountByListUuid(
+        amountItem.listProductUuid.slice(0, 36),
+        filter
+      ),
+      getTotalQuantityWithoutAmountByListUuid(
+        amountItem.listProductUuid.slice(0, 36),
+        filter
+      )
+    );
   };
 
   const handleInputChange = (
@@ -85,7 +115,17 @@ export default function ListPriceGrid({
       }
     }
 
-    filterUpdate();
+    totalUpdate(
+      getTotalAmountByListUuid(amountItem.listProductUuid.slice(0, 36), filter),
+      getTotalQuantityAmountByListUuid(
+        amountItem.listProductUuid.slice(0, 36),
+        filter
+      ),
+      getTotalQuantityWithoutAmountByListUuid(
+        amountItem.listProductUuid.slice(0, 36),
+        filter
+      )
+    );
   };
 
   return (

@@ -6,15 +6,17 @@ import { colorTheme } from "../../../../constants/Colors";
 interface ListProps {
   item: IAmount[];
   color: colorTheme;
-  setListArrItems: React.Dispatch<React.SetStateAction<IAmount[]>>;
-  filterUpdate: () => void;
+  setListArrAmountItems: React.Dispatch<React.SetStateAction<IAmount[]>>;
+  totalUpdate: (total: number, amount: number, un: number) => void;
+  filter: string;
 }
 
 export default function ListPriceGrid({
   item,
   color,
-  setListArrItems,
-  filterUpdate,
+  setListArrAmountItems,
+  totalUpdate,
+  filter,
 }: Readonly<ListProps>) {
   return (
     <SafeAreaView style={{ width: "100%" }}>
@@ -22,8 +24,9 @@ export default function ListPriceGrid({
         {item.map((itemAmount: IAmount) => {
           return itemAmount ? (
             <ListPriceItem
-              filterUpdate={filterUpdate}
-              setListArrItems={setListArrItems}
+              filter={filter}
+              totalUpdate={totalUpdate}
+              setListArrAmountItems={setListArrAmountItems}
               color={color}
               itemAmount={itemAmount}
               key={itemAmount.uuid}
