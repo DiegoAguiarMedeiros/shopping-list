@@ -89,7 +89,7 @@ export default function AddPriceUnit({
               radius
               placeholder="Valor"
               onChangeText={(valor) => {
-                setNewItem(valor);
+                setNewItem(valor.replace(",", "."));
               }}
               keyboardType="numeric"
               value={newItem}
