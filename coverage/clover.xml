@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1720294014564" clover="3.2.0">
+  <project timestamp="1720294014564" name="All files">
+    <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4" elements="12" coveredelements="12" complexity="0" loc="8" ncloc="8" packages="1" files="2" classes="2"/>
+    <file name="SaveListsController.ts" path="/home/diego/MeusProjetos/shopping-list/src/UseCases/List/SaveLists/SaveListsController.ts">
+      <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+      <line num="7" count="2" type="stmt"/>
+      <line num="8" count="2" type="stmt"/>
+      <line num="9" count="2" type="stmt"/>
+      <line num="11" count="1" type="stmt"/>
+    </file>
+    <file name="SaveListsUseCase.ts" path="/home/diego/MeusProjetos/shopping-list/src/UseCases/List/SaveLists/SaveListsUseCase.ts">
+      <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+      <line num="6" count="2" type="stmt"/>
+      <line num="7" count="2" type="stmt"/>
+      <line num="8" count="2" type="stmt"/>
+      <line num="10" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>
