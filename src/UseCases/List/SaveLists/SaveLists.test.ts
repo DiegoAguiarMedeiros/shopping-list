@@ -1,5 +1,3 @@
-import * as React from "react";
-import renderer from "react-test-renderer";
 import IMMKVStorage from "../../../Service/IMMKVStorage";
 import SaveListsUseCase from "./SaveListsUseCase";
 import SaveListsController from "./SaveListsController";
