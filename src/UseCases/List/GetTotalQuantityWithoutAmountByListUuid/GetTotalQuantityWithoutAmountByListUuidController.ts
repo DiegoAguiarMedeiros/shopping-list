@@ -6,9 +6,14 @@ export default class GetQuantityWithoutAmountByListUuidController {
     private getTotalQuantityWithoutAmountByListUuidUseCase: GetTotalQuantityWithoutAmountByListUuidUseCase
   ) {}
   handle(listUuid: string, filter: string = "Todos"): number {
-    return this.getTotalQuantityWithoutAmountByListUuidUseCase.execute(
-      listUuid,
-      filter
-    );
+    try {
+      return this.getTotalQuantityWithoutAmountByListUuidUseCase.execute(
+        listUuid,
+        filter
+      );
+    } catch (err) {
+      console.error("GetTotalQuantityWithoutAmountByListUuidUseCase: ", err);
+      return -1;
+    }
   }
 }

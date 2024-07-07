@@ -19,7 +19,7 @@ export default class SaveListByUuidUseCase {
       if (!lists.includes(data.uuid))
         this.saveLists.handle([...lists, data.uuid]);
     } catch (error) {
-      console.error("SaveListByUuidUseCase", error);
+      console.error("SaveListByUuidUseCase: ", error);
     }
   };
 }

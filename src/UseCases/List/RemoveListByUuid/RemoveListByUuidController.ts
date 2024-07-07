@@ -4,6 +4,10 @@ import RemoveListByUuidUseCase from "./RemoveListByUuidUseCase";
 export default class RemoveListByUuidController implements IControllerDelete {
   constructor(private removeListByUuidUseCase: RemoveListByUuidUseCase) {}
   handle(listUuid: string) {
-    this.removeListByUuidUseCase.execute(listUuid);
+    try {
+      this.removeListByUuidUseCase.execute(listUuid);
+    } catch (err) {
+      console.error("RemoveListByUuidController: ", err);
+    }
   }
 }

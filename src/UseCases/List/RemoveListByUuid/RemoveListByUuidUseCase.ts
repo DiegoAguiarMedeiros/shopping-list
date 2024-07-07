@@ -9,8 +9,12 @@ export default class RemoveListByUuidUseCase {
     private saveLists: IControllerSaveList
   ) {}
   execute(listUuid: string) {
-    const lists = this.getLists.handle();
-    const listFiltered = lists.filter((list) => list !== listUuid);
-    this.saveLists.handle(listFiltered);
+    try {
+      const lists = this.getLists.handle();
+      const listFiltered = lists.filter((list) => list !== listUuid);
+      this.saveLists.handle(listFiltered);
+    } catch (err) {
+      console.error("RemoveListByUuidUseCase: ", err);
+    }
   }
 }
