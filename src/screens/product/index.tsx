@@ -16,6 +16,7 @@ interface ProductProps {
   products: IProduct[];
   productRef: React.MutableRefObject<{
     handleAddProduct: (product: IProduct) => void;
+    handleReloadProduct: () => void;
   } | null>;
   setProducts: React.Dispatch<React.SetStateAction<IProduct[]>>;
 }

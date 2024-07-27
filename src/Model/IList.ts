@@ -1,5 +1,3 @@
-import ITag from "./ITag";
-
 export interface IList {
   uuid: string;
   name: string;

@@ -34,6 +34,9 @@ const ProductTab = React.forwardRef(
       handleAddProduct(product: IProduct) {
         setProducts((prev) => sortArrayOfObjects([...prev, product], "name"));
       },
+      handleReloadProduct() {
+        setProducts(getAllProductsObjects());
+      },
     }));
 
     return (

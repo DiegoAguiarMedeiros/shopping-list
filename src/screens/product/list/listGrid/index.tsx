@@ -11,6 +11,7 @@ interface ItemProps {
   color: colorTheme;
   productRef: React.MutableRefObject<{
     handleAddProduct: (product: IProduct) => void;
+    handleReloadProduct: () => void;
   } | null>;
   setProducts: React.Dispatch<React.SetStateAction<IProduct[]>>;
 }
@@ -22,6 +23,7 @@ export default function ListGrid({
   productRef,
   setProducts,
 }: Readonly<ItemProps>) {
+  console.log("items", items);
   return (
     <SafeAreaView style={{ width: "100%" }}>
       <ScrollView keyboardShouldPersistTaps="handled">

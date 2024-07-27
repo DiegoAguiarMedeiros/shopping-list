@@ -12,6 +12,7 @@ interface TagsTabProps {
   handleCloseBottomSheet: () => void;
   productListRef: React.MutableRefObject<{
     handleAddProduct: (product: IProduct) => void;
+    handleReloadProduct: () => void;
   } | null>;
   color: colorTheme;
 }

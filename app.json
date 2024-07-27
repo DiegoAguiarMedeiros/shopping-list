@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "smart-list",
-    "slug": "smart-list",
+    "name": "Listei",
+    "slug": "listei",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/icon-20x20-i.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -15,14 +15,14 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.diegoamdeiros.smartList"
+      "bundleIdentifier": "com.diegoamdeiros.listei"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#1E1E1E"
       },
-      "package": "com.diegoamdeiros.smartList"
+      "package": "com.diegoamdeiros.listei"
     },
     "web": {
       "bundler": "metro",
@@ -30,7 +30,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "fdb89e50-65eb-4c2a-a499-67b1c2f41499"
+        "projectId": "fd512a03-9e31-4522-a1e1-8d85f8176b86"
       }
     },
     "plugins": ["expo-localization"]

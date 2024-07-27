@@ -471,36 +471,15 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   };
 
   const handleEditListProduct = (
-    listUuid: string,
+    productUuid: string,
     productName: string,
     tag: string
   ): void => {
-    // const updatedList: IProduct[] = JSON.parse(JSON.stringify(listProduct));
-    // const selectedItem = listProduct.find((item) => item.uuid === listUuid);
-    // if (selectedItem) {
-    //   selectedItem.name = productName;
-    //   if (selectedItem.tag !== tag) {
-    //     selectedItem.tag = tag;
-    //   }
-    //   const newUpdatedList = updatedList.map((item) =>
-    //     item.uuid === selectedItem.uuid ? selectedItem : item
-    //   );
-    //   saveNewProduct(selectedItem);
-    //   setListProduct(sortArrayOfObjects(newUpdatedList, "name"));
-    //   if (selectedItem.tag === tag) {
-    //     const listToUpdateTags = getListByProductUuidController.handle(
-    //       selectedItem.uuid
-    //     );
-    //     const newList = list.map((l) => {
-    //       if (listToUpdateTags.includes(l.uuid)) {
-    //         l.tags = getTagsByProductUuidArrayController.handle(l.items);
-    //       }
-    //       return l;
-    //     });
-    //     setList([...newList]);
-    //   }
-    //   showToast("productEditedSuccessfully");
-    // }
+    const product = getProductByUuid(productUuid);
+    if (product) {
+      saveNewProduct({ ...product, name: productName, tag: tag });
+      showToast("productEditedSuccessfully");
+    }
   };
 
   const handleAddList = (list: string): IList => {

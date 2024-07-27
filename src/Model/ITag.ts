@@ -1,5 +1,5 @@
 export default interface ITag {
-  children: any;
+  children?: any;
   uuid: string;
   name: string;
 }

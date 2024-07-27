@@ -35,6 +35,7 @@ interface ListProps {
   handleCloseBottomSheet: (tagUuid: string) => void;
   productRef: React.MutableRefObject<{
     handleAddProduct: (product: IProduct) => void;
+    handleReloadProduct: () => void;
   } | null>;
   color: colorTheme;
   setProducts: React.Dispatch<React.SetStateAction<IProduct[]>>;

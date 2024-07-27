@@ -72,9 +72,11 @@ const Navigation: React.FC<NavigationProps> = ({
 
   const productListRef = useRef<{
     handleAddProduct: (product: IProduct) => void;
+    handleReloadProduct: () => void;
   } | null>(null);
   const productRef = useRef<{
     handleAddProduct: (product: IProduct) => void;
+    handleReloadProduct: () => void;
   } | null>(null);
 
   const handleCloseBottomSheetList = () => {

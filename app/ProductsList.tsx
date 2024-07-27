@@ -46,6 +46,13 @@ const ProductList = React.forwardRef(
       handleAddProduct(product: IProduct) {
         setProducts((prev) => sortArrayOfObjects([...prev, product], "name"));
       },
+      handleReloadProduct() {
+        setProducts(
+          getProductsByTagUuid(
+            tagUuid && !Array.isArray(tagUuid) ? tagUuid : ""
+          )
+        );
+      },
     }));
 
     return tagUuid ? (

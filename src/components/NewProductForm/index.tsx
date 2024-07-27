@@ -29,6 +29,7 @@ export type NewListFormProps = {
   items?: IProduct;
   productListRef: React.MutableRefObject<{
     handleAddProduct: (product: IProduct) => void;
+    handleReloadProduct: () => void;
   } | null>;
   color: colorTheme;
 };
@@ -43,11 +44,8 @@ const NewProductForm = ({
   color,
 }: NewListFormProps) => {
   const colorScheme = useColorScheme();
-  const {
-    handleAddListProduct,
-    handleEditListProduct,
-    getTagsObject,
-  } = useShoppingListContext();
+  const { handleAddListProduct, handleEditListProduct, getTagsObject } =
+    useShoppingListContext();
   const [newItem, setNewItem] = useState({
     item: items ? items.name : "",
     tag: tagUuid || "",
@@ -86,6 +84,9 @@ const NewProductForm = ({
     if (newItem?.item !== "") {
       closeBottomSheet();
       handleEditListProduct(items?.uuid!, newItem.item, newItem.tag);
+      if (productListRef.current) {
+        productListRef.current.handleReloadProduct();
+      }
     }
   };
 

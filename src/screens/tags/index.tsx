@@ -23,6 +23,7 @@ interface TagsProps {
   tags: ITag[];
   productListRef: React.MutableRefObject<{
     handleAddProduct: (product: IProduct) => void;
+    handleReloadProduct: () => void;
   } | null>;
   tagRef: React.RefObject<{ handleAddNewTag: (tag: ITag) => void }>;
   color: colorTheme;

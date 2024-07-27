@@ -9,6 +9,7 @@ interface ItemProps {
   handleCloseBottomSheet: () => void;
   productListRef: React.MutableRefObject<{
     handleAddProduct: (product: IProduct) => void;
+    handleReloadProduct: () => void;
   } | null>;
   color: colorTheme;
   tagRef: React.RefObject<{ handleAddNewTag: (tag: ITag) => void }>;
