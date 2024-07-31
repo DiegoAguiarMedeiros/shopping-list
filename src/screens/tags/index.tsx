@@ -25,7 +25,10 @@ interface TagsProps {
     handleAddProduct: (product: IProduct) => void;
     handleReloadProduct: () => void;
   } | null>;
-  tagRef: React.RefObject<{ handleAddNewTag: (tag: ITag) => void }>;
+  tagRef: React.RefObject<{
+    handleAddNewTag: (tag: ITag) => void;
+    handleReloadTag(): void;
+  }>;
   color: colorTheme;
 }
 

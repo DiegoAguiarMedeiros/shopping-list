@@ -65,7 +65,10 @@ const Navigation: React.FC<NavigationProps> = ({
   const listRef = useRef<{ handleAddNewList: (uuid: string) => void } | null>(
     null
   );
-  const tagRef = useRef<{ handleAddNewTag: (uuid: ITag) => void } | null>(null);
+  const tagRef = useRef<{
+    handleAddNewTag: (uuid: ITag) => void;
+    handleReloadTag(): void;
+  } | null>(null);
   const listItemRef = useRef<{
     handleAddItem: (list: IList) => void;
   } | null>(null);

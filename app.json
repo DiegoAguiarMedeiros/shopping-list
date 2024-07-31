@@ -4,11 +4,11 @@
     "slug": "listei",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon-20x20-i.png",
+    "icon": "./assets/images/logo.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/icon.png",
+      "image": "./assets/images/logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#1E1E1E"
     },
@@ -19,14 +19,14 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/icon.png",
+        "foregroundImage": "./assets/images/logo.png",
         "backgroundColor": "#1E1E1E"
       },
       "package": "com.diegoamdeiros.listei"
     },
     "web": {
       "bundler": "metro",
-      "favicon": "./assets/images/icon.jpeg"
+      "favicon": "./assets/images/logo.jpeg"
     },
     "extra": {
       "eas": {

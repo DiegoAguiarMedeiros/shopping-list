@@ -23,7 +23,6 @@ export default function ListGrid({
   productRef,
   setProducts,
 }: Readonly<ItemProps>) {
-  console.log("items", items);
   return (
     <SafeAreaView style={{ width: "100%" }}>
       <ScrollView keyboardShouldPersistTaps="handled">

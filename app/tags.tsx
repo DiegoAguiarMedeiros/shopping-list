@@ -33,6 +33,9 @@ const TagsTab = React.forwardRef(
       handleAddNewTag(tag: ITag) {
         setTags((prev) => [...prev, tag]);
       },
+      handleReloadTag() {
+        setTags(getTagsObject());
+      },
     }));
 
     return (

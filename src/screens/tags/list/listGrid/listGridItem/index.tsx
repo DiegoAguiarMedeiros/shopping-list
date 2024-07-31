@@ -31,7 +31,10 @@ interface ItemProps {
     handleAddProduct: (product: IProduct) => void;
     handleReloadProduct: () => void;
   } | null>;
-  tagRef: React.RefObject<{ handleAddNewTag: (tag: ITag) => void }>;
+  tagRef: React.RefObject<{
+    handleAddNewTag: (tag: ITag) => void;
+    handleReloadTag(): void;
+  }>;
 }
 
 export default function ListGridItem({
@@ -98,10 +101,6 @@ export default function ListGridItem({
 
   const handleEdit = () => {
     setBottomSheetProps({
-      // listId: item.uuid,
-      // items: item,
-      // buttonText: "edit",
-      // action: "editList",
       height: "add",
       children: (
         <NewTagForm
@@ -120,6 +119,9 @@ export default function ListGridItem({
 
   const handleDelete = () => {
     handleDeleteTag(tag.uuid);
+    if (tagRef.current) {
+      tagRef.current.handleReloadTag();
+    }
   };
 
   const LeftSwipe = (

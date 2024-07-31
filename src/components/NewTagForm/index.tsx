@@ -16,6 +16,7 @@ export type NewTagFormProps = {
   tag?: ITag;
   tagRef: React.MutableRefObject<{
     handleAddNewTag: (tag: ITag) => void;
+    handleReloadTag(): void;
   } | null>;
   color: colorTheme;
 };
@@ -59,6 +60,9 @@ const NewTagForm = ({
     if (newItem.item) {
       closeBottomSheet();
       handleEditTag(tag?.uuid!, newItem.item);
+      if (tagRef.current) {
+        tagRef.current.handleReloadTag();
+      }
     }
   };
 

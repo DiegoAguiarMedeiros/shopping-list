@@ -12,7 +12,10 @@ interface ItemProps {
     handleReloadProduct: () => void;
   } | null>;
   color: colorTheme;
-  tagRef: React.RefObject<{ handleAddNewTag: (tag: ITag) => void }>;
+  tagRef: React.RefObject<{
+    handleAddNewTag: (tag: ITag) => void;
+    handleReloadTag(): void;
+  }>;
 }
 
 export default function List({
