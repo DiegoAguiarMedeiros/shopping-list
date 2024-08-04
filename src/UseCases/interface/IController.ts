@@ -26,7 +26,7 @@ export interface IControllerGetTagUuidByTagName {
   handle(name: string): string;
 }
 export interface IControllerGetAmountByUuid {
-  handle(key: string): IAmount;
+  handle(key: string): IAmount | null;
 }
 export interface IControllerGetTags {
   handle(): string[];

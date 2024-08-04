@@ -8,13 +8,17 @@ export default class GetLastPricesByProductUuidUseCase{
 
     execute(productUuid: string): string[]{
         const lists = this.getListsByProductUuidController.handle(productUuid);
-        const returnArr = lists.map(list => this.calculateAverageAmount(this.getAmout.handle(`${list.uuid}-${productUuid}`)))
+        const returnArr: string[] = [];
+        lists.forEach((list) => {
+          const amounts = this.getAmout.handle(`${list.uuid}-${productUuid}`);
+          if (amounts.length > 0)
+            returnArr.push(this.calculateAverageAmount(amounts));
+        });
         return returnArr
     }
 
     calculateAverageAmount(items: IAmount[]): string {
-        const amounts: number[] = items.map(item => parseFloat(item.amount));
-
+        const amounts: number[] = items.map((item) => parseFloat(item.amount));
         if (amounts.length === 0) {
             return '0';
         }

@@ -1,5 +1,4 @@
 import IAmount from "../../../Model/IAmount";
-import IStorage from "../../../Service/IMMKVStorage";
 import {
   IControllerGetAmounts,
   IControllerGetAmountByUuid,
@@ -15,7 +14,8 @@ export default class GetAmountsObjectsUseCase {
       const data = this.getAmounts.handle();
       const result: IAmount[] = [];
       data.forEach((l) => {
-        result.push(this.getAmountsByUuid.handle(l));
+        const amountsByUuid = this.getAmountsByUuid.handle(l);
+        if (amountsByUuid) result.push(amountsByUuid);
       });
       return result;
     } catch (error) {

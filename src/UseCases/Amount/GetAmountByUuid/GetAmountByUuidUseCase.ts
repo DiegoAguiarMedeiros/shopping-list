@@ -3,29 +3,20 @@ import IMMKVStorage from "../../../Service/IMMKVStorage";
 
 export default class GetAmountByListProductUuidUseCase {
   constructor(private mmkv: IMMKVStorage) {}
-  execute(key: string): IAmount {
+
+  execute(key: string): IAmount | null {
     try {
       const data = this.mmkv.get(key);
       if (data) {
         const amount: IAmount = JSON.parse(data);
         return amount;
+      } else {
+        return null;
       }
-      return {
-        uuid: "",
-        amount: "",
-        type: false,
-        quantity: "",
-        listProductUuid: "",
-      };
     } catch (error) {
-      console.error("GetAmountByListProductUuidUseCase", error);
-      return {
-        uuid: "",
-        amount: "",
-        type: false,
-        quantity: "",
-        listProductUuid: "",
-      };
+      console.error("GetAmountByListProductUuidUseCase error:", error);
+      return null;
     }
   }
 }
+
