@@ -62,9 +62,12 @@ const Navigation: React.FC<NavigationProps> = ({
   });
   const [search, setSearch] = useState("");
 
-  const listRef = useRef<{ handleAddNewList: (uuid: string) => void } | null>(
-    null
-  );
+  const listRef = useRef<{
+    handleAddNewList: (name: string) => void;
+    handleRemoveItem: (uuid: string) => void;
+    handleEditItem: (uuid: string, name: string) => void;
+    handleCopyItem: (uuid: string, name: string) => void;
+  } | null>(null);
   const tagRef = useRef<{
     handleAddNewTag: (uuid: ITag) => void;
     handleReloadTag(): void;

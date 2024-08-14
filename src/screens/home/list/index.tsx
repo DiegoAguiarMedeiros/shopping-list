@@ -9,8 +9,10 @@ interface ItemProps {
   handleCloseBottomSheet: () => void;
   color: colorTheme;
   listRef: React.MutableRefObject<{
-    handleAddNewList: (uuid: string) => void;
-    handleAddNewListArray: (list: string[]) => void;
+    handleAddNewList: (name: string) => void;
+    handleRemoveItem: (uuid: string) => void;
+    handleEditItem: (uuid: string, name: string) => void;
+    handleCopyItem: (uuid: string, name: string) => void;
   } | null>;
   listItemRef: React.MutableRefObject<{
     handleAddItem: (list: IList) => void;

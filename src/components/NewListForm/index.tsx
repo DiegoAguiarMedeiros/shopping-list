@@ -17,7 +17,10 @@ export type NewListFormProps = {
   list?: IList;
   color: colorTheme;
   listRef: React.MutableRefObject<{
-    handleAddNewList: (uuid: string) => void;
+    handleAddNewList: (name: string) => void;
+    handleRemoveItem: (uuid: string) => void;
+    handleEditItem: (uuid: string, name: string) => void;
+    handleCopyItem: (uuid: string, name: string) => void;
   } | null>;
   handleCloseSwipeableFromParent?: () => void;
 };
@@ -53,18 +56,17 @@ const NewListForm = ({
 
   const addList = (): void => {
     closeBottomSheet();
-    const list = handleAddList(newList.list);
+    // const list = handleAddList(newList.list);
     if (listRef.current) {
-      listRef.current.handleAddNewList(list.uuid);
+      listRef.current.handleAddNewList(newList.list);
     }
   };
 
   const copyList = (): void => {
     if (newList.list) {
       closeBottomSheet();
-      const returnList = handleCopyList(list?.uuid!, newList.list);
       if (listRef.current) {
-        listRef.current.handleAddNewList(returnList.uuid);
+        listRef.current.handleCopyItem(list?.uuid!, newList.list);
         handleCloseSwipeableFromParent && handleCloseSwipeableFromParent();
       }
     }
@@ -73,7 +75,10 @@ const NewListForm = ({
   const editList = (): void => {
     if (newList.list) {
       closeBottomSheet();
-      handleEditList(list?.uuid!, newList.list);
+      // handleEditList(list?.uuid!, newList.list);
+      if (listRef.current) {
+        listRef.current.handleEditItem(list?.uuid!, newList.list);
+      }
     }
   };
 

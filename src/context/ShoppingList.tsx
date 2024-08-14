@@ -107,16 +107,20 @@ type ShoppingListContextType = {
   handleDeleteList: (
     listUuid: string,
     listRef: React.MutableRefObject<{
-      handleAddNewList: (uuid: string) => void;
-      handleAddNewListArray: (list: string[]) => void;
+      handleAddNewList: (name: string) => void;
+      handleRemoveItem: (uuid: string) => void;
+      handleEditItem: (uuid: string, name: string) => void;
+      handleCopyItem: (uuid: string, name: string) => void;
     } | null>
   ) => void;
   handleDeleteListArchived: (listUuid: string) => void;
   handleArchived: (
     listUuid: string,
     listRef: React.MutableRefObject<{
-      handleAddNewList: (uuid: string) => void;
-      handleAddNewListArray: (list: string[]) => void;
+      handleAddNewList: (name: string) => void;
+      handleRemoveItem: (uuid: string) => void;
+      handleEditItem: (uuid: string, name: string) => void;
+      handleCopyItem: (uuid: string, name: string) => void;
     } | null>
   ) => void;
   handleDeleteTag: (tagUuid: string) => void;
@@ -518,12 +522,14 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   const handleDeleteList = (
     listUuid: string,
     listRef: React.MutableRefObject<{
-      handleAddNewList: (uuid: string) => void;
-      handleAddNewListArray: (list: string[]) => void;
+      handleAddNewList: (name: string) => void;
+      handleRemoveItem: (uuid: string) => void;
+      handleEditItem: (uuid: string, name: string) => void;
+      handleCopyItem: (uuid: string, name: string) => void;
     } | null>
   ) => {
     deleteList(listUuid);
-    listRef.current?.handleAddNewListArray(getLists());
+    // listRef.current?.handleAddNewListArray(getLists());
     showToast("listDeletedSuccessfully");
   };
 
@@ -543,14 +549,16 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
   const handleArchived = (
     listUuid: string,
     listRef: React.MutableRefObject<{
-      handleAddNewList: (uuid: string) => void;
-      handleAddNewListArray: (list: string[]) => void;
+      handleAddNewList: (name: string) => void;
+      handleRemoveItem: (uuid: string) => void;
+      handleEditItem: (uuid: string, name: string) => void;
+      handleCopyItem: (uuid: string, name: string) => void;
     } | null>
   ): void => {
     removeListByUuidController.handle(listUuid);
     saveListArchivedByUuidController.handle(listUuid);
 
-    listRef.current?.handleAddNewListArray(getLists());
+    // listRef.current?.handleAddNewListArray(getLists());
     // const archivedList: IList[] = JSON.parse(JSON.stringify(list));
     // const selectedItem = archivedList.find((i) => i.uuid === listUuid);
     // if (selectedItem) {
