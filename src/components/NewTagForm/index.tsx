@@ -50,8 +50,8 @@ const NewTagForm = ({
   const addTag = (): void => {
     if (newItem.item) {
       closeBottomSheet();
-      if (tagRef.current) {
-        tagRef.current.handleAddNewTag(newItem.item);
+      if (tagRef?.current) {
+        tagRef?.current.handleAddNewTag(newItem.item);
       }
     }
   };
@@ -59,8 +59,8 @@ const NewTagForm = ({
   const editTag = (): void => {
     if (newItem.item) {
       closeBottomSheet();
-      if (tagRef.current) {
-        tagRef.current.handleEditTag(tag?.uuid!, newItem.item);
+      if (tagRef?.current) {
+        tagRef?.current.handleEditTag(tag?.uuid!, newItem.item);
       }
     }
   };

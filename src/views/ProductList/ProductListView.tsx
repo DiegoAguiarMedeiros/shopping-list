@@ -40,7 +40,7 @@ const CustomFlatList = React.memo(
   }: ProductListViewProps) => {
     const renderItem: ListRenderItem<IProduct> = ({ item }) => (
       <ListGridItem
-        productListRef={productListRef}
+      productListRef={productListRef}
         color={color}
         handleCloseBottomSheet={handleCloseBottomSheet}
         setBottomSheetProps={setBottomSheetProps}

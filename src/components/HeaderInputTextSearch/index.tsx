@@ -17,8 +17,8 @@ const HeaderInputTextSearch: React.FC<InputProps> = ({
   const inputRef = useRef<TextInput>(null);
 
   useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
+    if (inputRef?.current) {
+      inputRef?.current.focus();
     }
   }, [inputRef]);
 

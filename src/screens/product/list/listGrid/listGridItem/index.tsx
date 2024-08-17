@@ -48,14 +48,15 @@ export default function ListGridItem({
   const gridItemRef = useRef<any>();
   const handleCloseSwipeableFromParent = () => {
     // Access the handleCloseSwipeable function from the ref
-    if (gridItemRef.current) {
-      gridItemRef.current.handleCloseSwipeable();
+    if (gridItemRef?.current) {
+      gridItemRef?.current.handleCloseSwipeable();
     }
   };
 
   useEffect(() => {
     handleCloseSwipeableFromParent();
-  }, [item.name]);
+  }, [item.name, item.tag]);
+
   const handleEdit = () => {
     setBottomSheetProps({
       height: "edit",
@@ -75,8 +76,8 @@ export default function ListGridItem({
   };
 
   const handleDelete = () => {
-    if (productRef.current) {
-      productRef.current.handleRemoveProduct(item.uuid);
+    if (productRef?.current) {
+      productRef?.current.handleRemoveProduct(item.uuid);
     }
   };
 

@@ -23,7 +23,7 @@ const BottomSheet = ({
   height,
   color,
 }: BottomSheetProps) => {
-  const animation = useRef(new Animated.Value(0)).current;
+  const animation = useRef(new Animated.Value(0))?.current;
 
   const translateY = animation.interpolate({
     inputRange: [0, 1],

@@ -57,16 +57,16 @@ const NewListForm = ({
   const addList = (): void => {
     closeBottomSheet();
     // const list = handleAddList(newList.list);
-    if (listRef.current) {
-      listRef.current.handleAddNewList(newList.list);
+    if (listRef?.current) {
+      listRef?.current.handleAddNewList(newList.list);
     }
   };
 
   const copyList = (): void => {
     if (newList.list) {
       closeBottomSheet();
-      if (listRef.current) {
-        listRef.current.handleCopyItem(list?.uuid!, newList.list);
+      if (listRef?.current) {
+        listRef?.current.handleCopyItem(list?.uuid!, newList.list);
         handleCloseSwipeableFromParent && handleCloseSwipeableFromParent();
       }
     }
@@ -76,8 +76,8 @@ const NewListForm = ({
     if (newList.list) {
       closeBottomSheet();
       // handleEditList(list?.uuid!, newList.list);
-      if (listRef.current) {
-        listRef.current.handleEditItem(list?.uuid!, newList.list);
+      if (listRef?.current) {
+        listRef?.current.handleEditItem(list?.uuid!, newList.list);
       }
     }
   };

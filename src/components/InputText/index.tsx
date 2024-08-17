@@ -20,8 +20,8 @@ const InputText: React.FC<InputProps> = ({ placeholder, radius, ...rest }) => {
   const { getColor } = useShoppingListContext();
 
   useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
+    if (inputRef?.current) {
+      inputRef?.current.focus();
     }
   }, [inputRef]);
 

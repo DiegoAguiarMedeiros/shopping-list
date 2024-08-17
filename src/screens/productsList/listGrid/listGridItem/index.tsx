@@ -32,7 +32,7 @@ interface ListProps {
   tagUuid: string;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: (tagUuid: string) => void;
-  productRef: React.MutableRefObject<{
+  productListRef: React.MutableRefObject<{
     handleAddProduct: (product: string) => void;
     handleRemoveProduct: (uuid: string) => void;
     handleEditProduct: (uuid: string, name: string, tag?: string) => void;
@@ -45,7 +45,7 @@ function ListGridItem({
   tagUuid,
   setBottomSheetProps,
   handleCloseBottomSheet,
-  productRef,
+  productListRef,
   color,
 }: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
@@ -53,8 +53,8 @@ function ListGridItem({
   const gridItemRef = useRef<any>();
   const handleCloseSwipeableFromParent = () => {
     // Access the handleCloseSwipeable function from the ref
-    if (gridItemRef.current) {
-      gridItemRef.current.handleCloseSwipeable();
+    if (gridItemRef?.current) {
+      gridItemRef?.current.handleCloseSwipeable();
     }
   };
 
@@ -68,7 +68,7 @@ function ListGridItem({
       children: (
         <NewProductForm
           color={color}
-          productListRef={productRef}
+          productListRef={productListRef}
           action="editList"
           buttonText="edit"
           items={products}
@@ -81,8 +81,8 @@ function ListGridItem({
   };
 
   const handleDelete = () => {
-    if (productRef.current) {
-      productRef.current.handleRemoveProduct(products.uuid);
+    if (productListRef?.current) {
+      productListRef?.current.handleRemoveProduct(products.uuid);
     }
   };
 

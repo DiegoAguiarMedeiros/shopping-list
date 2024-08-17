@@ -529,7 +529,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     } | null>
   ) => {
     deleteList(listUuid);
-    // listRef.current?.handleAddNewListArray(getLists());
+    // listRef?.current?.handleAddNewListArray(getLists());
     showToast("listDeletedSuccessfully");
   };
 
@@ -558,7 +558,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     removeListByUuidController.handle(listUuid);
     saveListArchivedByUuidController.handle(listUuid);
 
-    // listRef.current?.handleAddNewListArray(getLists());
+    // listRef?.current?.handleAddNewListArray(getLists());
     // const archivedList: IList[] = JSON.parse(JSON.stringify(list));
     // const selectedItem = archivedList.find((i) => i.uuid === listUuid);
     // if (selectedItem) {

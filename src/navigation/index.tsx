@@ -89,9 +89,6 @@ const Navigation: React.FC<NavigationProps> = ({
     handleEditProduct: (uuid: string, name: string, tag?: string) => void;
   } | null>(null);
 
-  console.log("productRef", productRef);
-  console.log("productListRef", productListRef);
-
   const handleCloseBottomSheetList = () => {
     setBottomSheetProps({
       children: (

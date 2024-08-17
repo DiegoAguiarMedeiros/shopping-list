@@ -68,7 +68,10 @@ const CustomFlatList = React.memo(
     );
   },
   (prevProps, nextProps) => {
-    return isEqual(prevProps.tags, nextProps.tags);
+    return (
+      isEqual(prevProps.tags, nextProps.tags) &&
+      isEqual(prevProps.productListRef, nextProps.productListRef)
+    );
   }
 );
 

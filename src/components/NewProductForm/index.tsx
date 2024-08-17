@@ -70,18 +70,18 @@ const NewProductForm = ({
   const addList = (): void => {
     if (newItem.item !== "") {
       closeBottomSheet();
-      if (productListRef.current) {
-        productListRef.current.handleAddProduct(newItem.item);
+      if (productListRef?.current) {
+        productListRef?.current.handleAddProduct(newItem.item);
       }
     }
   };
 
   const editList = (): void => {
-    console.log("productListRef", productListRef);
     if (newItem?.item !== "") {
       closeBottomSheet();
-      if (productListRef.current) {
-        productListRef.current.handleEditProduct(
+      console.log("editList productListRef", productListRef);
+      if (productListRef?.current) {
+        productListRef?.current.handleEditProduct(
           items?.uuid!,
           newItem.item,
           newItem.tag

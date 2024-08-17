@@ -72,9 +72,6 @@ const ProductList = React.forwardRef(
         handleRemoveItem(uuid);
       },
       handleEditProduct(uuid: string, name: string, tag?: string) {
-        console.log("ProductList uuid", uuid);
-        console.log("ProductList name", name);
-        console.log("ProductList tag", tag);
         handleEditItem(uuid, name, tag);
       },
     }));

@@ -63,7 +63,7 @@ const NewItemForm = ({
     closeBottomSheet();
     const newList = handleAddListItem(list.uuid, newItem.item);
     if (listItemRef?.current) {
-      listItemRef.current.handleAddItem(newList);
+      listItemRef?.current.handleAddItem(newList);
     }
     updateSelect();
   };

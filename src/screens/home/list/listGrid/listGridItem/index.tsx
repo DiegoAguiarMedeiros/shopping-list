@@ -66,8 +66,8 @@ const ListGridItem = React.memo(
     const gridItemRef = useRef<any>();
     const handleCloseSwipeableFromParent = () => {
       // Access the handleCloseSwipeable function from the ref
-      if (gridItemRef.current) {
-        gridItemRef.current.handleCloseSwipeable();
+      if (gridItemRef?.current) {
+        gridItemRef?.current.handleCloseSwipeable();
       }
     };
 
@@ -151,8 +151,8 @@ const ListGridItem = React.memo(
     };
 
     const handleDelete = () => {
-      if (listRef.current) {
-        listRef.current.handleRemoveItem(list.uuid);
+      if (listRef?.current) {
+        listRef?.current.handleRemoveItem(list.uuid);
       }
     };
 
