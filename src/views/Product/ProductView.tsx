@@ -1,4 +1,3 @@
-// views/ListView.tsx
 import React, { useEffect, useState } from "react";
 import isEqual from "lodash.isequal";
 import {
@@ -9,27 +8,26 @@ import {
   Button,
   ListRenderItem,
 } from "react-native";
+import { useProductViewModel } from "../../viewmodels/Product/ProductViewModel";
 import { IList } from "../../Model/IList";
-import ListGridItem from "../../screens/home/list/listGrid/listGridItem";
+import ListGridItem from "../../screens/product/list/listGrid/listGridItem";
 import { colorTheme } from "../../../constants/Colors";
 import { BottomSheetProps } from "../../components/BottomSheet";
 import Container from "../../components/Container";
 import ContainerInner from "../../components/ContainerInner";
+import { IProduct } from "../../Model/IProduct";
+import { ItemInterface } from "../../types/types";
 
-interface ListViewProps {
+interface ProductViewProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
   color: colorTheme;
-  lists: IList[];
-  listRef: React.MutableRefObject<{
-    handleAddNewList: (name: string) => void;
-    handleRemoveItem: (uuid: string) => void;
-    handleEditItem: (uuid: string, name: string) => void;
-    handleCopyItem: (uuid: string, name: string) => void;
-  } | null>;
-  listItemRef: React.MutableRefObject<{
-    handleAddItem: (list: IList) => void;
-  } | null>;
+  products: IProduct[];
+  productRef: React.RefObject<{
+    handleAddProduct: (product: string) => void;
+    handleRemoveProduct: (uuid: string) => void;
+    handleEditProduct: (uuid: string, name: string, tag?: string) => void;
+  }>;
 }
 
 const CustomFlatList = React.memo(
@@ -37,18 +35,16 @@ const CustomFlatList = React.memo(
     setBottomSheetProps,
     handleCloseBottomSheet,
     color,
-    lists,
-    listRef,
-    listItemRef,
-  }: ListViewProps) => {
-    const renderItem: ListRenderItem<IList> = ({ item }) => (
+    products,
+    productRef,
+  }: ProductViewProps) => {
+    const renderItem: ListRenderItem<IProduct> = ({ item }) => (
       <ListGridItem
-        listItemRef={listItemRef}
-        listRef={listRef}
+        productRef={productRef}
         color={color}
         handleCloseBottomSheet={handleCloseBottomSheet}
         setBottomSheetProps={setBottomSheetProps}
-        list={item}
+        item={item}
       />
     );
 
@@ -56,7 +52,7 @@ const CustomFlatList = React.memo(
       <Container background={color.backgroundPrimary}>
         <ContainerInner background={color.backgroundPrimary}>
           <FlatList
-            data={lists}
+            data={products}
             renderItem={renderItem}
             keyExtractor={(item) => "ListGridItem-" + item.uuid}
           />
@@ -65,23 +61,21 @@ const CustomFlatList = React.memo(
     );
   },
   (prevProps, nextProps) => {
-    return isEqual(prevProps.lists, nextProps.lists);
+    return isEqual(prevProps.products, nextProps.products);
   }
 );
 
-export const ListView = ({
+export const ProductView = ({
   setBottomSheetProps,
   handleCloseBottomSheet,
   color,
-  lists,
-  listRef,
-  listItemRef,
-}: ListViewProps) => {
+  products,
+  productRef,
+}: ProductViewProps) => {
   return (
     <CustomFlatList
-      listItemRef={listItemRef}
-      listRef={listRef}
-      lists={lists}
+      productRef={productRef}
+      products={products}
       color={color}
       setBottomSheetProps={setBottomSheetProps}
       handleCloseBottomSheet={handleCloseBottomSheet}

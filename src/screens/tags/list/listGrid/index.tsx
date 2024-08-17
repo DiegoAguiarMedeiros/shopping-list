@@ -15,7 +15,11 @@ interface ItemProps {
     handleReloadProduct: () => void;
   } | null>;
 
-  tagRef: React.RefObject<{ handleAddNewTag: (tag: ITag) => void }>;
+  tagRef: React.RefObject<{
+    handleAddNewTag: (tag: string) => void;
+    handleRemoveTag: (uuid: string) => void;
+    handleEditTag: (uuid: string, name: string) => void;
+  }>;
   color: colorTheme;
 }
 export default function ListGrid({

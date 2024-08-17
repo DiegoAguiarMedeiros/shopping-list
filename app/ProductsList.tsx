@@ -1,13 +1,21 @@
-import { useGlobalSearchParams, useSearchParams } from "expo-router";
+import { router, useGlobalSearchParams, useSearchParams } from "expo-router";
 
 import ProductsList from "../src/screens/productsList/index";
 import { BottomSheetProps } from "../src/components/BottomSheet";
-import { useImperativeHandle, useState } from "react";
+import { useEffect, useImperativeHandle, useState } from "react";
 import React from "react";
 import { useShoppingListContext } from "../src/context/ShoppingList";
 import { colorTheme } from "../constants/Colors";
 import { IProduct } from "../src/Model/IProduct";
 import { sortArrayOfObjects } from "../src/utils/functions";
+import UUIDGenerator from "react-native-uuid";
+import { useProductListViewModel } from "../src/viewmodels/ProductList/ProductListViewModel";
+import { ProductListView } from "../src/views/ProductList/ProductListView";
+import EmptyList from "../src/components/EmptyList";
+import I18n from "i18n-js";
+import { TouchableHighlight } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import { Title } from "../src/components/Text";
 
 interface ProductListTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -35,40 +43,71 @@ const ProductList = React.forwardRef(
     ref: any
   ) => {
     const { tagUuid } = useGlobalSearchParams();
-
-    const { getProductsByTagUuid, getTagByUuid } = useShoppingListContext();
-    const tag = getTagByUuid(tagUuid && !Array.isArray(tagUuid) ? tagUuid : "");
-    const [products, setProducts] = useState<IProduct[]>(
-      getProductsByTagUuid(tagUuid && !Array.isArray(tagUuid) ? tagUuid : "")
-    );
+    const { items, tag, addItem, removeItem, editItem } =
+      useProductListViewModel(
+        tagUuid && !Array.isArray(tagUuid) ? tagUuid : ""
+      );
+    const handleAddItem = (name: string) => {
+      const newItem: IProduct = {
+        uuid: String(UUIDGenerator.v4()),
+        name: name,
+        amount: [],
+        unit: "Kg",
+        tag: tag.uuid,
+      };
+      addItem(newItem);
+    };
+    const handleRemoveItem = (uuid: string) => {
+      removeItem(uuid);
+    };
+    const handleEditItem = (uuid: string, name: string, tag?: string) => {
+      editItem(uuid, name, tag);
+    };
 
     useImperativeHandle(ref, () => ({
-      handleAddProduct(product: IProduct) {
-        setProducts((prev) => sortArrayOfObjects([...prev, product], "name"));
+      handleAddProduct(name: string) {
+        handleAddItem(name);
       },
-      handleReloadProduct() {
-        setProducts(
-          getProductsByTagUuid(
-            tagUuid && !Array.isArray(tagUuid) ? tagUuid : ""
-          )
-        );
+      handleRemoveProduct(uuid: string) {
+        handleRemoveItem(uuid);
+      },
+      handleEditProduct(uuid: string, name: string, tag?: string) {
+        console.log("ProductList uuid", uuid);
+        console.log("ProductList name", name);
+        console.log("ProductList tag", tag);
+        handleEditItem(uuid, name, tag);
       },
     }));
+    const returnToTags = () => {
+      handleCloseBottomSheetTag();
+      router.push({ pathname: "/tags" });
+    };
+    useEffect(() => {
+      setActiveRouteHeader({
+        left: (
+          <TouchableHighlight
+            underlayColor={color.primary}
+            style={{ marginLeft: 20, marginRight: 10 }}
+            onPress={() => returnToTags()}
+          >
+            <FontAwesome name="angle-left" size={35} color={color.white} />
+          </TouchableHighlight>
+        ),
+        name: <Title color={color.white}>{tag.name}</Title>,
+        right: null,
+      });
+    }, [tag]);
 
-    return tagUuid ? (
-      <ProductsList
-        setProducts={setProducts}
-        productRef={ref}
+    return items && items.length > 0 ? (
+      <ProductListView
+        products={items}
         color={color}
-        tag={tag}
-        products={products}
         setBottomSheetProps={setBottomSheetProps}
-        handleCloseBottomSheet={handleCloseBottomSheet}
-        handleCloseBottomSheetTag={handleCloseBottomSheetTag}
-        setActiveRouteHeader={setActiveRouteHeader}
+        handleCloseBottomSheet={handleCloseBottomSheetTag}
+        productListRef={ref}
       />
     ) : (
-      <></>
+      <EmptyList color={color} mensage={I18n.t("noProducts")} />
     );
   }
 );

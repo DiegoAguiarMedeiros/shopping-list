@@ -28,12 +28,14 @@ interface ItemProps {
   handleCloseBottomSheet: () => void;
   color: colorTheme;
   productListRef: React.MutableRefObject<{
-    handleAddProduct: (product: IProduct) => void;
-    handleReloadProduct: () => void;
+    handleAddProduct: (product: string) => void;
+    handleRemoveProduct: (uuid: string) => void;
+    handleEditProduct: (uuid: string, name: string, tag?: string) => void;
   } | null>;
   tagRef: React.RefObject<{
-    handleAddNewTag: (tag: ITag) => void;
-    handleReloadTag(): void;
+    handleAddNewTag: (tag: string) => void;
+    handleRemoveTag: (uuid: string) => void;
+    handleEditTag: (uuid: string, name: string) => void;
   }>;
 }
 
@@ -81,6 +83,7 @@ export default function ListGridItem({
   };
 
   const handleOpenList = useCallback(() => {
+    console.log("handleOpenList productListRef", productListRef);
     setBottomSheetProps({
       isVisible: false,
       height: "add",
@@ -97,7 +100,7 @@ export default function ListGridItem({
       color: color,
     });
     router.push({ pathname: "/ProductsList", params: { tagUuid: tag.uuid } });
-  }, [tag.uuid, router]);
+  }, [tag.uuid, router, productListRef]);
 
   const handleEdit = () => {
     setBottomSheetProps({
@@ -118,9 +121,8 @@ export default function ListGridItem({
   };
 
   const handleDelete = () => {
-    handleDeleteTag(tag.uuid);
     if (tagRef.current) {
-      tagRef.current.handleReloadTag();
+      tagRef.current.handleRemoveTag(tag.uuid);
     }
   };
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import ListRepository from "../storage/listRepository";
-import { IList } from "../Model/IList";
+import ListRepository from "../../storage/Implementation/listRepository";
+import { IList } from "../../Model/IList";
 
 export const useListViewModel = () => {
   const [items, setItems] = useState<IList[]>([]);
@@ -13,9 +13,6 @@ export const useListViewModel = () => {
   useEffect(() => {
     loadItemsFromRepository();
   }, []);
-  useEffect(() => {
-    // console.log("useListViewModel useEffect items", items);
-  }, [items]);
 
   const addItem = (item: IList) => {
     ListRepository.addItem(item);

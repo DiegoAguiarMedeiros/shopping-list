@@ -1,56 +1,80 @@
-import Product from "../src/screens/product";
+import { router, useGlobalSearchParams, useSearchParams } from "expo-router";
+
+import ProductsList from "../src/screens/productsList/index";
 import { BottomSheetProps } from "../src/components/BottomSheet";
-import { useImperativeHandle, useState } from "react";
-import { colorTheme } from "../constants/Colors";
-import { useShoppingListContext } from "../src/context/ShoppingList";
+import { useEffect, useImperativeHandle, useState } from "react";
 import React from "react";
+import { useShoppingListContext } from "../src/context/ShoppingList";
+import { colorTheme } from "../constants/Colors";
 import { IProduct } from "../src/Model/IProduct";
 import { sortArrayOfObjects } from "../src/utils/functions";
+import UUIDGenerator from "react-native-uuid";
+import { useProductViewModel } from "../src/viewmodels/Product/ProductViewModel";
+import { ProductView } from "../src/views/Product/ProductView";
+import EmptyList from "../src/components/EmptyList";
+import I18n from "i18n-js";
+import { TouchableHighlight } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import { Title } from "../src/components/Text";
+import ITag from "../src/Model/ITag";
 
 interface ProductTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
-  handleCloseBottomSheet: () => void;
-  search: string;
+  handleCloseBottomSheetTag: () => void;
   color: colorTheme;
+  search: string;
 }
 
-const ProductTab = React.forwardRef(
+const Product = React.forwardRef(
   (
-    {
-      setBottomSheetProps,
-      color,
-      handleCloseBottomSheet,
-      search,
-    }: ProductTabProps,
+    { setBottomSheetProps, handleCloseBottomSheetTag, color }: ProductTabProps,
     ref: any
   ) => {
-    const { getAllProductsObjects } = useShoppingListContext();
-
-    const [products, setProducts] = useState<IProduct[]>(
-      getAllProductsObjects()
-    );
+    const { items, addItem, removeItem, editItem } = useProductViewModel();
+    const handleAddItem = (name: string, tag: string) => {
+      const newItem: IProduct = {
+        uuid: String(UUIDGenerator.v4()),
+        name: name,
+        amount: [],
+        unit: "Kg",
+        tag: tag,
+      };
+      addItem(newItem);
+    };
+    const handleRemoveItem = (uuid: string) => {
+      removeItem(uuid);
+    };
+    const handleEditItem = (uuid: string, name: string, tag?: string) => {
+      editItem(uuid, name, tag);
+    };
 
     useImperativeHandle(ref, () => ({
-      handleAddProduct(product: IProduct) {
-        setProducts((prev) => sortArrayOfObjects([...prev, product], "name"));
+      handleAddProduct(name: string, tag: string) {
+        handleAddItem(name, tag);
       },
-      handleReloadProduct() {
-        setProducts(getAllProductsObjects());
+      handleRemoveProduct(uuid: string) {
+        handleRemoveItem(uuid);
+      },
+      handleEditProduct(uuid: string, name: string, tag?: string) {
+        console.log("Product uuid", uuid);
+        console.log("Product name", name);
+        console.log("Product tag", tag);
+        handleEditItem(uuid, name, tag);
       },
     }));
 
-    return (
-      <Product
-        setProducts={setProducts}
-        productRef={ref}
-        products={products}
-        search={search}
-        setBottomSheetProps={setBottomSheetProps}
+    return items && items.length > 0 ? (
+      <ProductView
+        products={items}
         color={color}
-        handleCloseBottomSheet={handleCloseBottomSheet}
+        setBottomSheetProps={setBottomSheetProps}
+        handleCloseBottomSheet={handleCloseBottomSheetTag}
+        productRef={ref}
       />
+    ) : (
+      <EmptyList color={color} mensage={I18n.t("noProducts")} />
     );
   }
 );
 
-export default ProductTab;
+export default Product;

@@ -6,7 +6,7 @@ import React from "react";
 import { useShoppingListContext } from "../src/context/ShoppingList";
 import { IList } from "../src/Model/IList";
 import { ListView } from "../src/views/List/ListView";
-import { useListViewModel } from "../src/viewmodels/ListViewModel";
+import { useListViewModel } from "../src/viewmodels/List/ListViewModel";
 import UUIDGenerator from "react-native-uuid";
 import EmptyList from "../src/components/EmptyList";
 import I18n from "i18n-js";
@@ -54,10 +54,6 @@ const HomeContainer = React.forwardRef(
     const handleCopyItem = (uuid: string, name: string) => {
       copyItem(uuid, name);
     };
-
-    useEffect(() => {
-      // console.log("useEffect items: ", items);
-    }, [items]);
 
     useImperativeHandle(ref, () => ({
       handleAddNewList(list: string) {

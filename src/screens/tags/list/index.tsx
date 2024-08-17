@@ -13,8 +13,9 @@ interface ItemProps {
   } | null>;
   color: colorTheme;
   tagRef: React.RefObject<{
-    handleAddNewTag: (tag: ITag) => void;
-    handleReloadTag(): void;
+    handleAddNewTag: (tag: string) => void;
+    handleRemoveTag: (uuid: string) => void;
+    handleEditTag: (uuid: string, name: string) => void;
   }>;
 }
 

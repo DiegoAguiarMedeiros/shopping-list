@@ -15,8 +15,9 @@ export type NewTagFormProps = {
   action: "addTag" | "editTag";
   tag?: ITag;
   tagRef: React.MutableRefObject<{
-    handleAddNewTag: (tag: ITag) => void;
-    handleReloadTag(): void;
+    handleAddNewTag: (tag: string) => void;
+    handleRemoveTag: (uuid: string) => void;
+    handleEditTag: (uuid: string, name: string) => void;
   } | null>;
   color: colorTheme;
 };
@@ -49,9 +50,8 @@ const NewTagForm = ({
   const addTag = (): void => {
     if (newItem.item) {
       closeBottomSheet();
-      const newTag = handleAddTag(newItem.item);
       if (tagRef.current) {
-        tagRef.current.handleAddNewTag(newTag);
+        tagRef.current.handleAddNewTag(newItem.item);
       }
     }
   };
@@ -59,9 +59,8 @@ const NewTagForm = ({
   const editTag = (): void => {
     if (newItem.item) {
       closeBottomSheet();
-      handleEditTag(tag?.uuid!, newItem.item);
       if (tagRef.current) {
-        tagRef.current.handleReloadTag();
+        tagRef.current.handleEditTag(tag?.uuid!, newItem.item);
       }
     }
   };

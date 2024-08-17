@@ -69,21 +69,28 @@ const Navigation: React.FC<NavigationProps> = ({
     handleCopyItem: (uuid: string, name: string) => void;
   } | null>(null);
   const tagRef = useRef<{
-    handleAddNewTag: (uuid: ITag) => void;
-    handleReloadTag(): void;
+    handleAddNewTag: (tag: string) => void;
+    handleRemoveTag: (uuid: string) => void;
+    handleEditTag: (uuid: string, name: string) => void;
   } | null>(null);
   const listItemRef = useRef<{
     handleAddItem: (list: IList) => void;
   } | null>(null);
 
   const productListRef = useRef<{
-    handleAddProduct: (product: IProduct) => void;
-    handleReloadProduct: () => void;
+    handleAddProduct: (product: string) => void;
+    handleRemoveProduct: (uuid: string) => void;
+    handleEditProduct: (uuid: string, name: string, tag?: string) => void;
   } | null>(null);
+
   const productRef = useRef<{
-    handleAddProduct: (product: IProduct) => void;
-    handleReloadProduct: () => void;
+    handleAddProduct: (product: string) => void;
+    handleRemoveProduct: (uuid: string) => void;
+    handleEditProduct: (uuid: string, name: string, tag?: string) => void;
   } | null>(null);
+
+  console.log("productRef", productRef);
+  console.log("productListRef", productListRef);
 
   const handleCloseBottomSheetList = () => {
     setBottomSheetProps({
@@ -371,7 +378,7 @@ const Navigation: React.FC<NavigationProps> = ({
               color={color}
               search={search}
               setBottomSheetProps={setBottomSheetProps}
-              handleCloseBottomSheet={handleCloseBottomSheetProduct}
+              handleCloseBottomSheetTag={handleCloseBottomSheetProduct}
             />
           )}
         </Stack.Screen>

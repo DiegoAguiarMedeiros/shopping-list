@@ -23,7 +23,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { colorTheme } from "../../../../../../constants/Colors";
 import { IProduct } from "../../../../../Model/IProduct";
 import React from "react";
-import { useListViewModel } from "../../../../../viewmodels/ListViewModel";
+import { useListViewModel } from "../../../../../viewmodels/List/ListViewModel";
 interface ItemProps {
   list: IList;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;

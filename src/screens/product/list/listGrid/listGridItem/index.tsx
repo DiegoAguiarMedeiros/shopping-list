@@ -27,11 +27,11 @@ interface ItemProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
   color: colorTheme;
-  productRef: React.MutableRefObject<{
-    handleAddProduct: (product: IProduct) => void;
-    handleReloadProduct: () => void;
-  } | null>;
-  setProducts: React.Dispatch<React.SetStateAction<IProduct[]>>;
+  productRef: React.RefObject<{
+    handleAddProduct: (product: string) => void;
+    handleRemoveProduct: (uuid: string) => void;
+    handleEditProduct: (uuid: string, name: string, tag?: string) => void;
+  }>;
 }
 
 export default function ListGridItem({
@@ -40,7 +40,6 @@ export default function ListGridItem({
   handleCloseBottomSheet,
   color,
   productRef,
-  setProducts,
 }: Readonly<ItemProps>) {
   const { handleDeleteProduct, getLastPrices } = useShoppingListContext();
 
@@ -76,8 +75,9 @@ export default function ListGridItem({
   };
 
   const handleDelete = () => {
-    handleDeleteProduct(item.uuid);
-    setProducts((prev) => prev.filter((p) => p.uuid !== item.uuid));
+    if (productRef.current) {
+      productRef.current.handleRemoveProduct(item.uuid);
+    }
   };
 
   const LeftSwipe = (

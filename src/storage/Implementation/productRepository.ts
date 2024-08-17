@@ -1,12 +1,11 @@
-import { IList } from "../Model/IList";
-import storageMMKV from "../Service/Implementation/MMKVStorage";
-import { IRepository } from "./IRepository";
-import UUIDGenerator from "react-native-uuid";
+import { IProduct } from "../../Model/IProduct";
+import storageMMKV from "../../Service/Implementation/MMKVStorage";
+import { IProductRepository } from "../IProductRepository";
 
-const LIST_STORAGE_KEY = "SLSHOPPINGLIST";
+const PRODUCT_STORAGE_KEY = "SLSHOPPINGPRODUCT";
 
-class ListRepository implements IRepository<IList> {
-  addItemByUuid(item: IList): void {
+class ProductRepository implements IProductRepository {
+  addItemByUuid(item: IProduct): void {
     try {
       if (!this.itemExists(item.uuid)) {
         storageMMKV.set(item.uuid, JSON.stringify(item));
@@ -15,45 +14,41 @@ class ListRepository implements IRepository<IList> {
       console.error("Failed to add item by uuid:", error);
     }
   }
-  editItem(uuid: string, name: string): void {
+  editItem(uuid: string, name: string, tag?: string): void {
     try {
       const currentItem = this.getItem(uuid);
       if (currentItem) {
         currentItem.name = name;
+        if (tag) currentItem.tag = tag;
         storageMMKV.set(uuid, JSON.stringify(currentItem));
       }
     } catch (error) {
       console.error("Failed to add item by uuid:", error);
     }
   }
-  copyItem(uuid: string, name: string) {
+
+  addItemsToStorage(items: string): void {
     try {
-      const currentItem = this.getItem(uuid);
-      if (currentItem) {
-        const newList: IList = JSON.parse(JSON.stringify(currentItem));
-        newList.uuid = String(UUIDGenerator.v4());
-        newList.name = name;
-        newList.createAt = new Date().getTime();
-        this.addItem(newList);
-      }
+      storageMMKV.set(PRODUCT_STORAGE_KEY, items);
     } catch (error) {
-      console.error("Failed to copy item:", error);
+      console.error("Failed to add item to storage:", error);
     }
   }
-  addItem(item: IList): void {
+
+  addItem(item: IProduct): void {
     try {
       const currentData = this.getAllItemsMap();
       if (!this.itemExists(item.uuid)) {
         this.addItemByUuid(item);
         currentData.push(item.uuid);
-        storageMMKV.set(LIST_STORAGE_KEY, JSON.stringify(currentData));
+        this.addItemsToStorage(JSON.stringify(currentData));
       }
     } catch (error) {
       console.error("Failed to add item:", error);
     }
   }
 
-  getItem(uuid: string): IList | undefined {
+  getItem(uuid: string): IProduct | undefined {
     try {
       const jsonData = storageMMKV.get(uuid);
       return jsonData ? JSON.parse(jsonData) : undefined;
@@ -63,10 +58,10 @@ class ListRepository implements IRepository<IList> {
     }
   }
 
-  getAllItems(): IList[] {
+  getAllItems(): IProduct[] {
     try {
       const currentData = this.getAllItemsMap();
-      const result: IList[] = [];
+      const result: IProduct[] = [];
       if (currentData) {
         currentData.forEach((uuid) => {
           const item = this.getItem(uuid);
@@ -79,10 +74,26 @@ class ListRepository implements IRepository<IList> {
       return [];
     }
   }
+  getAllItemsByTag(tag: string): IProduct[] {
+    try {
+      const currentData = this.getAllItemsMap();
+      const result: IProduct[] = [];
+      if (currentData) {
+        currentData.forEach((uuid) => {
+          const item = this.getItem(uuid);
+          if (item && item.tag === tag) result.push(item);
+        });
+      }
+      return result;
+    } catch (error) {
+      console.error("Failed to get all items:", error);
+      return [];
+    }
+  }
 
   getAllItemsMap(): string[] {
     try {
-      const jsonData = storageMMKV.get(LIST_STORAGE_KEY);
+      const jsonData = storageMMKV.get(PRODUCT_STORAGE_KEY);
       return jsonData ? JSON.parse(jsonData) : [];
     } catch (error) {
       console.error("Failed to get all items map:", error);
@@ -102,7 +113,7 @@ class ListRepository implements IRepository<IList> {
     try {
       const currentData = this.getAllItemsMap();
       const newData = currentData.filter((item) => item != uuid);
-      storageMMKV.set(LIST_STORAGE_KEY, JSON.stringify(newData));
+      this.addItemsToStorage(JSON.stringify(newData));
       this.removeItemByUuid(uuid);
     } catch (error) {
       console.error("Failed to remove item:", error);
@@ -120,4 +131,4 @@ class ListRepository implements IRepository<IList> {
   }
 }
 
-export default new ListRepository();
+export default new ProductRepository();

@@ -28,28 +28,25 @@ import I18n from "i18n-js";
 import { colorTheme } from "../../../../../constants/Colors";
 
 interface ListProps {
-  item: IProduct;
+  products: IProduct;
   tagUuid: string;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
-  deleteItem: (item: ItemInterface) => void;
   handleCloseBottomSheet: (tagUuid: string) => void;
   productRef: React.MutableRefObject<{
-    handleAddProduct: (product: IProduct) => void;
-    handleReloadProduct: () => void;
+    handleAddProduct: (product: string) => void;
+    handleRemoveProduct: (uuid: string) => void;
+    handleEditProduct: (uuid: string, name: string, tag?: string) => void;
   } | null>;
   color: colorTheme;
-  setProducts: React.Dispatch<React.SetStateAction<IProduct[]>>;
 }
 
 function ListGridItem({
-  item,
+  products,
   tagUuid,
   setBottomSheetProps,
-  deleteItem,
   handleCloseBottomSheet,
   productRef,
   color,
-  setProducts,
 }: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
   const { handleDeleteProduct } = useShoppingListContext();
@@ -63,7 +60,7 @@ function ListGridItem({
 
   useEffect(() => {
     handleCloseSwipeableFromParent();
-  }, [item.name]);
+  }, [products.name]);
 
   const handleEdit = () => {
     setBottomSheetProps({
@@ -74,8 +71,8 @@ function ListGridItem({
           productListRef={productRef}
           action="editList"
           buttonText="edit"
-          items={item}
-          onClose={() => handleCloseBottomSheet(item.tag)}
+          items={products}
+          onClose={() => handleCloseBottomSheet(products.tag)}
         />
       ),
       isVisible: true,
@@ -84,8 +81,9 @@ function ListGridItem({
   };
 
   const handleDelete = () => {
-    handleDeleteProduct(item.uuid);
-    setProducts((prev) => prev.filter((p) => p.uuid !== item.uuid));
+    if (productRef.current) {
+      productRef.current.handleRemoveProduct(products.uuid);
+    }
   };
 
   const LeftSwipe = (
@@ -177,7 +175,7 @@ function ListGridItem({
       >
         <GridItemWrapperRow height={100}>
           <GridItemWrapperInner height={100}>
-            <Title2 color={color.text}>{item.name}</Title2>
+            <Title2 color={color.text}>{products.name}</Title2>
           </GridItemWrapperInner>
         </GridItemWrapperRow>
       </GridItemInner>
