@@ -20,14 +20,14 @@ import ITag from "../src/Model/ITag";
 
 interface ProductTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
-  handleCloseBottomSheetTag: () => void;
+  handleCloseBottomSheet: () => void;
   color: colorTheme;
   search: string;
 }
 
 const Product = React.forwardRef(
   (
-    { setBottomSheetProps, handleCloseBottomSheetTag, color }: ProductTabProps,
+    { setBottomSheetProps, handleCloseBottomSheet, color }: ProductTabProps,
     ref: any
   ) => {
     const { items, addItem, removeItem, editItem } = useProductViewModel();
@@ -68,7 +68,7 @@ const Product = React.forwardRef(
         products={items}
         color={color}
         setBottomSheetProps={setBottomSheetProps}
-        handleCloseBottomSheet={handleCloseBottomSheetTag}
+        handleCloseBottomSheet={handleCloseBottomSheet}
         productRef={ref}
       />
     ) : (

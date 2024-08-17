@@ -378,7 +378,7 @@ const Navigation: React.FC<NavigationProps> = ({
               color={color}
               search={search}
               setBottomSheetProps={setBottomSheetProps}
-              handleCloseBottomSheetTag={handleCloseBottomSheetProduct}
+              handleCloseBottomSheet={handleCloseBottomSheetProduct}
             />
           )}
         </Stack.Screen>
