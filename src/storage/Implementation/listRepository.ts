@@ -1,3 +1,4 @@
+import { makeAutoObservable } from "mobx";
 import { IList } from "../../Model/IList";
 import storageMMKV from "../../Service/Implementation/MMKVStorage";
 import { IListRepository } from "../IListRepository";
@@ -6,10 +7,22 @@ import UUIDGenerator from "react-native-uuid";
 const LIST_STORAGE_KEY = "SLSHOPPINGLIST";
 
 class ListRepository implements IListRepository {
+  lists: IList[] = [];
+
+  constructor() {
+    makeAutoObservable(this);
+    this.load();
+  }
+
+  load(): void {
+    this.lists = this.getAllItems();
+  }
+
   addItemByUuid(item: IList): void {
     try {
       if (!this.itemExists(item.uuid)) {
         storageMMKV.set(item.uuid, JSON.stringify(item));
+        this.load();
       }
     } catch (error) {
       console.error("Failed to add item by uuid:", error);
@@ -21,6 +34,7 @@ class ListRepository implements IListRepository {
       if (currentItem) {
         currentItem.name = name;
         storageMMKV.set(uuid, JSON.stringify(currentItem));
+        this.load();
       }
     } catch (error) {
       console.error("Failed to add item by uuid:", error);
@@ -35,6 +49,7 @@ class ListRepository implements IListRepository {
         newList.name = name;
         newList.createAt = new Date().getTime();
         this.addItem(newList);
+        this.load();
       }
     } catch (error) {
       console.error("Failed to copy item:", error);
@@ -47,6 +62,7 @@ class ListRepository implements IListRepository {
         this.addItemByUuid(item);
         currentData.push(item.uuid);
         this.addItemsToStorage(JSON.stringify(currentData));
+        this.load();
       }
     } catch (error) {
       console.error("Failed to add item:", error);
@@ -112,6 +128,7 @@ class ListRepository implements IListRepository {
       const newData = currentData.filter((item) => item != uuid);
       this.addItemsToStorage(JSON.stringify(newData));
       this.removeItemByUuid(uuid);
+      this.load();
     } catch (error) {
       console.error("Failed to remove item:", error);
     }

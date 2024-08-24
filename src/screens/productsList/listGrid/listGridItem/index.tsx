@@ -26,17 +26,13 @@ import {
 import NewProductForm from "../../../../components/NewProductForm";
 import I18n from "i18n-js";
 import { colorTheme } from "../../../../../constants/Colors";
+import { useStores } from "../../../../context/StoreContext";
 
 interface ListProps {
   products: IProduct;
   tagUuid: string;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: (tagUuid: string) => void;
-  productListRef: React.MutableRefObject<{
-    handleAddProduct: (product: string) => void;
-    handleRemoveProduct: (uuid: string) => void;
-    handleEditProduct: (uuid: string, name: string, tag?: string) => void;
-  } | null>;
   color: colorTheme;
 }
 
@@ -45,11 +41,11 @@ function ListGridItem({
   tagUuid,
   setBottomSheetProps,
   handleCloseBottomSheet,
-  productListRef,
   color,
 }: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
   const { handleDeleteProduct } = useShoppingListContext();
+  const { ProductRepository, TagRepository } = useStores();
   const gridItemRef = useRef<any>();
   const handleCloseSwipeableFromParent = () => {
     // Access the handleCloseSwipeable function from the ref
@@ -68,11 +64,11 @@ function ListGridItem({
       children: (
         <NewProductForm
           color={color}
-          productListRef={productListRef}
           action="editList"
           buttonText="edit"
           items={products}
           onClose={() => handleCloseBottomSheet(products.tag)}
+          teste="5"
         />
       ),
       isVisible: true,
@@ -81,9 +77,8 @@ function ListGridItem({
   };
 
   const handleDelete = () => {
-    if (productListRef?.current) {
-      productListRef?.current.handleRemoveProduct(products.uuid);
-    }
+    ProductRepository.removeItem(products.uuid);
+    TagRepository.decreaseProductQTD(products.tag);
   };
 
   const LeftSwipe = (

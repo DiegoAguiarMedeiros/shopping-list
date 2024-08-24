@@ -1,9 +1,14 @@
 import ITag from "../Model/ITag";
 
 export interface ITagRepository {
+  tags: ITag[];
+  tagActive: ITag | null;
+  load(): void;
   addItemByUuid(item: ITag): void;
   addItem(item: ITag): void;
   addItemsToStorage(items: string): void;
+  increaseProductQTD(uuid: string): void;
+  decreaseProductQTD(uuid: string): void;
   getItem(uuid: string): ITag | undefined;
   getAllItems(): ITag[];
   getAllItemsMap(): string[];
@@ -11,4 +16,6 @@ export interface ITagRepository {
   removeItem(uuid: string): void;
   removeItemByUuid(uuid: string): void;
   itemExists(uuid: string): boolean;
+  setTagAcitve(uuid: string): void;
+  setTagAcitveNull(): void;
 }

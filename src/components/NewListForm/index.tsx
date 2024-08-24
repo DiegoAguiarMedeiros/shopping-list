@@ -8,6 +8,8 @@ import { Keyboard } from "react-native";
 import { IList } from "../../Model/IList";
 import I18n from "i18n-js";
 import { colorTheme } from "../../../constants/Colors";
+import { useStores } from "../../context/StoreContext";
+import UUIDGenerator from "react-native-uuid";
 
 export type NewListFormProps = {
   onClose: () => void;
@@ -16,12 +18,6 @@ export type NewListFormProps = {
   action: "addList" | "editList" | "copyList";
   list?: IList;
   color: colorTheme;
-  listRef: React.MutableRefObject<{
-    handleAddNewList: (name: string) => void;
-    handleRemoveItem: (uuid: string) => void;
-    handleEditItem: (uuid: string, name: string) => void;
-    handleCopyItem: (uuid: string, name: string) => void;
-  } | null>;
   handleCloseSwipeableFromParent?: () => void;
 };
 
@@ -32,10 +28,9 @@ const NewListForm = ({
   action,
   list,
   color,
-  listRef,
   handleCloseSwipeableFromParent,
 }: NewListFormProps) => {
-  const colorScheme = useColorScheme();
+  const { ListRepository } = useStores();
   const { handleAddList, handleCopyList, handleEditList, getTheme, getColor } =
     useShoppingListContext();
   const [newList, setNewList] = useState<{ list: string }>({
@@ -56,29 +51,28 @@ const NewListForm = ({
 
   const addList = (): void => {
     closeBottomSheet();
-    // const list = handleAddList(newList.list);
-    if (listRef?.current) {
-      listRef?.current.handleAddNewList(newList.list);
-    }
+    const newItem: IList = {
+      uuid: String(UUIDGenerator.v4()),
+      name: newList.list,
+      tags: [],
+      items: [],
+      createAt: new Date().getTime(),
+    };
+    ListRepository.addItem(newItem);
   };
 
   const copyList = (): void => {
     if (newList.list) {
       closeBottomSheet();
-      if (listRef?.current) {
-        listRef?.current.handleCopyItem(list?.uuid!, newList.list);
-        handleCloseSwipeableFromParent && handleCloseSwipeableFromParent();
-      }
+      ListRepository.copyItem(list?.uuid!, newList.list);
+      handleCloseSwipeableFromParent && handleCloseSwipeableFromParent();
     }
   };
 
   const editList = (): void => {
     if (newList.list) {
       closeBottomSheet();
-      // handleEditList(list?.uuid!, newList.list);
-      if (listRef?.current) {
-        listRef?.current.handleEditItem(list?.uuid!, newList.list);
-      }
+      ListRepository.editItem(list?.uuid!, newList.list);
     }
   };
 

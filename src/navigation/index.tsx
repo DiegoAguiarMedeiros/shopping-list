@@ -62,38 +62,10 @@ const Navigation: React.FC<NavigationProps> = ({
   });
   const [search, setSearch] = useState("");
 
-  const listRef = useRef<{
-    handleAddNewList: (name: string) => void;
-    handleRemoveItem: (uuid: string) => void;
-    handleEditItem: (uuid: string, name: string) => void;
-    handleCopyItem: (uuid: string, name: string) => void;
-  } | null>(null);
-  const tagRef = useRef<{
-    handleAddNewTag: (tag: string) => void;
-    handleRemoveTag: (uuid: string) => void;
-    handleEditTag: (uuid: string, name: string) => void;
-  } | null>(null);
-  const listItemRef = useRef<{
-    handleAddItem: (list: IList) => void;
-  } | null>(null);
-
-  const productListRef = useRef<{
-    handleAddProduct: (product: string) => void;
-    handleRemoveProduct: (uuid: string) => void;
-    handleEditProduct: (uuid: string, name: string, tag?: string) => void;
-  } | null>(null);
-
-  const productRef = useRef<{
-    handleAddProduct: (product: string) => void;
-    handleRemoveProduct: (uuid: string) => void;
-    handleEditProduct: (uuid: string, name: string, tag?: string) => void;
-  } | null>(null);
-
   const handleCloseBottomSheetList = () => {
     setBottomSheetProps({
       children: (
         <NewListForm
-          listRef={listRef}
           color={color}
           action="addList"
           buttonText="add"
@@ -110,10 +82,10 @@ const Navigation: React.FC<NavigationProps> = ({
       children: (
         <NewProductForm
           color={color}
-          productListRef={productRef}
           action="addList"
           buttonText="add"
           onClose={handleCloseBottomSheetProduct}
+          teste="1"
         />
       ),
       height: "edit",
@@ -126,11 +98,11 @@ const Navigation: React.FC<NavigationProps> = ({
       children: (
         <NewProductForm
           color={color}
-          productListRef={productListRef}
           action="addList"
           buttonText="add"
           onClose={handleCloseBottomSheetProduct}
           tagUuid={tag}
+          teste="2"
         />
       ),
       height: "add",
@@ -144,7 +116,6 @@ const Navigation: React.FC<NavigationProps> = ({
       children: (
         <NewTagForm
           color={color}
-          tagRef={tagRef}
           action="addTag"
           buttonText="add"
           onClose={handleCloseBottomSheetTag}
@@ -159,7 +130,6 @@ const Navigation: React.FC<NavigationProps> = ({
   const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
     children: (
       <NewListForm
-        listRef={listRef}
         color={color}
         action="addList"
         buttonText="add"
@@ -217,7 +187,6 @@ const Navigation: React.FC<NavigationProps> = ({
     const forms = {
       home: (
         <NewListForm
-          listRef={listRef}
           color={color}
           action="addList"
           buttonText="add"
@@ -227,16 +196,15 @@ const Navigation: React.FC<NavigationProps> = ({
       product: (
         <NewProductForm
           color={color}
-          productListRef={productRef}
           action="addList"
           buttonText="add"
           onClose={handleCloseBottomSheetProduct}
+          teste="3"
         />
       ),
       tags: (
         <NewTagForm
           color={color}
-          tagRef={tagRef}
           action="addTag"
           buttonText="add"
           onClose={handleCloseBottomSheetTag}
@@ -353,8 +321,6 @@ const Navigation: React.FC<NavigationProps> = ({
         >
           {() => (
             <Home
-              listItemRef={listItemRef}
-              ref={listRef}
               color={color}
               setBottomSheetProps={setBottomSheetProps}
               handleCloseBottomSheet={handleCloseBottomSheetList}
@@ -371,7 +337,6 @@ const Navigation: React.FC<NavigationProps> = ({
         >
           {() => (
             <ProductTab
-              ref={productRef}
               color={color}
               search={search}
               setBottomSheetProps={setBottomSheetProps}
@@ -391,8 +356,6 @@ const Navigation: React.FC<NavigationProps> = ({
           {() => (
             <Tags
               color={color}
-              productListRef={productListRef}
-              ref={tagRef}
               setBottomSheetProps={setBottomSheetProps}
               handleCloseBottomSheet={handleCloseBottomSheetTag}
             />
@@ -408,7 +371,6 @@ const Navigation: React.FC<NavigationProps> = ({
         >
           {() => (
             <Items
-              ref={listItemRef}
               color={color}
               setActiveRouteHeader={setActiveRouteHeader}
               handleCloseBottomSheetList={handleCloseBottomSheetList}
@@ -426,7 +388,6 @@ const Navigation: React.FC<NavigationProps> = ({
           {() => (
             <ProductsList
               color={color}
-              ref={productListRef}
               setActiveRouteHeader={setActiveRouteHeader}
               setBottomSheetProps={setBottomSheetProps}
               handleCloseBottomSheet={handleCloseBottomSheetProductWithTag}

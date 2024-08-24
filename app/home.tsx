@@ -10,71 +10,25 @@ import { useListViewModel } from "../src/viewmodels/List/ListViewModel";
 import UUIDGenerator from "react-native-uuid";
 import EmptyList from "../src/components/EmptyList";
 import I18n from "i18n-js";
+import { observer } from "mobx-react-lite";
+import { useStores } from "../src/context/StoreContext";
 interface HomeContainerProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
-  listItemRef: React.MutableRefObject<{
-    handleAddItem: (list: IList) => void;
-  } | null>;
   color: colorTheme;
 }
 
-const HomeContainer = React.forwardRef(
-  (
-    {
-      setBottomSheetProps,
-      handleCloseBottomSheet,
-      color,
-      listItemRef,
-    }: Readonly<HomeContainerProps>,
-    ref: any
-  ) => {
-    const { getLists, getListArchived } = useShoppingListContext();
-    const [lists, setLists] = useState<string[]>(getLists());
+const HomeContainer = observer(
+  ({
+    setBottomSheetProps,
+    handleCloseBottomSheet,
+    color,
+  }: Readonly<HomeContainerProps>) => {
+    const { ListRepository } = useStores();
 
-    const { items, addItem, removeItem, editItem, copyItem } =
-      useListViewModel();
-
-    const handleAddItem = (name: string) => {
-      const newItem: IList = {
-        uuid: String(UUIDGenerator.v4()),
-        name: name,
-        tags: [],
-        items: [],
-        createAt: new Date().getTime(),
-      };
-      addItem(newItem);
-    };
-    const handleRemoveItem = (uuid: string) => {
-      removeItem(uuid);
-    };
-    const handleEditItem = (uuid: string, name: string) => {
-      editItem(uuid, name);
-    };
-    const handleCopyItem = (uuid: string, name: string) => {
-      copyItem(uuid, name);
-    };
-
-    useImperativeHandle(ref, () => ({
-      handleAddNewList(list: string) {
-        handleAddItem(list);
-      },
-      handleRemoveItem(uuid: string) {
-        handleRemoveItem(uuid);
-      },
-      handleEditItem(uuid: string, name: string) {
-        handleEditItem(uuid, name);
-      },
-      handleCopyItem(uuid: string, name: string) {
-        handleCopyItem(uuid, name);
-      },
-    }));
-
-    return items && items.length > 0 ? (
+    return ListRepository.lists && ListRepository.lists.length > 0 ? (
       <ListView
-        listItemRef={listItemRef}
-        listRef={ref}
-        lists={items}
+        lists={ListRepository.lists}
         color={color}
         setBottomSheetProps={setBottomSheetProps}
         handleCloseBottomSheet={handleCloseBottomSheet}
@@ -84,5 +38,6 @@ const HomeContainer = React.forwardRef(
     );
   }
 );
+
 
 export default HomeContainer;

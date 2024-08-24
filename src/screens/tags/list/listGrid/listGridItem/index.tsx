@@ -21,36 +21,23 @@ import I18n from "i18n-js";
 import ITag from "../../../../../Model/ITag";
 import { colorTheme } from "../../../../../../constants/Colors";
 import { IProduct } from "../../../../../Model/IProduct";
+import { useStores } from "../../../../../context/StoreContext";
 
 interface ItemProps {
   tag: ITag;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
   color: colorTheme;
-  productListRef: React.MutableRefObject<{
-    handleAddProduct: (product: string) => void;
-    handleRemoveProduct: (uuid: string) => void;
-    handleEditProduct: (uuid: string, name: string, tag?: string) => void;
-  } | null>;
-  tagRef: React.RefObject<{
-    handleAddNewTag: (tag: string) => void;
-    handleRemoveTag: (uuid: string) => void;
-    handleEditTag: (uuid: string, name: string) => void;
-  }>;
 }
 
 export default function ListGridItem({
   tag,
   setBottomSheetProps,
   handleCloseBottomSheet,
-  productListRef,
-  tagRef,
   color,
 }: Readonly<ItemProps>) {
-  const { handleDeleteTag, getNumberOfProductsByTagsUuid } =
-    useShoppingListContext();
-
   const colorScheme = useColorScheme();
+  const { TagRepository } = useStores();
   const router = useRouter();
   const gridItemRef = useRef<any>();
   const handleCloseSwipeableFromParent = () => {
@@ -69,11 +56,11 @@ export default function ListGridItem({
       children: (
         <NewProductForm
           color={color}
-          productListRef={productListRef}
           action="addList"
           buttonText="add"
           onClose={handleCloseBottomSheetProduct}
           tagUuid={tag.uuid}
+          teste="6"
         />
       ),
       height: "add",
@@ -89,17 +76,17 @@ export default function ListGridItem({
       children: (
         <NewProductForm
           color={color}
-          productListRef={productListRef}
           onClose={handleCloseBottomSheetProduct}
           action="addList"
           buttonText="add"
           tagUuid={tag.uuid}
+          teste="7"
         />
       ),
       color: color,
     });
     router.push({ pathname: "/ProductsList", params: { tagUuid: tag.uuid } });
-  }, [tag.uuid, router, productListRef]);
+  }, [tag.uuid, router]);
 
   const handleEdit = () => {
     setBottomSheetProps({
@@ -107,7 +94,6 @@ export default function ListGridItem({
       children: (
         <NewTagForm
           color={color}
-          tagRef={tagRef}
           action="editTag"
           buttonText="edit"
           tag={tag}
@@ -120,9 +106,7 @@ export default function ListGridItem({
   };
 
   const handleDelete = () => {
-    if (tagRef?.current) {
-      tagRef?.current.handleRemoveTag(tag.uuid);
-    }
+    TagRepository.removeItem(tag.uuid);
   };
 
   const LeftSwipe = (
@@ -206,7 +190,7 @@ export default function ListGridItem({
           <GridItemWrapperCol width={30} height={100}>
             <GridItemWrapperInner height={100}>
               <SubTitle color={color.textSecondary} align="right">
-                {I18n.t("products")}: {getNumberOfProductsByTagsUuid(tag.uuid)}
+                {I18n.t("products")}: {tag.productsQTD}
               </SubTitle>
             </GridItemWrapperInner>
           </GridItemWrapperCol>

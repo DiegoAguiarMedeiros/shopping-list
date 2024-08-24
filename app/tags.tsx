@@ -10,60 +10,21 @@ import { useTagViewModel } from "../src/viewmodels/Tag/TagViewModel";
 import EmptyList from "../src/components/EmptyList";
 import I18n from "i18n-js";
 import { TagView } from "../src/views/Tag/TagView";
-import UUIDGenerator from "react-native-uuid";
+import { useStores } from "../src/context/StoreContext";
+import { observer } from "mobx-react-lite";
 
 interface TagsTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
-  productListRef: React.MutableRefObject<{
-    handleAddProduct: (product: string) => void;
-    handleRemoveProduct: (uuid: string) => void;
-    handleEditProduct: (uuid: string, name: string, tag?: string) => void;
-  } | null>;
   color: colorTheme;
 }
 
-const TagsTab = React.forwardRef(
-  (
-    {
-      setBottomSheetProps,
-      handleCloseBottomSheet,
-      productListRef,
-      color,
-    }: TagsTabProps,
-    ref: any
-  ) => {
-    const { items, addItem, removeItem, editItem } = useTagViewModel();
-    useImperativeHandle(ref, () => ({
-      handleAddNewTag(name: string) {
-        handleAddItem(name);
-      },
-      handleRemoveTag(uuid: string) {
-        handleRemoveItem(uuid);
-      },
-      handleEditTag(uuid: string, name: string) {
-        handleEditItem(uuid, name);
-      },
-    }));
-
-    const handleAddItem = (name: string) => {
-      const newItem: ITag = {
-        uuid: String(UUIDGenerator.v4()),
-        name: name,
-      };
-      addItem(newItem);
-    };
-    const handleRemoveItem = (uuid: string) => {
-      removeItem(uuid);
-    };
-    const handleEditItem = (uuid: string, name: string) => {
-      editItem(uuid, name);
-    };
-    return items && items.length > 0 ? (
+const TagsTab = observer(
+  ({ setBottomSheetProps, handleCloseBottomSheet, color }: TagsTabProps) => {
+    const { TagRepository } = useStores();
+    return TagRepository.tags && TagRepository.tags.length > 0 ? (
       <TagView
-        tags={items}
-        productListRef={productListRef}
-        tagRef={ref}
+        tags={TagRepository.tags}
         color={color}
         setBottomSheetProps={setBottomSheetProps}
         handleCloseBottomSheet={handleCloseBottomSheet}

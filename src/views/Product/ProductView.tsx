@@ -23,11 +23,6 @@ interface ProductViewProps {
   handleCloseBottomSheet: () => void;
   color: colorTheme;
   products: IProduct[];
-  productRef: React.RefObject<{
-    handleAddProduct: (product: string) => void;
-    handleRemoveProduct: (uuid: string) => void;
-    handleEditProduct: (uuid: string, name: string, tag?: string) => void;
-  }>;
 }
 
 const CustomFlatList = React.memo(
@@ -36,11 +31,9 @@ const CustomFlatList = React.memo(
     handleCloseBottomSheet,
     color,
     products,
-    productRef,
   }: ProductViewProps) => {
     const renderItem: ListRenderItem<IProduct> = ({ item }) => (
       <ListGridItem
-        productRef={productRef}
         color={color}
         handleCloseBottomSheet={handleCloseBottomSheet}
         setBottomSheetProps={setBottomSheetProps}
@@ -60,9 +53,11 @@ const CustomFlatList = React.memo(
       </Container>
     );
   },
-  (prevProps, nextProps) => {
-    return isEqual(prevProps.products, nextProps.products);
-  }
+    (prevProps, nextProps) => {
+      return (
+        isEqual(prevProps.products, nextProps.products)
+      );
+    }
 );
 
 export const ProductView = ({
@@ -70,11 +65,9 @@ export const ProductView = ({
   handleCloseBottomSheet,
   color,
   products,
-  productRef,
 }: ProductViewProps) => {
   return (
     <CustomFlatList
-      productRef={productRef}
       products={products}
       color={color}
       setBottomSheetProps={setBottomSheetProps}

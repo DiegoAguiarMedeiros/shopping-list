@@ -17,6 +17,8 @@ import { TouchableHighlight } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { Title } from "../src/components/Text";
 import ITag from "../src/Model/ITag";
+import { useStores } from "../src/context/StoreContext";
+import { observer } from "mobx-react-lite";
 
 interface ProductTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -25,48 +27,18 @@ interface ProductTabProps {
   search: string;
 }
 
-const Product = React.forwardRef(
-  (
-    { setBottomSheetProps, handleCloseBottomSheet, color }: ProductTabProps,
-    ref: any
-  ) => {
-    const { items, addItem, removeItem, editItem } = useProductViewModel();
-    const handleAddItem = (name: string, tag: string) => {
-      const newItem: IProduct = {
-        uuid: String(UUIDGenerator.v4()),
-        name: name,
-        amount: [],
-        unit: "Kg",
-        tag: tag,
-      };
-      addItem(newItem);
-    };
-    const handleRemoveItem = (uuid: string) => {
-      removeItem(uuid);
-    };
-    const handleEditItem = (uuid: string, name: string, tag?: string) => {
-      editItem(uuid, name, tag);
-    };
-
-    useImperativeHandle(ref, () => ({
-      handleAddProduct(name: string, tag: string) {
-        handleAddItem(name, tag);
-      },
-      handleRemoveProduct(uuid: string) {
-        handleRemoveItem(uuid);
-      },
-      handleEditProduct(uuid: string, name: string, tag?: string) {
-        handleEditItem(uuid, name, tag);
-      },
-    }));
-
-    return items && items.length > 0 ? (
+const Product = observer(
+  ({ setBottomSheetProps, handleCloseBottomSheet, color }: ProductTabProps) => {
+    const { ProductRepository, TagRepository } = useStores();
+    TagRepository.setTagAcitveNull();
+    ProductRepository.load();
+    return ProductRepository.products &&
+      ProductRepository.products.length > 0 ? (
       <ProductView
-        products={items}
+        products={ProductRepository.products}
         color={color}
         setBottomSheetProps={setBottomSheetProps}
         handleCloseBottomSheet={handleCloseBottomSheet}
-        productRef={ref}
       />
     ) : (
       <EmptyList color={color} mensage={I18n.t("noProducts")} />

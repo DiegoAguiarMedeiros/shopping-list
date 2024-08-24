@@ -2,23 +2,19 @@ import * as Styled from "./styles";
 import InputText from "../InputText";
 import Button from "../Button";
 import { useEffect, useState } from "react";
-
+import UUIDGenerator from "react-native-uuid";
 import { useShoppingListContext } from "../../context/ShoppingList";
 import { Keyboard } from "react-native";
 import I18n from "i18n-js";
 import { colorTheme } from "../../../constants/Colors";
 import ITag from "../../Model/ITag";
+import { useStores } from "../../context/StoreContext";
 
 export type NewTagFormProps = {
   onClose: () => void;
   buttonText: "add" | "edit";
   action: "addTag" | "editTag";
   tag?: ITag;
-  tagRef: React.MutableRefObject<{
-    handleAddNewTag: (tag: string) => void;
-    handleRemoveTag: (uuid: string) => void;
-    handleEditTag: (uuid: string, name: string) => void;
-  } | null>;
   color: colorTheme;
 };
 
@@ -27,9 +23,9 @@ const NewTagForm = ({
   buttonText,
   action,
   tag,
-  tagRef,
   color,
 }: NewTagFormProps) => {
+  const { TagRepository } = useStores();
   const { handleAddTag, handleEditTag } = useShoppingListContext();
   const [newItem, setNewItem] = useState({
     item: tag ? tag.name : "",
@@ -50,18 +46,19 @@ const NewTagForm = ({
   const addTag = (): void => {
     if (newItem.item) {
       closeBottomSheet();
-      if (tagRef?.current) {
-        tagRef?.current.handleAddNewTag(newItem.item);
-      }
+      const newTag: ITag = {
+        uuid: String(UUIDGenerator.v4()),
+        name: newItem.item,
+        productsQTD: 0,
+      };
+      TagRepository.addItem(newTag);
     }
   };
 
   const editTag = (): void => {
     if (newItem.item) {
       closeBottomSheet();
-      if (tagRef?.current) {
-        tagRef?.current.handleEditTag(tag?.uuid!, newItem.item);
-      }
+      TagRepository.editItem(tag?.uuid!, newItem.item);
     }
   };
 

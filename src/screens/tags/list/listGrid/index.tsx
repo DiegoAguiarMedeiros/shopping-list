@@ -19,6 +19,8 @@ interface ItemProps {
     handleAddNewTag: (tag: string) => void;
     handleRemoveTag: (uuid: string) => void;
     handleEditTag: (uuid: string, name: string) => void;
+    handleIncreaseProductQTD: (uuid: string) => void;
+    handleDecreaseProductQTD: (uuid: string) => void;
   }>;
   color: colorTheme;
 }

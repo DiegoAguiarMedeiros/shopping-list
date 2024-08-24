@@ -23,16 +23,6 @@ interface TagViewProps {
   handleCloseBottomSheet: () => void;
   color: colorTheme;
   tags: ITag[];
-  productListRef: React.MutableRefObject<{
-    handleAddProduct: (product: string) => void;
-    handleRemoveProduct: (uuid: string) => void;
-    handleEditProduct: (uuid: string, name: string, tag?: string) => void;
-  } | null>;
-  tagRef: React.RefObject<{
-    handleAddNewTag: (tag: string) => void;
-    handleRemoveTag: (uuid: string) => void;
-    handleEditTag: (uuid: string, name: string) => void;
-  }>;
 }
 
 const CustomFlatList = React.memo(
@@ -41,13 +31,9 @@ const CustomFlatList = React.memo(
     handleCloseBottomSheet,
     color,
     tags,
-    tagRef,
-    productListRef,
   }: TagViewProps) => {
     const renderItem: ListRenderItem<ITag> = ({ item }) => (
       <ListGridItem
-        productListRef={productListRef}
-        tagRef={tagRef}
         color={color}
         handleCloseBottomSheet={handleCloseBottomSheet}
         setBottomSheetProps={setBottomSheetProps}
@@ -67,12 +53,9 @@ const CustomFlatList = React.memo(
       </Container>
     );
   },
-  (prevProps, nextProps) => {
-    return (
-      isEqual(prevProps.tags, nextProps.tags) &&
-      isEqual(prevProps.productListRef, nextProps.productListRef)
-    );
-  }
+    (prevProps, nextProps) => {
+      return isEqual(prevProps.tags, nextProps.tags);
+    }
 );
 
 export const TagView = ({
@@ -80,13 +63,9 @@ export const TagView = ({
   handleCloseBottomSheet,
   color,
   tags,
-  tagRef,
-  productListRef,
 }: TagViewProps) => {
   return (
     <CustomFlatList
-      productListRef={productListRef}
-      tagRef={tagRef}
       tags={tags}
       color={color}
       setBottomSheetProps={setBottomSheetProps}

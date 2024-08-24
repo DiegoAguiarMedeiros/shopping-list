@@ -17,9 +17,6 @@ export type NewItemFormProps = {
   buttonText: "add" | "edit";
   items?: ItemInterface;
   color: colorTheme;
-  listItemRef: React.MutableRefObject<{
-    handleAddItem: (list: IList) => void;
-  } | null>;
 };
 
 const NewItemForm = ({
@@ -28,7 +25,6 @@ const NewItemForm = ({
   buttonText,
   items,
   color,
-  listItemRef,
 }: NewItemFormProps) => {
   const [newItem, setNewItem] = useState<{
     item: string[];
@@ -62,9 +58,9 @@ const NewItemForm = ({
   const addListItem = (): void => {
     closeBottomSheet();
     const newList = handleAddListItem(list.uuid, newItem.item);
-    if (listItemRef?.current) {
-      listItemRef?.current.handleAddItem(newList);
-    }
+    // if (listItemRef?.current) {
+    //   listItemRef?.current.handleAddItem(newList);
+    // }
     updateSelect();
   };
 

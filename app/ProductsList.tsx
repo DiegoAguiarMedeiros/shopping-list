@@ -16,6 +16,8 @@ import I18n from "i18n-js";
 import { TouchableHighlight } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { Title } from "../src/components/Text";
+import { observer } from "mobx-react-lite";
+import { useStores } from "../src/context/StoreContext";
 
 interface ProductListTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -31,50 +33,19 @@ interface ProductListTabProps {
   color: colorTheme;
 }
 
-const ProductList = React.forwardRef(
-  (
-    {
-      setActiveRouteHeader,
-      setBottomSheetProps,
-      handleCloseBottomSheet,
-      handleCloseBottomSheetTag,
-      color,
-    }: ProductListTabProps,
-    ref: any
-  ) => {
+const ProductList = observer(
+  ({
+    setActiveRouteHeader,
+    setBottomSheetProps,
+    handleCloseBottomSheet,
+    handleCloseBottomSheetTag,
+    color,
+  }: ProductListTabProps) => {
     const { tagUuid } = useGlobalSearchParams();
-    const { items, tag, addItem, removeItem, editItem } =
-      useProductListViewModel(
-        tagUuid && !Array.isArray(tagUuid) ? tagUuid : ""
-      );
-    const handleAddItem = (name: string) => {
-      const newItem: IProduct = {
-        uuid: String(UUIDGenerator.v4()),
-        name: name,
-        amount: [],
-        unit: "Kg",
-        tag: tag.uuid,
-      };
-      addItem(newItem);
-    };
-    const handleRemoveItem = (uuid: string) => {
-      removeItem(uuid);
-    };
-    const handleEditItem = (uuid: string, name: string, tag?: string) => {
-      editItem(uuid, name, tag);
-    };
-
-    useImperativeHandle(ref, () => ({
-      handleAddProduct(name: string) {
-        handleAddItem(name);
-      },
-      handleRemoveProduct(uuid: string) {
-        handleRemoveItem(uuid);
-      },
-      handleEditProduct(uuid: string, name: string, tag?: string) {
-        handleEditItem(uuid, name, tag);
-      },
-    }));
+    const { ProductRepository, TagRepository } = useStores();
+    const tag = TagRepository.getItem(
+      tagUuid && !Array.isArray(tagUuid) ? tagUuid : ""
+    );
     const returnToTags = () => {
       handleCloseBottomSheetTag();
       router.push({ pathname: "/tags" });
@@ -90,18 +61,22 @@ const ProductList = React.forwardRef(
             <FontAwesome name="angle-left" size={35} color={color.white} />
           </TouchableHighlight>
         ),
-        name: <Title color={color.white}>{tag.name}</Title>,
+        name: <Title color={color.white}>{tag?.name}</Title>,
         right: null,
       });
-    }, [tag]);
+      if (tag) {
+        TagRepository.setTagAcitve(tag?.uuid);
+        ProductRepository.load();
+      }
+    }, []);
 
-    return items && items.length > 0 ? (
+    return ProductRepository.products &&
+      ProductRepository.products.length > 0 ? (
       <ProductListView
-        products={items}
+        products={ProductRepository.products}
         color={color}
         setBottomSheetProps={setBottomSheetProps}
         handleCloseBottomSheet={handleCloseBottomSheetTag}
-        productListRef={ref}
       />
     ) : (
       <EmptyList color={color} mensage={I18n.t("noProducts")} />

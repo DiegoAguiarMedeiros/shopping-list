@@ -23,6 +23,14 @@ export const useTagViewModel = () => {
     TagRepository.removeItem(uuid);
     loadItemsFromRepository();
   };
+  const increaseProductQTD = (uuid: string) => {
+    TagRepository.increaseProductQTD(uuid);
+    loadItemsFromRepository();
+  };
+  const decreaseProductQTD = (uuid: string) => {
+    TagRepository.decreaseProductQTD(uuid);
+    loadItemsFromRepository();
+  };
   const editItem = (uuid: string, name: string) => {
     TagRepository.editItem(uuid, name);
     loadItemsFromRepository();
@@ -33,5 +41,7 @@ export const useTagViewModel = () => {
     addItem,
     removeItem,
     editItem,
+    increaseProductQTD,
+    decreaseProductQTD,
   };
 };

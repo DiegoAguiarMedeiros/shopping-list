@@ -21,17 +21,13 @@ import {
 } from "../../../../../components/GridItemInner";
 import I18n from "i18n-js";
 import { colorTheme } from "../../../../../../constants/Colors";
+import { useStores } from "../../../../../context/StoreContext";
 
 interface ItemProps {
   item: IProduct;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
   color: colorTheme;
-  productRef: React.RefObject<{
-    handleAddProduct: (product: string) => void;
-    handleRemoveProduct: (uuid: string) => void;
-    handleEditProduct: (uuid: string, name: string, tag?: string) => void;
-  }>;
 }
 
 export default function ListGridItem({
@@ -39,10 +35,9 @@ export default function ListGridItem({
   setBottomSheetProps,
   handleCloseBottomSheet,
   color,
-  productRef,
 }: Readonly<ItemProps>) {
   const { handleDeleteProduct, getLastPrices } = useShoppingListContext();
-
+  const { ProductRepository, TagRepository } = useStores();
   const colorScheme = useColorScheme();
   const lastPrice = getLastPrices(item.uuid);
   const gridItemRef = useRef<any>();
@@ -67,7 +62,7 @@ export default function ListGridItem({
           buttonText="edit"
           items={item}
           onClose={handleCloseBottomSheet}
-          productListRef={productRef}
+          teste="4"
         />
       ),
       isVisible: true,
@@ -76,9 +71,8 @@ export default function ListGridItem({
   };
 
   const handleDelete = () => {
-    if (productRef?.current) {
-      productRef?.current.handleRemoveProduct(item.uuid);
-    }
+    ProductRepository.removeItem(item.uuid);
+    TagRepository.decreaseProductQTD(item.tag);
   };
 
   const LeftSwipe = (

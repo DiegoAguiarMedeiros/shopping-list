@@ -332,6 +332,7 @@ const returnNewTag = (tag: string): ITag => {
   const item: ITag = {
     uuid: String(UUIDGenerator.v4()),
     name: tag,
+    productsQTD: 0,
   };
   return item;
 };
@@ -504,6 +505,7 @@ const ShoppingListProvider: React.FC<ShoppingListProviderProps> = ({
     const newTag: ITag = {
       name: tag,
       uuid: tagUuid,
+      productsQTD: 0,
     };
     saveNewTag(newTag);
     showToast("categoryEditedSuccessfully");

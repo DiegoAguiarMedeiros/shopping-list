@@ -1,10 +1,28 @@
+import { action, makeAutoObservable } from "mobx";
 import { IProduct } from "../../Model/IProduct";
 import storageMMKV from "../../Service/Implementation/MMKVStorage";
 import { IProductRepository } from "../IProductRepository";
+import { ITagRepository } from "../ITagRepository";
+import tagRepository from "./tagRepository";
 
 const PRODUCT_STORAGE_KEY = "SLSHOPPINGPRODUCT";
 
 class ProductRepository implements IProductRepository {
+  products: IProduct[] = [];
+  tagRepository: ITagRepository;
+
+  constructor(tagRepository: ITagRepository) {
+    this.tagRepository = tagRepository;
+    makeAutoObservable(this, {
+      load: action.bound, // Marca a função como uma ação
+    });
+    this.load();
+  }
+
+  load(): void {
+    this.products = this.getAllItems();
+  }
+
   addItemByUuid(item: IProduct): void {
     try {
       if (!this.itemExists(item.uuid)) {
@@ -21,6 +39,7 @@ class ProductRepository implements IProductRepository {
         currentItem.name = name;
         if (tag) currentItem.tag = tag;
         storageMMKV.set(uuid, JSON.stringify(currentItem));
+        this.load();
       }
     } catch (error) {
       console.error("Failed to add item by uuid:", error);
@@ -42,6 +61,7 @@ class ProductRepository implements IProductRepository {
         this.addItemByUuid(item);
         currentData.push(item.uuid);
         this.addItemsToStorage(JSON.stringify(currentData));
+        this.load();
       }
     } catch (error) {
       console.error("Failed to add item:", error);
@@ -65,23 +85,11 @@ class ProductRepository implements IProductRepository {
       if (currentData) {
         currentData.forEach((uuid) => {
           const item = this.getItem(uuid);
-          if (item) result.push(item);
-        });
-      }
-      return result;
-    } catch (error) {
-      console.error("Failed to get all items:", error);
-      return [];
-    }
-  }
-  getAllItemsByTag(tag: string): IProduct[] {
-    try {
-      const currentData = this.getAllItemsMap();
-      const result: IProduct[] = [];
-      if (currentData) {
-        currentData.forEach((uuid) => {
-          const item = this.getItem(uuid);
-          if (item && item.tag === tag) result.push(item);
+
+          if (this.tagRepository.tagActive) {
+            if (item && item.tag === this.tagRepository.tagActive?.uuid)
+              result.push(item);
+          } else if (item) result.push(item);
         });
       }
       return result;
@@ -115,6 +123,7 @@ class ProductRepository implements IProductRepository {
       const newData = currentData.filter((item) => item != uuid);
       this.addItemsToStorage(JSON.stringify(newData));
       this.removeItemByUuid(uuid);
+      this.load();
     } catch (error) {
       console.error("Failed to remove item:", error);
     }
@@ -131,4 +140,4 @@ class ProductRepository implements IProductRepository {
   }
 }
 
-export default new ProductRepository();
+export default new ProductRepository(tagRepository);

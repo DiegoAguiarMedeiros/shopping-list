@@ -24,26 +24,16 @@ import { colorTheme } from "../../../../../../constants/Colors";
 import { IProduct } from "../../../../../Model/IProduct";
 import React from "react";
 import { useListViewModel } from "../../../../../viewmodels/List/ListViewModel";
+import { useStores } from "../../../../../context/StoreContext";
 interface ItemProps {
   list: IList;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
   color: colorTheme;
-  listRef: React.MutableRefObject<{
-    handleAddNewList: (name: string) => void;
-    handleRemoveItem: (uuid: string) => void;
-    handleEditItem: (uuid: string, name: string) => void;
-    handleCopyItem: (uuid: string, name: string) => void;
-  } | null>;
-  listItemRef: React.MutableRefObject<{
-    handleAddItem: (list: IList) => void;
-  } | null>;
 }
 
 const ListGridItem = React.memo(
   ({
-    listItemRef,
-    listRef,
     color,
     handleCloseBottomSheet,
     setBottomSheetProps,
@@ -59,6 +49,7 @@ const ListGridItem = React.memo(
     } = useShoppingListContext();
     const colorScheme = useColorScheme();
     const router = useRouter();
+    const { ListRepository } = useStores();
     const { removeItem } = useListViewModel();
     // const items = removeUndefinedFromArray(
     //   getListProductController.handle(list.items)
@@ -82,7 +73,6 @@ const ListGridItem = React.memo(
       setBottomSheetProps({
         children: (
           <NewItemForm
-            listItemRef={listItemRef}
             color={color}
             buttonText="add"
             onClose={handleCloseBottomSheetProductList}
@@ -101,7 +91,6 @@ const ListGridItem = React.memo(
         height: "add",
         children: (
           <NewItemForm
-            listItemRef={listItemRef}
             color={color}
             onClose={handleCloseBottomSheetProductList}
             buttonText="add"
@@ -123,7 +112,6 @@ const ListGridItem = React.memo(
             list={list}
             onClose={handleCloseBottomSheet}
             color={color}
-            listRef={listRef}
           />
         ),
         isVisible: true,
@@ -141,7 +129,6 @@ const ListGridItem = React.memo(
             list={list}
             onClose={handleCloseBottomSheet}
             color={color}
-            listRef={listRef}
             handleCloseSwipeableFromParent={handleCloseSwipeableFromParent}
           />
         ),
@@ -151,13 +138,11 @@ const ListGridItem = React.memo(
     };
 
     const handleDelete = () => {
-      if (listRef?.current) {
-        listRef?.current.handleRemoveItem(list.uuid);
-      }
+      ListRepository.removeItem(list.uuid);
     };
 
     const archivedList = (): void => {
-      handleArchived(list.uuid, listRef);
+      // handleArchived(list.uuid, listRef);
     };
 
     const RightSwipe = (

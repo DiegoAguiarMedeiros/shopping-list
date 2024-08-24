@@ -1,6 +1,7 @@
 import { IList } from "../Model/IList";
 
 export interface IListRepository {
+  load(): void;
   addItemByUuid(item: IList): void;
   addItem(item: IList): void;
   addItemsToStorage(items: string): void;

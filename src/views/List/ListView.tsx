@@ -21,15 +21,6 @@ interface ListViewProps {
   handleCloseBottomSheet: () => void;
   color: colorTheme;
   lists: IList[];
-  listRef: React.MutableRefObject<{
-    handleAddNewList: (name: string) => void;
-    handleRemoveItem: (uuid: string) => void;
-    handleEditItem: (uuid: string, name: string) => void;
-    handleCopyItem: (uuid: string, name: string) => void;
-  } | null>;
-  listItemRef: React.MutableRefObject<{
-    handleAddItem: (list: IList) => void;
-  } | null>;
 }
 
 const CustomFlatList = React.memo(
@@ -38,13 +29,9 @@ const CustomFlatList = React.memo(
     handleCloseBottomSheet,
     color,
     lists,
-    listRef,
-    listItemRef,
   }: ListViewProps) => {
     const renderItem: ListRenderItem<IList> = ({ item }) => (
       <ListGridItem
-        listItemRef={listItemRef}
-        listRef={listRef}
         color={color}
         handleCloseBottomSheet={handleCloseBottomSheet}
         setBottomSheetProps={setBottomSheetProps}
@@ -74,13 +61,9 @@ export const ListView = ({
   handleCloseBottomSheet,
   color,
   lists,
-  listRef,
-  listItemRef,
 }: ListViewProps) => {
   return (
     <CustomFlatList
-      listItemRef={listItemRef}
-      listRef={listRef}
       lists={lists}
       color={color}
       setBottomSheetProps={setBottomSheetProps}

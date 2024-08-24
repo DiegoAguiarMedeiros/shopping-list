@@ -6,7 +6,7 @@ import ITag from "../../Model/ITag";
 
 export const useProductListViewModel = (tagUuid: string) => {
   const [items, setItems] = useState<IProduct[]>([]);
-  const [tag, setTag] = useState<ITag>({ name: "", uuid: "" });
+  const [tag, setTag] = useState<ITag>({ name: "", uuid: "", productsQTD: 0 });
 
   const loadItemsFromRepository = () => {
     const fetchedItems = ProductRepository.getAllItemsByTag(tagUuid);

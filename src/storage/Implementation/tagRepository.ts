@@ -1,3 +1,4 @@
+import { action, makeAutoObservable } from "mobx";
 import ITag from "../../Model/ITag";
 import storageMMKV from "../../Service/Implementation/MMKVStorage";
 import { ITagRepository } from "../ITagRepository";
@@ -5,10 +6,48 @@ import { ITagRepository } from "../ITagRepository";
 const TAG_STORAGE_KEY = "SLSHOPPINGTAG";
 
 class TagRepository implements ITagRepository {
+  tags: ITag[] = [];
+  tagActive: ITag | null = null;
+
+  constructor() {
+    makeAutoObservable(this, {
+      setTagAcitveNull: action.bound, // Marca a função como uma ação
+    });
+    this.load();
+  }
+  setTagAcitveNull(): void {
+    this.tagActive = null;
+  }
+  setTagAcitve(uuid: string): void {
+    const tag = this.getItem(uuid);
+    if (tag) this.tagActive = tag;
+  }
+
+  load(): void {
+    this.tags = this.getAllItems();
+  }
+
+  increaseProductQTD(uuid: string): void {
+    const currentItem = this.getItem(uuid);
+    if (currentItem) {
+      currentItem.productsQTD = currentItem.productsQTD + 1;
+      storageMMKV.set(uuid, JSON.stringify(currentItem));
+      this.load();
+    }
+  }
+  decreaseProductQTD(uuid: string): void {
+    const currentItem = this.getItem(uuid);
+    if (currentItem) {
+      currentItem.productsQTD = currentItem.productsQTD - 1;
+      storageMMKV.set(uuid, JSON.stringify(currentItem));
+      this.load();
+    }
+  }
   addItemByUuid(item: ITag): void {
     try {
       if (!this.itemExists(item.uuid)) {
         storageMMKV.set(item.uuid, JSON.stringify(item));
+        this.load();
       }
     } catch (error) {
       console.error("Failed to add item by uuid:", error);
@@ -20,6 +59,7 @@ class TagRepository implements ITagRepository {
       if (currentItem) {
         currentItem.name = name;
         storageMMKV.set(uuid, JSON.stringify(currentItem));
+        this.load();
       }
     } catch (error) {
       console.error("Failed to add item by uuid:", error);
@@ -33,6 +73,7 @@ class TagRepository implements ITagRepository {
         this.addItemByUuid(item);
         currentData.push(item.uuid);
         this.addItemsToStorage(JSON.stringify(currentData));
+        this.load();
       }
     } catch (error) {
       console.error("Failed to add item:", error);
@@ -97,6 +138,7 @@ class TagRepository implements ITagRepository {
       const newData = currentData.filter((item) => item != uuid);
       this.addItemsToStorage(JSON.stringify(newData));
       this.removeItemByUuid(uuid);
+      this.load();
     } catch (error) {
       console.error("Failed to remove item:", error);
     }

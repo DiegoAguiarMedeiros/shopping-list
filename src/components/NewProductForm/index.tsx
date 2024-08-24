@@ -13,6 +13,7 @@ import { IProduct } from "../../Model/IProduct";
 import Select from "../InputSelect";
 import I18n from "i18n-js";
 import { colorTheme } from "../../../constants/Colors";
+import { useStores } from "../../context/StoreContext";
 const countries = ["Egypt", "Canada", "Australia", "Ireland"];
 const countries2 = [
   { label: "Selecione uma categoria", value: "" },
@@ -27,12 +28,8 @@ export type NewListFormProps = {
   buttonText: "add" | "edit";
   action: "addList" | "editList";
   items?: IProduct;
-  productListRef: React.MutableRefObject<{
-    handleAddProduct: (product: string) => void;
-    handleRemoveProduct: (uuid: string) => void;
-    handleEditProduct: (uuid: string, name: string, tag?: string) => void;
-  } | null>;
   color: colorTheme;
+  teste: string;
 };
 
 const NewProductForm = ({
@@ -41,18 +38,19 @@ const NewProductForm = ({
   buttonText,
   action,
   items,
-  productListRef,
   color,
+  teste,
 }: NewListFormProps) => {
   const { handleAddListProduct, handleEditListProduct, getTagsObject } =
     useShoppingListContext();
+  const { ProductRepository, TagRepository } = useStores();
   const [newItem, setNewItem] = useState({
     item: items ? items.name : "",
-    tag: tagUuid || "",
+    tag: tagUuid ?? "",
   });
   const tags = getTagsObject();
   if (tags) {
-    tags.unshift({ name: I18n.t("selectCategory"), uuid: "" });
+    tags.unshift({ name: I18n.t("selectCategory"), uuid: "", productsQTD: 0 });
   }
   const clearInput = () => {
     setNewItem({
@@ -69,24 +67,25 @@ const NewProductForm = ({
 
   const addList = (): void => {
     if (newItem.item !== "") {
+      const newProduct: IProduct = {
+        uuid: String(UUIDGenerator.v4()),
+        name: newItem.item,
+        amount: [],
+        unit: "Kg",
+        tag: tagUuid ?? newItem.tag,
+      };
+      ProductRepository.addItem(newProduct);
+      TagRepository.increaseProductQTD(tagUuid ?? newItem.tag);
       closeBottomSheet();
-      if (productListRef?.current) {
-        productListRef?.current.handleAddProduct(newItem.item);
-      }
     }
   };
 
   const editList = (): void => {
     if (newItem?.item !== "") {
       closeBottomSheet();
-      console.log("editList productListRef", productListRef);
-      if (productListRef?.current) {
-        productListRef?.current.handleEditProduct(
-          items?.uuid!,
-          newItem.item,
-          newItem.tag
-        );
-      }
+      ProductRepository.editItem(items?.uuid!, newItem.item, newItem.tag);
+      TagRepository.increaseProductQTD(newItem.tag);
+      TagRepository.decreaseProductQTD(items?.tag!);
     }
   };
 

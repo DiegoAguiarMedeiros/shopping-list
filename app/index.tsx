@@ -19,6 +19,7 @@ import getLanguageController from "../src/UseCases/Config/GetCurrency";
 import getColorController from "../src/UseCases/Config/GetColor";
 import saveColorController from "../src/UseCases/Config/SaveColor";
 import Navigation from "../src/navigation";
+import { StoreProvider } from "../src/context/StoreContext";
 
 I18n.fallbacks = true;
 I18n.translations = {
@@ -83,7 +84,7 @@ export default function App() {
     getOnboarding().then((result) => setActive(result));
     async function prepare() {
       try {
-        // Pre-load fonts, make any API calls you need to do here
+        // Pre-load fonts, make any API ShoppingListProvidercalls you need to do here
         await Font.loadAsync({
           InterBlack: require("../assets/fonts/static/Inter-Black.ttf"),
           InterBold: require("../assets/fonts/static/Inter-Bold.ttf"),
@@ -123,32 +124,34 @@ export default function App() {
   return (
     <>
       <StatusBar backgroundColor={currentColor.theme[theme].primary} />
-      <ShoppingListProvider
-        color={color}
-        setColor={setColor}
-        theme={theme}
-        setTheme={setTheme}
-        lang={currentLanguage}
-        handleLanguageChange={handleLanguageChange}
-      >
-        {!active && (
-          <OnboardingScreen
-            color={colorTheme}
-            closeOnboarding={closeOnboarding}
-          />
-        )}
-        {appIsReady && active && (
-          <Navigation
-            currentColor={currentColor.color}
-            currentTheme={theme}
-            color={colorTheme}
-            currentLanguage={currentLanguage}
-            handleColorChange={handleColorChange}
-            handleLanguageChange={handleLanguageChange}
-            handleThemeChange={handleThemeChange}
-          />
-        )}
-      </ShoppingListProvider>
+      <StoreProvider>
+        <ShoppingListProvider
+          color={color}
+          setColor={setColor}
+          theme={theme}
+          setTheme={setTheme}
+          lang={currentLanguage}
+          handleLanguageChange={handleLanguageChange}
+        >
+          {!active && (
+            <OnboardingScreen
+              color={colorTheme}
+              closeOnboarding={closeOnboarding}
+            />
+          )}
+          {appIsReady && active && (
+            <Navigation
+              currentColor={currentColor.color}
+              currentTheme={theme}
+              color={colorTheme}
+              currentLanguage={currentLanguage}
+              handleColorChange={handleColorChange}
+              handleLanguageChange={handleLanguageChange}
+              handleThemeChange={handleThemeChange}
+            />
+          )}
+        </ShoppingListProvider>
+      </StoreProvider>
     </>
   );
 }
