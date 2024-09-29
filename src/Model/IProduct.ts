@@ -1,7 +1,10 @@
+import IAmount from "./IAmount";
+
 export interface IProduct {
   uuid: string;
   name: string;
-  amount: string[];
+  amount: IAmount[];
+  total?: string;
   lastPrices?: LastPricesInterface;
   unit: "Kg" | "Un";
   tag: string;

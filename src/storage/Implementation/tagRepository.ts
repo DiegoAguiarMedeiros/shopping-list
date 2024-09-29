@@ -11,7 +11,8 @@ class TagRepository implements ITagRepository {
 
   constructor() {
     makeAutoObservable(this, {
-      setTagAcitveNull: action.bound, // Marca a função como uma ação
+      setTagAcitve: action.bound,
+      setTagAcitveNull: action.bound,
     });
     this.load();
   }

@@ -21,72 +21,55 @@ import {
   GridItemWrapperRow,
 } from "../../../../components/GridItemInner";
 import { colorTheme } from "../../../../../constants/Colors";
+import { useStores } from "../../../../context/StoreContext";
 
 interface ListProps {
   itemAmount: IAmount;
+  listProductUuid: string;
   color: colorTheme;
-  setListArrAmountItems: React.Dispatch<React.SetStateAction<IAmount[]>>;
   totalUpdate: (total: number, amount: number, un: number) => void;
-  filter: string;
 }
 
 export default function ListPriceGrid({
   itemAmount,
   color,
-  setListArrAmountItems,
   totalUpdate,
-  filter,
+  listProductUuid,
 }: Readonly<ListProps>) {
-  const {
-    handleEditItemsAmount,
-    handleDeleteAmountInList,
-    getCurrency,
-    getTotalAmountByListUuid,
-    getTotalQuantityAmountByListUuid,
-    getTotalQuantityWithoutAmountByListUuid,
-  } = useShoppingListContext();
+  const { getCurrency } = useShoppingListContext();
+
+  const { AmountRepository, ProductRepository } = useStores();
   const [selectedValueSwitch, setSelectedValueSwitch] = useState(
     itemAmount.type
   );
   const [newItemAmount, setNewItemAmount] = useState<IAmount>(itemAmount);
   const editItemsAmount = (): void => {
-    handleEditItemsAmount(itemAmount.uuid, !selectedValueSwitch);
-    const updatedList: IAmount = JSON.parse(JSON.stringify(itemAmount));
-    updatedList.type = !selectedValueSwitch;
-    updatedList.quantity = "1";
-    setSelectedValueSwitch(!selectedValueSwitch);
-    setNewItemAmount(updatedList);
+    AmountRepository.changeAmountType(
+      !selectedValueSwitch,
+      listProductUuid,
+      itemAmount.uuid
+    );
+    ProductRepository.load();
+    ProductRepository.updateTotal();
+    ProductRepository.updateTotalUn();
+    ProductRepository.updateTotalWithAmount();
+    ProductRepository.updateTotalWithoutAmount();
   };
 
-  const handleUpdateListArrItems = (amount: IAmount): void => {
-    setListArrAmountItems((prev) =>
-      prev.map((p) => {
-        if (p.uuid === amount.uuid) {
-          return amount;
-        }
-        return p;
-      })
-    );
-  };
+  const handleUpdateListArrItems = (amount: IAmount): void => {};
 
   const deleteAmountInList = (): void => {
-    handleDeleteAmountInList(itemAmount.uuid);
-    setListArrAmountItems((prev) =>
-      prev.filter((p) => p.uuid !== itemAmount.uuid)
-    );
-    Keyboard.dismiss();
-    totalUpdate(
-      getTotalAmountByListUuid(itemAmount.listProductUuid.slice(0, 36), filter),
-      getTotalQuantityAmountByListUuid(
-        itemAmount.listProductUuid.slice(0, 36),
-        filter
-      ),
-      getTotalQuantityWithoutAmountByListUuid(
-        itemAmount.listProductUuid.slice(0, 36),
-        filter
-      )
-    );
+    AmountRepository.removeItem(listProductUuid, itemAmount.uuid);
+    ProductRepository.load();
+    ProductRepository.updateTotal();
+    ProductRepository.updateTotalUn();
+    ProductRepository.updateTotalWithAmount();
+    ProductRepository.updateTotalWithoutAmount();
   };
+
+  useEffect(() => {
+    setSelectedValueSwitch(itemAmount.type);
+  }, [itemAmount.type]);
 
   return (
     <GridItemInner
@@ -103,8 +86,8 @@ export default function ListPriceGrid({
         </GridItemWrapperInner>
         <GridItemWrapperInner width={30} height={100}>
           <AddQtd
-            filter={filter}
             totalUpdate={totalUpdate}
+            listProductUuid={listProductUuid}
             handleUpdateListArrItems={handleUpdateListArrItems}
             color={color}
             amountItem={itemAmount}

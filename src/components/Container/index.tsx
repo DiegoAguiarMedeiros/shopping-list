@@ -19,10 +19,14 @@ const Container: React.FC<ContainerProps> = ({
   noPadding,
   height,
   elevation,
-  ...rest
 }) => {
   return (
-    <Styled.Container background={background ?? "transparent"} noPadding={noPadding ?? false} height={height ?? "100%"} elevation={elevation ? 24 : 0}>
+    <Styled.Container
+      background={background ?? "transparent"}
+      noPadding={noPadding ?? false}
+      height={height ?? "100%"}
+      elevation={elevation ? 24 : 0}
+    >
       {children}
     </Styled.Container>
   );

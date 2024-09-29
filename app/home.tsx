@@ -25,7 +25,6 @@ const HomeContainer = observer(
     color,
   }: Readonly<HomeContainerProps>) => {
     const { ListRepository } = useStores();
-
     return ListRepository.lists && ListRepository.lists.length > 0 ? (
       <ListView
         lists={ListRepository.lists}

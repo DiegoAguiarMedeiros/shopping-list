@@ -27,6 +27,7 @@ import History from "../../app/history";
 import { IList } from "../Model/IList";
 import { IProduct } from "../Model/IProduct";
 import ITag from "../Model/ITag";
+import { useStores } from "../context/StoreContext";
 
 const Stack = createStackNavigator();
 
@@ -61,6 +62,7 @@ const Navigation: React.FC<NavigationProps> = ({
     right: null,
   });
   const [search, setSearch] = useState("");
+  const { ListRepository, ProductRepository, TagRepository } = useStores();
 
   const handleCloseBottomSheetList = () => {
     setBottomSheetProps({
@@ -220,7 +222,12 @@ const Navigation: React.FC<NavigationProps> = ({
         children: forms[route],
       });
     }
+    if (route === "home") {
+      ListRepository.setListAcitveNull();
+    }
     if (route === "product") {
+      TagRepository.setTagAcitveNull();
+      ProductRepository.load();
       setSearch("");
       setActiveRouteHeader({
         left: null,

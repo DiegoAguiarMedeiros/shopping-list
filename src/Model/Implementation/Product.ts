@@ -1,9 +1,10 @@
+import IAmount from "../IAmount";
 import { IProduct } from "../IProduct";
 
 class Product implements IProduct {
   uuid: string;
   name: string;
-  amount: string[];
+  amount: IAmount[];
   unit: "Kg" | "Un";
   tag: string;
 

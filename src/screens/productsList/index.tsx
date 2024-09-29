@@ -60,9 +60,7 @@ export default function ProductsList({
 }: Readonly<ProductsListProps>) {
   const router = useRouter();
 
-  function deleteItem(item: ItemInterface): void {
-    throw new Error("Function not implemented.");
-  }
+  function deleteItem(item: ItemInterface): void {}
 
   const returnToTags = () => {
     handleCloseBottomSheetTag();

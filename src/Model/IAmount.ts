@@ -3,5 +3,5 @@ export default interface IAmount {
   amount: string;
   type: boolean;
   quantity: string;
-  listProductUuid: string;
+  listProductUuid?: string;
 }

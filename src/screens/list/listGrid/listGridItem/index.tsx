@@ -21,6 +21,8 @@ import I18n from "i18n-js";
 import IAmount from "../../../../Model/IAmount";
 import { colorTheme } from "../../../../../constants/Colors";
 import { IList } from "../../../../Model/IList";
+import isEqual from "lodash.isequal";
+import { useStores } from "../../../../context/StoreContext";
 
 interface ListProps {
   item: IProduct;
@@ -28,7 +30,7 @@ interface ListProps {
   filter: string;
   handleOpen: (uuid: string) => void;
   handleClose: () => void;
-  active: string;
+  active: boolean;
   color: colorTheme;
   totalUpdate: (total: number, amount: number, un: number) => void;
   setList: React.Dispatch<React.SetStateAction<IList>>;
@@ -46,23 +48,17 @@ function ListGridItem({
   filter,
 }: ListProps) {
   const colorScheme = useColorScheme();
-  const {
-    handleDeleteProductFromList,
-    getCurrency,
-    getTotalAmountByListProductUuid,
-    getAmountByListProductUuid,
-    getListByUuid,
-  } = useShoppingListContext();
+  const { getCurrency } = useShoppingListContext();
   const listProductUuid = `${listId}-${item.uuid}`;
-  const total = getTotalAmountByListProductUuid(listProductUuid);
-
-  const [listArrAmountItems, setListArrAmountItems] = useState<IAmount[]>(
-    getAmountByListProductUuid(listProductUuid)
-  );
+  const { AmountRepository, ProductRepository } = useStores();
   const handleDelete = () => {
-    handleDeleteProductFromList(listId, item.uuid);
-    const list = getListByUuid(listId);
-    setList(list);
+    ProductRepository.removeItemFromlist(item.uuid);
+    AmountRepository.removeAllItems(listProductUuid);
+    ProductRepository.load();
+    ProductRepository.updateTotal();
+    ProductRepository.updateTotalUn();
+    ProductRepository.updateTotalWithAmount();
+    ProductRepository.updateTotalWithoutAmount();
   };
 
   function RightSwipe(
@@ -120,17 +116,13 @@ function ListGridItem({
     return `${unit}: ${quantity.toFixed(3)}`;
   };
 
-  return active === item.uuid ? (
+  return active ? (
     <GridItemNoSwipeable>
       <GridItemInner
         underlayColor={color.itemListItemOpenBackgroundUnderlay}
         borderColor={color.itemListItemOpenBackgroundBorder}
         background={color.itemListItemOpenBackground}
-        height={
-          itemHeights[
-            listArrAmountItems.length > 4 ? 4 : listArrAmountItems.length
-          ]
-        }
+        height={itemHeights[item.amount.length > 4 ? 4 : item.amount.length]}
         row
         elevation={colorScheme === "light"}
       >
@@ -142,15 +134,11 @@ function ListGridItem({
                   size={28}
                   style={{ marginBottom: -3 }}
                   color={
-                    listArrAmountItems.length > 0
+                    item.amount.length > 0
                       ? color.itemListItemOpenIconFilled
                       : color.itemListItemOpenIcon
                   }
-                  name={
-                    listArrAmountItems.length > 0
-                      ? "check-circle-o"
-                      : "circle-o"
-                  }
+                  name={item.amount.length > 0 ? "check-circle-o" : "circle-o"}
                 />
               </Title>
             </GridItemWrapperInner>
@@ -172,8 +160,7 @@ function ListGridItem({
                     justify="flex-start"
                   >
                     <Text color={color.itemListItemOpenTextSecondary}>
-                      {I18n.t("total")}: {getCurrency()}{" "}
-                      {total.toFixed(2).replace(".", ",")}
+                      {I18n.t("total")}: {getCurrency()} {item.total}
                     </Text>
                   </GridItemWrapperInner>
                   <GridItemWrapperInner
@@ -182,7 +169,7 @@ function ListGridItem({
                     justify="flex-start"
                   >
                     <Text color={color.itemListItemOpenTextSecondary}>
-                      {showUnitFromAmount(listArrAmountItems)}
+                      {showUnitFromAmount(item.amount)}
                     </Text>
                   </GridItemWrapperInner>
                 </GridItemWrapperRow>
@@ -200,21 +187,15 @@ function ListGridItem({
             </GridItemWrapperInner>
           </GridItemWrapperRow>
           <GridItemWrapperRow
-            height={
-              heights[
-                listArrAmountItems.length >= 4 ? 4 : listArrAmountItems.length
-              ]
-            }
+            height={heights[item.amount.length >= 4 ? 4 : item.amount.length]}
             justify="flex-end"
           >
             <GridItemWrapperCol width={100}>
               <AddPriceUnit
-                filter={filter}
+                amounts={item.amount}
                 totalUpdate={totalUpdate}
-                setListArrAmountItems={setListArrAmountItems}
                 color={color}
                 listProductUuid={listProductUuid}
-                listArrAmountItems={listArrAmountItems}
               />
             </GridItemWrapperCol>
           </GridItemWrapperRow>
@@ -243,13 +224,11 @@ function ListGridItem({
                 size={28}
                 style={{ marginBottom: -3 }}
                 color={
-                  listArrAmountItems.length > 0
+                  item.amount.length > 0
                     ? color.itemListIconFilled
                     : color.itemListIcon
                 }
-                name={
-                  listArrAmountItems.length > 0 ? "check-circle-o" : "circle-o"
-                }
+                name={item.amount.length > 0 ? "check-circle-o" : "circle-o"}
               />
             </Title>
           </GridItemWrapperInner>
@@ -265,8 +244,7 @@ function ListGridItem({
                   justify="flex-start"
                 >
                   <Text color={color.textSecondary}>
-                    {I18n.t("total")}: {getCurrency()}{" "}
-                    {total.toFixed(2).replace(".", ",")}
+                    {I18n.t("total")}: {getCurrency()} {item.total}
                   </Text>
                 </GridItemWrapperInner>
                 <GridItemWrapperInner
@@ -275,7 +253,7 @@ function ListGridItem({
                   justify="flex-start"
                 >
                   <Text color={color.textSecondary}>
-                    {showUnitFromAmount(listArrAmountItems)}
+                    {showUnitFromAmount(item.amount)}
                   </Text>
                 </GridItemWrapperInner>
               </GridItemWrapperRow>
@@ -297,4 +275,9 @@ function ListGridItem({
   );
 }
 
-export default React.memo(ListGridItem);
+export default React.memo(ListGridItem, (prevProps, nextProps) => {
+  return (
+    isEqual(prevProps.active, nextProps.active) &&
+    isEqual(prevProps.item.amount, nextProps.item.amount)
+  );
+});

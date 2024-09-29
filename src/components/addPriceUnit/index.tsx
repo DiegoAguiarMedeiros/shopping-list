@@ -1,6 +1,6 @@
 import { useColorScheme } from "react-native";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useShoppingListContext } from "../../context/ShoppingList";
 import InputText from "../../components/InputText";
 import Button from "../../components/Button";
@@ -13,45 +13,41 @@ import {
   GridItemWrapperRow,
 } from "../../components/GridItemInner";
 import { colorTheme } from "../../../constants/Colors";
+import { useLocalStore } from "mobx-react-lite";
+import { useStores } from "../../context/StoreContext";
+import UUIDGenerator from "react-native-uuid";
 
 interface AddPriceUnitProps {
+  amounts: IAmount[];
   listProductUuid: string;
-  filter: string;
-  listArrAmountItems: IAmount[];
   color: colorTheme;
-  setListArrAmountItems: React.Dispatch<React.SetStateAction<IAmount[]>>;
   totalUpdate: (total: number, amount: number, un: number) => void;
 }
 
 export default function AddPriceUnit({
   listProductUuid,
   color,
-  listArrAmountItems,
-  setListArrAmountItems,
   totalUpdate,
-  filter,
+  amounts,
 }: Readonly<AddPriceUnitProps>) {
-  const {
-    handleAddAmount,
-    getTotalAmountByListUuid,
-    getTotalQuantityAmountByListUuid,
-    getTotalQuantityWithoutAmountByListUuid,
-  } = useShoppingListContext();
+  const { AmountRepository, ProductRepository } = useStores();
   const [newItem, setNewItem] = useState("");
+
   const addAmount = (): void => {
     if (newItem != "") {
-      const newAmount = handleAddAmount(newItem, listProductUuid);
-      setListArrAmountItems((prev) => [...prev, newAmount]);
       setNewItem("");
-
-      totalUpdate(
-        getTotalAmountByListUuid(listProductUuid.slice(0, 36), filter),
-        getTotalQuantityAmountByListUuid(listProductUuid.slice(0, 36), filter),
-        getTotalQuantityWithoutAmountByListUuid(
-          listProductUuid.slice(0, 36),
-          filter
-        )
-      );
+      const newAmount: IAmount = {
+        uuid: String(UUIDGenerator.v4()),
+        amount: newItem,
+        type: false,
+        quantity: "1",
+      };
+      AmountRepository.addItem(listProductUuid, newAmount);
+      ProductRepository.load();
+      ProductRepository.updateTotal();
+      ProductRepository.updateTotalUn();
+      ProductRepository.updateTotalWithAmount();
+      ProductRepository.updateTotalWithoutAmount();
     }
   };
 
@@ -61,19 +57,14 @@ export default function AddPriceUnit({
     <Container noPadding>
       <ContainerInner>
         <GridItemWrapperRow
-          height={
-            heights[
-              listArrAmountItems.length >= 4 ? 4 : listArrAmountItems.length
-            ]
-          }
+          height={heights[amounts.length >= 4 ? 4 : amounts.length]}
         >
-          {listArrAmountItems.length > 0 ? (
+          {amounts.length > 0 ? (
             <ListPriceGrid
-              filter={filter}
               totalUpdate={totalUpdate}
-              setListArrAmountItems={setListArrAmountItems}
+              listProductUuid={listProductUuid}
               color={color}
-              item={listArrAmountItems}
+              item={amounts}
               key={"ListPriceGrid-" + listProductUuid}
             />
           ) : (

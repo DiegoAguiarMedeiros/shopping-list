@@ -5,16 +5,22 @@ import { useShoppingListContext } from "../../../../../context/ShoppingList";
 
 import IAmount from "../../../../../Model/IAmount";
 import { colorTheme } from "../../../../../../constants/Colors";
-import { NativeSyntheticEvent, TextInputKeyPressEventData } from "react-native";
+import {
+  NativeSyntheticEvent,
+  TextInputChangeEventData,
+  TextInputKeyPressEventData,
+} from "react-native";
+import { useStores } from "../../../../../context/StoreContext";
+import { useEffect, useState } from "react";
 interface ListPriceGridProps {
   amountItem: IAmount;
+  listProductUuid: string;
   selectedValueSwitch: boolean;
   newItemAmount: IAmount;
   setNewItemAmount: React.Dispatch<React.SetStateAction<IAmount>>;
   color: colorTheme;
   handleUpdateListArrItems: (amount: IAmount) => void;
   totalUpdate: (total: number, amount: number, un: number) => void;
-  filter: string;
 }
 
 export default function ListPriceGrid({
@@ -25,15 +31,12 @@ export default function ListPriceGrid({
   color,
   handleUpdateListArrItems,
   totalUpdate,
-  filter,
+  listProductUuid,
 }: Readonly<ListPriceGridProps>) {
-  const {
-    changeAmountQuantity,
-    handleAmountInputChange,
-    getTotalAmountByListUuid,
-    getTotalQuantityAmountByListUuid,
-    getTotalQuantityWithoutAmountByListUuid,
-  } = useShoppingListContext();
+  const { AmountRepository, ProductRepository } = useStores();
+  const [quantity, setQuantity] = useState("1");
+
+  console.log("ListPriceGrid", amountItem.quantity);
 
   const formatInput = (value: string): string => {
     let newValue = value.replace(".", "");
@@ -51,81 +54,97 @@ export default function ListPriceGrid({
     return newValue;
   };
 
+  useEffect(() => {
+    setQuantity(amountItem.quantity);
+    console.log("amountItem.quantity", amountItem.quantity);
+    if (amountItem.quantity == "0" || amountItem.quantity == "")
+      setQuantity("1");
+  }, [amountItem.quantity]);
+
   const minusAmount = (): void => {
     if (Number(amountItem.quantity) > 1) {
-      const updatedList = changeAmountQuantity(
+      AmountRepository.changeAmountQuantity(
         String(Number(amountItem.quantity) - 1),
+        listProductUuid,
         amountItem.uuid
       );
-      setNewItemAmount(updatedList);
-      handleUpdateListArrItems(updatedList);
-      totalUpdate(
-        getTotalAmountByListUuid(
-          amountItem.listProductUuid.slice(0, 36),
-          filter
-        ),
-        getTotalQuantityAmountByListUuid(
-          amountItem.listProductUuid.slice(0, 36),
-          filter
-        ),
-        getTotalQuantityWithoutAmountByListUuid(
-          amountItem.listProductUuid.slice(0, 36),
-          filter
-        )
-      );
+      ProductRepository.load();
+      ProductRepository.updateTotal();
+      ProductRepository.updateTotalUn();
+      ProductRepository.updateTotalWithAmount();
+      ProductRepository.updateTotalWithoutAmount();
     }
   };
   const plusAmount = (): void => {
-    const updatedList = changeAmountQuantity(
-      String(Number(amountItem.quantity) + 1),
-      amountItem.uuid
-    );
-    setNewItemAmount(updatedList);
-    handleUpdateListArrItems(updatedList);
-    totalUpdate(
-      getTotalAmountByListUuid(amountItem.listProductUuid.slice(0, 36), filter),
-      getTotalQuantityAmountByListUuid(
-        amountItem.listProductUuid.slice(0, 36),
-        filter
-      ),
-      getTotalQuantityWithoutAmountByListUuid(
-        amountItem.listProductUuid.slice(0, 36),
-        filter
-      )
-    );
+    if (Number(amountItem.quantity) < 99) {
+      AmountRepository.changeAmountQuantity(
+        String(Number(amountItem.quantity) + 1),
+        listProductUuid,
+        amountItem.uuid
+      );
+      ProductRepository.load();
+      ProductRepository.updateTotal();
+      ProductRepository.updateTotalUn();
+      ProductRepository.updateTotalWithAmount();
+      ProductRepository.updateTotalWithoutAmount();
+    }
   };
 
-  const handleInputChange = (
+  const handleDecimalInputChange = (
     event: NativeSyntheticEvent<TextInputKeyPressEventData>
   ) => {
     const { key } = event.nativeEvent;
     if (/^[\d.]$/.test(key) || key === "Backspace") {
-      if (key === "Backspace") {
-        const updatedList = handleAmountInputChange(
-          formatInput(newItemAmount?.quantity.slice(0, -1)),
+      const formatedNumber =
+        key === "Backspace"
+          ? formatInput(quantity.slice(0, -1))
+          : formatInput(quantity + key);
+
+      if (Number(formatedNumber) < 100) {
+        AmountRepository.changeAmountQuantity(
+          formatedNumber,
+          listProductUuid,
           amountItem.uuid
         );
-        setNewItemAmount(updatedList);
-      } else {
-        const updatedList = handleAmountInputChange(
-          formatInput(newItemAmount?.quantity + key),
-          amountItem.uuid
-        );
-        setNewItemAmount(updatedList);
       }
+
+        if (Number(formatedNumber) < 100) {
+          ProductRepository.load();
+          ProductRepository.updateTotal();
+          ProductRepository.updateTotalUn();
+          ProductRepository.updateTotalWithAmount();
+          ProductRepository.updateTotalWithoutAmount();
+        }
     }
 
-    totalUpdate(
-      getTotalAmountByListUuid(amountItem.listProductUuid.slice(0, 36), filter),
-      getTotalQuantityAmountByListUuid(
-        amountItem.listProductUuid.slice(0, 36),
-        filter
-      ),
-      getTotalQuantityWithoutAmountByListUuid(
-        amountItem.listProductUuid.slice(0, 36),
-        filter
-      )
-    );
+    // totalUpdate();
+  };
+  const handleInputChange = (value: string) => {
+    // const { key } = event.nativeEvent;
+    // if (/^[\d]$/.test(key) || key === "Backspace") {
+    // if (key === "Backspace") {
+    //   AmountRepository.changeAmountQuantity(
+    //     quantity.slice(0, -1),
+    //     listProductUuid,
+    //     amountItem.uuid
+    //   );
+    // } else {
+    if (Number(value) < 100) {
+      AmountRepository.changeAmountQuantity(
+        value.replace(/\D/g, ""),
+        listProductUuid,
+        amountItem.uuid
+      );
+      // }
+      ProductRepository.load();
+      ProductRepository.updateTotal();
+      ProductRepository.updateTotalUn();
+      ProductRepository.updateTotalWithAmount();
+      ProductRepository.updateTotalWithoutAmount();
+    }
+    // }
+
+    // totalUpdate();
   };
 
   return (
@@ -136,8 +155,8 @@ export default function ListPriceGrid({
           radius={true}
           keyboardType="decimal-pad"
           placeholder="0.000"
-          onKeyPress={(event) => handleInputChange(event)}
-          value={newItemAmount?.quantity}
+          onKeyPress={(event) => handleDecimalInputChange(event)}
+          value={quantity}
         />
       ) : (
         <>
@@ -151,10 +170,13 @@ export default function ListPriceGrid({
           </Styled.ContainerMinusPlus>
           <Styled.ContainerQtd>
             <InputText
+              keyboardType="decimal-pad"
+              onChangeText={(value) => handleInputChange(value)}
               color={color}
               radius={false}
               placeholder="Valor"
-              value={newItemAmount?.quantity}
+              value={quantity}
+              style={{ fontSize: quantity.length > 3 ? 14 : 18 }}
             />
           </Styled.ContainerQtd>
           <Styled.ContainerMinusPlus>

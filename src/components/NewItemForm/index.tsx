@@ -10,6 +10,7 @@ import { colorTheme } from "../../../constants/Colors";
 import { IList } from "../../Model/IList";
 import { IProduct, ITagsProductsMultiSelect } from "../../Model/IProduct";
 import MultiSelect from "../InputMultiSelect";
+import { useStores } from "../../context/StoreContext";
 
 export type NewItemFormProps = {
   onClose: () => void;
@@ -32,15 +33,13 @@ const NewItemForm = ({
     item: [],
   });
 
-  const { handleAddListItem, getListByUuid, getProductsToSelectByListUuid } =
-    useShoppingListContext();
+  const { ListRepository, ProductRepository } = useStores();
 
   const [products, setProducts] = useState<ITagsProductsMultiSelect[]>(
-    getProductsToSelectByListUuid(list.uuid)
+    ProductRepository.getProductsToSelect()
   );
-
   const updateSelect = (): void => {
-    setProducts(getProductsToSelectByListUuid(list.uuid));
+    setProducts(ProductRepository.getProductsToSelect());
   };
 
   const clearInput = () => {
@@ -57,10 +56,16 @@ const NewItemForm = ({
 
   const addListItem = (): void => {
     closeBottomSheet();
-    const newList = handleAddListItem(list.uuid, newItem.item);
-    // if (listItemRef?.current) {
-    //   listItemRef?.current.handleAddItem(newList);
-    // }
+    ListRepository.addItemsTolist(newItem.item);
+    ListRepository.updateTags(
+      ProductRepository.getAllTagsByProductUuid(
+        ListRepository?.listActive?.items ?? newItem.item
+      )
+    );
+    ListRepository.updateTotal(0);
+    ListRepository.updateTotalUn(ListRepository?.listActive?.items.length ?? newItem.item.length);
+    ListRepository.updateTotalWithAmount(0);
+    ProductRepository.load();
     updateSelect();
   };
 

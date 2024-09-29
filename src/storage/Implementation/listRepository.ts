@@ -1,23 +1,95 @@
-import { makeAutoObservable } from "mobx";
+import { action, makeAutoObservable } from "mobx";
 import { IList } from "../../Model/IList";
 import storageMMKV from "../../Service/Implementation/MMKVStorage";
 import { IListRepository } from "../IListRepository";
 import UUIDGenerator from "react-native-uuid";
+import { IProduct } from "../../Model/IProduct";
 
 const LIST_STORAGE_KEY = "SLSHOPPINGLIST";
 
 class ListRepository implements IListRepository {
   lists: IList[] = [];
+  listActive: IList | null = null;
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {
+      setListAcitve: action.bound,
+      setListAcitveNull: action.bound,
+    });
     this.load();
   }
+  updateTotalUn(totalUn: number): void {
+    const list = this.getItem(this.listActive?.uuid!);
+    if (list) {
+      list.totalUn = totalUn;
+      this.listActive = list;
+      storageMMKV.set(list.uuid, JSON.stringify(list));
+      this.load();
+    }
+  }
+  updateTags(tags: string[]): void {
+    const list = this.getItem(this.listActive?.uuid!);
+    if (list) {
+      list.tags = tags;
+      this.listActive = list;
+      storageMMKV.set(list.uuid, JSON.stringify(list));
+      this.load();
+    }
+  }
+  updateTotal(total: number): void {
+    const list = this.getItem(this.listActive?.uuid!);
+    if (list) {
+      list.total = total;
+      this.listActive = list;
+      storageMMKV.set(list.uuid, JSON.stringify(list));
+      this.load();
+    }
+  }
+  updateTotalWithAmount(total: number): void {
+    const list = this.getItem(this.listActive?.uuid!);
+    if (list) {
+      list.totalWithAmount = total;
+      this.listActive = list;
+      storageMMKV.set(list.uuid, JSON.stringify(list));
+      this.load();
+    }
+  }
+  updateTotalWithoutAmount(total: number): void {
+    const list = this.getItem(this.listActive?.uuid!);
+    if (list) {
+      list.totalWithoutAmount = total;
+      this.listActive = list;
+      storageMMKV.set(list.uuid, JSON.stringify(list));
+      this.load();
+    }
+  }
 
+  addItemsTolist(items: string[]): void {
+    const list = this.getItem(this.listActive?.uuid!);
+    if (list) {
+      list.items = [...list.items, ...items];
+      this.listActive = list;
+      storageMMKV.set(list.uuid, JSON.stringify(list));
+    }
+  }
+  removeItemFromlist(uuid: string): void {
+    const list = this.getItem(this.listActive?.uuid!);
+    if (list) {
+      list.items = list.items.filter((item) => item != uuid);
+      this.listActive = list;
+      storageMMKV.set(list.uuid, JSON.stringify(list));
+    }
+  }
   load(): void {
     this.lists = this.getAllItems();
   }
-
+  setListAcitveNull(): void {
+    this.listActive = null;
+  }
+  setListAcitve(uuid: string): void {
+    const list = this.getItem(uuid);
+    if (list) this.listActive = list;
+  }
   addItemByUuid(item: IList): void {
     try {
       if (!this.itemExists(item.uuid)) {

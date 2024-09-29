@@ -11,16 +11,16 @@ import ITag from "../../Model/ITag";
 
 interface FilterButtonsProps {
   tags: string[];
-  filter: string;
-  setFilter: React.Dispatch<React.SetStateAction<string>>;
+  // filter: string;
+  // setFilter: React.Dispatch<React.SetStateAction<string>>;
   color: colorTheme;
-  getTagByUuid: (uuid: string) => ITag;
+  getTagByUuid: (uuid: string) => ITag | undefined;
 }
 
 const FilterButtons = ({
   tags,
-  filter,
-  setFilter,
+  // filter,
+  // setFilter,
   color,
   getTagByUuid,
 }: FilterButtonsProps) => {
@@ -35,9 +35,9 @@ const FilterButtons = ({
     const handlePress = () => {
       if (item.item !== "Todos") {
         const tag = getTagByUuid(item.item);
-        setFilter(tag?.name);
+        // tag && setFilter(tag?.name);
       } else {
-        setFilter(item.item);
+        // setFilter(item.item);
       }
     };
 
@@ -46,17 +46,17 @@ const FilterButtons = ({
         <Button
           onPress={handlePress}
           border={
-            filter === tag?.name
+            "filter" === tag?.name
               ? color.filterButtonActiveBorder
               : color.filterButtonBorder
           }
           background={
-            filter === tag?.name
+            "filter" === tag?.name
               ? color.filterButtonActiveBackground
               : color.filterButtonBackground
           }
           textColor={
-            filter === tag?.name
+            "filter" === tag?.name
               ? color.filterButtonActiveText
               : color.filterButtonText
           }

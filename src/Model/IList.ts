@@ -4,6 +4,10 @@ export interface IList {
   tags: string[];
   items: string[];
   createAt: number;
+  total?: number;
+  totalUn?: number;
+  totalWithAmount?: number;
+  totalWithoutAmount?: number;
 }
 
 export type IListInterface<T> = {

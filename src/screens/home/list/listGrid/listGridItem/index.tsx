@@ -39,17 +39,10 @@ const ListGridItem = React.memo(
     setBottomSheetProps,
     list,
   }: Readonly<ItemProps>) => {
-    const {
-      handleDeleteList,
-      handleArchived,
-      getCurrency,
-      getTotalAmountByListUuid,
-      getTotalQuantityWithoutAmountByListUuid,
-      getTotalQuantityAmountByListUuid,
-    } = useShoppingListContext();
+    const { getCurrency } = useShoppingListContext();
     const colorScheme = useColorScheme();
     const router = useRouter();
-    const { ListRepository } = useStores();
+    const { ListRepository, ProductRepository } = useStores();
     const { removeItem } = useListViewModel();
     // const items = removeUndefinedFromArray(
     //   getListProductController.handle(list.items)
@@ -65,9 +58,11 @@ const ListGridItem = React.memo(
     useEffect(() => {
       handleCloseSwipeableFromParent();
     }, [list.name]);
-    const total = getTotalAmountByListUuid(list.uuid);
-    const totalUn = getTotalQuantityWithoutAmountByListUuid(list.uuid);
-    const totalWithAmount = getTotalQuantityAmountByListUuid(list.uuid);
+    const total = list.total ? list.total : 0;
+    const totalUn = list.totalUn ? list.totalUn : 0;
+    const totalWithoutAmount = list.totalWithoutAmount
+      ? list.totalWithoutAmount
+      : 0;
 
     const handleCloseBottomSheetProductList = () => {
       setBottomSheetProps({
@@ -99,6 +94,8 @@ const ListGridItem = React.memo(
         ),
         color: color,
       });
+      ListRepository.setListAcitve(list.uuid);
+      ProductRepository.load();
       router.push({ pathname: "/Items", params: { listId: list.uuid } });
     }, [list.uuid, router]);
 
@@ -286,8 +283,10 @@ const ListGridItem = React.memo(
                   activeStrokeColor={color.circularItemFilled}
                   titleColor={color.circularItemText}
                   circleBackgroundColor={color.circularItemBackground}
-                  filled={totalWithAmount}
-                  progress={totalUn && totalWithAmount ? totalWithAmount : 0}
+                  filled={totalWithoutAmount}
+                  progress={
+                    totalUn && totalWithoutAmount ? totalWithoutAmount : 0
+                  }
                   total={totalUn}
                   size={22}
                 />

@@ -29,9 +29,8 @@ interface ProductTabProps {
 
 const Product = observer(
   ({ setBottomSheetProps, handleCloseBottomSheet, color }: ProductTabProps) => {
-    const { ProductRepository, TagRepository } = useStores();
-    TagRepository.setTagAcitveNull();
-    ProductRepository.load();
+    const { ProductRepository } = useStores();
+
     return ProductRepository.products &&
       ProductRepository.products.length > 0 ? (
       <ProductView
