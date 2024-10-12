@@ -8,13 +8,16 @@ const TAG_STORAGE_KEY = "SLSHOPPINGTAG";
 class TagRepository implements ITagRepository {
   tags: ITag[] = [];
   tagActive: ITag | null = null;
+  tagFilter: string;
 
   constructor() {
     makeAutoObservable(this, {
       setTagAcitve: action.bound,
       setTagAcitveNull: action.bound,
+      setTagFilter: action.bound,
     });
     this.load();
+    this.tagFilter = "";
   }
   setTagAcitveNull(): void {
     this.tagActive = null;
@@ -22,6 +25,9 @@ class TagRepository implements ITagRepository {
   setTagAcitve(uuid: string): void {
     const tag = this.getItem(uuid);
     if (tag) this.tagActive = tag;
+  }
+  setTagFilter(tag: string): void {
+    this.tagFilter = tag;
   }
 
   load(): void {

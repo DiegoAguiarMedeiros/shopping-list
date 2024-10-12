@@ -3,6 +3,7 @@ import ITag from "../Model/ITag";
 export interface ITagRepository {
   tags: ITag[];
   tagActive: ITag | null;
+  tagFilter: string;
   load(): void;
   addItemByUuid(item: ITag): void;
   addItem(item: ITag): void;
@@ -18,4 +19,5 @@ export interface ITagRepository {
   itemExists(uuid: string): boolean;
   setTagAcitve(uuid: string): void;
   setTagAcitveNull(): void;
+  setTagFilter(tag: string): void;
 }

@@ -53,7 +53,7 @@ const Items = observer(
           </TouchableHighlight>
         ),
         name: (
-          <Title color={color.white}>{ListRepository.lists[0]?.name}</Title>
+          <Title color={color.white}>{ListRepository?.listActive?.name}</Title>
         ),
         right: (
           <ContainerCP>

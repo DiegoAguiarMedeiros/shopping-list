@@ -29,7 +29,12 @@ interface ProductTabProps {
 
 const Product = observer(
   ({ setBottomSheetProps, handleCloseBottomSheet, color }: ProductTabProps) => {
-    const { ProductRepository } = useStores();
+    const { ListRepository, ProductRepository } = useStores();
+
+    useEffect(() => {
+      ListRepository.setListAcitveNull();
+      ProductRepository.load();
+    }, []);
 
     return ProductRepository.products &&
       ProductRepository.products.length > 0 ? (

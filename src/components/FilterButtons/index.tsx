@@ -8,37 +8,40 @@ import { useShoppingListContext } from "../../context/ShoppingList";
 import { colorTheme } from "../../../constants/Colors";
 import getTagByUuidController from "../../UseCases/Tag/GetTagByUuid";
 import ITag from "../../Model/ITag";
+import { useStores } from "../../context/StoreContext";
+import I18n from "i18n-js";
+import isEqual from "lodash.isequal";
 
 interface FilterButtonsProps {
+  filter: string;
   tags: string[];
-  // filter: string;
-  // setFilter: React.Dispatch<React.SetStateAction<string>>;
   color: colorTheme;
-  getTagByUuid: (uuid: string) => ITag | undefined;
+  handleApplyFinter: (filter: string) => void;
 }
 
 const FilterButtons = ({
+  filter,
   tags,
-  // filter,
-  // setFilter,
   color,
-  getTagByUuid,
+  handleApplyFinter,
 }: FilterButtonsProps) => {
+  const { TagRepository } = useStores();
   const renderButton = (item: any) => {
     let tag: any;
-    if (item.item !== "Todos") {
-      tag = getTagByUuid(item.item);
+    if (item.item !== I18n.t("all")) {
+      tag = TagRepository.getItem(item.item);
     } else {
       tag = { name: item.item };
     }
 
     const handlePress = () => {
-      if (item.item !== "Todos") {
-        const tag = getTagByUuid(item.item);
-        // tag && setFilter(tag?.name);
-      } else {
-        // setFilter(item.item);
-      }
+      handleApplyFinter(tag.name);
+      // if (item.item !== I18n.t("all")) {
+      //   const tag = getTagByUuid(item.item);
+      //   // tag && setFilter(tag?.name);
+      // } else {
+      //   // setFilter(item.item);
+      // }
     };
 
     return tag?.name !== "" ? (
@@ -46,17 +49,17 @@ const FilterButtons = ({
         <Button
           onPress={handlePress}
           border={
-            "filter" === tag?.name
+            filter === tag?.name
               ? color.filterButtonActiveBorder
               : color.filterButtonBorder
           }
           background={
-            "filter" === tag?.name
+            filter === tag?.name
               ? color.filterButtonActiveBackground
               : color.filterButtonBackground
           }
           textColor={
-            "filter" === tag?.name
+            filter === tag?.name
               ? color.filterButtonActiveText
               : color.filterButtonText
           }
@@ -73,7 +76,7 @@ const FilterButtons = ({
     <Styled.Container>
       <FlatList
         horizontal
-        data={tags}
+        data={[I18n.t("all"), ...tags]}
         keyExtractor={(tag) => tag}
         renderItem={renderButton}
         showsHorizontalScrollIndicator={false}
@@ -82,4 +85,12 @@ const FilterButtons = ({
   );
 };
 
-export default FilterButtons;
+// export default FilterButtons;
+
+export default React.memo(FilterButtons, (prevProps, nextProps) => {
+  console.log("prevProps.filter", prevProps.filter);
+  return (
+    isEqual(prevProps.filter, nextProps.filter) &&
+    isEqual(prevProps.tags, nextProps.tags)
+  );
+});

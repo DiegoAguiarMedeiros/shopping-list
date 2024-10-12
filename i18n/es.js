@@ -1,5 +1,6 @@
 export default {
   lists: "Listas",
+  all: "Todo",
   settings: "Configuración",
   historic: "Histórico",
   categories: "Categorías",

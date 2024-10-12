@@ -163,11 +163,9 @@ function ListGrid({
         bottom={
           list && list.tags.length > 0 ? (
             <FilterButtons
-              getTagByUuid={getTagByUuid}
+              tag={TagRepository.tagFilter}
               color={color}
               tags={tags}
-              filter={filter}
-              setFilter={setFilter}
             />
           ) : null
         }
@@ -191,7 +189,7 @@ function ListGrid({
                     handleClose={handleClose}
                     item={item}
                     listId={listId}
-                    active={active}
+                    active={active == item.uuid}
                     setList={setList}
                   />
                 );
