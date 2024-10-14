@@ -16,6 +16,8 @@ import { TouchableHighlight } from "react-native";
 import { Title } from "../src/components/Text";
 import CircleProgress from "../src/components/CircleProgress";
 import ContainerCP from "../src/components/ContainerCP";
+import Header from "../src/components/Header";
+import FilterButtons from "../src/components/FilterButtons";
 
 interface ItemsListProps {
   handleCloseBottomSheetList: () => void;
@@ -35,7 +37,7 @@ const Items = observer(
     setActiveRouteHeader,
     color,
   }: ItemsListProps) => {
-    const { ListRepository, ProductRepository } = useStores();
+    const { ListRepository, ProductRepository, TagRepository } = useStores();
     const returnToHome = () => {
       handleCloseBottomSheetList();
       router.push({ pathname: "/home" });
@@ -82,9 +84,30 @@ const Items = observer(
       ListRepository?.listActive?.totalUn,
     ]);
 
-    return ProductRepository.products &&
-      ProductRepository.products.length > 0 ? (
-      <ItemsView lists={ProductRepository.products} color={color} />
+    function validateProducts(
+      productRepository: number,
+      tagRepository: string
+    ): boolean {
+      if (productRepository) {
+        return true;
+      }
+      if (!productRepository && tagRepository) {
+        return true;
+      }
+      return false;
+    }
+    return validateProducts(ProductRepository.products.length, TagRepository.tagFilter) ? (
+      <>
+        <Header
+          background={color.backgroundPrimary}
+          bottom={<FilterButtons
+            filter={TagRepository.tagFilter}
+            color={color}
+            tags={ListRepository.listActive?.tags ?? []}
+          />}
+        />
+        <ItemsView lists={ProductRepository.products} color={color} />
+      </>
     ) : (
       <EmptyList color={color} mensage={I18n.t("noItemsInTheList")} />
     );

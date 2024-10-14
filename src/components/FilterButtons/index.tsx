@@ -13,19 +13,16 @@ import I18n from "i18n-js";
 import isEqual from "lodash.isequal";
 
 interface FilterButtonsProps {
-  filter: string;
   tags: string[];
   color: colorTheme;
-  handleApplyFinter: (filter: string) => void;
+  filter: string,
 }
 
 const FilterButtons = ({
-  filter,
   tags,
-  color,
-  handleApplyFinter,
+  color, filter
 }: FilterButtonsProps) => {
-  const { TagRepository } = useStores();
+  const { TagRepository, ProductRepository } = useStores();
   const renderButton = (item: any) => {
     let tag: any;
     if (item.item !== I18n.t("all")) {
@@ -35,7 +32,8 @@ const FilterButtons = ({
     }
 
     const handlePress = () => {
-      handleApplyFinter(tag.name);
+
+      ProductRepository.setTagFilter(tag.name);
       // if (item.item !== I18n.t("all")) {
       //   const tag = getTagByUuid(item.item);
       //   // tag && setFilter(tag?.name);
@@ -43,6 +41,9 @@ const FilterButtons = ({
       //   // setFilter(item.item);
       // }
     };
+
+    console.log("filter", filter)
+    console.log("tag?.name", tag?.name)
 
     return tag?.name !== "" ? (
       <Styled.ButtonContainer>
@@ -87,10 +88,4 @@ const FilterButtons = ({
 
 // export default FilterButtons;
 
-export default React.memo(FilterButtons, (prevProps, nextProps) => {
-  console.log("prevProps.filter", prevProps.filter);
-  return (
-    isEqual(prevProps.filter, nextProps.filter) &&
-    isEqual(prevProps.tags, nextProps.tags)
-  );
-});
+export default FilterButtons;

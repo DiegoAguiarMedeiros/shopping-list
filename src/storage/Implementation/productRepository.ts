@@ -35,8 +35,18 @@ class ProductRepository implements IProductRepository {
     this.sortArrayOfObjects = sortArrayOfObjects;
     makeAutoObservable(this, {
       load: action.bound,
+      setTagFilter: action.bound,
     });
     this.load();
+  }
+
+  setTagFilter(tag: string): void {
+    this.tagRepository.setTagFilter(tag);
+    this.load();
+    if (tag != 'Todos') {
+      const tagFilter = this.tagRepository.getTagUuidByName(tag);
+      this.products = this.products.filter(product => product.tag == tagFilter);
+    }
   }
 
   getAllTagsByProductUuid(uuid: string[]): string[] {

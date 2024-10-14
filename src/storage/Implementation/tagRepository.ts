@@ -17,7 +17,7 @@ class TagRepository implements ITagRepository {
       setTagFilter: action.bound,
     });
     this.load();
-    this.tagFilter = "";
+    this.tagFilter = "Todos";
   }
   setTagAcitveNull(): void {
     this.tagActive = null;
@@ -28,6 +28,11 @@ class TagRepository implements ITagRepository {
   }
   setTagFilter(tag: string): void {
     this.tagFilter = tag;
+  }
+  getTagUuidByName(filter: string): string {
+    const tagFiltered = this.tags.filter(tag => tag.name == filter)
+    this.tagFilter = filter;
+    return tagFiltered[0].uuid;
   }
 
   load(): void {

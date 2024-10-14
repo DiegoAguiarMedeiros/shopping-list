@@ -30,9 +30,6 @@ const CustomFlatList = React.memo(
   ({ color, lists }: ItemsViewProps) => {
     const { ListRepository, TagRepository } = useStores();
     const [active, setActive] = useState("");
-    const [tagFilter, setTagFilter] = useState(
-      TagRepository.tagFilter || "Todos"
-    );
     const handleOpen = (uuid: string) => {
       setActive(uuid);
     };
@@ -40,16 +37,11 @@ const CustomFlatList = React.memo(
       setActive("");
     };
 
-    const handleApplyFinter = (filter: string) => {
-      setTagFilter(filter);
-    };
-
     const renderItem: ListRenderItem<IProduct> = ({ item }) => (
       <ListGridItem
         color={color}
         item={item}
         listId={ListRepository.listActive ? ListRepository.listActive.uuid : ""}
-        filter={tagFilter}
         handleOpen={handleOpen}
         handleClose={handleClose}
         active={active === item.uuid}
@@ -64,22 +56,6 @@ const CustomFlatList = React.memo(
 
     return (
       <Container background={color.backgroundPrimary}>
-        <Header
-          background={color.backgroundPrimary}
-          bottom={
-            ListRepository.listActive &&
-            ListRepository.listActive.tags.length > 0 ? (
-              <FilterButtons
-                handleApplyFinter={handleApplyFinter}
-                filter={TagRepository.tagFilter}
-                color={color}
-                tags={ListRepository.listActive.tags}
-                // filter={filter}
-                // setFilter={setFilter}
-              />
-            ) : null
-          }
-        />
         <ContainerInner background={color.backgroundPrimary}>
           <FlatList
             data={lists}

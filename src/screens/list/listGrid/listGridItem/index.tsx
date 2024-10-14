@@ -27,7 +27,6 @@ import { useStores } from "../../../../context/StoreContext";
 interface ListProps {
   item: IProduct;
   listId: string;
-  filter: string;
   handleOpen: (uuid: string) => void;
   handleClose: () => void;
   active: boolean;
@@ -45,7 +44,6 @@ function ListGridItem({
   active,
   totalUpdate,
   setList,
-  filter,
 }: ListProps) {
   const colorScheme = useColorScheme();
   const { getCurrency } = useShoppingListContext();

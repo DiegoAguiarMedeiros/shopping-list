@@ -26,4 +26,5 @@ export interface IProductRepository {
   updateTotalWithoutAmount(): void;
   getTotal(amounts: IAmount[]): number;
   getTotalUn(amounts: IAmount[]): number;
+  setTagFilter(tag: string): void;
 }

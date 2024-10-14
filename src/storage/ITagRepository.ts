@@ -20,4 +20,5 @@ export interface ITagRepository {
   setTagAcitve(uuid: string): void;
   setTagAcitveNull(): void;
   setTagFilter(tag: string): void;
+  getTagUuidByName(filter: string): string;
 }

@@ -11,7 +11,6 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import EmptyList from "../../components/EmptyList";
 import ListGrid from "./listGrid";
 import CircleProgress from "../../components/CircleProgress";
-import FilterButtons from "../../components/FilterButtons";
 import { Title } from "../../components/Text";
 import { BottomSheetProps } from "../../components/BottomSheet";
 import Container from "../../components/Container";
