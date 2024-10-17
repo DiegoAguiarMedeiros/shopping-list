@@ -223,6 +223,14 @@ const Navigation: React.FC<NavigationProps> = ({
       });
     }
     if (route === "home") {
+
+      if (ListRepository.listActive) {
+        ProductRepository.setTagFilter('Todos');
+        ProductRepository.updateTotal();
+        ProductRepository.updateTotalUn();
+        ProductRepository.updateTotalWithAmount();
+        ProductRepository.updateTotalWithoutAmount();
+      }
       ListRepository.setListAcitveNull();
     }
     if (route === "product") {

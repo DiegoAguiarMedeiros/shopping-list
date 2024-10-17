@@ -32,18 +32,8 @@ const FilterButtons = ({
     }
 
     const handlePress = () => {
-
       ProductRepository.setTagFilter(tag.name);
-      // if (item.item !== I18n.t("all")) {
-      //   const tag = getTagByUuid(item.item);
-      //   // tag && setFilter(tag?.name);
-      // } else {
-      //   // setFilter(item.item);
-      // }
     };
-
-    console.log("filter", filter)
-    console.log("tag?.name", tag?.name)
 
     return tag?.name !== "" ? (
       <Styled.ButtonContainer>

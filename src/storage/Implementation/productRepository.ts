@@ -42,11 +42,15 @@ class ProductRepository implements IProductRepository {
 
   setTagFilter(tag: string): void {
     this.tagRepository.setTagFilter(tag);
-    this.load();
+    this.products = this.getAllItems();
     if (tag != 'Todos') {
       const tagFilter = this.tagRepository.getTagUuidByName(tag);
       this.products = this.products.filter(product => product.tag == tagFilter);
     }
+    this.updateTotal();
+    this.updateTotalUn();
+    this.updateTotalWithAmount();
+    this.updateTotalWithoutAmount();
   }
 
   getAllTagsByProductUuid(uuid: string[]): string[] {

@@ -35,9 +35,6 @@ export default function ListPriceGrid({
 }: Readonly<ListPriceGridProps>) {
   const { AmountRepository, ProductRepository } = useStores();
   const [quantity, setQuantity] = useState("1");
-
-  console.log("ListPriceGrid", amountItem.quantity);
-
   const formatInput = (value: string): string => {
     let newValue = value.replace(".", "");
     let newValueNUmber = Number(newValue);
@@ -56,7 +53,6 @@ export default function ListPriceGrid({
 
   useEffect(() => {
     setQuantity(amountItem.quantity);
-    console.log("amountItem.quantity", amountItem.quantity);
     if (amountItem.quantity == "0" || amountItem.quantity == "")
       setQuantity("1");
   }, [amountItem.quantity]);
@@ -108,13 +104,13 @@ export default function ListPriceGrid({
         );
       }
 
-        if (Number(formatedNumber) < 100) {
-          ProductRepository.load();
-          ProductRepository.updateTotal();
-          ProductRepository.updateTotalUn();
-          ProductRepository.updateTotalWithAmount();
-          ProductRepository.updateTotalWithoutAmount();
-        }
+      if (Number(formatedNumber) < 100) {
+        ProductRepository.load();
+        ProductRepository.updateTotal();
+        ProductRepository.updateTotalUn();
+        ProductRepository.updateTotalWithAmount();
+        ProductRepository.updateTotalWithoutAmount();
+      }
     }
 
     // totalUpdate();

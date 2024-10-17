@@ -40,6 +40,12 @@ const Items = observer(
     const { ListRepository, ProductRepository, TagRepository } = useStores();
     const returnToHome = () => {
       handleCloseBottomSheetList();
+      ProductRepository.setTagFilter('Todos');
+      ProductRepository.updateTotal();
+      ProductRepository.updateTotalUn();
+      ProductRepository.updateTotalWithAmount();
+      ProductRepository.updateTotalWithoutAmount();
+      ListRepository.setListAcitveNull();
       router.push({ pathname: "/home" });
     };
 
