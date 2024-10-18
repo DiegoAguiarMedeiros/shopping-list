@@ -17,38 +17,34 @@ import {
 } from "../../../../../components/GridItemInner";
 import I18n from "i18n-js";
 import { colorTheme } from "../../../../../../constants/Colors";
+import { useStores } from "../../../../../context/StoreContext";
 
 interface ItemProps {
-  item: IList;
+  list: IList;
   color: colorTheme;
-  setListArchived: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export default function ListGridItem({
-  item,
+  list,
   color,
-  setListArchived,
 }: Readonly<ItemProps>) {
   const {
-    handleDeleteListArchived,
     getCurrency,
-    getTotalAmountByListUuid,
-    getTotalQuantityWithoutAmountByListUuid,
-    getTotalQuantityAmountByListUuid,
   } = useShoppingListContext();
+
+  const { ListRepository } = useStores();
   const colorScheme = useColorScheme();
   const router = useRouter();
-  const total = getTotalAmountByListUuid(item.uuid);
-  const totalWithAmount = getTotalQuantityWithoutAmountByListUuid(item.uuid);
-  const totalUn = getTotalQuantityAmountByListUuid(item.uuid);
+  const total = list.total ?? 0;
+  const totalWithAmount = list.totalWithAmount?? 0;
+  const totalUn = list.totalUn?? 0;
 
   const handleOpenList = useCallback(() => {
-    router.push({ pathname: "/ItemsArchived", params: { listId: item.uuid } });
-  }, [item.uuid, router]);
+    router.push({ pathname: "/ItemsArchived", params: { listId: list.uuid } });
+  }, [list.uuid, router]);
 
   const handleDelete = () => {
-    handleDeleteListArchived(item.uuid);
-    setListArchived((prev) => prev.filter((p) => p !== item.uuid));
+    // handleDeleteListArchived(list.uuid);
   };
 
   const RightSwipe = useCallback(
@@ -90,7 +86,7 @@ export default function ListGridItem({
         </Animated.View>
       );
     },
-    [item]
+    [list]
   );
 
   return (
@@ -111,10 +107,10 @@ export default function ListGridItem({
         <>
           <GridItemWrapperCol width={85} height={100}>
             <GridItemWrapperInner height={100}>
-              <Title2 color={color.itemListText}>{item.name}</Title2>
+              <Title2 color={color.itemListText}>{list.name}</Title2>
               <Text color={color.itemListTextSecondary}>
                 {I18n.t("total")}: {getCurrency()}{" "}
-                {total.toFixed(2).replace(".", ",")}
+                {total}
               </Text>
             </GridItemWrapperInner>
           </GridItemWrapperCol>

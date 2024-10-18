@@ -1,28 +1,35 @@
-import { StyleSheet } from "react-native";
-import History from "../src/screens/history/index";
+import { BottomSheetProps } from "../src/components/BottomSheet";
 import { colorTheme } from "../constants/Colors";
-
-interface HistoryProps {
+import { useState, useImperativeHandle, useEffect } from "react";
+import React from "react";
+import { useShoppingListContext } from "../src/context/ShoppingList";
+import { IList } from "../src/Model/IList";
+import { HistoryView } from "../src/views/History/HistoryView";
+import { useListViewModel } from "../src/viewmodels/List/ListViewModel";
+import UUIDGenerator from "react-native-uuid";
+import EmptyList from "../src/components/EmptyList";
+import I18n from "i18n-js";
+import { observer } from "mobx-react-lite";
+import { useStores } from "../src/context/StoreContext";
+interface HistoryContainerProps {
   color: colorTheme;
 }
 
-export default function HistoryScreen({ color }: Readonly<HistoryProps>) {
-  return <History color={color} />;
-}
+const HistoryContainer = observer(
+  ({
+    color,
+  }: Readonly<HistoryContainerProps>) => {
+    const { ListRepository } = useStores();
+    console.log("ListRepository.listsArchived", ListRepository.listsArchived)
+    return ListRepository.listsArchived && ListRepository.listsArchived.length > 0 ? (
+      <HistoryView
+        lists={ListRepository.listsArchived}
+        color={color}      />
+    ) : (
+      <EmptyList color={color} mensage={I18n.t("noArchivedLists")} />
+    );
+  }
+);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});
+
+export default HistoryContainer;

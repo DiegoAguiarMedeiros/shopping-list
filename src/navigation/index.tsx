@@ -5,7 +5,7 @@ import {
 } from "@react-navigation/stack";
 import { useRouter } from "expo-router";
 import I18n from "i18n-js";
-import { useState, useRef } from "react";
+import { useState, useRef, SetStateAction } from "react";
 import { TouchableHighlight } from "react-native";
 import Items from "../../app/Items";
 import ItemsArchived from "../../app/ItemsArchived";
@@ -231,7 +231,7 @@ const Navigation: React.FC<NavigationProps> = ({
         ProductRepository.updateTotalWithAmount();
         ProductRepository.updateTotalWithoutAmount();
       }
-      ListRepository.setListAcitveNull();
+      ListRepository.setListActiveNull();
     }
     if (route === "product") {
       TagRepository.setTagAcitveNull();

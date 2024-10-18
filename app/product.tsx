@@ -32,7 +32,7 @@ const Product = observer(
     const { ListRepository, ProductRepository } = useStores();
 
     useEffect(() => {
-      ListRepository.setListAcitveNull();
+      ListRepository.setListActiveNull();
       ProductRepository.load();
     }, []);
 

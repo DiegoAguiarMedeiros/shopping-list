@@ -94,7 +94,7 @@ const ListGridItem = React.memo(
         ),
         color: color,
       });
-      ListRepository.setListAcitve(list.uuid);
+      ListRepository.setListActive(list.uuid);
       ProductRepository.load();
       router.push({ pathname: "/Items", params: { listId: list.uuid } });
     }, [list.uuid, router]);
@@ -139,7 +139,7 @@ const ListGridItem = React.memo(
     };
 
     const archivedList = (): void => {
-      // handleArchived(list.uuid, listRef);
+      ListRepository.archiveList(list.uuid);
     };
 
     const RightSwipe = (

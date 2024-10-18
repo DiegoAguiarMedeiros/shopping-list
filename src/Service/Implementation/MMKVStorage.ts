@@ -17,6 +17,8 @@ class MMKVStorage implements IMMKVStorage {
   }
 
   get(key: string): string | null {
+    console.log("getAll()", this.getAll())
+    // console.log("getAll()", this.mmkv.getString('SLSHOPPINGLISTARCHIVED'))a
     const result = this.mmkv.getString(key);
     if (result) return result;
     return null;

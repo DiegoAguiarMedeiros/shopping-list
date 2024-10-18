@@ -6,7 +6,7 @@ export const useListViewModel = () => {
   const [items, setItems] = useState<IList[]>([]);
 
   const loadItemsFromRepository = () => {
-    const fetchedItems = ListRepository.getAllItems();
+    const fetchedItems = ListRepository.getAllItems('');
     setItems(fetchedItems);
   };
 

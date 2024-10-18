@@ -45,7 +45,7 @@ const Items = observer(
       ProductRepository.updateTotalUn();
       ProductRepository.updateTotalWithAmount();
       ProductRepository.updateTotalWithoutAmount();
-      ListRepository.setListAcitveNull();
+      ListRepository.setListActiveNull();
       router.push({ pathname: "/home" });
     };
 

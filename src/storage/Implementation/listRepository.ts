@@ -5,19 +5,25 @@ import { IListRepository } from "../IListRepository";
 import UUIDGenerator from "react-native-uuid";
 import { IProduct } from "../../Model/IProduct";
 
-const LIST_STORAGE_KEY = "SLSHOPPINGLIST";
+const LIST_STORAGE_KEY: string = "SLSHOPPINGLIST";
+const LIST_ARCHIVED_STORAGE_KEY: string = "SLSHOPPINGLISTARCHIVED";
 
 class ListRepository implements IListRepository {
   lists: IList[] = [];
   listActive: IList | null = null;
+  listsArchived: IList[] = [];
+  listArchivedActive: IList | null = null;
+
 
   constructor() {
     makeAutoObservable(this, {
-      setListAcitve: action.bound,
-      setListAcitveNull: action.bound,
+      setListActive: action.bound,
+      setListActiveNull: action.bound,
     });
     this.load();
+    this.loadArchived();
   }
+
   updateTotalUn(totalUn: number): void {
     const list = this.getItem(this.listActive?.uuid!);
     if (list) {
@@ -81,18 +87,23 @@ class ListRepository implements IListRepository {
     }
   }
   load(): void {
-    this.lists = this.getAllItems();
+    console.log("load")
+    this.lists = this.getAllItems(LIST_STORAGE_KEY);
   }
-  setListAcitveNull(): void {
+  loadArchived(): void {
+    console.log("loadArchived")
+    this.listsArchived = this.getAllItems(LIST_ARCHIVED_STORAGE_KEY);
+  }
+  setListActiveNull(): void {
     this.listActive = null;
   }
-  setListAcitve(uuid: string): void {
+  setListActive(uuid: string): void {
     const list = this.getItem(uuid);
     if (list) this.listActive = list;
   }
   addItemByUuid(item: IList): void {
     try {
-      if (!this.itemExists(item.uuid)) {
+      if (!this.itemExists(item.uuid, LIST_STORAGE_KEY)) {
         storageMMKV.set(item.uuid, JSON.stringify(item));
         this.load();
       }
@@ -129,11 +140,11 @@ class ListRepository implements IListRepository {
   }
   addItem(item: IList): void {
     try {
-      const currentData = this.getAllItemsMap();
-      if (!this.itemExists(item.uuid)) {
+      const currentData = this.getAllItemsMap(LIST_STORAGE_KEY);
+      if (!this.itemExists(item.uuid, LIST_STORAGE_KEY)) {
         this.addItemByUuid(item);
         currentData.push(item.uuid);
-        this.addItemsToStorage(JSON.stringify(currentData));
+        this.addItemsToStorage(JSON.stringify(currentData), LIST_STORAGE_KEY);
         this.load();
       }
     } catch (error) {
@@ -141,9 +152,26 @@ class ListRepository implements IListRepository {
     }
   }
 
-  addItemsToStorage(items: string): void {
+  archiveList(uuid: string): void {
+    this.removeItemFromList(uuid);
+    this.addItemTolistArchived(uuid);
+  }
+  addItemTolistArchived(uuid: string): void {
     try {
-      storageMMKV.set(LIST_STORAGE_KEY, items);
+      const currentData = this.getAllItemsMap(LIST_ARCHIVED_STORAGE_KEY);
+      if (!this.itemExists(uuid, LIST_ARCHIVED_STORAGE_KEY)) {
+        currentData.push(uuid);
+        this.addItemsToStorage(JSON.stringify(currentData), LIST_ARCHIVED_STORAGE_KEY);
+        this.loadArchived();
+      }
+    } catch (error) {
+      console.error("Failed to add item:", error);
+    }
+  }
+
+  addItemsToStorage(items: string, key: string): void {
+    try {
+      storageMMKV.set(key, items);
     } catch (error) {
       console.error("Failed to add item to storage:", error);
     }
@@ -159,13 +187,17 @@ class ListRepository implements IListRepository {
     }
   }
 
-  getAllItems(): IList[] {
+  getAllItems(key: string): IList[] {
     try {
-      const currentData = this.getAllItemsMap();
+      const currentData = this.getAllItemsMap(key);
+
+      console.log("currentData", currentData)
       const result: IList[] = [];
       if (currentData) {
         currentData.forEach((uuid) => {
+          console.log("currentData.forEach uuid", uuid)
           const item = this.getItem(uuid);
+          console.log("currentData.forEach item", item)
           if (item) result.push(item);
         });
       }
@@ -176,9 +208,10 @@ class ListRepository implements IListRepository {
     }
   }
 
-  getAllItemsMap(): string[] {
+  getAllItemsMap(key: string): string[] {
     try {
-      const jsonData = storageMMKV.get(LIST_STORAGE_KEY);
+      const jsonData = storageMMKV.get(key);
+      console.log("getAllItemsMap jsonData", jsonData)
       return jsonData ? JSON.parse(jsonData) : [];
     } catch (error) {
       console.error("Failed to get all items map:", error);
@@ -194,21 +227,28 @@ class ListRepository implements IListRepository {
     }
   }
 
+  removeItemFromList(uuid: string): void {
+    try {
+      const currentData = this.getAllItemsMap(LIST_STORAGE_KEY);
+      const newData = currentData.filter((item) => item != uuid);
+      this.addItemsToStorage(JSON.stringify(newData), LIST_STORAGE_KEY);
+      this.load();
+    } catch (error) {
+      console.error("Failed to remove item from list:", error);
+    }
+  }
   removeItem(uuid: string): void {
     try {
-      const currentData = this.getAllItemsMap();
-      const newData = currentData.filter((item) => item != uuid);
-      this.addItemsToStorage(JSON.stringify(newData));
+      this.removeItemFromList(uuid);
       this.removeItemByUuid(uuid);
-      this.load();
     } catch (error) {
       console.error("Failed to remove item:", error);
     }
   }
 
-  itemExists(uuid: string): boolean {
+  itemExists(uuid: string, list: string): boolean {
     try {
-      const currentData = this.getAllItemsMap();
+      const currentData = this.getAllItemsMap(list);
       return !!currentData.includes(uuid);
     } catch (error) {
       console.error("Failed to check if item exists:", error);
