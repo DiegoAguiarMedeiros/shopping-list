@@ -9,11 +9,12 @@ interface TotalProps {
   color: colorTheme;
   total: number;
   un: number;
+  height: number;
 }
-const Total = ({ color, total, un }: TotalProps) => {
+const Total = ({ color, total, un, height }: TotalProps) => {
   const { getCurrency } = useShoppingListContext();
   return (
-    <GridItemWrapperRow height={10}>
+    <GridItemWrapperRow height={height}>
       <GridItemWrapperInner width={50} height={100} justify="flex-start">
         <Text color={color.text}>
           {I18n.t("totalItems")}: {un}

@@ -20,6 +20,8 @@ export interface IListRepository {
   copyItem(uuid: string, name: string): void;
   removeItem(uuid: string): void;
   removeItemFromList(uuid: string): void;
+  removeItemArchived(uuid: string): void;
+  removeItemFromListArchived(uuid: string): void;
   removeItemByUuid(uuid: string): void;
   itemExists(uuid: string, list: string): boolean;
   setListActive(uuid: string): void;

@@ -10,7 +10,7 @@ import {
   ListRenderItem,
 } from "react-native";
 import { IList } from "../../Model/IList";
-import ListGridItem from "../../screens/list/listGrid/listGridItem";
+import ListGridItem from "../../screens/listArchived/listGrid/listGridItem";
 import { colorTheme } from "../../../constants/Colors";
 import { BottomSheetProps } from "../../components/BottomSheet";
 import Container from "../../components/Container";
@@ -21,49 +21,33 @@ import { useStores } from "../../context/StoreContext";
 import FilterButtons from "../../components/FilterButtons";
 import Total from "../../components/total";
 
-interface ItemsViewProps {
+interface ItemsArchivedViewProps {
   color: colorTheme;
   lists: IProduct[];
 }
 
 const CustomFlatList = React.memo(
-  ({ color, lists }: ItemsViewProps) => {
+  ({ color, lists }: ItemsArchivedViewProps) => {
     const { ListRepository, TagRepository } = useStores();
-    const [active, setActive] = useState("");
-    const handleOpen = (uuid: string) => {
-      setActive(uuid);
-    };
-    const handleClose = () => {
-      setActive("");
-    };
 
     const renderItem: ListRenderItem<IProduct> = ({ item }) => (
       <ListGridItem
         color={color}
         item={item}
         listId={ListRepository.listActive ? ListRepository.listActive.uuid : ""}
-        handleOpen={handleOpen}
-        handleClose={handleClose}
-        active={active === item.uuid}
-        totalUpdate={function (
-          total: number,
-          amount: number,
-          un: number
-        ): void { }}
-        setList={function (value: React.SetStateAction<IList>): void { }}
       />
     );
 
     return (
       <Container background={color.backgroundPrimary}>
-        <ContainerInner height="95" background={color.backgroundPrimary}>
+        <ContainerInner height="100" background={color.backgroundPrimary}>
           <FlatList
             data={lists}
             renderItem={renderItem}
             keyExtractor={(item) => "ListGridItem-" + item.uuid}
           />
           <Total
-            height={5}
+            height={3}
             color={color}
             total={
               ListRepository?.listActive?.total
@@ -87,6 +71,6 @@ const CustomFlatList = React.memo(
   }
 );
 
-export const ItemsView = ({ color, lists }: ItemsViewProps) => {
+export const ItemsArchivedView = ({ color, lists }: ItemsArchivedViewProps) => {
   return <CustomFlatList lists={lists} color={color} />;
 };

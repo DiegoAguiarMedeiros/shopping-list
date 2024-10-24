@@ -87,11 +87,9 @@ class ListRepository implements IListRepository {
     }
   }
   load(): void {
-    console.log("load")
     this.lists = this.getAllItems(LIST_STORAGE_KEY);
   }
   loadArchived(): void {
-    console.log("loadArchived")
     this.listsArchived = this.getAllItems(LIST_ARCHIVED_STORAGE_KEY);
   }
   setListActiveNull(): void {
@@ -191,13 +189,10 @@ class ListRepository implements IListRepository {
     try {
       const currentData = this.getAllItemsMap(key);
 
-      console.log("currentData", currentData)
       const result: IList[] = [];
       if (currentData) {
         currentData.forEach((uuid) => {
-          console.log("currentData.forEach uuid", uuid)
           const item = this.getItem(uuid);
-          console.log("currentData.forEach item", item)
           if (item) result.push(item);
         });
       }
@@ -211,7 +206,6 @@ class ListRepository implements IListRepository {
   getAllItemsMap(key: string): string[] {
     try {
       const jsonData = storageMMKV.get(key);
-      console.log("getAllItemsMap jsonData", jsonData)
       return jsonData ? JSON.parse(jsonData) : [];
     } catch (error) {
       console.error("Failed to get all items map:", error);
@@ -229,6 +223,24 @@ class ListRepository implements IListRepository {
 
   removeItemFromList(uuid: string): void {
     try {
+      const currentData = this.getAllItemsMap(LIST_ARCHIVED_STORAGE_KEY);
+      const newData = currentData.filter((item) => item != uuid);
+      this.addItemsToStorage(JSON.stringify(newData), LIST_ARCHIVED_STORAGE_KEY);
+      this.loadArchived();
+    } catch (error) {
+      console.error("Failed to remove item from list:", error);
+    }
+  }
+  removeItem(uuid: string): void {
+    try {
+      this.removeItemFromList(uuid);
+      this.removeItemByUuid(uuid);
+    } catch (error) {
+      console.error("Failed to remove item:", error);
+    }
+  }
+  removeItemFromListArchived(uuid: string): void {
+    try {
       const currentData = this.getAllItemsMap(LIST_STORAGE_KEY);
       const newData = currentData.filter((item) => item != uuid);
       this.addItemsToStorage(JSON.stringify(newData), LIST_STORAGE_KEY);
@@ -237,9 +249,9 @@ class ListRepository implements IListRepository {
       console.error("Failed to remove item from list:", error);
     }
   }
-  removeItem(uuid: string): void {
+  removeItemArchived(uuid: string): void {
     try {
-      this.removeItemFromList(uuid);
+      this.removeItemFromListArchived(uuid);
       this.removeItemByUuid(uuid);
     } catch (error) {
       console.error("Failed to remove item:", error);

@@ -24,6 +24,7 @@ import {
 import ContainerInner from "../../../../components/ContainerInner";
 import Container from "../../../../components/Container";
 import { colorTheme } from "../../../../../constants/Colors";
+import { useStores } from "../../../../context/StoreContext";
 
 interface ListProps {
   item: IProduct;
@@ -33,14 +34,14 @@ interface ListProps {
 
 function ListGridItem({ item, listId, color }: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
-
-  const { getCurrency, getAmountByListProductUuid } = useShoppingListContext();
+  const { ListRepository, ProductRepository, TagRepository } = useStores();
+  const { getCurrency } = useShoppingListContext();
   const listIditemuuid = `${listId}-${item.uuid}`;
 
-  const listArrItems = getAmountByListProductUuid(listIditemuuid);
+
   return (
     <>
-      {listArrItems.length == 0 ? (
+      {ProductRepository.products.length == 0 ? (
         <GridItemInner
           underlayColor={color.itemListBackgroundUnderlay}
           borderColor={color.itemListBackgroundBorder}
@@ -54,7 +55,7 @@ function ListGridItem({ item, listId, color }: Readonly<ListProps>) {
           </GridItemWrapperCol>
         </GridItemInner>
       ) : (
-        listArrItems.map((amount) => (
+        item.amount?.map((amount) => (
           <GridItemInner
             underlayColor={color.itemListBackgroundUnderlay}
             borderColor={color.itemListBackgroundBorder}

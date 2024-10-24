@@ -32,19 +32,21 @@ export default function ListGridItem({
     getCurrency,
   } = useShoppingListContext();
 
-  const { ListRepository } = useStores();
+  const { ListRepository, ProductRepository } = useStores();
   const colorScheme = useColorScheme();
   const router = useRouter();
   const total = list.total ?? 0;
-  const totalWithAmount = list.totalWithAmount?? 0;
-  const totalUn = list.totalUn?? 0;
+  const totalWithAmount = list.totalWithAmount ?? 0;
+  const totalUn = list.totalUn ?? 0;
 
   const handleOpenList = useCallback(() => {
+    ListRepository.setListActive(list.uuid);
+    ProductRepository.load();
     router.push({ pathname: "/ItemsArchived", params: { listId: list.uuid } });
   }, [list.uuid, router]);
 
   const handleDelete = () => {
-    // handleDeleteListArchived(list.uuid);
+    ListRepository.removeItem(list.uuid);
   };
 
   const RightSwipe = useCallback(

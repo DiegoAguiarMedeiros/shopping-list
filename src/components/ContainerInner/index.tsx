@@ -6,8 +6,8 @@ export interface ContainerInnerProps {
   background?: string;
   justify?: "flex-start" | "flex-end" | "center" | "space-between" | "space-around" | "space-evenly";
   border?: string;
+  height?: string;
   radius?: boolean;
-
 }
 
 const ContainerInner: React.FC<ContainerInnerProps> = ({
@@ -16,9 +16,10 @@ const ContainerInner: React.FC<ContainerInnerProps> = ({
   children,
   radius,
   justify,
+  height
 }) => {
   return (
-    <Styled.ContainerInner justify={justify ?? "flex-start"} background={background ?? "transparent"}>
+    <Styled.ContainerInner height={height ?? "100"} justify={justify ?? "flex-start"} background={background ?? "transparent"}>
       {children}
     </Styled.ContainerInner>
   );

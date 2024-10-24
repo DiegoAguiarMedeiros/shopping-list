@@ -20,7 +20,6 @@ const HistoryContainer = observer(
     color,
   }: Readonly<HistoryContainerProps>) => {
     const { ListRepository } = useStores();
-    console.log("ListRepository.listsArchived", ListRepository.listsArchived)
     return ListRepository.listsArchived && ListRepository.listsArchived.length > 0 ? (
       <HistoryView
         lists={ListRepository.listsArchived}
