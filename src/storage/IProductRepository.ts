@@ -4,8 +4,19 @@ import {
   IProductTiny,
   ITagsProductsMultiSelect,
 } from "../Model/IProduct";
+import IMMKVStorage from "../Service/IMMKVStorage";
+import { ISortArrayOfObjects } from "../utils/functions";
+import { IAmountRepository } from "./IAmountRepository";
+import { IListRepository } from "./IListRepository";
+import { ITagRepository } from "./ITagRepository";
 
 export interface IProductRepository {
+  products: IProduct[];
+  tagRepository: ITagRepository;
+  listRepository: IListRepository;
+  amountRepository: IAmountRepository;
+  sortArrayOfObjects: ISortArrayOfObjects;
+  storageMMKV: IMMKVStorage;
   load(): void;
   addItemByUuid(item: IProduct): void;
   addItem(item: IProduct): void;
@@ -27,4 +38,7 @@ export interface IProductRepository {
   getTotal(amounts: IAmount[]): number;
   getTotalUn(amounts: IAmount[]): number;
   setTagFilter(tag: string): void;
+  generateLastPrices(uuid: string): void;
+  calculateAverageAmount(items: IAmount[]): string
+  setLastPrice(uuid: string, price: string): void
 }

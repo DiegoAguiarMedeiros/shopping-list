@@ -4,7 +4,6 @@ import * as Styled from "./styles";
 import ListGridItem from "./listGridItem";
 import { IList } from "../../../../Model/IList";
 import { colorTheme } from "../../../../../constants/Colors";
-import { useShoppingListContext } from "../../../../context/ShoppingList";
 interface ItemProps {
   items: string[];
   color: colorTheme;
@@ -15,7 +14,6 @@ export default function ListGrid({
   color,
   setListArchived,
 }: Readonly<ItemProps>) {
-  const { getListByUuid } = useShoppingListContext();
   return (
     <SafeAreaView style={{ width: "100%" }}>
       <ScrollView keyboardShouldPersistTaps="handled">
@@ -24,7 +22,7 @@ export default function ListGrid({
             const item = getListByUuid(i);
             return (
               <ListGridItem
-                  setListArchived={setListArchived}
+                setListArchived={setListArchived}
                 color={color}
                 key={"ListGridItem-" + item.uuid}
                 item={item}

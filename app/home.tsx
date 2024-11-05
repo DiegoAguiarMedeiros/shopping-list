@@ -3,7 +3,6 @@ import { BottomSheetProps } from "../src/components/BottomSheet";
 import { colorTheme } from "../constants/Colors";
 import { useState, useImperativeHandle, useEffect } from "react";
 import React from "react";
-import { useShoppingListContext } from "../src/context/ShoppingList";
 import { IList } from "../src/Model/IList";
 import { ListView } from "../src/views/List/ListView";
 import { useListViewModel } from "../src/viewmodels/List/ListViewModel";
@@ -15,28 +14,23 @@ import { useStores } from "../src/context/StoreContext";
 interface HomeContainerProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
-  color: colorTheme;
 }
 
-const HomeContainer = observer(
-  ({
+const HomeContainer = ({
     setBottomSheetProps,
     handleCloseBottomSheet,
-    color,
   }: Readonly<HomeContainerProps>) => {
     const { ListRepository } = useStores();
     return ListRepository.lists && ListRepository.lists.length > 0 ? (
       <ListView
         lists={ListRepository.lists}
-        color={color}
         setBottomSheetProps={setBottomSheetProps}
         handleCloseBottomSheet={handleCloseBottomSheet}
       />
     ) : (
-      <EmptyList color={color} mensage={I18n.t("noListCreated")} />
+      <EmptyList mensage={I18n.t("noListCreated")} />
     );
-  }
-);
+  };
 
 
 export default HomeContainer;

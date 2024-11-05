@@ -4,7 +4,6 @@ import ProductsList from "../src/screens/productsList/index";
 import { BottomSheetProps } from "../src/components/BottomSheet";
 import { useEffect, useImperativeHandle, useState } from "react";
 import React from "react";
-import { useShoppingListContext } from "../src/context/ShoppingList";
 import { colorTheme } from "../constants/Colors";
 import { IProduct } from "../src/Model/IProduct";
 import { sortArrayOfObjects } from "../src/utils/functions";
@@ -23,12 +22,10 @@ import { observer } from "mobx-react-lite";
 interface ProductTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
-  color: colorTheme;
   search: string;
 }
 
-const Product = observer(
-  ({ setBottomSheetProps, handleCloseBottomSheet, color }: ProductTabProps) => {
+const Product = ({ setBottomSheetProps, handleCloseBottomSheet }: ProductTabProps) => {
     const { ListRepository, ProductRepository } = useStores();
 
     useEffect(() => {
@@ -40,14 +37,12 @@ const Product = observer(
       ProductRepository.products.length > 0 ? (
       <ProductView
         products={ProductRepository.products}
-        color={color}
         setBottomSheetProps={setBottomSheetProps}
         handleCloseBottomSheet={handleCloseBottomSheet}
       />
     ) : (
-      <EmptyList color={color} mensage={I18n.t("noProducts")} />
+      <EmptyList  mensage={I18n.t("noProducts")} />
     );
-  }
-);
+  };
 
 export default Product;

@@ -4,11 +4,10 @@ import { Picker } from "@react-native-picker/picker";
 import * as Styled from "./styles";
 import ITag from "../../Model/ITag";
 import { IProduct } from "../../Model/IProduct";
-import { useShoppingListContext } from "../../context/ShoppingList";
 import { colorTheme } from "../../../constants/Colors";
 
 type SelectProps = {
-  items: ITag[] | IProduct[];
+  items: { name: string; uuid: string; }[];
   selectedValue: string;
   onValueChange: (itemValue: string, itemIndex: number) => void;
   onFocus?: () => void;

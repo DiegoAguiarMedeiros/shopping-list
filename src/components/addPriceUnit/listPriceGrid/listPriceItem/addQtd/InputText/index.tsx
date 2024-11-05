@@ -3,28 +3,27 @@ import { TextInputProps, useColorScheme } from "react-native";
 
 import * as Styled from "./styles";
 import { colorTheme } from "../../../../../../../constants/Colors";
+import { useStores } from "../../../../../../context/StoreContext";
 
 interface InputProps extends TextInputProps {
   placeholder: string;
   radius: boolean;
-  color: colorTheme;
 }
 
 const InputText: React.FC<InputProps> = ({
   placeholder,
   radius,
-  color,
   ...rest
 }) => {
-  const colorScheme = useColorScheme();
+  const { ConfigRepository } = useStores();
 
   return (
     <Styled.Input
       radius={radius}
-      background={color.backgroundPrimary}
-      color={color.text}
+      background={ConfigRepository.color.backgroundPrimary}
+      color={ConfigRepository.color.text}
       placeholder={placeholder}
-      placeholderTextColor={color.textSecondary}
+      placeholderTextColor={ConfigRepository.color.textSecondary}
       {...rest}
     />
   );

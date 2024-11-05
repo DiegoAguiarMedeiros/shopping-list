@@ -2,7 +2,6 @@ import { TouchableHighlight, useColorScheme } from "react-native";
 
 import * as Styled from "./styles";
 import React, { useEffect, useState } from "react";
-import { useShoppingListContext } from "../../context/ShoppingList";
 import { ItemInterface, ListItemInterface } from "../../types/types";
 
 import { useRouter } from "expo-router";
@@ -59,7 +58,7 @@ export default function ProductsList({
 }: Readonly<ProductsListProps>) {
   const router = useRouter();
 
-  function deleteItem(item: ItemInterface): void {}
+  function deleteItem(item: ItemInterface): void { }
 
   const returnToTags = () => {
     handleCloseBottomSheetTag();

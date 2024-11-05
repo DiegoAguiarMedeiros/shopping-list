@@ -2,7 +2,6 @@ import { SafeAreaView, ScrollView } from "react-native";
 import { BottomSheetProps } from "../../../../components/BottomSheet";
 
 import ListGridItem from "./listGridItem";
-import { useShoppingListContext } from "../../../../context/ShoppingList";
 import { colorTheme } from "../../../../../constants/Colors";
 import { IProduct } from "../../../../Model/IProduct";
 import ITag from "../../../../Model/ITag";
@@ -32,7 +31,6 @@ export default function ListGrid({
   tagRef,
   color,
 }: Readonly<ItemProps>) {
-  const { getTagByUuid } = useShoppingListContext();
   return (
     <SafeAreaView style={{ width: "100%" }}>
       <ScrollView keyboardShouldPersistTaps="handled">

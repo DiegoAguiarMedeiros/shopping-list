@@ -15,11 +15,11 @@ import { colorTheme } from "../../../constants/Colors";
 import { BottomSheetProps } from "../../components/BottomSheet";
 import Container from "../../components/Container";
 import ContainerInner from "../../components/ContainerInner";
+import { useStores } from "../../context/StoreContext";
 
 interface ListViewProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
-  color: colorTheme;
   lists: IList[];
 }
 
@@ -27,12 +27,11 @@ const CustomFlatList = React.memo(
   ({
     setBottomSheetProps,
     handleCloseBottomSheet,
-    color,
     lists,
   }: ListViewProps) => {
+    const { ConfigRepository } = useStores();
     const renderItem: ListRenderItem<IList> = ({ item }) => (
       <ListGridItem
-        color={color}
         handleCloseBottomSheet={handleCloseBottomSheet}
         setBottomSheetProps={setBottomSheetProps}
         list={item}
@@ -40,8 +39,8 @@ const CustomFlatList = React.memo(
     );
 
     return (
-      <Container background={color.backgroundPrimary}>
-        <ContainerInner background={color.backgroundPrimary}>
+      <Container background={ConfigRepository.color.backgroundPrimary}>
+        <ContainerInner background={ConfigRepository.color.backgroundPrimary}>
           <FlatList
             data={lists}
             renderItem={renderItem}
@@ -59,15 +58,14 @@ const CustomFlatList = React.memo(
 export const ListView = ({
   setBottomSheetProps,
   handleCloseBottomSheet,
-  color,
   lists,
 }: ListViewProps) => {
   return (
     <CustomFlatList
       lists={lists}
-      color={color}
       setBottomSheetProps={setBottomSheetProps}
       handleCloseBottomSheet={handleCloseBottomSheet}
     />
   );
 };
+

@@ -5,7 +5,6 @@ import React, { useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 
 import { Title, Text, Title2 } from "../../../../components/Text";
-import { useShoppingListContext } from "../../../../context/ShoppingList";
 
 import AddPriceUnit from "../../../../components/addPriceUnit";
 import { IProduct } from "../../../../Model/IProduct";
@@ -30,13 +29,11 @@ interface ListProps {
   handleOpen: (uuid: string) => void;
   handleClose: () => void;
   active: boolean;
-  color: colorTheme;
   totalUpdate: (total: number, amount: number, un: number) => void;
   setList: React.Dispatch<React.SetStateAction<IList>>;
 }
 
 function ListGridItem({
-  color,
   item,
   listId,
   handleOpen,
@@ -46,9 +43,8 @@ function ListGridItem({
   setList,
 }: ListProps) {
   const colorScheme = useColorScheme();
-  const { getCurrency } = useShoppingListContext();
   const listProductUuid = `${listId}-${item.uuid}`;
-  const { AmountRepository, ProductRepository } = useStores();
+  const { AmountRepository, ProductRepository, ConfigRepository } = useStores();
   const handleDelete = () => {
     ProductRepository.removeItemFromlist(item.uuid);
     AmountRepository.removeAllItems(listProductUuid);
@@ -77,18 +73,18 @@ function ListGridItem({
       >
         <Styled.ButtonView>
           <Styled.ButtonInner
-            underlayColor={color.swipeIconUnderlay}
+            underlayColor={ConfigRepository.color.swipeIconUnderlay}
             onPress={handleDelete}
           >
             <>
-              <Styled.ButtonTextIcon text={color.swipeIcon}>
+              <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                 <FontAwesome
                   size={18}
                   style={{ marginBottom: -3 }}
                   name="trash"
                 />
               </Styled.ButtonTextIcon>
-              <Styled.ButtonText text={color.swipeIcon}>
+              <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
                 {I18n.t("delete")}
               </Styled.ButtonText>
             </>
@@ -117,9 +113,9 @@ function ListGridItem({
   return active ? (
     <GridItemNoSwipeable>
       <GridItemInner
-        underlayColor={color.itemListItemOpenBackgroundUnderlay}
-        borderColor={color.itemListItemOpenBackgroundBorder}
-        background={color.itemListItemOpenBackground}
+        underlayColor={ConfigRepository.color.itemListItemOpenBackgroundUnderlay}
+        borderColor={ConfigRepository.color.itemListItemOpenBackgroundBorder}
+        background={ConfigRepository.color.itemListItemOpenBackground}
         height={itemHeights[item.amount.length > 4 ? 4 : item.amount.length]}
         row
         elevation={colorScheme === "light"}
@@ -127,14 +123,14 @@ function ListGridItem({
         <GridItemWrapperCol width={100} justify="flex-end">
           <GridItemWrapperRow height={100} maxHeight={50} justify="flex-end">
             <GridItemWrapperInner width={10} height={100}>
-              <Title color={color.itemListItemOpenIcon}>
+              <Title color={ConfigRepository.color.itemListItemOpenIcon}>
                 <FontAwesome
                   size={28}
                   style={{ marginBottom: -3 }}
                   color={
                     item.amount.length > 0
-                      ? color.itemListItemOpenIconFilled
-                      : color.itemListItemOpenIcon
+                      ? ConfigRepository.color.itemListItemOpenIconFilled
+                      : ConfigRepository.color.itemListItemOpenIcon
                   }
                   name={item.amount.length > 0 ? "check-circle-o" : "circle-o"}
                 />
@@ -147,7 +143,7 @@ function ListGridItem({
                   height={50}
                   justify="flex-end"
                 >
-                  <Title2 color={color.itemListItemOpenText}>
+                  <Title2 color={ConfigRepository.color.itemListItemOpenText}>
                     {item.name}
                   </Title2>
                 </GridItemWrapperInner>
@@ -157,8 +153,8 @@ function ListGridItem({
                     height={100}
                     justify="flex-start"
                   >
-                    <Text color={color.itemListItemOpenTextSecondary}>
-                      {I18n.t("total")}: {getCurrency()} {item.total}
+                    <Text color={ConfigRepository.color.itemListItemOpenTextSecondary}>
+                      {I18n.t("total")}: {ConfigRepository.currency} {item.total}
                     </Text>
                   </GridItemWrapperInner>
                   <GridItemWrapperInner
@@ -166,7 +162,7 @@ function ListGridItem({
                     height={100}
                     justify="flex-start"
                   >
-                    <Text color={color.itemListItemOpenTextSecondary}>
+                    <Text color={ConfigRepository.color.itemListItemOpenTextSecondary}>
                       {showUnitFromAmount(item.amount)}
                     </Text>
                   </GridItemWrapperInner>
@@ -174,7 +170,7 @@ function ListGridItem({
               </GridItemWrapperCol>
             </GridItemWrapperInner>
             <GridItemWrapperInner width={10} height={100}>
-              <Title color={color.text} align="right">
+              <Title color={ConfigRepository.color.text} align="right">
                 <FontAwesome
                   onPress={() => handleClose()}
                   size={28}
@@ -192,7 +188,6 @@ function ListGridItem({
               <AddPriceUnit
                 amounts={item.amount}
                 totalUpdate={totalUpdate}
-                color={color}
                 listProductUuid={listProductUuid}
               />
             </GridItemWrapperCol>
@@ -208,23 +203,23 @@ function ListGridItem({
     >
       <GridItemInner
         onPress={() => handleOpen(item.uuid)}
-        underlayColor={color.itemListBackgroundUnderlay}
-        borderColor={color.itemListBackgroundBorder}
-        background={color.itemListBackground}
+        underlayColor={ConfigRepository.color.itemListBackgroundUnderlay}
+        borderColor={ConfigRepository.color.itemListBackgroundBorder}
+        background={ConfigRepository.color.itemListBackground}
         height={70}
         row
         elevation={colorScheme === "light"}
       >
         <GridItemWrapperRow height={100} maxHeight={60} justify="flex-end">
           <GridItemWrapperInner width={10} height={100}>
-            <Title color={color.text}>
+            <Title color={ConfigRepository.color.text}>
               <FontAwesome
                 size={28}
                 style={{ marginBottom: -3 }}
                 color={
                   item.amount.length > 0
-                    ? color.itemListIconFilled
-                    : color.itemListIcon
+                    ? ConfigRepository.color.itemListIconFilled
+                    : ConfigRepository.color.itemListIcon
                 }
                 name={item.amount.length > 0 ? "check-circle-o" : "circle-o"}
               />
@@ -233,7 +228,7 @@ function ListGridItem({
           <GridItemWrapperInner width={80} height={100}>
             <GridItemWrapperCol width={100}>
               <GridItemWrapperInner width={100} height={50} justify="flex-end">
-                <Title2 color={color.text}>{item.name}</Title2>
+                <Title2 color={ConfigRepository.color.text}>{item.name}</Title2>
               </GridItemWrapperInner>
               <GridItemWrapperRow height={50}>
                 <GridItemWrapperInner
@@ -241,8 +236,8 @@ function ListGridItem({
                   height={100}
                   justify="flex-start"
                 >
-                  <Text color={color.textSecondary}>
-                    {I18n.t("total")}: {getCurrency()} {item.total}
+                  <Text color={ConfigRepository.color.textSecondary}>
+                    {I18n.t("total")}: {ConfigRepository.currency} {item.total}
                   </Text>
                 </GridItemWrapperInner>
                 <GridItemWrapperInner
@@ -250,7 +245,7 @@ function ListGridItem({
                   height={100}
                   justify="flex-start"
                 >
-                  <Text color={color.textSecondary}>
+                  <Text color={ConfigRepository.color.textSecondary}>
                     {showUnitFromAmount(item.amount)}
                   </Text>
                 </GridItemWrapperInner>
@@ -258,7 +253,7 @@ function ListGridItem({
             </GridItemWrapperCol>
           </GridItemWrapperInner>
           <GridItemWrapperInner width={10} height={100}>
-            <Title color={color.text} align="right">
+            <Title color={ConfigRepository.color.text} align="right">
               <FontAwesome
                 onPress={() => handleOpen(item.uuid)}
                 size={28}

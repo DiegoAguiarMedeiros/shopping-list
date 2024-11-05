@@ -7,7 +7,6 @@ import ListGridItem from "./listGridItem";
 import { BottomSheetProps } from "../../../components/BottomSheet";
 import Container from "../../../components/Container";
 import ContainerInner from "../../../components/ContainerInner";
-import { useShoppingListContext } from "../../../context/ShoppingList";
 import { colorTheme } from "../../../../constants/Colors";
 import { IProduct } from "../../../Model/IProduct";
 interface ListProps {

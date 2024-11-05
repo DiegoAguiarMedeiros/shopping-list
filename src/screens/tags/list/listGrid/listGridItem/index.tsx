@@ -6,7 +6,6 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
 import { SubTitle, Title2 } from "../../../../../components/Text";
-import { useShoppingListContext } from "../../../../../context/ShoppingList";
 
 import { BottomSheetProps } from "../../../../../components/BottomSheet";
 import NewTagForm from "../../../../../components/NewTagForm";
@@ -27,17 +26,15 @@ interface ItemProps {
   tag: ITag;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
-  color: colorTheme;
 }
 
 export default function ListGridItem({
   tag,
   setBottomSheetProps,
   handleCloseBottomSheet,
-  color,
 }: Readonly<ItemProps>) {
   const colorScheme = useColorScheme();
-  const { TagRepository } = useStores();
+  const { TagRepository, ConfigRepository } = useStores();
   const router = useRouter();
   const gridItemRef = useRef<any>();
   const handleCloseSwipeableFromParent = () => {
@@ -55,7 +52,6 @@ export default function ListGridItem({
     setBottomSheetProps({
       children: (
         <NewProductForm
-          color={color}
           action="addList"
           buttonText="add"
           onClose={handleCloseBottomSheetProduct}
@@ -65,7 +61,6 @@ export default function ListGridItem({
       ),
       height: "add",
       isVisible: false,
-      color: color,
     });
   };
 
@@ -75,7 +70,6 @@ export default function ListGridItem({
       height: "add",
       children: (
         <NewProductForm
-          color={color}
           onClose={handleCloseBottomSheetProduct}
           action="addList"
           buttonText="add"
@@ -83,7 +77,6 @@ export default function ListGridItem({
           teste="7"
         />
       ),
-      color: color,
     });
     router.push({ pathname: "/ProductsList", params: { tagUuid: tag.uuid } });
   }, [tag.uuid, router]);
@@ -93,7 +86,6 @@ export default function ListGridItem({
       height: "add",
       children: (
         <NewTagForm
-          color={color}
           action="editTag"
           buttonText="edit"
           tag={tag}
@@ -101,7 +93,6 @@ export default function ListGridItem({
         />
       ),
       isVisible: true,
-      color: color,
     });
   };
 
@@ -127,35 +118,35 @@ export default function ListGridItem({
       >
         <Styled.ButtonView>
           <Styled.ButtonInner
-            underlayColor={color.swipeIconUnderlay}
+            underlayColor={ConfigRepository.color.swipeIconUnderlay}
             onPress={handleEdit}
           >
             <>
-              <Styled.ButtonTextIcon text={color.swipeIcon}>
+              <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                 <FontAwesome
                   size={18}
                   style={{ marginBottom: -3 }}
                   name="pencil"
                 />
               </Styled.ButtonTextIcon>
-              <Styled.ButtonText text={color.swipeIcon}>
+              <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
                 {I18n.t("edit")}
               </Styled.ButtonText>
             </>
           </Styled.ButtonInner>
           <Styled.ButtonInner
-            underlayColor={color.swipeIconUnderlay}
+            underlayColor={ConfigRepository.color.swipeIconUnderlay}
             onPress={handleDelete}
           >
             <>
-              <Styled.ButtonTextIcon text={color.swipeIcon}>
+              <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                 <FontAwesome
                   size={18}
                   style={{ marginBottom: -3 }}
                   name="trash"
                 />
               </Styled.ButtonTextIcon>
-              <Styled.ButtonText text={color.swipeIcon}>
+              <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
                 {I18n.t("delete")}
               </Styled.ButtonText>
             </>
@@ -173,9 +164,9 @@ export default function ListGridItem({
       ref={gridItemRef}
     >
       <GridItemInner
-        underlayColor={color.itemListBackgroundUnderlay}
-        borderColor={color.itemListBackgroundBorder}
-        background={color.itemListBackground}
+        underlayColor={ConfigRepository.color.itemListBackgroundUnderlay}
+        borderColor={ConfigRepository.color.itemListBackgroundBorder}
+        background={ConfigRepository.color.itemListBackground}
         height={60}
         row
         onPress={handleOpenList}
@@ -184,12 +175,12 @@ export default function ListGridItem({
         <>
           <GridItemWrapperCol width={70} height={100}>
             <GridItemWrapperInner height={100}>
-              <Title2 color={color.text}>{tag.name}</Title2>
+              <Title2 color={ConfigRepository.color.text}>{tag.name}</Title2>
             </GridItemWrapperInner>
           </GridItemWrapperCol>
           <GridItemWrapperCol width={30} height={100}>
             <GridItemWrapperInner height={100}>
-              <SubTitle color={color.textSecondary} align="right">
+              <SubTitle color={ConfigRepository.color.textSecondary} align="right">
                 {I18n.t("products")}: {tag.productsQTD}
               </SubTitle>
             </GridItemWrapperInner>

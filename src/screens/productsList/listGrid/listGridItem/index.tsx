@@ -13,7 +13,6 @@ import { BottomSheetProps } from "../../../../components/BottomSheet";
 import { FontAwesome } from "@expo/vector-icons";
 import { Swipeable } from "react-native-gesture-handler";
 import { Title, Text, Title2 } from "../../../../components/Text";
-import { useShoppingListContext } from "../../../../context/ShoppingList";
 
 import { IProduct } from "../../../../Model/IProduct";
 import GridItem from "../../../../components/GridItem";
@@ -33,7 +32,6 @@ interface ListProps {
   tagUuid: string;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: (tagUuid: string) => void;
-  color: colorTheme;
 }
 
 function ListGridItem({
@@ -41,11 +39,9 @@ function ListGridItem({
   tagUuid,
   setBottomSheetProps,
   handleCloseBottomSheet,
-  color,
 }: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
-  const { handleDeleteProduct } = useShoppingListContext();
-  const { ProductRepository, TagRepository } = useStores();
+  const { ProductRepository, TagRepository, ConfigRepository } = useStores();
   const gridItemRef = useRef<any>();
   const handleCloseSwipeableFromParent = () => {
     // Access the handleCloseSwipeable function from the ref
@@ -63,7 +59,6 @@ function ListGridItem({
       height: "edit",
       children: (
         <NewProductForm
-          color={color}
           action="editList"
           buttonText="edit"
           items={products}
@@ -72,7 +67,6 @@ function ListGridItem({
         />
       ),
       isVisible: true,
-      color: color,
     });
   };
 
@@ -101,12 +95,12 @@ function ListGridItem({
           <>
             <GridItemWrapperCol width={50}>
               <Styled.ButtonInner
-                underlayColor={color.swipeIconUnderlay}
+                underlayColor={ConfigRepository.color.swipeIconUnderlay}
                 onPress={handleEdit}
               >
                 <>
                   <GridItemWrapperInner height={60}>
-                    <Styled.ButtonTextIcon text={color.swipeIcon}>
+                    <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                       <FontAwesome
                         size={18}
                         style={{ marginBottom: -3 }}
@@ -116,7 +110,7 @@ function ListGridItem({
                   </GridItemWrapperInner>
 
                   <GridItemWrapperInner height={40} justify={"flex-end"}>
-                    <Text color={color.swipeIcon} align="center">
+                    <Text color={ConfigRepository.color.swipeIcon} align="center">
                       Editar
                     </Text>
                   </GridItemWrapperInner>
@@ -126,12 +120,12 @@ function ListGridItem({
 
             <GridItemWrapperCol width={50}>
               <Styled.ButtonInner
-                underlayColor={color.swipeIconUnderlay}
+                underlayColor={ConfigRepository.color.swipeIconUnderlay}
                 onPress={handleDelete}
               >
                 <>
                   <GridItemWrapperInner height={60}>
-                    <Styled.ButtonTextIcon text={color.swipeIcon}>
+                    <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                       <FontAwesome
                         size={18}
                         style={{ marginBottom: -3 }}
@@ -140,7 +134,7 @@ function ListGridItem({
                     </Styled.ButtonTextIcon>
                   </GridItemWrapperInner>
                   <GridItemWrapperInner height={40} justify={"flex-end"}>
-                    <Text color={color.swipeIcon} align="center">
+                    <Text color={ConfigRepository.color.swipeIcon} align="center">
                       {I18n.t("delete")}
                     </Text>
                   </GridItemWrapperInner>
@@ -161,16 +155,16 @@ function ListGridItem({
       ref={gridItemRef}
     >
       <GridItemInner
-        underlayColor={color.itemListBackgroundUnderlay}
-        borderColor={color.itemListBackgroundBorder}
-        background={color.itemListBackground}
+        underlayColor={ConfigRepository.color.itemListBackgroundUnderlay}
+        borderColor={ConfigRepository.color.itemListBackgroundBorder}
+        background={ConfigRepository.color.itemListBackground}
         height={60}
         row
         elevation={colorScheme === "light"}
       >
         <GridItemWrapperRow height={100}>
           <GridItemWrapperInner height={100}>
-            <Title2 color={color.text}>{products.name}</Title2>
+            <Title2 color={ConfigRepository.color.text}>{products.name}</Title2>
           </GridItemWrapperInner>
         </GridItemWrapperRow>
       </GridItemInner>

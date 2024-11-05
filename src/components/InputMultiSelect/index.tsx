@@ -4,7 +4,6 @@ import { Picker } from "@react-native-picker/picker";
 import * as Styled from "./styles";
 import ITag from "../../Model/ITag";
 import { IProduct, ITagsProductsMultiSelect } from "../../Model/IProduct";
-import { useShoppingListContext } from "../../context/ShoppingList";
 import { colorTheme } from "../../../constants/Colors";
 import { FontAwesome } from "@expo/vector-icons";
 import SectionedMultiSelect, {
@@ -13,12 +12,12 @@ import SectionedMultiSelect, {
 
 import Icon from "react-native-vector-icons/MaterialIcons";
 import I18n from "i18n-js";
+import { useStores } from "../../context/StoreContext";
 type MultiSelectProps = {
   items: ITagsProductsMultiSelect[];
   selectedItems: string[];
   onValueChange: (itemValue: string[]) => void;
   onFocus?: () => void;
-  color: colorTheme;
 };
 
 const MultiSelect = ({
@@ -26,86 +25,88 @@ const MultiSelect = ({
   selectedItems,
   onValueChange,
   onFocus,
-  color,
 }: MultiSelectProps) => {
+
+  const { ConfigRepository } = useStores();
+
   const colors = {
-    primary: color.primary,
-    success: color.primary,
-    cancel: color.alert,
-    text: color.text,
-    subText: color.textSecondary,
-    selectToggleTextColor: color.primary,
-    searchPlaceholderTextColor: color.textSecondary,
-    searchSelectionColor: color.text,
-    chipColor: color.primary,
-    itemBackground: color.itemListBackground,
-    subItemBackground: color.itemListBackground,
+    primary: ConfigRepository.color.primary,
+    success: ConfigRepository.color.primary,
+    cancel: ConfigRepository.color.alert,
+    text: ConfigRepository.color.text,
+    subText: ConfigRepository.color.textSecondary,
+    selectToggleTextColor: ConfigRepository.color.primary,
+    searchPlaceholderTextColor: ConfigRepository.color.textSecondary,
+    searchSelectionColor: ConfigRepository.color.text,
+    chipColor: ConfigRepository.color.primary,
+    itemBackground: ConfigRepository.color.itemListBackground,
+    subItemBackground: ConfigRepository.color.itemListBackground,
     disabled: "#0f0",
   };
 
   const styles: Styles = {
     selectToggle: {
-      backgroundColor: color.itemListBackground,
+      backgroundColor: ConfigRepository.color.itemListBackground,
       height: 45,
       alignContent: "center",
       padding: 10,
       borderRadius: 10,
     },
     selectToggleText: {
-      color: color.text,
+      color: ConfigRepository.color.text,
     },
     item: {
-      backgroundColor: color.backgroundPrimary,
+      backgroundColor: ConfigRepository.color.backgroundPrimary,
     },
     subItem: {
-      backgroundColor: color.backgroundPrimary,
+      backgroundColor: ConfigRepository.color.backgroundPrimary,
     },
     itemText: {
-      color: color.text,
+      color: ConfigRepository.color.text,
     },
     selectedItemText: {
-      color: color.textSecondary,
+      color: ConfigRepository.color.textSecondary,
     },
     selectedSubItemText: {
-      color: color.filterButtonActiveText,
+      color: ConfigRepository.color.filterButtonActiveText,
     },
     subItemText: {
-      color: color.textSecondary,
+      color: ConfigRepository.color.textSecondary,
     },
     chipsWrapper: {},
     chipContainer: {
-      backgroundColor: color.itemListBackground,
+      backgroundColor: ConfigRepository.color.itemListBackground,
       borderRadius: 10,
     },
     chipText: {
-      color: color.text,
+      color: ConfigRepository.color.text,
     },
     chipIcon: {},
     scrollView: {
-      backgroundColor: color.backgroundPrimary,
+      backgroundColor: ConfigRepository.color.backgroundPrimary,
     },
     button: {
-      backgroundColor: color.primary,
+      backgroundColor: ConfigRepository.color.primary,
     },
     cancelButton: {
-      backgroundColor: color.alert,
+      backgroundColor: ConfigRepository.color.alert,
     },
     confirmText: {
-      color: color.filterButtonActiveText,
+      color: ConfigRepository.color.filterButtonActiveText,
     },
     toggleIcon: {
-      backgroundColor: color.backgroundPrimary,
+      backgroundColor: ConfigRepository.color.backgroundPrimary,
     },
     selectedItem: {
-      backgroundColor: color.backgroundPrimary,
+      backgroundColor: ConfigRepository.color.backgroundPrimary,
       padding: 5,
     },
     selectedSubItem: {
-      backgroundColor: color.primary,
+      backgroundColor: ConfigRepository.color.primary,
       padding: 5,
     },
     listContainer: {
-      backgroundColor: color.backgroundPrimary,
+      backgroundColor: ConfigRepository.color.backgroundPrimary,
     },
   };
 
@@ -139,7 +140,7 @@ const MultiSelect = ({
         styles={styles}
         itemFontFamily={itemFontFamily}
         subItemFontFamily={subItemFontFamily}
-        customChipsRenderer={() => {}}
+        customChipsRenderer={() => { }}
       />
     </Styled.Container>
   );

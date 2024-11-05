@@ -3,7 +3,6 @@ import * as Styled from "./styles";
 import { BottomSheetProps } from "../../../../components/BottomSheet";
 
 import ListGridItem from "./listGridItem";
-import { useShoppingListContext } from "../../../../context/ShoppingList";
 import { colorTheme } from "../../../../../constants/Colors";
 import { IProduct } from "../../../../Model/IProduct";
 import { IList } from "../../../../Model/IList";
@@ -30,7 +29,6 @@ export default function ListGrid({
   listRef,
   listItemRef,
 }: Readonly<ItemProps>) {
-  const { getListByUuid } = useShoppingListContext();
   return (
     <SafeAreaView style={{ width: "100%" }}>
       <ScrollView keyboardShouldPersistTaps="handled">

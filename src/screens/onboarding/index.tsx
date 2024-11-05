@@ -2,8 +2,8 @@ import AppIntroSlider from "react-native-app-intro-slider";
 
 import { Text, Title } from "../../components/Text";
 import * as Styled from "./styles";
-import { useShoppingListContext } from "../../context/ShoppingList";
 import { colorTheme } from "../../../constants/Colors";
+import { useStores } from "../../context/StoreContext";
 
 interface Slide {
   key: string;
@@ -15,14 +15,14 @@ interface Slide {
 
 interface OnboadingProps {
   closeOnboarding: () => void;
-  color: colorTheme;
 }
-const OnboardingScreen = ({ closeOnboarding, color }: OnboadingProps) => {
+const OnboardingScreen = ({ closeOnboarding }: OnboadingProps) => {
+  const { ConfigRepository } = useStores();
   const renderItem = ({ item }: { item: Slide }) => (
-    <Styled.Container background={color.backgroundPrimary}>
-      <Styled.SlideContainer background={color.backgroundPrimary}>
+    <Styled.Container background={ConfigRepository.color.backgroundPrimary}>
+      <Styled.SlideContainer background={ConfigRepository.color.backgroundPrimary}>
         <Styled.SlideContainerInnerTitle>
-          <Styled.SlideTitle text={color.backgroundPrimary}>
+          <Styled.SlideTitle text={ConfigRepository.color.backgroundPrimary}>
             {item.title}
           </Styled.SlideTitle>
         </Styled.SlideContainerInnerTitle>
@@ -30,7 +30,7 @@ const OnboardingScreen = ({ closeOnboarding, color }: OnboadingProps) => {
           <Styled.SlideImage source={item.image} />
         </Styled.SlideContainerInnerImage>
         <Styled.SlideContainerInnerText>
-          <Styled.SlideText text={color.backgroundPrimary}>
+          <Styled.SlideText text={ConfigRepository.color.backgroundPrimary}>
             {item.text}
           </Styled.SlideText>
         </Styled.SlideContainerInnerText>
@@ -40,9 +40,9 @@ const OnboardingScreen = ({ closeOnboarding, color }: OnboadingProps) => {
   const slides: Slide[] = [
     {
       key: "slide1",
-      title: <Title color={color.text}>Welcome</Title>,
+      title: <Title color={ConfigRepository.color.text}>Welcome</Title>,
       text: (
-        <Text color={color.text}>
+        <Text color={ConfigRepository.color.text}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </Text>
       ),
@@ -51,9 +51,9 @@ const OnboardingScreen = ({ closeOnboarding, color }: OnboadingProps) => {
     },
     {
       key: "slide2",
-      title: <Title color={color.text}>Get Started</Title>,
+      title: <Title color={ConfigRepository.color.text}>Get Started</Title>,
       text: (
-        <Text color={color.text}>
+        <Text color={ConfigRepository.color.text}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </Text>
       ),
@@ -65,17 +65,17 @@ const OnboardingScreen = ({ closeOnboarding, color }: OnboadingProps) => {
     <AppIntroSlider
       data={slides}
       renderItem={renderItem}
-      renderSkipButton={() => <Title color={color.textSecondary}>Pular</Title>}
+      renderSkipButton={() => <Title color={ConfigRepository.color.textSecondary}>Pular</Title>}
       renderNextButton={() => (
-        <Title color={color.textSecondary}>Próximo</Title>
+        <Title color={ConfigRepository.color.textSecondary}>Próximo</Title>
       )}
-      renderDoneButton={() => <Title color={color.textSecondary}>Fechar</Title>}
-      renderPrevButton={() => <Title color={color.textSecondary}>Voltar</Title>}
+      renderDoneButton={() => <Title color={ConfigRepository.color.textSecondary}>Fechar</Title>}
+      renderPrevButton={() => <Title color={ConfigRepository.color.textSecondary}>Voltar</Title>}
       showPrevButton
       showSkipButton
-      dotStyle={{ backgroundColor: color.text }}
+      dotStyle={{ backgroundColor: ConfigRepository.color.text }}
       activeDotStyle={{
-        backgroundColor: color.info,
+        backgroundColor: ConfigRepository.color.info,
       }}
       onDone={closeOnboarding}
     />

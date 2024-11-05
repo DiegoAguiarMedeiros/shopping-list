@@ -5,7 +5,7 @@ export interface IProduct {
   name: string;
   amount: IAmount[];
   total?: string;
-  lastPrices?: LastPricesInterface;
+  lastPrices?: string[];
   unit: "Kg" | "Un";
   tag: string;
 }

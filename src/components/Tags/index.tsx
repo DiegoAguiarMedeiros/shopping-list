@@ -11,7 +11,6 @@ import {
 import * as Styled from "./styles";
 import { Title } from "../Text";
 import { TagsIterface } from "../../types/types";
-import { useShoppingListContext } from "../../context/ShoppingList";
 type TagsProps = {
   tags: TagsIterface[];
   isVisible: boolean;
@@ -22,7 +21,6 @@ const Tags = ({ tags, isVisible, addTag }: TagsProps) => {
   const colorScheme = useColorScheme();
   const [tagsIsVisible, setTagsIsVisible] = useState(isVisible);
 
-  const { getTheme, getColor } = useShoppingListContext();
   const returnMarginTop = (tags: number): string => {
     switch (tags) {
       case 0:

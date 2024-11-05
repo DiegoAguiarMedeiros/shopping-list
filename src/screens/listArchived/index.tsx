@@ -1,7 +1,6 @@
 import { TouchableHighlight, useColorScheme } from "react-native";
 
 import React, { useEffect, useState } from "react";
-import { useShoppingListContext } from "../../context/ShoppingList";
 import { useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
@@ -36,7 +35,6 @@ export default function ListArchived({
   setActiveRouteHeader,
   color,
 }: Readonly<ListProps>) {
-  const { getProductByUuid } = useShoppingListContext();
   const [filter, setFilter] = useState("Todos");
 
   const listArrItems: IProduct[] = [];

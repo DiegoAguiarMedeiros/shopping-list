@@ -3,7 +3,6 @@ import {
   GridItemWrapperRow,
   GridItemWrapperInner,
 } from "../../../../components/GridItemInner";
-import { useShoppingListContext } from "../../../../context/ShoppingList";
 
 import { Text } from "../../../../components/Text";
 import { colorTheme } from "../../../../../constants/Colors";
@@ -14,7 +13,6 @@ interface TotalProps {
   un: number;
 }
 const Total = ({ color, total, un }: TotalProps) => {
-  const { getCurrency } = useShoppingListContext();
   return (
     <GridItemWrapperRow height={10}>
       <GridItemWrapperInner width={50} height={100} justify="flex-start">
@@ -24,7 +22,7 @@ const Total = ({ color, total, un }: TotalProps) => {
       </GridItemWrapperInner>
       <GridItemWrapperInner width={50} height={100} justify="flex-start">
         <Text color={color.text} align="right">
-          {I18n.t("total")}: {getCurrency()}{" "}
+          {I18n.t("total")}: {ConfigRepository.currency}{" "}
           {total.toFixed(2).replace(".", ",")}
         </Text>
       </GridItemWrapperInner>

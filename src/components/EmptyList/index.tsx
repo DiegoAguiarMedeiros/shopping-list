@@ -7,8 +7,8 @@ import Button from "../Button";
 import { Text } from "../Text";
 import Container from "../Container";
 import ContainerInner from "../ContainerInner";
-import { useShoppingListContext } from "../../context/ShoppingList";
 import { colorTheme } from "../../../constants/Colors";
+import { useStores } from "../../context/StoreContext";
 
 interface Image {
   image: any;
@@ -20,21 +20,20 @@ const img: Image = {
 
 type EmptyListProps = {
   mensage?: string;
-  color: colorTheme;
 };
 
 export default function EmptyList({
   mensage,
-  color,
 }: Readonly<EmptyListProps>) {
+  const { ConfigRepository } = useStores();
   return (
-    <Container background={color.backgroundPrimary}>
-      <ContainerInner justify="center" background={color.backgroundPrimary}>
+    <Container background={ConfigRepository.color.backgroundPrimary}>
+      <ContainerInner justify="center" background={ConfigRepository.color.backgroundPrimary}>
         <Styled.SlideContainerInnerImage>
           <Styled.SlideImage source={img.image} />
         </Styled.SlideContainerInnerImage>
-        <Styled.ListEmptyTextmessage text={color.backgroundPrimary}>
-          <Text color={color.theme === "light" ? color.black : color.white}>
+        <Styled.ListEmptyTextmessage text={ConfigRepository.color.backgroundPrimary}>
+          <Text color={ConfigRepository.color.theme === "light" ? ConfigRepository.color.black : ConfigRepository.color.white}>
             {mensage}
           </Text>
         </Styled.ListEmptyTextmessage>
@@ -42,3 +41,4 @@ export default function EmptyList({
     </Container>
   );
 }
+

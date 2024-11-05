@@ -4,7 +4,6 @@ import * as Styled from "./styles";
 import { useCallback, useEffect, useRef } from "react";
 import { removeUndefinedFromArray } from "../../../../../utils/functions";
 import { Text, Title2 } from "../../../../../components/Text";
-import { useShoppingListContext } from "../../../../../context/ShoppingList";
 import CircleProgress from "../../../../../components/CircleProgress";
 
 import { BottomSheetProps } from "../../../../../components/BottomSheet";
@@ -29,20 +28,17 @@ interface ItemProps {
   list: IList;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
-  color: colorTheme;
 }
 
 const ListGridItem = React.memo(
   ({
-    color,
     handleCloseBottomSheet,
     setBottomSheetProps,
     list,
   }: Readonly<ItemProps>) => {
-    const { getCurrency } = useShoppingListContext();
     const colorScheme = useColorScheme();
     const router = useRouter();
-    const { ListRepository, ProductRepository } = useStores();
+    const { ListRepository, ProductRepository, ConfigRepository } = useStores();
     const { removeItem } = useListViewModel();
     // const items = removeUndefinedFromArray(
     //   getListProductController.handle(list.items)
@@ -68,7 +64,6 @@ const ListGridItem = React.memo(
       setBottomSheetProps({
         children: (
           <NewItemForm
-            color={color}
             buttonText="add"
             onClose={handleCloseBottomSheetProductList}
             list={list}
@@ -76,7 +71,6 @@ const ListGridItem = React.memo(
         ),
         height: "add",
         isVisible: false,
-        color: color,
       });
     };
 
@@ -86,13 +80,11 @@ const ListGridItem = React.memo(
         height: "add",
         children: (
           <NewItemForm
-            color={color}
             onClose={handleCloseBottomSheetProductList}
             buttonText="add"
             list={list}
           />
-        ),
-        color: color,
+        )
       });
       ListRepository.setListActive(list.uuid);
       ProductRepository.load();
@@ -108,11 +100,9 @@ const ListGridItem = React.memo(
             buttonText="edit"
             list={list}
             onClose={handleCloseBottomSheet}
-            color={color}
           />
         ),
         isVisible: true,
-        color: color,
       });
     };
 
@@ -125,12 +115,10 @@ const ListGridItem = React.memo(
             buttonText="copy"
             list={list}
             onClose={handleCloseBottomSheet}
-            color={color}
             handleCloseSwipeableFromParent={handleCloseSwipeableFromParent}
           />
         ),
         isVisible: true,
-        color: color,
       });
     };
 
@@ -139,6 +127,7 @@ const ListGridItem = React.memo(
     };
 
     const archivedList = (): void => {
+      ProductRepository.generateLastPrices(list.uuid);
       ListRepository.archiveList(list.uuid);
     };
 
@@ -160,32 +149,32 @@ const ListGridItem = React.memo(
         >
           <Styled.ButtonView>
             <Styled.ButtonInner
-              underlayColor={color.swipeIconUnderlay}
+              underlayColor={ConfigRepository.color.swipeIconUnderlay}
               onPress={handleEdit}
             >
               <>
-                <Styled.ButtonTextIcon text={color.swipeIcon}>
+                <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                   <FontAwesome
                     size={18}
                     style={{ marginBottom: -3 }}
                     name="pencil"
                   />
                 </Styled.ButtonTextIcon>
-                <Styled.ButtonText text={color.swipeIcon}>
+                <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
                   {I18n.t("edit")}
                 </Styled.ButtonText>
               </>
             </Styled.ButtonInner>
-            <Styled.ButtonInner underlayColor={color.text} onPress={handleCopy}>
+            <Styled.ButtonInner underlayColor={ConfigRepository.color.text} onPress={handleCopy}>
               <>
-                <Styled.ButtonTextIcon text={color.swipeIcon}>
+                <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                   <FontAwesome
                     size={18}
                     style={{ marginBottom: -3 }}
                     name="copy"
                   />
                 </Styled.ButtonTextIcon>
-                <Styled.ButtonText text={color.swipeIcon}>
+                <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
                   {I18n.t("copy")}
                 </Styled.ButtonText>
               </>
@@ -212,35 +201,35 @@ const ListGridItem = React.memo(
         >
           <Styled.ButtonView>
             <Styled.ButtonInner
-              underlayColor={color.swipeIconUnderlay}
+              underlayColor={ConfigRepository.color.swipeIconUnderlay}
               onPress={archivedList}
             >
               <>
-                <Styled.ButtonTextIcon text={color.swipeIcon}>
+                <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                   <FontAwesome
                     size={18}
                     style={{ marginBottom: -3 }}
                     name="archive"
                   />
                 </Styled.ButtonTextIcon>
-                <Styled.ButtonText text={color.swipeIcon}>
+                <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
                   {I18n.t("archive")}
                 </Styled.ButtonText>
               </>
             </Styled.ButtonInner>
             <Styled.ButtonInner
-              underlayColor={color.swipeIconUnderlay}
+              underlayColor={ConfigRepository.color.swipeIconUnderlay}
               onPress={handleDelete}
             >
               <>
-                <Styled.ButtonTextIcon text={color.swipeIcon}>
+                <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                   <FontAwesome
                     size={18}
                     style={{ marginBottom: -3 }}
                     name="trash"
                   />
                 </Styled.ButtonTextIcon>
-                <Styled.ButtonText text={color.swipeIcon}>
+                <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
                   {I18n.t("delete")}
                 </Styled.ButtonText>
               </>
@@ -259,9 +248,9 @@ const ListGridItem = React.memo(
         ref={gridItemRef}
       >
         <GridItemInner
-          underlayColor={color.itemListBackgroundUnderlay}
-          borderColor={color.itemListBackgroundBorder}
-          background={color.itemListBackground}
+          underlayColor={ConfigRepository.color.itemListBackgroundUnderlay}
+          borderColor={ConfigRepository.color.itemListBackgroundBorder}
+          background={ConfigRepository.color.itemListBackground}
           height={70}
           row
           onPress={handleOpenList}
@@ -270,9 +259,9 @@ const ListGridItem = React.memo(
           <>
             <GridItemWrapperCol width={85} height={100}>
               <GridItemWrapperInner height={100}>
-                <Title2 color={color.itemListText}>{list.name}</Title2>
-                <Text color={color.itemListTextSecondary}>
-                  {I18n.t("total")}: {getCurrency()}{" "}
+                <Title2 color={ConfigRepository.color.itemListText}>{list.name}</Title2>
+                <Text color={ConfigRepository.color.itemListTextSecondary}>
+                  {I18n.t("total")}: {ConfigRepository.currency}{" "}
                   {total.toFixed(2).replace(".", ",")}
                 </Text>
               </GridItemWrapperInner>
@@ -280,9 +269,9 @@ const ListGridItem = React.memo(
             <GridItemWrapperCol width={15} height={100}>
               <GridItemWrapperInner height={100} align="flex-end">
                 <CircleProgress
-                  activeStrokeColor={color.circularItemFilled}
-                  titleColor={color.circularItemText}
-                  circleBackgroundColor={color.circularItemBackground}
+                  activeStrokeColor={ConfigRepository.color.circularItemFilled}
+                  titleColor={ConfigRepository.color.circularItemText}
+                  circleBackgroundColor={ConfigRepository.color.circularItemBackground}
                   filled={totalWithoutAmount}
                   progress={
                     totalUn && totalWithoutAmount ? totalWithoutAmount : 0

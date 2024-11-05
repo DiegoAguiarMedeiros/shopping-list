@@ -15,27 +15,26 @@ import { colorTheme } from "../../../constants/Colors";
 import { BottomSheetProps } from "../../components/BottomSheet";
 import Container from "../../components/Container";
 import ContainerInner from "../../components/ContainerInner";
+import { useStores } from "../../context/StoreContext";
 
 interface HistoryViewProps {
-  color: colorTheme;
   lists: IList[];
 }
 
 const CustomFlatList = React.memo(
   ({
-    color,
     lists,
   }: HistoryViewProps) => {
+    const { ConfigRepository } = useStores();
     const renderItem: ListRenderItem<IList> = ({ item }) => (
       <ListGridItem
-        color={color}
         list={item}
       />
     );
 
     return (
-      <Container background={color.backgroundPrimary}>
-        <ContainerInner background={color.backgroundPrimary}>
+      <Container background={ConfigRepository.color.backgroundPrimary}>
+        <ContainerInner background={ConfigRepository.color.backgroundPrimary}>
           <FlatList
             data={lists}
             renderItem={renderItem}
@@ -51,13 +50,11 @@ const CustomFlatList = React.memo(
 );
 
 export const HistoryView = ({
-  color,
   lists,
 }: HistoryViewProps) => {
   return (
     <CustomFlatList
       lists={lists}
-      color={color}
     />
   );
 };

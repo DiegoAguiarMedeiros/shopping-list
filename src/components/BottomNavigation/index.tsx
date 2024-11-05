@@ -7,19 +7,20 @@ import Container from "../Container";
 import ContainerInner from "../ContainerInner";
 import { GridItemWrapperInner, GridItemWrapperRow } from "../GridItemInner";
 import { Text } from "../Text";
+import { useStores } from "../../context/StoreContext";
 
 const BottomNavigation: React.FC<RoutesType> = ({
-  color,
   routes,
   active,
 }: RoutesType) => {
+  const { ConfigRepository } = useStores();
   return (
     <Container
-      background={color.backgroundPrimary}
-      border={color.primary}
+      background={ConfigRepository.color.backgroundPrimary}
+      border={ConfigRepository.color.primary}
       height="55px"
       noPadding
-      elevation={color.theme === "light"}
+      elevation={ConfigRepository.color.theme === "light"}
     >
       <ContainerInner>
         <GridItemWrapperRow height={100}>
@@ -33,13 +34,13 @@ const BottomNavigation: React.FC<RoutesType> = ({
                 align="center"
               >
                 <Styled.ItemAddButton
-                  background={color.primary}
+                  background={ConfigRepository.color.primary}
                   key={`ItemAdd-${r.name}`}
                   onPress={() => r.func()}
-                  boder={color.primary}
+                  boder={ConfigRepository.color.primary}
                 >
-                  <Text color={color.white} align="center">
-                    <FontAwesome size={25} name={r.icon} color={color.white} />
+                  <Text color={ConfigRepository.color.white} align="center">
+                    <FontAwesome size={25} name={r.icon} color={ConfigRepository.color.white} />
                   </Text>
                 </Styled.ItemAddButton>
               </GridItemWrapperInner>
@@ -52,16 +53,16 @@ const BottomNavigation: React.FC<RoutesType> = ({
                 <Styled.Item
                   onPress={() => r.func()}
                   active={r.name === active}
-                  boder={color.primary}
+                  boder={ConfigRepository.color.primary}
                 >
-                  <Text color={color.primary} align="center">
+                  <Text color={ConfigRepository.color.primary} align="center">
                     <FontAwesome
                       size={25}
                       name={r.icon}
                       color={
                         r.name === active
-                          ? color.menuButtonActiveColor
-                          : color.menuButtonColor
+                          ? ConfigRepository.color.menuButtonActiveColor
+                          : ConfigRepository.color.menuButtonColor
                       }
                     />
                   </Text>

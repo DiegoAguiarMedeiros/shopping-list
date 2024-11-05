@@ -2,7 +2,6 @@ import { TouchableHighlight } from "react-native";
 
 import * as Styled from "./styles";
 import React, { useEffect, useState } from "react";
-import { useShoppingListContext } from "../../context/ShoppingList";
 import { useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 

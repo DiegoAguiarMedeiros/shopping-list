@@ -3,19 +3,18 @@ import { TextInput, TextInputProps } from "react-native";
 
 import * as Styled from "./styles";
 import { colorTheme } from "../../../constants/Colors";
+import { useStores } from "../../context/StoreContext";
 
 interface InputProps extends TextInputProps {
   placeholder: string;
-  color: colorTheme;
 }
 
 const HeaderInputTextSearch: React.FC<InputProps> = ({
   placeholder,
-  color,
   ...rest
 }) => {
   const inputRef = useRef<TextInput>(null);
-
+  const { ConfigRepository } = useStores();
   useEffect(() => {
     if (inputRef?.current) {
       inputRef?.current.focus();
@@ -25,11 +24,11 @@ const HeaderInputTextSearch: React.FC<InputProps> = ({
   return (
     <Styled.Input
       ref={inputRef}
-      background={color.secondary}
-      border={color.secondary}
-      color={color.white}
+      background={ConfigRepository.color.secondary}
+      border={ConfigRepository.color.secondary}
+      color={ConfigRepository.color.white}
       placeholder={placeholder}
-      placeholderTextColor={color.white}
+      placeholderTextColor={ConfigRepository.color.white}
       {...rest}
     />
   );

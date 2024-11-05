@@ -3,7 +3,6 @@ import * as Styled from "./styles";
 import Button from "../Button";
 import { useEffect, useState } from "react";
 import { ItemInterface } from "../../types/types";
-import { useShoppingListContext } from "../../context/ShoppingList";
 import Select from "../InputSelect";
 import I18n from "i18n-js";
 import { colorTheme } from "../../../constants/Colors";
@@ -17,7 +16,6 @@ export type NewItemFormProps = {
   list: IList;
   buttonText: "add" | "edit";
   items?: ItemInterface;
-  color: colorTheme;
 };
 
 const NewItemForm = ({
@@ -25,7 +23,6 @@ const NewItemForm = ({
   list,
   buttonText,
   items,
-  color,
 }: NewItemFormProps) => {
   const [newItem, setNewItem] = useState<{
     item: string[];
@@ -33,7 +30,7 @@ const NewItemForm = ({
     item: [],
   });
 
-  const { ListRepository, ProductRepository } = useStores();
+  const { ListRepository, ProductRepository, ConfigRepository } = useStores();
 
   const [products, setProducts] = useState<ITagsProductsMultiSelect[]>(
     ProductRepository.getProductsToSelect()
@@ -84,7 +81,6 @@ const NewItemForm = ({
       <Styled.InputContainer>
         <MultiSelect
           onFocus={updateSelect}
-          color={color}
           items={products || []}
           selectedItems={newItem.item}
           onValueChange={onValueChange}
@@ -94,21 +90,21 @@ const NewItemForm = ({
         <Styled.ButtonWrapper>
           <Button
             text={I18n.t("cancel")}
-            border={color.bottomSheetButtonCancelBorder}
-            background={color.bottomSheetButtonCancelBackground}
-            textColor={color.bottomSheetButtonCancelText}
+            border={ConfigRepository.color.bottomSheetButtonCancelBorder}
+            background={ConfigRepository.color.bottomSheetButtonCancelBackground}
+            textColor={ConfigRepository.color.bottomSheetButtonCancelText}
             onPress={closeBottomSheet}
-            underlayColor={color.bottomSheetButtonCancelUnderlay}
+            underlayColor={ConfigRepository.color.bottomSheetButtonCancelUnderlay}
           />
         </Styled.ButtonWrapper>
         <Styled.ButtonWrapper>
           <Button
             text={buttonTextArr[buttonText]}
-            textColor={color.bottomSheetButtonAddText}
-            border={color.bottomSheetButtonAddBorder}
-            background={color.bottomSheetButtonAddBackground}
+            textColor={ConfigRepository.color.bottomSheetButtonAddText}
+            border={ConfigRepository.color.bottomSheetButtonAddBorder}
+            background={ConfigRepository.color.bottomSheetButtonAddBackground}
             onPress={addListItem}
-            underlayColor={color.bottomSheetButtonAddUnderlay}
+            underlayColor={ConfigRepository.color.bottomSheetButtonAddUnderlay}
           />
         </Styled.ButtonWrapper>
       </Styled.ButtonsContainer>

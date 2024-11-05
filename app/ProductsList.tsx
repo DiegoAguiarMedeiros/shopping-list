@@ -4,7 +4,6 @@ import ProductsList from "../src/screens/productsList/index";
 import { BottomSheetProps } from "../src/components/BottomSheet";
 import { useEffect, useImperativeHandle, useState } from "react";
 import React from "react";
-import { useShoppingListContext } from "../src/context/ShoppingList";
 import { colorTheme } from "../constants/Colors";
 import { IProduct } from "../src/Model/IProduct";
 import { sortArrayOfObjects } from "../src/utils/functions";
@@ -30,19 +29,16 @@ interface ProductListTabProps {
       right: React.ReactNode | null;
     }>
   >;
-  color: colorTheme;
 }
 
-const ProductList = observer(
-  ({
+const ProductList = ({
     setActiveRouteHeader,
     setBottomSheetProps,
     handleCloseBottomSheet,
     handleCloseBottomSheetTag,
-    color,
   }: ProductListTabProps) => {
     const { tagUuid } = useGlobalSearchParams();
-    const { ProductRepository, TagRepository } = useStores();
+    const { ProductRepository, TagRepository, ConfigRepository } = useStores();
     const tag = TagRepository.getItem(
       tagUuid && !Array.isArray(tagUuid) ? tagUuid : ""
     );
@@ -54,14 +50,14 @@ const ProductList = observer(
       setActiveRouteHeader({
         left: (
           <TouchableHighlight
-            underlayColor={color.primary}
+            underlayColor={ConfigRepository.color.primary}
             style={{ marginLeft: 20, marginRight: 10 }}
             onPress={() => returnToTags()}
           >
-            <FontAwesome name="angle-left" size={35} color={color.white} />
+            <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.white} />
           </TouchableHighlight>
         ),
-        name: <Title color={color.white}>{tag?.name}</Title>,
+        name: <Title color={ConfigRepository.color.white}>{tag?.name}</Title>,
         right: null,
       });
       if (tag) {
@@ -74,14 +70,12 @@ const ProductList = observer(
       ProductRepository.products.length > 0 ? (
       <ProductListView
         products={ProductRepository.products}
-        color={color}
         setBottomSheetProps={setBottomSheetProps}
         handleCloseBottomSheet={handleCloseBottomSheetTag}
       />
     ) : (
-      <EmptyList color={color} mensage={I18n.t("noProducts")} />
+      <EmptyList  mensage={I18n.t("noProducts")} />
     );
-  }
-);
+  };
 
 export default ProductList;

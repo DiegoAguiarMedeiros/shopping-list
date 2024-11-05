@@ -22,25 +22,23 @@ import FilterButtons from "../../components/FilterButtons";
 import Total from "../../components/total";
 
 interface ItemsArchivedViewProps {
-  color: colorTheme;
   lists: IProduct[];
 }
 
 const CustomFlatList = React.memo(
-  ({ color, lists }: ItemsArchivedViewProps) => {
-    const { ListRepository, TagRepository } = useStores();
+  ({ lists }: ItemsArchivedViewProps) => {
+    const { ListRepository, ConfigRepository } = useStores();
 
     const renderItem: ListRenderItem<IProduct> = ({ item }) => (
       <ListGridItem
-        color={color}
         item={item}
         listId={ListRepository.listActive ? ListRepository.listActive.uuid : ""}
       />
     );
 
     return (
-      <Container background={color.backgroundPrimary}>
-        <ContainerInner height="100" background={color.backgroundPrimary}>
+      <Container background={ConfigRepository.color.backgroundPrimary}>
+        <ContainerInner height="100" background={ConfigRepository.color.backgroundPrimary}>
           <FlatList
             data={lists}
             renderItem={renderItem}
@@ -48,7 +46,6 @@ const CustomFlatList = React.memo(
           />
           <Total
             height={3}
-            color={color}
             total={
               ListRepository?.listActive?.total
                 ? ListRepository.listActive.total
@@ -71,6 +68,6 @@ const CustomFlatList = React.memo(
   }
 );
 
-export const ItemsArchivedView = ({ color, lists }: ItemsArchivedViewProps) => {
-  return <CustomFlatList lists={lists} color={color} />;
+export const ItemsArchivedView = ({ lists }: ItemsArchivedViewProps) => {
+  return <CustomFlatList lists={lists} />;
 };

@@ -223,9 +223,9 @@ class ListRepository implements IListRepository {
 
   removeItemFromList(uuid: string): void {
     try {
-      const currentData = this.getAllItemsMap(LIST_ARCHIVED_STORAGE_KEY);
+      const currentData = this.getAllItemsMap(LIST_STORAGE_KEY);
       const newData = currentData.filter((item) => item != uuid);
-      this.addItemsToStorage(JSON.stringify(newData), LIST_ARCHIVED_STORAGE_KEY);
+      this.addItemsToStorage(JSON.stringify(newData), LIST_STORAGE_KEY);
       this.loadArchived();
     } catch (error) {
       console.error("Failed to remove item from list:", error);
@@ -241,9 +241,9 @@ class ListRepository implements IListRepository {
   }
   removeItemFromListArchived(uuid: string): void {
     try {
-      const currentData = this.getAllItemsMap(LIST_STORAGE_KEY);
+      const currentData = this.getAllItemsMap(LIST_ARCHIVED_STORAGE_KEY);
       const newData = currentData.filter((item) => item != uuid);
-      this.addItemsToStorage(JSON.stringify(newData), LIST_STORAGE_KEY);
+      this.addItemsToStorage(JSON.stringify(newData), LIST_ARCHIVED_STORAGE_KEY);
       this.load();
     } catch (error) {
       console.error("Failed to remove item from list:", error);

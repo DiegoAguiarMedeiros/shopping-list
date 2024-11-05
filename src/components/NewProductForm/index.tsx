@@ -6,7 +6,6 @@ import Button from "../Button";
 import { useEffect, useState } from "react";
 import { ItemInterface, ListInterface, TagsIterface } from "../../types/types";
 import UUIDGenerator from "react-native-uuid";
-import { useShoppingListContext } from "../../context/ShoppingList";
 import { Keyboard } from "react-native";
 import { getTags, removeUndefinedFromArray } from "../../utils/functions";
 import { IProduct } from "../../Model/IProduct";
@@ -28,7 +27,6 @@ export type NewListFormProps = {
   buttonText: "add" | "edit";
   action: "addList" | "editList";
   items?: IProduct;
-  color: colorTheme;
   teste: string;
 };
 
@@ -38,17 +36,14 @@ const NewProductForm = ({
   buttonText,
   action,
   items,
-  color,
   teste,
 }: NewListFormProps) => {
-  const { handleAddListProduct, handleEditListProduct, getTagsObject } =
-    useShoppingListContext();
-  const { ProductRepository, TagRepository } = useStores();
+  const { ProductRepository, TagRepository, ConfigRepository } = useStores();
   const [newItem, setNewItem] = useState({
     item: items ? items.name : "",
     tag: tagUuid ?? "",
   });
-  const tags = getTagsObject();
+  const tags = ProductRepository.getProductsToSelect();
   if (tags) {
     tags.unshift({ name: I18n.t("selectCategory"), uuid: "", productsQTD: 0 });
   }
@@ -117,9 +112,9 @@ const NewProductForm = ({
     <Styled.Container>
       <Styled.InputContainer>
         <InputText
-          background={color.backgroundPrimary}
-          color={color.textSecondary}
-          placeholderTextColor={color.textSecondary}
+          background={ConfigRepository.color.backgroundPrimary}
+          color={ConfigRepository.color.textSecondary}
+          placeholderTextColor={ConfigRepository.color.textSecondary}
           placeholder={I18n.t("productsName")}
           onChangeText={(item) => {
             setNewItem({
@@ -134,9 +129,9 @@ const NewProductForm = ({
       {!tagUuid && tags ? (
         <Styled.InputContainer>
           <Select
-            background={color.selectCategory}
-            dropdownIconColor={color.primary}
-            textColor={color.textSecondary}
+            background={ConfigRepository.color.selectCategory}
+            dropdownIconColor={ConfigRepository.color.primary}
+            textColor={ConfigRepository.color.textSecondary}
             items={tags}
             selectedValue={newItem.tag}
             onValueChange={onValueChange}
@@ -163,21 +158,21 @@ const NewProductForm = ({
         <Styled.ButtonWrapper>
           <Button
             text={I18n.t("cancel")}
-            border={color.bottomSheetButtonCancelBorder}
-            background={color.bottomSheetButtonCancelBackground}
-            textColor={color.bottomSheetButtonCancelText}
+            border={ConfigRepository.color.bottomSheetButtonCancelBorder}
+            background={ConfigRepository.color.bottomSheetButtonCancelBackground}
+            textColor={ConfigRepository.color.bottomSheetButtonCancelText}
             onPress={closeBottomSheet}
-            underlayColor={color.bottomSheetButtonCancelBackground}
+            underlayColor={ConfigRepository.color.bottomSheetButtonCancelBackground}
           />
         </Styled.ButtonWrapper>
         <Styled.ButtonWrapper>
           <Button
             text={buttonTextArr[buttonText]}
-            textColor={color.bottomSheetButtonAddText}
-            border={color.bottomSheetButtonAddBorder}
-            background={color.bottomSheetButtonAddBackground}
+            textColor={ConfigRepository.color.bottomSheetButtonAddText}
+            border={ConfigRepository.color.bottomSheetButtonAddBorder}
+            background={ConfigRepository.color.bottomSheetButtonAddBackground}
             onPress={functions[action]}
-            underlayColor={color.bottomSheetButtonAddUnderlay}
+            underlayColor={ConfigRepository.color.bottomSheetButtonAddUnderlay}
           />
         </Styled.ButtonWrapper>
       </Styled.ButtonsContainer>

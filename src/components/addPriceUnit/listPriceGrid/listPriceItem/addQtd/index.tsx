@@ -1,7 +1,6 @@
 import * as Styled from "./styles";
 import Button from "./Button";
 import InputText from "./InputText";
-import { useShoppingListContext } from "../../../../../context/ShoppingList";
 
 import IAmount from "../../../../../Model/IAmount";
 import { colorTheme } from "../../../../../../constants/Colors";
@@ -18,7 +17,6 @@ interface ListPriceGridProps {
   selectedValueSwitch: boolean;
   newItemAmount: IAmount;
   setNewItemAmount: React.Dispatch<React.SetStateAction<IAmount>>;
-  color: colorTheme;
   handleUpdateListArrItems: (amount: IAmount) => void;
   totalUpdate: (total: number, amount: number, un: number) => void;
 }
@@ -28,7 +26,6 @@ export default function ListPriceGrid({
   selectedValueSwitch,
   newItemAmount,
   setNewItemAmount,
-  color,
   handleUpdateListArrItems,
   totalUpdate,
   listProductUuid,
@@ -147,7 +144,6 @@ export default function ListPriceGrid({
     <Styled.Container>
       {selectedValueSwitch ? (
         <InputText
-          color={color}
           radius={true}
           keyboardType="decimal-pad"
           placeholder="0.000"
@@ -158,7 +154,6 @@ export default function ListPriceGrid({
         <>
           <Styled.ContainerMinusPlus>
             <Button
-              color={color}
               icon="minus"
               invertSide={true}
               onPress={minusAmount}
@@ -168,7 +163,6 @@ export default function ListPriceGrid({
             <InputText
               keyboardType="decimal-pad"
               onChangeText={(value) => handleInputChange(value)}
-              color={color}
               radius={false}
               placeholder="Valor"
               value={quantity}
@@ -176,7 +170,7 @@ export default function ListPriceGrid({
             />
           </Styled.ContainerQtd>
           <Styled.ContainerMinusPlus>
-            <Button color={color} icon="plus" onPress={plusAmount} />
+            <Button icon="plus" onPress={plusAmount} />
           </Styled.ContainerMinusPlus>
         </>
       )}

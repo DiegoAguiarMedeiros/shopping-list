@@ -14,6 +14,7 @@ import amountRepository from "./amountRepository";
 import { ISortArrayOfObjects, sortArrayOfObjects } from "../../utils/functions";
 import { IAmountRepository } from "../IAmountRepository";
 import IAmount from "../../Model/IAmount";
+import IMMKVStorage from "../../Service/IMMKVStorage";
 
 const PRODUCT_STORAGE_KEY = "SLSHOPPINGPRODUCT";
 
@@ -23,21 +24,57 @@ class ProductRepository implements IProductRepository {
   listRepository: IListRepository;
   amountRepository: IAmountRepository;
   sortArrayOfObjects: ISortArrayOfObjects;
+  storageMMKV: IMMKVStorage;
   constructor(
     tagRepository: ITagRepository,
     listRepository: IListRepository,
     amountRepository: IAmountRepository,
+    storageMMKV: IMMKVStorage,
     sortArrayOfObjects: ISortArrayOfObjects
   ) {
     this.tagRepository = tagRepository;
     this.listRepository = listRepository;
     this.amountRepository = amountRepository;
+    this.storageMMKV = storageMMKV;
     this.sortArrayOfObjects = sortArrayOfObjects;
     makeAutoObservable(this, {
       load: action.bound,
       setTagFilter: action.bound,
     });
     this.load();
+  }
+  generateLastPrices(uuid: string): void {
+    this.listRepository.setListActive(uuid);
+    this.load();
+    this.products.map(product => {
+      const lastprice = this.calculateAverageAmount(product.amount);
+      if (Number(lastprice) > 0) this.setLastPrice(product.uuid, lastprice)
+    })
+  }
+
+  setLastPrice(uuid: string, price: string): void {
+    const product = this.getItem(uuid);
+    if (product) {
+      if (product.lastPrices) {
+        product.lastPrices?.push(price);
+      } else {
+        product.lastPrices = [];
+        product.lastPrices.push(price);
+
+      }
+      this.storageMMKV.set(product.uuid, JSON.stringify(product));
+    }
+  }
+
+  calculateAverageAmount(items: IAmount[]): string {
+    const amounts: number[] = items.map((item) => parseFloat(item.amount));
+    if (amounts.length === 0) {
+      return '0';
+    }
+
+    const sum = amounts.reduce((total, amount) => total + amount, 0);
+    const average = sum / amounts.length;
+    return average.toFixed(2);
   }
 
   setTagFilter(tag: string): void {
@@ -89,7 +126,7 @@ class ProductRepository implements IProductRepository {
   addItemByUuid(item: IProduct): void {
     try {
       if (!this.itemExists(item.uuid)) {
-        storageMMKV.set(item.uuid, JSON.stringify(item));
+        this.storageMMKV.set(item.uuid, JSON.stringify(item));
       }
     } catch (error) {
       console.error("Failed to add item by uuid:", error);
@@ -101,7 +138,7 @@ class ProductRepository implements IProductRepository {
       if (currentItem) {
         currentItem.name = name;
         if (tag) currentItem.tag = tag;
-        storageMMKV.set(uuid, JSON.stringify(currentItem));
+        this.storageMMKV.set(uuid, JSON.stringify(currentItem));
         this.load();
       }
     } catch (error) {
@@ -111,7 +148,7 @@ class ProductRepository implements IProductRepository {
 
   addItemsToStorage(items: string): void {
     try {
-      storageMMKV.set(PRODUCT_STORAGE_KEY, items);
+      this.storageMMKV.set(PRODUCT_STORAGE_KEY, items);
     } catch (error) {
       console.error("Failed to add item to storage:", error);
     }
@@ -133,7 +170,7 @@ class ProductRepository implements IProductRepository {
 
   getItem(uuid: string): IProduct | undefined {
     try {
-      const jsonData = storageMMKV.get(uuid);
+      const jsonData = this.storageMMKV.get(uuid);
       return jsonData ? JSON.parse(jsonData) : undefined;
     } catch (error) {
       console.error("Failed to get item:", error);
@@ -267,7 +304,7 @@ class ProductRepository implements IProductRepository {
 
   getAllItemsMap(): string[] {
     try {
-      const jsonData = storageMMKV.get(PRODUCT_STORAGE_KEY);
+      const jsonData = this.storageMMKV.get(PRODUCT_STORAGE_KEY);
       return jsonData ? JSON.parse(jsonData) : [];
     } catch (error) {
       console.error("Failed to get all items map:", error);
@@ -277,7 +314,7 @@ class ProductRepository implements IProductRepository {
 
   removeItemByUuid(uuid: string): void {
     try {
-      storageMMKV.delete(uuid);
+      this.storageMMKV.delete(uuid);
     } catch (error) {
       console.error("Failed to remove item by uuid:", error);
     }
@@ -314,9 +351,7 @@ export default new ProductRepository(
   tagRepository,
   listRepository,
   amountRepository,
+  storageMMKV,
   sortArrayOfObjects
 );
-function toFixed(arg0: number) {
-  throw new Error("Function not implemented.");
-}
 

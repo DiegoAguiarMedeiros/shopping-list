@@ -4,7 +4,6 @@ import Button from "../Button";
 
 import * as Styled from "./styles";
 import { TagsIterface } from "../../types/types";
-import { useShoppingListContext } from "../../context/ShoppingList";
 import { colorTheme } from "../../../constants/Colors";
 import getTagByUuidController from "../../UseCases/Tag/GetTagByUuid";
 import ITag from "../../Model/ITag";
@@ -14,15 +13,14 @@ import isEqual from "lodash.isequal";
 
 interface FilterButtonsProps {
   tags: string[];
-  color: colorTheme;
   filter: string,
 }
 
 const FilterButtons = ({
   tags,
-  color, filter
+  filter
 }: FilterButtonsProps) => {
-  const { TagRepository, ProductRepository } = useStores();
+  const { TagRepository, ProductRepository, ConfigRepository } = useStores();
   const renderButton = (item: any) => {
     let tag: any;
     if (item.item !== I18n.t("all")) {
@@ -41,20 +39,20 @@ const FilterButtons = ({
           onPress={handlePress}
           border={
             filter === tag?.name
-              ? color.filterButtonActiveBorder
-              : color.filterButtonBorder
+              ? ConfigRepository.color.filterButtonActiveBorder
+              : ConfigRepository.color.filterButtonBorder
           }
           background={
             filter === tag?.name
-              ? color.filterButtonActiveBackground
-              : color.filterButtonBackground
+              ? ConfigRepository.color.filterButtonActiveBackground
+              : ConfigRepository.color.filterButtonBackground
           }
           textColor={
             filter === tag?.name
-              ? color.filterButtonActiveText
-              : color.filterButtonText
+              ? ConfigRepository.color.filterButtonActiveText
+              : ConfigRepository.color.filterButtonText
           }
-          underlayColor={color.filterButtonActiveBackground}
+          underlayColor={ConfigRepository.color.filterButtonActiveBackground}
           text={tag?.name}
         />
       </Styled.ButtonContainer>

@@ -3,7 +3,6 @@ import { TextInput, TextInputProps, useColorScheme } from "react-native";
 
 
 import * as Styled from "./styles";
-import { useShoppingListContext } from "../../context/ShoppingList";
 
 interface InputProps extends TextInputProps {
   placeholder: string;
@@ -16,8 +15,6 @@ interface InputProps extends TextInputProps {
 const InputText: React.FC<InputProps> = ({ placeholder, radius, ...rest }) => {
   const colorScheme = useColorScheme();
   const inputRef = useRef<TextInput>(null);
-
-  const { getColor } = useShoppingListContext();
 
   useEffect(() => {
     if (inputRef?.current) {

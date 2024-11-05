@@ -8,7 +8,6 @@ import * as Styled from "./styles";
 import React, { useEffect, useState } from "react";
 import { ItemInterface, TagsIterface, TotalType } from "../../../types/types";
 import ListGridItem from "./listGridItem";
-import { useShoppingListContext } from "../../../context/ShoppingList";
 
 import Button from "../../../components/Button";
 
@@ -56,14 +55,6 @@ function ListGrid({
   handleCloseBottomSheetList,
   setActiveRouteHeader,
 }: Readonly<ListProps>) {
-  const {
-    getTotalQuantityAmountByListUuid,
-    getTotalQuantityWithoutAmountByListUuid,
-    getProductByUuid,
-    getTagUuidByTagName,
-    getTotalAmountByListUuid,
-    getTagByUuid,
-  } = useShoppingListContext();
   const [active, setActive] = useState("");
   const [total, setTotal] = useState<TotalType>({
     total: 0,
@@ -153,7 +144,7 @@ function ListGrid({
 
   useEffect(() => {
     filterUpdate();
-    return () => {};
+    return () => { };
   }, [filter, list]);
 
   return (

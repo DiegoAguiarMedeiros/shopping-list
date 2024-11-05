@@ -11,7 +11,6 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Text } from "../../../../components/Text";
 import Switch from "../../../../components/Switch";
 import AddQtd from "./addQtd";
-import { useShoppingListContext } from "../../../../context/ShoppingList";
 import IAmount from "../../../../Model/IAmount";
 import Container from "../../../../components/Container";
 import {
@@ -26,19 +25,16 @@ import { useStores } from "../../../../context/StoreContext";
 interface ListProps {
   itemAmount: IAmount;
   listProductUuid: string;
-  color: colorTheme;
   totalUpdate: (total: number, amount: number, un: number) => void;
 }
 
 export default function ListPriceGrid({
   itemAmount,
-  color,
   totalUpdate,
   listProductUuid,
 }: Readonly<ListProps>) {
-  const { getCurrency } = useShoppingListContext();
 
-  const { AmountRepository, ProductRepository } = useStores();
+  const { AmountRepository, ProductRepository, ConfigRepository } = useStores();
   const [selectedValueSwitch, setSelectedValueSwitch] = useState(
     itemAmount.type
   );
@@ -56,7 +52,7 @@ export default function ListPriceGrid({
     ProductRepository.updateTotalWithoutAmount();
   };
 
-  const handleUpdateListArrItems = (amount: IAmount): void => {};
+  const handleUpdateListArrItems = (amount: IAmount): void => { };
 
   const deleteAmountInList = (): void => {
     AmountRepository.removeItem(listProductUuid, itemAmount.uuid);
@@ -73,14 +69,14 @@ export default function ListPriceGrid({
 
   return (
     <GridItemInner
-      underlayColor={color.backgroundPrimary}
+      underlayColor={ConfigRepository.color.backgroundPrimary}
       height={40}
       noPadding
     >
       <GridItemWrapperRow height={100}>
         <GridItemWrapperInner width={20} height={100}>
-          <Text color={color.itemListItemOpenTextSecondary} align="center">
-            {getCurrency()}{" "}
+          <Text color={ConfigRepository.color.itemListItemOpenTextSecondary} align="center">
+            {'ConfigRepository.currency'}{" "}
             {Number(itemAmount.amount).toFixed(2).replace(".", ",")}
           </Text>
         </GridItemWrapperInner>
@@ -89,7 +85,6 @@ export default function ListPriceGrid({
             totalUpdate={totalUpdate}
             listProductUuid={listProductUuid}
             handleUpdateListArrItems={handleUpdateListArrItems}
-            color={color}
             amountItem={itemAmount}
             selectedValueSwitch={selectedValueSwitch}
             newItemAmount={newItemAmount}
@@ -98,7 +93,6 @@ export default function ListPriceGrid({
         </GridItemWrapperInner>
         <GridItemWrapperInner width={30} height={100}>
           <Switch
-            color={color}
             value={selectedValueSwitch}
             onValueChange={editItemsAmount}
             label={{ on: "Kg", off: "Un" }}
@@ -109,7 +103,7 @@ export default function ListPriceGrid({
             size={28}
             style={{ marginBottom: -3 }}
             name={"trash"}
-            color={color.itemListItemOpenTrashIcon}
+            color={ConfigRepository.color.itemListItemOpenTrashIcon}
             onPress={deleteAmountInList}
           />
         </GridItemWrapperInner>

@@ -4,8 +4,8 @@ import { Switch as RNSwitch, useColorScheme } from "react-native";
 import { Text } from "../Text";
 import Container from "../Container";
 import { GridItemWrapperInner, GridItemWrapperRow } from "../GridItemInner";
-import { useShoppingListContext } from "../../context/ShoppingList";
 import { colorTheme } from "../../../constants/Colors";
+import { useStores } from "../../context/StoreContext";
 
 interface LabelOnOff {
   on: string;
@@ -16,20 +16,19 @@ interface SwitchProps {
   value: boolean;
   onValueChange: (value: boolean) => void;
   label: LabelOnOff;
-  color: colorTheme;
 }
 
 const Switch: React.FC<SwitchProps> = ({
   value,
   onValueChange,
   label,
-  color,
 }) => {
+  const { ConfigRepository } = useStores();
   return (
     <Container noPadding>
       <GridItemWrapperRow height={100}>
         <GridItemWrapperInner width={50} height={100} align="flex-end">
-          <Text color={color.itemListItemOpenTextSecondary} align="right">
+          <Text color={ConfigRepository.color.itemListItemOpenTextSecondary} align="right">
             {label[value ? "on" : "off"]}
           </Text>
         </GridItemWrapperInner>
@@ -38,11 +37,11 @@ const Switch: React.FC<SwitchProps> = ({
             value={value}
             onValueChange={onValueChange}
             trackColor={{
-              false: color.switchTrackColorFalse,
-              true: color.switchTrackColorTrue,
+              false: ConfigRepository.color.switchTrackColorFalse,
+              true: ConfigRepository.color.switchTrackColorTrue,
             }}
             thumbColor={
-              value ? color.switchThumbColorTrue : color.switchThumbColorFalse
+              value ? ConfigRepository.color.switchThumbColorTrue : ConfigRepository.color.switchThumbColorFalse
             }
           />
         </GridItemWrapperInner>

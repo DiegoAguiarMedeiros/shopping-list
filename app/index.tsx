@@ -5,7 +5,6 @@ import * as Font from "expo-font";
 import { FontAwesome } from "@expo/vector-icons";
 import { getOnboarding, setOnboarding } from "../src/utils/onboarding";
 import OnboardingScreen from "../src/screens/onboarding";
-import { ShoppingListProvider } from "../src/context/ShoppingList";
 import { ColorList, Colors, colorTheme, typeTheme } from "../constants/Colors";
 import { languageType } from "../src/types/types";
 import getThemeController from "../src/UseCases/Config/GetTheme";
@@ -19,7 +18,8 @@ import getLanguageController from "../src/UseCases/Config/GetCurrency";
 import getColorController from "../src/UseCases/Config/GetColor";
 import saveColorController from "../src/UseCases/Config/SaveColor";
 import Navigation from "../src/navigation";
-import { StoreProvider } from "../src/context/StoreContext";
+import { StoreProvider, useStores } from "../src/context/StoreContext";
+import { observer } from "mobx-react-lite";
 
 I18n.fallbacks = true;
 I18n.translations = {
@@ -35,50 +35,11 @@ I18n.defaultLocale = loadedLanguage;
 // Set the initial locale
 I18n.locale = I18n.defaultLocale;
 
-export default function App() {
+const AppContainer = observer(() => {
   const [active, setActive] = useState(false);
   const [appIsReady, setAppIsReady] = useState(false);
-  const colorLoaded = getColorController.handle();
-  const [currentColor, setCurrentColor] = useState<{
-    color: ColorList;
-    theme: typeTheme;
-  }>({
-    color: colorLoaded,
-    theme: Colors[colorLoaded],
-  });
-  const colorScheme = useColorScheme();
+  const { ConfigRepository } = useStores();
 
-  const returnTheme = (): "light" | "dark" => {
-    const loadedTheme = getThemeController.handle();
-    if (loadedTheme === "light" || loadedTheme === "dark") return loadedTheme;
-    if (colorScheme) return colorScheme;
-    return "light";
-  };
-  const [theme, setTheme] = useState<"light" | "dark">(returnTheme());
-  const [color, setColor] = useState<ColorList>("#43BCAE");
-  const [currentLanguage, setCurrentLanguage] = useState<languageType>(
-    I18n.defaultLocale as languageType
-  );
-
-  const getColor = (): colorTheme => {
-    return Colors[color][theme];
-  };
-
-  const handleThemeChange = (theme: "light" | "dark") => {
-    setTheme(theme);
-  };
-  const handleColorChange = (color: ColorList) => {
-    setColor(color);
-    setCurrentColor({
-      color: color,
-      theme: Colors[color],
-    });
-    saveColorController.handle(color);
-  };
-  const handleLanguageChange = (newLanguage: languageType) => {
-    setCurrentLanguage(newLanguage);
-    I18n.locale = newLanguage;
-  };
 
   useEffect(() => {
     getOnboarding().then((result) => setActive(result));
@@ -107,7 +68,7 @@ export default function App() {
         setAppIsReady(true);
       }
     }
-
+    ConfigRepository.firstLoad();
     prepare();
   }, []);
 
@@ -120,38 +81,33 @@ export default function App() {
     setOnboarding(true);
   };
 
-  const colorTheme = getColor();
+
+  ConfigRepository.theme;
+  ConfigRepository.colors;
+  ConfigRepository.color;
+  ConfigRepository.currency;
+  ConfigRepository.lang;
+
   return (
     <>
-      <StatusBar backgroundColor={currentColor.theme[theme].primary} />
-      <StoreProvider>
-        <ShoppingListProvider
-          color={color}
-          setColor={setColor}
-          theme={theme}
-          setTheme={setTheme}
-          lang={currentLanguage}
-          handleLanguageChange={handleLanguageChange}
-        >
-          {!active && (
-            <OnboardingScreen
-              color={colorTheme}
-              closeOnboarding={closeOnboarding}
-            />
-          )}
-          {appIsReady && active && (
-            <Navigation
-              currentColor={currentColor.color}
-              currentTheme={theme}
-              color={colorTheme}
-              currentLanguage={currentLanguage}
-              handleColorChange={handleColorChange}
-              handleLanguageChange={handleLanguageChange}
-              handleThemeChange={handleThemeChange}
-            />
-          )}
-        </ShoppingListProvider>
-      </StoreProvider>
+      <StatusBar backgroundColor={ConfigRepository.color.primary} />
+      {!active && (
+        <OnboardingScreen
+          closeOnboarding={closeOnboarding}
+        />
+      )}
+      {appIsReady && active && (
+        <Navigation />
+      )}
     </>
   );
-}
+});
+
+
+const App = () => (
+  <StoreProvider>
+    <AppContainer />
+  </StoreProvider>
+);
+
+export default App;

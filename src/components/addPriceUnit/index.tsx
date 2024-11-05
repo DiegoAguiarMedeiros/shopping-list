@@ -1,7 +1,6 @@
 import { useColorScheme } from "react-native";
 
 import { useEffect, useState } from "react";
-import { useShoppingListContext } from "../../context/ShoppingList";
 import InputText from "../../components/InputText";
 import Button from "../../components/Button";
 import ListPriceGrid from "./listPriceGrid";
@@ -20,17 +19,15 @@ import UUIDGenerator from "react-native-uuid";
 interface AddPriceUnitProps {
   amounts: IAmount[];
   listProductUuid: string;
-  color: colorTheme;
   totalUpdate: (total: number, amount: number, un: number) => void;
 }
 
 export default function AddPriceUnit({
   listProductUuid,
-  color,
   totalUpdate,
   amounts,
 }: Readonly<AddPriceUnitProps>) {
-  const { AmountRepository, ProductRepository } = useStores();
+  const { AmountRepository, ProductRepository, ConfigRepository } = useStores();
   const [newItem, setNewItem] = useState("");
 
   const addAmount = (): void => {
@@ -63,7 +60,6 @@ export default function AddPriceUnit({
             <ListPriceGrid
               totalUpdate={totalUpdate}
               listProductUuid={listProductUuid}
-              color={color}
               item={amounts}
               key={"ListPriceGrid-" + listProductUuid}
             />
@@ -74,9 +70,9 @@ export default function AddPriceUnit({
         <GridItemWrapperRow height={100} maxHeight={40}>
           <GridItemWrapperInner width={88} height={100}>
             <InputText
-              background={color.backgroundPrimary}
-              color={color.textSecondary}
-              placeholderTextColor={color.textSecondary}
+              background={ConfigRepository.color.backgroundPrimary}
+              color={ConfigRepository.color.textSecondary}
+              placeholderTextColor={ConfigRepository.color.textSecondary}
               radius
               placeholder="Valor"
               onChangeText={(valor) => {
@@ -89,11 +85,11 @@ export default function AddPriceUnit({
           </GridItemWrapperInner>
           <GridItemWrapperInner width={15} height={100}>
             <Button
-              border={color.itemListItemOpenButtonSendBorder}
+              border={ConfigRepository.color.itemListItemOpenButtonSendBorder}
               radius
               icon="send"
-              background={color.itemListItemOpenButtonSendBackGround}
-              textColor={color.itemListItemOpenButtonSendText}
+              background={ConfigRepository.color.itemListItemOpenButtonSendBackGround}
+              textColor={ConfigRepository.color.itemListItemOpenButtonSendText}
               onPress={addAmount}
             />
           </GridItemWrapperInner>

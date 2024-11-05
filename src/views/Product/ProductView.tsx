@@ -17,11 +17,11 @@ import Container from "../../components/Container";
 import ContainerInner from "../../components/ContainerInner";
 import { IProduct } from "../../Model/IProduct";
 import { ItemInterface } from "../../types/types";
+import { useStores } from "../../context/StoreContext";
 
 interface ProductViewProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
-  color: colorTheme;
   products: IProduct[];
 }
 
@@ -29,12 +29,11 @@ const CustomFlatList = React.memo(
   ({
     setBottomSheetProps,
     handleCloseBottomSheet,
-    color,
     products,
   }: ProductViewProps) => {
+    const { ConfigRepository } = useStores();
     const renderItem: ListRenderItem<IProduct> = ({ item }) => (
       <ListGridItem
-        color={color}
         handleCloseBottomSheet={handleCloseBottomSheet}
         setBottomSheetProps={setBottomSheetProps}
         item={item}
@@ -42,8 +41,8 @@ const CustomFlatList = React.memo(
     );
 
     return (
-      <Container background={color.backgroundPrimary}>
-        <ContainerInner background={color.backgroundPrimary}>
+      <Container background={ConfigRepository.color.backgroundPrimary}>
+        <ContainerInner background={ConfigRepository.color.backgroundPrimary}>
           <FlatList
             data={products}
             renderItem={renderItem}
@@ -53,23 +52,21 @@ const CustomFlatList = React.memo(
       </Container>
     );
   },
-    (prevProps, nextProps) => {
-      return (
-        isEqual(prevProps.products, nextProps.products)
-      );
-    }
+  (prevProps, nextProps) => {
+    return (
+      isEqual(prevProps.products, nextProps.products)
+    );
+  }
 );
 
 export const ProductView = ({
   setBottomSheetProps,
   handleCloseBottomSheet,
-  color,
   products,
 }: ProductViewProps) => {
   return (
     <CustomFlatList
       products={products}
-      color={color}
       setBottomSheetProps={setBottomSheetProps}
       handleCloseBottomSheet={handleCloseBottomSheet}
     />

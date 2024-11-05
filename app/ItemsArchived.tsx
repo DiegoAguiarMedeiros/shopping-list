@@ -1,7 +1,6 @@
 import { router, useGlobalSearchParams } from "expo-router";
 import List from "../src/screens/list/index";
 import { colorTheme } from "../constants/Colors";
-import { useShoppingListContext } from "../src/context/ShoppingList";
 import { useEffect, useImperativeHandle, useState } from "react";
 import { IList } from "../src/Model/IList";
 import { IProduct } from "../src/Model/IProduct";
@@ -28,16 +27,13 @@ interface ItemsArchivedListProps {
       right: React.ReactNode | null;
     }>
   >;
-  color: colorTheme;
 }
 
-const ItemsArchived = observer(
-  ({
+const ItemsArchived = ({
     handleCloseBottomSheetList,
     setActiveRouteHeader,
-    color,
   }: ItemsArchivedListProps) => {
-    const { ListRepository, ProductRepository, TagRepository } = useStores();
+    const { ListRepository, ProductRepository, ConfigRepository } = useStores();
     const returnToHome = () => {
       // handleCloseBottomSheetList();
       // ProductRepository.setTagFilter('Todos');
@@ -53,22 +49,22 @@ const ItemsArchived = observer(
       setActiveRouteHeader({
         left: (
           <TouchableHighlight
-            underlayColor={color.primary}
+            underlayColor={ConfigRepository.color.primary}
             style={{ marginLeft: 20, marginRight: 10 }}
             onPress={() => returnToHome()}
           >
-            <FontAwesome name="angle-left" size={35} color={color.white} />
+            <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.white} />
           </TouchableHighlight>
         ),
         name: (
-          <Title color={color.white}>{ListRepository?.listActive?.name}</Title>
+          <Title color={ConfigRepository.color.white}>{ListRepository?.listActive?.name}</Title>
         ),
         right: (
           <ContainerCP>
             <CircleProgress
-              activeStrokeColor={color.circularHeaderFilled}
-              titleColor={color.circularHeaderText}
-              circleBackgroundColor={color.circularHeaderBackground}
+              activeStrokeColor={ConfigRepository.color.circularHeaderFilled}
+              titleColor={ConfigRepository.color.circularHeaderText}
+              circleBackgroundColor={ConfigRepository.color.circularHeaderBackground}
               filled={0}
               progress={
                 ListRepository?.listActive?.totalWithoutAmount
@@ -92,11 +88,10 @@ const ItemsArchived = observer(
 
 
     return ProductRepository.products.length > 0 ? (
-      <ItemsArchivedView lists={ProductRepository.products} color={color} />
+      <ItemsArchivedView lists={ProductRepository.products} />
     ) : (
-      <EmptyList color={color} mensage={I18n.t("noItemsInTheList")} />
+      <EmptyList mensage={I18n.t("noItemsInTheList")} />
     );
-  }
-);
+  };
 
 export default ItemsArchived;

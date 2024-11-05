@@ -8,7 +8,6 @@ import {
 } from "../../../types/types";
 import ListGridItem from "./listGridItem";
 import { removeUndefinedFromArray } from "../../../utils/functions";
-import { useShoppingListContext } from "../../../context/ShoppingList";
 
 import { Text } from "../../../components/Text";
 import { IProduct } from "../../../Model/IProduct";
@@ -35,11 +34,6 @@ function ListGrid({
   listId,
   color,
 }: Readonly<ListProps>) {
-  const {
-    getTotalAmountByListUuid,
-    getCurrency,
-    getTotalQuantityAmountByListUuid,
-  } = useShoppingListContext();
 
   const total = getTotalAmountByListUuid(listId);
   return (
@@ -74,7 +68,7 @@ function ListGrid({
           <GridItemWrapperCol width={50} height={100}>
             <GridItemWrapperInner height={100}>
               <Text color={color.text} align="right">
-                {I18n.t("total")}: {getCurrency()}{" "}
+                {I18n.t("total")}: {ConfigRepository.currency}{" "}
                 {total.toFixed(2).replace(".", ",")}
               </Text>
             </GridItemWrapperInner>

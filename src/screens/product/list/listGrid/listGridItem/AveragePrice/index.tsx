@@ -4,20 +4,17 @@ import * as Styled from "./styles";
 
 import { Text } from "../../../../../../components/Text";
 import Container from "../../../../../../components/Container";
-import { ILastPrices } from "../../../../../../Domain/Model/IProduct";
-import { useShoppingListContext } from "../../../../../../context/ShoppingList";
 import I18n from "i18n-js";
 import { colorTheme } from "../../../../../../../constants/Colors";
+import { useStores } from "../../../../../../context/StoreContext";
 interface AveragePriceProps {
   price: string[];
-  color: colorTheme;
 }
 
 export default function AveragePrice({
   price,
-  color,
 }: Readonly<AveragePriceProps>) {
-  const { getCurrency } = useShoppingListContext();
+  const { ConfigRepository } = useStores();
   const calculateAveragePrice = (items: string[]): number => {
     const prices: number[] = items.map((item) => Number(item));
     if (prices.length === 0) {
@@ -30,11 +27,11 @@ export default function AveragePrice({
 
   return (
     <>
-      <Text color={color.textSecondary} align="right">
+      <Text color={ConfigRepository.color.textSecondary} align="right">
         {I18n.t("averagePrice")}
       </Text>
-      <Text align="right" color={color.itemProductListAveragePrice}>
-        {getCurrency()}{" "}
+      <Text align="right" color={ConfigRepository.color.itemProductListAveragePrice}>
+        {ConfigRepository.currency}{" "}
         {calculateAveragePrice(price).toFixed(2).replace(".", ",")}
       </Text>
     </>

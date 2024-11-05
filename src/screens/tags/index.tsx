@@ -1,4 +1,3 @@
-import { useShoppingListContext } from "../../context/ShoppingList";
 import { KeyboardAvoidingView, useColorScheme } from "react-native";
 import EmptyList from "../../components/EmptyList";
 import AsyncStorage from "@react-native-async-storage/async-storage";

@@ -3,7 +3,6 @@ import * as Styled from "./styles";
 import InputText from "../InputText";
 import Button from "../Button";
 import { useEffect, useState } from "react";
-import { useShoppingListContext } from "../../context/ShoppingList";
 import { Keyboard } from "react-native";
 import { IList } from "../../Model/IList";
 import I18n from "i18n-js";
@@ -17,7 +16,6 @@ export type NewListFormProps = {
   buttonText: "add" | "edit" | "copy";
   action: "addList" | "editList" | "copyList";
   list?: IList;
-  color: colorTheme;
   handleCloseSwipeableFromParent?: () => void;
 };
 
@@ -27,12 +25,9 @@ const NewListForm = ({
   buttonText,
   action,
   list,
-  color,
   handleCloseSwipeableFromParent,
 }: NewListFormProps) => {
-  const { ListRepository } = useStores();
-  const { handleAddList, handleCopyList, handleEditList, getTheme, getColor } =
-    useShoppingListContext();
+  const { ListRepository, ConfigRepository } = useStores();
   const [newList, setNewList] = useState<{ list: string }>({
     list: list ? list.name : "",
   });
@@ -98,9 +93,9 @@ const NewListForm = ({
     <Styled.Container>
       <Styled.InputContainer>
         <InputText
-          background={color.backgroundPrimary}
-          color={color.textSecondary}
-          placeholderTextColor={color.textSecondary}
+          background={ConfigRepository.color.backgroundPrimary}
+          color={ConfigRepository.color.textSecondary}
+          placeholderTextColor={ConfigRepository.color.textSecondary}
           placeholder={I18n.t("listName")}
           onChangeText={(item) => {
             setNewList({
@@ -115,21 +110,21 @@ const NewListForm = ({
         <Styled.ButtonWrapper>
           <Button
             text={I18n.t("cancel")}
-            border={color.bottomSheetButtonCancelBorder}
-            background={color.bottomSheetButtonCancelBackground}
-            textColor={color.bottomSheetButtonCancelText}
+            border={ConfigRepository.color.bottomSheetButtonCancelBorder}
+            background={ConfigRepository.color.bottomSheetButtonCancelBackground}
+            textColor={ConfigRepository.color.bottomSheetButtonCancelText}
             onPress={closeBottomSheet}
-            underlayColor={color.bottomSheetButtonCancelBackground}
+            underlayColor={ConfigRepository.color.bottomSheetButtonCancelBackground}
           />
         </Styled.ButtonWrapper>
         <Styled.ButtonWrapper>
           <Button
             text={buttonTextArr[buttonText]}
-            textColor={color.bottomSheetButtonAddText}
-            border={color.bottomSheetButtonAddBorder}
-            background={color.bottomSheetButtonAddBackground}
+            textColor={ConfigRepository.color.bottomSheetButtonAddText}
+            border={ConfigRepository.color.bottomSheetButtonAddBorder}
+            background={ConfigRepository.color.bottomSheetButtonAddBackground}
             onPress={functions[action]}
-            underlayColor={color.bottomSheetButtonAddUnderlay}
+            underlayColor={ConfigRepository.color.bottomSheetButtonAddUnderlay}
           />
         </Styled.ButtonWrapper>
       </Styled.ButtonsContainer>

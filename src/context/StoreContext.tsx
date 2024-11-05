@@ -3,6 +3,7 @@ import ListRepository from "../storage/Implementation/listRepository";
 import ProductRepository from "../storage/Implementation/productRepository";
 import TagRepository from "../storage/Implementation/tagRepository";
 import AmountRepository from "../storage/Implementation/amountRepository";
+import ConfigRepository from "../storage/Implementation/configRepository";
 
 interface StoreContextProps {
   children: ReactNode;
@@ -12,7 +13,7 @@ const StoreContext = createContext({
   ListRepository,
   ProductRepository,
   TagRepository,
-  AmountRepository,
+  AmountRepository, ConfigRepository
 });
 
 export const StoreProvider = ({ children }: StoreContextProps) => {
@@ -22,6 +23,7 @@ export const StoreProvider = ({ children }: StoreContextProps) => {
       ProductRepository,
       TagRepository,
       AmountRepository,
+      ConfigRepository
     }),
     []
   );

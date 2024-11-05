@@ -1,7 +1,6 @@
 import { router, useGlobalSearchParams } from "expo-router";
 import List from "../src/screens/list/index";
 import { colorTheme } from "../constants/Colors";
-import { useShoppingListContext } from "../src/context/ShoppingList";
 import { useEffect, useImperativeHandle, useState } from "react";
 import { IList } from "../src/Model/IList";
 import { IProduct } from "../src/Model/IProduct";
@@ -28,16 +27,13 @@ interface ItemsListProps {
       right: React.ReactNode | null;
     }>
   >;
-  color: colorTheme;
 }
 
-const Items = observer(
-  ({
+const Items = ({
     handleCloseBottomSheetList,
     setActiveRouteHeader,
-    color,
   }: ItemsListProps) => {
-    const { ListRepository, ProductRepository, TagRepository } = useStores();
+    const { ListRepository, ProductRepository, TagRepository, ConfigRepository } = useStores();
     const returnToHome = () => {
       handleCloseBottomSheetList();
       ProductRepository.setTagFilter('Todos');
@@ -53,22 +49,22 @@ const Items = observer(
       setActiveRouteHeader({
         left: (
           <TouchableHighlight
-            underlayColor={color.primary}
+            underlayColor={ConfigRepository.color.primary}
             style={{ marginLeft: 20, marginRight: 10 }}
             onPress={() => returnToHome()}
           >
-            <FontAwesome name="angle-left" size={35} color={color.white} />
+            <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.white} />
           </TouchableHighlight>
         ),
         name: (
-          <Title color={color.white}>{ListRepository?.listActive?.name}</Title>
+          <Title color={ConfigRepository.color.white}>{ListRepository?.listActive?.name}</Title>
         ),
         right: (
           <ContainerCP>
             <CircleProgress
-              activeStrokeColor={color.circularHeaderFilled}
-              titleColor={color.circularHeaderText}
-              circleBackgroundColor={color.circularHeaderBackground}
+              activeStrokeColor={ConfigRepository.color.circularHeaderFilled}
+              titleColor={ConfigRepository.color.circularHeaderText}
+              circleBackgroundColor={ConfigRepository.color.circularHeaderBackground}
               filled={0}
               progress={
                 ListRepository?.listActive?.totalWithoutAmount
@@ -105,19 +101,17 @@ const Items = observer(
     return validateProducts(ProductRepository.products.length, TagRepository.tagFilter) ? (
       <>
         <Header
-          background={color.backgroundPrimary}
+          background={ConfigRepository.color.backgroundPrimary}
           bottom={<FilterButtons
             filter={TagRepository.tagFilter}
-            color={color}
             tags={ListRepository.listActive?.tags ?? []}
           />}
         />
-        <ItemsView lists={ProductRepository.products} color={color} />
+        <ItemsView lists={ProductRepository.products}/>
       </>
     ) : (
-      <EmptyList color={color} mensage={I18n.t("noItemsInTheList")} />
+      <EmptyList mensage={I18n.t("noItemsInTheList")} />
     );
-  }
-);
+  };
 
 export default Items;

@@ -6,12 +6,12 @@ import {
 import { useRouter } from "expo-router";
 import I18n from "i18n-js";
 import { useState, useRef, SetStateAction } from "react";
-import { TouchableHighlight } from "react-native";
+import { TouchableHighlight, useColorScheme } from "react-native";
 import Items from "../../app/Items";
 import ItemsArchived from "../../app/ItemsArchived";
 import ConfigScreen from "../../app/config";
 import ProductTab from "../../app/product";
-import { colorTheme, ColorList } from "../../constants/Colors";
+import { colorTheme, ColorList, typeTheme, Colors } from "../../constants/Colors";
 import Home from "../../app/home";
 import ProductsList from "../../app/ProductsList";
 import { languageType, RoutesProps } from "../types/types";
@@ -28,28 +28,14 @@ import { IList } from "../Model/IList";
 import { IProduct } from "../Model/IProduct";
 import ITag from "../Model/ITag";
 import { useStores } from "../context/StoreContext";
+import getColorController from "../UseCases/Config/GetColor";
+import getThemeController from "../UseCases/Config/GetTheme";
 
 const Stack = createStackNavigator();
 
-type NavigationProps = {
-  color: colorTheme;
-  currentColor: ColorList;
-  currentLanguage: languageType;
-  handleLanguageChange: (newLanguage: languageType) => void;
-  handleColorChange: (color: ColorList) => void;
-  handleThemeChange: (theme: "light" | "dark") => void;
-  currentTheme: "light" | "dark";
-};
 
-const Navigation: React.FC<NavigationProps> = ({
-  color,
-  currentColor,
-  currentLanguage,
-  handleLanguageChange,
-  handleColorChange,
-  handleThemeChange,
-  currentTheme,
-}) => {
+const Navigation: React.FC = () => {
+  const { ListRepository, ProductRepository, TagRepository, ConfigRepository } = useStores();
   const router = useRouter();
   const [activeRoute, setActiveRoute] = useState<string>("home");
   const [activeRouteHeader, setActiveRouteHeader] = useState<{
@@ -58,17 +44,15 @@ const Navigation: React.FC<NavigationProps> = ({
     right: React.ReactNode | null;
   }>({
     left: null,
-    name: <Title color={color.white}>Listas</Title>,
+    name: <Title color={ConfigRepository.color.white}>Listas</Title>,
     right: null,
   });
   const [search, setSearch] = useState("");
-  const { ListRepository, ProductRepository, TagRepository } = useStores();
 
   const handleCloseBottomSheetList = () => {
     setBottomSheetProps({
       children: (
         <NewListForm
-          color={color}
           action="addList"
           buttonText="add"
           onClose={handleCloseBottomSheetList}
@@ -76,14 +60,12 @@ const Navigation: React.FC<NavigationProps> = ({
       ),
       height: "add",
       isVisible: false,
-      color: color,
     });
   };
   const handleCloseBottomSheetProduct = () => {
     setBottomSheetProps({
       children: (
         <NewProductForm
-          color={color}
           action="addList"
           buttonText="add"
           onClose={handleCloseBottomSheetProduct}
@@ -92,14 +74,12 @@ const Navigation: React.FC<NavigationProps> = ({
       ),
       height: "edit",
       isVisible: false,
-      color: color,
     });
   };
   const handleCloseBottomSheetProductWithTag = (tag: string) => {
     setBottomSheetProps({
       children: (
         <NewProductForm
-          color={color}
           action="addList"
           buttonText="add"
           onClose={handleCloseBottomSheetProduct}
@@ -109,7 +89,6 @@ const Navigation: React.FC<NavigationProps> = ({
       ),
       height: "add",
       isVisible: false,
-      color: color,
     });
   };
 
@@ -117,7 +96,6 @@ const Navigation: React.FC<NavigationProps> = ({
     setBottomSheetProps({
       children: (
         <NewTagForm
-          color={color}
           action="addTag"
           buttonText="add"
           onClose={handleCloseBottomSheetTag}
@@ -125,14 +103,12 @@ const Navigation: React.FC<NavigationProps> = ({
       ),
       height: "add",
       isVisible: false,
-      color: color,
     });
   };
 
   const [bottomSheetProps, setBottomSheetProps] = useState<BottomSheetProps>({
     children: (
       <NewListForm
-        color={color}
         action="addList"
         buttonText="add"
         onClose={handleCloseBottomSheetList}
@@ -140,7 +116,6 @@ const Navigation: React.FC<NavigationProps> = ({
     ),
     height: "add",
     isVisible: false,
-    color: color,
   });
 
   const handleShowSearchInput = () => {
@@ -148,7 +123,6 @@ const Navigation: React.FC<NavigationProps> = ({
       left: null,
       name: (
         <HeaderInputTextSearch
-          color={color}
           style={{ marginLeft: -16 }}
           placeholder={I18n.t("search")}
           onChangeText={(item) => setSearch(item)}
@@ -156,11 +130,11 @@ const Navigation: React.FC<NavigationProps> = ({
       ),
       right: (
         <TouchableHighlight
-          underlayColor={color.secondary}
+          underlayColor={ConfigRepository.color.secondary}
           style={{ marginRight: 20 }}
           onPress={() => clearHeaderProduct()}
         >
-          <FontAwesome name="times" size={25} color={color.white} />
+          <FontAwesome name="times" size={25} color={ConfigRepository.color.white} />
         </TouchableHighlight>
       ),
     });
@@ -170,14 +144,14 @@ const Navigation: React.FC<NavigationProps> = ({
     setSearch("");
     setActiveRouteHeader({
       left: null,
-      name: <Title color={color.white}>Produtos</Title>,
+      name: <Title color={ConfigRepository.color.white}>Produtos</Title>,
       right: (
         <TouchableHighlight
-          underlayColor={color.primary}
+          underlayColor={ConfigRepository.color.primary}
           style={{ marginLeft: 20, marginRight: 20 }}
           onPress={() => handleShowSearchInput()}
         >
-          <FontAwesome name="search" size={25} color={color.white} />
+          <FontAwesome name="search" size={25} color={ConfigRepository.color.white} />
         </TouchableHighlight>
       ),
     });
@@ -189,7 +163,6 @@ const Navigation: React.FC<NavigationProps> = ({
     const forms = {
       home: (
         <NewListForm
-          color={color}
           action="addList"
           buttonText="add"
           onClose={handleCloseBottomSheetList}
@@ -197,7 +170,6 @@ const Navigation: React.FC<NavigationProps> = ({
       ),
       product: (
         <NewProductForm
-          color={color}
           action="addList"
           buttonText="add"
           onClose={handleCloseBottomSheetProduct}
@@ -206,7 +178,6 @@ const Navigation: React.FC<NavigationProps> = ({
       ),
       tags: (
         <NewTagForm
-          color={color}
           action="addTag"
           buttonText="add"
           onClose={handleCloseBottomSheetTag}
@@ -239,14 +210,14 @@ const Navigation: React.FC<NavigationProps> = ({
       setSearch("");
       setActiveRouteHeader({
         left: null,
-        name: <Title color={color.white}>{I18n.t("products")}</Title>,
+        name: <Title color={ConfigRepository.color.white}>{I18n.t("products")}</Title>,
         right: (
           <TouchableHighlight
-            underlayColor={color.primary}
+            underlayColor={ConfigRepository.color.primary}
             style={{ marginLeft: 20, marginRight: 20 }}
             onPress={() => handleShowSearchInput()}
           >
-            <FontAwesome name="search" size={25} color={color.white} />
+            <FontAwesome name="search" size={25} color={ConfigRepository.color.white} />
           </TouchableHighlight>
         ),
       });
@@ -311,9 +282,9 @@ const Navigation: React.FC<NavigationProps> = ({
         screenOptions={{
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           headerStyle: {
-            backgroundColor: color.primary,
+            backgroundColor: ConfigRepository.color.primary,
           },
-          headerTintColor: color.primary,
+          headerTintColor: ConfigRepository.color.primary,
         }}
       >
         <Stack.Screen
@@ -322,21 +293,20 @@ const Navigation: React.FC<NavigationProps> = ({
             headerLeft: () => null,
             headerRight: () => (
               <TouchableHighlight
-                underlayColor={color.primary}
+                underlayColor={ConfigRepository.color.primary}
                 style={{ marginLeft: 20, marginRight: 20 }}
                 onPress={() => router.push({ pathname: "config" })}
               >
-                <FontAwesome name="gear" size={25} color={color.white} />
+                <FontAwesome name="gear" size={25} color={ConfigRepository.color.white} />
               </TouchableHighlight>
             ),
             headerTitle: (props) => (
-              <Title color={color.white}>{I18n.t("lists")}</Title>
+              <Title color={ConfigRepository.color.white}>{I18n.t("lists")}</Title>
             ),
           }}
         >
           {() => (
             <Home
-              color={color}
               setBottomSheetProps={setBottomSheetProps}
               handleCloseBottomSheet={handleCloseBottomSheetList}
             />
@@ -352,7 +322,6 @@ const Navigation: React.FC<NavigationProps> = ({
         >
           {() => (
             <ProductTab
-              color={color}
               search={search}
               setBottomSheetProps={setBottomSheetProps}
               handleCloseBottomSheet={handleCloseBottomSheetProduct}
@@ -364,13 +333,12 @@ const Navigation: React.FC<NavigationProps> = ({
           options={{
             headerLeft: () => null,
             headerTitle: (props) => (
-              <Title color={color.white}>{I18n.t("categories")}</Title>
+              <Title color={ConfigRepository.color.white}>{I18n.t("categories")}</Title>
             ),
           }}
         >
           {() => (
             <Tags
-              color={color}
               setBottomSheetProps={setBottomSheetProps}
               handleCloseBottomSheet={handleCloseBottomSheetTag}
             />
@@ -386,7 +354,6 @@ const Navigation: React.FC<NavigationProps> = ({
         >
           {() => (
             <Items
-              color={color}
               setActiveRouteHeader={setActiveRouteHeader}
               handleCloseBottomSheetList={handleCloseBottomSheetList}
             />
@@ -402,7 +369,6 @@ const Navigation: React.FC<NavigationProps> = ({
         >
           {() => (
             <ProductsList
-              color={color}
               setActiveRouteHeader={setActiveRouteHeader}
               setBottomSheetProps={setBottomSheetProps}
               handleCloseBottomSheet={handleCloseBottomSheetProductWithTag}
@@ -420,35 +386,34 @@ const Navigation: React.FC<NavigationProps> = ({
         >
           {() => (
             <ItemsArchived
-              color={color}
               setActiveRouteHeader={setActiveRouteHeader}
-            />
+              handleCloseBottomSheetList={handleCloseBottomSheetList} />
           )}
         </Stack.Screen>
         <Stack.Screen
           name="history"
           options={{
             headerTitle: (props) => (
-              <Title color={color.white}>{I18n.t("historic")}</Title>
+              <Title color={ConfigRepository.color.white}>{I18n.t("historic")}</Title>
             ),
             headerLeft: () => null,
           }}
         >
-          {() => <History color={color} />}
+          {() => <History />}
         </Stack.Screen>
         <Stack.Screen
           name="config"
           options={{
             headerTitle: (props) => (
-              <Title color={color.white}>{I18n.t("settings")}</Title>
+              <Title color={ConfigRepository.color.white}>{I18n.t("settings")}</Title>
             ),
             headerLeft: () => (
               <TouchableHighlight
-                underlayColor={color.primary}
+                underlayColor={ConfigRepository.color.primary}
                 style={{ marginLeft: 20, marginRight: 10 }}
                 onPress={() => router.push({ pathname: "home" })}
               >
-                <FontAwesome name="angle-left" size={35} color={color.white} />
+                <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.white} />
               </TouchableHighlight>
             ),
           }}
@@ -456,20 +421,12 @@ const Navigation: React.FC<NavigationProps> = ({
           {() => (
             <ConfigScreen
               handleChangeRoute={handleChangeRoute}
-              currentTheme={currentTheme}
-              color={color}
-              currentLanguage={currentLanguage}
-              currentColor={currentColor}
-              handleColorChange={handleColorChange}
-              handleLanguageChange={handleLanguageChange}
-              handleThemeChange={handleThemeChange}
             />
           )}
         </Stack.Screen>
       </Stack.Navigator>
-      <BottomSheet {...bottomSheetProps} color={color} />
+      <BottomSheet {...bottomSheetProps} />
       <BottomNavigation
-        color={color}
         routes={routes}
         active={activeRoute}
         setActiveRoute={setActiveRoute}

@@ -1,4 +1,3 @@
-import { useShoppingListContext } from "../../context/ShoppingList";
 import EmptyList from "../../components/EmptyList";
 import ListComponent from "./list";
 
@@ -12,7 +11,6 @@ interface HistoryProps {
 }
 
 export default function History({ color }: Readonly<HistoryProps>) {
-  const { getListArchived } = useShoppingListContext();
   const [listArchived, setListArchived] = useState<string[]>(getListArchived());
   return (
     <Container background={color.backgroundPrimary}>
