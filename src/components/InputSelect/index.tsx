@@ -3,11 +3,11 @@ import { TextInputProps, useColorScheme } from 'react-native';
 import { Picker } from "@react-native-picker/picker";
 import * as Styled from "./styles";
 import ITag from "../../Model/ITag";
-import { IProduct } from "../../Model/IProduct";
+import { IProduct, ITagsProductsMultiSelect } from "../../Model/IProduct";
 import { colorTheme } from "../../../constants/Colors";
 
 type SelectProps = {
-  items: { name: string; uuid: string; }[];
+  items: { name: string; id: string; }[] | ITagsProductsMultiSelect[];
   selectedValue: string;
   onValueChange: (itemValue: string, itemIndex: number) => void;
   onFocus?: () => void;
@@ -43,9 +43,9 @@ const Select = ({
               backgroundColor: background,
               color: textColor,
             }}
-            key={`Picker.Item.${item.uuid}.index`}
+            key={`Picker.Item.${item.id}.index`}
             label={item.name}
-            value={item.uuid}
+            value={item.id}
           />
         ))}
       </Styled.Select>

@@ -155,9 +155,10 @@ class ProductRepository implements IProductRepository {
   }
 
   addItem(item: IProduct): void {
+
     try {
-      const currentData = this.getAllItemsMap();
       if (!this.itemExists(item.uuid)) {
+        const currentData = this.getAllItemsMap();
         this.addItemByUuid(item);
         currentData.push(item.uuid);
         this.addItemsToStorage(JSON.stringify(currentData));
@@ -256,7 +257,6 @@ class ProductRepository implements IProductRepository {
               item.total = "0,00";
             }
           }
-
           if (this.tagRepository.tagActive) {
             if (item && item.tag === this.tagRepository.tagActive?.uuid)
               result.push(item);
@@ -277,6 +277,7 @@ class ProductRepository implements IProductRepository {
       return [];
     }
   }
+
   getAllItemsProductTiny(): IProductTiny[] {
     try {
       const currentData = this.getAllItemsMap();

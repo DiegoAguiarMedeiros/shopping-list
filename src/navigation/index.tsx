@@ -69,7 +69,6 @@ const Navigation: React.FC = () => {
           action="addList"
           buttonText="add"
           onClose={handleCloseBottomSheetProduct}
-          teste="1"
         />
       ),
       height: "edit",
@@ -84,7 +83,6 @@ const Navigation: React.FC = () => {
           buttonText="add"
           onClose={handleCloseBottomSheetProduct}
           tagUuid={tag}
-          teste="2"
         />
       ),
       height: "add",
@@ -173,7 +171,6 @@ const Navigation: React.FC = () => {
           action="addList"
           buttonText="add"
           onClose={handleCloseBottomSheetProduct}
-          teste="3"
         />
       ),
       tags: (
