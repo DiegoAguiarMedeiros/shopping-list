@@ -76,7 +76,7 @@ export default function ListPriceGrid({
       <GridItemWrapperRow height={100}>
         <GridItemWrapperInner width={20} height={100}>
           <Text color={ConfigRepository.color.itemListItemOpenTextSecondary} align="center">
-            {'ConfigRepository.currency'}{" "}
+            {ConfigRepository.currency}{" "}
             {Number(itemAmount.amount).toFixed(2).replace(".", ",")}
           </Text>
         </GridItemWrapperInner>

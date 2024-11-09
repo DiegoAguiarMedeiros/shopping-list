@@ -70,20 +70,16 @@ class ConfigRepository implements IConfigRepository {
     }
 
     setTheme(theme: "light" | "dark"): void {
-        console.log("theme", theme)
-        console.log("this.theme", theme)
         this.theme = theme;
         this.setColor(this.allColors[this.colors][theme]);
         this.addItemsToStorage(theme, THEME_STORAGE_KEY)
     }
     setLang(lang: string): void {
-        // console.log("lang", lang)
         this.lang = lang;
         this.addItemsToStorage(lang, LANG_STORAGE_KEY)
         I18n.locale = lang;
     }
     setCurrency(currency: string): void {
-        // console.log("currency", currency)
         this.currency = currency;
         this.addItemsToStorage(currency, CURRENCY_STORAGE_KEY)
     }
@@ -93,7 +89,6 @@ class ConfigRepository implements IConfigRepository {
         this.addItemsToStorage(colors, COLOR_STORAGE_KEY)
     }
     setColor(color: colorTheme): void {
-        // console.log("color", color)
         this.color = color;
     }
 

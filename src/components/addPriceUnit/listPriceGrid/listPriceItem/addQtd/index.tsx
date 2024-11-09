@@ -55,6 +55,7 @@ export default function ListPriceGrid({
   }, [amountItem.quantity]);
 
   const minusAmount = (): void => {
+    console.log("minusAmount")
     if (Number(amountItem.quantity) > 1) {
       AmountRepository.changeAmountQuantity(
         String(Number(amountItem.quantity) - 1),
@@ -69,6 +70,7 @@ export default function ListPriceGrid({
     }
   };
   const plusAmount = (): void => {
+    console.log("plusAmount")
     if (Number(amountItem.quantity) < 99) {
       AmountRepository.changeAmountQuantity(
         String(Number(amountItem.quantity) + 1),

@@ -25,24 +25,30 @@ interface ProductTabProps {
   search: string;
 }
 
-const Product = ({ setBottomSheetProps, handleCloseBottomSheet }: ProductTabProps) => {
-    const { ListRepository, ProductRepository } = useStores();
+const Product = ({ setBottomSheetProps, handleCloseBottomSheet, search }: ProductTabProps) => {
+  const { ListRepository, ProductRepository } = useStores();
+  useEffect(() => {
+    ListRepository.setListActiveNull();
+    ProductRepository.load();
+  }, []);
 
-    useEffect(() => {
-      ListRepository.setListActiveNull();
-      ProductRepository.load();
-    }, []);
+  return ProductRepository.products &&
+    ProductRepository.products.length > 0 ? (
+    <ProductView
+      products={
+        search != ""
+          ? ProductRepository.products.filter((product) =>
+            product.name.toLowerCase().includes(search.toLowerCase())
+          )
+          : ProductRepository.products
 
-    return ProductRepository.products &&
-      ProductRepository.products.length > 0 ? (
-      <ProductView
-        products={ProductRepository.products}
-        setBottomSheetProps={setBottomSheetProps}
-        handleCloseBottomSheet={handleCloseBottomSheet}
-      />
-    ) : (
-      <EmptyList  mensage={I18n.t("noProducts")} />
-    );
-  };
+      }
+      setBottomSheetProps={setBottomSheetProps}
+      handleCloseBottomSheet={handleCloseBottomSheet}
+    />
+  ) : (
+    <EmptyList mensage={I18n.t("noProducts")} />
+  );
+};
 
 export default Product;
