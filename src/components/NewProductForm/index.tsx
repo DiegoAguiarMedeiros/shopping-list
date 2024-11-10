@@ -63,8 +63,14 @@ const NewProductForm = ({
     Keyboard.dismiss();
   };
 
+  const validForm = (item: string, tag: string, tagUuid?: string): boolean => {
+    if (!tagUuid && tag == '') return false;
+    if (item == "") return false;
+    return true;
+  }
+
   const addList = (): void => {
-    if (newItem.item !== "") {
+    if (validForm(newItem.item, newItem.tag, tagUuid)) {
       const newProduct: IProduct = {
         uuid: String(UUIDGenerator.v4()),
         name: newItem.item,
