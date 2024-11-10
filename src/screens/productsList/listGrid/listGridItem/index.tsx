@@ -63,7 +63,6 @@ function ListGridItem({
           buttonText="edit"
           items={products}
           onClose={() => handleCloseBottomSheet(products.tag)}
-          teste="5"
         />
       ),
       isVisible: true,

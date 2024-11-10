@@ -1,3 +1,4 @@
+import { ITagsSelect } from "../Model/IProduct";
 import ITag from "../Model/ITag";
 
 export interface ITagRepository {
@@ -21,4 +22,5 @@ export interface ITagRepository {
   setTagAcitveNull(): void;
   setTagFilter(tag: string): void;
   getTagUuidByName(filter: string): string;
+  getTagToSelect(): ITagsSelect[];
 }

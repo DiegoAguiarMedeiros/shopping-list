@@ -20,7 +20,6 @@ import { useStores } from "../src/context/StoreContext";
 
 interface ProductListTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
-  handleCloseBottomSheet: (tagUuid: string) => void;
   handleCloseBottomSheetTag: () => void;
   setActiveRouteHeader: React.Dispatch<
     React.SetStateAction<{
@@ -32,50 +31,49 @@ interface ProductListTabProps {
 }
 
 const ProductList = ({
-    setActiveRouteHeader,
-    setBottomSheetProps,
-    handleCloseBottomSheet,
-    handleCloseBottomSheetTag,
-  }: ProductListTabProps) => {
-    const { tagUuid } = useGlobalSearchParams();
-    const { ProductRepository, TagRepository, ConfigRepository } = useStores();
-    const tag = TagRepository.getItem(
-      tagUuid && !Array.isArray(tagUuid) ? tagUuid : ""
-    );
-    const returnToTags = () => {
-      handleCloseBottomSheetTag();
-      router.push({ pathname: "/tags" });
-    };
-    useEffect(() => {
-      setActiveRouteHeader({
-        left: (
-          <TouchableHighlight
-            underlayColor={ConfigRepository.color.primary}
-            style={{ marginLeft: 20, marginRight: 10 }}
-            onPress={() => returnToTags()}
-          >
-            <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.white} />
-          </TouchableHighlight>
-        ),
-        name: <Title color={ConfigRepository.color.white}>{tag?.name}</Title>,
-        right: null,
-      });
-      if (tag) {
-        TagRepository.setTagAcitve(tag?.uuid);
-        ProductRepository.load();
-      }
-    }, []);
-
-    return ProductRepository.products &&
-      ProductRepository.products.length > 0 ? (
-      <ProductListView
-        products={ProductRepository.products}
-        setBottomSheetProps={setBottomSheetProps}
-        handleCloseBottomSheet={handleCloseBottomSheetTag}
-      />
-    ) : (
-      <EmptyList  mensage={I18n.t("noProducts")} />
-    );
+  setActiveRouteHeader,
+  setBottomSheetProps,
+  handleCloseBottomSheetTag,
+}: ProductListTabProps) => {
+  const { tagUuid } = useGlobalSearchParams();
+  const { ProductRepository, TagRepository, ConfigRepository } = useStores();
+  const tag = TagRepository.getItem(
+    tagUuid && !Array.isArray(tagUuid) ? tagUuid : ""
+  );
+  const returnToTags = () => {
+    handleCloseBottomSheetTag();
+    router.push({ pathname: "/tags" });
   };
+  useEffect(() => {
+    setActiveRouteHeader({
+      left: (
+        <TouchableHighlight
+          underlayColor={ConfigRepository.color.primary}
+          style={{ marginLeft: 20, marginRight: 10 }}
+          onPress={() => returnToTags()}
+        >
+          <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.white} />
+        </TouchableHighlight>
+      ),
+      name: <Title color={ConfigRepository.color.white}>{tag?.name}</Title>,
+      right: null,
+    });
+    if (tag) {
+      TagRepository.setTagAcitve(tag?.uuid);
+      ProductRepository.load();
+    }
+  }, []);
+
+  return ProductRepository.products &&
+    ProductRepository.products.length > 0 ? (
+    <ProductListView
+      products={ProductRepository.products}
+      setBottomSheetProps={setBottomSheetProps}
+      handleCloseBottomSheet={handleCloseBottomSheetTag}
+    />
+  ) : (
+    <EmptyList mensage={I18n.t("noProducts")} />
+  );
+};
 
 export default ProductList;

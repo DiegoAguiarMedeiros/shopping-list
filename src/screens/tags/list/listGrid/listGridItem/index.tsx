@@ -56,7 +56,6 @@ export default function ListGridItem({
           buttonText="add"
           onClose={handleCloseBottomSheetProduct}
           tagUuid={tag.uuid}
-          teste="6"
         />
       ),
       height: "add",
@@ -74,7 +73,6 @@ export default function ListGridItem({
           action="addList"
           buttonText="add"
           tagUuid={tag.uuid}
-          teste="7"
         />
       ),
     });

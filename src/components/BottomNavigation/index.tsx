@@ -20,7 +20,7 @@ const BottomNavigation: React.FC<RoutesType> = ({
       border={ConfigRepository.color.primary}
       height="55px"
       noPadding
-      elevation={ConfigRepository.color.theme === "light"}
+      elevation
     >
       <ContainerInner>
         <GridItemWrapperRow height={100}>

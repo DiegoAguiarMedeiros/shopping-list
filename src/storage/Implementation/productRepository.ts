@@ -134,12 +134,14 @@ class ProductRepository implements IProductRepository {
   }
   editItem(uuid: string, name: string, tag?: string): void {
     try {
-      const currentItem = this.getItem(uuid);
-      if (currentItem) {
-        currentItem.name = name;
-        if (tag) currentItem.tag = tag;
-        this.storageMMKV.set(uuid, JSON.stringify(currentItem));
-        this.load();
+      if (this.itemExists(uuid)) {
+        const currentItem = this.getItem(uuid);
+        if (currentItem) {
+          currentItem.name = name;
+          if (tag) currentItem.tag = tag;
+          this.storageMMKV.set(uuid, JSON.stringify(currentItem));
+          this.load();
+        }
       }
     } catch (error) {
       console.error("Failed to add item by uuid:", error);

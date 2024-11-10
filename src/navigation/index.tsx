@@ -368,7 +368,6 @@ const Navigation: React.FC = () => {
             <ProductsList
               setActiveRouteHeader={setActiveRouteHeader}
               setBottomSheetProps={setBottomSheetProps}
-              handleCloseBottomSheet={handleCloseBottomSheetProductWithTag}
               handleCloseBottomSheetTag={handleCloseBottomSheetTag}
             />
           )}

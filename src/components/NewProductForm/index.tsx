@@ -8,7 +8,7 @@ import { ItemInterface, ListInterface, TagsIterface } from "../../types/types";
 import UUIDGenerator from "react-native-uuid";
 import { Keyboard } from "react-native";
 import { getTags, removeUndefinedFromArray } from "../../utils/functions";
-import { IProduct, ITagsProductsMultiSelect } from "../../Model/IProduct";
+import { IProduct, ITagsProductsMultiSelect, ITagsSelect } from "../../Model/IProduct";
 import Select from "../InputSelect";
 import I18n from "i18n-js";
 import { colorTheme } from "../../../constants/Colors";
@@ -42,13 +42,13 @@ const NewProductForm = ({
     tag: tagUuid ?? "",
   });
 
-  const tags: ITagsProductsMultiSelect[] = !tagUuid ? ProductRepository.getProductsToSelect() : [];
+  const tags: ITagsSelect[] = !tagUuid ? TagRepository.getTagToSelect() : [];
   if (tags) {
     tags.unshift({
       name: I18n.t("selectCategory"),
       id: "",
-      children: []
     });
+    if (items) TagRepository.setTagAcitve(items.tag)
   }
   const clearInput = () => {
     setNewItem({

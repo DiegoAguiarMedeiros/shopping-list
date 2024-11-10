@@ -23,6 +23,10 @@ export interface ILastPrices {
   price: number;
 }
 
+export interface ITagsSelect {
+  name: string;
+  id: string;
+}
 export interface ITagsProductsMultiSelect {
   name: string;
   id: string;

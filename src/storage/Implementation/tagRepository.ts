@@ -2,6 +2,7 @@ import { action, makeAutoObservable } from "mobx";
 import ITag from "../../Model/ITag";
 import storageMMKV from "../../Service/Implementation/MMKVStorage";
 import { ITagRepository } from "../ITagRepository";
+import { ITagsSelect } from "../../Model/IProduct";
 
 const TAG_STORAGE_KEY = "SLSHOPPINGTAG";
 
@@ -18,6 +19,13 @@ class TagRepository implements ITagRepository {
     });
     this.load();
     this.tagFilter = "Todos";
+  }
+  getTagToSelect(): ITagsSelect[] {
+
+    return this.tags.map(tag => {
+      return { ...tag, id: tag.uuid }
+    })
+
   }
   setTagAcitveNull(): void {
     this.tagActive = null;
