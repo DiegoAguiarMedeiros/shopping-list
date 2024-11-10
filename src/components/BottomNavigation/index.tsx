@@ -16,7 +16,7 @@ const BottomNavigation: React.FC<RoutesType> = ({
   const { ConfigRepository } = useStores();
   return (
     <Container
-      background={ConfigRepository.color.backgroundPrimary}
+      background={ConfigRepository.color.backgroundBottomNavigation}
       border={ConfigRepository.color.primary}
       height="55px"
       noPadding

@@ -47,6 +47,7 @@ export type colorTheme = {
   menuButtonColor: string;
   menuButtonActiveColor: string;
   backgroundBottomSheet: string;
+  backgroundBottomNavigation: string;
   bottomSheetButtonAddBackground: string;
   bottomSheetButtonCancelBackground: string;
   bottomSheetButtonAddBorder: string;
@@ -138,6 +139,7 @@ export const Colors: colors = {
       menuButtonColor: "#00000050",
       menuButtonActiveColor: "#43BCAE",
       backgroundBottomSheet: "#eee",
+      backgroundBottomNavigation: "#eee",
       bottomSheetButtonAddBackground: "#43BCAE",
       bottomSheetButtonCancelBackground: "#aaa",
       bottomSheetButtonAddBorder: "#43BCAE",
@@ -213,6 +215,7 @@ export const Colors: colors = {
       menuButtonColor: "#ffffff50",
       menuButtonActiveColor: "#43BCAE",
       backgroundBottomSheet: "#2E2E2E",
+      backgroundBottomNavigation: "#2E2E2E",
       bottomSheetButtonAddBackground: "#43BCAE",
       bottomSheetButtonCancelBackground: "#4F4E4E",
       bottomSheetButtonAddBorder: "#43BCAE",
@@ -290,6 +293,7 @@ export const Colors: colors = {
       menuButtonColor: "#00000050",
       menuButtonActiveColor: "#00BFFF",
       backgroundBottomSheet: "#eee",
+      backgroundBottomNavigation: "#eee",
       bottomSheetButtonAddBackground: "#00BFFF",
       bottomSheetButtonCancelBackground: "#aaa",
       bottomSheetButtonAddBorder: "#00BFFF",
@@ -365,6 +369,7 @@ export const Colors: colors = {
       menuButtonColor: "#ffffff50",
       menuButtonActiveColor: "#00BFFF",
       backgroundBottomSheet: "#2E2E2E",
+      backgroundBottomNavigation: "#2E2E2E",
       bottomSheetButtonAddBackground: "#00BFFF",
       bottomSheetButtonCancelBackground: "#4F4E4E",
       bottomSheetButtonAddBorder: "#00BFFF",
@@ -442,6 +447,7 @@ export const Colors: colors = {
       menuButtonColor: "#00000050",
       menuButtonActiveColor: "#FF69B4",
       backgroundBottomSheet: "#eee",
+      backgroundBottomNavigation: "#eee",
       bottomSheetButtonAddBackground: "#FF69B4",
       bottomSheetButtonCancelBackground: "#aaa",
       bottomSheetButtonAddBorder: "#FF69B4",
@@ -517,6 +523,7 @@ export const Colors: colors = {
       menuButtonColor: "#ffffff50",
       menuButtonActiveColor: "#FF69B4",
       backgroundBottomSheet: "#2E2E2E",
+      backgroundBottomNavigation: "#2E2E2E",
       bottomSheetButtonAddBackground: "#FF69B4",
       bottomSheetButtonCancelBackground: "#4F4E4E",
       bottomSheetButtonAddBorder: "#FF69B4",
