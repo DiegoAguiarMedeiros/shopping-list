@@ -17,20 +17,21 @@ interface HomeContainerProps {
 }
 
 const HomeContainer = ({
-    setBottomSheetProps,
-    handleCloseBottomSheet,
-  }: Readonly<HomeContainerProps>) => {
-    const { ListRepository } = useStores();
-    return ListRepository.lists && ListRepository.lists.length > 0 ? (
-      <ListView
-        lists={ListRepository.lists}
-        setBottomSheetProps={setBottomSheetProps}
-        handleCloseBottomSheet={handleCloseBottomSheet}
-      />
-    ) : (
-      <EmptyList mensage={I18n.t("noListCreated")} />
-    );
-  };
+  setBottomSheetProps,
+  handleCloseBottomSheet,
+}: Readonly<HomeContainerProps>) => {
+  const { ListRepository } = useStores();
+  console.log("ListRepository", ListRepository.lists)
+  return ListRepository.lists && ListRepository.lists.length > 0 ? (
+    <ListView
+      lists={ListRepository.lists}
+      setBottomSheetProps={setBottomSheetProps}
+      handleCloseBottomSheet={handleCloseBottomSheet}
+    />
+  ) : (
+    <EmptyList mensage={I18n.t("noListCreated")} />
+  );
+};
 
 
 export default HomeContainer;

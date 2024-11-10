@@ -28,6 +28,7 @@ interface ItemProps {
   list: IList;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
+  theme: 'dark' | 'light'
 }
 
 const ListGridItem = React.memo(
@@ -35,6 +36,7 @@ const ListGridItem = React.memo(
     handleCloseBottomSheet,
     setBottomSheetProps,
     list,
+    theme
   }: Readonly<ItemProps>) => {
     const colorScheme = useColorScheme();
     const router = useRouter();
@@ -127,6 +129,7 @@ const ListGridItem = React.memo(
     };
 
     const archivedList = (): void => {
+      console.log("archivedList")
       ProductRepository.generateLastPrices(list.uuid);
       ListRepository.archiveList(list.uuid);
     };
@@ -287,7 +290,14 @@ const ListGridItem = React.memo(
     );
   },
   (prevProps, nextProps) => {
-    return isEqual(prevProps.list, nextProps.list);
+    console.log("prevProps.list", prevProps.list)
+    console.log("nextProps.list", nextProps.list)
+    console.log("prevProps.theme", prevProps.theme)
+    console.log("nextProps.theme", nextProps.theme)
+    console.log("isEqual(prevProps.theme, nextProps.theme", isEqual(prevProps.theme, nextProps.theme))
+    console.log("isEqual(prevProps.list, nextProps.list)", isEqual(prevProps.list, nextProps.list))
+    console.log(isEqual(prevProps.list, nextProps.list) && isEqual(prevProps.theme, nextProps.theme))
+    return isEqual(prevProps.list, nextProps.list) && isEqual(prevProps.theme, nextProps.theme);
   }
 );
 

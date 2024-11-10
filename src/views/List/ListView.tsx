@@ -23,37 +23,33 @@ interface ListViewProps {
   lists: IList[];
 }
 
-const CustomFlatList = React.memo(
-  ({
-    setBottomSheetProps,
-    handleCloseBottomSheet,
-    lists,
-  }: ListViewProps) => {
-    const { ConfigRepository } = useStores();
-    const renderItem: ListRenderItem<IList> = ({ item }) => (
-      <ListGridItem
-        handleCloseBottomSheet={handleCloseBottomSheet}
-        setBottomSheetProps={setBottomSheetProps}
-        list={item}
-      />
-    );
+const CustomFlatList = ({
+  setBottomSheetProps,
+  handleCloseBottomSheet,
+  lists,
+}: ListViewProps) => {
+  const { ConfigRepository } = useStores();
+  const renderItem: ListRenderItem<IList> = ({ item }) => (
+    <ListGridItem
+      handleCloseBottomSheet={handleCloseBottomSheet}
+      setBottomSheetProps={setBottomSheetProps}
+      list={item}
+      theme={ConfigRepository.theme}
+    />
+  );
 
-    return (
-      <Container background={ConfigRepository.color.backgroundPrimary}>
-        <ContainerInner background={ConfigRepository.color.backgroundPrimary}>
-          <FlatList
-            data={lists}
-            renderItem={renderItem}
-            keyExtractor={(item) => "ListGridItem-" + item.uuid}
-          />
-        </ContainerInner>
-      </Container>
-    );
-  },
-  (prevProps, nextProps) => {
-    return isEqual(prevProps.lists, nextProps.lists);
-  }
-);
+  return (
+    <Container background={ConfigRepository.color.backgroundPrimary}>
+      <ContainerInner background={ConfigRepository.color.backgroundPrimary}>
+        <FlatList
+          data={lists}
+          renderItem={renderItem}
+          keyExtractor={(item) => "ListGridItem-" + item.uuid}
+        />
+      </ContainerInner>
+    </Container>
+  );
+};
 
 export const ListView = ({
   setBottomSheetProps,
