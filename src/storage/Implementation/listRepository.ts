@@ -222,21 +222,17 @@ class ListRepository implements IListRepository {
   }
 
   removeItemFromList(uuid: string): void {
-    console.log("removeItemFromList")
     try {
       const currentData = this.getAllItemsMap(LIST_STORAGE_KEY);
       const newData = currentData.filter((item) => item != uuid);
       this.addItemsToStorage(JSON.stringify(newData), LIST_STORAGE_KEY);
-      console.log("ListRepository", JSON.stringify(this.lists))
       this.load();
-      console.log("ListRepository load", JSON.stringify(this.lists))
       this.loadArchived();
     } catch (error) {
       console.error("Failed to remove item from list:", error);
     }
   }
   removeItem(uuid: string): void {
-    console.log("removeItem")
     try {
       this.removeItemFromList(uuid);
       this.removeItemByUuid(uuid);

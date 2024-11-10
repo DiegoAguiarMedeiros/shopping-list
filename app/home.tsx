@@ -21,7 +21,6 @@ const HomeContainer = ({
   handleCloseBottomSheet,
 }: Readonly<HomeContainerProps>) => {
   const { ListRepository } = useStores();
-  console.log("ListRepository", ListRepository.lists)
   return ListRepository.lists && ListRepository.lists.length > 0 ? (
     <ListView
       lists={ListRepository.lists}

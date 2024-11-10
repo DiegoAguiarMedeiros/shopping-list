@@ -38,7 +38,7 @@ I18n.locale = I18n.defaultLocale;
 const AppContainer = observer(() => {
   const [active, setActive] = useState(false);
   const [appIsReady, setAppIsReady] = useState(false);
-  const { ListRepository, ConfigRepository } = useStores();
+  const { ListRepository, ProductRepository, ConfigRepository } = useStores();
 
 
   useEffect(() => {
@@ -82,6 +82,7 @@ const AppContainer = observer(() => {
   };
 
   ListRepository.lists
+  ProductRepository.products
   ConfigRepository.theme;
   ConfigRepository.colors;
   ConfigRepository.color;
