@@ -29,18 +29,18 @@ const Product = ({ setBottomSheetProps, handleCloseBottomSheet, search }: Produc
   const { ListRepository, ProductRepository } = useStores();
   useEffect(() => {
     ListRepository.setListActiveNull();
-    ProductRepository.load();
+    ProductRepository.loadAll();
   }, []);
 
-  return ProductRepository.products &&
-    ProductRepository.products.length > 0 ? (
+  return ProductRepository.allProducts &&
+    ProductRepository.allProducts.length > 0 ? (
     <ProductView
       products={
         search != ""
-          ? ProductRepository.products.filter((product) =>
+          ? ProductRepository.allProducts.filter((product) =>
             product.name.toLowerCase().includes(search.toLowerCase())
           )
-          : ProductRepository.products
+          : ProductRepository.allProducts
 
       }
       setBottomSheetProps={setBottomSheetProps}

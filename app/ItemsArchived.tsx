@@ -30,68 +30,68 @@ interface ItemsArchivedListProps {
 }
 
 const ItemsArchived = ({
-    handleCloseBottomSheetList,
-    setActiveRouteHeader,
-  }: ItemsArchivedListProps) => {
-    const { ListRepository, ProductRepository, ConfigRepository } = useStores();
-    const returnToHome = () => {
-      // handleCloseBottomSheetList();
-      // ProductRepository.setTagFilter('Todos');
-      // ProductRepository.updateTotal();
-      // ProductRepository.updateTotalUn();
-      // ProductRepository.updateTotalWithAmount();
-      // ProductRepository.updateTotalWithoutAmount();
-      // ListRepository.setListActiveNull();
-      router.push({ pathname: "/history" });
-    };
-
-    useEffect(() => {
-      setActiveRouteHeader({
-        left: (
-          <TouchableHighlight
-            underlayColor={ConfigRepository.color.primary}
-            style={{ marginLeft: 20, marginRight: 10 }}
-            onPress={() => returnToHome()}
-          >
-            <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.white} />
-          </TouchableHighlight>
-        ),
-        name: (
-          <Title color={ConfigRepository.color.white}>{ListRepository?.listActive?.name}</Title>
-        ),
-        right: (
-          <ContainerCP>
-            <CircleProgress
-              activeStrokeColor={ConfigRepository.color.circularHeaderFilled}
-              titleColor={ConfigRepository.color.circularHeaderText}
-              circleBackgroundColor={ConfigRepository.color.circularHeaderBackground}
-              filled={0}
-              progress={
-                ListRepository?.listActive?.totalWithoutAmount
-                  ? ListRepository?.listActive?.totalWithoutAmount
-                  : 0
-              }
-              total={
-                ListRepository?.listActive?.totalUn
-                  ? ListRepository?.listActive?.totalUn
-                  : 0
-              }
-              size={24}
-            />
-          </ContainerCP>
-        ),
-      });
-    }, [
-      ListRepository?.listActive?.totalWithoutAmount,
-      ListRepository?.listActive?.totalUn,
-    ]);
-
-
-    return ProductRepository.products.length > 0 ? (
-      <ItemsArchivedView lists={ProductRepository.products} />
-    ) : (
-      <EmptyList mensage={I18n.t("noItemsInTheList")} />
-    );
+  handleCloseBottomSheetList,
+  setActiveRouteHeader,
+}: ItemsArchivedListProps) => {
+  const { ListRepository, ProductRepository, ConfigRepository } = useStores();
+  const returnToHome = () => {
+    // handleCloseBottomSheetList();
+    // ProductRepository.setTagFilter(I18n.t("all"));
+    // ProductRepository.updateTotal();
+    // ProductRepository.updateTotalUn();
+    // ProductRepository.updateTotalWithAmount();
+    // ProductRepository.updateTotalWithoutAmount();
+    // ListRepository.setListActiveNull();
+    router.push({ pathname: "/history" });
   };
+
+  useEffect(() => {
+    setActiveRouteHeader({
+      left: (
+        <TouchableHighlight
+          underlayColor={ConfigRepository.color.primary}
+          style={{ marginLeft: 20, marginRight: 10 }}
+          onPress={() => returnToHome()}
+        >
+          <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.white} />
+        </TouchableHighlight>
+      ),
+      name: (
+        <Title color={ConfigRepository.color.white}>{ListRepository?.listActive?.name}</Title>
+      ),
+      right: (
+        <ContainerCP>
+          <CircleProgress
+            activeStrokeColor={ConfigRepository.color.circularHeaderFilled}
+            titleColor={ConfigRepository.color.circularHeaderText}
+            circleBackgroundColor={ConfigRepository.color.circularHeaderBackground}
+            filled={0}
+            progress={
+              ListRepository?.listActive?.totalWithoutAmount
+                ? ListRepository?.listActive?.totalWithoutAmount
+                : 0
+            }
+            total={
+              ListRepository?.listActive?.totalUn
+                ? ListRepository?.listActive?.totalUn
+                : 0
+            }
+            size={24}
+          />
+        </ContainerCP>
+      ),
+    });
+  }, [
+    ListRepository?.listActive?.totalWithoutAmount,
+    ListRepository?.listActive?.totalUn,
+  ]);
+
+
+  return ProductRepository.products.length > 0 ? (
+    <ItemsArchivedView lists={ProductRepository.products} />
+  ) : (
+    <EmptyList mensage={I18n.t("noItemsInTheList")} />
+  );
+};
 
 export default ItemsArchived;

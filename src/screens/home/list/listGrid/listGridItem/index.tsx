@@ -152,21 +152,22 @@ const ListGridItem = React.memo(
           <Styled.ButtonView>
             <Styled.ButtonInner
               underlayColor={ConfigRepository.color.swipeIconUnderlay}
-              onPress={handleEdit}
+              onPress={archivedList}
             >
               <>
                 <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                   <FontAwesome
                     size={18}
                     style={{ marginBottom: -3 }}
-                    name="pencil"
+                    name="archive"
                   />
                 </Styled.ButtonTextIcon>
                 <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
-                  {I18n.t("edit")}
+                  {I18n.t("archive")}
                 </Styled.ButtonText>
               </>
             </Styled.ButtonInner>
+
             <Styled.ButtonInner underlayColor={ConfigRepository.color.text} onPress={handleCopy}>
               <>
                 <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
@@ -204,18 +205,18 @@ const ListGridItem = React.memo(
           <Styled.ButtonView>
             <Styled.ButtonInner
               underlayColor={ConfigRepository.color.swipeIconUnderlay}
-              onPress={archivedList}
+              onPress={handleEdit}
             >
               <>
                 <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                   <FontAwesome
                     size={18}
                     style={{ marginBottom: -3 }}
-                    name="archive"
+                    name="pencil"
                   />
                 </Styled.ButtonTextIcon>
                 <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
-                  {I18n.t("archive")}
+                  {I18n.t("edit")}
                 </Styled.ButtonText>
               </>
             </Styled.ButtonInner>

@@ -20,7 +20,9 @@ const FilterButtons = ({
   tags,
   filter
 }: FilterButtonsProps) => {
+
   const { TagRepository, ProductRepository, ConfigRepository } = useStores();
+  if (!TagRepository.tagFilter) TagRepository.setTagFilter(I18n.t('all'))
   const renderButton = (item: any) => {
     let tag: any;
     if (item.item !== I18n.t("all")) {
@@ -38,17 +40,17 @@ const FilterButtons = ({
         <Button
           onPress={handlePress}
           border={
-            filter === tag?.name
+            TagRepository.tagFilter === tag?.name
               ? ConfigRepository.color.filterButtonActiveBorder
               : ConfigRepository.color.filterButtonBorder
           }
           background={
-            filter === tag?.name
+            TagRepository.tagFilter === tag?.name
               ? ConfigRepository.color.filterButtonActiveBackground
               : ConfigRepository.color.filterButtonBackground
           }
           textColor={
-            filter === tag?.name
+            TagRepository.tagFilter === tag?.name
               ? ConfigRepository.color.filterButtonActiveText
               : ConfigRepository.color.filterButtonText
           }

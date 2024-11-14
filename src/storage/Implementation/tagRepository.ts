@@ -3,6 +3,10 @@ import ITag from "../../Model/ITag";
 import storageMMKV from "../../Service/Implementation/MMKVStorage";
 import { ITagRepository } from "../ITagRepository";
 import { ITagsSelect } from "../../Model/IProduct";
+import I18n from "i18n-js";
+import langFilterAll from "../../../constants/LangFilterAll";
+import { IConfigRepository } from "../IConfigRepository";
+import configRepository from "./configRepository";
 
 const TAG_STORAGE_KEY = "SLSHOPPINGTAG";
 
@@ -10,15 +14,18 @@ class TagRepository implements ITagRepository {
   tags: ITag[] = [];
   tagActive: ITag | null = null;
   tagFilter: string;
-
-  constructor() {
+  configRepository: IConfigRepository;
+  constructor(
+    configRepository: IConfigRepository) {
     makeAutoObservable(this, {
       setTagAcitve: action.bound,
       setTagAcitveNull: action.bound,
       setTagFilter: action.bound,
     });
     this.load();
-    this.tagFilter = "Todos";
+    this.configRepository = configRepository;
+    //@ts-ignore
+    this.tagFilter = langFilterAll[this.configRepository.lang];
   }
   getTagToSelect(): ITagsSelect[] {
 
@@ -174,5 +181,4 @@ class TagRepository implements ITagRepository {
     }
   }
 }
-
-export default new TagRepository();
+export default new TagRepository(configRepository);

@@ -193,7 +193,7 @@ const Navigation: React.FC = () => {
     if (route === "home") {
 
       if (ListRepository.listActive) {
-        ProductRepository.setTagFilter('Todos');
+        ProductRepository.setTagFilter(I18n.t("all"));
         ProductRepository.updateTotal();
         ProductRepository.updateTotalUn();
         ProductRepository.updateTotalWithAmount();

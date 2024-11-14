@@ -30,88 +30,95 @@ interface ItemsListProps {
 }
 
 const Items = ({
-    handleCloseBottomSheetList,
-    setActiveRouteHeader,
-  }: ItemsListProps) => {
-    const { ListRepository, ProductRepository, TagRepository, ConfigRepository } = useStores();
-    const returnToHome = () => {
-      handleCloseBottomSheetList();
-      ProductRepository.setTagFilter('Todos');
-      ProductRepository.updateTotal();
-      ProductRepository.updateTotalUn();
-      ProductRepository.updateTotalWithAmount();
-      ProductRepository.updateTotalWithoutAmount();
-      ListRepository.setListActiveNull();
-      router.push({ pathname: "/home" });
-    };
-
-    useEffect(() => {
-      setActiveRouteHeader({
-        left: (
-          <TouchableHighlight
-            underlayColor={ConfigRepository.color.primary}
-            style={{ marginLeft: 20, marginRight: 10 }}
-            onPress={() => returnToHome()}
-          >
-            <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.white} />
-          </TouchableHighlight>
-        ),
-        name: (
-          <Title color={ConfigRepository.color.white}>{ListRepository?.listActive?.name}</Title>
-        ),
-        right: (
-          <ContainerCP>
-            <CircleProgress
-              activeStrokeColor={ConfigRepository.color.circularHeaderFilled}
-              titleColor={ConfigRepository.color.circularHeaderText}
-              circleBackgroundColor={ConfigRepository.color.circularHeaderBackground}
-              filled={0}
-              progress={
-                ListRepository?.listActive?.totalWithoutAmount
-                  ? ListRepository?.listActive?.totalWithoutAmount
-                  : 0
-              }
-              total={
-                ListRepository?.listActive?.totalUn
-                  ? ListRepository?.listActive?.totalUn
-                  : 0
-              }
-              size={24}
-            />
-          </ContainerCP>
-        ),
-      });
-    }, [
-      ListRepository?.listActive?.totalWithoutAmount,
-      ListRepository?.listActive?.totalUn,
-    ]);
-
-    function validateProducts(
-      productRepository: number,
-      tagRepository: string
-    ): boolean {
-      if (productRepository) {
-        return true;
-      }
-      if (!productRepository && tagRepository) {
-        return true;
-      }
-      return false;
-    }
-    return validateProducts(ProductRepository.products.length, TagRepository.tagFilter) ? (
-      <>
-        <Header
-          background={ConfigRepository.color.backgroundPrimary}
-          bottom={<FilterButtons
-            filter={TagRepository.tagFilter}
-            tags={ListRepository.listActive?.tags ?? []}
-          />}
-        />
-        <ItemsView lists={ProductRepository.products}/>
-      </>
-    ) : (
-      <EmptyList mensage={I18n.t("noItemsInTheList")} />
-    );
+  handleCloseBottomSheetList,
+  setActiveRouteHeader,
+}: ItemsListProps) => {
+  const { ListRepository, ProductRepository, TagRepository, ConfigRepository } = useStores();
+  const returnToHome = () => {
+    handleCloseBottomSheetList();
+    ProductRepository.setTagFilter(I18n.t("all"));
+    ProductRepository.updateTotal();
+    ProductRepository.updateTotalUn();
+    ProductRepository.updateTotalWithAmount();
+    ProductRepository.updateTotalWithoutAmount();
+    ListRepository.setListActiveNull();
+    router.push({ pathname: "/home" });
   };
+
+  useEffect(() => {
+    setActiveRouteHeader({
+      left: (
+        <TouchableHighlight
+          underlayColor={ConfigRepository.color.primary}
+          style={{ marginLeft: 20, marginRight: 10 }}
+          onPress={() => returnToHome()}
+        >
+          <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.white} />
+        </TouchableHighlight>
+      ),
+      name: (
+        <Title color={ConfigRepository.color.white}>{ListRepository?.listActive?.name}</Title>
+      ),
+      right: (
+        <ContainerCP>
+          <CircleProgress
+            activeStrokeColor={ConfigRepository.color.circularHeaderFilled}
+            titleColor={ConfigRepository.color.circularHeaderText}
+            circleBackgroundColor={ConfigRepository.color.circularHeaderBackground}
+            filled={0}
+            progress={
+              ListRepository?.listActive?.totalWithoutAmount
+                ? ListRepository?.listActive?.totalWithoutAmount
+                : 0
+            }
+            total={
+              ListRepository?.listActive?.totalUn
+                ? ListRepository?.listActive?.totalUn
+                : 0
+            }
+            size={24}
+          />
+        </ContainerCP>
+      ),
+    });
+  }, [
+    ListRepository?.listActive?.totalWithoutAmount,
+    ListRepository?.listActive?.totalUn,
+  ]);
+
+  const validateFilterButtos = (products: number): React.ReactNode => {
+    if (products > 0) {
+      return <FilterButtons
+        filter={TagRepository.tagFilter}
+        tags={ListRepository.listActive?.tags ?? []}
+      />
+    }
+    return <></>
+  }
+  const validateProducts = (
+    productRepository: number,
+    tagRepository: string
+  ): boolean => {
+    if (productRepository) {
+      return true;
+    }
+    if (!productRepository && tagRepository != I18n.t("all")) {
+      return true;
+    }
+    return false;
+  }
+
+  return validateProducts(ProductRepository.products.length, TagRepository.tagFilter) ? (
+    <>
+      <Header
+        background={ConfigRepository.color.backgroundPrimary}
+        bottom={validateFilterButtos(ProductRepository.products.length)}
+      />
+      <ItemsView lists={ProductRepository.products} />
+    </>
+  ) : (
+    <EmptyList mensage={I18n.t("noItemsInTheList")} />
+  );
+};
 
 export default Items;
