@@ -38,7 +38,7 @@ I18n.locale = I18n.defaultLocale;
 const AppContainer = observer(() => {
   const [active, setActive] = useState(false);
   const [appIsReady, setAppIsReady] = useState(false);
-  const { ListRepository, ProductRepository, ConfigRepository } = useStores();
+  const { ListRepository, ProductRepository, ConfigRepository, TagRepository } = useStores();
 
 
   useEffect(() => {
@@ -71,6 +71,9 @@ const AppContainer = observer(() => {
     ConfigRepository.firstLoad();
     prepare();
   }, []);
+  useEffect(() => {
+    TagRepository.setTagFilter(I18n.t('all'))
+  }, [ConfigRepository.lang]);
 
   if (!appIsReady) {
     return null;

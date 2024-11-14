@@ -10,7 +10,7 @@ import ITag from "../../Model/ITag";
 import { useStores } from "../../context/StoreContext";
 import I18n from "i18n-js";
 import isEqual from "lodash.isequal";
-
+import langFilterAll from '../../../constants/LangFilterAll'
 interface FilterButtonsProps {
   tags: string[];
   filter: string,
@@ -22,7 +22,6 @@ const FilterButtons = ({
 }: FilterButtonsProps) => {
 
   const { TagRepository, ProductRepository, ConfigRepository } = useStores();
-  if (!TagRepository.tagFilter) TagRepository.setTagFilter(I18n.t('all'))
   const renderButton = (item: any) => {
     let tag: any;
     if (item.item !== I18n.t("all")) {
@@ -35,22 +34,24 @@ const FilterButtons = ({
       ProductRepository.setTagFilter(tag.name);
     };
 
+    console.log("filter", filter)
+    console.log("tag", tag)
     return tag?.name !== "" ? (
       <Styled.ButtonContainer>
         <Button
           onPress={handlePress}
           border={
-            TagRepository.tagFilter === tag?.name
+            filter == tag?.name
               ? ConfigRepository.color.filterButtonActiveBorder
               : ConfigRepository.color.filterButtonBorder
           }
           background={
-            TagRepository.tagFilter === tag?.name
+            filter == tag?.name
               ? ConfigRepository.color.filterButtonActiveBackground
               : ConfigRepository.color.filterButtonBackground
           }
           textColor={
-            TagRepository.tagFilter === tag?.name
+            filter == tag?.name
               ? ConfigRepository.color.filterButtonActiveText
               : ConfigRepository.color.filterButtonText
           }

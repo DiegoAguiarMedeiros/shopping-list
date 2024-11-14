@@ -17,7 +17,6 @@ import { IAmountRepository } from "../IAmountRepository";
 import IAmount from "../../Model/IAmount";
 import IMMKVStorage from "../../Service/IMMKVStorage";
 import I18n from "i18n-js";
-import langFilterAll from "../../../constants/LangFilterAll";
 import { IConfigRepository } from "../IConfigRepository";
 
 const PRODUCT_STORAGE_KEY = "SLSHOPPINGPRODUCT";

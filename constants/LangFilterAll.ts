@@ -1,1 +1,1 @@
-export default { en: 'All', es: 'Todo', pt: 'Todos' }
+export default ['All','Todo','Todos']

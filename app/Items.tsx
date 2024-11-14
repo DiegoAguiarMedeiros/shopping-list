@@ -102,7 +102,7 @@ const Items = ({
     if (productRepository) {
       return true;
     }
-    if (!productRepository && tagRepository != I18n.t("all")) {
+    if (!productRepository && tagRepository && tagRepository != I18n.t("all")) {
       return true;
     }
     return false;

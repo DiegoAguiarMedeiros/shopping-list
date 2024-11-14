@@ -25,7 +25,7 @@ class TagRepository implements ITagRepository {
     this.load();
     this.configRepository = configRepository;
     //@ts-ignore
-    this.tagFilter = langFilterAll[this.configRepository.lang];
+    this.tagFilter = 'All';
   }
   getTagToSelect(): ITagsSelect[] {
 
