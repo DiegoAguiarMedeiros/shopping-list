@@ -7,6 +7,7 @@ import I18n from "i18n-js";
 import langFilterAll from "../../../constants/LangFilterAll";
 import { IConfigRepository } from "../IConfigRepository";
 import configRepository from "./configRepository";
+import { ISortArrayOfObjects, sortArrayOfObjects } from "../../utils/functions";
 
 const TAG_STORAGE_KEY = "SLSHOPPINGTAG";
 
@@ -14,17 +15,15 @@ class TagRepository implements ITagRepository {
   tags: ITag[] = [];
   tagActive: ITag | null = null;
   tagFilter: string;
-  configRepository: IConfigRepository;
-  constructor(
-    configRepository: IConfigRepository) {
+  sortArrayOfObjects: ISortArrayOfObjects;
+  constructor(sortArrayOfObjects: ISortArrayOfObjects) {
     makeAutoObservable(this, {
       setTagAcitve: action.bound,
       setTagAcitveNull: action.bound,
       setTagFilter: action.bound,
     });
+    this.sortArrayOfObjects = sortArrayOfObjects;
     this.load();
-    this.configRepository = configRepository;
-    //@ts-ignore
     this.tagFilter = 'All';
   }
   getTagToSelect(): ITagsSelect[] {
@@ -134,7 +133,7 @@ class TagRepository implements ITagRepository {
           if (item) result.push(item);
         });
       }
-      return result;
+      return this.sortArrayOfObjects(result, "name");
     } catch (error) {
       console.error("Failed to get all items:", error);
       return [];
@@ -181,4 +180,4 @@ class TagRepository implements ITagRepository {
     }
   }
 }
-export default new TagRepository(configRepository);
+export default new TagRepository(sortArrayOfObjects);

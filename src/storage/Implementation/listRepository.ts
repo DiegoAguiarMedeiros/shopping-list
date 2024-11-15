@@ -4,6 +4,7 @@ import storageMMKV from "../../Service/Implementation/MMKVStorage";
 import { IListRepository } from "../IListRepository";
 import UUIDGenerator from "react-native-uuid";
 import { IProduct } from "../../Model/IProduct";
+import { ISortArrayOfObjects, sortArrayOfObjects } from "../../utils/functions";
 
 const LIST_STORAGE_KEY: string = "SLSHOPPINGLIST";
 const LIST_ARCHIVED_STORAGE_KEY: string = "SLSHOPPINGLISTARCHIVED";
@@ -13,13 +14,17 @@ class ListRepository implements IListRepository {
   listActive: IList | null = null;
   listsArchived: IList[] = [];
   listArchivedActive: IList | null = null;
+  sortArrayOfObjects: ISortArrayOfObjects;
 
 
-  constructor() {
+  constructor(sortArrayOfObjects: ISortArrayOfObjects) {
     makeAutoObservable(this, {
       setListActive: action.bound,
       setListActiveNull: action.bound,
+
     });
+
+    this.sortArrayOfObjects = sortArrayOfObjects;
     this.load();
     this.loadArchived();
   }
@@ -197,7 +202,7 @@ class ListRepository implements IListRepository {
           if (item) result.push(item);
         });
       }
-      return result;
+      return this.sortArrayOfObjects(result, "name");;
     } catch (error) {
       console.error("Failed to get all items:", error);
       return [];
@@ -271,4 +276,4 @@ class ListRepository implements IListRepository {
   }
 }
 
-export default new ListRepository();
+export default new ListRepository(sortArrayOfObjects);

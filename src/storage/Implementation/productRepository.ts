@@ -291,7 +291,7 @@ class ProductRepository implements IProductRepository {
           }
         });
       }
-      return result;
+      return this.sortArrayOfObjects(result, "name");
     } catch (error) {
       console.error("Failed to get all items:", error);
       return [];
@@ -309,7 +309,7 @@ class ProductRepository implements IProductRepository {
           }
         });
       }
-      return result;
+      return this.sortArrayOfObjects(result, "name");
     } catch (error) {
       console.error("Failed to get all items:", error);
       return [];
