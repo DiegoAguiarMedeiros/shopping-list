@@ -22,6 +22,7 @@ const FilterButtons = ({
 }: FilterButtonsProps) => {
 
   const { TagRepository, ProductRepository, ConfigRepository } = useStores();
+  
   const renderButton = (item: any) => {
     let tag: any;
     if (item.item !== I18n.t("all")) {
@@ -33,9 +34,6 @@ const FilterButtons = ({
     const handlePress = () => {
       ProductRepository.setTagFilter(tag.name);
     };
-
-    console.log("filter", filter)
-    console.log("tag", tag)
     return tag?.name !== "" ? (
       <Styled.ButtonContainer>
         <Button

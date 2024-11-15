@@ -18,7 +18,7 @@ import IAmount from "../../Model/IAmount";
 import IMMKVStorage from "../../Service/IMMKVStorage";
 import I18n from "i18n-js";
 import { IConfigRepository } from "../IConfigRepository";
-
+import langFilterAll from '../../../constants/LangFilterAll';
 const PRODUCT_STORAGE_KEY = "SLSHOPPINGPRODUCT";
 
 class ProductRepository implements IProductRepository {
@@ -28,6 +28,7 @@ class ProductRepository implements IProductRepository {
   listRepository: IListRepository;
   configRepository: IConfigRepository;
   amountRepository: IAmountRepository;
+  langFilterAll: string[] = [];
   sortArrayOfObjects: ISortArrayOfObjects;
   storageMMKV: IMMKVStorage;
 
@@ -38,12 +39,14 @@ class ProductRepository implements IProductRepository {
     amountRepository: IAmountRepository,
     storageMMKV: IMMKVStorage,
     sortArrayOfObjects: ISortArrayOfObjects,
+    langFilterAll: string[]
   ) {
     this.tagRepository = tagRepository;
     this.listRepository = listRepository;
     this.configRepository = configRepository;
     this.amountRepository = amountRepository;
     this.storageMMKV = storageMMKV;
+    this.langFilterAll = langFilterAll;
     this.sortArrayOfObjects = sortArrayOfObjects;
     makeAutoObservable(this, {
       load: action.bound,
@@ -90,7 +93,7 @@ class ProductRepository implements IProductRepository {
   setTagFilter(tag: string): void {
     this.tagRepository.setTagFilter(tag);
     this.products = this.getFilteredItems();
-    if (tag != this.tagRepository.tagFilter) {
+    if (!this.langFilterAll.includes(tag)) {
       const tagFilter = this.tagRepository.getTagUuidByName(tag);
       this.products = this.products.filter(product => product.tag == tagFilter);
     }
@@ -390,6 +393,7 @@ export default new ProductRepository(
   configRepository,
   amountRepository,
   storageMMKV,
-  sortArrayOfObjects
+  sortArrayOfObjects,
+  langFilterAll
 );
 

@@ -35,6 +35,7 @@ const CustomFlatList = ({
       setBottomSheetProps={setBottomSheetProps}
       list={item}
       theme={ConfigRepository.theme}
+      colors={ConfigRepository.colors}
     />
   );
 

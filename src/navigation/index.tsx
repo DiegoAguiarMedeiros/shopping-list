@@ -407,7 +407,10 @@ const Navigation: React.FC = () => {
               <TouchableHighlight
                 underlayColor={ConfigRepository.color.primary}
                 style={{ marginLeft: 20, marginRight: 10 }}
-                onPress={() => router.push({ pathname: "home" })}
+                onPress={() => {
+                  setActiveRoute("home");
+                  router.push({ pathname: "home" });
+                }}
               >
                 <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.white} />
               </TouchableHighlight>

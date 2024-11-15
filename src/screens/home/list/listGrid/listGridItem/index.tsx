@@ -19,7 +19,7 @@ import {
 import I18n from "i18n-js";
 import { useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { colorTheme } from "../../../../../../constants/Colors";
+import { ColorList, colorTheme } from "../../../../../../constants/Colors";
 import { IProduct } from "../../../../../Model/IProduct";
 import React from "react";
 import { useListViewModel } from "../../../../../viewmodels/List/ListViewModel";
@@ -28,7 +28,8 @@ interface ItemProps {
   list: IList;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
-  theme: 'dark' | 'light'
+  theme: 'dark' | 'light',
+  colors: ColorList
 }
 
 const ListGridItem = React.memo(
@@ -36,7 +37,8 @@ const ListGridItem = React.memo(
     handleCloseBottomSheet,
     setBottomSheetProps,
     list,
-    theme
+    theme,
+    colors
   }: Readonly<ItemProps>) => {
     const colorScheme = useColorScheme();
     const router = useRouter();
@@ -61,7 +63,6 @@ const ListGridItem = React.memo(
     const totalWithoutAmount = list.totalWithoutAmount
       ? list.totalWithoutAmount
       : 0;
-
     const handleCloseBottomSheetProductList = () => {
       setBottomSheetProps({
         children: (
@@ -290,7 +291,7 @@ const ListGridItem = React.memo(
     );
   },
   (prevProps, nextProps) => {
-    return isEqual(prevProps.list, nextProps.list) && isEqual(prevProps.theme, nextProps.theme);
+    return isEqual(prevProps.list, nextProps.list) && isEqual(prevProps.theme, nextProps.theme) && isEqual(prevProps.colors, nextProps.colors);
   }
 );
 
