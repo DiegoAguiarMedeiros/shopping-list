@@ -1,5 +1,5 @@
 // views/ListView.tsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import isEqual from "lodash.isequal";
 import {
   View,
@@ -28,33 +28,60 @@ interface ItemsViewProps {
 const CustomFlatList = React.memo(
   ({ lists }: ItemsViewProps) => {
     const { ListRepository, ConfigRepository } = useStores();
+    const flatListRef = useRef<FlatList>(null);
     const [active, setActive] = useState("");
-    const handleOpen = (uuid: string) => {
+    const handleOpen = (uuid: string, index: number) => {
+      scrollToIndex(index)
       setActive(uuid);
     };
     const handleClose = () => {
       setActive("");
     };
 
-    const renderItem: ListRenderItem<IProduct> = ({ item }) => (
+    const ITEM_HEIGHT = 80; // Altura do item na lista (ajuste conforme necessário)
+
+    const scrollToIndex = (index: number) => {
+      flatListRef.current?.scrollToIndex({ index, animated: true });
+    };
+
+
+
+
+    const renderItem: ListRenderItem<IProduct> = ({ item, index }) => (
       <ListGridItem
         item={item}
         listId={ListRepository.listActive ? ListRepository.listActive.uuid : ""}
         handleOpen={handleOpen}
         handleClose={handleClose}
         active={active === item.uuid}
+        index={index}
       />
     );
+
 
     return (
       <Container background={ConfigRepository.color.backgroundPrimary}>
         <ContainerInner height="95" background={ConfigRepository.color.backgroundPrimary}>
           <FlatList
+            ref={flatListRef}
             data={lists}
             renderItem={renderItem}
             keyExtractor={(item) => "ListGridItem-" + item.uuid}
             ListFooterComponent={<View style={{ height: 250 }} />}
+            getItemLayout={(data, index) => ({
+              length: ITEM_HEIGHT,
+              offset: ITEM_HEIGHT * index,
+              index,
+            })}
+            onScrollToIndexFailed={(info) => {
+              flatListRef.current?.scrollToOffset({
+                offset: info.averageItemLength * info.index,
+                animated: true,
+              });
+            }}
           />
+
+
           <Total
             height={5}
             total={

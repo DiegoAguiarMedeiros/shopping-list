@@ -26,9 +26,10 @@ import { useStores } from "../../../../context/StoreContext";
 interface ListProps {
   item: IProduct;
   listId: string;
-  handleOpen: (uuid: string) => void;
+  handleOpen: (uuid: string, index: number) => void;
   handleClose: () => void;
   active: boolean;
+  index: number;
 }
 
 function ListGridItem({
@@ -37,6 +38,7 @@ function ListGridItem({
   handleOpen,
   handleClose,
   active,
+  index,
 }: ListProps) {
   const colorScheme = useColorScheme();
   const listProductUuid = `${listId}-${item.uuid}`;
@@ -197,7 +199,7 @@ function ListGridItem({
       rightThreshold={100}
     >
       <GridItemInner
-        onPress={() => handleOpen(item.uuid)}
+        onPress={() => handleOpen(item.uuid, index)}
         underlayColor={ConfigRepository.color.itemListBackgroundUnderlay}
         borderColor={ConfigRepository.color.itemListBackgroundBorder}
         background={ConfigRepository.color.itemListBackground}
@@ -250,7 +252,7 @@ function ListGridItem({
           <GridItemWrapperInner width={10} height={100}>
             <Title color={ConfigRepository.color.text} align="right">
               <FontAwesome
-                onPress={() => handleOpen(item.uuid)}
+                onPress={() => handleOpen(item.uuid, index)}
                 size={28}
                 style={{ marginBottom: -3 }}
                 name="angle-down"
