@@ -23,7 +23,6 @@ const PRODUCT_STORAGE_KEY = "SLSHOPPINGPRODUCT";
 
 class ProductRepository implements IProductRepository {
   products: IProduct[] = [];
-  allProducts: IProduct[] = [];
   tagRepository: ITagRepository;
   listRepository: IListRepository;
   configRepository: IConfigRepository;
@@ -54,12 +53,10 @@ class ProductRepository implements IProductRepository {
     });
 
     this.load();
-    this.loadAll();
   }
 
   generateLastPrices(uuid: string): void {
-    this.loadAll();
-    this.allProducts.map(product => {
+    this.products.map(product => {
       const lastprice = this.calculateAverageAmount(product.amount);
       if (Number(lastprice) > 0) this.setLastPrice(product.uuid, lastprice)
     })
@@ -92,7 +89,7 @@ class ProductRepository implements IProductRepository {
 
   setTagFilter(tag: string): void {
     this.tagRepository.setTagFilter(tag);
-    this.products = this.getFilteredItems();
+    this.products = this.getAllItems();
     if (!this.langFilterAll.includes(tag)) {
       const tagFilter = this.tagRepository.getTagUuidByName(tag);
       this.products = this.products.filter(product => product.tag == tagFilter);
@@ -133,12 +130,9 @@ class ProductRepository implements IProductRepository {
   }
 
   load(): void {
-    this.products = this.getFilteredItems();
+    this.products = this.getAllItems();
   }
 
-  loadAll(): void {
-    this.allProducts = this.getAllItems();
-  }
   addItemByUuid(item: IProduct): void {
     try {
       if (!this.itemExists(item.uuid)) {
@@ -157,7 +151,6 @@ class ProductRepository implements IProductRepository {
           if (tag) currentItem.tag = tag;
           this.storageMMKV.set(uuid, JSON.stringify(currentItem));
           this.load();
-          this.loadAll();
         }
       }
     } catch (error) {
@@ -182,7 +175,6 @@ class ProductRepository implements IProductRepository {
         currentData.push(item.uuid);
         this.addItemsToStorage(JSON.stringify(currentData));
         this.load();
-        this.loadAll();
       }
     } catch (error) {
       console.error("Failed to add item:", error);
@@ -257,7 +249,7 @@ class ProductRepository implements IProductRepository {
     this.listRepository.updateTotalWithoutAmount(total);
   }
 
-  getFilteredItems(): IProduct[] {
+  getAllItems(): IProduct[] {
     try {
       const currentData = this.getAllItemsMap();
       const result: IProduct[] = [];
@@ -287,24 +279,6 @@ class ProductRepository implements IProductRepository {
             )
               result.push(item);
           } else if (item) {
-            result.push(item);
-          }
-        });
-      }
-      return this.sortArrayOfObjects(result, "name");
-    } catch (error) {
-      console.error("Failed to get all items:", error);
-      return [];
-    }
-  }
-  getAllItems(): IProduct[] {
-    try {
-      const currentData = this.getAllItemsMap();
-      const result: IProduct[] = [];
-      if (currentData) {
-        currentData.forEach((uuid) => {
-          const item = this.getItem(uuid);
-          if (item) {
             result.push(item);
           }
         });
@@ -370,7 +344,6 @@ class ProductRepository implements IProductRepository {
       this.addItemsToStorage(JSON.stringify(newData));
       this.removeItemByUuid(uuid);
       this.load();
-      this.loadAll();
     } catch (error) {
       console.error("Failed to remove item:", error);
     }

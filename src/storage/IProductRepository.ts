@@ -11,7 +11,6 @@ import { IListRepository } from "./IListRepository";
 import { ITagRepository } from "./ITagRepository";
 
 export interface IProductRepository {
-  allProducts: IProduct[];
   products: IProduct[];
   tagRepository: ITagRepository;
   listRepository: IListRepository;
@@ -19,12 +18,10 @@ export interface IProductRepository {
   sortArrayOfObjects: ISortArrayOfObjects;
   storageMMKV: IMMKVStorage;
   load(): void;
-  loadAll(): void;
   addItemByUuid(item: IProduct): void;
   addItem(item: IProduct): void;
   addItemsToStorage(items: string): void;
   getItem(uuid: string): IProduct | undefined;
-  getFilteredItems(): IProduct[];
   getAllItems(): IProduct[];
   editItem(uuid: string, name: string, tag?: string): void;
   removeItem(uuid: string): void;
