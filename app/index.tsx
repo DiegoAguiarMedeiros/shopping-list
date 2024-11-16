@@ -84,8 +84,9 @@ const AppContainer = observer(() => {
     setOnboarding(true);
   };
 
-  ListRepository.lists
-  ProductRepository.products
+  ListRepository.lists;
+  ProductRepository.products;
+  TagRepository.tags;
   ConfigRepository.theme;
   ConfigRepository.colors;
   ConfigRepository.color;
