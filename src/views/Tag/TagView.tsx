@@ -47,6 +47,8 @@ const CustomFlatList = React.memo(
             data={tags}
             renderItem={renderItem}
             keyExtractor={(item) => "ListGridItem-" + item.uuid}
+            ListFooterComponent={<View style={{ height: 250 }} />}
+
           />
         </ContainerInner>
       </Container>

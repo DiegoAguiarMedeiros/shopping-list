@@ -57,7 +57,6 @@ class TagRepository implements ITagRepository {
 
   load(): void {
     this.tags = this.getAllItems();
-    this.tags.map(tag => console.log("this.itemExistsByName(tag?.name)", this.itemExistsByName(tag?.name)))
   }
 
   increaseProductQTD(uuid: string): void {
@@ -185,7 +184,6 @@ class TagRepository implements ITagRepository {
   itemExists(uuid: string): boolean {
     try {
       const currentData = this.getAllItemsMap();
-      console.log("currentData", currentData)
       return !!currentData.includes(uuid);
     } catch (error) {
       console.error("Failed to check if item exists:", error);
@@ -194,7 +192,6 @@ class TagRepository implements ITagRepository {
   }
   itemExistsByName(name: string): boolean {
     try {
-      console.log("name", name)
       const currentData = this.getAllItems();
       return currentData.some(item => item.name === name);
     } catch (error) {

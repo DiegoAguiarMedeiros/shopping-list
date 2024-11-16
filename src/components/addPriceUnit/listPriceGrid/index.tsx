@@ -6,12 +6,10 @@ import { colorTheme } from "../../../../constants/Colors";
 interface ListProps {
   item: IAmount[];
   listProductUuid: string;
-  totalUpdate: (total: number, amount: number, un: number) => void;
 }
 
 export default function ListPriceGrid({
   item,
-  totalUpdate,
   listProductUuid,
 }: Readonly<ListProps>) {
   return (
@@ -20,7 +18,6 @@ export default function ListPriceGrid({
         {item.map((itemAmount: IAmount) => {
           return itemAmount ? (
             <ListPriceItem
-              totalUpdate={totalUpdate}
               listProductUuid={listProductUuid}
               itemAmount={itemAmount}
               key={itemAmount.uuid}

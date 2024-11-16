@@ -43,12 +43,6 @@ const CustomFlatList = React.memo(
         handleOpen={handleOpen}
         handleClose={handleClose}
         active={active === item.uuid}
-        totalUpdate={function (
-          total: number,
-          amount: number,
-          un: number
-        ): void { }}
-        setList={function (value: React.SetStateAction<IList>): void { }}
       />
     );
 
@@ -59,6 +53,7 @@ const CustomFlatList = React.memo(
             data={lists}
             renderItem={renderItem}
             keyExtractor={(item) => "ListGridItem-" + item.uuid}
+            ListFooterComponent={<View style={{ height: 250 }} />}
           />
           <Total
             height={5}
@@ -84,6 +79,6 @@ const CustomFlatList = React.memo(
   }
 );
 
-export const ItemsView = ({  lists }: ItemsViewProps) => {
-  return <CustomFlatList lists={lists}  />;
+export const ItemsView = ({ lists }: ItemsViewProps) => {
+  return <CustomFlatList lists={lists} />;
 };

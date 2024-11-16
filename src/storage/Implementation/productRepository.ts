@@ -374,7 +374,6 @@ class ProductRepository implements IProductRepository {
   }
   itemExistsByName(name: string): boolean {
     try {
-      console.log("name", name)
       const currentData = this.getAllItems();
       return currentData.some(item => item.name === name);
     } catch (error) {

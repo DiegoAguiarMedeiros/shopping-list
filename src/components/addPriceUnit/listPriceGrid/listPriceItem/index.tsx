@@ -25,12 +25,10 @@ import { useStores } from "../../../../context/StoreContext";
 interface ListProps {
   itemAmount: IAmount;
   listProductUuid: string;
-  totalUpdate: (total: number, amount: number, un: number) => void;
 }
 
 export default function ListPriceGrid({
   itemAmount,
-  totalUpdate,
   listProductUuid,
 }: Readonly<ListProps>) {
 
@@ -82,13 +80,9 @@ export default function ListPriceGrid({
         </GridItemWrapperInner>
         <GridItemWrapperInner width={30} height={100}>
           <AddQtd
-            totalUpdate={totalUpdate}
             listProductUuid={listProductUuid}
-            handleUpdateListArrItems={handleUpdateListArrItems}
             amountItem={itemAmount}
             selectedValueSwitch={selectedValueSwitch}
-            newItemAmount={newItemAmount}
-            setNewItemAmount={setNewItemAmount}
           />
         </GridItemWrapperInner>
         <GridItemWrapperInner width={30} height={100}>

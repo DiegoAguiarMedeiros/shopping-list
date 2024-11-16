@@ -19,12 +19,10 @@ import UUIDGenerator from "react-native-uuid";
 interface AddPriceUnitProps {
   amounts: IAmount[];
   listProductUuid: string;
-  totalUpdate: (total: number, amount: number, un: number) => void;
 }
 
 export default function AddPriceUnit({
   listProductUuid,
-  totalUpdate,
   amounts,
 }: Readonly<AddPriceUnitProps>) {
   const { AmountRepository, ProductRepository, ConfigRepository } = useStores();
@@ -58,7 +56,6 @@ export default function AddPriceUnit({
         >
           {amounts.length > 0 ? (
             <ListPriceGrid
-              totalUpdate={totalUpdate}
               listProductUuid={listProductUuid}
               item={amounts}
               key={"ListPriceGrid-" + listProductUuid}

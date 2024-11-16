@@ -15,19 +15,11 @@ interface ListPriceGridProps {
   amountItem: IAmount;
   listProductUuid: string;
   selectedValueSwitch: boolean;
-  newItemAmount: IAmount;
-  setNewItemAmount: React.Dispatch<React.SetStateAction<IAmount>>;
-  handleUpdateListArrItems: (amount: IAmount) => void;
-  totalUpdate: (total: number, amount: number, un: number) => void;
 }
 
 export default function ListPriceGrid({
   amountItem,
   selectedValueSwitch,
-  newItemAmount,
-  setNewItemAmount,
-  handleUpdateListArrItems,
-  totalUpdate,
   listProductUuid,
 }: Readonly<ListPriceGridProps>) {
   const { AmountRepository, ProductRepository } = useStores();

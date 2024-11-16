@@ -29,8 +29,6 @@ interface ListProps {
   handleOpen: (uuid: string) => void;
   handleClose: () => void;
   active: boolean;
-  totalUpdate: (total: number, amount: number, un: number) => void;
-  setList: React.Dispatch<React.SetStateAction<IList>>;
 }
 
 function ListGridItem({
@@ -39,8 +37,6 @@ function ListGridItem({
   handleOpen,
   handleClose,
   active,
-  totalUpdate,
-  setList,
 }: ListProps) {
   const colorScheme = useColorScheme();
   const listProductUuid = `${listId}-${item.uuid}`;
@@ -187,7 +183,6 @@ function ListGridItem({
             <GridItemWrapperCol width={100}>
               <AddPriceUnit
                 amounts={item.amount}
-                totalUpdate={totalUpdate}
                 listProductUuid={listProductUuid}
               />
             </GridItemWrapperCol>
