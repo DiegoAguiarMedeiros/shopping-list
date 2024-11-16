@@ -351,6 +351,7 @@ const Navigation: React.FC = () => {
         >
           {() => (
             <Items
+              route={activeRoute}
               setActiveRouteHeader={setActiveRouteHeader}
               handleCloseBottomSheetList={handleCloseBottomSheetList}
             />

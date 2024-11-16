@@ -27,11 +27,13 @@ interface ItemsListProps {
       right: React.ReactNode | null;
     }>
   >;
+  route: string
 }
 
 const Items = ({
   handleCloseBottomSheetList,
   setActiveRouteHeader,
+  route
 }: ItemsListProps) => {
   const { ListRepository, ProductRepository, TagRepository, ConfigRepository } = useStores();
   const returnToHome = () => {
@@ -48,43 +50,46 @@ const Items = ({
   useEffect(() => {
     ProductRepository.load();
   }, [])
-  
+
   useEffect(() => {
-    setActiveRouteHeader({
-      left: (
-        <TouchableHighlight
-          underlayColor={ConfigRepository.color.primary}
-          style={{ marginLeft: 20, marginRight: 10 }}
-          onPress={() => returnToHome()}
-        >
-          <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.white} />
-        </TouchableHighlight>
-      ),
-      name: (
-        <Title color={ConfigRepository.color.white}>{ListRepository?.listActive?.name}</Title>
-      ),
-      right: (
-        <ContainerCP>
-          <CircleProgress
-            activeStrokeColor={ConfigRepository.color.circularHeaderFilled}
-            titleColor={ConfigRepository.color.circularHeaderText}
-            circleBackgroundColor={ConfigRepository.color.circularHeaderBackground}
-            filled={0}
-            progress={
-              ListRepository?.listActive?.totalWithoutAmount
-                ? ListRepository?.listActive?.totalWithoutAmount
-                : 0
-            }
-            total={
-              ListRepository?.listActive?.totalUn
-                ? ListRepository?.listActive?.totalUn
-                : 0
-            }
-            size={24}
-          />
-        </ContainerCP>
-      ),
-    });
+    if (route == 'home') {
+      setActiveRouteHeader({
+        left: (
+          <TouchableHighlight
+            underlayColor={ConfigRepository.color.primary}
+            style={{ marginLeft: 20, marginRight: 10 }}
+            onPress={() => returnToHome()}
+          >
+            <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.white} />
+          </TouchableHighlight>
+        ),
+        name: (
+          <Title color={ConfigRepository.color.white}>{ListRepository?.listActive?.name}</Title>
+        ),
+        right: (
+          <ContainerCP>
+            <CircleProgress
+              activeStrokeColor={ConfigRepository.color.circularHeaderFilled}
+              titleColor={ConfigRepository.color.circularHeaderText}
+              circleBackgroundColor={ConfigRepository.color.circularHeaderBackground}
+              filled={0}
+              progress={
+                ListRepository?.listActive?.totalWithoutAmount
+                  ? ListRepository?.listActive?.totalWithoutAmount
+                  : 0
+              }
+              total={
+                ListRepository?.listActive?.totalUn
+                  ? ListRepository?.listActive?.totalUn
+                  : 0
+              }
+              size={24}
+            />
+          </ContainerCP>
+        ),
+      });
+    }
+
   }, [
     ListRepository?.listActive?.totalWithoutAmount,
     ListRepository?.listActive?.totalUn,

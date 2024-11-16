@@ -71,10 +71,10 @@ class ProductRepository implements IProductRepository {
     const product = this.getItem(uuid);
     if (product) {
       if (product.lastPrices) {
-        product.lastPrices?.push(price);
+        product.lastPrices?.unshift(price);
       } else {
         product.lastPrices = [];
-        product.lastPrices.push(price);
+        product.lastPrices.unshift(price);
 
       }
       this.storageMMKV.set(product.uuid, JSON.stringify(product));
