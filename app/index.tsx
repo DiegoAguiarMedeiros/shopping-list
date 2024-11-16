@@ -85,6 +85,7 @@ const AppContainer = observer(() => {
   };
 
   ListRepository.lists;
+  ListRepository.listsArchived;
   ProductRepository.products;
   TagRepository.tags;
   ConfigRepository.theme;

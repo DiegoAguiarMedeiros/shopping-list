@@ -261,7 +261,7 @@ class ListRepository implements IListRepository {
       const currentData = this.getAllItemsMap(LIST_ARCHIVED_STORAGE_KEY);
       const newData = currentData.filter((item) => item != uuid);
       this.addItemsToStorage(JSON.stringify(newData), LIST_ARCHIVED_STORAGE_KEY);
-      this.load();
+      this.loadArchived();
     } catch (error) {
       console.error("Failed to remove item from list:", error);
     }
