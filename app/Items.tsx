@@ -46,6 +46,10 @@ const Items = ({
   };
 
   useEffect(() => {
+    ProductRepository.load();
+  }, [])
+  
+  useEffect(() => {
     setActiveRouteHeader({
       left: (
         <TouchableHighlight

@@ -1,6 +1,6 @@
 import Tags from "../src/screens/tags";
 import { BottomSheetProps } from "../src/components/BottomSheet";
-import { useImperativeHandle, useState } from "react";
+import { useEffect, useImperativeHandle, useState } from "react";
 import React from "react";
 import { colorTheme } from "../constants/Colors";
 import { IProduct } from "../src/Model/IProduct";
@@ -18,16 +18,21 @@ interface TagsTabProps {
 }
 
 const TagsTab = ({ setBottomSheetProps, handleCloseBottomSheet }: TagsTabProps) => {
-    const { TagRepository } = useStores();
-    return TagRepository.tags && TagRepository.tags.length > 0 ? (
-      <TagView
-        tags={TagRepository.tags}
-        setBottomSheetProps={setBottomSheetProps}
-        handleCloseBottomSheet={handleCloseBottomSheet}
-      />
-    ) : (
-      <EmptyList  mensage={I18n.t("noCategories")} />
-    );
-  };
+  const { TagRepository, ListRepository } = useStores();
+
+  useEffect(() => {
+    ListRepository.setListActiveNull();
+  }, [])
+
+  return TagRepository.tags && TagRepository.tags.length > 0 ? (
+    <TagView
+      tags={TagRepository.tags}
+      setBottomSheetProps={setBottomSheetProps}
+      handleCloseBottomSheet={handleCloseBottomSheet}
+    />
+  ) : (
+    <EmptyList mensage={I18n.t("noCategories")} />
+  );
+};
 
 export default TagsTab;
