@@ -21,7 +21,7 @@ export interface IProductRepository {
   toast: IToast;
   load(): void;
   addItemByUuid(item: IProduct): void;
-  addItem(item: IProduct): void;
+  addItem(item: IProduct): boolean;
   addItemsToStorage(items: string): void;
   getItem(uuid: string): IProduct | undefined;
   getAllItems(): IProduct[];

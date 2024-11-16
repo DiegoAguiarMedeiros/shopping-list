@@ -172,19 +172,24 @@ class ProductRepository implements IProductRepository {
     }
   }
 
-  addItem(item: IProduct): void {
+  addItem(item: IProduct): boolean {
 
     try {
-      if (!this.itemExists(item.uuid)) {
+      if (!this.itemExistsByName(item.name)) {
         const currentData = this.getAllItemsMap();
         this.addItemByUuid(item);
         currentData.push(item.uuid);
         this.addItemsToStorage(JSON.stringify(currentData));
         this.load();
         this.toast.showToast("productCreatedSuccessfully");
+        return true;
+      } else {
+        this.toast.showToast("productNameAlreadyExists");
+        return false;
       }
     } catch (error) {
       console.error("Failed to add item:", error);
+      return false;
     }
   }
 
@@ -362,6 +367,16 @@ class ProductRepository implements IProductRepository {
     try {
       const currentData = this.getAllItemsMap();
       return !!currentData.includes(uuid);
+    } catch (error) {
+      console.error("Failed to check if item exists:", error);
+      return false;
+    }
+  }
+  itemExistsByName(name: string): boolean {
+    try {
+      console.log("name", name)
+      const currentData = this.getAllItems();
+      return currentData.some(item => item.name === name);
     } catch (error) {
       console.error("Failed to check if item exists:", error);
       return false;

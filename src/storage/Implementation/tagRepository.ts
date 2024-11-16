@@ -57,6 +57,7 @@ class TagRepository implements ITagRepository {
 
   load(): void {
     this.tags = this.getAllItems();
+    this.tags.map(tag => console.log("this.itemExistsByName(tag?.name)", this.itemExistsByName(tag?.name)))
   }
 
   increaseProductQTD(uuid: string): void {
@@ -102,12 +103,14 @@ class TagRepository implements ITagRepository {
   addItem(item: ITag): void {
     try {
       const currentData = this.getAllItemsMap();
-      if (!this.itemExists(item.uuid)) {
+      if (!this.itemExistsByName(item.name)) {
         this.addItemByUuid(item);
         currentData.push(item.uuid);
         this.addItemsToStorage(JSON.stringify(currentData));
         this.load();
         this.toast.showToast("categoryCreatedSuccessfully");
+      } else {
+        this.toast.showToast("categoryNameAlreadyExists");
       }
     } catch (error) {
       console.error("Failed to add item:", error);
@@ -182,7 +185,18 @@ class TagRepository implements ITagRepository {
   itemExists(uuid: string): boolean {
     try {
       const currentData = this.getAllItemsMap();
+      console.log("currentData", currentData)
       return !!currentData.includes(uuid);
+    } catch (error) {
+      console.error("Failed to check if item exists:", error);
+      return false;
+    }
+  }
+  itemExistsByName(name: string): boolean {
+    try {
+      console.log("name", name)
+      const currentData = this.getAllItems();
+      return currentData.some(item => item.name === name);
     } catch (error) {
       console.error("Failed to check if item exists:", error);
       return false;

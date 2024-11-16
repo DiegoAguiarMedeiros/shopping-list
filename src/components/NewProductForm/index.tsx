@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { ItemInterface, ListInterface, TagsIterface } from "../../types/types";
 import UUIDGenerator from "react-native-uuid";
 import { Keyboard } from "react-native";
-import { getTags, removeUndefinedFromArray } from "../../utils/functions";
 import { IProduct, ITagsProductsMultiSelect, ITagsSelect } from "../../Model/IProduct";
 import Select from "../InputSelect";
 import I18n from "i18n-js";
@@ -78,8 +77,9 @@ const NewProductForm = ({
         unit: "Kg",
         tag: tagUuid ?? newItem.tag,
       };
-      ProductRepository.addItem(newProduct);
-      TagRepository.increaseProductQTD(tagUuid ?? newItem.tag);
+      if (ProductRepository.addItem(newProduct)) {
+        TagRepository.increaseProductQTD(tagUuid ?? newItem.tag);
+      };
       closeBottomSheet();
     }
   };

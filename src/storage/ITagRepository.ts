@@ -20,6 +20,7 @@ export interface ITagRepository {
   removeItem(uuid: string): void;
   removeItemByUuid(uuid: string): void;
   itemExists(uuid: string): boolean;
+  itemExistsByName(tag: string): boolean;
   setTagAcitve(uuid: string): void;
   setTagAcitveNull(): void;
   setTagFilter(tag: string): void;
