@@ -1,11 +1,13 @@
 import { IList } from "../Model/IList";
 import { IProduct } from "../Model/IProduct";
+import IToast from "../Service/IToast";
 
 export interface IListRepository {
   lists: IList[];
   listActive: IList | null;
   listsArchived: IList[];
   listArchivedActive: IList | null;
+  toast: IToast;
   load(): void;
   loadArchived(): void;
   addItemByUuid(item: IList): void;

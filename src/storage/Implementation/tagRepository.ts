@@ -8,6 +8,8 @@ import langFilterAll from "../../../constants/LangFilterAll";
 import { IConfigRepository } from "../IConfigRepository";
 import configRepository from "./configRepository";
 import { ISortArrayOfObjects, sortArrayOfObjects } from "../../utils/functions";
+import Toast from "../../Service/Implementation/Toast";
+import IToast from "../../Service/IToast";
 
 const TAG_STORAGE_KEY = "SLSHOPPINGTAG";
 
@@ -16,7 +18,11 @@ class TagRepository implements ITagRepository {
   tagActive: ITag | null = null;
   tagFilter: string;
   sortArrayOfObjects: ISortArrayOfObjects;
-  constructor(sortArrayOfObjects: ISortArrayOfObjects) {
+  toast: IToast;
+
+  constructor(sortArrayOfObjects: ISortArrayOfObjects,
+    toast: IToast) {
+    this.toast = toast;
     makeAutoObservable(this, {
       setTagAcitve: action.bound,
       setTagAcitveNull: action.bound,
@@ -86,6 +92,7 @@ class TagRepository implements ITagRepository {
         currentItem.name = name;
         storageMMKV.set(uuid, JSON.stringify(currentItem));
         this.load();
+        this.toast.showToast("categoryEditedSuccessfully");
       }
     } catch (error) {
       console.error("Failed to add item by uuid:", error);
@@ -100,6 +107,7 @@ class TagRepository implements ITagRepository {
         currentData.push(item.uuid);
         this.addItemsToStorage(JSON.stringify(currentData));
         this.load();
+        this.toast.showToast("categoryCreatedSuccessfully");
       }
     } catch (error) {
       console.error("Failed to add item:", error);
@@ -165,6 +173,7 @@ class TagRepository implements ITagRepository {
       this.addItemsToStorage(JSON.stringify(newData));
       this.removeItemByUuid(uuid);
       this.load();
+      this.toast.showToast("categoryDeletedSuccessfully");
     } catch (error) {
       console.error("Failed to remove item:", error);
     }
@@ -180,4 +189,7 @@ class TagRepository implements ITagRepository {
     }
   }
 }
-export default new TagRepository(sortArrayOfObjects);
+export default new TagRepository(
+  sortArrayOfObjects,
+  Toast
+);

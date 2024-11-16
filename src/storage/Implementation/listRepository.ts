@@ -5,6 +5,8 @@ import { IListRepository } from "../IListRepository";
 import UUIDGenerator from "react-native-uuid";
 import { IProduct } from "../../Model/IProduct";
 import { ISortArrayOfObjects, sortArrayOfObjects } from "../../utils/functions";
+import IToast from "../../Service/IToast";
+import Toast from "../../Service/Implementation/Toast";
 
 const LIST_STORAGE_KEY: string = "SLSHOPPINGLIST";
 const LIST_ARCHIVED_STORAGE_KEY: string = "SLSHOPPINGLISTARCHIVED";
@@ -15,9 +17,11 @@ class ListRepository implements IListRepository {
   listsArchived: IList[] = [];
   listArchivedActive: IList | null = null;
   sortArrayOfObjects: ISortArrayOfObjects;
+  toast: IToast;
 
 
-  constructor(sortArrayOfObjects: ISortArrayOfObjects) {
+  constructor(sortArrayOfObjects: ISortArrayOfObjects, toast: IToast) {
+    this.toast = toast;
     makeAutoObservable(this, {
       setListActive: action.bound,
       setListActiveNull: action.bound,
@@ -81,6 +85,7 @@ class ListRepository implements IListRepository {
       list.items = [...list.items, ...items];
       this.listActive = list;
       storageMMKV.set(list.uuid, JSON.stringify(list));
+      this.toast.showToast("productAddedSuccessfully");
     }
   }
   removeItemFromlist(uuid: string): void {
@@ -121,6 +126,7 @@ class ListRepository implements IListRepository {
         currentItem.name = name;
         storageMMKV.set(uuid, JSON.stringify(currentItem));
         this.load();
+        this.toast.showToast("listEditedSuccessfully");
       }
     } catch (error) {
       console.error("Failed to add item by uuid:", error);
@@ -137,6 +143,7 @@ class ListRepository implements IListRepository {
         newList.createAt = new Date().getTime();
         this.addItem(newList);
         this.load();
+        this.toast.showToast("listCopiedSuccessfully");
       }
     } catch (error) {
       console.error("Failed to copy item:", error);
@@ -150,6 +157,7 @@ class ListRepository implements IListRepository {
         currentData.push(item.uuid);
         this.addItemsToStorage(JSON.stringify(currentData), LIST_STORAGE_KEY);
         this.load();
+        this.toast.showToast("listCreatedSuccessfully");
       }
     } catch (error) {
       console.error("Failed to add item:", error);
@@ -159,6 +167,7 @@ class ListRepository implements IListRepository {
   archiveList(uuid: string): void {
     this.removeItemFromList(uuid);
     this.addItemTolistArchived(uuid);
+    this.toast.showToast("listArchivedSuccessfully");
   }
   addItemTolistArchived(uuid: string): void {
     try {
@@ -242,6 +251,7 @@ class ListRepository implements IListRepository {
     try {
       this.removeItemFromList(uuid);
       this.removeItemByUuid(uuid);
+      this.toast.showToast("listDeletedSuccessfully");
     } catch (error) {
       console.error("Failed to remove item:", error);
     }
@@ -260,6 +270,7 @@ class ListRepository implements IListRepository {
     try {
       this.removeItemFromListArchived(uuid);
       this.removeItemByUuid(uuid);
+      this.toast.showToast("archivedListSuccessfullyDeleted");
     } catch (error) {
       console.error("Failed to remove item:", error);
     }
@@ -276,4 +287,4 @@ class ListRepository implements IListRepository {
   }
 }
 
-export default new ListRepository(sortArrayOfObjects);
+export default new ListRepository(sortArrayOfObjects, Toast);

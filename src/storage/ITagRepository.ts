@@ -1,10 +1,12 @@
 import { ITagsSelect } from "../Model/IProduct";
 import ITag from "../Model/ITag";
+import IToast from "../Service/IToast";
 
 export interface ITagRepository {
   tags: ITag[];
   tagActive: ITag | null;
   tagFilter: string;
+  toast: IToast;
   load(): void;
   addItemByUuid(item: ITag): void;
   addItem(item: ITag): void;

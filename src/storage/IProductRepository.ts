@@ -5,6 +5,7 @@ import {
   ITagsProductsMultiSelect,
 } from "../Model/IProduct";
 import IMMKVStorage from "../Service/IMMKVStorage";
+import IToast from "../Service/IToast";
 import { ISortArrayOfObjects } from "../utils/functions";
 import { IAmountRepository } from "./IAmountRepository";
 import { IListRepository } from "./IListRepository";
@@ -17,6 +18,7 @@ export interface IProductRepository {
   amountRepository: IAmountRepository;
   sortArrayOfObjects: ISortArrayOfObjects;
   storageMMKV: IMMKVStorage;
+  toast: IToast;
   load(): void;
   addItemByUuid(item: IProduct): void;
   addItem(item: IProduct): void;

@@ -5,6 +5,8 @@ import IMMKVStorage from "../../Service/IMMKVStorage";
 
 import storageMMKV from "../../Service/Implementation/MMKVStorage";
 import I18n from "i18n-js";
+import IToast from "../../Service/IToast";
+import Toast from "../../Service/Implementation/Toast";
 
 const COLOR_STORAGE_KEY = "SLSHOPPINGCOLOR";
 const THEME_STORAGE_KEY = "SLSHOPPINGTHEME";
@@ -19,8 +21,13 @@ class ConfigRepository implements IConfigRepository {
     color: colorTheme;
     allColors: colors;
     storageMMKV: IMMKVStorage;
-    constructor(allColors: colors,
-        storageMMKV: IMMKVStorage) {
+    toast: IToast;
+    constructor(
+        allColors: colors,
+        storageMMKV: IMMKVStorage,
+        toast: IToast
+    ) {
+        this.toast = toast;
         makeAutoObservable(this, {
             setTheme: action.bound,
             setLang: action.bound,
@@ -94,4 +101,4 @@ class ConfigRepository implements IConfigRepository {
 
 }
 
-export default new ConfigRepository(Colors, storageMMKV);
+export default new ConfigRepository(Colors, storageMMKV, Toast);

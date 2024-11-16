@@ -1,5 +1,6 @@
 import { ColorList, colors, colorTheme } from "../../constants/Colors";
 import IMMKVStorage from "../Service/IMMKVStorage";
+import IToast from "../Service/IToast";
 
 export interface IConfigRepository {
     theme: "light" | "dark";
@@ -9,6 +10,7 @@ export interface IConfigRepository {
     color: colorTheme;
     allColors: colors;
     storageMMKV: IMMKVStorage;
+    toast: IToast;
     firstLoad(): void
     setTheme(theme: string): void;
     setLang(lang: string): void;

@@ -19,6 +19,8 @@ import IMMKVStorage from "../../Service/IMMKVStorage";
 import I18n from "i18n-js";
 import { IConfigRepository } from "../IConfigRepository";
 import langFilterAll from '../../../constants/LangFilterAll';
+import IToast from "../../Service/IToast";
+import Toast from "../../Service/Implementation/Toast";
 const PRODUCT_STORAGE_KEY = "SLSHOPPINGPRODUCT";
 
 class ProductRepository implements IProductRepository {
@@ -30,6 +32,7 @@ class ProductRepository implements IProductRepository {
   langFilterAll: string[] = [];
   sortArrayOfObjects: ISortArrayOfObjects;
   storageMMKV: IMMKVStorage;
+  toast: IToast;
 
   constructor(
     tagRepository: ITagRepository,
@@ -38,8 +41,10 @@ class ProductRepository implements IProductRepository {
     amountRepository: IAmountRepository,
     storageMMKV: IMMKVStorage,
     sortArrayOfObjects: ISortArrayOfObjects,
-    langFilterAll: string[]
+    langFilterAll: string[],
+    toast: IToast
   ) {
+    this.toast = toast;
     this.tagRepository = tagRepository;
     this.listRepository = listRepository;
     this.configRepository = configRepository;
@@ -151,6 +156,7 @@ class ProductRepository implements IProductRepository {
           if (tag) currentItem.tag = tag;
           this.storageMMKV.set(uuid, JSON.stringify(currentItem));
           this.load();
+          this.toast.showToast("productEditedSuccessfully");
         }
       }
     } catch (error) {
@@ -175,6 +181,7 @@ class ProductRepository implements IProductRepository {
         currentData.push(item.uuid);
         this.addItemsToStorage(JSON.stringify(currentData));
         this.load();
+        this.toast.showToast("productCreatedSuccessfully");
       }
     } catch (error) {
       console.error("Failed to add item:", error);
@@ -335,6 +342,7 @@ class ProductRepository implements IProductRepository {
   removeItemFromlist(uuid: string): void {
     this.listRepository.removeItemFromlist(uuid);
     this.load();
+    this.toast.showToast("productDeletedSuccessfully");
   }
 
   removeItem(uuid: string): void {
@@ -344,6 +352,7 @@ class ProductRepository implements IProductRepository {
       this.addItemsToStorage(JSON.stringify(newData));
       this.removeItemByUuid(uuid);
       this.load();
+      this.toast.showToast("productDeletedSuccessfully");
     } catch (error) {
       console.error("Failed to remove item:", error);
     }
@@ -367,6 +376,7 @@ export default new ProductRepository(
   amountRepository,
   storageMMKV,
   sortArrayOfObjects,
-  langFilterAll
+  langFilterAll,
+  Toast
 );
 
