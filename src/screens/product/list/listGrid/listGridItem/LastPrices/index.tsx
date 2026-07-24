@@ -5,6 +5,7 @@ import { Text } from "../../../../../../components/Text";
 import I18n from "i18n-js";
 import { colorTheme } from "../../../../../../../constants/Colors";
 import { useStores } from "../../../../../../context/StoreContext";
+import { FlashList } from "@shopify/flash-list";
 
 interface LastPricesProps {
   lastPrices: string[];
@@ -27,7 +28,7 @@ const LastPrices = ({ lastPrices }: LastPricesProps) => {
   return (
     <Styled.Container>
       <Text color={ConfigRepository.color.textSecondary}>{I18n.t("latestPrices")}</Text>
-      <FlatList
+      <FlashList
         horizontal
         data={lastPrices}
         keyExtractor={(item, index) => String(index)}

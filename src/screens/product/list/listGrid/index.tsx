@@ -28,9 +28,6 @@ export default function ListGrid({
       <ScrollView keyboardShouldPersistTaps="handled">
         {items.map((item: IProduct) => (
           <ListGridItem
-            setProducts={setProducts}
-            productRef={productRef}
-            color={color}
             handleCloseBottomSheet={handleCloseBottomSheet}
             setBottomSheetProps={setBottomSheetProps}
             key={"ListGridItem-" + item.uuid}

@@ -7,7 +7,6 @@ import {
   FlatList,
   TextInput,
   Button,
-  ListRenderItem,
 } from "react-native";
 import { IList } from "../../Model/IList";
 import ListGridItem from "../../screens/listArchived/listGrid/listGridItem";
@@ -20,6 +19,7 @@ import Header from "../../components/Header";
 import { useStores } from "../../context/StoreContext";
 import FilterButtons from "../../components/FilterButtons";
 import Total from "../../components/total";
+import { FlashList, ListRenderItem } from "@shopify/flash-list";
 
 interface ItemsArchivedViewProps {
   lists: IProduct[];
@@ -39,7 +39,7 @@ const CustomFlatList = React.memo(
     return (
       <Container background={ConfigRepository.color.backgroundPrimary}>
         <ContainerInner height="100" background={ConfigRepository.color.backgroundPrimary}>
-          <FlatList
+          <FlashList
             data={lists}
             renderItem={renderItem}
             keyExtractor={(item) => "ListGridItem-" + item.uuid}

@@ -6,7 +6,6 @@ import {
   FlatList,
   TextInput,
   Button,
-  ListRenderItem,
 } from "react-native";
 import { useProductListViewModel } from "../../viewmodels/ProductList/ProductListViewModel";
 import { IList } from "../../Model/IList";
@@ -18,6 +17,7 @@ import ContainerInner from "../../components/ContainerInner";
 import { IProduct } from "../../Model/IProduct";
 import { ItemInterface } from "../../types/types";
 import { useStores } from "../../context/StoreContext";
+import { FlashList, ListRenderItem } from "@shopify/flash-list";
 
 interface ProductListViewProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -44,7 +44,7 @@ const CustomFlatList = React.memo(
     return (
       <Container background={ConfigRepository.color.backgroundPrimary}>
         <ContainerInner background={ConfigRepository.color.backgroundPrimary}>
-          <FlatList
+          <FlashList
             data={products}
             renderItem={renderItem}
             keyExtractor={(item) => "ListGridItem-" + item.uuid}

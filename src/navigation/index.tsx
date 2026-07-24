@@ -260,16 +260,16 @@ const Navigation: React.FC = () => {
           : null,
     },
     {
-      name: "tags",
-      icon: "tags",
-      addButton: false,
-      func: () => handleChangeRoute("tags"),
-    },
-    {
       name: "history",
       icon: "history",
       addButton: false,
       func: () => handleChangeRoute("history"),
+    },
+    {
+      name: "config",
+      icon: "gear",
+      addButton: false,
+      func: () => handleChangeRoute("config"),
     },
   ];
 
@@ -288,15 +288,7 @@ const Navigation: React.FC = () => {
           name={"home"}
           options={{
             headerLeft: () => null,
-            headerRight: () => (
-              <TouchableHighlight
-                underlayColor={ConfigRepository.color.primary}
-                style={{ marginLeft: 20, marginRight: 20 }}
-                onPress={() => router.push({ pathname: "config" })}
-              >
-                <FontAwesome name="gear" size={25} color={ConfigRepository.color.white} />
-              </TouchableHighlight>
-            ),
+            headerRight: () => null,
             headerTitle: (props) => (
               <Title color={ConfigRepository.color.white}>{I18n.t("lists")}</Title>
             ),

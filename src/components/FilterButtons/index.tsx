@@ -11,6 +11,7 @@ import { useStores } from "../../context/StoreContext";
 import I18n from "i18n-js";
 import isEqual from "lodash.isequal";
 import langFilterAll from '../../../constants/LangFilterAll'
+import { FlashList } from "@shopify/flash-list";
 interface FilterButtonsProps {
   tags: string[];
   filter: string,
@@ -64,7 +65,7 @@ const FilterButtons = ({
 
   return (
     <Styled.Container>
-      <FlatList
+      <FlashList
         horizontal
         data={[I18n.t("all"), ...tags]}
         keyExtractor={(tag) => tag}

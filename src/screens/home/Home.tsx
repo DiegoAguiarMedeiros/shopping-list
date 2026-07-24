@@ -49,7 +49,7 @@ export default function Home({
               handleCloseBottomSheet={handleCloseBottomSheet}
             />
           ) : (
-            <EmptyList color={color} mensage={I18n.t("noListCreated")} />
+            <EmptyList mensage={I18n.t("noListCreated")} />
           ))}
       </ContainerInner>
     </Container>

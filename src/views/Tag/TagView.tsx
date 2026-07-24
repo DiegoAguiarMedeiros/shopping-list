@@ -6,7 +6,6 @@ import {
   FlatList,
   TextInput,
   Button,
-  ListRenderItem,
 } from "react-native";
 import { useTagViewModel } from "../../viewmodels/Tag/TagViewModel";
 import { IList } from "../../Model/IList";
@@ -18,6 +17,7 @@ import ContainerInner from "../../components/ContainerInner";
 import { IProduct } from "../../Model/IProduct";
 import ITag from "../../Model/ITag";
 import { useStores } from "../../context/StoreContext";
+import { FlashList, ListRenderItem } from "@shopify/flash-list";
 
 interface TagViewProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -43,7 +43,7 @@ const CustomFlatList = React.memo(
     return (
       <Container background={ConfigRepository.color.backgroundPrimary}>
         <ContainerInner background={ConfigRepository.color.backgroundPrimary}>
-          <FlatList
+          <FlashList
             data={tags}
             renderItem={renderItem}
             keyExtractor={(item) => "ListGridItem-" + item.uuid}
