@@ -93,7 +93,7 @@ const NewTagForm = ({
         />
       </Styled.InputContainer>
       <Styled.ButtonsContainer>
-        <Styled.ButtonWrapper>
+        <Styled.ButtonWrapper margin="0 5px 0 0">
           <Button
             text={I18n.t("cancel")}
             border={ConfigRepository.color.bottomSheetButtonCancelBorder}
@@ -103,7 +103,7 @@ const NewTagForm = ({
             underlayColor={ConfigRepository.color.bottomSheetButtonCancelBackground}
           />
         </Styled.ButtonWrapper>
-        <Styled.ButtonWrapper>
+        <Styled.ButtonWrapper margin="0 0 0 5px">
           <Button
             text={buttonTextArr[buttonText]}
             textColor={ConfigRepository.color.bottomSheetButtonAddText}

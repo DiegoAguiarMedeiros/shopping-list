@@ -821,7 +821,7 @@ const Button: React.FC<ButtonProps> = ({
       {...rest}
       border={border ?? ConfigRepository.color.primary}
       background={background}
-      height={text === undefined ? "100%" : "35px"}
+      height={text === undefined ? "100%" : "45px"}
     >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         {icon !== undefined && (

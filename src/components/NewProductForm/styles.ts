@@ -10,16 +10,19 @@ export const Container = styled.View`
 export const InputContainer = styled.View`
   padding: 5px 15px;
   width: 100%;
-  height: 65px;
+  height: 60px;
   flex-direction: row;
 `;
 export const ButtonsContainer = styled.View`
   padding: 0 15px;
   width: 100%;
-  height: 45px;
+  height: 65px;
   flex-direction: row;
-  justify-content: space-between;
+  align-items: center;
 `;
-export const ButtonWrapper = styled.View`
+export const ButtonWrapper = styled.View<{
+  margin: string;
+}>`
+  margin: ${(props: { margin: string }) => props.margin};
   flex: 1;
 `;

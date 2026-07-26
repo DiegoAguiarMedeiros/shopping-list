@@ -18,7 +18,7 @@ export default function AddProductOptions({
   const { ConfigRepository } = useStores();
 
   return (
-    <View style={{ flex: 1, padding: 16, paddingBottom: 8, gap: 10 }}>
+    <View style={{ flex: 1, padding: 16, gap: 10 }}>
       <SubTitle color={ConfigRepository.color.text}>{I18n.t("chooseWhatToAdd")}</SubTitle>
       <View style={{ flexDirection: "row", gap: 10 }}>
         <View style={{ flex: 1 }}>

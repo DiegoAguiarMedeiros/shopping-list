@@ -85,7 +85,7 @@ const Navigation: React.FC = () => {
           tagUuid={tag}
         />
       ),
-      height: "add",
+      height: "addProduct",
       isVisible: false,
     });
   };
@@ -117,7 +117,7 @@ const Navigation: React.FC = () => {
                   onClose={handleCloseBottomSheetProduct}
                 />
               ),
-              height: "edit",
+              height: "addProduct",
               isVisible: true,
             })
           }
@@ -130,7 +130,7 @@ const Navigation: React.FC = () => {
                   onClose={handleCloseBottomSheetTag}
                 />
               ),
-              height: "add",
+              height: "addCategory",
               isVisible: true,
             })
           }
