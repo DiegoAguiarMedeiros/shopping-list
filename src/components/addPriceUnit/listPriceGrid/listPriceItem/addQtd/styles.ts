@@ -12,10 +12,12 @@ export const ContainerMinusPlus = styled.View`
     flex: 2;
     padding: 0;
 `;
-export const ContainerQtd = styled.View`
-    padding: 0;
+export const ContainerQtd = styled.View<{ background: string }>`
+    background: ${(props) => props.background};
+    height: 100%;
+    padding-right: 1px;
     flex: 2;
-    
+    overflow: hidden;
 `;
 
 export const Button = styled.TouchableHighlight<{

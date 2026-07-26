@@ -1,4 +1,5 @@
-import { SafeAreaView, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import * as Styled from "./styles";
 import React from "react";
 import { ItemInterface } from "../../../types/types";
@@ -46,14 +47,10 @@ function ListGrid({
               if (!product) return null;
               return (
                 <ListGridItem
-                  setProducts={setProducts}
-                  color={color}
-                  productRef={productRef}
                   key={"ListGridItem-" + product.uuid}
+                  products={product}
                   setBottomSheetProps={setBottomSheetProps}
-                  item={product}
                   tagUuid={tagUuid}
-                  deleteItem={deleteItem}
                   handleCloseBottomSheet={handleCloseBottomSheet}
                 />
               );

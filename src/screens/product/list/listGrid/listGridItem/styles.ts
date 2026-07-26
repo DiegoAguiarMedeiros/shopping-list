@@ -120,6 +120,10 @@ export const ButtonInner = styled.TouchableHighlight`
   height: 100%;
   border-radius: 15px;
 `;
+export const ButtonContent = styled.View`
+  flex: 1;
+  flex-direction: column;
+`;
 export const ButtonTextIcon = styled.Text<{
   text: string;
 }>`

@@ -4,13 +4,14 @@ import {
   Animated,
   TouchableHighlight,
   useColorScheme,
-  SafeAreaView,
   ScrollView,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import * as Styled from "./styles";
 import { Title } from "../Text";
 import { TagsIterface } from "../../types/types";
+import { useStores } from "../../context/StoreContext";
 type TagsProps = {
   tags: TagsIterface[];
   isVisible: boolean;
@@ -18,6 +19,7 @@ type TagsProps = {
 };
 
 const Tags = ({ tags, isVisible, addTag }: TagsProps) => {
+  const { ConfigRepository } = useStores();
   const colorScheme = useColorScheme();
   const [tagsIsVisible, setTagsIsVisible] = useState(isVisible);
 
@@ -49,7 +51,7 @@ const Tags = ({ tags, isVisible, addTag }: TagsProps) => {
     <Styled.Tags
       isVisible={tagsIsVisible}
       marginTop={returnMarginTop(tags.length)}
-      background={getColor().backgroundPrimary}
+      background={ConfigRepository.color.backgroundPrimary}
     >
       <Styled.TagsInner>
         <SafeAreaView>
@@ -58,12 +60,12 @@ const Tags = ({ tags, isVisible, addTag }: TagsProps) => {
               <Styled.TagsItem
                 onPress={() => handleAddTag(tag?.name)}
                 key={`tagContainer-${tag.id}`}
-                background={getColor().backgroundPrimary}
+                background={ConfigRepository.color.backgroundPrimary}
               >
                 <Title
                   key={`tagTitle-${tag.id}`}
                   color={
-                    colorScheme !== "dark" ? getColor().black : getColor().white
+                    colorScheme !== "dark" ? ConfigRepository.color.black : ConfigRepository.color.white
                   }
                 >
                   {tag?.name}

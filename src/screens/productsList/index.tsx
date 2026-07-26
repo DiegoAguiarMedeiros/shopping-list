@@ -97,7 +97,6 @@ export default function ProductsList({
           />
         ) : (
           <EmptyList
-            color={color}
             mensage={I18n.t("noProductsInThisCategory")}
           />
         )}

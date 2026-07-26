@@ -1,4 +1,4 @@
-import { router, useGlobalSearchParams } from "expo-router";
+import { useNavigation } from "expo-router";
 import List from "../src/screens/list/index";
 import { colorTheme } from "../constants/Colors";
 import { useEffect, useImperativeHandle, useState } from "react";
@@ -36,6 +36,7 @@ const Items = ({
   route
 }: ItemsListProps) => {
   const { ListRepository, ProductRepository, TagRepository, ConfigRepository } = useStores();
+  const navigation = useNavigation<any>();
   const returnToHome = () => {
     handleCloseBottomSheetList();
     ProductRepository.setTagFilter(I18n.t("all"));
@@ -44,7 +45,7 @@ const Items = ({
     ProductRepository.updateTotalWithAmount();
     ProductRepository.updateTotalWithoutAmount();
     ListRepository.setListActiveNull();
-    router.push({ pathname: "/home" });
+    navigation.navigate("home");
   };
 
   useEffect(() => {
@@ -68,12 +69,10 @@ const Items = ({
         ),
         right: (
           <ContainerCP>
-            <CircleProgress
-              activeStrokeColor={ConfigRepository.color.circularHeaderFilled}
-              titleColor={ConfigRepository.color.circularHeaderText}
-              circleBackgroundColor={ConfigRepository.color.circularHeaderBackground}
-              filled={0}
-              progress={
+          <CircleProgress
+            activeStrokeColor={ConfigRepository.color.white}
+            circleBackgroundColor={ConfigRepository.color.primary}
+            progress={
                 ListRepository?.listActive?.totalWithoutAmount
                   ? ListRepository?.listActive?.totalWithoutAmount
                   : 0
@@ -95,7 +94,10 @@ const Items = ({
     ListRepository?.listActive?.totalUn,
   ]);
 
-  const validateFilterButtos = (products: number): React.ReactNode => {
+  const validateFilterButtons = (products: number): React.ReactNode => {
+    console.log("products", products)
+    console.log("TagRepository.tagFilter", TagRepository.tagFilter)
+    console.log("ListRepository.listActive?.tags", ListRepository.listActive?.tags)
     if (products > 0) {
       return <FilterButtons
         filter={TagRepository.tagFilter}
@@ -121,7 +123,7 @@ const Items = ({
     <>
       <Header
         background={ConfigRepository.color.backgroundPrimary}
-        bottom={validateFilterButtos(ProductRepository.products.length)}
+        bottom={validateFilterButtons(ProductRepository.products.length)}
       />
       <ItemsView lists={ProductRepository.products} />
     </>

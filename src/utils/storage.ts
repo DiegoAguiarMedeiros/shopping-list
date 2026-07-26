@@ -1,18 +1,10 @@
 
-import {
-  ItemAmountInterface,
-  ListItemAmountInterface,
-  ListItemInterface,
-  ListType,
-} from "../types/types";
-import { IListAmountInterface } from "../Domain/Model/IAmount";
-import { IList, IListInterface } from "../Domain/Model/IList";
-import { IProduct } from "../Domain/Model/IProduct";
+import storageMMKV from "../Service/Implementation/MMKVStorage";
 
 class Storage {
   retrieveData = async (key: string) => {
     try {
-      const data = 'a'//await AsyncStorage.getItem(key);
+      const data = storageMMKV.get(key);
       return data;
     } catch (error) {
       console.error("Storage", error);
@@ -21,10 +13,11 @@ class Storage {
 }
 
 const setOnboarding = (value: boolean) => {
-  //AsyncStorage.setItem("ONBOARDING", JSON.stringify(value));
+  storageMMKV.set("ONBOARDING", JSON.stringify(value));
 };
+
 const getOnboarding = async (): Promise<boolean> => {
-  const onboardingPromise: string | null | undefined = await _retrieveData(
+  const onboardingPromise: string | null | undefined = storageMMKV.get(
     "ONBOARDING"
   );
 

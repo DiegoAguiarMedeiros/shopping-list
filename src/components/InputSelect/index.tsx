@@ -42,6 +42,7 @@ const Select = ({
             style={{
               backgroundColor: background,
               color: textColor,
+              fontSize: 16,
             }}
             key={`Picker.Item.${item.id}.index`}
             label={item.name}

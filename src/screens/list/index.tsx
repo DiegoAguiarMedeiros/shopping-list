@@ -54,7 +54,7 @@ export default function List({
             setList={setList}
           />
         ) : (
-          <EmptyList color={color} mensage={I18n.t("noItemsInTheList")} />
+          <EmptyList mensage={I18n.t("noItemsInTheList")} />
         )}
       </ContainerInner>
     </Container>

@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableHighlightProps, useColorScheme } from "react-native";
+import { TouchableHighlightProps, View, useColorScheme } from "react-native";
 
 import * as Styled from "./styles";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -813,6 +813,7 @@ const Button: React.FC<ButtonProps> = ({
   ...rest
 }) => {
   const { ConfigRepository } = useStores();
+
   return (
     <Styled.Button
       radius={!radius}
@@ -822,21 +823,25 @@ const Button: React.FC<ButtonProps> = ({
       background={background}
       height={text === undefined ? "100%" : "35px"}
     >
-      <>
-        {icon !== undefined ? (
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        {icon !== undefined && (
           <FontAwesome
             size={20}
             style={{ marginBottom: -3, marginRight: 10 }}
             name={icon}
             color={textColor ?? ConfigRepository.color.white}
           />
-        ) : null}
-        {text !== undefined ? (
-          <Text color={textColor ?? ConfigRepository.color.white} align="center">
+        )}
+
+        {text !== undefined && (
+          <Text
+            color={textColor ?? ConfigRepository.color.white}
+            align="center"
+          >
             {text}
           </Text>
-        ) : null}
-      </>
+        )}
+      </View>
     </Styled.Button>
   );
 };

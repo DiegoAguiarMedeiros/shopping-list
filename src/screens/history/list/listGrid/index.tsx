@@ -1,9 +1,12 @@
-import { SafeAreaView, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import * as Styled from "./styles";
 
 import ListGridItem from "./listGridItem";
 import { IList } from "../../../../Model/IList";
 import { colorTheme } from "../../../../../constants/Colors";
+import { useStores } from "../../../../context/StoreContext";
+
 interface ItemProps {
   items: string[];
   color: colorTheme;
@@ -14,18 +17,19 @@ export default function ListGrid({
   color,
   setListArchived,
 }: Readonly<ItemProps>) {
+  const { ListRepository } = useStores();
+
   return (
     <SafeAreaView style={{ width: "100%" }}>
       <ScrollView keyboardShouldPersistTaps="handled">
         <Styled.ContainerListItemListItem>
           {items.map((i: string) => {
-            const item = getListByUuid(i);
+            const item = ListRepository.getListByUuid(i);
+            if (!item) return null;
             return (
               <ListGridItem
-                setListArchived={setListArchived}
-                color={color}
                 key={"ListGridItem-" + item.uuid}
-                item={item}
+                list={item}
               />
             );
           })}

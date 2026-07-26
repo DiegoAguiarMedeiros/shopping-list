@@ -15,6 +15,7 @@ interface InputProps extends TextInputProps {
 const InputText: React.FC<InputProps> = ({ placeholder, radius, ...rest }) => {
   const colorScheme = useColorScheme();
   const inputRef = useRef<TextInput>(null);
+  const Input = Styled.Input as unknown as React.ComponentType<any>;
 
   useEffect(() => {
     if (inputRef?.current) {
@@ -23,7 +24,7 @@ const InputText: React.FC<InputProps> = ({ placeholder, radius, ...rest }) => {
   }, [inputRef]);
 
   return (
-    <Styled.Input
+    <Input
       ref={inputRef}
       radius={!radius}
       placeholder={placeholder}

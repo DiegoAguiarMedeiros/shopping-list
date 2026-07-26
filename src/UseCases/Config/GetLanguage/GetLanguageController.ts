@@ -1,4 +1,6 @@
-import { languageType } from "../../../../types/types";
+
+import { languageType } from "../../../types/types";
+
 import GetLanguageUseCase from "./GetLanguageUseCase";
 
 export default class GetLanguageController {

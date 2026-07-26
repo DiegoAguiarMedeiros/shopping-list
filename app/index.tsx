@@ -5,7 +5,6 @@ import * as Font from "expo-font";
 import { FontAwesome } from "@expo/vector-icons";
 import { getOnboarding, setOnboarding } from "../src/utils/onboarding";
 import OnboardingScreen from "../src/screens/onboarding";
-import { ColorList, Colors, colorTheme, typeTheme } from "../constants/Colors";
 import { languageType } from "../src/types/types";
 import getThemeController from "../src/UseCases/Config/GetTheme";
 // Keep the splash screen visible while we fetch resources
@@ -20,6 +19,7 @@ import saveColorController from "../src/UseCases/Config/SaveColor";
 import Navigation from "../src/navigation";
 import { StoreProvider, useStores } from "../src/context/StoreContext";
 import { observer } from "mobx-react-lite";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 I18n.fallbacks = true;
 I18n.translations = {
@@ -74,6 +74,11 @@ const AppContainer = observer(() => {
   useEffect(() => {
     TagRepository.setTagFilter(I18n.t('all'))
   }, [ConfigRepository.lang]);
+  useEffect(() => {
+    if (appIsReady) {
+      SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
 
   if (!appIsReady) {
     return null;
@@ -111,9 +116,11 @@ const AppContainer = observer(() => {
 
 
 const App = () => (
-  <StoreProvider>
-    <AppContainer />
-  </StoreProvider>
+  <SafeAreaProvider style={{ flex: 1 }}>
+    <StoreProvider>
+      <AppContainer />
+    </StoreProvider>
+  </SafeAreaProvider>
 );
 
 export default App;

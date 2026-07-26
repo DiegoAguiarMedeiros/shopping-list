@@ -4,12 +4,11 @@ import styled, { css } from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
-  overflow:hidden;
+  overflow: hidden;
   border-radius: 10px;
 `;
 
-
-export const Select = styled(Picker) <{
+export const Select = styled(Picker)<{
   background: string;
   color: string;
 }>`
@@ -17,8 +16,6 @@ export const Select = styled(Picker) <{
   color: ${(props: { color: string }) => props.color};
   border: 1px solid ${(props: { background: string }) => props.background};
   border-radius: 10px;
-  font-size: 14px;
   width: 100%;
   height: 100%;
-  margin-top: -5px;
 `;

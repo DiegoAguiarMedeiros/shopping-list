@@ -42,7 +42,7 @@ function ListGridItem({
 }: Readonly<ListProps>) {
   const colorScheme = useColorScheme();
   const { ProductRepository, TagRepository, ConfigRepository } = useStores();
-  const gridItemRef = useRef<any>();
+  const gridItemRef = useRef<any>(null);
   const handleCloseSwipeableFromParent = () => {
     // Access the handleCloseSwipeable function from the ref
     if (gridItemRef?.current) {
@@ -97,7 +97,7 @@ function ListGridItem({
                 underlayColor={ConfigRepository.color.swipeIconUnderlay}
                 onPress={handleEdit}
               >
-                <>
+                <Styled.ButtonContent>
                   <GridItemWrapperInner height={60}>
                     <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                       <FontAwesome
@@ -113,7 +113,7 @@ function ListGridItem({
                       Editar
                     </Text>
                   </GridItemWrapperInner>
-                </>
+                </Styled.ButtonContent>
               </Styled.ButtonInner>
             </GridItemWrapperCol>
 
@@ -122,7 +122,7 @@ function ListGridItem({
                 underlayColor={ConfigRepository.color.swipeIconUnderlay}
                 onPress={handleDelete}
               >
-                <>
+                <Styled.ButtonContent>
                   <GridItemWrapperInner height={60}>
                     <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                       <FontAwesome
@@ -137,7 +137,7 @@ function ListGridItem({
                       {I18n.t("delete")}
                     </Text>
                   </GridItemWrapperInner>
-                </>
+                </Styled.ButtonContent>
               </Styled.ButtonInner>
             </GridItemWrapperCol>
           </>

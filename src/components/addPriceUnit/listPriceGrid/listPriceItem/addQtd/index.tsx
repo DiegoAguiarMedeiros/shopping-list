@@ -22,7 +22,7 @@ export default function ListPriceGrid({
   selectedValueSwitch,
   listProductUuid,
 }: Readonly<ListPriceGridProps>) {
-  const { AmountRepository, ProductRepository } = useStores();
+  const { AmountRepository, ProductRepository, ConfigRepository } = useStores();
   const [quantity, setQuantity] = useState("1");
   const formatInput = (value: string): string => {
     let newValue = value.replace(".", "");
@@ -151,7 +151,9 @@ export default function ListPriceGrid({
               onPress={minusAmount}
             />
           </Styled.ContainerMinusPlus>
-          <Styled.ContainerQtd>
+          <Styled.ContainerQtd
+            background={ConfigRepository.color.itemListItemOpenButtonBackGround}
+          >
             <InputText
               keyboardType="decimal-pad"
               onChangeText={(value) => handleInputChange(value)}

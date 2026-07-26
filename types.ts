@@ -1,7 +1,7 @@
 
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { NativeStackScreenProps } from 'expo-router';
+import { BottomTabScreenProps } from 'expo-router/build/react-navigation/bottom-tabs';
 
 declare global {
   namespace ReactNavigation {
@@ -29,7 +29,7 @@ export type RootTabParamList = {
   Perfil: undefined;
 };
 
-export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
-  BottomTabScreenProps<RootTabParamList, Screen>,
-  NativeStackScreenProps<RootStackParamList>
+export type RootTabScreenProps<Screen extends keyof RootTabParamList> = NativeStackScreenProps<
+  RootStackParamList,
+  keyof RootStackParamList
 >;

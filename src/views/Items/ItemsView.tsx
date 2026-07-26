@@ -1,6 +1,6 @@
 // views/ListView.tsx
 import React, { useEffect, useRef, useState } from "react";
-import { FlashList, ListRenderItem } from "@shopify/flash-list";
+import { FlashList, FlashListRef, ListRenderItem } from "@shopify/flash-list";
 import isEqual from "lodash.isequal";
 import {
   View,
@@ -28,7 +28,7 @@ interface ItemsViewProps {
 const CustomFlatList = React.memo(
   ({ lists }: ItemsViewProps) => {
     const { ListRepository, ConfigRepository } = useStores();
-    const flatListRef = useRef<FlashList<IProduct>>(null);
+    const flatListRef = useRef<FlashListRef<IProduct> | null>(null);
     const [active, setActive] = useState("");
     const handleOpen = (uuid: string, index: number) => {
       scrollToIndex(index)
@@ -63,22 +63,32 @@ const CustomFlatList = React.memo(
       <Container background={ConfigRepository.color.backgroundPrimary}>
         <ContainerInner height="95" background={ConfigRepository.color.backgroundPrimary}>
           <FlashList
+            style={{ flex: 1, width: "100%", marginTop: -15 }}
+            contentContainerStyle={{
+              width: "100%",
+            }}
             ref={flatListRef}
             data={lists}
             renderItem={renderItem}
             keyExtractor={(item) => "ListGridItem-" + item.uuid}
-            ListFooterComponent={<View style={{ height: 250 }} />}
-            /*getItemLayout={(data, index) => ({
-              length: ITEM_HEIGHT,
-              offset: ITEM_HEIGHT * index,
-              index,
-            })}
-            onScrollToIndexFailed={(info) => {
-              flatListRef.current?.scrollToOffset({
-                offset: info.averageItemLength * info.index,
-                animated: true,
-              });
-            }}*/
+            ListFooterComponent={
+              <View
+                style={{
+                  width: "100%",
+                  height: 250,
+                }}
+              />}
+          /*getItemLayout={(data, index) => ({
+            length: ITEM_HEIGHT,
+            offset: ITEM_HEIGHT * index,
+            index,
+          })}
+          onScrollToIndexFailed={(info) => {
+            flatListRef.current?.scrollToOffset({
+              offset: info.averageItemLength * info.index,
+              animated: true,
+            });
+          }}*/
           />
 
 

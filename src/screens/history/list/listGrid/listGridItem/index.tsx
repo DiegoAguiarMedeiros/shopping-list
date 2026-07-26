@@ -3,7 +3,7 @@ import * as Styled from "./styles";
 import { useCallback } from "react";
 
 import { FontAwesome } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import { useNavigation } from "expo-router";
 
 import { Text, Title2 } from "../../../../../components/Text";
 import CircleProgress from "../../../../../components/CircleProgress";
@@ -28,16 +28,16 @@ export default function ListGridItem({
 
   const { ListRepository, ProductRepository, ConfigRepository } = useStores();
   const colorScheme = useColorScheme();
-  const router = useRouter();
+  const navigation = useNavigation<any>();
   const total = list.total ?? 0;
-  const totalWithAmount = list.totalWithAmount ?? 0;
+  const totalWithoutAmount = list.totalWithoutAmount ?? 0;
   const totalUn = list.totalUn ?? 0;
 
   const handleOpenList = useCallback(() => {
     ListRepository.setListActive(list.uuid);
     ProductRepository.load();
-    router.push({ pathname: "/ItemsArchived", params: { listId: list.uuid } });
-  }, [list.uuid, router]);
+    navigation.navigate("ItemsArchived", { listId: list.uuid });
+  }, [list.uuid, navigation]);
 
   const handleDelete = () => {
     ListRepository.removeItemArchived(list.uuid);
@@ -65,7 +65,7 @@ export default function ListGridItem({
               underlayColor={ConfigRepository.color.swipeIconUnderlay}
               onPress={handleDelete}
             >
-              <>
+              <Styled.ButtonContent>
                 <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                   <FontAwesome
                     size={18}
@@ -76,7 +76,7 @@ export default function ListGridItem({
                 <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
                   {I18n.t("delete")}
                 </Styled.ButtonText>
-              </>
+              </Styled.ButtonContent>
             </Styled.ButtonInner>
           </Styled.ButtonView>
         </Animated.View>
@@ -114,10 +114,8 @@ export default function ListGridItem({
             <GridItemWrapperInner height={100} align="flex-end">
               <CircleProgress
                 activeStrokeColor={ConfigRepository.color.circularItemFilled}
-                titleColor={ConfigRepository.color.circularItemText}
                 circleBackgroundColor={ConfigRepository.color.circularItemBackground}
-                filled={totalWithAmount}
-                progress={totalUn && totalWithAmount ? totalWithAmount : 0}
+                progress={totalUn && totalWithoutAmount ? totalWithoutAmount : 0}
                 total={totalUn}
                 size={22}
               />

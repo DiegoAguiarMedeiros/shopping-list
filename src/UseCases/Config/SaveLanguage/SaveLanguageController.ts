@@ -1,4 +1,4 @@
-import { languageType } from "../../../../types/types";
+import { languageType } from "../../../types/types";
 import SaveLanguageUseCase from "./SaveLanguageUseCase";
 
 export default class SaveLanguageController{

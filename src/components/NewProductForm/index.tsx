@@ -136,7 +136,7 @@ const NewProductForm = ({
         />
       </Styled.InputContainer>
       {!tagUuid && tags ? (
-        <Styled.InputContainer>
+        <Styled.InputContainer style={{ overflow: "hidden" }}>
           <Select
             background={ConfigRepository.color.selectCategory}
             dropdownIconColor={ConfigRepository.color.primary}

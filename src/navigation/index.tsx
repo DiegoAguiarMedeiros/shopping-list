@@ -2,16 +2,15 @@ import { FontAwesome } from "@expo/vector-icons";
 import {
   CardStyleInterpolators,
   createStackNavigator,
-} from "@react-navigation/stack";
-import { useRouter } from "expo-router";
+} from "expo-router/build/react-navigation/stack";
 import I18n from "i18n-js";
 import { useState, useRef, SetStateAction } from "react";
-import { TouchableHighlight, useColorScheme } from "react-native";
+import { TouchableHighlight, useColorScheme, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Items from "../../app/Items";
 import ItemsArchived from "../../app/ItemsArchived";
 import ConfigScreen from "../../app/config";
 import ProductTab from "../../app/product";
-import { colorTheme, ColorList, typeTheme, Colors } from "../../constants/Colors";
 import Home from "../../app/home";
 import ProductsList from "../../app/ProductsList";
 import { languageType, RoutesProps } from "../types/types";
@@ -21,6 +20,7 @@ import HeaderInputTextSearch from "../components/HeaderInputTextSearch";
 import NewListForm from "../components/NewListForm";
 import NewProductForm from "../components/NewProductForm";
 import NewTagForm from "../components/NewTagForm";
+import AddProductOptions from "../components/AddProductOptions";
 import Tags from "../../app/tags";
 import { Title } from "../components/Text";
 import History from "../../app/history";
@@ -36,7 +36,7 @@ const Stack = createStackNavigator();
 
 const Navigation: React.FC = () => {
   const { ListRepository, ProductRepository, TagRepository, ConfigRepository } = useStores();
-  const router = useRouter();
+  const stackRef = useRef<any>(null);
   const [activeRoute, setActiveRoute] = useState<string>("home");
   const [activeRouteHeader, setActiveRouteHeader] = useState<{
     name: React.ReactNode;
@@ -101,6 +101,44 @@ const Navigation: React.FC = () => {
       ),
       height: "add",
       isVisible: false,
+    });
+  };
+
+  const handleOpenProductAddOptions = () => {
+    setBottomSheetProps({
+      children: (
+        <AddProductOptions
+          onSelectProduct={() =>
+            setBottomSheetProps({
+              children: (
+                <NewProductForm
+                  action="addList"
+                  buttonText="add"
+                  onClose={handleCloseBottomSheetProduct}
+                />
+              ),
+              height: "edit",
+              isVisible: true,
+            })
+          }
+          onSelectCategory={() =>
+            setBottomSheetProps({
+              children: (
+                <NewTagForm
+                  action="addTag"
+                  buttonText="add"
+                  onClose={handleCloseBottomSheetTag}
+                />
+              ),
+              height: "add",
+              isVisible: true,
+            })
+          }
+          onCancel={handleCloseBottomSheetProduct}
+        />
+      ),
+      height: "options",
+      isVisible: true,
     });
   };
 
@@ -234,7 +272,7 @@ const Navigation: React.FC = () => {
       });
     }
     setActiveRoute(route);
-    router.push({ pathname: route });
+    stackRef.current?.navigate(route);
   };
 
   const routes: RoutesProps[] = [
@@ -256,7 +294,9 @@ const Navigation: React.FC = () => {
       addButton: true,
       func: () =>
         activeRoute !== "history" && activeRoute !== "config"
-          ? setBottomSheetProps({ ...bottomSheetProps, isVisible: true })
+          ? activeRoute === "product"
+            ? handleOpenProductAddOptions()
+            : setBottomSheetProps({ ...bottomSheetProps, isVisible: true })
           : null,
     },
     {
@@ -274,8 +314,9 @@ const Navigation: React.FC = () => {
   ];
 
   return (
-    <>
-      <Stack.Navigator
+    <View style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
+        <Stack.Navigator
         screenOptions={{
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           headerStyle: {
@@ -294,12 +335,10 @@ const Navigation: React.FC = () => {
             ),
           }}
         >
-          {() => (
-            <Home
-              setBottomSheetProps={setBottomSheetProps}
-              handleCloseBottomSheet={handleCloseBottomSheetList}
-            />
-          )}
+          {({ navigation }) => {
+            stackRef.current = navigation;
+            return <Home setBottomSheetProps={setBottomSheetProps} handleCloseBottomSheet={handleCloseBottomSheetList} />;
+          }}
         </Stack.Screen>
         <Stack.Screen
           name={"product"}
@@ -309,13 +348,10 @@ const Navigation: React.FC = () => {
             headerTitle: () => activeRouteHeader.name,
           }}
         >
-          {() => (
-            <ProductTab
-              search={search}
-              setBottomSheetProps={setBottomSheetProps}
-              handleCloseBottomSheet={handleCloseBottomSheetProduct}
-            />
-          )}
+          {({ navigation }) => {
+            stackRef.current = navigation;
+            return <ProductTab search={search} setBottomSheetProps={setBottomSheetProps} handleCloseBottomSheet={handleCloseBottomSheetProduct} />;
+          }}
         </Stack.Screen>
         <Stack.Screen
           name={"tags"}
@@ -326,12 +362,10 @@ const Navigation: React.FC = () => {
             ),
           }}
         >
-          {() => (
-            <Tags
-              setBottomSheetProps={setBottomSheetProps}
-              handleCloseBottomSheet={handleCloseBottomSheetTag}
-            />
-          )}
+          {({ navigation }) => {
+            stackRef.current = navigation;
+            return <Tags setBottomSheetProps={setBottomSheetProps} handleCloseBottomSheet={handleCloseBottomSheetTag} />;
+          }}
         </Stack.Screen>
         <Stack.Screen
           name="Items"
@@ -341,13 +375,14 @@ const Navigation: React.FC = () => {
             headerRight: () => activeRouteHeader.right,
           }}
         >
-          {() => (
-            <Items
+          {({ navigation }) => {
+            stackRef.current = navigation;
+            return <Items
               route={activeRoute}
               setActiveRouteHeader={setActiveRouteHeader}
               handleCloseBottomSheetList={handleCloseBottomSheetList}
-            />
-          )}
+            />;
+          }}
         </Stack.Screen>
         <Stack.Screen
           name="ProductsList"
@@ -357,13 +392,14 @@ const Navigation: React.FC = () => {
             headerRight: () => activeRouteHeader.right,
           }}
         >
-          {() => (
-            <ProductsList
+          {({ navigation }) => {
+            stackRef.current = navigation;
+            return <ProductsList
               setActiveRouteHeader={setActiveRouteHeader}
               setBottomSheetProps={setBottomSheetProps}
               handleCloseBottomSheetTag={handleCloseBottomSheetTag}
-            />
-          )}
+            />;
+          }}
         </Stack.Screen>
         <Stack.Screen
           name="ItemsArchived"
@@ -373,11 +409,12 @@ const Navigation: React.FC = () => {
             headerRight: () => activeRouteHeader.right,
           }}
         >
-          {() => (
-            <ItemsArchived
+          {({ navigation }) => {
+            stackRef.current = navigation;
+            return <ItemsArchived
               setActiveRouteHeader={setActiveRouteHeader}
-              handleCloseBottomSheetList={handleCloseBottomSheetList} />
-          )}
+              handleCloseBottomSheetList={handleCloseBottomSheetList} />;
+          }}
         </Stack.Screen>
         <Stack.Screen
           name="history"
@@ -388,7 +425,10 @@ const Navigation: React.FC = () => {
             headerLeft: () => null,
           }}
         >
-          {() => <History />}
+          {({ navigation }) => {
+            stackRef.current = navigation;
+            return <History />;
+          }}
         </Stack.Screen>
         <Stack.Screen
           name="config"
@@ -402,7 +442,7 @@ const Navigation: React.FC = () => {
                 style={{ marginLeft: 20, marginRight: 10 }}
                 onPress={() => {
                   setActiveRoute("home");
-                  router.push({ pathname: "home" });
+                  stackRef.current?.navigate("home");
                 }}
               >
                 <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.white} />
@@ -410,22 +450,27 @@ const Navigation: React.FC = () => {
             ),
           }}
         >
-          {() => (
-            <ConfigScreen
-              handleChangeRoute={handleChangeRoute}
-            />
-          )}
+          {({ navigation }) => {
+            stackRef.current = navigation;
+            return <ConfigScreen />;
+          }}
         </Stack.Screen>
-      </Stack.Navigator>
+        </Stack.Navigator>
+      </View>
       <BottomSheet {...bottomSheetProps} />
-      <BottomNavigation
-        routes={routes}
-        active={activeRoute}
-        setActiveRoute={setActiveRoute}
-        setBottomSheetProps={setBottomSheetProps}
-        bottomSheetProps={bottomSheetProps}
-      />
-    </>
+      <SafeAreaView
+        edges={["bottom"]}
+        style={{ backgroundColor: ConfigRepository.color.backgroundBottomNavigation }}
+      >
+        <BottomNavigation
+          routes={routes}
+          active={activeRoute}
+          setActiveRoute={setActiveRoute}
+          setBottomSheetProps={setBottomSheetProps}
+          bottomSheetProps={bottomSheetProps}
+        />
+      </SafeAreaView>
+    </View>
   );
 };
 

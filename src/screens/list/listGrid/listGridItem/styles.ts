@@ -26,6 +26,11 @@ export const ContainerListItemListItemAMount = styled.View<{
   margin: 5px;
 `;
 export const Container = styled.View``;
+export const SelectedEditor = styled.View`
+  flex: 1;
+  width: 100%;
+  padding-top: 6px;
+`;
 export const ContainerListItemListItemInner = styled.View`
   flex: 1;
   flex-direction: row;
@@ -91,6 +96,9 @@ export const ButtonInner = styled.TouchableHighlight`
   width: 100%;
   height: 100%;
   border-radius: 15px;
+`;
+export const ButtonContent = styled.View`
+  flex: 1;
 `;
 export const ButtonTextIcon = styled.Text<{
   text: string;

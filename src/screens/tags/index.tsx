@@ -1,6 +1,6 @@
 import { KeyboardAvoidingView, useColorScheme } from "react-native";
 import EmptyList from "../../components/EmptyList";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused } from "expo-router/react-navigation";
 
 import * as Styled from "./styles";
 import BottomSheet, { BottomSheetProps } from "../../components/BottomSheet";
@@ -54,7 +54,7 @@ export default function Tags({
             handleCloseBottomSheet={handleCloseBottomSheet}
           />
         ) : (
-          <EmptyList color={color} mensage={I18n.t("noCategories")} />
+          <EmptyList mensage={I18n.t("noCategories")} />
         )}
       </ContainerInner>
     </Container>

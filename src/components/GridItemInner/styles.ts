@@ -21,6 +21,12 @@ export const Item = styled.TouchableHighlight<{
   border: 1px solid ${(props: { borderColor: string }) => props.borderColor};
   ${Platform.OS === 'android' && ((props: { elevation: number }) => (props.elevation ? `elevation: ${props.elevation};` : "elevation:0"))}
   `;
+export const Content = styled.View<{
+  row: boolean;
+}>`
+  flex: 1;
+  flex-direction: ${(props: { row: boolean }) => props.row ? "row" : "column"};
+`;
 export const Wrapper = styled.View<{
   width: string;
   height: string;

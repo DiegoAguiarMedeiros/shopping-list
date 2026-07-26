@@ -7,7 +7,7 @@ export const ContainerHeader = styled.View<{
 }>`
   background: ${(props: { background: string }) => props.background};
   width: 100%;
-  height:  50px; 
+  height: ${(props: { bottom: boolean }) => (props.bottom ? "55px" : "50px")};
   flex-direction: column;
   `;
 
@@ -37,8 +37,6 @@ export const ContainerHeaderRight = styled.View`
 `;
 export const ContainerHeaderBottom = styled.View`
   width: 100%;
+  height: 55px;
   justify-content: center;
-  align-items: center;
-  padding-top: 10px;
-  flex:2;
 `;

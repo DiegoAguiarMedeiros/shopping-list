@@ -17,7 +17,7 @@ import {
   GridItemWrapperInner,
 } from "../../../../../components/GridItemInner";
 import I18n from "i18n-js";
-import { useRouter } from "expo-router";
+import { useNavigation } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { ColorList, colorTheme } from "../../../../../../constants/Colors";
 import { IProduct } from "../../../../../Model/IProduct";
@@ -28,8 +28,6 @@ interface ItemProps {
   list: IList;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
-  theme: 'dark' | 'light',
-  colors: ColorList
 }
 
 const ListGridItem = React.memo(
@@ -37,17 +35,15 @@ const ListGridItem = React.memo(
     handleCloseBottomSheet,
     setBottomSheetProps,
     list,
-    theme,
-    colors
   }: Readonly<ItemProps>) => {
     const colorScheme = useColorScheme();
-    const router = useRouter();
+    const navigation = useNavigation<any>();
     const { ListRepository, ProductRepository, ConfigRepository } = useStores();
     const { removeItem } = useListViewModel();
     // const items = removeUndefinedFromArray(
     //   getListProductController.handle(list.items)
     // );
-    const gridItemRef = useRef<any>();
+    const gridItemRef = useRef<any>(null);
     const handleCloseSwipeableFromParent = () => {
       // Access the handleCloseSwipeable function from the ref
       if (gridItemRef?.current) {
@@ -91,8 +87,8 @@ const ListGridItem = React.memo(
       });
       ListRepository.setListActive(list.uuid);
       ProductRepository.load();
-      router.push({ pathname: "/Items", params: { listId: list.uuid } });
-    }, [list.uuid, router]);
+      navigation.navigate("Items", { listId: list.uuid });
+    }, [list.uuid, navigation]);
 
     const handleEdit = () => {
       setBottomSheetProps({
@@ -155,7 +151,7 @@ const ListGridItem = React.memo(
               underlayColor={ConfigRepository.color.swipeIconUnderlay}
               onPress={archivedList}
             >
-              <>
+              <Styled.ButtonContent>
                 <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                   <FontAwesome
                     size={18}
@@ -166,11 +162,11 @@ const ListGridItem = React.memo(
                 <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
                   {I18n.t("archive")}
                 </Styled.ButtonText>
-              </>
+              </Styled.ButtonContent>
             </Styled.ButtonInner>
 
             <Styled.ButtonInner underlayColor={ConfigRepository.color.text} onPress={handleCopy}>
-              <>
+              <Styled.ButtonContent>
                 <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                   <FontAwesome
                     size={18}
@@ -181,7 +177,7 @@ const ListGridItem = React.memo(
                 <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
                   {I18n.t("copy")}
                 </Styled.ButtonText>
-              </>
+              </Styled.ButtonContent>
             </Styled.ButtonInner>
           </Styled.ButtonView>
         </Animated.View>
@@ -208,7 +204,7 @@ const ListGridItem = React.memo(
               underlayColor={ConfigRepository.color.swipeIconUnderlay}
               onPress={handleEdit}
             >
-              <>
+              <Styled.ButtonContent>
                 <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                   <FontAwesome
                     size={18}
@@ -219,13 +215,13 @@ const ListGridItem = React.memo(
                 <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
                   {I18n.t("edit")}
                 </Styled.ButtonText>
-              </>
+              </Styled.ButtonContent>
             </Styled.ButtonInner>
             <Styled.ButtonInner
               underlayColor={ConfigRepository.color.swipeIconUnderlay}
               onPress={handleDelete}
             >
-              <>
+              <Styled.ButtonContent>
                 <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                   <FontAwesome
                     size={18}
@@ -236,7 +232,7 @@ const ListGridItem = React.memo(
                 <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
                   {I18n.t("delete")}
                 </Styled.ButtonText>
-              </>
+              </Styled.ButtonContent>
             </Styled.ButtonInner>
           </Styled.ButtonView>
         </Animated.View>
@@ -262,7 +258,7 @@ const ListGridItem = React.memo(
         >
           <>
             <GridItemWrapperCol width={85} height={100}>
-              <GridItemWrapperInner height={100}>
+              <GridItemWrapperInner height={100} align="flex-start">
                 <Title2 color={ConfigRepository.color.itemListText}>{list.name}</Title2>
                 <Text color={ConfigRepository.color.itemListTextSecondary}>
                   {I18n.t("total")}: {ConfigRepository.currency}{" "}
@@ -274,9 +270,7 @@ const ListGridItem = React.memo(
               <GridItemWrapperInner height={100} align="flex-end">
                 <CircleProgress
                   activeStrokeColor={ConfigRepository.color.circularItemFilled}
-                  titleColor={ConfigRepository.color.circularItemText}
                   circleBackgroundColor={ConfigRepository.color.circularItemBackground}
-                  filled={totalWithoutAmount}
                   progress={
                     totalUn && totalWithoutAmount ? totalWithoutAmount : 0
                   }
@@ -291,7 +285,7 @@ const ListGridItem = React.memo(
     );
   },
   (prevProps, nextProps) => {
-    return isEqual(prevProps.list, nextProps.list) && isEqual(prevProps.theme, nextProps.theme) && isEqual(prevProps.colors, nextProps.colors);
+    return isEqual(prevProps.list, nextProps.list);
   }
 );
 

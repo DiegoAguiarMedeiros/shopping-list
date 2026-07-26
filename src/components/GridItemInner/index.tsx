@@ -28,7 +28,9 @@ export const GridItemInner = ({ background, borderColor, underlayColor, children
         noPadding={noPadding ?? false}
         noMargin={noMargin ?? false}
         onPress={onPress}
-    >{children}</Styled.Item>)
+    >
+        <Styled.Content row={row ?? false}>{children}</Styled.Content>
+    </Styled.Item>)
 }
 interface GridItemWrapperRowProps {
     children: React.ReactNode;

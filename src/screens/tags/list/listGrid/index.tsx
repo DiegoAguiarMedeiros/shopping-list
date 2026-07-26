@@ -1,4 +1,5 @@
-import { SafeAreaView, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { BottomSheetProps } from "../../../../components/BottomSheet";
 
 import ListGridItem from "./listGridItem";
@@ -38,9 +39,6 @@ export default function ListGrid({
 
           return (
             <ListGridItem
-              color={color}
-              tagRef={tagRef}
-              productListRef={productListRef}
               handleCloseBottomSheet={handleCloseBottomSheet}
               setBottomSheetProps={setBottomSheetProps}
               key={"ListGridItem-" + tag.uuid}

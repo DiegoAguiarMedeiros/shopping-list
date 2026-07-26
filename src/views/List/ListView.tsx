@@ -34,8 +34,6 @@ const CustomFlatList = ({
       handleCloseBottomSheet={handleCloseBottomSheet}
       setBottomSheetProps={setBottomSheetProps}
       list={item}
-      theme={ConfigRepository.theme}
-      colors={ConfigRepository.colors}
     />
   );
 
@@ -43,10 +41,21 @@ const CustomFlatList = ({
     <Container background={ConfigRepository.color.backgroundPrimary}>
       <ContainerInner background={ConfigRepository.color.backgroundPrimary}>
         <FlashList
+          style={{ flex: 1, width: "100%" }}
+          contentContainerStyle={{
+            width: "100%",
+          }}
           data={lists}
           renderItem={renderItem}
           keyExtractor={(item) => "ListGridItem-" + item.uuid}
-          ListFooterComponent={<View style={{ height: 250 }} />}
+          ListFooterComponent={
+            <View
+              style={{
+                width: "100%",
+                height: 250,
+              }}
+            />
+          }
         />
       </ContainerInner>
     </Container>
@@ -66,4 +75,3 @@ export const ListView = ({
     />
   );
 };
-

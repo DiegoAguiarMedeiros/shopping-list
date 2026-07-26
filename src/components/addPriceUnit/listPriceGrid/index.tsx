@@ -1,7 +1,6 @@
 import ListPriceItem from "./listPriceItem";
 import IAmount from "../../../Model/IAmount";
-import { SafeAreaView, ScrollView } from "react-native";
-import { colorTheme } from "../../../../constants/Colors";
+import { View } from "react-native";
 
 interface ListProps {
   item: IAmount[];
@@ -13,20 +12,16 @@ export default function ListPriceGrid({
   listProductUuid,
 }: Readonly<ListProps>) {
   return (
-    <SafeAreaView style={{ width: "100%" }}>
-      <ScrollView keyboardShouldPersistTaps="handled" nestedScrollEnabled>
-        {item.map((itemAmount: IAmount) => {
-          return itemAmount ? (
-            <ListPriceItem
-              listProductUuid={listProductUuid}
-              itemAmount={itemAmount}
-              key={itemAmount.uuid}
-            />
-          ) : (
-            <></>
-          );
-        })}
-      </ScrollView>
-    </SafeAreaView>
+    <View style={{ flex: 1, width: "100%" }}>
+      {item.map((itemAmount: IAmount) =>
+        itemAmount ? (
+          <ListPriceItem
+            listProductUuid={listProductUuid}
+            itemAmount={itemAmount}
+            key={itemAmount.uuid}
+          />
+        ) : null
+      )}
+    </View>
   );
 }

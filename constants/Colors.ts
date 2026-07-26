@@ -1,583 +1,131 @@
-const tintColorLight = "#2f95dc";
-const tintColorDark = "#fff";
-
-const primary = "#43BCAE";
-const secondary = "#69C9BE";
-const tertiary = "#43BC72";
-
-const primaryDarkColor = "#1E1E1E";
-const secondaryDarkColor = "#4F4E4E";
-const tertiaryDarkColor = "#5F5E5E";
-
-const primaryDarkFontColor = "#fff";
-const secondaryDarkFontColor = "#ffffff88";
-const tertiaryDarkFontColor = "#ffffff78";
-
-const primaryLightColor = "#FFFFFF";
-const secondaryLightColor = "#F5F5F5";
-const tertiaryLightColor = "#F0F8FF";
-
-const white = "#fff";
-const black = "#000";
-const alert = "#d85d63";
-const warning = "#fff";
-const info = "#2f6f9f";
-const primaryTitleLightFontColor = "#ffffff";
-const primaryLightFontColor = "#000000";
-const secondaryLightFontColor = "#00000088";
-const tertiaryLightFontColor = "#00000078";
-
 export type colorTheme = {
   theme: string;
-  primary: string;
-  secondary: string;
-  tertiary: string;
-  white: string;
-  whiteLighter: string;
-  black: string;
-  warning: string;
-  alert: string;
-  info: string;
-  text: string;
-  textSecondary: string;
-  textTertiary: string;
-  backgroundPrimary: string;
-  backgroundSecondary: string;
-  backgroundTertiary: string;
-  menuButtonColor: string;
-  menuButtonActiveColor: string;
-  backgroundBottomSheet: string;
-  backgroundBottomNavigation: string;
-  bottomSheetButtonAddBackground: string;
-  bottomSheetButtonCancelBackground: string;
-  bottomSheetButtonAddBorder: string;
-  bottomSheetButtonCancelBorder: string;
-  bottomSheetButtonAddText: string;
-  bottomSheetButtonCancelText: string;
-  bottomSheetButtonAddUnderlay: string;
-  bottomSheetButtonCancelUnderlay: string;
-  itemListBackground: string;
-  itemListBackgroundUnderlay: string;
-  itemListBackgroundBorder: string;
-  itemListText: string;
-  itemListIcon: string;
-  itemListIconFilled: string;
-  itemListTextSecondary: string;
-  itemListItemOpenBackground: string;
-  itemListItemOpenBackgroundUnderlay: string;
-  itemListItemOpenBackgroundBorder: string;
-  itemListItemOpenText: string;
-  itemListItemOpenTextSecondary: string;
-  itemListItemOpenButtonBorder: string;
-  itemListItemOpenButtonBackGround: string;
-  itemListItemOpenIcon: string;
-  itemListItemOpenIconFilled: string;
-  itemListItemOpenButtonText: string;
-  itemListItemOpenButtonSendBorder: string;
-  itemListItemOpenButtonSendBackGround: string;
-  itemListItemOpenButtonSendText: string;
-  itemListItemOpenTrashIcon: string;
-  swipeIcon: string;
-  swipeIconUnderlay: string;
-  circularItemBackground: string;
-  circularItemText: string;
-  circularItemFilled: string;
-  circularHeaderBackground: string;
-  circularHeaderText: string;
-  circularHeaderFilled: string;
-  filterButtonBackground: string;
-  filterButtonBorder: string;
-  filterButtonText: string;
-  filterButtonActiveBackground: string;
-  filterButtonActiveBorder: string;
-  filterButtonActiveText: string;
-  itemProductListAveragePrice: string;
-  itemProductListLastPriceButtonBorder: string;
-  itemProductListLastPriceButtonText: string;
-  configItemBackground: string;
-  switchTrackColorTrue: string;
-  switchTrackColorFalse: string;
-  switchThumbColorTrue: string;
-  switchThumbColorFalse: string;
-  selectCurrency: string;
-  selectProduct: string;
-  selectCategory: string;
+  primary: string; secondary: string; tertiary: string; white: string; whiteLighter: string; black: string;
+  warning: string; alert: string; info: string; text: string; textSecondary: string; textTertiary: string;
+  backgroundPrimary: string; backgroundSecondary: string; backgroundTertiary: string;
+  menuButtonColor: string; menuButtonActiveColor: string; backgroundBottomSheet: string; backgroundBottomNavigation: string;
+  bottomSheetButtonAddBackground: string; bottomSheetButtonCancelBackground: string; bottomSheetButtonAddBorder: string; bottomSheetButtonCancelBorder: string;
+  bottomSheetButtonAddText: string; bottomSheetButtonCancelText: string; bottomSheetButtonAddUnderlay: string; bottomSheetButtonCancelUnderlay: string;
+  itemListBackground: string; itemListBackgroundUnderlay: string; itemListBackgroundBorder: string; itemListText: string; itemListIcon: string; itemListIconFilled: string; itemListTextSecondary: string;
+  itemListItemOpenBackground: string; itemListItemOpenBackgroundUnderlay: string; itemListItemOpenBackgroundBorder: string; itemListItemOpenText: string; itemListItemOpenTextSecondary: string;
+  itemListItemOpenButtonBorder: string; itemListItemOpenButtonBackGround: string; itemListItemOpenIcon: string; itemListItemOpenIconFilled: string; itemListItemOpenButtonText: string;
+  itemListItemOpenButtonSendBorder: string; itemListItemOpenButtonSendBackGround: string; itemListItemOpenButtonSendText: string; itemListItemOpenTrashIcon: string;
+  swipeIcon: string; swipeIconUnderlay: string; circularItemBackground: string; circularItemText: string; circularItemFilled: string; circularHeaderBackground: string; circularHeaderText: string; circularHeaderFilled: string;
+  filterButtonBackground: string; filterButtonBorder: string; filterButtonText: string; filterButtonActiveBackground: string; filterButtonActiveBorder: string; filterButtonActiveText: string;
+  itemProductListAveragePrice: string; itemProductListLastPriceButtonBorder: string; itemProductListLastPriceButtonText: string; configItemBackground: string;
+  switchTrackColorTrue: string; switchTrackColorFalse: string; switchThumbColorTrue: string; switchThumbColorFalse: string;
+  selectCurrency: string; selectProduct: string; selectCategory: string;
 };
 
-export type typeTheme = {
-  light: colorTheme;
-  dark: colorTheme;
+export type typeTheme = { light: colorTheme; dark: colorTheme };
+export type ColorList = string;
+
+export const DEFAULT_ACCENT_COLOR = "#605DE5";
+
+export const normalizeHexColor = (value: string): string | null => {
+  const hex = value.trim().replace(/^#/, "");
+  return /^[0-9a-fA-F]{6}$/.test(hex) ? `#${hex.toUpperCase()}` : null;
 };
 
-export type ColorList = "#43BCAE" | "#00BFFF" | "#FF69B4";
+const alpha = (color: string, value: string) => `${color}${value}`;
 
-export type colors = {
-  "#43BCAE": typeTheme;
-  "#00BFFF": typeTheme;
-  "#FF69B4": typeTheme;
+type RgbColor = { red: number; green: number; blue: number };
+
+const parseHexColor = (color: string): RgbColor | null => {
+  const value = color.trim().replace(/^#/, "");
+  const hex = value.length === 3
+    ? value.split("").map((channel) => channel + channel).join("")
+    : value.slice(0, 6);
+
+  if (!/^[0-9a-fA-F]{6}$/.test(hex)) return null;
+
+  return {
+    red: parseInt(hex.slice(0, 2), 16),
+    green: parseInt(hex.slice(2, 4), 16),
+    blue: parseInt(hex.slice(4, 6), 16),
+  };
 };
 
-export const Colors: colors = {
-  "#43BCAE": {
-    light: {
-      theme: "light",
-      primary: "#43BCAE",
-      secondary: "#43BCAE50",
-      tertiary,
-      white,
-      whiteLighter: "#ffffff80",
-      black,
-      warning,
-      alert,
-      info,
-      text: "#000",
-      textSecondary: "#00000098",
-      textTertiary: "#00000088",
-      backgroundPrimary: "#FFF",
-      backgroundSecondary: "#69C9BE",
-      backgroundTertiary: "#438EBC",
-      menuButtonColor: "#00000050",
-      menuButtonActiveColor: "#43BCAE",
-      backgroundBottomSheet: "#eee",
-      backgroundBottomNavigation: "#eee",
-      bottomSheetButtonAddBackground: "#43BCAE",
-      bottomSheetButtonCancelBackground: "#aaa",
-      bottomSheetButtonAddBorder: "#43BCAE",
-      bottomSheetButtonCancelBorder: "#aaa",
-      bottomSheetButtonAddText: primaryDarkFontColor,
-      bottomSheetButtonCancelText: primaryDarkFontColor,
-      bottomSheetButtonAddUnderlay: "#43BCAE50",
-      bottomSheetButtonCancelUnderlay: "#aaaaaa50",
-      itemListBackground: "#FFF",
-      itemListBackgroundUnderlay: "#eee",
-      itemListBackgroundBorder: "#eee",
-      itemListText: "#000",
-      itemListIcon: "#00000050",
-      itemListIconFilled: "#43BCAE",
-      itemListTextSecondary: "#00000050",
-      itemListItemOpenBackground: "#eeeeee",
-      itemListItemOpenBackgroundUnderlay: "#69C9BE90",
-      itemListItemOpenBackgroundBorder: "#eeeeee",
-      itemListItemOpenText: "#000",
-      itemListItemOpenTextSecondary: "#00000050",
-      itemListItemOpenButtonBorder: "#43BCAE",
-      itemListItemOpenButtonBackGround: "#43BCAE",
-      itemListItemOpenIcon: "#00000050",
-      itemListItemOpenIconFilled: "#43BCAE",
-      itemListItemOpenButtonText: "#fff",
-      itemListItemOpenButtonSendBorder: "#43BCAE",
-      itemListItemOpenButtonSendBackGround: "#43BCAE",
-      itemListItemOpenButtonSendText: "#fff",
-      itemListItemOpenTrashIcon: "#43BCAE",
-      swipeIcon: "#00000050",
-      swipeIconUnderlay: "#eee",
-      circularItemBackground: "#fff",
-      circularItemText: "#00000050",
-      circularItemFilled: "#43BCAE",
-      circularHeaderBackground: "#69C9BE",
-      circularHeaderText: "#eee",
-      circularHeaderFilled: "#43BCAE",
-      filterButtonBackground: "#eeeeee",
-      filterButtonBorder: "#eeeeee",
-      filterButtonText: "#00000080",
-      filterButtonActiveBackground: "#43BCAE",
-      filterButtonActiveBorder: "#43BCAE",
-      filterButtonActiveText: primaryDarkFontColor,
-      itemProductListAveragePrice: "#43BCAE",
-      itemProductListLastPriceButtonBorder: "#43BCAE",
-      itemProductListLastPriceButtonText: "#43BCAE",
-      configItemBackground: "#FFF",
-      switchTrackColorTrue: "#43BCAE88",
-      switchTrackColorFalse: "#CCC",
-      switchThumbColorTrue: "#43BCAE",
-      switchThumbColorFalse: "#43BCAE",
-      selectCurrency: "#eee",
-      selectProduct: "#FFF",
-      selectCategory: "#FFF",
-    },
-    dark: {
-      theme: "dark",
-      primary: "#43BCAE",
-      secondary: "#43BCAE50",
-      tertiary,
-      white,
-      whiteLighter: "#ffffff80",
-      black,
-      warning,
-      alert,
-      info,
-      text: "#fff",
-      textSecondary: "#ffffff88",
-      textTertiary: "#ffffff68",
-      backgroundPrimary: "#1E1E1E",
-      backgroundSecondary: "#4F4E4E",
-      backgroundTertiary: "#5F5E5E",
-      menuButtonColor: "#ffffff50",
-      menuButtonActiveColor: "#43BCAE",
-      backgroundBottomSheet: "#2E2E2E",
-      backgroundBottomNavigation: "#2E2E2E",
-      bottomSheetButtonAddBackground: "#43BCAE",
-      bottomSheetButtonCancelBackground: "#4F4E4E",
-      bottomSheetButtonAddBorder: "#43BCAE",
-      bottomSheetButtonCancelBorder: "#4F4E4E",
-      bottomSheetButtonAddText: primaryDarkFontColor,
-      bottomSheetButtonCancelText: primaryDarkFontColor,
-      bottomSheetButtonAddUnderlay: "#43BCAE50",
-      bottomSheetButtonCancelUnderlay: "#4F4E4E50",
-      itemListBackground: "#4F4E4E",
-      itemListBackgroundUnderlay: "#4F4E4E90",
-      itemListBackgroundBorder: "#4F4E4E",
-      itemListText: primaryDarkFontColor,
-      itemListIcon: "#1E1E1E",
-      itemListIconFilled: "#43BCAE",
-      itemListTextSecondary: secondaryDarkFontColor,
-      itemListItemOpenBackground: "#4F4E4E",
-      itemListItemOpenBackgroundUnderlay: "#43BCAE",
-      itemListItemOpenBackgroundBorder: "#4F4E4E",
-      itemListItemOpenIcon: "#1E1E1E",
-      itemListItemOpenIconFilled: "#43BCAE",
-      itemListItemOpenText: primaryDarkFontColor,
-      itemListItemOpenTextSecondary: secondaryDarkFontColor,
-      itemListItemOpenButtonBorder: "#43BCAE",
-      itemListItemOpenButtonBackGround: "#43BCAE",
-      itemListItemOpenButtonText: primaryDarkFontColor,
-      itemListItemOpenButtonSendBorder: "#43BCAE",
-      itemListItemOpenButtonSendBackGround: "#43BCAE",
-      itemListItemOpenButtonSendText: primaryDarkFontColor,
-      itemListItemOpenTrashIcon: white,
-      swipeIcon: primaryDarkFontColor,
-      swipeIconUnderlay: "#4F4E4E",
-      circularItemBackground: "#4F4E4E",
-      circularItemText: "#43BCAE",
-      circularItemFilled: "#43BCAE",
-      circularHeaderBackground: "#43BCAE",
-      circularHeaderText: secondaryDarkFontColor,
-      circularHeaderFilled: "#43BCAE",
-      filterButtonBackground: primaryDarkColor,
-      filterButtonBorder: primaryDarkColor,
-      filterButtonText: primaryDarkFontColor,
-      filterButtonActiveBackground: "#4F4E4E",
-      filterButtonActiveBorder: "#4F4E4E",
-      filterButtonActiveText: primaryDarkFontColor,
-      itemProductListAveragePrice: "#43BCAE",
-      itemProductListLastPriceButtonBorder: "#43BCAE",
-      itemProductListLastPriceButtonText: primaryDarkFontColor,
-      configItemBackground: "#1E1E1E",
-      switchTrackColorTrue: "#43BCAE88",
-      switchTrackColorFalse: "#5F5E5E",
-      switchThumbColorTrue: "#43BCAE",
-      switchThumbColorFalse: "#43BCAE",
-      selectCurrency: "#4F4E4E",
-      selectProduct: "#1E1E1E",
-      selectCategory: "#1E1E1E",
-    },
-  },
-  "#00BFFF": {
-    light: {
-      theme: "light",
-      primary: "#00BFFF",
-      secondary: "#00BFFF50",
-      tertiary,
-      white,
-      whiteLighter: "#ffffff80",
-      black,
-      warning,
-      alert,
-      info,
-      text: "#000",
-      textSecondary: "#00000098",
-      textTertiary: "#00000088",
-      backgroundPrimary: "#FFF",
-      backgroundSecondary: "#00BFFF",
-      backgroundTertiary: "#438EBC",
-      menuButtonColor: "#00000050",
-      menuButtonActiveColor: "#00BFFF",
-      backgroundBottomSheet: "#eee",
-      backgroundBottomNavigation: "#eee",
-      bottomSheetButtonAddBackground: "#00BFFF",
-      bottomSheetButtonCancelBackground: "#aaa",
-      bottomSheetButtonAddBorder: "#00BFFF",
-      bottomSheetButtonCancelBorder: "#aaa",
-      bottomSheetButtonAddText: primaryDarkFontColor,
-      bottomSheetButtonCancelText: primaryDarkFontColor,
-      bottomSheetButtonAddUnderlay: "#00BFFF50",
-      bottomSheetButtonCancelUnderlay: "#aaaaaa50",
-      itemListBackground: "#FFF",
-      itemListBackgroundUnderlay: "#eee",
-      itemListBackgroundBorder: "#eee",
-      itemListText: "#000",
-      itemListIcon: "#00000050",
-      itemListIconFilled: "#00BFFF",
-      itemListTextSecondary: "#00000050",
-      itemListItemOpenBackground: "#eeeeee",
-      itemListItemOpenBackgroundUnderlay: "#00BFFF90",
-      itemListItemOpenBackgroundBorder: "#eeeeee",
-      itemListItemOpenText: "#000",
-      itemListItemOpenTextSecondary: "#00000050",
-      itemListItemOpenButtonBorder: "#00BFFF",
-      itemListItemOpenButtonBackGround: "#00BFFF",
-      itemListItemOpenIcon: "#00000050",
-      itemListItemOpenIconFilled: "#00BFFF",
-      itemListItemOpenButtonText: "#fff",
-      itemListItemOpenButtonSendBorder: "#00BFFF",
-      itemListItemOpenButtonSendBackGround: "#00BFFF",
-      itemListItemOpenButtonSendText: "#fff",
-      itemListItemOpenTrashIcon: "#00BFFF",
-      swipeIcon: "#00000050",
-      swipeIconUnderlay: "#eee",
-      circularItemBackground: "#fff",
-      circularItemText: "#00000050",
-      circularItemFilled: "#00BFFF",
-      circularHeaderBackground: "#00BFFF",
-      circularHeaderText: "#eee",
-      circularHeaderFilled: "#00BFFF",
-      filterButtonBackground: "#eeeeee",
-      filterButtonBorder: "#eeeeee",
-      filterButtonText: "#00000080",
-      filterButtonActiveBackground: "#00BFFF",
-      filterButtonActiveBorder: "#00BFFF",
-      filterButtonActiveText: primaryDarkFontColor,
-      itemProductListAveragePrice: "#00BFFF",
-      itemProductListLastPriceButtonBorder: "#00BFFF",
-      itemProductListLastPriceButtonText: "#00BFFF",
-      configItemBackground: "#FFF",
-      switchTrackColorTrue: "#00BFFF88",
-      switchTrackColorFalse: "#CCC",
-      switchThumbColorTrue: "#00BFFF",
-      switchThumbColorFalse: "#00BFFF",
-      selectCurrency: "#eee",
-      selectProduct: "#FFF",
-      selectCategory: "#FFF",
-    },
-    dark: {
-      theme: "dark",
-      primary: "#00BFFF",
-      secondary: "#00BFFF50",
-      tertiary,
-      white,
-      whiteLighter: "#ffffff80",
-      black,
-      warning,
-      alert,
-      info,
-      text: "#fff",
-      textSecondary: "#ffffff88",
-      textTertiary: "#ffffff68",
-      backgroundPrimary: "#1E1E1E",
-      backgroundSecondary: "#4F4E4E",
-      backgroundTertiary: "#5F5E5E",
-      menuButtonColor: "#ffffff50",
-      menuButtonActiveColor: "#00BFFF",
-      backgroundBottomSheet: "#2E2E2E",
-      backgroundBottomNavigation: "#2E2E2E",
-      bottomSheetButtonAddBackground: "#00BFFF",
-      bottomSheetButtonCancelBackground: "#4F4E4E",
-      bottomSheetButtonAddBorder: "#00BFFF",
-      bottomSheetButtonCancelBorder: "#4F4E4E",
-      bottomSheetButtonAddText: primaryDarkFontColor,
-      bottomSheetButtonCancelText: primaryDarkFontColor,
-      bottomSheetButtonAddUnderlay: "#00BFFF50",
-      bottomSheetButtonCancelUnderlay: "#4F4E4E50",
-      itemListBackground: "#4F4E4E",
-      itemListBackgroundUnderlay: "#4F4E4E90",
-      itemListBackgroundBorder: "#4F4E4E",
-      itemListText: primaryDarkFontColor,
-      itemListIcon: "#1E1E1E",
-      itemListIconFilled: "#00BFFF",
-      itemListTextSecondary: secondaryDarkFontColor,
-      itemListItemOpenBackground: "#4F4E4E",
-      itemListItemOpenBackgroundUnderlay: "#00BFFF",
-      itemListItemOpenBackgroundBorder: "#4F4E4E",
-      itemListItemOpenIcon: "#1E1E1E",
-      itemListItemOpenIconFilled: "#00BFFF",
-      itemListItemOpenText: primaryDarkFontColor,
-      itemListItemOpenTextSecondary: secondaryDarkFontColor,
-      itemListItemOpenButtonBorder: "#00BFFF",
-      itemListItemOpenButtonBackGround: "#00BFFF",
-      itemListItemOpenButtonText: primaryDarkFontColor,
-      itemListItemOpenButtonSendBorder: "#00BFFF",
-      itemListItemOpenButtonSendBackGround: "#00BFFF",
-      itemListItemOpenButtonSendText: primaryDarkFontColor,
-      itemListItemOpenTrashIcon: white,
-      swipeIcon: primaryDarkFontColor,
-      swipeIconUnderlay: "#4F4E4E",
-      circularItemBackground: "#4F4E4E",
-      circularItemText: "#00BFFF",
-      circularItemFilled: "#00BFFF",
-      circularHeaderBackground: "#00BFFF",
-      circularHeaderText: secondaryDarkFontColor,
-      circularHeaderFilled: "#00BFFF",
-      filterButtonBackground: primaryDarkColor,
-      filterButtonBorder: primaryDarkColor,
-      filterButtonText: primaryDarkFontColor,
-      filterButtonActiveBackground: "#4F4E4E",
-      filterButtonActiveBorder: "#4F4E4E",
-      filterButtonActiveText: primaryDarkFontColor,
-      itemProductListAveragePrice: "#00BFFF",
-      itemProductListLastPriceButtonBorder: "#00BFFF",
-      itemProductListLastPriceButtonText: primaryDarkFontColor,
-      configItemBackground: "#1E1E1E",
-      switchTrackColorTrue: "#00BFFF88",
-      switchTrackColorFalse: "#5F5E5E",
-      switchThumbColorTrue: "#00BFFF",
-      switchThumbColorFalse: "#00BFFF",
-      selectCurrency: "#4F4E4E",
-      selectProduct: "#1E1E1E",
-      selectCategory: "#1E1E1E",
-    },
-  },
-  "#FF69B4": {
-    light: {
-      theme: "light",
-      primary: "#FF69B4",
-      secondary: "#FF69B450",
-      tertiary,
-      white,
-      whiteLighter: "#ffffff80",
-      black,
-      warning,
-      alert,
-      info,
-      text: "#000",
-      textSecondary: "#00000098",
-      textTertiary: "#00000088",
-      backgroundPrimary: "#FFF",
-      backgroundSecondary: "#FF69B4",
-      backgroundTertiary: "#438EBC",
-      menuButtonColor: "#00000050",
-      menuButtonActiveColor: "#FF69B4",
-      backgroundBottomSheet: "#eee",
-      backgroundBottomNavigation: "#eee",
-      bottomSheetButtonAddBackground: "#FF69B4",
-      bottomSheetButtonCancelBackground: "#aaa",
-      bottomSheetButtonAddBorder: "#FF69B4",
-      bottomSheetButtonCancelBorder: "#aaa",
-      bottomSheetButtonAddText: primaryDarkFontColor,
-      bottomSheetButtonCancelText: primaryDarkFontColor,
-      bottomSheetButtonAddUnderlay: "#FF69B450",
-      bottomSheetButtonCancelUnderlay: "#aaaaaa50",
-      itemListBackground: "#FFF",
-      itemListBackgroundUnderlay: "#eee",
-      itemListBackgroundBorder: "#eee",
-      itemListText: "#000",
-      itemListIcon: "#00000050",
-      itemListIconFilled: "#FF69B4",
-      itemListTextSecondary: "#00000050",
-      itemListItemOpenBackground: "#eeeeee",
-      itemListItemOpenBackgroundUnderlay: "#FF69B490",
-      itemListItemOpenBackgroundBorder: "#eeeeee",
-      itemListItemOpenText: "#000",
-      itemListItemOpenTextSecondary: "#00000050",
-      itemListItemOpenButtonBorder: "#FF69B4",
-      itemListItemOpenButtonBackGround: "#FF69B4",
-      itemListItemOpenIcon: "#00000050",
-      itemListItemOpenIconFilled: "#FF69B4",
-      itemListItemOpenButtonText: "#fff",
-      itemListItemOpenButtonSendBorder: "#FF69B4",
-      itemListItemOpenButtonSendBackGround: "#FF69B4",
-      itemListItemOpenButtonSendText: "#fff",
-      itemListItemOpenTrashIcon: "#FF69B4",
-      swipeIcon: "#00000050",
-      swipeIconUnderlay: "#eee",
-      circularItemBackground: "#fff",
-      circularItemText: "#00000050",
-      circularItemFilled: "#FF69B4",
-      circularHeaderBackground: "#FF69B4",
-      circularHeaderText: "#eee",
-      circularHeaderFilled: "#FF69B4",
-      filterButtonBackground: "#eeeeee",
-      filterButtonBorder: "#eeeeee",
-      filterButtonText: "#00000080",
-      filterButtonActiveBackground: "#FF69B4",
-      filterButtonActiveBorder: "#FF69B4",
-      filterButtonActiveText: primaryDarkFontColor,
-      itemProductListAveragePrice: "#FF69B4",
-      itemProductListLastPriceButtonBorder: "#FF69B4",
-      itemProductListLastPriceButtonText: "#FF69B4",
-      configItemBackground: "#FFF",
-      switchTrackColorTrue: "#FF69B488",
-      switchTrackColorFalse: "#CCC",
-      switchThumbColorTrue: "#FF69B4",
-      switchThumbColorFalse: "#FF69B4",
-      selectCurrency: "#eee",
-      selectProduct: "#FFF",
-      selectCategory: "#FFF",
-    },
-    dark: {
-      theme: "dark",
-      primary: "#FF69B4",
-      secondary: "#FF69B450",
-      tertiary,
-      white,
-      whiteLighter: "#ffffff80",
-      black,
-      warning,
-      alert,
-      info,
-      text: "#fff",
-      textSecondary: "#ffffff88",
-      textTertiary: "#ffffff68",
-      backgroundPrimary: "#1E1E1E",
-      backgroundSecondary: "#4F4E4E",
-      backgroundTertiary: "#5F5E5E",
-      menuButtonColor: "#ffffff50",
-      menuButtonActiveColor: "#FF69B4",
-      backgroundBottomSheet: "#2E2E2E",
-      backgroundBottomNavigation: "#2E2E2E",
-      bottomSheetButtonAddBackground: "#FF69B4",
-      bottomSheetButtonCancelBackground: "#4F4E4E",
-      bottomSheetButtonAddBorder: "#FF69B4",
-      bottomSheetButtonCancelBorder: "#4F4E4E",
-      bottomSheetButtonAddText: primaryDarkFontColor,
-      bottomSheetButtonCancelText: primaryDarkFontColor,
-      bottomSheetButtonAddUnderlay: "#FF69B450",
-      bottomSheetButtonCancelUnderlay: "#4F4E4E50",
-      itemListBackground: "#4F4E4E",
-      itemListBackgroundUnderlay: "#4F4E4E90",
-      itemListBackgroundBorder: "#4F4E4E",
-      itemListText: primaryDarkFontColor,
-      itemListIcon: "#1E1E1E",
-      itemListIconFilled: "#FF69B4",
-      itemListTextSecondary: secondaryDarkFontColor,
-      itemListItemOpenBackground: "#4F4E4E",
-      itemListItemOpenBackgroundUnderlay: "#FF69B4",
-      itemListItemOpenBackgroundBorder: "#4F4E4E",
-      itemListItemOpenIcon: "#1E1E1E",
-      itemListItemOpenIconFilled: "#FF69B4",
-      itemListItemOpenText: primaryDarkFontColor,
-      itemListItemOpenTextSecondary: secondaryDarkFontColor,
-      itemListItemOpenButtonBorder: "#FF69B4",
-      itemListItemOpenButtonBackGround: "#FF69B4",
-      itemListItemOpenButtonText: primaryDarkFontColor,
-      itemListItemOpenButtonSendBorder: "#FF69B4",
-      itemListItemOpenButtonSendBackGround: "#FF69B4",
-      itemListItemOpenButtonSendText: primaryDarkFontColor,
-      itemListItemOpenTrashIcon: white,
-      swipeIcon: primaryDarkFontColor,
-      swipeIconUnderlay: "#4F4E4E",
-      circularItemBackground: "#4F4E4E",
-      circularItemText: "#FF69B4",
-      circularItemFilled: "#FF69B4",
-      circularHeaderBackground: "#FF69B4",
-      circularHeaderText: secondaryDarkFontColor,
-      circularHeaderFilled: "#FF69B4",
-      filterButtonBackground: primaryDarkColor,
-      filterButtonBorder: primaryDarkColor,
-      filterButtonText: primaryDarkFontColor,
-      filterButtonActiveBackground: "#4F4E4E",
-      filterButtonActiveBorder: "#4F4E4E",
-      filterButtonActiveText: primaryDarkFontColor,
-      itemProductListAveragePrice: "#FF69B4",
-      itemProductListLastPriceButtonBorder: "#FF69B4",
-      itemProductListLastPriceButtonText: primaryDarkFontColor,
-      configItemBackground: "#1E1E1E",
-      switchTrackColorTrue: "#FF69B488",
-      switchTrackColorFalse: "#5F5E5E",
-      switchThumbColorTrue: "#FF69B4",
-      switchThumbColorFalse: "#FF69B4",
-      selectCurrency: "#4F4E4E",
-      selectProduct: "#1E1E1E",
-      selectCategory: "#1E1E1E",
-    },
-  },
+const getRelativeLuminance = ({ red, green, blue }: RgbColor) => {
+  const linearize = (channel: number) => {
+    const value = channel / 255;
+    return value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+  };
+
+  return linearize(red) * 0.2126 + linearize(green) * 0.7152 + linearize(blue) * 0.0722;
 };
+
+/** Returns the WCAG contrast ratio between two hexadecimal colors. */
+export const getContrastRatio = (first: string, second: string): number => {
+  const firstColor = parseHexColor(first);
+  const secondColor = parseHexColor(second);
+  if (!firstColor || !secondColor) return 0;
+
+  const firstLuminance = getRelativeLuminance(firstColor);
+  const secondLuminance = getRelativeLuminance(secondColor);
+  const lighter = Math.max(firstLuminance, secondLuminance);
+  const darker = Math.min(firstLuminance, secondLuminance);
+  return (lighter + 0.05) / (darker + 0.05);
+};
+
+/** Selects black or white, whichever has the greatest contrast with the background. */
+export const getContrastColor = (background: string): "#000" | "#FFF" => {
+  return getContrastRatio("#000", background) >= getContrastRatio("#FFF", background)
+    ? "#000"
+    : "#FFF";
+};
+
+/**
+ * Keeps the preferred color when it is accessible; otherwise returns black or
+ * white. This makes controls readable even when the user picks a very light
+ * or very dark accent color.
+ */
+export const ensureContrast = (foreground: string, background: string, minimumRatio = 3): string => {
+  return getContrastRatio(foreground, background) >= minimumRatio
+    ? foreground
+    : getContrastColor(background);
+};
+
+const contrastText = (color: string) => getContrastColor(color);
+
+const createTheme = (accent: string, theme: "light" | "dark"): colorTheme => {
+  const dark = theme === "dark";
+  const foreground = dark ? "#FFF" : "#000";
+  const surface = dark ? "#4F4E4E" : "#FFF";
+  const base = dark ? "#1E1E1E" : "#FFF";
+  const muted = dark ? "#FFFFFF88" : "#00000098";
+  const buttonText = contrastText(accent);
+
+  return {
+    theme, primary: accent, secondary: alpha(accent, "50"), tertiary: dark ? "#5F5E5E" : "#F0F8FF",
+    white: "#FFF", whiteLighter: "#FFFFFF80", black: "#000", warning: "#B45309", alert: "#D85D63", info: "#2F6F9F",
+    text: foreground, textSecondary: muted, textTertiary: dark ? "#FFFFFF68" : "#00000078",
+    backgroundPrimary: base, backgroundSecondary: dark ? "#4F4E4E" : accent, backgroundTertiary: dark ? "#5F5E5E" : "#F0F8FF",
+    menuButtonColor: dark ? "#FFFFFF50" : "#00000050", menuButtonActiveColor: accent,
+    backgroundBottomSheet: dark ? "#2E2E2E" : "#EEE", backgroundBottomNavigation: dark ? "#2E2E2E" : "#EEE",
+    bottomSheetButtonAddBackground: accent, bottomSheetButtonCancelBackground: dark ? "#4F4E4E" : "#AAA",
+    bottomSheetButtonAddBorder: accent, bottomSheetButtonCancelBorder: dark ? "#4F4E4E" : "#AAA",
+    bottomSheetButtonAddText: buttonText, bottomSheetButtonCancelText: foreground,
+    bottomSheetButtonAddUnderlay: alpha(accent, "50"), bottomSheetButtonCancelUnderlay: dark ? "#4F4E4E50" : "#AAAAAA50",
+    itemListBackground: surface, itemListBackgroundUnderlay: dark ? "#4F4E4E90" : "#EEE", itemListBackgroundBorder: dark ? "#4F4E4E" : "#EEE",
+    itemListText: foreground, itemListIcon: dark ? "#1E1E1E" : "#00000050", itemListIconFilled: accent, itemListTextSecondary: dark ? "#FFFFFF88" : "#00000050",
+    itemListItemOpenBackground: dark ? "#4F4E4E" : "#EEE", itemListItemOpenBackgroundUnderlay: alpha(accent, dark ? "FF" : "90"), itemListItemOpenBackgroundBorder: dark ? "#4F4E4E" : "#EEE",
+    itemListItemOpenText: foreground, itemListItemOpenTextSecondary: dark ? "#FFFFFF88" : "#00000050",
+    itemListItemOpenButtonBorder: accent, itemListItemOpenButtonBackGround: accent, itemListItemOpenIcon: dark ? "#1E1E1E" : "#00000050", itemListItemOpenIconFilled: accent,
+    itemListItemOpenButtonText: buttonText, itemListItemOpenButtonSendBorder: accent, itemListItemOpenButtonSendBackGround: accent, itemListItemOpenButtonSendText: buttonText, itemListItemOpenTrashIcon: dark ? "#FFF" : accent,
+    swipeIcon: dark ? "#FFF" : "#00000050", swipeIconUnderlay: dark ? "#4F4E4E" : "#EEE",
+    circularItemBackground: surface, circularItemText: dark ? accent : "#00000050", circularItemFilled: accent, circularHeaderBackground: accent, circularHeaderText: dark ? "#FFFFFF88" : "#EEE", circularHeaderFilled: accent,
+    filterButtonBackground: dark ? "#1E1E1E" : "#EEE", filterButtonBorder: dark ? "#1E1E1E" : "#EEE", filterButtonText: dark ? "#FFF" : "#00000080", filterButtonActiveBackground: accent, filterButtonActiveBorder: accent, filterButtonActiveText: buttonText,
+    itemProductListAveragePrice: accent, itemProductListLastPriceButtonBorder: accent, itemProductListLastPriceButtonText: dark ? foreground : accent,
+    configItemBackground: base, switchTrackColorTrue: alpha(accent, "88"), switchTrackColorFalse: dark ? "#5F5E5E" : "#CCC", switchThumbColorTrue: accent, switchThumbColorFalse: accent,
+    selectCurrency: dark ? "#4F4E4E" : "#EEE", selectProduct: base, selectCategory: base,
+  };
+};
+
+/** Generates the complete color system directly from the currently selected accent. */
+export const Colors = (selectedColor: string): typeTheme => {
+  const accent = normalizeHexColor(selectedColor) ?? DEFAULT_ACCENT_COLOR;
+  return { light: createTheme(accent, "light"), dark: createTheme(accent, "dark") };
+};
+
+export const getColorTheme = (selectedColor: string, theme: "light" | "dark"): colorTheme => Colors(selectedColor)[theme];

@@ -21,8 +21,13 @@ const HeaderInputTextSearch: React.FC<InputProps> = ({
     }
   }, [inputRef]);
 
+  const Input = Styled.Input as unknown as React.ForwardRefExoticComponent<
+    React.PropsWithoutRef<React.ComponentProps<typeof Styled.Input>> &
+      React.RefAttributes<TextInput>
+  >;
+
   return (
-    <Styled.Input
+    <Input
       ref={inputRef}
       background={ConfigRepository.color.secondary}
       border={ConfigRepository.color.secondary}

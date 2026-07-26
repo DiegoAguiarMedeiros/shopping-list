@@ -1,4 +1,5 @@
-import { SafeAreaView, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import * as Styled from "./styles";
 import { BottomSheetProps } from "../../../../components/BottomSheet";
 
@@ -6,6 +7,8 @@ import ListGridItem from "./listGridItem";
 import { colorTheme } from "../../../../../constants/Colors";
 import { IProduct } from "../../../../Model/IProduct";
 import { IList } from "../../../../Model/IList";
+import { useStores } from "../../../../context/StoreContext";
+
 interface ItemProps {
   lists: string[];
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -29,18 +32,18 @@ export default function ListGrid({
   listRef,
   listItemRef,
 }: Readonly<ItemProps>) {
+  const { ListRepository } = useStores();
+
   return (
     <SafeAreaView style={{ width: "100%" }}>
       <ScrollView keyboardShouldPersistTaps="handled">
         <Styled.ContainerListItemListItem>
           {lists.map((l: string) => {
-            const list = getListByUuid(l);
+            const list = ListRepository.getListByUuid(l);
+            if (!list) return null;
 
             return (
               <ListGridItem
-                listItemRef={listItemRef}
-                listRef={listRef}
-                color={color}
                 handleCloseBottomSheet={handleCloseBottomSheet}
                 setBottomSheetProps={setBottomSheetProps}
                 key={"ListGridItem-" + list.uuid}

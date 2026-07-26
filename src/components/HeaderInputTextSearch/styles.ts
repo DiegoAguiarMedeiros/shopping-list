@@ -11,6 +11,6 @@ export const Input = styled.TextInput<{
   border: 2px solid ${(props: { border: string }) => props.border};
   border-radius: 100px;
   padding: 10px;font-size: 22px;
-  width: ${Dimensions.get("window").width + "px"};
+  width: ${Dimensions.get("window").width - 80 + "px"};
   height: 100%;
 `;

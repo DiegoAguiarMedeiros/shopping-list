@@ -16,6 +16,7 @@ export interface IListRepository {
   removeItemFromlist(uuid: string): void;
   addItemsToStorage(items: string, key: string): void;
   getItem(uuid: string): IList | undefined;
+  getListByUuid(uuid: string): IList | undefined;
   getAllItems(key: string): IList[];
   getAllItemsMap(key: string): string[];
   editItem(uuid: string, name: string, tag?: string): void;

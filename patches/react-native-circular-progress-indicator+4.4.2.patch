@@ -1,0 +1,35 @@
+diff --git a/node_modules/react-native-circular-progress-indicator/src/hooks/useAnimatedValue.ts b/node_modules/react-native-circular-progress-indicator/src/hooks/useAnimatedValue.ts
+index 8b56ffb..9b984c4 100644
+--- a/node_modules/react-native-circular-progress-indicator/src/hooks/useAnimatedValue.ts
++++ b/node_modules/react-native-circular-progress-indicator/src/hooks/useAnimatedValue.ts
+@@ -1,6 +1,5 @@
+ import { useCallback, useEffect, useMemo } from 'react';
+ import {
+-  createAnimatedPropAdapter,
+   Easing,
+   interpolateColor,
+   processColor,
+@@ -146,16 +145,13 @@ export default function useAnimatedValue({
+       return config;
+     },
+     [],
+-    createAnimatedPropAdapter(
+-      props => {
+-        if (Object.keys(props).includes('stroke')) {
+-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+-          // @ts-ignore
+-          props.stroke = { type: 0, payload: processColor(props.stroke) };
+-        }
+-      },
+-      ['stroke']
+-    )
++    props => {
++      if (props.stroke !== undefined && props.stroke !== null) {
++        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
++        // @ts-ignore
++        props.stroke = { type: 0, payload: processColor(props.stroke) };
++      }
++    }
+   );
+ 
+   useEffect(() => {

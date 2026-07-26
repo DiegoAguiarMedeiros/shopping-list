@@ -7,11 +7,6 @@
     "icon": "./assets/images/logo.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
-    "splash": {
-      "image": "./assets/images/logo.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#1E1E1E"
-    },
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
@@ -19,20 +14,30 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/logo.png",
-        "backgroundColor": "#1E1E1E"
+        "foregroundImage": "./assets/images/adaptive-foreground.png",
+        "backgroundColor": "#FFFFFF"
       },
       "package": "com.diegoamdeiros.listei"
     },
     "web": {
       "bundler": "metro",
-      "favicon": "./assets/images/logo.jpeg"
+      "favicon": "./assets/images/logo.png"
     },
     "extra": {
       "eas": {
         "projectId": "fd512a03-9e31-4522-a1e1-8d85f8176b86"
       }
     },
-    "plugins": ["expo-localization"]
+    "plugins": [
+      "expo-localization",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/logo.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#1E1E1E"
+        }
+      ]
+    ]
   }
 }

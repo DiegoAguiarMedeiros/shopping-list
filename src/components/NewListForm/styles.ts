@@ -4,13 +4,14 @@ import styled, { css } from "styled-components/native";
 export const Container = styled.View`
   width: ${Dimensions.get("window").width + "px"};
   flex: 1;
-  padding: 25px 0;
+  padding: 15px 0;
+  padding-bottom: 10px;
 `;
 
 export const InputContainer = styled.View`
   padding: 5px 15px;
   width: 100%;
-  height: 55px;
+  height: 65px;
   flex-direction: row;
 `;
 

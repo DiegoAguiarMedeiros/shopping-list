@@ -1,5 +1,3 @@
-import { router, useGlobalSearchParams, useSearchParams } from "expo-router";
-
 import ProductsList from "../src/screens/productsList/index";
 import { BottomSheetProps } from "../src/components/BottomSheet";
 import { useEffect, useImperativeHandle, useState } from "react";
@@ -25,7 +23,11 @@ interface ProductTabProps {
   search: string;
 }
 
-const Product = ({ setBottomSheetProps, handleCloseBottomSheet, search }: ProductTabProps) => {
+const Product = ({
+  setBottomSheetProps,
+  handleCloseBottomSheet,
+  search,
+}: ProductTabProps) => {
   const { ListRepository, ProductRepository } = useStores();
   useEffect(() => {
     ListRepository.setListActiveNull();
@@ -38,10 +40,9 @@ const Product = ({ setBottomSheetProps, handleCloseBottomSheet, search }: Produc
       products={
         search != ""
           ? ProductRepository.products.filter((product) =>
-            product.name.toLowerCase().includes(search.toLowerCase())
-          )
+              product.name.toLowerCase().includes(search.toLowerCase())
+            )
           : ProductRepository.products
-
       }
       setBottomSheetProps={setBottomSheetProps}
       handleCloseBottomSheet={handleCloseBottomSheet}

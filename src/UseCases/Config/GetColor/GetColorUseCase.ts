@@ -1,5 +1,5 @@
 
-import { ColorList } from "../../../../constants/Colors";
+import { ColorList, DEFAULT_ACCENT_COLOR } from "../../../../constants/Colors";
 import IMMKVStorage from "../../../Service/IMMKVStorage";
 
 export default class GetColorUseCase {
@@ -9,6 +9,6 @@ export default class GetColorUseCase {
       if (data) {
         return data as ColorList
       }
-      return "#43BCAE";
+      return DEFAULT_ACCENT_COLOR;
     }
 }

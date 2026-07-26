@@ -2,9 +2,8 @@ import { Dimensions } from 'react-native';
 import styled, { css } from 'styled-components/native';
 
 export const Container = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+  height: 35px;
 `;
 
 export const ButtonContainer = styled.TouchableHighlight`

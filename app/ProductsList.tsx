@@ -1,5 +1,3 @@
-import { router, useGlobalSearchParams, useSearchParams } from "expo-router";
-
 import ProductsList from "../src/screens/productsList/index";
 import { BottomSheetProps } from "../src/components/BottomSheet";
 import { useEffect, useImperativeHandle, useState } from "react";
@@ -17,6 +15,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Title } from "../src/components/Text";
 import { observer } from "mobx-react-lite";
 import { useStores } from "../src/context/StoreContext";
+import { useNavigation } from "expo-router";
 
 interface ProductListTabProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -35,14 +34,12 @@ const ProductList = ({
   setBottomSheetProps,
   handleCloseBottomSheetTag,
 }: ProductListTabProps) => {
-  const { tagUuid } = useGlobalSearchParams();
+  const navigation = useNavigation<any>();
   const { ProductRepository, TagRepository, ConfigRepository } = useStores();
-  const tag = TagRepository.getItem(
-    tagUuid && !Array.isArray(tagUuid) ? tagUuid : ""
-  );
+  const tag = TagRepository.tagActive;
   const returnToTags = () => {
     handleCloseBottomSheetTag();
-    router.push({ pathname: "/tags" });
+    navigation.navigate("tags");
   };
   useEffect(() => {
     setActiveRouteHeader({

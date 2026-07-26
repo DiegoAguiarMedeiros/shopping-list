@@ -1,6 +1,5 @@
 import { useColorScheme, Animated } from "react-native";
 import * as Styled from "./styles";
-import { useEffect, useRef } from "react";
 
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -39,18 +38,6 @@ const ListGridItem = React.memo(
     const { ProductRepository, TagRepository, ConfigRepository } = useStores();
     const colorScheme = useColorScheme();
     const lastPrice = item.lastPrices ?? [];
-    const gridItemRef = useRef<any>();
-    const handleCloseSwipeableFromParent = () => {
-      // Access the handleCloseSwipeable function from the ref
-      if (gridItemRef?.current) {
-        gridItemRef?.current.handleCloseSwipeable();
-      }
-    };
-
-    useEffect(() => {
-      handleCloseSwipeableFromParent();
-    }, [item.name, item.tag]);
-
     const handleEdit = () => {
       setBottomSheetProps({
         height: "edit",
@@ -94,7 +81,7 @@ const ListGridItem = React.memo(
                   underlayColor={ConfigRepository.color.swipeIconUnderlay}
                   onPress={handleEdit}
                 >
-                  <>
+                  <Styled.ButtonContent>
                     <GridItemWrapperInner height={lastPrice.length > 0 ? 50 : 60}>
                       <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                         <FontAwesome
@@ -119,7 +106,7 @@ const ListGridItem = React.memo(
                         </Text>
                       )}
                     </GridItemWrapperInner>
-                  </>
+                  </Styled.ButtonContent>
                 </Styled.ButtonInner>
               </GridItemWrapperCol>
 
@@ -128,7 +115,7 @@ const ListGridItem = React.memo(
                   underlayColor={ConfigRepository.color.swipeIconUnderlay}
                   onPress={handleDelete}
                 >
-                  <>
+                  <Styled.ButtonContent>
                     <GridItemWrapperInner height={lastPrice.length > 0 ? 50 : 60}>
                       <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                         <FontAwesome
@@ -152,7 +139,7 @@ const ListGridItem = React.memo(
                         </Text>
                       )}
                     </GridItemWrapperInner>
-                  </>
+                  </Styled.ButtonContent>
                 </Styled.ButtonInner>
               </GridItemWrapperCol>
             </>
@@ -165,7 +152,6 @@ const ListGridItem = React.memo(
         renderRightActions={LeftSwipe}
         leftThreshold={100}
         rightThreshold={undefined}
-        ref={gridItemRef}
       >
         <GridItemInner
           underlayColor={ConfigRepository.color.itemListBackgroundUnderlay}

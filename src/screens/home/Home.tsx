@@ -1,6 +1,6 @@
 import EmptyList from "../../components/EmptyList";
 import ListComponent from "./list";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused } from "expo-router/react-navigation";
 
 import { BottomSheetProps } from "../../components/BottomSheet";
 import Container from "../../components/Container";

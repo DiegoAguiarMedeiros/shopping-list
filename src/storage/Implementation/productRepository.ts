@@ -203,6 +203,10 @@ class ProductRepository implements IProductRepository {
     }
   }
 
+  getProductByUuid(uuid: string): IProduct | undefined {
+    return this.getItem(uuid);
+  }
+
   // getTotal(amount: IAmount[]): number {
   //   const total: { total: number } = { total: 0 };
   //   amount.forEach((amount) => {
@@ -256,7 +260,7 @@ class ProductRepository implements IProductRepository {
   updateTotalWithoutAmount(): void {
     let total: number = 0;
     this.products.forEach((product) => {
-      total = total + product.amount.length;
+      total = total + this.getTotalUn(product.amount);
     });
     this.listRepository.updateTotalWithoutAmount(total);
   }
@@ -298,6 +302,38 @@ class ProductRepository implements IProductRepository {
       return this.sortArrayOfObjects(result, "name");
     } catch (error) {
       console.error("Failed to get all items:", error);
+      return [];
+    }
+  }
+
+  getAllItemsByTag(tagUuid: string): IProduct[] {
+    try {
+      const currentData = this.getAllItemsMap();
+      const result: IProduct[] = [];
+      if (currentData) {
+        currentData.forEach((uuid) => {
+          const item = this.getItem(uuid);
+          if (item && item.tag === tagUuid) {
+            if (this.listRepository.listActive) {
+              item.amount = this.amountRepository.getAllItems(
+                this.listRepository.listActive.uuid + "-" + item?.uuid
+              );
+
+              if (item.amount.length > 0) {
+                item.total = this.getTotal(item.amount)
+                  .toFixed(2)
+                  .replace(".", ",");
+              } else {
+                item.total = "0,00";
+              }
+            }
+            result.push(item);
+          }
+        });
+      }
+      return this.sortArrayOfObjects(result, "name");
+    } catch (error) {
+      console.error("Failed to get all items by tag:", error);
       return [];
     }
   }
@@ -393,4 +429,3 @@ export default new ProductRepository(
   langFilterAll,
   Toast
 );
-

@@ -5,12 +5,11 @@ import * as Styled from "./styles";
 import ITag from "../../Model/ITag";
 import { IProduct, ITagsProductsMultiSelect } from "../../Model/IProduct";
 import { colorTheme } from "../../../constants/Colors";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import SectionedMultiSelect, {
   Styles,
 } from "react-native-sectioned-multi-select";
 
-import Icon from "react-native-vector-icons/MaterialIcons";
 import I18n from "i18n-js";
 import { useStores } from "../../context/StoreContext";
 type MultiSelectProps = {
@@ -125,7 +124,7 @@ const MultiSelect = ({
         colors={colors}
         items={items}
         //@ts-ignore
-        IconRenderer={Icon}
+        IconRenderer={MaterialIcons}
         uniqueKey="id"
         subKey="children"
         selectText={I18n.t("selectProduct")}

@@ -11,7 +11,7 @@ const AnimatedBottomSheet = Animated.createAnimatedComponent(
 );
 
 export type BottomSheetProps = {
-  height: "add" | "edit";
+  height: "add" | "edit" | "options";
   isVisible: boolean;
   children: React.ReactNode;
 };
@@ -29,8 +29,9 @@ const BottomSheet = ({
   });
 
   const heightArr = {
-    add: 150,
-    edit: 200,
+    add: 180,
+    edit: 240,
+    options: 220,
   };
 
   useEffect(() => {

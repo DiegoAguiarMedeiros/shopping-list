@@ -13,6 +13,7 @@ import I18n from "i18n-js";
 import { colorTheme } from "../../../constants/Colors";
 import { IProduct } from "../../Model/IProduct";
 import { IList } from "../../Model/IList";
+import { useStores } from "../../context/StoreContext";
 type TotalType = {
   amount: number;
   un: number;
@@ -35,11 +36,12 @@ export default function ListArchived({
   setActiveRouteHeader,
   color,
 }: Readonly<ListProps>) {
+  const { ProductRepository } = useStores();
   const [filter, setFilter] = useState("Todos");
 
   const listArrItems: IProduct[] = [];
   list.items.forEach((i: string) => {
-    const result = getProductByUuid(i);
+    const result = ProductRepository.getProductByUuid(i);
     if (result) listArrItems.push(result);
   });
   const router = useRouter();
@@ -75,7 +77,7 @@ export default function ListArchived({
             listId={list.uuid}
           />
         ) : (
-          <EmptyList color={color} mensage={I18n.t("noItemsInTheList")} />
+          <EmptyList mensage={I18n.t("noItemsInTheList")} />
         )}
       </ContainerInner>
     </Container>

@@ -6,6 +6,7 @@ import {
 
 import { Text } from "../../../../components/Text";
 import { colorTheme } from "../../../../../constants/Colors";
+import { useStores } from "../../../../context/StoreContext";
 
 interface TotalProps {
   color: colorTheme;
@@ -13,6 +14,7 @@ interface TotalProps {
   un: number;
 }
 const Total = ({ color, total, un }: TotalProps) => {
+   const {   ConfigRepository } = useStores();
   return (
     <GridItemWrapperRow height={10}>
       <GridItemWrapperInner width={50} height={100} justify="flex-start">

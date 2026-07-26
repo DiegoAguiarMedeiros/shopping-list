@@ -10,15 +10,16 @@ import {
   GridItemWrapperInner,
   GridItemWrapperRow,
 } from "../../components/GridItemInner";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import * as Styled from "./styles";
 import { languageType } from "../../types/types";
 import I18n from "i18n-js";
 import Select from "../../components/InputSelect";
 
 import currencyArr from "../../../constants/Currency";
-import { ColorList, colorTheme } from "../../../constants/Colors";
+import { ColorList } from "../../../constants/Colors";
 import { useStores } from "../../context/StoreContext";
+import ColorPicker from "../../components/ColorPicker";
 
 interface Image {
   pt: any;
@@ -62,7 +63,7 @@ export default function Config() {
     },
   ];
 
-  const cores: ColorList[] = ["#43BCAE", "#00BFFF", "#FF69B4"];
+  const [customColor, setCustomColor] = useState(ConfigRepository.colors);
 
   const changeTheme = () => {
     ConfigRepository.setTheme(ConfigRepository.color.theme === "light" ? "dark" : "light");
@@ -76,22 +77,27 @@ export default function Config() {
 
   const changeColors = (colors: ColorList): void => {
     ConfigRepository.setColors(colors);
+    setCustomColor(colors);
   }
+
+  const applyCustomColor = () => {
+    changeColors(customColor);
+  };
 
   return (
     <Container background={ConfigRepository.color.backgroundPrimary}>
       <ContainerInner background={ConfigRepository.color.backgroundPrimary}>
         <GridItemInner
           underlayColor={ConfigRepository.color.itemListBackgroundUnderlay}
-          height={450}
+          height={600}
         >
           <>
-            <GridItemWrapperRow height={10}>
+            <GridItemWrapperRow height={8}>
               <GridItemWrapperInner width={100} height={100}>
                 <Title2 color={ConfigRepository.color.text}>{I18n.t("theme")}</Title2>
               </GridItemWrapperInner>
             </GridItemWrapperRow>
-            <GridItemWrapperRow height={10}>
+            <GridItemWrapperRow height={8}>
               <GridItemWrapperInner width={50} height={100}>
                 <SubTitle color={ConfigRepository.color.text}>
                   {ConfigRepository.theme === "dark"
@@ -107,34 +113,40 @@ export default function Config() {
                 />
               </GridItemWrapperInner>
             </GridItemWrapperRow>
-            <GridItemWrapperRow height={15}>
+            <GridItemWrapperRow height={12}>
               <GridItemWrapperInner width={100} height={100}>
                 <Title2 color={ConfigRepository.color.text}>{I18n.t("colors")}</Title2>
               </GridItemWrapperInner>
             </GridItemWrapperRow>
-            <GridItemWrapperRow height={10}>
-              {cores.map((cor) => (
-                <GridItemWrapperInner width={33} height={100} key={`${cor}`}>
-                  <Styled.langTouch
-                    onPress={() => changeColors(cor)}
-                    underlayColor={ConfigRepository.color.secondary}
-                    background={
-                      ConfigRepository.colors === cor
-                        ? ConfigRepository.color.primary
-                        : ConfigRepository.color.configItemBackground
-                    }
-                  >
-                    <Styled.Color background={cor} />
-                  </Styled.langTouch>
-                </GridItemWrapperInner>
-              ))}
+            <GridItemWrapperRow height={9}>
+              <GridItemWrapperInner width={65} height={100}>
+                <ColorPicker
+                  value={customColor}
+                  onChange={setCustomColor}
+                  background={ConfigRepository.color.backgroundBottomSheet}
+                  primary={ConfigRepository.color.primary}
+                  buttonText={I18n.t("chooseColor")}
+                  doneText={I18n.t("done")}
+                />
+              </GridItemWrapperInner>
+              <GridItemWrapperInner width={35} height={100}>
+                <Styled.ApplyColorButton
+                  onPress={applyCustomColor}
+                  background={ConfigRepository.color.primary}
+                  disabledBackground={ConfigRepository.color.switchTrackColorFalse}
+                >
+                  <Styled.ApplyColorText color={ConfigRepository.color.bottomSheetButtonAddText}>
+                    {I18n.t("apply")}
+                  </Styled.ApplyColorText>
+                </Styled.ApplyColorButton>
+              </GridItemWrapperInner>
             </GridItemWrapperRow>
-            <GridItemWrapperRow height={15}>
+            <GridItemWrapperRow height={12}>
               <GridItemWrapperInner width={100} height={100}>
                 <Title2 color={ConfigRepository.color.text}>{I18n.t("language")}</Title2>
               </GridItemWrapperInner>
             </GridItemWrapperRow>
-            <GridItemWrapperRow height={10}>
+            <GridItemWrapperRow height={9}>
               {languages.map((lang) => (
                 <GridItemWrapperInner
                   width={33}
@@ -155,14 +167,14 @@ export default function Config() {
                 </GridItemWrapperInner>
               ))}
             </GridItemWrapperRow>
-            <GridItemWrapperRow height={15}>
+            <GridItemWrapperRow height={12}>
               <GridItemWrapperInner width={100} height={100}>
                 <Title2 color={ConfigRepository.color.text}>
                   {I18n.t("currency")} ({ConfigRepository.currency})
                 </Title2>
               </GridItemWrapperInner>
             </GridItemWrapperRow>
-            <GridItemWrapperRow height={10}>
+            <GridItemWrapperRow height={9}>
               <Select
                 background={ConfigRepository.color.selectCurrency}
                 dropdownIconColor={ConfigRepository.color.primary}

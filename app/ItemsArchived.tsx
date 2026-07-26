@@ -1,4 +1,4 @@
-import { router, useGlobalSearchParams } from "expo-router";
+import { useNavigation } from "expo-router";
 import List from "../src/screens/list/index";
 import { colorTheme } from "../constants/Colors";
 import { useEffect, useImperativeHandle, useState } from "react";
@@ -34,6 +34,7 @@ const ItemsArchived = ({
   setActiveRouteHeader,
 }: ItemsArchivedListProps) => {
   const { ListRepository, ProductRepository, ConfigRepository } = useStores();
+  const navigation = useNavigation<any>();
   const returnToHome = () => {
     // handleCloseBottomSheetList();
     // ProductRepository.setTagFilter(I18n.t("all"));
@@ -42,7 +43,7 @@ const ItemsArchived = ({
     // ProductRepository.updateTotalWithAmount();
     // ProductRepository.updateTotalWithoutAmount();
     // ListRepository.setListActiveNull();
-    router.push({ pathname: "/history" });
+    navigation.navigate("history");
   };
 
   useEffect(() => {
@@ -63,9 +64,7 @@ const ItemsArchived = ({
         <ContainerCP>
           <CircleProgress
             activeStrokeColor={ConfigRepository.color.circularHeaderFilled}
-            titleColor={ConfigRepository.color.circularHeaderText}
             circleBackgroundColor={ConfigRepository.color.circularHeaderBackground}
-            filled={0}
             progress={
               ListRepository?.listActive?.totalWithoutAmount
                 ? ListRepository?.listActive?.totalWithoutAmount

@@ -3,7 +3,7 @@ import * as Styled from "./styles";
 import { useCallback, useEffect, useRef } from "react";
 
 import { FontAwesome } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import { useNavigation } from "expo-router";
 
 import { SubTitle, Title2 } from "../../../../../components/Text";
 
@@ -35,8 +35,8 @@ export default function ListGridItem({
 }: Readonly<ItemProps>) {
   const colorScheme = useColorScheme();
   const { TagRepository, ConfigRepository } = useStores();
-  const router = useRouter();
-  const gridItemRef = useRef<any>();
+  const navigation = useNavigation<any>();
+  const gridItemRef = useRef<any>(null);
   const handleCloseSwipeableFromParent = () => {
     // Access the handleCloseSwipeable function from the ref
     if (gridItemRef?.current) {
@@ -76,8 +76,9 @@ export default function ListGridItem({
         />
       ),
     });
-    router.push({ pathname: "/ProductsList", params: { tagUuid: tag.uuid } });
-  }, [tag.uuid, router]);
+    TagRepository.setTagAcitve(tag.uuid);
+    navigation.navigate("ProductsList", { tagUuid: tag.uuid });
+  }, [tag.uuid, navigation]);
 
   const handleEdit = () => {
     setBottomSheetProps({
@@ -119,7 +120,7 @@ export default function ListGridItem({
             underlayColor={ConfigRepository.color.swipeIconUnderlay}
             onPress={handleEdit}
           >
-            <>
+            <Styled.ButtonContent>
               <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                 <FontAwesome
                   size={18}
@@ -130,13 +131,13 @@ export default function ListGridItem({
               <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
                 {I18n.t("edit")}
               </Styled.ButtonText>
-            </>
+            </Styled.ButtonContent>
           </Styled.ButtonInner>
           <Styled.ButtonInner
             underlayColor={ConfigRepository.color.swipeIconUnderlay}
             onPress={handleDelete}
           >
-            <>
+            <Styled.ButtonContent>
               <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
                 <FontAwesome
                   size={18}
@@ -147,7 +148,7 @@ export default function ListGridItem({
               <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
                 {I18n.t("delete")}
               </Styled.ButtonText>
-            </>
+            </Styled.ButtonContent>
           </Styled.ButtonInner>
         </Styled.ButtonView>
       </Animated.View>

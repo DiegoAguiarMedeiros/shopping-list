@@ -24,6 +24,8 @@ const InputText: React.FC<InputProps> = ({
       color={ConfigRepository.color.text}
       placeholder={placeholder}
       placeholderTextColor={ConfigRepository.color.textSecondary}
+      underlineColorAndroid="transparent"
+      textAlignVertical="center"
       {...rest}
     />
   );

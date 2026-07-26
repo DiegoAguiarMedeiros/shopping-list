@@ -1,4 +1,4 @@
-import { ColorList, colors, colorTheme } from "../../constants/Colors";
+import { ColorList, colorTheme } from "../../constants/Colors";
 import IMMKVStorage from "../Service/IMMKVStorage";
 import IToast from "../Service/IToast";
 
@@ -8,7 +8,6 @@ export interface IConfigRepository {
     currency: string;
     colors: ColorList;
     color: colorTheme;
-    allColors: colors;
     storageMMKV: IMMKVStorage;
     toast: IToast;
     firstLoad(): void

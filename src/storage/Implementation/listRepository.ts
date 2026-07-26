@@ -200,6 +200,10 @@ class ListRepository implements IListRepository {
     }
   }
 
+  getListByUuid(uuid: string): IList | undefined {
+    return this.getItem(uuid);
+  }
+
   getAllItems(key: string): IList[] {
     try {
       const currentData = this.getAllItemsMap(key);

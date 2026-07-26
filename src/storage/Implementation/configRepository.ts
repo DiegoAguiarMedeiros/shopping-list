@@ -1,6 +1,6 @@
 import { action, makeAutoObservable } from "mobx";
 import { IConfigRepository } from "../IConfigRepository";
-import { ColorList, Colors, colors, colorTheme } from "../../../constants/Colors";
+import { ColorList, colorTheme, DEFAULT_ACCENT_COLOR, getColorTheme, normalizeHexColor } from "../../../constants/Colors";
 import IMMKVStorage from "../../Service/IMMKVStorage";
 
 import storageMMKV from "../../Service/Implementation/MMKVStorage";
@@ -17,13 +17,11 @@ class ConfigRepository implements IConfigRepository {
     theme: "light" | "dark" = "light";
     lang: string = 'pt-br';
     currency: string = 'R$';
-    colors: ColorList = "#43BCAE";
+    colors: ColorList = DEFAULT_ACCENT_COLOR;
     color: colorTheme;
-    allColors: colors;
     storageMMKV: IMMKVStorage;
     toast: IToast;
     constructor(
-        allColors: colors,
         storageMMKV: IMMKVStorage,
         toast: IToast
     ) {
@@ -35,8 +33,7 @@ class ConfigRepository implements IConfigRepository {
             setColors: action.bound,
             setColor: action.bound,
         });
-        this.allColors = allColors;
-        this.color = this.allColors[this.colors][this.theme];
+        this.color = getColorTheme(this.colors, this.theme);
         this.storageMMKV = storageMMKV;
     }
 
@@ -58,8 +55,8 @@ class ConfigRepository implements IConfigRepository {
             }
 
             const colors = this.storageMMKV.get(COLOR_STORAGE_KEY);
-            if (colors) { this.setColors(colors as ColorList) } else {
-                this.setColors("#43BCAE")
+            if (colors) { this.setColors(colors) } else {
+                this.setColors(DEFAULT_ACCENT_COLOR)
             }
 
 
@@ -78,7 +75,7 @@ class ConfigRepository implements IConfigRepository {
 
     setTheme(theme: "light" | "dark"): void {
         this.theme = theme;
-        this.setColor(this.allColors[this.colors][theme]);
+        this.setColor(getColorTheme(this.colors, theme));
         this.addItemsToStorage(theme, THEME_STORAGE_KEY)
     }
     setLang(lang: string): void {
@@ -90,10 +87,12 @@ class ConfigRepository implements IConfigRepository {
         this.currency = currency;
         this.addItemsToStorage(currency, CURRENCY_STORAGE_KEY)
     }
-    setColors(colors: ColorList): void {
-        this.colors = colors;
-        this.setColor(this.allColors[colors][this.theme]);
-        this.addItemsToStorage(colors, COLOR_STORAGE_KEY)
+    setColors(colors: string): void {
+        const normalizedColor = normalizeHexColor(colors);
+        if (!normalizedColor) return;
+        this.colors = normalizedColor;
+        this.setColor(getColorTheme(normalizedColor, this.theme));
+        this.addItemsToStorage(normalizedColor, COLOR_STORAGE_KEY)
     }
     setColor(color: colorTheme): void {
         this.color = color;
@@ -101,4 +100,4 @@ class ConfigRepository implements IConfigRepository {
 
 }
 
-export default new ConfigRepository(Colors, storageMMKV, Toast);
+export default new ConfigRepository(storageMMKV, Toast);

@@ -6,13 +6,14 @@ export const Input = styled.TextInput<{
   radius: boolean;
 }>`
   background: ${(props: { background: string }) => props.background};
-  border: 1px solid ${(props: { background: any }) => props.background};
+  border-width: 0;
   color: ${(props: { color: string }) => props.color};
   font-size: 20px;
-  width: 100%;
-  height: 100%;
+  flex: 1;
   margin: 0;
   padding: 0;
+  padding-vertical: 0;
+  include-font-padding: false;
   border-radius: ${(props: { radius: boolean }) =>
     props.radius ? "10px" : "0px"};
   text-align: center;

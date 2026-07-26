@@ -24,7 +24,9 @@ export interface IProductRepository {
   addItem(item: IProduct): boolean;
   addItemsToStorage(items: string): void;
   getItem(uuid: string): IProduct | undefined;
+  getProductByUuid(uuid: string): IProduct | undefined;
   getAllItems(): IProduct[];
+  getAllItemsByTag(tagUuid: string): IProduct[];
   editItem(uuid: string, name: string, tag?: string): void;
   removeItem(uuid: string): void;
   removeItemByUuid(uuid: string): void;

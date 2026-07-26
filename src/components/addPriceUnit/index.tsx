@@ -15,6 +15,7 @@ import { colorTheme } from "../../../constants/Colors";
 import { useLocalStore } from "mobx-react-lite";
 import { useStores } from "../../context/StoreContext";
 import UUIDGenerator from "react-native-uuid";
+import { Text } from "../Text";
 
 interface AddPriceUnitProps {
   amounts: IAmount[];
@@ -82,6 +83,7 @@ export default function AddPriceUnit({
           </GridItemWrapperInner>
           <GridItemWrapperInner width={15} height={100}>
             <Button
+              style={{ minWidth: 0, width: "100%" }}
               border={ConfigRepository.color.itemListItemOpenButtonSendBorder}
               radius
               icon="send"

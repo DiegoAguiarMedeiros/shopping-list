@@ -1,9 +1,9 @@
 import {
   useColorScheme,
-  SafeAreaView,
   ScrollView,
   TouchableHighlight,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import * as Styled from "./styles";
 import React, { useEffect, useState } from "react";
 import { ItemInterface, TagsIterface, TotalType } from "../../../types/types";
@@ -28,10 +28,12 @@ import { colorTheme } from "../../../../constants/Colors";
 import Total from "./total";
 import Header from "../../../components/Header";
 import FilterButtons from "../../../components/FilterButtons";
-import { useRouter } from "expo-router";
+import { useNavigation } from "expo-router";
 import CircleProgress from "../../../components/CircleProgress";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Title } from "../../../components/Text";
+import { useStores } from "../../../context/StoreContext";
+
 interface ListProps {
   listId: string;
   list: IList;
@@ -55,17 +57,18 @@ function ListGrid({
   handleCloseBottomSheetList,
   setActiveRouteHeader,
 }: Readonly<ListProps>) {
+  const { ProductRepository, TagRepository, ListRepository } = useStores();
   const [active, setActive] = useState("");
   const [total, setTotal] = useState<TotalType>({
     total: 0,
     amount: 0,
     un: 0,
   });
-  const router = useRouter();
+  const navigation = useNavigation<any>();
   const [tags, setTags] = useState(list?.tags ? ["Todos", ...list.tags] : []);
   const productsList: IProduct[] = [];
   list.items.forEach((i: string) => {
-    const result = getProductByUuid(i);
+    const result = ProductRepository.getProductByUuid(i);
     if (result) productsList.push(result);
   });
 
@@ -78,40 +81,40 @@ function ListGrid({
   const handleClose = () => {
     setActive("");
   };
-  const totalUpdate = (total: number, amount: number, un: number): void => {
+  const totalUpdate = (total: number, completedUnits: number, un: number): void => {
     const newTotal: TotalType = {
       total,
       un,
-      amount,
+      amount: completedUnits,
     };
     setTotal(newTotal);
-    attHeader(amount, un);
+    attHeader(completedUnits, un);
   };
   const filterUpdate = (): void => {
     const productsList: IProduct[] = [];
     list.items.forEach((i: string) => {
-      const result = getProductByUuid(i);
+      const result = ProductRepository.getProductByUuid(i);
       if (result) productsList.push(result);
     });
     setTags(list?.tags ? ["Todos", ...list.tags] : []);
     totalUpdate(
-      getTotalAmountByListUuid(list.uuid, filter),
-      getTotalQuantityAmountByListUuid(list.uuid, filter),
-      getTotalQuantityWithoutAmountByListUuid(list.uuid, filter)
+      ListRepository.listActive?.total || 0,
+      ListRepository.listActive?.totalWithoutAmount || 0,
+      ListRepository.listActive?.totalUn || 0
     );
     if (filter === "Todos") {
       setListArrItems(productsList);
       return;
     }
     const filteredProductsList = productsList.filter(
-      (product) => getTagUuidByTagName(filter) === product.tag
+      (product) => TagRepository.getTagUuidByName(filter) === product.tag
     );
     setListArrItems(filteredProductsList);
   };
 
   const returnToHome = () => {
     handleCloseBottomSheetList();
-    router.push({ pathname: "/home" });
+    navigation.navigate("home");
   };
 
   const attHeader = (amount: number, un: number) => {
@@ -130,9 +133,7 @@ function ListGrid({
         <Styled.Container>
           <CircleProgress
             activeStrokeColor={color.circularHeaderFilled}
-            titleColor={color.circularHeaderText}
             circleBackgroundColor={color.circularHeaderBackground}
-            filled={amount}
             progress={un && amount ? amount : 0}
             total={un}
             size={24}
@@ -154,9 +155,8 @@ function ListGrid({
         bottom={
           list && list.tags.length > 0 ? (
             <FilterButtons
-              tag={TagRepository.tagFilter}
-              color={color}
               tags={tags}
+              filter={filter}
             />
           ) : null
         }
@@ -169,19 +169,16 @@ function ListGrid({
               contentContainerStyle={{ flexGrow: 1 }}
               nestedScrollEnabled
             >
-              {listArrItems.map((item) => {
+              {listArrItems.map((item, index) => {
                 return (
                   <ListGridItem
-                    filter={filter}
-                    totalUpdate={totalUpdate}
-                    color={color}
                     key={"ListGridItem-" + item.uuid}
+                    index={index}
                     handleOpen={handleOpen}
                     handleClose={handleClose}
                     item={item}
                     listId={listId}
                     active={active == item.uuid}
-                    setList={setList}
                   />
                 );
               })}

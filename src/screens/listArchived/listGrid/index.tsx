@@ -1,4 +1,5 @@
-import { useColorScheme, SafeAreaView, ScrollView } from "react-native";
+import { useColorScheme, ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import * as Styled from "./styles";
 import React, { useEffect, useState } from "react";
 import {
@@ -21,6 +22,7 @@ import {
 import I18n from "i18n-js";
 import { IList } from "../../../Model/IList";
 import { colorTheme } from "../../../../constants/Colors";
+import { useStores } from "../../../context/StoreContext";
 interface ListProps {
   listId: string;
   listArrItems: IProduct[];
@@ -34,8 +36,8 @@ function ListGrid({
   listId,
   color,
 }: Readonly<ListProps>) {
-
-  const total = getTotalAmountByListUuid(listId);
+  const {   ConfigRepository } = useStores();
+  // const total = getTotalAmountByListUuid(listId);
   return (
     <Container background={"transparent"}>
       <ContainerInner>
@@ -51,7 +53,6 @@ function ListGrid({
                   key={"ListGridItem-" + item.uuid}
                   item={item}
                   listId={listId}
-                  color={color}
                 />
               ))}
             </ScrollView>
@@ -61,7 +62,8 @@ function ListGrid({
           <GridItemWrapperCol width={50} height={100}>
             <GridItemWrapperInner height={100}>
               <Text color={color.text}>
-                {I18n.t("items")}: {getTotalQuantityAmountByListUuid(listId)}
+                TODO
+                {/* {I18n.t("items")}: {getTotalQuantityAmountByListUuid(listId)} */}
               </Text>
             </GridItemWrapperInner>
           </GridItemWrapperCol>
@@ -69,7 +71,7 @@ function ListGrid({
             <GridItemWrapperInner height={100}>
               <Text color={color.text} align="right">
                 {I18n.t("total")}: {ConfigRepository.currency}{" "}
-                {total.toFixed(2).replace(".", ",")}
+                {/* {total.toFixed(2).replace(".", ",")} */}
               </Text>
             </GridItemWrapperInner>
           </GridItemWrapperCol>

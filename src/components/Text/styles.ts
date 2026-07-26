@@ -36,5 +36,4 @@ export const Text = styled.Text<{
   color:${(props: { color: string; }) => props.color};
   text-align:${(props: { align: string; }) => props.align};
   font-size: 14px;
-  width: 100%;
 `;
