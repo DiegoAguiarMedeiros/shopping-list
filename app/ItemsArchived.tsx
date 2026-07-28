@@ -29,20 +29,20 @@ interface ItemsArchivedListProps {
   >;
 }
 
-const ItemsArchived = ({
+const ItemsArchived = observer(({
   handleCloseBottomSheetList,
   setActiveRouteHeader,
 }: ItemsArchivedListProps) => {
   const { ListRepository, ProductRepository, ConfigRepository } = useStores();
   const navigation = useNavigation<any>();
   const returnToHome = () => {
-    // handleCloseBottomSheetList();
-    // ProductRepository.setTagFilter(I18n.t("all"));
-    // ProductRepository.updateTotal();
-    // ProductRepository.updateTotalUn();
-    // ProductRepository.updateTotalWithAmount();
-    // ProductRepository.updateTotalWithoutAmount();
-    // ListRepository.setListActiveNull();
+    handleCloseBottomSheetList();
+    ProductRepository.setTagFilter(I18n.t("all"));
+    ProductRepository.updateTotal();
+    ProductRepository.updateTotalUn();
+    ProductRepository.updateTotalWithAmount();
+    ProductRepository.updateTotalWithoutAmount();
+    ListRepository.setListActiveNull();
     navigation.navigate("history");
   };
 
@@ -91,6 +91,6 @@ const ItemsArchived = ({
   ) : (
     <EmptyList mensage={I18n.t("noItemsInTheList")} />
   );
-};
+});
 
 export default ItemsArchived;

@@ -35,10 +35,9 @@ function ListGridItem({ item, listId }: Readonly<ListProps>) {
   const { ListRepository, ProductRepository, ConfigRepository } = useStores();
   const listIditemuuid = `${listId}-${item.uuid}`;
 
-
   return (
     <>
-      {ProductRepository.products.length == 0 ? (
+      {!item.amount || item.amount.length === 0 ? (
         <GridItemInner
           underlayColor={ConfigRepository.color.itemListBackgroundUnderlay}
           borderColor={ConfigRepository.color.itemListBackgroundBorder}
@@ -47,8 +46,20 @@ function ListGridItem({ item, listId }: Readonly<ListProps>) {
           row
           elevation={colorScheme === "light"}
         >
-          <GridItemWrapperCol width={100}>
+          <GridItemWrapperCol width={60} height={100}>
             <Title2 color={ConfigRepository.color.text}>{item.name}</Title2>
+          </GridItemWrapperCol>
+          <GridItemWrapperCol width={40} height={100}>
+            <GridItemWrapperRow height={100}>
+              <GridItemWrapperCol width={50} height={100}>
+                <Text color={ConfigRepository.color.textSecondary}>0 Un</Text>
+              </GridItemWrapperCol>
+              <GridItemWrapperCol width={50} height={100}>
+                <Text color={ConfigRepository.color.textSecondary} align="right">
+                  {ConfigRepository.currency} 0,00
+                </Text>
+              </GridItemWrapperCol>
+            </GridItemWrapperRow>
           </GridItemWrapperCol>
         </GridItemInner>
       ) : (

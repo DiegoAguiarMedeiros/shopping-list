@@ -10,4 +10,5 @@ export const ContainerInner = styled.View<{
   background: ${(props: { background: string }) => props.background};
   justify-content: ${(props: { justify: string }) => props.justify};
   align-items: center;
+  border: 1px solid #0f0;
 `;

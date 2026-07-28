@@ -37,7 +37,6 @@ export interface GridItemProps {
 const GridItem: React.ForwardRefRenderFunction<any, GridItemProps> = (
   {
     background,
-    border,
     children,
     radius,
     renderLeftActions,
@@ -61,7 +60,6 @@ const GridItem: React.ForwardRefRenderFunction<any, GridItemProps> = (
   return (
     <Swipeable
       ref={swipeableRef}
-      containerStyle={{ padding: 1 }}
       renderRightActions={renderRightActions ?? undefined}
       renderLeftActions={renderLeftActions ?? undefined}
       rightThreshold={rightThreshold ?? undefined}

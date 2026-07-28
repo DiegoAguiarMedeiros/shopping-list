@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import {
   View,
   ScrollView,
+  TouchableOpacity,
   useColorScheme,
 } from "react-native";
 import ListGridItem from "../../screens/product/list/listGrid/listGridItem";
@@ -11,14 +12,8 @@ import ContainerInner from "../../components/ContainerInner";
 import { IProduct } from "../../Model/IProduct";
 import ITag from "../../Model/ITag";
 import { useStores } from "../../context/StoreContext";
-import { observer } from "mobx-react-lite";
 import { FontAwesome } from "@expo/vector-icons";
-import { SubTitle, Title2 } from "../../components/Text";
-import {
-  GridItemInner,
-  GridItemWrapperCol,
-  GridItemWrapperInner,
-} from "../../components/GridItemInner";
+import { SubTitle, Text, Title2 } from "../../components/Text";
 import I18n from "i18n-js";
 
 interface ProductViewProps {
@@ -32,160 +27,132 @@ export const ProductView = ({
   handleCloseBottomSheet,
   products,
 }: ProductViewProps) => {
-    const { TagRepository, ConfigRepository } = useStores();
-    const colorScheme = useColorScheme();
-    const [collapsedCategories, setCollapsedCategories] = useState<
-      Record<string, boolean>
-    >({});
+  const { TagRepository, ConfigRepository } = useStores();
+  const colorScheme = useColorScheme();
+  const [collapsedCategories, setCollapsedCategories] = useState<
+    Record<string, boolean>
+  >({});
 
-    const toggleCategory = (tagUuid: string) => {
-      setCollapsedCategories((prev) => ({
-        ...prev,
-        [tagUuid]: !prev[tagUuid],
-      }));
-    };
+  const toggleCategory = (tagUuid: string) => {
+    setCollapsedCategories((prev) => ({
+      ...prev,
+      [tagUuid]: !prev[tagUuid],
+    }));
+  };
 
-    const categoryGroups = useMemo(() => {
-      const allTags = TagRepository.tags || [];
-      const map = new Map<string, { tag: ITag; products: IProduct[] }>();
+  const categoryGroups = useMemo(() => {
+    const allTags = TagRepository.tags || [];
+    const map = new Map<string, { tag: ITag; products: IProduct[] }>();
 
-      allTags.forEach((t) => {
-        map.set(t.uuid, { tag: t, products: [] });
-      });
+    allTags.forEach((t) => {
+      map.set(t.uuid, { tag: t, products: [] });
+    });
 
-      const uncategorizedProducts: IProduct[] = [];
+    const uncategorizedProducts: IProduct[] = [];
 
-      products.forEach((product) => {
-        let matched = false;
-        if (product.tag) {
-          for (const [uuid, group] of map.entries()) {
-            if (product.tag === uuid || product.tag === group.tag.name) {
-              group.products.push(product);
-              matched = true;
-              break;
-            }
+    products.forEach((product) => {
+      let matched = false;
+      if (product.tag) {
+        for (const [uuid, group] of map.entries()) {
+          if (product.tag === uuid || product.tag === group.tag.name) {
+            group.products.push(product);
+            matched = true;
+            break;
           }
         }
-        if (!matched) {
-          uncategorizedProducts.push(product);
-        }
-      });
-
-      const result: Array<{ tag: ITag; products: IProduct[] }> = [];
-
-      map.forEach((group) => {
-        if (group.products.length > 0) {
-          result.push(group);
-        }
-      });
-
-      if (uncategorizedProducts.length > 0) {
-        result.push({
-          tag: {
-            uuid: "uncategorized",
-            name: I18n.t("noCategories") || "Sem Categoria",
-            productsQTD: uncategorizedProducts.length,
-          },
-          products: uncategorizedProducts,
-        });
       }
+      if (!matched) {
+        uncategorizedProducts.push(product);
+      }
+    });
 
-      return result;
-    }, [products, TagRepository.tags]);
+    const result: Array<{ tag: ITag; products: IProduct[] }> = [];
 
-    return (
-      <Container background={ConfigRepository.color.backgroundPrimary}>
-        <ContainerInner background={ConfigRepository.color.backgroundPrimary}>
-          <ScrollView
-            style={{ flex: 1, width: "100%" }}
-            contentContainerStyle={{ width: "100%" }}
-            keyboardShouldPersistTaps="handled"
+    map.forEach((group) => {
+      result.push(group);
+    });
+
+    if (uncategorizedProducts.length > 0) {
+      result.push({
+        tag: {
+          uuid: "uncategorized",
+          name: I18n.t("noCategories") || "Sem Categoria",
+          productsQTD: uncategorizedProducts.length,
+        },
+        products: uncategorizedProducts,
+      });
+    }
+
+    return result;
+  }, [products, TagRepository.tags]);
+
+  return (
+    <Container background={ConfigRepository.color.backgroundPrimary}>
+      <ContainerInner background={ConfigRepository.color.backgroundPrimary}>
+        <ScrollView
+          style={{ flex: 1, width: "100%" }}
+          contentContainerStyle={{ width: "100%", paddingVertical: 8 }}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View
+            style={{
+              width: "100%",
+              backgroundColor: ConfigRepository.color.backgroundPrimary,
+              borderRadius: 16,
+              overflow: "hidden",
+            }}
           >
-            {categoryGroups.map(({ tag, products: categoryProducts }) => {
+            {categoryGroups.map(({ tag, products: categoryProducts }, index) => {
               const isExpanded = !collapsedCategories[tag.uuid];
+              const isLast = index === categoryGroups.length - 1;
 
               return (
-                <View
-                  key={"CategoryAccordion-" + tag.uuid}
-                  style={{ width: "100%", marginBottom: 12 }}
-                >
-                  <GridItemInner
-                    underlayColor={
-                      ConfigRepository.color.itemListBackgroundUnderlay
-                    }
-                    borderColor={
-                      isExpanded
-                        ? ConfigRepository.color.primary
-                        : ConfigRepository.color.itemListBackgroundBorder
-                    }
-                    background={ConfigRepository.color.itemListBackground}
-                    height={56}
-                    row
+                <View key={"CategoryAccordion-" + tag.uuid} style={{ width: "100%" }}>
+                  <TouchableOpacity
+                    activeOpacity={0.7}
                     onPress={() => toggleCategory(tag.uuid)}
-                    elevation={colorScheme === "light"}
+                    style={{
+                      width: "100%",
+                      paddingVertical: 14,
+                      paddingHorizontal: 16,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
                   >
-                    <>
-                      <GridItemWrapperCol width={55} height={100}>
-                        <GridItemWrapperInner height={100} align="flex-start" justify="center">
-                          <View style={{ flexDirection: "row", alignItems: "center" }}>
-                            <FontAwesome
-                              name="tag"
-                              size={13}
-                              color={ConfigRepository.color.primary}
-                              style={{ marginRight: 8 }}
-                            />
-                            <Title2 color={ConfigRepository.color.text}>
-                              {tag.name}
-                            </Title2>
-                          </View>
-                        </GridItemWrapperInner>
-                      </GridItemWrapperCol>
-                      <GridItemWrapperCol width={45} height={100}>
-                        <GridItemWrapperInner
-                          height={100}
-                          justify="center"
-                          align="flex-end"
-                        >
-                          <View style={{ flexDirection: "row", alignItems: "center" }}>
-                            <View
-                              style={{
-                                backgroundColor:
-                                  ConfigRepository.color.primary + "20",
-                                paddingHorizontal: 8,
-                                paddingVertical: 4,
-                                borderRadius: 12,
-                                marginRight: 8,
-                              }}
-                            >
-                              <SubTitle
-                                color={ConfigRepository.color.primary}
-                                align="center"
-                              >
-                                {categoryProducts.length}{" "}
-                                {I18n.t("products")}
-                              </SubTitle>
-                            </View>
-                            <FontAwesome
-                              name={isExpanded ? "chevron-up" : "chevron-down"}
-                              size={13}
-                              color={ConfigRepository.color.primary}
-                            />
-                          </View>
-                        </GridItemWrapperInner>
-                      </GridItemWrapperCol>
-                    </>
-                  </GridItemInner>
+                    <View style={{ flex: 1, marginRight: 8, justifyContent: "center" }}>
+                      <Title2 color={ConfigRepository.color.text}>
+                        {tag.name}
+                      </Title2>
+                    </View>
+                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                      <View
+                        style={{
+                          backgroundColor: ConfigRepository.color.primary + "20",
+                          paddingHorizontal: 10,
+                          paddingVertical: 4,
+                          borderRadius: 12,
+                          marginRight: 8,
+                        }}
+                      >
+                        <Text color={ConfigRepository.color.primary}>
+                          {categoryProducts.length} {I18n.t("products")}
+                        </Text>
+                      </View>
+                      <FontAwesome
+                        name={isExpanded ? "chevron-up" : "chevron-down"}
+                        size={14}
+                        color={ConfigRepository.color.primary}
+                      />
+                    </View>
+                  </TouchableOpacity>
 
                   {isExpanded && (
                     <View
                       style={{
                         width: "100%",
-                        paddingLeft: 10,
-                        borderLeftWidth: 2,
-                        borderLeftColor:
-                          ConfigRepository.color.primary + "40",
-                        marginTop: 6,
-                        marginBottom: 4,
+                        paddingHorizontal: 16,
+                        paddingBottom: categoryProducts.length > 0 ? 8 : 0,
                       }}
                     >
                       {categoryProducts.map((item) => (
@@ -198,13 +165,24 @@ export const ProductView = ({
                       ))}
                     </View>
                   )}
+
+                  {!isLast && (
+                    <View
+                      style={{
+                        height: 1,
+                        backgroundColor: ConfigRepository.color.itemListBackgroundBorder || "rgba(255, 255, 255, 0.1)",
+                        width: "100%",
+                      }}
+                    />
+                  )}
                 </View>
               );
             })}
-            <View style={{ width: "100%", height: 250 }} />
-          </ScrollView>
-        </ContainerInner>
-      </Container>
-    );
-  };
+          </View>
+          <View style={{ width: "100%", height: 250 }} />
+        </ScrollView>
+      </ContainerInner>
+    </Container>
+  );
+};
 

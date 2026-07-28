@@ -41,7 +41,10 @@ function ListGrid({
   return (
     <Container background={"transparent"}>
       <ContainerInner>
-        <GridItemWrapperRow height={95}>
+        <Text color={color.text} align="center">
+          Teste
+        </Text>
+        {/* <GridItemWrapperRow height={95}>
           <SafeAreaView style={{ width: "100%" }}>
             <ScrollView
               keyboardShouldPersistTaps="handled"
@@ -63,19 +66,19 @@ function ListGrid({
             <GridItemWrapperInner height={100}>
               <Text color={color.text}>
                 TODO
-                {/* {I18n.t("items")}: {getTotalQuantityAmountByListUuid(listId)} */}
+                {/* {I18n.t("items")}: {getTotalQuantityAmountByListUuid(listId)} 
               </Text>
             </GridItemWrapperInner>
           </GridItemWrapperCol>
           <GridItemWrapperCol width={50} height={100}>
             <GridItemWrapperInner height={100}>
-              <Text color={color.text} align="right">
+              <Text color={color.text} align="right"> asd
                 {I18n.t("total")}: {ConfigRepository.currency}{" "}
-                {/* {total.toFixed(2).replace(".", ",")} */}
+                {/* {total.toFixed(2).replace(".", ",")} 
               </Text>
             </GridItemWrapperInner>
           </GridItemWrapperCol>
-        </GridItemWrapperRow>
+        </GridItemWrapperRow> */}
       </ContainerInner>
     </Container>
   );

@@ -155,7 +155,7 @@ const ListGridItem = React.memo(
       >
         <GridItemInner
           underlayColor={ConfigRepository.color.itemListBackgroundUnderlay}
-          borderColor={ConfigRepository.color.itemListBackgroundBorder}
+          borderColor="transparent"
           background={ConfigRepository.color.itemListBackground}
           height={lastPrice.length > 0 ? 115 : 60}
           row={false}
@@ -164,7 +164,7 @@ const ListGridItem = React.memo(
           <>
             <GridItemWrapperRow height={lastPrice.length > 0 ? 35 : 100}>
               <GridItemWrapperInner height={100}>
-                <Title2 color={ConfigRepository.color.text}>{item.name}</Title2>
+                <SubTitle color={ConfigRepository.color.text}>{item.name}</SubTitle>
               </GridItemWrapperInner>
             </GridItemWrapperRow>
             <GridItemWrapperRow height={lastPrice.length > 0 ? 67 : 0}>

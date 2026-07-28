@@ -28,14 +28,16 @@ const Product = ({
   handleCloseBottomSheet,
   search,
 }: ProductTabProps) => {
-  const { ListRepository, ProductRepository } = useStores();
+  const { ListRepository, ProductRepository, TagRepository } = useStores();
   useEffect(() => {
     ListRepository.setListActiveNull();
     ProductRepository.load();
   }, []);
 
-  return ProductRepository.products &&
-    ProductRepository.products.length > 0 ? (
+  const hasProducts = ProductRepository.products && ProductRepository.products.length > 0;
+  const hasTags = TagRepository.tags && TagRepository.tags.length > 0;
+
+  return hasProducts || hasTags ? (
     <ProductView
       products={
         search != ""

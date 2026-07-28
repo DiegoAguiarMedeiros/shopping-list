@@ -30,6 +30,7 @@ interface ListProps {
   handleClose: () => void;
   active: boolean;
   index: number;
+  tagRepository?: string;
 }
 
 function ListGridItem({
@@ -39,6 +40,7 @@ function ListGridItem({
   handleClose,
   active,
   index,
+  tagRepository
 }: ListProps) {
   const colorScheme = useColorScheme();
   const listProductUuid = `${listId}-${item.uuid}`;
@@ -119,64 +121,64 @@ function ListGridItem({
       >
         <GridItemWrapperCol width={100} justify="flex-end">
           <GridItemWrapperRow height={100} maxHeight={50} justify="flex-end">
-              <GridItemWrapperInner width={10} height={100}>
-                <Title color={ConfigRepository.color.itemListItemOpenIcon}>
-                  <FontAwesome
-                    size={28}
-                    style={{ marginBottom: -3 }}
-                    color={
-                      item.amount.length > 0
-                        ? ConfigRepository.color.itemListItemOpenIconFilled
-                        : ConfigRepository.color.itemListItemOpenIcon
-                    }
-                    name={item.amount.length > 0 ? "check-circle-o" : "circle-o"}
-                  />
-                </Title>
-              </GridItemWrapperInner>
-              <GridItemWrapperInner width={80} height={100}>
-                <GridItemWrapperCol width={100}>
+            <GridItemWrapperInner width={10} height={100}>
+              <Title color={ConfigRepository.color.itemListItemOpenIcon}>
+                <FontAwesome
+                  size={28}
+                  style={{ marginBottom: -3 }}
+                  color={
+                    item.amount.length > 0
+                      ? ConfigRepository.color.itemListItemOpenIconFilled
+                      : ConfigRepository.color.itemListItemOpenIcon
+                  }
+                  name={item.amount.length > 0 ? "check-circle-o" : "circle-o"}
+                />
+              </Title>
+            </GridItemWrapperInner>
+            <GridItemWrapperInner width={80} height={100}>
+              <GridItemWrapperCol width={100}>
+                <GridItemWrapperInner
+                  width={100}
+                  height={50}
+                  justify="flex-end"
+                >
+                  <Title2 color={ConfigRepository.color.itemListItemOpenText}>
+                    {item.name}
+                  </Title2>
+                </GridItemWrapperInner>
+                <GridItemWrapperRow height={50}>
                   <GridItemWrapperInner
-                    width={100}
-                    height={50}
-                    justify="flex-end"
+                    width={50}
+                    height={100}
+                    justify="flex-start"
+                    align="flex-start"
                   >
-                    <Title2 color={ConfigRepository.color.itemListItemOpenText}>
-                      {item.name}
-                    </Title2>
+                    <Text color={ConfigRepository.color.itemListItemOpenTextSecondary}>
+                      {I18n.t("total")}: {ConfigRepository.currency} {item.total}
+                    </Text>
                   </GridItemWrapperInner>
-                  <GridItemWrapperRow height={50}>
-                    <GridItemWrapperInner
-                      width={50}
-                      height={100}
-                      justify="flex-start"
-                      align="flex-start"
-                    >
-                      <Text color={ConfigRepository.color.itemListItemOpenTextSecondary}>
-                        {I18n.t("total")}: {ConfigRepository.currency} {item.total}
-                      </Text>
-                    </GridItemWrapperInner>
-                    <GridItemWrapperInner
-                      width={50}
-                      height={100}
-                      justify="flex-start"
-                    >
-                      <Text color={ConfigRepository.color.itemListItemOpenTextSecondary}>
-                        {showUnitFromAmount(item.amount)}
-                      </Text>
-                    </GridItemWrapperInner>
-                  </GridItemWrapperRow>
-                </GridItemWrapperCol>
-              </GridItemWrapperInner>
-              <GridItemWrapperInner width={10} height={100}>
-                <Title color={ConfigRepository.color.text} align="right">
-                  <FontAwesome
-                    onPress={() => handleClose()}
-                    size={28}
-                    style={{ marginBottom: -3 }}
-                    name="angle-up"
-                  />
-                </Title>
-              </GridItemWrapperInner>
+                  <GridItemWrapperInner
+                    width={50}
+                    height={100}
+                    justify="flex-start"
+                  >
+                    <Text color={ConfigRepository.color.itemListItemOpenTextSecondary}>
+                      {showUnitFromAmount(item.amount)}
+                    </Text>
+                  </GridItemWrapperInner>
+                </GridItemWrapperRow>
+              </GridItemWrapperCol>
+            </GridItemWrapperInner>
+            <GridItemWrapperInner width={10} height={100}>
+              <Title color={ConfigRepository.color.text} align="right">
+                <FontAwesome
+                  onPress={() => handleClose()}
+                  size={28}
+                  style={{ marginBottom: -3 }}
+                  name="angle-up"
+                />
+              </Title>
+            </GridItemWrapperInner>
           </GridItemWrapperRow>
           <Styled.SelectedEditor>
             <AddPriceUnit
@@ -264,6 +266,7 @@ function ListGridItem({
 export default React.memo(ListGridItem, (prevProps, nextProps) => {
   return (
     isEqual(prevProps.active, nextProps.active) &&
-    isEqual(prevProps.item.amount, nextProps.item.amount)
+    isEqual(prevProps.item.amount, nextProps.item.amount) &&
+    isEqual(prevProps.tagRepository, nextProps.tagRepository)
   );
 });

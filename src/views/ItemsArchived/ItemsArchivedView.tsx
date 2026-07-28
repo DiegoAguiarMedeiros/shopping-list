@@ -40,6 +40,10 @@ const CustomFlatList = React.memo(
       <Container background={ConfigRepository.color.backgroundPrimary}>
         <ContainerInner height="100" background={ConfigRepository.color.backgroundPrimary}>
           <FlashList
+            style={{ flex: 1, width: "100%", marginTop: -15 }}
+            contentContainerStyle={{
+              width: "100%",
+            }}
             data={lists}
             renderItem={renderItem}
             keyExtractor={(item) => "ListGridItem-" + item.uuid}

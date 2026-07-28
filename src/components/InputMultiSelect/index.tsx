@@ -44,6 +44,21 @@ const MultiSelect = ({
   };
 
   const styles: Styles = {
+    container: {
+      marginHorizontal: 14,
+      marginVertical: 24,
+      borderRadius: 12,
+      flex: 1,
+      height: "100%",
+      backgroundColor: ConfigRepository.color.backgroundPrimary,
+    },
+    modalWrapper: {
+      flex: 1,
+      height: "100%",
+      width: "100%",
+      padding: 0,
+      margin: 0,
+    },
     selectToggle: {
       backgroundColor: ConfigRepository.color.itemListBackground,
       height: 45,

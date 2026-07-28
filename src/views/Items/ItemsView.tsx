@@ -23,10 +23,11 @@ import Total from "../../components/total";
 
 interface ItemsViewProps {
   lists: IProduct[];
+  tagRepository: string;
 }
 
 const CustomFlatList = React.memo(
-  ({ lists }: ItemsViewProps) => {
+  ({ lists, tagRepository }: ItemsViewProps) => {
     const { ListRepository, ConfigRepository } = useStores();
     const flatListRef = useRef<FlashListRef<IProduct> | null>(null);
     const [active, setActive] = useState("");
@@ -55,6 +56,7 @@ const CustomFlatList = React.memo(
         handleClose={handleClose}
         active={active === item.uuid}
         index={index}
+        tagRepository={tagRepository}
       />
     );
 
@@ -111,11 +113,11 @@ const CustomFlatList = React.memo(
   },
   (prevProps, nextProps) => {
     return (
-      isEqual(prevProps.lists, nextProps.lists)
+      isEqual(prevProps.lists, nextProps.lists) && isEqual(prevProps.tagRepository, nextProps.tagRepository)
     );
   }
 );
 
-export const ItemsView = ({ lists }: ItemsViewProps) => {
-  return <CustomFlatList lists={lists} />;
+export const ItemsView = ({ lists, tagRepository }: ItemsViewProps) => {
+  return <CustomFlatList lists={lists} tagRepository={tagRepository} />;
 };

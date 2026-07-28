@@ -1,9 +1,8 @@
-import { Animated, useColorScheme } from "react-native";
+import { Animated, KeyboardAvoidingView, Platform } from "react-native";
 
 import * as Styled from "./styles";
 
 import { useEffect, useRef } from "react";
-import { colorTheme } from "../../../constants/Colors";
 import { useStores } from "../../context/StoreContext";
 
 const AnimatedBottomSheet = Animated.createAnimatedComponent(
@@ -11,7 +10,7 @@ const AnimatedBottomSheet = Animated.createAnimatedComponent(
 );
 
 export type BottomSheetProps = {
-  height: "add" |"addCategory" | "edit" | "options" | "addProduct";
+  height: "add" | "addCategory" | "edit" | "options" | "addProduct";
   isVisible: boolean;
   children: React.ReactNode;
 };
@@ -43,16 +42,27 @@ const BottomSheet = ({
       useNativeDriver: true,
     }).start();
   }, [isVisible, animation]);
+
   return (
-    <AnimatedBottomSheet
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "android" ? "padding" : "padding"}
       style={{
-        height: heightArr[height],
-        backgroundColor: ConfigRepository.color.backgroundBottomSheet,
-        transform: [{ translateY }],
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        right: 0,
       }}
     >
-      {children}
-    </AnimatedBottomSheet>
+      <AnimatedBottomSheet
+        style={{
+          height: heightArr[height],
+          backgroundColor: ConfigRepository.color.backgroundBottomSheet,
+          transform: [{ translateY }],
+        }}
+      >
+        {children}
+      </AnimatedBottomSheet>
+    </KeyboardAvoidingView>
   );
 };
 

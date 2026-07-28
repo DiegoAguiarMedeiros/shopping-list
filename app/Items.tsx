@@ -95,9 +95,6 @@ const Items = ({
   ]);
 
   const validateFilterButtons = (products: number): React.ReactNode => {
-    console.log("products", products)
-    console.log("TagRepository.tagFilter", TagRepository.tagFilter)
-    console.log("ListRepository.listActive?.tags", ListRepository.listActive?.tags)
     if (products > 0) {
       return <FilterButtons
         filter={TagRepository.tagFilter}
@@ -125,7 +122,7 @@ const Items = ({
         background={ConfigRepository.color.backgroundPrimary}
         bottom={validateFilterButtons(ProductRepository.products.length)}
       />
-      <ItemsView lists={ProductRepository.products} />
+      <ItemsView lists={ProductRepository.products} tagRepository={TagRepository.tagFilter} />
     </>
   ) : (
     <EmptyList mensage={I18n.t("noItemsInTheList")} />

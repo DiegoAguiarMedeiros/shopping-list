@@ -384,7 +384,7 @@ const Navigation: React.FC = () => {
             />;
           }}
         </Stack.Screen>
-        <Stack.Screen
+        {/* <Stack.Screen
           name="ProductsList"
           options={{
             headerLeft: () => activeRouteHeader.left,
@@ -400,7 +400,7 @@ const Navigation: React.FC = () => {
               handleCloseBottomSheetTag={handleCloseBottomSheetTag}
             />;
           }}
-        </Stack.Screen>
+        </Stack.Screen> */}
         <Stack.Screen
           name="ItemsArchived"
           options={{

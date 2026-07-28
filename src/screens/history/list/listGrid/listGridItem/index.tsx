@@ -26,7 +26,7 @@ export default function ListGridItem({
   list,
 }: Readonly<ItemProps>) {
 
-  const { ListRepository, ProductRepository, ConfigRepository } = useStores();
+  const { ListRepository, ProductRepository, TagRepository, ConfigRepository } = useStores();
   const colorScheme = useColorScheme();
   const navigation = useNavigation<any>();
   const total = list.total ?? 0;
@@ -35,9 +35,10 @@ export default function ListGridItem({
 
   const handleOpenList = useCallback(() => {
     ListRepository.setListActive(list.uuid);
+    TagRepository.setTagAcitveNull();
     ProductRepository.load();
     navigation.navigate("ItemsArchived", { listId: list.uuid });
-  }, [list.uuid, navigation]);
+  }, [list.uuid, navigation, TagRepository, ListRepository, ProductRepository]);
 
   const handleDelete = () => {
     ListRepository.removeItemArchived(list.uuid);
@@ -102,7 +103,7 @@ export default function ListGridItem({
       >
         <>
           <GridItemWrapperCol width={85} height={100}>
-            <GridItemWrapperInner height={100}>
+            <GridItemWrapperInner height={100} align="flex-start">
               <Title2 color={ConfigRepository.color.itemListText}>{list.name}</Title2>
               <Text color={ConfigRepository.color.itemListTextSecondary}>
                 {I18n.t("total")}: {ConfigRepository.currency}{" "}
