@@ -1,13 +1,15 @@
-import { Animated, KeyboardAvoidingView, Platform } from "react-native";
-
-import * as Styled from "./styles";
-
+import { Animated, KeyboardAvoidingView } from "react-native";
 import { useEffect, useRef } from "react";
 import { useStores } from "../../context/StoreContext";
+import useKeyboard from "../../hooks/useKeyboard";
 
-const AnimatedBottomSheet = Animated.createAnimatedComponent(
-  Styled.BottomSheet
-);
+const AnimatedBottomSheet = ({ children, style }: { children: React.ReactNode; style: any }) => {
+  return (
+    <Animated.View style={[style, { borderTopLeftRadius: 20, borderTopRightRadius: 20 }]}>
+      {children}
+    </Animated.View>
+  );
+}
 
 export type BottomSheetProps = {
   height: "add" | "addCategory" | "edit" | "options" | "addProduct";
@@ -21,6 +23,7 @@ const BottomSheet = ({
   height,
 }: BottomSheetProps) => {
   const animation = useRef(new Animated.Value(0))?.current;
+  const isKeyboardVisible = useKeyboard();
   const { ConfigRepository } = useStores();
   const translateY = animation.interpolate({
     inputRange: [0, 1],
@@ -28,11 +31,11 @@ const BottomSheet = ({
   });
 
   const heightArr = {
-    add: 206,
+    add: 156,
     edit: 238,
-    options: 220,
-    addProduct: 261,
-    addCategory: 204,
+    options: 170,
+    addProduct: 211,
+    addCategory: 156,
   };
 
   useEffect(() => {
@@ -45,10 +48,10 @@ const BottomSheet = ({
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "android" ? "padding" : "padding"}
+      behavior="padding"
       style={{
         position: "absolute",
-        bottom: 0,
+        bottom: 100,
         left: 0,
         right: 0,
       }}

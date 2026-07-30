@@ -12,7 +12,6 @@ import ItemsArchived from "../../app/ItemsArchived";
 import ConfigScreen from "../../app/config";
 import ProductTab from "../../app/product";
 import Home from "../../app/home";
-import ProductsList from "../../app/ProductsList";
 import { languageType, RoutesProps } from "../types/types";
 import BottomNavigation from "../components/BottomNavigation";
 import BottomSheet, { BottomSheetProps } from "../components/BottomSheet";
@@ -72,20 +71,6 @@ const Navigation: React.FC = () => {
         />
       ),
       height: "edit",
-      isVisible: false,
-    });
-  };
-  const handleCloseBottomSheetProductWithTag = (tag: string) => {
-    setBottomSheetProps({
-      children: (
-        <NewProductForm
-          action="addList"
-          buttonText="add"
-          onClose={handleCloseBottomSheetProduct}
-          tagUuid={tag}
-        />
-      ),
-      height: "addProduct",
       isVisible: false,
     });
   };
@@ -384,23 +369,6 @@ const Navigation: React.FC = () => {
             />;
           }}
         </Stack.Screen>
-        {/* <Stack.Screen
-          name="ProductsList"
-          options={{
-            headerLeft: () => activeRouteHeader.left,
-            headerTitle: () => activeRouteHeader.name,
-            headerRight: () => activeRouteHeader.right,
-          }}
-        >
-          {({ navigation }) => {
-            stackRef.current = navigation;
-            return <ProductsList
-              setActiveRouteHeader={setActiveRouteHeader}
-              setBottomSheetProps={setBottomSheetProps}
-              handleCloseBottomSheetTag={handleCloseBottomSheetTag}
-            />;
-          }}
-        </Stack.Screen> */}
         <Stack.Screen
           name="ItemsArchived"
           options={{
