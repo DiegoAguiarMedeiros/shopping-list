@@ -8,22 +8,22 @@ import {
   ListItemAmountInterface,
   ListItemInterface,
   ListType,
-} from "../../../../types/types";
+} from "../../../types/types";
 import { FontAwesome } from "@expo/vector-icons";
 
 import { Swipeable } from "react-native-gesture-handler";
-import { Title, Text, Title2 } from "../../../../components/Text";
-import { IProduct } from "../../../../Model/IProduct";
-import GridItem from "../../../../components/GridItem";
+import { Title, Text, Title2 } from "../../../components/Text";
+import { IProduct } from "../../../Model/IProduct";
+import GridItem from "../../../components/GridItem";
 import {
   GridItemInner,
   GridItemWrapperCol,
   GridItemWrapperRow,
-} from "../../../../components/GridItemInner";
-import ContainerInner from "../../../../components/ContainerInner";
-import Container from "../../../../components/Container";
-import { colorTheme } from "../../../../../constants/Colors";
-import { useStores } from "../../../../context/StoreContext";
+} from "../../../components/GridItemInner";
+import ContainerInner from "../../../components/ContainerInner";
+import Container from "../../../components/Container";
+import { colorTheme } from "../../../../constants/Colors";
+import { useStores } from "../../../context/StoreContext";
 
 interface ListProps {
   item: IProduct;

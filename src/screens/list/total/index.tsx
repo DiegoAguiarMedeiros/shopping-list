@@ -2,11 +2,11 @@ import I18n from "i18n-js";
 import {
   GridItemWrapperRow,
   GridItemWrapperInner,
-} from "../../../../components/GridItemInner";
+} from "../../../components/GridItemInner";
 
-import { Text } from "../../../../components/Text";
-import { colorTheme } from "../../../../../constants/Colors";
-import { useStores } from "../../../../context/StoreContext";
+import { Text } from "../../../components/Text";
+import { colorTheme } from "../../../../constants/Colors";
+import { useStores } from "../../../context/StoreContext";
 
 interface TotalProps {
   color: colorTheme;

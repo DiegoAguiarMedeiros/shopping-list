@@ -10,7 +10,7 @@ import {
   Button,
 } from "react-native";
 import { IList } from "../../Model/IList";
-import ListGridItem from "../../screens/list/listGrid/listGridItem";
+import ListGridItem from "../../screens/list/listGridItem";
 import { colorTheme } from "../../../constants/Colors";
 import { BottomSheetProps } from "../../components/BottomSheet";
 import Container from "../../components/Container";

@@ -1,5 +1,5 @@
 import { useNavigation } from "expo-router";
-import List from "../src/screens/list/index";
+import { useIsFocused } from "expo-router/react-navigation";
 import { colorTheme } from "../constants/Colors";
 import { useEffect, useImperativeHandle, useState } from "react";
 import { IList } from "../src/Model/IList";
@@ -35,6 +35,7 @@ const ItemsArchived = observer(({
 }: ItemsArchivedListProps) => {
   const { ListRepository, ProductRepository, ConfigRepository } = useStores();
   const navigation = useNavigation<any>();
+  const isFocused = useIsFocused();
   const returnToHome = () => {
     handleCloseBottomSheetList();
     ProductRepository.setTagFilter(I18n.t("all"));
@@ -47,6 +48,8 @@ const ItemsArchived = observer(({
   };
 
   useEffect(() => {
+    if (!isFocused) return;
+
     setActiveRouteHeader({
       left: (
         <TouchableHighlight
@@ -81,8 +84,15 @@ const ItemsArchived = observer(({
       ),
     });
   }, [
+    isFocused,
+    ListRepository?.listActive?.uuid,
+    ListRepository?.listActive?.name,
     ListRepository?.listActive?.totalWithoutAmount,
     ListRepository?.listActive?.totalUn,
+    ConfigRepository.color.primary,
+    ConfigRepository.color.white,
+    ConfigRepository.color.circularHeaderFilled,
+    ConfigRepository.color.circularHeaderBackground,
   ]);
 
 

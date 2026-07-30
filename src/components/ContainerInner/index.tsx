@@ -5,16 +5,12 @@ export interface ContainerInnerProps {
   children: React.ReactNode;
   background?: string;
   justify?: "flex-start" | "flex-end" | "center" | "space-between" | "space-around" | "space-evenly";
-  border?: string;
   height?: string;
-  radius?: boolean;
 }
 
 const ContainerInner: React.FC<ContainerInnerProps> = ({
   background,
-  border,
   children,
-  radius,
   justify,
   height
 }) => {

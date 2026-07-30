@@ -9,7 +9,7 @@ import {
   Button,
 } from "react-native";
 import { IList } from "../../Model/IList";
-import ListGridItem from "../../screens/listArchived/listGrid/listGridItem";
+import ListGridItem from "../../screens/listArchived/listGridItem";
 import { colorTheme } from "../../../constants/Colors";
 import { BottomSheetProps } from "../../components/BottomSheet";
 import Container from "../../components/Container";
@@ -40,7 +40,7 @@ const CustomFlatList = React.memo(
       <Container background={ConfigRepository.color.backgroundPrimary}>
         <ContainerInner height="100" background={ConfigRepository.color.backgroundPrimary}>
           <FlashList
-            style={{ flex: 1, width: "100%", marginTop: -15 }}
+            style={{ flex: 1, width: "100%" }}
             contentContainerStyle={{
               width: "100%",
             }}

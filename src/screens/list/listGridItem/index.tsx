@@ -4,24 +4,24 @@ import React, { useState } from "react";
 
 import { FontAwesome } from "@expo/vector-icons";
 
-import { Title, Text, Title2 } from "../../../../components/Text";
+import { Title, Text, Title2 } from "../../../components/Text";
 
-import AddPriceUnit from "../../../../components/addPriceUnit";
-import { IProduct } from "../../../../Model/IProduct";
-import GridItem from "../../../../components/GridItem";
+import AddPriceUnit from "../../../components/addPriceUnit";
+import { IProduct } from "../../../Model/IProduct";
+import GridItem from "../../../components/GridItem";
 import {
   GridItemInner,
   GridItemWrapperCol,
   GridItemWrapperInner,
   GridItemWrapperRow,
-} from "../../../../components/GridItemInner";
-import GridItemNoSwipeable from "../../../../components/GridItemNoSwipeable";
+} from "../../../components/GridItemInner";
+import GridItemNoSwipeable from "../../../components/GridItemNoSwipeable";
 import I18n from "i18n-js";
-import IAmount from "../../../../Model/IAmount";
-import { colorTheme } from "../../../../../constants/Colors";
-import { IList } from "../../../../Model/IList";
+import IAmount from "../../../Model/IAmount";
+import { colorTheme } from "../../../../constants/Colors";
+import { IList } from "../../../Model/IList";
 import isEqual from "lodash.isequal";
-import { useStores } from "../../../../context/StoreContext";
+import { useStores } from "../../../context/StoreContext";
 
 interface ListProps {
   item: IProduct;
