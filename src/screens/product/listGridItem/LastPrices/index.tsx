@@ -1,8 +1,8 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Text } from "../../../../../../components/Text";
+import { Text } from "../../../../components/Text";
 import I18n from "i18n-js";
-import { useStores } from "../../../../../../context/StoreContext";
+import { useStores } from "../../../../context/StoreContext";
 import { FlashList } from "@shopify/flash-list";
 
 interface LastPricesProps {

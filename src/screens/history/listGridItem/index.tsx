@@ -4,18 +4,18 @@ import { useCallback } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
 
-import { Text, Title2 } from "../../../../../components/Text";
-import CircleProgress from "../../../../../components/CircleProgress";
-import { IList } from "../../../../../Model/IList";
-import GridItem from "../../../../../components/GridItem";
+import { Text, Title2 } from "../../../components/Text";
+import CircleProgress from "../../../components/CircleProgress";
+import { IList } from "../../../Model/IList";
+import GridItem from "../../../components/GridItem";
 import {
   GridItemInner,
   GridItemWrapperCol,
   GridItemWrapperInner,
-} from "../../../../../components/GridItemInner";
+} from "../../../components/GridItemInner";
 import I18n from "i18n-js";
-import { colorTheme } from "../../../../../../constants/Colors";
-import { useStores } from "../../../../../context/StoreContext";
+import { colorTheme } from "../../../../constants/Colors";
+import { useStores } from "../../../context/StoreContext";
 import { SharedValue } from "react-native-reanimated";
 import { SwipeableMethods } from "react-native-gesture-handler/lib/typescript/components/ReanimatedSwipeable";
 

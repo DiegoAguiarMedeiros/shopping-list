@@ -2,25 +2,27 @@ import { useColorScheme, Animated, StyleSheet, TouchableHighlight, View, Text as
 
 import { FontAwesome } from "@expo/vector-icons";
 
-import { SubTitle, Text, Title2 } from "../../../../../components/Text";
+import { SubTitle, Text, Title2 } from "../../../components/Text";
 
-import { BottomSheetProps } from "../../../../../components/BottomSheet";
-import NewProductForm from "../../../../../components/NewProductForm";
-import { IProduct } from "../../../../../Model/IProduct";
+import { BottomSheetProps } from "../../../components/BottomSheet";
+import NewProductForm from "../../../components/NewProductForm";
+import { IProduct } from "../../../Model/IProduct";
 import AveragePrice from "./AveragePrice";
 import LastPrices from "./LastPrices";
-import GridItem from "../../../../../components/GridItem";
+import GridItem from "../../../components/GridItem";
 import {
   GridItemInner,
   GridItemWrapperCol,
   GridItemWrapperInner,
   GridItemWrapperRow,
-} from "../../../../../components/GridItemInner";
+} from "../../../components/GridItemInner";
 import I18n from "i18n-js";
-import { colorTheme } from "../../../../../../constants/Colors";
-import { useStores } from "../../../../../context/StoreContext";
+import { colorTheme } from "../../../../constants/Colors";
+import { useStores } from "../../../context/StoreContext";
 import React from "react";
 import isEqual from "lodash.isequal";
+import { SwipeableMethods } from "react-native-gesture-handler/lib/typescript/components/ReanimatedSwipeable";
+import { SharedValue } from "react-native-reanimated";
 
 interface ItemProps {
   item: IProduct;
@@ -57,15 +59,7 @@ const ListGridItem = React.memo(
       TagRepository.decreaseProductQTD(item.tag);
     };
 
-    const LeftSwipe = (
-      progress: any,
-      dragX: {
-        interpolate: (arg0: {
-          inputRange: number[];
-          outputRange: number[];
-        }) => any;
-      }
-    ) => {
+    const LeftSwipe =  (progress: SharedValue<number>, translation: SharedValue<number>, swipeableMethods?: SwipeableMethods) => {
       return (
         <Animated.View
           style={{

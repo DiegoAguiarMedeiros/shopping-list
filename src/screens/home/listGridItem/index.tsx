@@ -1,28 +1,28 @@
 import { useColorScheme, Animated, StyleSheet, View, Text as RNText, Pressable, Dimensions } from "react-native";
 import isEqual from "lodash.isequal";
 import { useCallback, useEffect, useRef } from "react";
-import { removeUndefinedFromArray } from "../../../../../utils/functions";
-import { Text, Title2 } from "../../../../../components/Text";
-import CircleProgress from "../../../../../components/CircleProgress";
+import { removeUndefinedFromArray } from "../../../utils/functions";
+import { Text, Title2 } from "../../../components/Text";
+import CircleProgress from "../../../components/CircleProgress";
 
-import { BottomSheetProps } from "../../../../../components/BottomSheet";
-import NewListForm from "../../../../../components/NewListForm";
-import { IList } from "../../../../../Model/IList";
-import NewItemForm from "../../../../../components/NewItemForm";
-import GridItem from "../../../../../components/GridItem";
+import { BottomSheetProps } from "../../../components/BottomSheet";
+import NewListForm from "../../../components/NewListForm";
+import { IList } from "../../../Model/IList";
+import NewItemForm from "../../../components/NewItemForm";
+import GridItem from "../../../components/GridItem";
 import {
   GridItemInner,
   GridItemWrapperCol,
   GridItemWrapperInner,
-} from "../../../../../components/GridItemInner";
+} from "../../../components/GridItemInner";
 import I18n from "i18n-js";
 import { useNavigation } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { ColorList, colorTheme } from "../../../../../../constants/Colors";
-import { IProduct } from "../../../../../Model/IProduct";
+import { ColorList, colorTheme } from "../../../../constants/Colors";
+import { IProduct } from "../../../Model/IProduct";
 import React from "react";
-import { useListViewModel } from "../../../../../viewmodels/List/ListViewModel";
-import { useStores } from "../../../../../context/StoreContext";
+import { useListViewModel } from "../../../viewmodels/List/ListViewModel";
+import { useStores } from "../../../context/StoreContext";
 import { SharedValue } from "react-native-reanimated";
 import { SwipeableMethods } from "react-native-gesture-handler/lib/typescript/components/ReanimatedSwipeable";
 interface ItemProps {

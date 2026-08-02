@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   useColorScheme,
 } from "react-native";
-import ListGridItem from "../../screens/product/list/listGrid/listGridItem";
+import ListGridItem from "../../screens/product/listGridItem";
 import { BottomSheetProps } from "../../components/BottomSheet";
 import Container from "../../components/Container";
 import ContainerInner from "../../components/ContainerInner";

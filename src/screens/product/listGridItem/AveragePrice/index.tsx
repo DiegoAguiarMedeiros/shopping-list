@@ -1,12 +1,7 @@
 
-import { useColorScheme } from "react-native";
-import * as Styled from "./styles";
-
-import { Text } from "../../../../../../components/Text";
-import Container from "../../../../../../components/Container";
+import { Text } from "../../../../components/Text";
 import I18n from "i18n-js";
-import { colorTheme } from "../../../../../../../constants/Colors";
-import { useStores } from "../../../../../../context/StoreContext";
+import { useStores } from "../../../../context/StoreContext";
 interface AveragePriceProps {
   price: string[];
 }
