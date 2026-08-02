@@ -1,5 +1,4 @@
-import { useColorScheme, Animated } from "react-native";
-import * as Styled from "./styles";
+import { useColorScheme, StyleSheet, View } from "react-native";
 import React, { useState } from "react";
 import {
   BottomSheetProps,
@@ -46,15 +45,15 @@ function ListGridItem({ item, listId }: Readonly<ListProps>) {
           row
           elevation={colorScheme === "light"}
         >
-          <GridItemWrapperCol width={60} height={100}>
+          <GridItemWrapperCol width="60%" height={60}>
             <Title2 color={ConfigRepository.color.text}>{item.name}</Title2>
           </GridItemWrapperCol>
-          <GridItemWrapperCol width={40} height={100}>
-            <GridItemWrapperRow height={100}>
-              <GridItemWrapperCol width={50} height={100}>
+          <GridItemWrapperCol width="40%" height={60}>
+            <GridItemWrapperRow>
+              <GridItemWrapperCol width="50%">
                 <Text color={ConfigRepository.color.textSecondary}>0 Un</Text>
               </GridItemWrapperCol>
-              <GridItemWrapperCol width={50} height={100}>
+              <GridItemWrapperCol width="50%">
                 <Text color={ConfigRepository.color.textSecondary} align="right">
                   {ConfigRepository.currency} 0,00
                 </Text>
@@ -74,26 +73,24 @@ function ListGridItem({ item, listId }: Readonly<ListProps>) {
             key={`ContainerListItemListItem-` + amount.uuid}
           >
             <>
-              <GridItemWrapperCol width={60} height={100}>
+              <GridItemWrapperCol width="60%">
                 <Title2 color={ConfigRepository.color.text}>{item.name}</Title2>
               </GridItemWrapperCol>
-              <GridItemWrapperCol width={40} height={100}>
-                <GridItemWrapperRow height={100}>
-                  <GridItemWrapperCol width={50} height={100}>
+              <GridItemWrapperCol width="40%">
+                <GridItemWrapperRow>
+                  <GridItemWrapperCol width="50%" >
                     <Text color={ConfigRepository.color.text}>
                       {`${amount.quantity}`} {amount.type ? `Kg` : `Un`}
                       {" x"}
                     </Text>
                   </GridItemWrapperCol>
-                  <GridItemWrapperCol width={50} height={100}>
+                  <GridItemWrapperCol width="50%">
                     <Text color={ConfigRepository.color.text} align="right">
                       {ConfigRepository.currency}{" "}
                       {Number(amount.amount).toFixed(2).replace(".", ",")}
                     </Text>
-                    <Styled.ContainerItemTextPriceTotalLine
-                      border={ConfigRepository.color.primary}
-                    />
-                    <Styled.ContainerItemTextPriceTotal>
+                    <View style={styles.containerItemTextPriceTotalLine} />
+                    <View style={styles.containerItemTextPriceTotal}>
                       <Text
                         color={ConfigRepository.color.itemProductListAveragePrice}
                         align="right"
@@ -103,7 +100,7 @@ function ListGridItem({ item, listId }: Readonly<ListProps>) {
                           .toFixed(2)
                           .replace(".", ",")}
                       </Text>
-                    </Styled.ContainerItemTextPriceTotal>
+                    </View>
                   </GridItemWrapperCol>
                 </GridItemWrapperRow>
               </GridItemWrapperCol>
@@ -114,5 +111,16 @@ function ListGridItem({ item, listId }: Readonly<ListProps>) {
     </>
   );
 }
+
+const styles = StyleSheet.create({
+    containerItemTextPriceTotalLine: {
+        width: '100%',
+        height: 1,
+    },
+    containerItemTextPriceTotal: {
+        width: '100%',
+        height: '49%',
+    },
+});
 
 export default React.memo(ListGridItem);

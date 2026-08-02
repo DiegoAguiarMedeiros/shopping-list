@@ -1,5 +1,4 @@
 import { useColorScheme } from "react-native";
-import * as Styled from "./styles";
 import InputText from "../InputText";
 import Button from "../Button";
 import { useEffect, useState } from "react";
@@ -9,6 +8,10 @@ import I18n from "i18n-js";
 import { colorTheme } from "../../../constants/Colors";
 import { useStores } from "../../context/StoreContext";
 import UUIDGenerator from "react-native-uuid";
+import FormContainer from "../FormContainer";
+import ButtonsContainer from "../ButtonsContainer";
+import ButtonWrapper from "../ButtonWrapper";
+import InputContainer from "../InputContainer";
 
 export type NewListFormProps = {
   onClose: () => void;
@@ -90,8 +93,8 @@ const NewListForm = ({
   }, [list]);
 
   return (
-    <Styled.Container>
-      <Styled.InputContainer>
+    <FormContainer>
+      <InputContainer>
         <InputText
           background={ConfigRepository.color.backgroundPrimary}
           color={ConfigRepository.color.textSecondary}
@@ -105,9 +108,9 @@ const NewListForm = ({
           value={newList.list}
           onSubmitEditing={functions[action]}
         />
-      </Styled.InputContainer>
-      <Styled.ButtonsContainer>
-        <Styled.ButtonWrapper margin="0 5px 0 0">
+      </InputContainer>
+      <ButtonsContainer>
+        <ButtonWrapper>
           <Button
             text={I18n.t("cancel")}
             border={ConfigRepository.color.bottomSheetButtonCancelBorder}
@@ -116,8 +119,8 @@ const NewListForm = ({
             onPress={closeBottomSheet}
             underlayColor={ConfigRepository.color.bottomSheetButtonCancelBackground}
           />
-        </Styled.ButtonWrapper>
-        <Styled.ButtonWrapper margin="0 0 0 5px">
+        </ButtonWrapper>
+        <ButtonWrapper>
           <Button
             text={buttonTextArr[buttonText]}
             textColor={ConfigRepository.color.bottomSheetButtonAddText}
@@ -126,9 +129,9 @@ const NewListForm = ({
             onPress={functions[action]}
             underlayColor={ConfigRepository.color.bottomSheetButtonAddUnderlay}
           />
-        </Styled.ButtonWrapper>
-      </Styled.ButtonsContainer>
-    </Styled.Container>
+        </ButtonWrapper>
+      </ButtonsContainer>
+    </FormContainer>
   );
 };
 

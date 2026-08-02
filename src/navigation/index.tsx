@@ -20,7 +20,7 @@ import NewListForm from "../components/NewListForm";
 import NewProductForm from "../components/NewProductForm";
 import NewTagForm from "../components/NewTagForm";
 import AddProductOptions from "../components/AddProductOptions";
-import Tags from "../../app/tags";
+
 import { Title } from "../components/Text";
 import History from "../../app/history";
 import { IList } from "../Model/IList";
@@ -338,21 +338,7 @@ const Navigation: React.FC = () => {
             return <ProductTab search={search} setBottomSheetProps={setBottomSheetProps} handleCloseBottomSheet={handleCloseBottomSheetProduct} />;
           }}
         </Stack.Screen>
-        <Stack.Screen
-          name={"tags"}
-          options={{
-            headerLeft: () => null,
-            headerTitle: (props) => (
-              <Title color={ConfigRepository.color.white}>{I18n.t("categories")}</Title>
-            ),
-          }}
-        >
-          {({ navigation }) => {
-            stackRef.current = navigation;
-            return <Tags setBottomSheetProps={setBottomSheetProps} handleCloseBottomSheet={handleCloseBottomSheetTag} />;
-          }}
-        </Stack.Screen>
-        <Stack.Screen
+                <Stack.Screen
           name="Items"
           options={{
             headerLeft: () => activeRouteHeader.left,

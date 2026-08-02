@@ -1,11 +1,11 @@
 import React, {
   forwardRef,
-  useEffect,
   useImperativeHandle,
   useRef,
 } from "react";
-import * as Styled from "./styles";
-import { Swipeable } from "react-native-gesture-handler";
+import type { SharedValue } from "react-native-reanimated";
+import type { SwipeableMethods } from "react-native-gesture-handler/lib/typescript/components/ReanimatedSwipeable";
+import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 
 export interface GridItemProps {
   children: React.ReactNode;
@@ -13,23 +13,15 @@ export interface GridItemProps {
   border?: string;
   radius?: boolean;
   renderLeftActions?: (
-    progress: any,
-    dragX: {
-      interpolate: (arg0: {
-        inputRange: number[];
-        outputRange: number[];
-      }) => any;
-    }
-  ) => React.JSX.Element;
+    progress: SharedValue<number>,
+    translation: SharedValue<number>,
+    swipeableMethods: SwipeableMethods
+  ) => React.ReactNode;
   renderRightActions?: (
-    progress: any,
-    dragX: {
-      interpolate: (arg0: {
-        inputRange: number[];
-        outputRange: number[];
-      }) => any;
-    }
-  ) => React.JSX.Element;
+    progress: SharedValue<number>,
+    translation: SharedValue<number>,
+    swipeableMethods: SwipeableMethods
+  ) => React.ReactNode;
   rightThreshold: number | undefined;
   leftThreshold: number | undefined;
 }
@@ -47,7 +39,7 @@ const GridItem: React.ForwardRefRenderFunction<any, GridItemProps> = (
   },
   ref
 ) => {
-  const swipeableRef = useRef<any>(null);
+  const swipeableRef = useRef<SwipeableMethods>(null);
 
   useImperativeHandle(ref, () => ({
     handleCloseSwipeable: () => {
@@ -64,6 +56,8 @@ const GridItem: React.ForwardRefRenderFunction<any, GridItemProps> = (
       renderLeftActions={renderLeftActions ?? undefined}
       rightThreshold={rightThreshold ?? undefined}
       leftThreshold={leftThreshold ?? undefined}
+      overshootRight={false}
+      overshootLeft={false}
     >
       {children}
     </Swipeable>

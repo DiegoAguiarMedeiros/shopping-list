@@ -38,7 +38,7 @@ const CustomFlatList = React.memo(
 
     return (
       <Container background={ConfigRepository.color.backgroundPrimary}>
-        <ContainerInner height="100" background={ConfigRepository.color.backgroundPrimary}>
+        <ContainerInner height="100%" background={ConfigRepository.color.backgroundPrimary}>
           <FlashList
             style={{ flex: 1, width: "100%" }}
             contentContainerStyle={{

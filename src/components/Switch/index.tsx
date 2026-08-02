@@ -26,13 +26,13 @@ const Switch: React.FC<SwitchProps> = ({
   const { ConfigRepository } = useStores();
   return (
     <Container noPadding>
-      <GridItemWrapperRow height={100}>
-        <GridItemWrapperInner width={50} height={100} align="flex-end">
+      <GridItemWrapperRow >
+        <GridItemWrapperInner width={50} align="flex-end">
           <Text color={ConfigRepository.color.itemListItemOpenTextSecondary} align="right">
             {label[value ? "on" : "off"]}
           </Text>
         </GridItemWrapperInner>
-        <GridItemWrapperInner width={50} height={100}>
+        <GridItemWrapperInner width={50} >
           <RNSwitch
             value={value}
             onValueChange={onValueChange}

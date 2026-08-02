@@ -1,5 +1,4 @@
-import { Keyboard, useColorScheme } from "react-native";
-import * as Styled from "./styles";
+import { Dimensions, Keyboard, StyleSheet, View } from "react-native";
 import Button from "../Button";
 import { useEffect, useState } from "react";
 import { ItemInterface } from "../../types/types";
@@ -10,6 +9,10 @@ import { IList } from "../../Model/IList";
 import { IProduct, ITagsProductsMultiSelect } from "../../Model/IProduct";
 import MultiSelect from "../InputMultiSelect";
 import { useStores } from "../../context/StoreContext";
+import FormContainer from "../FormContainer";
+import InputContainer from "../InputContainer";
+import ButtonsContainer from "../ButtonsContainer";
+import ButtonWrapper from "../ButtonWrapper";
 
 export type NewItemFormProps = {
   onClose: () => void;
@@ -77,17 +80,17 @@ const NewItemForm = ({
     });
   };
   return (
-    <Styled.Container>
-      <Styled.InputContainer>
+    <FormContainer>
+      <InputContainer>
         <MultiSelect
           onFocus={updateSelect}
           items={products || []}
           selectedItems={newItem.item}
           onValueChange={onValueChange}
         />
-      </Styled.InputContainer>
-      <Styled.ButtonsContainer>
-        <Styled.ButtonWrapper>
+      </InputContainer>
+      <ButtonsContainer>
+        <ButtonWrapper>
           <Button
             text={I18n.t("cancel")}
             border={ConfigRepository.color.bottomSheetButtonCancelBorder}
@@ -96,8 +99,8 @@ const NewItemForm = ({
             onPress={closeBottomSheet}
             underlayColor={ConfigRepository.color.bottomSheetButtonCancelUnderlay}
           />
-        </Styled.ButtonWrapper>
-        <Styled.ButtonWrapper>
+        </ButtonWrapper>
+        <ButtonWrapper>
           <Button
             text={buttonTextArr[buttonText]}
             textColor={ConfigRepository.color.bottomSheetButtonAddText}
@@ -106,9 +109,9 @@ const NewItemForm = ({
             onPress={addListItem}
             underlayColor={ConfigRepository.color.bottomSheetButtonAddUnderlay}
           />
-        </Styled.ButtonWrapper>
-      </Styled.ButtonsContainer>
-    </Styled.Container>
+        </ButtonWrapper>
+      </ButtonsContainer>
+    </FormContainer>
   );
 };
 

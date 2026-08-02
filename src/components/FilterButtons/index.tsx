@@ -1,16 +1,7 @@
-import React from "react";
-import { FlatList } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import Button from "../Button";
-
-import * as Styled from "./styles";
-import { TagsIterface } from "../../types/types";
-import { colorTheme } from "../../../constants/Colors";
-import ITag from "../../Model/ITag";
 import { useStores } from "../../context/StoreContext";
 import I18n from "i18n-js";
-import isEqual from "lodash.isequal";
-import langFilterAll from '../../../constants/LangFilterAll'
-import { Title2 } from "../Text";
 interface FilterButtonsProps {
   tags: string[];
   filter: string,
@@ -36,7 +27,7 @@ const FilterButtons = ({
     };
 
     return (
-      <Styled.ButtonContainer>
+      <View style={styles.buttonContainer}>
         <Button
           onPress={handlePress}
           border={
@@ -59,12 +50,12 @@ const FilterButtons = ({
           }
           text={tag.name}
         />
-      </Styled.ButtonContainer>
+      </View>
     );
   };
 
   return (
-    <Styled.Container>
+    <View style={styles.container}>
       <FlatList
         style={{ width: "100%", height: 35 }}
         horizontal
@@ -77,9 +68,21 @@ const FilterButtons = ({
           paddingHorizontal: 5,
         }}
       />
-    </Styled.Container>
+    </View>
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    height: 35,
+  },
+  buttonContainer: {
+    paddingLeft: 5,
+    paddingRight: 5,
+    marginRight: 5,
+    marginLeft: 5,
+  }
+});
 
 export default FilterButtons;

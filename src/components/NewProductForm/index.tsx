@@ -1,6 +1,5 @@
 import { useColorScheme } from "react-native";
 import { Text } from "../Text";
-import * as Styled from "./styles";
 import InputText from "../InputText";
 import Button from "../Button";
 import { useEffect, useState } from "react";
@@ -12,6 +11,10 @@ import Select from "../InputSelect";
 import I18n from "i18n-js";
 import { colorTheme } from "../../../constants/Colors";
 import { useStores } from "../../context/StoreContext";
+import ButtonsContainer from "../ButtonsContainer";
+import ButtonWrapper from "../ButtonWrapper";
+import FormContainer from "../FormContainer";
+import InputContainer from "../InputContainer";
 const countries = ["Egypt", "Canada", "Australia", "Ireland"];
 const countries2 = [
   { label: "Selecione uma categoria", value: "" },
@@ -118,8 +121,8 @@ const NewProductForm = ({
   };
 
   return (
-    <Styled.Container>
-      <Styled.InputContainer>
+    <FormContainer>
+      <InputContainer>
         <InputText
           background={ConfigRepository.color.backgroundPrimary}
           color={ConfigRepository.color.textSecondary}
@@ -134,9 +137,9 @@ const NewProductForm = ({
           value={newItem.item}
           onSubmitEditing={functions[action]}
         />
-      </Styled.InputContainer>
+      </InputContainer>
       {!tagUuid && tags ? (
-        <Styled.InputContainer style={{ overflow: "hidden" }}>
+        <InputContainer>
           <Select
             background={ConfigRepository.color.selectCategory}
             dropdownIconColor={ConfigRepository.color.primary}
@@ -145,7 +148,7 @@ const NewProductForm = ({
             selectedValue={newItem.tag}
             onValueChange={onValueChange}
           />
-        </Styled.InputContainer>
+        </InputContainer>
       ) : (
         <></>
       )}
@@ -163,8 +166,8 @@ const NewProductForm = ({
           }}
         /> */}
 
-      <Styled.ButtonsContainer>
-        <Styled.ButtonWrapper margin="0 5px 0 0">
+      <ButtonsContainer>
+        <ButtonWrapper>
           <Button
             text={I18n.t("cancel")}
             border={ConfigRepository.color.bottomSheetButtonCancelBorder}
@@ -173,8 +176,8 @@ const NewProductForm = ({
             onPress={closeBottomSheet}
             underlayColor={ConfigRepository.color.bottomSheetButtonCancelBackground}
           />
-        </Styled.ButtonWrapper>
-        <Styled.ButtonWrapper margin="0 0 0 5px">
+        </ButtonWrapper>
+        <ButtonWrapper>
           <Button
             text={buttonTextArr[buttonText]}
             textColor={ConfigRepository.color.bottomSheetButtonAddText}
@@ -183,9 +186,9 @@ const NewProductForm = ({
             onPress={functions[action]}
             underlayColor={ConfigRepository.color.bottomSheetButtonAddUnderlay}
           />
-        </Styled.ButtonWrapper>
-      </Styled.ButtonsContainer>
-    </Styled.Container>
+        </ButtonWrapper>
+      </ButtonsContainer>
+    </FormContainer>
   );
 };
 

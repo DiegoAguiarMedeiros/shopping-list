@@ -1,5 +1,4 @@
-import { useColorScheme, Animated } from "react-native";
-import * as Styled from "./styles";
+import { useColorScheme, Animated, StyleSheet, TouchableHighlight, View, Text as RNText } from "react-native";
 
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -77,19 +76,20 @@ const ListGridItem = React.memo(
           <GridItemInner row>
             <>
               <GridItemWrapperCol width={50}>
-                <Styled.ButtonInner
+                <TouchableHighlight
+                  style={styles.buttonInner}
                   underlayColor={ConfigRepository.color.swipeIconUnderlay}
                   onPress={handleEdit}
                 >
-                  <Styled.ButtonContent>
+                  <View style={styles.buttonContent}>
                     <GridItemWrapperInner height={lastPrice.length > 0 ? 50 : 60}>
-                      <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
+                      <RNText style={[styles.buttonTextIcon, { color: ConfigRepository.color.swipeIcon }]}>
                         <FontAwesome
                           size={lastPrice.length > 0 ? 26 : 18}
                           style={{ marginBottom: -3 }}
                           name="pencil"
                         />
-                      </Styled.ButtonTextIcon>
+                      </RNText>
                     </GridItemWrapperInner>
 
                     <GridItemWrapperInner
@@ -106,24 +106,25 @@ const ListGridItem = React.memo(
                         </Text>
                       )}
                     </GridItemWrapperInner>
-                  </Styled.ButtonContent>
-                </Styled.ButtonInner>
+                  </View>
+                </TouchableHighlight>
               </GridItemWrapperCol>
 
               <GridItemWrapperCol width={50}>
-                <Styled.ButtonInner
+                <TouchableHighlight
+                  style={styles.buttonInner}
                   underlayColor={ConfigRepository.color.swipeIconUnderlay}
                   onPress={handleDelete}
                 >
-                  <Styled.ButtonContent>
+                  <View style={styles.buttonContent}>
                     <GridItemWrapperInner height={lastPrice.length > 0 ? 50 : 60}>
-                      <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
+                      <RNText style={[styles.buttonTextIcon, { color: ConfigRepository.color.swipeIcon }]}>
                         <FontAwesome
                           size={lastPrice.length > 0 ? 26 : 18}
                           style={{ marginBottom: -3 }}
                           name="trash"
                         />
-                      </Styled.ButtonTextIcon>
+                      </RNText>
                     </GridItemWrapperInner>
                     <GridItemWrapperInner
                       height={lastPrice.length > 0 ? 50 : 40}
@@ -139,8 +140,8 @@ const ListGridItem = React.memo(
                         </Text>
                       )}
                     </GridItemWrapperInner>
-                  </Styled.ButtonContent>
-                </Styled.ButtonInner>
+                  </View>
+                </TouchableHighlight>
               </GridItemWrapperCol>
             </>
           </GridItemInner>
@@ -155,16 +156,16 @@ const ListGridItem = React.memo(
       >
         <GridItemInner
           underlayColor={ConfigRepository.color.itemListBackgroundUnderlay}
-          borderColor="transparent"
+          borderColor={ConfigRepository.color.itemListBackgroundBorder}
           background={ConfigRepository.color.itemListBackground}
           height={lastPrice.length > 0 ? 115 : 60}
           row={false}
           elevation={colorScheme === "light"}
         >
           <>
-            <GridItemWrapperRow height={lastPrice.length > 0 ? 35 : 100}>
-              <GridItemWrapperInner height={100}>
-                <SubTitle color={ConfigRepository.color.text}>{item.name}</SubTitle>
+            <GridItemWrapperRow height={lastPrice.length >= 0 ? 35 : 100}>
+              <GridItemWrapperInner height={lastPrice.length >= 0 ? 35 : 100}>
+                <SubTitle color={ConfigRepository.color.text}>{item.name}2</SubTitle>
               </GridItemWrapperInner>
             </GridItemWrapperRow>
             <GridItemWrapperRow height={lastPrice.length > 0 ? 67 : 0}>
@@ -200,5 +201,20 @@ const ListGridItem = React.memo(
     return isEqual(prevProps.item, nextProps.item);
   }
 );
+
+const styles = StyleSheet.create({
+  buttonInner: {
+    height: '100%',
+    borderRadius: 15,
+  },
+  buttonContent: {
+    flexDirection: 'column',
+    flex: 1,
+  },
+  buttonTextIcon: {
+    width: '100%',
+    textAlign: 'center',
+  },
+});
 
 export default ListGridItem;

@@ -1,10 +1,6 @@
-import React from 'react';
-import { TextInputProps, useColorScheme } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Picker } from "@react-native-picker/picker";
-import * as Styled from "./styles";
-import ITag from "../../Model/ITag";
 import { IProduct, ITagsProductsMultiSelect } from "../../Model/IProduct";
-import { colorTheme } from "../../../constants/Colors";
 
 type SelectProps = {
   items: { name: string; id: string; }[] | ITagsProductsMultiSelect[];
@@ -26,11 +22,10 @@ const Select = ({
   textColor,
 }: SelectProps) => {
   return (
-    <Styled.Container>
-      <Styled.Select
+    <View style={styles.container}>
+      <Picker
+        style={[styles.select, { backgroundColor: background, color: textColor }]}
         onFocus={() => onFocus && onFocus()}
-        background={background}
-        color={textColor}
         selectedValue={selectedValue}
         onValueChange={(itemValue, index) =>
           onValueChange(itemValue as string, index)
@@ -49,8 +44,22 @@ const Select = ({
             value={item.id}
           />
         ))}
-      </Styled.Select>
-    </Styled.Container>
+      </Picker>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    overflow: 'hidden',
+    borderRadius: 10,
+  },
+  select: {
+    width: '100%',
+    height: 55,
+    justifyContent: 'center',
+  },
+});
+
 export default Select;

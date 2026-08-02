@@ -1,14 +1,13 @@
-import React, { useRef, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import {
   StyleSheet,
   Animated,
   TouchableHighlight,
   useColorScheme,
   ScrollView,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-import * as Styled from "./styles";
 import { Title } from "../Text";
 import { TagsIterface } from "../../types/types";
 import { useStores } from "../../context/StoreContext";
@@ -23,18 +22,18 @@ const Tags = ({ tags, isVisible, addTag }: TagsProps) => {
   const colorScheme = useColorScheme();
   const [tagsIsVisible, setTagsIsVisible] = useState(isVisible);
 
-  const returnMarginTop = (tags: number): string => {
+  const returnMarginTop = (tags: number): number => {
     switch (tags) {
       case 0:
-        return "0";
+        return 0;
       case 1:
-        return "20";
+        return 20;
       case 2:
-        return "-35";
+        return -35;
       case 3:
-        return "-90";
+        return -90;
       default:
-        return "-90";
+        return -90;
     }
   };
 
@@ -48,19 +47,23 @@ const Tags = ({ tags, isVisible, addTag }: TagsProps) => {
   };
 
   return (
-    <Styled.Tags
-      isVisible={tagsIsVisible}
-      marginTop={returnMarginTop(tags.length)}
-      background={ConfigRepository.color.backgroundPrimary}
+    <View
+      style={[styles.tags, {
+        backgroundColor: ConfigRepository.color.backgroundPrimary,
+        display: tagsIsVisible ? 'contents' : 'none',
+        marginTop: returnMarginTop(tags.length)
+      }]}
     >
-      <Styled.TagsInner>
+      <View style={styles.tagsInner}>
         <SafeAreaView>
           <ScrollView keyboardShouldPersistTaps="handled">
             {tags?.map((tag) => (
-              <Styled.TagsItem
+              <TouchableHighlight
+                style={[styles.tagsItem, {
+                  backgroundColor: ConfigRepository.color.backgroundPrimary,
+                }]}
                 onPress={() => handleAddTag(tag?.name)}
                 key={`tagContainer-${tag.id}`}
-                background={ConfigRepository.color.backgroundPrimary}
               >
                 <Title
                   key={`tagTitle-${tag.id}`}
@@ -70,13 +73,43 @@ const Tags = ({ tags, isVisible, addTag }: TagsProps) => {
                 >
                   {tag?.name}
                 </Title>
-              </Styled.TagsItem>
+              </TouchableHighlight>
             ))}
           </ScrollView>
         </SafeAreaView>
-      </Styled.TagsInner>
-    </Styled.Tags>
+      </View>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  tags: {
+    width: ' 92.8%',
+    position: 'absolute',
+    paddingVertical: 5,
+    paddingLeft: 15,
+    paddingRight: 20,
+    height: 'auto',
+    maxHeight: 183,
+    overflow: 'scroll',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    alignSelf: 'center',
+  },
+  tagsInner: {
+    height: 'auto',
+    maxHeight: 170,
+  },
+  tagsItem: {
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    width: '100%',
+    height: 45,
+    borderRadius: 10,
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    marginVertical: 5,
+  },
+});
 
 export default Tags;

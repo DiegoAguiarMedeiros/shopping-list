@@ -1,22 +1,10 @@
-import { useColorScheme } from "react-native";
-
-import * as Styled from "./styles";
-import { useState } from "react";
-import { BottomSheetProps } from "../../types/types";
-import Button from "../Button";
+import { Image, StyleSheet, View } from "react-native";
 import { Text } from "../Text";
 import Container from "../Container";
 import ContainerInner from "../ContainerInner";
-import { colorTheme } from "../../../constants/Colors";
 import { useStores } from "../../context/StoreContext";
 
-interface Image {
-  image: any;
-}
-
-const img: Image = {
-  image: require("../../../assets/images/emptyList.png"),
-};
+const emptyListImage = require("../../../assets/images/emptyList.png");
 
 type EmptyListProps = {
   mensage?: string;
@@ -26,19 +14,34 @@ export default function EmptyList({
   mensage,
 }: Readonly<EmptyListProps>) {
   const { ConfigRepository } = useStores();
+  const { color } = ConfigRepository;
   return (
-    <Container background={ConfigRepository.color.backgroundPrimary}>
-      <ContainerInner justify="center" background={ConfigRepository.color.backgroundPrimary}>
-        <Styled.SlideContainerInnerImage>
-          <Styled.SlideImage source={img.image} />
-        </Styled.SlideContainerInnerImage>
-        <Styled.ListEmptyTextmessage text={ConfigRepository.color.backgroundPrimary}>
-          <Text color={ConfigRepository.color.theme === "light" ? ConfigRepository.color.black : ConfigRepository.color.white}>
+    <Container background={color.backgroundPrimary} noPadding height="100%">
+      <ContainerInner justify="center" background={color.backgroundPrimary}>
+        <View style={styles.slideContainerInnerImage}>
+          <Image style={styles.slideImage} source={emptyListImage} />
+        </View>
+        <View style={[styles.listEmptyTextmessage, { backgroundColor: color.backgroundPrimary }]}>
+          <Text color={color.theme === "light" ? color.black : color.white}>
             {mensage}
           </Text>
-        </Styled.ListEmptyTextmessage>
+        </View>
       </ContainerInner>
-    </Container>
+    </Container >
   );
 }
 
+const styles = StyleSheet.create({
+  slideContainerInnerImage: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 100,
+  },
+  slideImage: {
+    width: 300,
+    height: 300,
+  },
+  listEmptyTextmessage: {
+    marginTop: '20%',
+  },
+});

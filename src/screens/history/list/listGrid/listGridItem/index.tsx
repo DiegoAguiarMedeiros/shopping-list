@@ -1,5 +1,4 @@
-import { useColorScheme, Animated } from "react-native";
-import * as Styled from "./styles";
+import { useColorScheme, Animated, StyleSheet, View, TouchableHighlight, Text as RNText } from "react-native";
 import { useCallback } from "react";
 
 import { FontAwesome } from "@expo/vector-icons";
@@ -17,6 +16,8 @@ import {
 import I18n from "i18n-js";
 import { colorTheme } from "../../../../../../constants/Colors";
 import { useStores } from "../../../../../context/StoreContext";
+import { SharedValue } from "react-native-reanimated";
+import { SwipeableMethods } from "react-native-gesture-handler/lib/typescript/components/ReanimatedSwipeable";
 
 interface ItemProps {
   list: IList;
@@ -44,52 +45,44 @@ export default function ListGridItem({
     ListRepository.removeItemArchived(list.uuid);
   };
 
-  const RightSwipe = useCallback(
-    (
-      progress: any,
-      dragX: {
-        interpolate: (arg0: {
-          inputRange: number[];
-          outputRange: number[];
-        }) => any;
-      }
-    ) => {
-      return (
-        <Animated.View
-          style={{
-            width: 100,
-            overflow: "hidden",
-          }}
-        >
-          <Styled.ButtonView>
-            <Styled.ButtonInner
-              underlayColor={ConfigRepository.color.swipeIconUnderlay}
-              onPress={handleDelete}
-            >
-              <Styled.ButtonContent>
-                <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
-                  <FontAwesome
-                    size={18}
-                    style={{ marginBottom: -3 }}
-                    name="trash"
-                  />
-                </Styled.ButtonTextIcon>
-                <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
-                  {I18n.t("delete")}
-                </Styled.ButtonText>
-              </Styled.ButtonContent>
-            </Styled.ButtonInner>
-          </Styled.ButtonView>
-        </Animated.View>
-      );
-    },
+  const RightSwipe = useCallback((progress: SharedValue<number>, translation: SharedValue<number>, swipeableMethods?: SwipeableMethods) => {
+    return (
+      <Animated.View
+        style={{
+          width: 100,
+          overflow: "hidden",
+        }}
+      >
+        <View style={styles.buttonView}>
+          <TouchableHighlight
+            style={styles.buttonInner}
+            underlayColor={ConfigRepository.color.swipeIconUnderlay}
+            onPress={handleDelete}
+          >
+            <View style={styles.buttonContent}>
+              <RNText style={[styles.buttonTextIcon, { color: ConfigRepository.color.swipeIcon }]}>
+                <FontAwesome
+                  size={18}
+                  style={{ marginBottom: -3 }}
+                  name="trash"
+                />
+              </RNText>
+              <RNText style={[styles.buttonText, { color: ConfigRepository.color.swipeIcon }]}>
+                {I18n.t("delete")}
+              </RNText>
+            </View>
+          </TouchableHighlight>
+        </View>
+      </Animated.View>
+    );
+  },
     [list]
   );
 
   return (
     <GridItem
       renderRightActions={RightSwipe}
-      rightThreshold={50}
+      rightThreshold={undefined}
       leftThreshold={undefined}
     >
       <GridItemInner
@@ -102,8 +95,8 @@ export default function ListGridItem({
         elevation={colorScheme === "light"}
       >
         <>
-          <GridItemWrapperCol width={85} height={100}>
-            <GridItemWrapperInner height={100} align="flex-start">
+          <GridItemWrapperCol width="85%" >
+            <GridItemWrapperInner align="flex-start">
               <Title2 color={ConfigRepository.color.itemListText}>{list.name}</Title2>
               <Text color={ConfigRepository.color.itemListTextSecondary}>
                 {I18n.t("total")}: {ConfigRepository.currency}{" "}
@@ -111,8 +104,8 @@ export default function ListGridItem({
               </Text>
             </GridItemWrapperInner>
           </GridItemWrapperCol>
-          <GridItemWrapperCol width={15} height={100}>
-            <GridItemWrapperInner height={100} align="flex-end">
+          <GridItemWrapperCol width="15%" >
+            <GridItemWrapperInner align="flex-end">
               <CircleProgress
                 activeStrokeColor={ConfigRepository.color.circularItemFilled}
                 circleBackgroundColor={ConfigRepository.color.circularItemBackground}
@@ -127,3 +120,33 @@ export default function ListGridItem({
     </GridItem>
   );
 }
+
+const styles = StyleSheet.create({
+  buttonView: {
+    flexDirection: 'row',
+    width: '100%',
+    height: '100%',
+  },
+  buttonInner: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 15,
+  },
+  buttonContent: {
+    flex: 1,
+  },
+  buttonTextIcon: {
+    flex: 10,
+    paddingTop: 15,
+    paddingBottom: 0,
+    paddingHorizontal: 10,
+    textAlign: 'center',
+  },
+  buttonText: {
+    flex: 10,
+    fontSize: 10,
+    paddingVertical: 0,
+    paddingHorizontal: 10,
+    textAlign: 'center',
+  }
+});

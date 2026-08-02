@@ -31,11 +31,11 @@ const BottomSheet = ({
   });
 
   const heightArr = {
-    add: 156,
+    add: 176,
     edit: 238,
-    options: 170,
-    addProduct: 211,
-    addCategory: 156,
+    options: 178,
+    addProduct: 238,
+    addCategory: 176,
   };
 
   useEffect(() => {

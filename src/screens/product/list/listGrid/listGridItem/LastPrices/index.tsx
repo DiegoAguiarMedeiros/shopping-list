@@ -1,9 +1,7 @@
 import React from "react";
-import { FlatList } from "react-native";
-import * as Styled from "./styles";
+import { StyleSheet, View } from "react-native";
 import { Text } from "../../../../../../components/Text";
 import I18n from "i18n-js";
-import { colorTheme } from "../../../../../../../constants/Colors";
 import { useStores } from "../../../../../../context/StoreContext";
 import { FlashList } from "@shopify/flash-list";
 
@@ -15,18 +13,18 @@ const LastPrices = ({ lastPrices }: LastPricesProps) => {
   const { ConfigRepository } = useStores();
   const renderButton = (item: any) => {
     return (
-      <Styled.ButtonContainer>
-        <Styled.ButtonText border={ConfigRepository.color.itemProductListLastPriceButtonBorder}>
+      <View style={styles.buttonContainer}>
+        <View style={[styles.buttonText, { borderColor: ConfigRepository.color.itemProductListLastPriceButtonBorder }]}>
           <Text color={ConfigRepository.color.itemProductListLastPriceButtonText}>
             {ConfigRepository.currency} {Number(item.item).toFixed(2).replace(".", ",")}
           </Text>
-        </Styled.ButtonText>
-      </Styled.ButtonContainer>
+        </View>
+      </View>
     );
   };
 
   return (
-    <Styled.Container>
+    <View style={styles.container}>
       <Text color={ConfigRepository.color.textSecondary}>{I18n.t("latestPrices")}</Text>
       <FlashList
         horizontal
@@ -35,8 +33,27 @@ const LastPrices = ({ lastPrices }: LastPricesProps) => {
         renderItem={renderButton}
         showsHorizontalScrollIndicator={false}
       />
-    </Styled.Container>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+  },
+  buttonContainer: {
+    padding: 2,
+    margin: 0,
+  },
+  buttonText: {
+    borderRadius: 10,
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    marginTop: 5,
+    marginRight: 5,
+    marginBottom: 0,
+    marginLeft: 0,
+  },
+});
 
 export default LastPrices;

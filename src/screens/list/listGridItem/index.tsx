@@ -1,5 +1,4 @@
-import { useColorScheme, Animated } from "react-native";
-import * as Styled from "./styles";
+import { useColorScheme, Animated, View, TouchableHighlight, StyleSheet, Text as RNText } from "react-native";
 import React, { useState } from "react";
 
 import { FontAwesome } from "@expo/vector-icons";
@@ -71,25 +70,26 @@ function ListGridItem({
           overflow: "hidden",
         }}
       >
-        <Styled.ButtonView>
-          <Styled.ButtonInner
+        <View style={styles.buttonView}>
+          <TouchableHighlight
+            style={styles.buttonInner}
             underlayColor={ConfigRepository.color.swipeIconUnderlay}
             onPress={handleDelete}
           >
-            <Styled.ButtonContent>
-              <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
+            <View style={styles.buttonContent}>
+              <RNText style={[styles.buttonTextIcon, { color: ConfigRepository.color.swipeIcon }]}>
                 <FontAwesome
                   size={18}
                   style={{ marginBottom: -3 }}
                   name="trash"
                 />
-              </Styled.ButtonTextIcon>
-              <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
+              </RNText>
+              <RNText style={[styles.buttonText, { color: ConfigRepository.color.swipeIcon }]}>
                 {I18n.t("delete")}
-              </Styled.ButtonText>
-            </Styled.ButtonContent>
-          </Styled.ButtonInner>
-        </Styled.ButtonView>
+              </RNText>
+            </View>
+          </TouchableHighlight>
+        </View>
       </Animated.View>
     );
   }
@@ -180,12 +180,12 @@ function ListGridItem({
               </Title>
             </GridItemWrapperInner>
           </GridItemWrapperRow>
-          <Styled.SelectedEditor>
+          <View style={styles.selectedEditor}>
             <AddPriceUnit
               amounts={item.amount}
               listProductUuid={listProductUuid}
             />
-          </Styled.SelectedEditor>
+          </View>
         </GridItemWrapperCol>
       </GridItemInner>
     </GridItemNoSwipeable>
@@ -262,6 +262,39 @@ function ListGridItem({
     </GridItem>
   );
 }
+
+
+const styles = StyleSheet.create({
+  buttonView: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    height: '100%',
+  },
+  buttonInner: {
+    borderRadius: 15,
+    width: '100%',
+    height: '100%',
+  },
+  buttonContent: {
+    flex: 1
+  },
+  buttonTextIcon: {
+    flex: 1
+  },
+  buttonText: {
+    flex: 10,
+    paddingTop: 15,
+    paddingBottom: 0,
+    paddingHorizontal: 10,
+    textAlign: 'center',
+  },
+  selectedEditor: {
+    flex: 1,
+    width: '100%',
+    paddingTop: 6,
+  },
+});
 
 export default React.memo(ListGridItem, (prevProps, nextProps) => {
   return (

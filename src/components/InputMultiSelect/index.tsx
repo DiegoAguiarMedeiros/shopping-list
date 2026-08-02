@@ -1,11 +1,6 @@
-import React, { useState } from "react";
-import { TextInputProps, StyleSheet, View } from "react-native";
-import { Picker } from "@react-native-picker/picker";
-import * as Styled from "./styles";
-import ITag from "../../Model/ITag";
-import { IProduct, ITagsProductsMultiSelect } from "../../Model/IProduct";
-import { colorTheme } from "../../../constants/Colors";
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import {View} from "react-native";
+import {  ITagsProductsMultiSelect } from "../../Model/IProduct";
+import {  MaterialIcons } from "@expo/vector-icons";
 import SectionedMultiSelect, {
   Styles,
 } from "react-native-sectioned-multi-select";
@@ -40,7 +35,6 @@ const MultiSelect = ({
     chipColor: ConfigRepository.color.primary,
     itemBackground: ConfigRepository.color.itemListBackground,
     subItemBackground: ConfigRepository.color.itemListBackground,
-    disabled: "#0f0",
   };
 
   const styles: Styles = {
@@ -134,12 +128,14 @@ const MultiSelect = ({
   };
 
   return (
-    <Styled.Container>
+    <View style={{
+      flex: 1,
+      borderRadius: 10
+    }}>
       <SectionedMultiSelect
         colors={colors}
         items={items}
-        //@ts-ignore
-        IconRenderer={MaterialIcons}
+        IconRenderer={MaterialIcons as any}
         uniqueKey="id"
         subKey="children"
         selectText={I18n.t("selectProduct")}
@@ -156,7 +152,7 @@ const MultiSelect = ({
         subItemFontFamily={subItemFontFamily}
         customChipsRenderer={() => { }}
       />
-    </Styled.Container>
+    </View>
   );
 };
 

@@ -1,28 +1,20 @@
-import { ScrollView } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import * as Styled from "./styles";
-
 import ListGridItem from "./listGridItem";
-import { IList } from "../../../../Model/IList";
-import { colorTheme } from "../../../../../constants/Colors";
 import { useStores } from "../../../../context/StoreContext";
 
 interface ItemProps {
   items: string[];
-  color: colorTheme;
-  setListArchived: React.Dispatch<React.SetStateAction<string[]>>;
 }
 export default function ListGrid({
   items,
-  color,
-  setListArchived,
 }: Readonly<ItemProps>) {
   const { ListRepository } = useStores();
 
   return (
     <SafeAreaView style={{ width: "100%" }}>
       <ScrollView keyboardShouldPersistTaps="handled">
-        <Styled.ContainerListItemListItem>
+        <View style={styles.containerListItemListItem}>
           {items.map((i: string) => {
             const item = ListRepository.getListByUuid(i);
             if (!item) return null;
@@ -33,8 +25,16 @@ export default function ListGrid({
               />
             );
           })}
-        </Styled.ContainerListItemListItem>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  containerListItemListItem: {
+    width: '100%',
+    flex: 1,
+    height: ' 50%',
+  },
+});

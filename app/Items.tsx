@@ -1,5 +1,4 @@
 import { useNavigation } from "expo-router";
-import List from "../src/screens/list/index";
 import { colorTheme } from "../constants/Colors";
 import { useEffect, useImperativeHandle, useState } from "react";
 import { IList } from "../src/Model/IList";

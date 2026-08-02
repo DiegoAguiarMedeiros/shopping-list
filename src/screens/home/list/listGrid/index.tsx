@@ -1,6 +1,5 @@
-import { ScrollView } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import * as Styled from "./styles";
 import { BottomSheetProps } from "../../../../components/BottomSheet";
 
 import ListGridItem from "./listGridItem";
@@ -37,7 +36,7 @@ export default function ListGrid({
   return (
     <SafeAreaView style={{ width: "100%" }}>
       <ScrollView keyboardShouldPersistTaps="handled">
-        <Styled.ContainerListItemListItem>
+        <View style={styles.containerListItemListItem}>
           {lists.map((l: string) => {
             const list = ListRepository.getListByUuid(l);
             if (!list) return null;
@@ -51,8 +50,16 @@ export default function ListGrid({
               />
             );
           })}
-        </Styled.ContainerListItemListItem>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  containerListItemListItem: {
+    width: '100%',
+    flex: 1,
+    height: '50%',
+  },
+});

@@ -1,7 +1,5 @@
 import React from "react";
-import { TextInputProps, useColorScheme } from "react-native";
-
-import * as Styled from "./styles";
+import { TextInput, TextInputProps, StyleSheet } from "react-native";
 
 interface InputProps extends TextInputProps {
   placeholder: string;
@@ -11,16 +9,48 @@ interface InputProps extends TextInputProps {
   placeholderTextColor: string;
 }
 
-const InputText: React.FC<InputProps> = ({ placeholder, radius, ...rest }) => {
-  const Input = Styled.Input as unknown as React.ComponentType<any>;
+const InputText: React.FC<InputProps> = ({
+  placeholder,
+  radius,
+  background,
+  color,
+  placeholderTextColor,
+  style,
+  ...rest
+}) => {
+  const hasRightRadius = !radius;
 
   return (
-    <Input
-      radius={!radius}
+    <TextInput
+      style={[
+        styles.input,
+        {
+          backgroundColor: background,
+          borderColor: background,
+          color: color,
+          borderTopRightRadius: hasRightRadius ? 10 : 0,
+          borderBottomRightRadius: hasRightRadius ? 10 : 0,
+        },
+        style,
+      ]}
       placeholder={placeholder}
+      placeholderTextColor={placeholderTextColor}
       {...rest}
     />
   );
 };
+
+const styles = StyleSheet.create({
+  input: {
+    borderWidth: 1,
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    fontSize: 16,
+    width: "100%",
+    height: "100%",
+  },
+});
 
 export default InputText;

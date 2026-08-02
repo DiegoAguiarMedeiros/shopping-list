@@ -1,5 +1,4 @@
 import { Keyboard, useColorScheme } from "react-native";
-import * as Styled from "./styles";
 import { useEffect, useState } from "react";
 import {
   ItemAmountInterface,

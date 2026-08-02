@@ -113,7 +113,7 @@ const createTheme = (accent: string, theme: "light" | "dark"): colorTheme => {
     itemListItemOpenText: foreground, itemListItemOpenTextSecondary: dark ? "#FFFFFF88" : "#00000050",
     itemListItemOpenButtonBorder: accent, itemListItemOpenButtonBackGround: accent, itemListItemOpenIcon: dark ? "#1E1E1E" : "#00000050", itemListItemOpenIconFilled: accent,
     itemListItemOpenButtonText: buttonText, itemListItemOpenButtonSendBorder: accent, itemListItemOpenButtonSendBackGround: accent, itemListItemOpenButtonSendText: buttonText, itemListItemOpenTrashIcon: dark ? "#FFF" : accent,
-    swipeIcon: dark ? "#FFF" : "#00000050", swipeIconUnderlay: dark ? "#4F4E4E" : "#EEE",
+    swipeIcon: dark ? "#9e9696" : "#00000050", swipeIconUnderlay: dark ? "#4F4E4E" : "#EEE",
     circularItemBackground: surface, circularItemText: dark ? accent : "#00000050", circularItemFilled: accent, circularHeaderBackground: accent, circularHeaderText: dark ? "#FFFFFF88" : "#EEE", circularHeaderFilled: accent,
     filterButtonBackground: dark ? "#1E1E1E" : "#EEE", filterButtonBorder: dark ? "#1E1E1E" : "#EEE", filterButtonText: dark ? "#FFF" : "#00000080", filterButtonActiveBackground: accent, filterButtonActiveBorder: accent, filterButtonActiveText: buttonText,
     itemProductListAveragePrice: accent, itemProductListLastPriceButtonBorder: accent, itemProductListLastPriceButtonText: dark ? foreground : accent,

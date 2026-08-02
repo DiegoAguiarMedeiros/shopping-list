@@ -13,13 +13,11 @@ interface HistoryProps {
 
 export default function History({ color }: Readonly<HistoryProps>) {
   const { ListRepository } = useStores();
-  const [listArchived, setListArchived] = useState<string[]>(ListRepository.getAllItemsMap("listArchived"));
+  const listArchived = ListRepository.getAllItemsMap("listArchived");
   return (
     <Container background={color.backgroundPrimary}>
       {listArchived && listArchived.length > 0 ? (
         <ListComponent
-          setListArchived={setListArchived}
-          color={color}
           items={listArchived}
         />
       ) : (

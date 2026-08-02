@@ -1,4 +1,3 @@
-import * as Styled from "./styles";
 import InputText from "../InputText";
 import Button from "../Button";
 import { useEffect, useState } from "react";
@@ -8,6 +7,10 @@ import I18n from "i18n-js";
 import { colorTheme } from "../../../constants/Colors";
 import ITag from "../../Model/ITag";
 import { useStores } from "../../context/StoreContext";
+import ButtonWrapper from "../ButtonWrapper";
+import ButtonsContainer from "../ButtonsContainer";
+import FormContainer from "../FormContainer";
+import InputContainer from "../InputContainer";
 
 export type NewTagFormProps = {
   onClose: () => void;
@@ -76,8 +79,8 @@ const NewTagForm = ({
   }, [tag]);
 
   return (
-    <Styled.Container>
-      <Styled.InputContainer>
+    <FormContainer>
+      <InputContainer>
         <InputText
           background={ConfigRepository.color.backgroundPrimary}
           color={ConfigRepository.color.textSecondary}
@@ -91,9 +94,9 @@ const NewTagForm = ({
           value={newItem.item}
           onSubmitEditing={functions[action]}
         />
-      </Styled.InputContainer>
-      <Styled.ButtonsContainer>
-        <Styled.ButtonWrapper margin="0 5px 0 0">
+      </InputContainer>
+      <ButtonsContainer>
+        <ButtonWrapper>
           <Button
             text={I18n.t("cancel")}
             border={ConfigRepository.color.bottomSheetButtonCancelBorder}
@@ -102,8 +105,8 @@ const NewTagForm = ({
             onPress={closeBottomSheet}
             underlayColor={ConfigRepository.color.bottomSheetButtonCancelBackground}
           />
-        </Styled.ButtonWrapper>
-        <Styled.ButtonWrapper margin="0 0 0 5px">
+        </ButtonWrapper>
+        <ButtonWrapper>
           <Button
             text={buttonTextArr[buttonText]}
             textColor={ConfigRepository.color.bottomSheetButtonAddText}
@@ -112,9 +115,9 @@ const NewTagForm = ({
             onPress={functions[action]}
             underlayColor={ConfigRepository.color.bottomSheetButtonAddUnderlay}
           />
-        </Styled.ButtonWrapper>
-      </Styled.ButtonsContainer>
-    </Styled.Container>
+        </ButtonWrapper>
+      </ButtonsContainer>
+    </FormContainer>
   );
 };
 

@@ -1,8 +1,5 @@
 import React from "react";
-import { TextInputProps, useColorScheme } from "react-native";
-
-import * as Styled from "./styles";
-import { colorTheme } from "../../../../../../../constants/Colors";
+import { TextInputProps, StyleSheet, TextInput } from "react-native";
 import { useStores } from "../../../../../../context/StoreContext";
 
 interface InputProps extends TextInputProps {
@@ -18,10 +15,15 @@ const InputText: React.FC<InputProps> = ({
   const { ConfigRepository } = useStores();
 
   return (
-    <Styled.Input
-      radius={radius}
-      background={ConfigRepository.color.backgroundPrimary}
-      color={ConfigRepository.color.text}
+    <TextInput
+      style={[styles.input,
+      {
+        backgroundColor: ConfigRepository.color.backgroundPrimary,
+        color: ConfigRepository.color.text,
+        borderRadius: radius ? 10 : 0,
+        
+      }
+      ]}
       placeholder={placeholder}
       placeholderTextColor={ConfigRepository.color.textSecondary}
       underlineColorAndroid="transparent"
@@ -30,5 +32,18 @@ const InputText: React.FC<InputProps> = ({
     />
   );
 };
+
+const styles = StyleSheet.create({
+  input: {
+    borderWidth: 0,
+    fontSize: 20,
+    flex: 1,
+    margin: 0,
+    padding: 0,
+    paddingVertical: 0,
+    includeFontPadding: false,
+    textAlign: 'center',
+  },
+});
 
 export default InputText;

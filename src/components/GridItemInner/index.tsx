@@ -1,7 +1,20 @@
-import * as Styled from "./styles";
+import { DimensionValue, StyleSheet, TouchableHighlight, View } from "react-native";
 
 
-type alignType = "flex-start" | "flex-end" | "center" | "space-between" | "space-around" | "space-evenly";
+type justifyType =
+    | "flex-start"
+    | "flex-end"
+    | "center"
+    | "space-between"
+    | "space-around"
+    | "space-evenly";
+
+type alignType =
+    | "flex-start"
+    | "flex-end"
+    | "center"
+    | "stretch"
+    | "baseline";
 
 
 interface GridItemInnerProps {
@@ -9,74 +22,122 @@ interface GridItemInnerProps {
     borderColor?: string;
     underlayColor?: string;
     children: React.ReactNode;
-    height?: number;
+    height?: DimensionValue;
     row?: boolean;
     noMargin?: boolean;
     noPadding?: boolean;
     onPress?: () => void;
     elevation?: boolean;
+    justify?: justifyType;
+    align?: alignType;
 }
 
-export const GridItemInner = ({ background, borderColor, underlayColor, children, height, row, noPadding, noMargin, onPress, elevation }: GridItemInnerProps) => {
-    return (<Styled.Item
-        elevation={elevation ? 3 : 0}
-        background={background ?? "transparent"}
-        borderColor={borderColor ?? "transparent"}
-        underlayColor={underlayColor ?? "transparent"}
-        height={`${height}px`}
-        row={row ?? false}
-        noPadding={noPadding ?? false}
-        noMargin={noMargin ?? false}
+export const GridItemInner = ({ background, borderColor, underlayColor, children, height, row, noPadding, noMargin, onPress, elevation, justify, align }: GridItemInnerProps) => {
+    return (<TouchableHighlight
+        style={[styles.item,
+        elevation ? { elevation: 3 } : { elevation: 0 },
+        background ? { backgroundColor: background } : { backgroundColor: "transparent" },
+        borderColor ? { borderColor: borderColor, borderWidth: 1, borderStyle: "solid" } : { borderColor: "transparent" },
+        height !== undefined ? { height } : { height: '100%' },
+        row ? { flexDirection: "row" } : { flexDirection: "column" },
+        noPadding ? { padding: 0 } : { padding: 10 },
+        noMargin ? { margin: 0 } : { margin: 5 },
+        justify ? { justifyContent: justify } : { justifyContent: "center" },
+        align ? { alignItems: align } : { alignItems: "center" }
+        ]}
         onPress={onPress}
     >
-        <Styled.Content row={row ?? false}>{children}</Styled.Content>
-    </Styled.Item>)
+        <View style={[styles.content, row ? { flexDirection: "row" } : { flexDirection: "column" }]} >
+            {children}
+        </View>
+    </TouchableHighlight>)
 }
 interface GridItemWrapperRowProps {
     children: React.ReactNode;
-    height?: number;
-    maxHeight?: number;
-    justify?: alignType;
+    height?: DimensionValue;
+    maxHeight?: DimensionValue;
+    justify?: justifyType;
+    align?: alignType;
 }
 interface GridItemWrapperColProps {
     children: React.ReactNode;
-    width: number;
-    height?: number;
-    justify?: alignType;
+    width: DimensionValue;
+    height?: DimensionValue;
+    justify?: justifyType;
+    align?: alignType;
 }
 
-export const GridItemWrapperRow = ({ children, height, maxHeight, justify }: GridItemWrapperRowProps) => {
-    return (<Styled.WrapperRow
-        height={height ? `${height}%` : "100%"}
-        maxHeight={maxHeight ? `${maxHeight}px` : "100%"}
-        justify={justify ?? "center"}
-    >{children}</Styled.WrapperRow>)
+export const GridItemWrapperRow = ({ children, height, maxHeight, justify, align }: GridItemWrapperRowProps) => {
+    return (<View style={[styles.wrapperRow,
+    height !== undefined
+        ? { height, flexGrow: 0, flexShrink: 0, flexBasis: "auto" }
+        : { flex: 1 },
+    maxHeight ? { maxHeight: maxHeight } : { maxHeight: "100%" },
+    justify ? { justifyContent: justify } : { justifyContent: "center" },
+    align ? { alignItems: align } : { alignItems: "center" }
+    ]}>
+        {children}
+    </View>)
 }
-export const GridItemWrapperCol = ({ children, width, height, justify }: GridItemWrapperColProps) => {
-    return (<Styled.WrapperCol
-        width={`${width}%`}
-        height={height ? `${height}%` : "100%"}
-        justify={justify ?? "center"}
-    >{children}</Styled.WrapperCol>)
+
+
+export const GridItemWrapperCol = ({ children, width, height, justify, align }: GridItemWrapperColProps) => {
+    return (<View
+        style={[styles.wrapperCol,
+        width ? { width } : { width: "100%" },
+        height ? { height } : { height: "100%" },
+        justify ? { justifyContent: justify } : { justifyContent: "center" },
+        align ? { alignItems: align } : { alignItems: "center" }
+        ]}
+    >
+        {children}
+    </View>)
 }
 
 interface GridItemWrapperInnerProps {
     children: React.ReactNode;
-    width?: number;
-    height?: number;
-    justify?: alignType;
+    width?: DimensionValue;
+    height?: DimensionValue;
+    justify?: justifyType;
     align?: alignType;
 }
 
 
 export const GridItemWrapperInner = ({ children, width, height, justify, align }: GridItemWrapperInnerProps) => {
     return (
-        <Styled.WrapperInner
-            width={width ? `${width}%` : "100%"}
-            height={height ? `${height}%` : "100%"}
-            justify={justify ?? "center"}
-            align={align ?? "center"}
-        >
+        <View style={[styles.wrapperInner,
+        width ? { width: width } : { width: "100%" },
+        height ? { height } : { height: "100%" },
+        justify ? { justifyContent: justify } : { justifyContent: "center" },
+        align ? { alignItems: align } : { alignItems: "center" }
+        ]}>
             {children}
-        </Styled.WrapperInner>)
+        </View >)
 }
+
+
+const styles = StyleSheet.create({
+    container: {
+        width: '100%',
+        height: 35,
+    },
+    wrapperRow: {
+        width: '100%',
+        flexDirection: 'row',
+        margin: 0,
+        padding: 0,
+    },
+    wrapperCol: {
+        flexDirection: 'column',
+    },
+    item: {
+        borderRadius: 15,
+        flex: 1,
+    },
+    wrapperInner: {
+        flex: 1,
+    },
+    content: {
+        flex: 1,
+    }
+});

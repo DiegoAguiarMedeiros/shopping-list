@@ -1,9 +1,5 @@
 import React from "react";
-import * as Styled from "./styles";
-import { Swipeable } from "react-native-gesture-handler";
-
-
-
+import { StyleSheet, View } from "react-native";
 export interface GridItemNoSwipeableProps {
   children: React.ReactNode;
 }
@@ -11,11 +7,17 @@ const GridItemNoSwipeable: React.FC<GridItemNoSwipeableProps> = ({
   children
 }) => {
   return (
-    <Styled.Container
-    >
+    <View style={styles.container}>
       {children}
-    </Styled.Container>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    padding: 1,
+  },
+});
 
 export default GridItemNoSwipeable;

@@ -1,9 +1,8 @@
-import * as Styled from "./styles";
+import { StyleSheet, View } from 'react-native';
 import Button from "./Button";
 import InputText from "./InputText";
 
 import IAmount from "../../../../../Model/IAmount";
-import { colorTheme } from "../../../../../../constants/Colors";
 import {
   NativeSyntheticEvent,
   TextInputChangeEventData,
@@ -133,7 +132,7 @@ export default function ListPriceGrid({
   };
 
   return (
-    <Styled.Container>
+    <View style={styles.container}>
       {selectedValueSwitch ? (
         <InputText
           radius={true}
@@ -144,15 +143,17 @@ export default function ListPriceGrid({
         />
       ) : (
         <>
-          <Styled.ContainerMinusPlus>
+          <View style={styles.containerMinusPlus}>
             <Button
               icon="minus"
               invertSide={true}
               onPress={minusAmount}
             />
-          </Styled.ContainerMinusPlus>
-          <Styled.ContainerQtd
-            background={ConfigRepository.color.itemListItemOpenButtonBackGround}
+          </View>
+          <View
+            style={[styles.containerQtd,
+            { backgroundColor: ConfigRepository.color.itemListItemOpenButtonBackGround }
+            ]}
           >
             <InputText
               keyboardType="decimal-pad"
@@ -162,12 +163,32 @@ export default function ListPriceGrid({
               value={quantity}
               style={{ fontSize: quantity.length > 3 ? 14 : 18 }}
             />
-          </Styled.ContainerQtd>
-          <Styled.ContainerMinusPlus>
+          </View>
+          <View style={styles.containerMinusPlus}>
             <Button icon="plus" onPress={plusAmount} />
-          </Styled.ContainerMinusPlus>
+          </View>
         </>
       )}
-    </Styled.Container>
+    </View>
   );
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  containerMinusPlus: {
+    flex: 2,
+    padding: 0,
+  },
+  containerQtd: {
+    height: '100%',
+    paddingRight: 1,
+    flex: 2,
+    overflow: 'hidden',
+  }
+});

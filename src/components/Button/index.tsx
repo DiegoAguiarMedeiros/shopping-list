@@ -1,10 +1,7 @@
 import React from "react";
-import { TouchableHighlightProps, View, useColorScheme } from "react-native";
-
-import * as Styled from "./styles";
+import { TouchableHighlightProps, View, StyleSheet, TouchableHighlight } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Text } from "../Text/";
-import { colorTheme } from "../../../constants/Colors";
 import { useStores } from "../../context/StoreContext";
 export interface ButtonProps extends TouchableHighlightProps {
   text?: string;
@@ -815,13 +812,17 @@ const Button: React.FC<ButtonProps> = ({
   const { ConfigRepository } = useStores();
 
   return (
-    <Styled.Button
-      radius={!radius}
+    <TouchableHighlight
       onPress={onPress}
       {...rest}
-      border={border ?? ConfigRepository.color.primary}
-      background={background}
-      height={text === undefined ? "100%" : "45px"}
+      style={[styles.button, {
+        backgroundColor: background,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: border ?? ConfigRepository.color.primary,
+        borderRadius: !radius ? 10 : 0,
+        height: text === undefined ? "100%" : 45,
+       }]}
     >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         {icon !== undefined && (
@@ -842,9 +843,20 @@ const Button: React.FC<ButtonProps> = ({
           </Text>
         )}
       </View>
-    </Styled.Button>
+    </TouchableHighlight>
   );
 };
+
+const styles = StyleSheet.create({
+  button: {
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    minHeight: 35,
+    minWidth: 80,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default Button;
 

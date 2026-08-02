@@ -1,6 +1,5 @@
 import React from "react";
-
-import * as Styled from "./styles";
+import { Pressable, StyleSheet, View } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { RoutesType } from "../../types/types";
 import Container from "../Container";
@@ -17,43 +16,49 @@ const BottomNavigation: React.FC<RoutesType> = ({
   return (
     <Container
       background={ConfigRepository.color.backgroundBottomNavigation}
-      border={ConfigRepository.color.primary}
-      height="55px"
+      height={55}
       noPadding
       elevation
     >
       <ContainerInner>
-        <GridItemWrapperRow height={100}>
+        <GridItemWrapperRow height={100} justify="space-evenly">
           {routes.map((r) =>
             r.addButton ? (
               <GridItemWrapperInner
-                width={15}
-                height={100}
+                width={'15%'}
                 key={`ItemAdd-${r.name}`}
-                justify="center"
-                align="center"
               >
-                <Styled.ItemAddButton
-                  background={ConfigRepository.color.primary}
+                <Pressable
+                  style={[styles.itemAddButton,
+                  {
+                    backgroundColor: ConfigRepository.color.primary,
+                    borderWidth: 1,
+                    borderStyle: 'solid',
+                    borderColor: ConfigRepository.color.primary,
+                  }
+                  ]}
                   key={`ItemAdd-${r.name}`}
                   onPress={() => r.func()}
-                  boder={ConfigRepository.color.primary}
                 >
                   <Text color={ConfigRepository.color.white} align="center">
                     <FontAwesome size={25} name={r.icon} color={ConfigRepository.color.white} />
                   </Text>
-                </Styled.ItemAddButton>
+                </Pressable>
               </GridItemWrapperInner>
             ) : (
               <GridItemWrapperInner
-                width={20}
-                height={100}
+                width={'20%'}
                 key={`Item-${r.name}`}
               >
-                <Styled.Item
+                <Pressable
                   onPress={() => r.func()}
-                  active={r.name === active}
-                  boder={ConfigRepository.color.primary}
+                  style={[styles.item,
+                  {
+                    borderTopWidth: r.name === active ? 2 : 0,
+                    borderStyle: 'solid',
+                    borderColor: ConfigRepository.color.primary,
+                  }
+                  ]}
                 >
                   <Text color={ConfigRepository.color.primary} align="center">
                     <FontAwesome
@@ -66,7 +71,7 @@ const BottomNavigation: React.FC<RoutesType> = ({
                       }
                     />
                   </Text>
-                </Styled.Item>
+                </Pressable>
               </GridItemWrapperInner>
             )
           )}
@@ -75,5 +80,22 @@ const BottomNavigation: React.FC<RoutesType> = ({
     </Container>
   );
 };
+
+const styles = StyleSheet.create({
+  itemAddButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: -10,
+    borderRadius: 100,
+    width: 60,
+    height: 60,
+  },
+  item: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    width: '100%',
+  },
+});
 
 export default BottomNavigation;

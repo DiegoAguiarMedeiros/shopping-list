@@ -1,8 +1,6 @@
 import AppIntroSlider from "react-native-app-intro-slider";
-
+import { StyleSheet, View, Text as RNText, Image } from "react-native";
 import { Text, Title } from "../../components/Text";
-import * as Styled from "./styles";
-import { colorTheme } from "../../../constants/Colors";
 import { useStores } from "../../context/StoreContext";
 
 interface Slide {
@@ -19,23 +17,23 @@ interface OnboadingProps {
 const OnboardingScreen = ({ closeOnboarding }: OnboadingProps) => {
   const { ConfigRepository } = useStores();
   const renderItem = ({ item }: { item: Slide }) => (
-    <Styled.Container background={ConfigRepository.color.backgroundPrimary}>
-      <Styled.SlideContainer background={ConfigRepository.color.backgroundPrimary}>
-        <Styled.SlideContainerInnerTitle>
-          <Styled.SlideTitle text={ConfigRepository.color.backgroundPrimary}>
+    <View style={[styles.container, { backgroundColor: ConfigRepository.color.backgroundPrimary }]}>
+      <View style={[styles.slideContainer, { backgroundColor: ConfigRepository.color.backgroundPrimary }]}>
+        <View style={styles.slideContainerInnerTitle}>
+          <RNText style={[styles.slideTitle, { color: ConfigRepository.color.text }]}>
             {item.title}
-          </Styled.SlideTitle>
-        </Styled.SlideContainerInnerTitle>
-        <Styled.SlideContainerInnerImage>
-          <Styled.SlideImage source={item.image} />
-        </Styled.SlideContainerInnerImage>
-        <Styled.SlideContainerInnerText>
-          <Styled.SlideText text={ConfigRepository.color.backgroundPrimary}>
+          </RNText>
+        </View>
+        <View style={styles.slideContainerInnerImage}>
+          <Image source={item.image} style={styles.slideImage} />
+        </View>
+        <View style={styles.slideContainerInnerText}>
+          <RNText style={[styles.slideText, { color: ConfigRepository.color.text }]}>
             {item.text}
-          </Styled.SlideText>
-        </Styled.SlideContainerInnerText>
-      </Styled.SlideContainer>
-    </Styled.Container>
+          </RNText>
+        </View>
+      </View>
+    </View>
   );
   const slides: Slide[] = [
     {
@@ -81,5 +79,46 @@ const OnboardingScreen = ({ closeOnboarding }: OnboadingProps) => {
     />
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    height: '100%',
+  },
+  slideContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  slideContainerInnerTitle: {
+    flex: 1,
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+  },
+  slideTitle: {
+    fontSize: 32,
+    fontWeight: 'bold',
+  },
+  slideContainerInnerImage: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  slideContainerInnerText: {
+    flex: 1,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+  },
+  slideText: {
+    fontSize: 16,
+    marginTop: 16,
+    marginHorizontal: 32,
+    textAlign: 'center',
+  },
+  slideImage: {
+    width: 200,
+    height: 200,
+  },
+});
 
 export default OnboardingScreen;

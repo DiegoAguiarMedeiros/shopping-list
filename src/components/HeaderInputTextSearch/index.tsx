@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from "react";
-import { TextInput, TextInputProps } from "react-native";
+import { TextInput, TextInputProps, StyleSheet } from "react-native";
 
-import * as Styled from "./styles";
-import { colorTheme } from "../../../constants/Colors";
 import { useStores } from "../../context/StoreContext";
 
 interface InputProps extends TextInputProps {
@@ -11,32 +9,45 @@ interface InputProps extends TextInputProps {
 
 const HeaderInputTextSearch: React.FC<InputProps> = ({
   placeholder,
+  style,
   ...rest
 }) => {
   const inputRef = useRef<TextInput>(null);
   const { ConfigRepository } = useStores();
+
   useEffect(() => {
     if (inputRef?.current) {
-      inputRef?.current.focus();
+      inputRef.current.focus();
     }
-  }, [inputRef]);
-
-  const Input = Styled.Input as unknown as React.ForwardRefExoticComponent<
-    React.PropsWithoutRef<React.ComponentProps<typeof Styled.Input>> &
-      React.RefAttributes<TextInput>
-  >;
+  }, []);
 
   return (
-    <Input
+    <TextInput
       ref={inputRef}
-      background={ConfigRepository.color.secondary}
-      border={ConfigRepository.color.secondary}
-      color={ConfigRepository.color.white}
+      style={[
+        styles.input,
+        {
+          backgroundColor: ConfigRepository.color.secondary,
+          borderColor: ConfigRepository.color.secondary,
+          color: ConfigRepository.color.white,
+        },
+        style,
+      ]}
       placeholder={placeholder}
       placeholderTextColor={ConfigRepository.color.white}
       {...rest}
     />
   );
 };
+
+const styles = StyleSheet.create({
+  input: {
+    height: 40,
+    borderRadius: 8,
+    borderWidth: 1,
+    paddingHorizontal: 12,
+    fontSize: 16,
+  },
+});
 
 export default HeaderInputTextSearch;

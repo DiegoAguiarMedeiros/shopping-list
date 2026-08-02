@@ -1,6 +1,5 @@
-import { useColorScheme, Animated } from "react-native";
+import { useColorScheme, Animated, StyleSheet, View, Text as RNText, Pressable, Dimensions } from "react-native";
 import isEqual from "lodash.isequal";
-import * as Styled from "./styles";
 import { useCallback, useEffect, useRef } from "react";
 import { removeUndefinedFromArray } from "../../../../../utils/functions";
 import { Text, Title2 } from "../../../../../components/Text";
@@ -24,11 +23,15 @@ import { IProduct } from "../../../../../Model/IProduct";
 import React from "react";
 import { useListViewModel } from "../../../../../viewmodels/List/ListViewModel";
 import { useStores } from "../../../../../context/StoreContext";
+import { SharedValue } from "react-native-reanimated";
+import { SwipeableMethods } from "react-native-gesture-handler/lib/typescript/components/ReanimatedSwipeable";
 interface ItemProps {
   list: IList;
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
 }
+
+const SWIPE_WIDTH = Dimensions.get('window').width * 0.75;
 
 const ListGridItem = React.memo(
   ({
@@ -130,121 +133,100 @@ const ListGridItem = React.memo(
       ListRepository.archiveList(list.uuid);
     };
 
-    const RightSwipe = (
-      progress: any,
-      dragX: {
-        interpolate: (arg0: {
-          inputRange: number[];
-          outputRange: number[];
-        }) => any;
-      }
-    ) => {
+    const RightSwipe = (progress: SharedValue<number>, translation: SharedValue<number>, swipeableMethods?: SwipeableMethods) => {
       return (
         <Animated.View
           style={{
-            width: 200,
+            width: SWIPE_WIDTH,
             overflow: "hidden",
           }}
         >
-          <Styled.ButtonView>
-            <Styled.ButtonInner
-              underlayColor={ConfigRepository.color.swipeIconUnderlay}
+          <View style={styles.buttonView}>
+            <Pressable
+              style={styles.buttonInner}
+              android_ripple={{ color: ConfigRepository.color.swipeIconUnderlay }}
               onPress={archivedList}
             >
-              <Styled.ButtonContent>
-                <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
+              <View style={styles.buttonContent}>
+                <RNText style={[styles.buttonTextIcon, { color: ConfigRepository.color.swipeIcon }]}>
                   <FontAwesome
                     size={18}
                     style={{ marginBottom: -3 }}
                     name="archive"
                   />
-                </Styled.ButtonTextIcon>
-                <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
+                </RNText>
+                <RNText style={[styles.buttonText, { color: ConfigRepository.color.swipeIcon }]}>
                   {I18n.t("archive")}
-                </Styled.ButtonText>
-              </Styled.ButtonContent>
-            </Styled.ButtonInner>
+                </RNText>
+              </View>
+            </Pressable>
 
-            <Styled.ButtonInner underlayColor={ConfigRepository.color.text} onPress={handleCopy}>
-              <Styled.ButtonContent>
-                <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
+            <Pressable
+              style={styles.buttonInner}
+              android_ripple={{ color: ConfigRepository.color.swipeIconUnderlay }}
+              onPress={handleCopy}
+            >
+              <View style={styles.buttonContent}>
+                <RNText style={[styles.buttonTextIcon, { color: ConfigRepository.color.swipeIcon }]}>
                   <FontAwesome
                     size={18}
                     style={{ marginBottom: -3 }}
                     name="copy"
                   />
-                </Styled.ButtonTextIcon>
-                <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
+                </RNText>
+                <RNText style={[styles.buttonText, { color: ConfigRepository.color.swipeIcon }]}>
                   {I18n.t("copy")}
-                </Styled.ButtonText>
-              </Styled.ButtonContent>
-            </Styled.ButtonInner>
-          </Styled.ButtonView>
-        </Animated.View>
-      );
-    };
-    const LeftSwipe = (
-      progress: any,
-      dragX: {
-        interpolate: (arg0: {
-          inputRange: number[];
-          outputRange: number[];
-        }) => any;
-      }
-    ) => {
-      return (
-        <Animated.View
-          style={{
-            width: 200,
-            overflow: "hidden",
-          }}
-        >
-          <Styled.ButtonView>
-            <Styled.ButtonInner
-              underlayColor={ConfigRepository.color.swipeIconUnderlay}
+                </RNText>
+              </View>
+            </Pressable>
+
+            <Pressable
+              style={styles.buttonInner}
+              android_ripple={{ color: ConfigRepository.color.swipeIconUnderlay }}
               onPress={handleEdit}
             >
-              <Styled.ButtonContent>
-                <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
+              <View style={styles.buttonContent}>
+                <RNText style={[styles.buttonTextIcon, { color: ConfigRepository.color.swipeIcon }]}>
                   <FontAwesome
                     size={18}
                     style={{ marginBottom: -3 }}
                     name="pencil"
                   />
-                </Styled.ButtonTextIcon>
-                <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
+                </RNText>
+                <RNText style={[styles.buttonText, { color: ConfigRepository.color.swipeIcon }]}>
                   {I18n.t("edit")}
-                </Styled.ButtonText>
-              </Styled.ButtonContent>
-            </Styled.ButtonInner>
-            <Styled.ButtonInner
-              underlayColor={ConfigRepository.color.swipeIconUnderlay}
+                </RNText>
+              </View>
+            </Pressable>
+
+            <Pressable
+              style={styles.buttonInner}
+              android_ripple={{ color: ConfigRepository.color.swipeIconUnderlay }}
               onPress={handleDelete}
             >
-              <Styled.ButtonContent>
-                <Styled.ButtonTextIcon text={ConfigRepository.color.swipeIcon}>
+              <View style={styles.buttonContent}>
+                <RNText style={[styles.buttonTextIcon, { color: ConfigRepository.color.swipeIcon }]}>
                   <FontAwesome
                     size={18}
                     style={{ marginBottom: -3 }}
                     name="trash"
                   />
-                </Styled.ButtonTextIcon>
-                <Styled.ButtonText text={ConfigRepository.color.swipeIcon}>
+                </RNText>
+                <RNText style={[styles.buttonText, { color: ConfigRepository.color.swipeIcon }]}>
                   {I18n.t("delete")}
-                </Styled.ButtonText>
-              </Styled.ButtonContent>
-            </Styled.ButtonInner>
-          </Styled.ButtonView>
+                </RNText>
+              </View>
+            </Pressable>
+          </View>
         </Animated.View>
       );
     };
 
     return (
       <GridItem
-        renderRightActions={LeftSwipe}
-        renderLeftActions={RightSwipe}
-        leftThreshold={100}
+        renderRightActions={RightSwipe}
         rightThreshold={undefined}
+        leftThreshold={undefined}
         ref={gridItemRef}
       >
         <GridItemInner
@@ -256,30 +238,28 @@ const ListGridItem = React.memo(
           onPress={handleOpenList}
           elevation={colorScheme === "light"}
         >
-          <>
-            <GridItemWrapperCol width={85} height={100}>
-              <GridItemWrapperInner height={100} align="flex-start">
-                <Title2 color={ConfigRepository.color.itemListText}>{list.name}</Title2>
-                <Text color={ConfigRepository.color.itemListTextSecondary}>
-                  {I18n.t("total")}: {ConfigRepository.currency}{" "}
-                  {total.toFixed(2).replace(".", ",")}
-                </Text>
-              </GridItemWrapperInner>
-            </GridItemWrapperCol>
-            <GridItemWrapperCol width={15} height={100}>
-              <GridItemWrapperInner height={100} align="flex-end">
-                <CircleProgress
-                  activeStrokeColor={ConfigRepository.color.circularItemFilled}
-                  circleBackgroundColor={ConfigRepository.color.circularItemBackground}
-                  progress={
-                    totalUn && totalWithoutAmount ? totalWithoutAmount : 0
-                  }
-                  total={totalUn}
-                  size={22}
-                />
-              </GridItemWrapperInner>
-            </GridItemWrapperCol>
-          </>
+          <GridItemWrapperCol width="85%">
+            <GridItemWrapperInner justify="center" align="flex-start">
+              <Title2 color={ConfigRepository.color.itemListText}>{list.name}</Title2>
+              <Text color={ConfigRepository.color.itemListTextSecondary}>
+                {I18n.t("total")}: {ConfigRepository.currency}{" "}
+                {total.toFixed(2).replace(".", ",")}
+              </Text>
+            </GridItemWrapperInner>
+          </GridItemWrapperCol>
+          <GridItemWrapperCol width="15%">
+            <GridItemWrapperInner>
+              <CircleProgress
+                activeStrokeColor={ConfigRepository.color.circularItemFilled}
+                circleBackgroundColor={ConfigRepository.color.circularItemBackground}
+                progress={
+                  totalUn && totalWithoutAmount ? totalWithoutAmount : 0
+                }
+                total={totalUn}
+                size={22}
+              />
+            </GridItemWrapperInner>
+          </GridItemWrapperCol>
         </GridItemInner>
       </GridItem>
     );
@@ -288,5 +268,35 @@ const ListGridItem = React.memo(
     return isEqual(prevProps.list, nextProps.list);
   }
 );
+
+const styles = StyleSheet.create({
+  buttonView: {
+    flexDirection: 'row',
+    width: '100%',
+    height: '100%',
+  },
+  buttonInner: {
+    width: '25%',
+    height: '100%',
+    borderRadius: 15,
+  },
+  buttonContent: {
+    flex: 1,
+  },
+  buttonTextIcon: {
+    flex: 10,
+    paddingTop: 15,
+    paddingBottom: 0,
+    paddingHorizontal: 10,
+    textAlign: 'center',
+  },
+  buttonText: {
+    flex: 10,
+    fontSize: 10,
+    paddingVertical: 0,
+    paddingHorizontal: 10,
+    textAlign: 'center',
+  }
+});
 
 export default ListGridItem;
