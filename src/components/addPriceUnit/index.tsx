@@ -47,13 +47,16 @@ export default function AddPriceUnit({
     }
   };
 
-  const heights = [3, 62, 74, 80, 84];
-
+  const heights = [3, 62, 124, 164, 214];
+  const amountCount = amounts.length;
+  const useScroll = amountCount > 4;
   return (
     <Container noPadding>
       <ContainerInner>
         <GridItemWrapperRow
-          height={heights[amounts.length >= 4 ? 4 : amounts.length]}
+          {...(useScroll
+            ? { maxHeight: 214 }
+            : { height: heights[amountCount] })}
         >
           {amounts.length > 0 ? (
             <ListPriceGrid
@@ -65,8 +68,8 @@ export default function AddPriceUnit({
             <></>
           )}
         </GridItemWrapperRow>
-        <GridItemWrapperRow height={100} maxHeight={40}>
-          <GridItemWrapperInner width={88} height={100}>
+        <GridItemWrapperRow maxHeight={40}>
+          <GridItemWrapperInner width="78%" height="100%">
             <InputText
               background={ConfigRepository.color.backgroundPrimary}
               color={ConfigRepository.color.textSecondary}
@@ -81,13 +84,12 @@ export default function AddPriceUnit({
               onSubmitEditing={addAmount}
             />
           </GridItemWrapperInner>
-          <GridItemWrapperInner width={15} height={100}>
+          <GridItemWrapperInner width="22%" height="100%">
             <Button
-              style={{ minWidth: 0, width: "100%" }}
-              border={ConfigRepository.color.itemListItemOpenButtonSendBorder}
-              radius
+              style={{ width: "100%", borderTopRightRadius: 10, borderBottomRightRadius: 10 }}
+              minWidth={0}
+              radius={false}
               icon="send"
-              background={ConfigRepository.color.itemListItemOpenButtonSendBackGround}
               textColor={ConfigRepository.color.itemListItemOpenButtonSendText}
               onPress={addAmount}
             />

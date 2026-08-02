@@ -1,6 +1,6 @@
 import ListPriceItem from "./listPriceItem";
 import IAmount from "../../../Model/IAmount";
-import { View } from "react-native";
+import { ScrollView } from "react-native";
 
 interface ListProps {
   item: IAmount[];
@@ -12,7 +12,11 @@ export default function ListPriceGrid({
   listProductUuid,
 }: Readonly<ListProps>) {
   return (
-    <View style={{ flex: 1, width: "100%" }}>
+    <ScrollView
+      style={{ width: "100%" }}
+      nestedScrollEnabled
+      keyboardShouldPersistTaps="handled"
+    >
       {item.map((itemAmount: IAmount) =>
         itemAmount ? (
           <ListPriceItem
@@ -22,6 +26,6 @@ export default function ListPriceGrid({
           />
         ) : null
       )}
-    </View>
+    </ScrollView>
   );
 }

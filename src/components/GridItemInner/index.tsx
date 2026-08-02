@@ -47,7 +47,7 @@ export const GridItemInner = ({ background, borderColor, underlayColor, children
         ]}
         onPress={onPress}
     >
-        <View style={[styles.content, row ? { flexDirection: "row" } : { flexDirection: "column" }]} >
+        <View style={[row ? { flexDirection: "row" } : { flexDirection: "column" }]} >
             {children}
         </View>
     </TouchableHighlight>)
@@ -105,11 +105,11 @@ interface GridItemWrapperInnerProps {
 
 export const GridItemWrapperInner = ({ children, width, height, justify, align }: GridItemWrapperInnerProps) => {
     return (
-        <View style={[styles.wrapperInner,
-        width ? { width: width } : { width: "100%" },
-        height ? { height } : { height: "100%" },
-        justify ? { justifyContent: justify } : { justifyContent: "center" },
-        align ? { alignItems: align } : { alignItems: "center" }
+        <View style={[
+            width ? { width: width } : { width: "100%" },
+            height ? { height } : { height: "100%" },
+            justify ? { justifyContent: justify } : { justifyContent: "center" },
+            align ? { alignItems: align } : { alignItems: "center" }
         ]}>
             {children}
         </View >)
@@ -132,12 +132,5 @@ const styles = StyleSheet.create({
     },
     item: {
         borderRadius: 15,
-        flex: 1,
     },
-    wrapperInner: {
-        flex: 1,
-    },
-    content: {
-        flex: 1,
-    }
 });

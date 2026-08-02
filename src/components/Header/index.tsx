@@ -16,11 +16,11 @@ export default function Header({ background, bottom }: Readonly<HeaderProps>) {
 const styles = StyleSheet.create({
     containerHeader: {
         width: '100%',
-        flexDirection: 'column',
+        flexDirection: 'column'
     },
     containerHeaderBottom: {
         width: '100%',
         height: 55,
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
 });

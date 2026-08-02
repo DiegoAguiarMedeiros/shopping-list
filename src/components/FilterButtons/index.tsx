@@ -30,6 +30,7 @@ const FilterButtons = ({
       <View style={styles.buttonContainer}>
         <Button
           onPress={handlePress}
+          radius
           border={
             filter === tag.name
               ? ConfigRepository.color.filterButtonActiveBorder
@@ -49,6 +50,7 @@ const FilterButtons = ({
             ConfigRepository.color.filterButtonActiveBackground
           }
           text={tag.name}
+          style={{ height: 35 }}
         />
       </View>
     );
@@ -57,7 +59,7 @@ const FilterButtons = ({
   return (
     <View style={styles.container}>
       <FlatList
-        style={{ width: "100%", height: 35 }}
+        style={{ width: "100%", height: 40 }}
         horizontal
         data={[I18n.t("all"), ...tags]}
         keyExtractor={(item) => item}
@@ -75,7 +77,7 @@ const FilterButtons = ({
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: 35,
+    height: '100%'
   },
   buttonContainer: {
     paddingLeft: 5,

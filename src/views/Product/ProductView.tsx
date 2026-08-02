@@ -87,7 +87,7 @@ export const ProductView = ({
   }, [products, TagRepository.tags]);
 
   return (
-    <Container background={ConfigRepository.color.backgroundPrimary}>
+    <Container background={ConfigRepository.color.backgroundPrimary} style={{ paddingTop: 0 }}>
       <ContainerInner background={ConfigRepository.color.backgroundPrimary}>
         <ScrollView
           style={{ flex: 1, width: "100%" }}
@@ -171,6 +171,7 @@ export const ProductView = ({
                       style={{
                         height: 1,
                         backgroundColor: ConfigRepository.color.itemListBackgroundBorder || "rgba(255, 255, 255, 0.1)",
+                        marginTop: 8,
                         width: "100%",
                       }}
                     />

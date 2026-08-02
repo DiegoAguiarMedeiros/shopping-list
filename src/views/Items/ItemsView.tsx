@@ -62,10 +62,10 @@ const CustomFlatList = React.memo(
 
 
     return (
-      <Container background={ConfigRepository.color.backgroundPrimary}>
-        <ContainerInner height="95" background={ConfigRepository.color.backgroundPrimary}>
+      <Container background={ConfigRepository.color.backgroundPrimary}  height="95%" style={{paddingTop: 0}}>
+        <ContainerInner height="95%" background={ConfigRepository.color.backgroundPrimary}>
           <FlashList
-            style={{ flex: 1, width: "100%", marginTop: -15 }}
+            style={{ flex: 1, width: "100%" }}
             contentContainerStyle={{
               width: "100%",
             }}
@@ -80,22 +80,11 @@ const CustomFlatList = React.memo(
                   height: 250,
                 }}
               />}
-          /*getItemLayout={(data, index) => ({
-            length: ITEM_HEIGHT,
-            offset: ITEM_HEIGHT * index,
-            index,
-          })}
-          onScrollToIndexFailed={(info) => {
-            flatListRef.current?.scrollToOffset({
-              offset: info.averageItemLength * info.index,
-              animated: true,
-            });
-          }}*/
           />
 
 
           <Total
-            height={5}
+            height="5%"
             total={
               ListRepository?.listActive?.total
                 ? ListRepository.listActive.total

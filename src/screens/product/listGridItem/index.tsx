@@ -59,7 +59,7 @@ const ListGridItem = React.memo(
       TagRepository.decreaseProductQTD(item.tag);
     };
 
-    const LeftSwipe =  (progress: SharedValue<number>, translation: SharedValue<number>, swipeableMethods?: SwipeableMethods) => {
+    const LeftSwipe = (progress: SharedValue<number>, translation: SharedValue<number>, swipeableMethods?: SwipeableMethods) => {
       return (
         <Animated.View
           style={{
@@ -69,7 +69,7 @@ const ListGridItem = React.memo(
         >
           <GridItemInner row>
             <>
-              <GridItemWrapperCol width={50}>
+              <GridItemWrapperCol width="50%">
                 <TouchableHighlight
                   style={styles.buttonInner}
                   underlayColor={ConfigRepository.color.swipeIconUnderlay}
@@ -104,7 +104,7 @@ const ListGridItem = React.memo(
                 </TouchableHighlight>
               </GridItemWrapperCol>
 
-              <GridItemWrapperCol width={50}>
+              <GridItemWrapperCol width="50%">
                 <TouchableHighlight
                   style={styles.buttonInner}
                   underlayColor={ConfigRepository.color.swipeIconUnderlay}
@@ -152,41 +152,39 @@ const ListGridItem = React.memo(
           underlayColor={ConfigRepository.color.itemListBackgroundUnderlay}
           borderColor={ConfigRepository.color.itemListBackgroundBorder}
           background={ConfigRepository.color.itemListBackground}
-          height={lastPrice.length > 0 ? 115 : 60}
+          height={lastPrice.length > 0 ? 120 : 60}
           row={false}
           elevation={colorScheme === "light"}
         >
-          <>
-            <GridItemWrapperRow height={lastPrice.length >= 0 ? 35 : 100}>
-              <GridItemWrapperInner height={lastPrice.length >= 0 ? 35 : 100}>
-                <SubTitle color={ConfigRepository.color.text}>{item.name}2</SubTitle>
+          <GridItemWrapperRow height={lastPrice.length > 0 ? 35 : 40}>
+            <GridItemWrapperInner height={lastPrice.length > 0 ? 35 : 40}>
+              <SubTitle color={ConfigRepository.color.text}>{item.name}</SubTitle>
+            </GridItemWrapperInner>
+          </GridItemWrapperRow>
+          <GridItemWrapperRow height={lastPrice.length > 0 ? 65 : 0}>
+            {lastPrice.length > 0 ? (
+              <GridItemWrapperInner
+                width="70%"
+                height="50%"
+                justify="flex-start"
+              >
+                <LastPrices lastPrices={lastPrice} />
               </GridItemWrapperInner>
-            </GridItemWrapperRow>
-            <GridItemWrapperRow height={lastPrice.length > 0 ? 67 : 0}>
-              {lastPrice.length > 0 ? (
-                <GridItemWrapperInner
-                  width={70}
-                  height={100}
-                  justify="flex-start"
-                >
-                  <LastPrices lastPrices={lastPrice} />
-                </GridItemWrapperInner>
-              ) : (
-                <></>
-              )}
-              {lastPrice.length > 0 ? (
-                <GridItemWrapperInner
-                  width={30}
-                  height={100}
-                  justify="flex-start"
-                >
-                  <AveragePrice price={lastPrice} />
-                </GridItemWrapperInner>
-              ) : (
-                <></>
-              )}
-            </GridItemWrapperRow>
-          </>
+            ) : (
+              <></>
+            )}
+            {lastPrice.length > 0 ? (
+              <GridItemWrapperInner
+                width="30%"
+                height="50%"
+                justify="flex-start"
+              >
+                <AveragePrice price={lastPrice} />
+              </GridItemWrapperInner>
+            ) : (
+              <></>
+            )}
+          </GridItemWrapperRow>
         </GridItemInner>
       </GridItem>
     );

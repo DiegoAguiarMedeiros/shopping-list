@@ -1,20 +1,20 @@
 import React from "react";
-import { StyleSheet, View, DimensionValue } from "react-native";
+import { StyleSheet, View, DimensionValue, ViewProps } from "react-native";
 type justifyType =
-    | "flex-start"
-    | "flex-end"
-    | "center"
-    | "space-between"
-    | "space-around"
-    | "space-evenly";
+  | "flex-start"
+  | "flex-end"
+  | "center"
+  | "space-between"
+  | "space-around"
+  | "space-evenly";
 
 type alignType =
-    | "flex-start"
-    | "flex-end"
-    | "center"
-    | "stretch"
-    | "baseline";
-export interface ContainerProps {
+  | "flex-start"
+  | "flex-end"
+  | "center"
+  | "stretch"
+  | "baseline";
+export interface ContainerProps extends ViewProps {
   children: React.ReactNode;
   background?: string;
   height?: DimensionValue;
@@ -29,7 +29,10 @@ const Container: React.FC<ContainerProps> = ({
   children,
   noPadding,
   height,
-  elevation,justify,align
+  elevation,
+  justify,
+  align,
+  ...rest
 }) => {
   return (
     <View
@@ -41,6 +44,7 @@ const Container: React.FC<ContainerProps> = ({
         justify !== undefined ? { justifyContent: justify } : { justifyContent: 'center' },
         align !== undefined ? { alignItems: align } : { alignItems: 'center' },
         elevation && { elevation: 5, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84 },
+        rest.style,
       ]}
     >
       {children}

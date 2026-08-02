@@ -21,6 +21,8 @@ import { colorTheme } from "../../../../constants/Colors";
 import { IList } from "../../../Model/IList";
 import isEqual from "lodash.isequal";
 import { useStores } from "../../../context/StoreContext";
+import { SwipeableMethods } from "react-native-gesture-handler/lib/typescript/components/ReanimatedSwipeable";
+import { SharedValue } from "react-native-reanimated";
 
 interface ListProps {
   item: IProduct;
@@ -54,15 +56,7 @@ function ListGridItem({
     ProductRepository.updateTotalWithoutAmount();
   };
 
-  function RightSwipe(
-    progress: any,
-    dragX: {
-      interpolate: (arg0: {
-        inputRange: number[];
-        outputRange: number[];
-      }) => any;
-    }
-  ) {
+  function RightSwipe(progress: SharedValue<number>, translation: SharedValue<number>, swipeableMethods?: SwipeableMethods) {
     return (
       <Animated.View
         style={{
@@ -94,8 +88,6 @@ function ListGridItem({
     );
   }
 
-  const itemHeights = [115, 180, 240, 280, 330];
-
   const showUnitFromAmount = (amounts: IAmount[]): string => {
     let checkUnit: boolean = true;
     let unit: string = "Un";
@@ -109,6 +101,8 @@ function ListGridItem({
     return `${unit}: ${quantity.toFixed(3)}`;
   };
 
+  const itemHeights = [115, 180, 240, 280, 330];
+
   return active ? (
     <GridItemNoSwipeable>
       <GridItemInner
@@ -119,9 +113,9 @@ function ListGridItem({
         row
         elevation={colorScheme === "light"}
       >
-        <GridItemWrapperCol width={100} justify="flex-end">
-          <GridItemWrapperRow height={100} maxHeight={50} justify="flex-end">
-            <GridItemWrapperInner width={10} height={100}>
+        <GridItemWrapperCol width="100%">
+          <GridItemWrapperRow maxHeight={50}>
+            <GridItemWrapperInner width="10%" >
               <Title color={ConfigRepository.color.itemListItemOpenIcon}>
                 <FontAwesome
                   size={28}
@@ -135,41 +129,30 @@ function ListGridItem({
                 />
               </Title>
             </GridItemWrapperInner>
-            <GridItemWrapperInner width={80} height={100}>
-              <GridItemWrapperCol width={100}>
-                <GridItemWrapperInner
-                  width={100}
-                  height={50}
-                  justify="flex-end"
-                >
-                  <Title2 color={ConfigRepository.color.itemListItemOpenText}>
-                    {item.name}
-                  </Title2>
+            <GridItemWrapperInner width="80%" >
+              <GridItemWrapperCol width="100%">
+                <GridItemWrapperInner width="100%" height="50%">
+                  <Title2 color={ConfigRepository.color.text}>{item.name}</Title2>
                 </GridItemWrapperInner>
-                <GridItemWrapperRow height={50}>
+                <GridItemWrapperRow height="50%" justify="space-between" align="flex-start">
                   <GridItemWrapperInner
-                    width={50}
-                    height={100}
+                    width="50%"
                     justify="flex-start"
                     align="flex-start"
                   >
-                    <Text color={ConfigRepository.color.itemListItemOpenTextSecondary}>
+                    <Text color={ConfigRepository.color.textSecondary}>
                       {I18n.t("total")}: {ConfigRepository.currency} {item.total}
                     </Text>
                   </GridItemWrapperInner>
-                  <GridItemWrapperInner
-                    width={50}
-                    height={100}
-                    justify="flex-start"
-                  >
-                    <Text color={ConfigRepository.color.itemListItemOpenTextSecondary}>
+                  <GridItemWrapperInner width="50%" justify="flex-start" align="flex-start">
+                    <Text color={ConfigRepository.color.textSecondary}>
                       {showUnitFromAmount(item.amount)}
                     </Text>
                   </GridItemWrapperInner>
                 </GridItemWrapperRow>
               </GridItemWrapperCol>
             </GridItemWrapperInner>
-            <GridItemWrapperInner width={10} height={100}>
+            <GridItemWrapperInner width="10%" >
               <Title color={ConfigRepository.color.text} align="right">
                 <FontAwesome
                   onPress={() => handleClose()}
@@ -180,7 +163,7 @@ function ListGridItem({
               </Title>
             </GridItemWrapperInner>
           </GridItemWrapperRow>
-          <View style={styles.selectedEditor}>
+          <View style={styles.addPriceUnit}>
             <AddPriceUnit
               amounts={item.amount}
               listProductUuid={listProductUuid}
@@ -204,8 +187,8 @@ function ListGridItem({
         row
         elevation={colorScheme === "light"}
       >
-        <GridItemWrapperRow height={100} maxHeight={60} justify="flex-end">
-          <GridItemWrapperInner width={10} height={100}>
+        <GridItemWrapperRow maxHeight={60}>
+          <GridItemWrapperInner width="10%" height="100%">
             <Title color={ConfigRepository.color.text}>
               <FontAwesome
                 size={28}
@@ -219,15 +202,14 @@ function ListGridItem({
               />
             </Title>
           </GridItemWrapperInner>
-          <GridItemWrapperInner width={80} height={100}>
-            <GridItemWrapperCol width={100}>
-              <GridItemWrapperInner width={100} height={50} justify="flex-end">
+          <GridItemWrapperInner width="80%" height="100%">
+            <GridItemWrapperCol width="100%">
+              <GridItemWrapperInner width="100%" height="50%">
                 <Title2 color={ConfigRepository.color.text}>{item.name}</Title2>
               </GridItemWrapperInner>
-              <GridItemWrapperRow height={50}>
+              <GridItemWrapperRow height="50%" justify="space-between" align="flex-start">
                 <GridItemWrapperInner
-                  width={50}
-                  height={100}
+                  width="50%"
                   justify="flex-start"
                   align="flex-start"
                 >
@@ -235,11 +217,7 @@ function ListGridItem({
                     {I18n.t("total")}: {ConfigRepository.currency} {item.total}
                   </Text>
                 </GridItemWrapperInner>
-                <GridItemWrapperInner
-                  width={50}
-                  height={100}
-                  justify="flex-start"
-                >
+                <GridItemWrapperInner width="50%" justify="flex-start" align="flex-start">
                   <Text color={ConfigRepository.color.textSecondary}>
                     {showUnitFromAmount(item.amount)}
                   </Text>
@@ -247,7 +225,7 @@ function ListGridItem({
               </GridItemWrapperRow>
             </GridItemWrapperCol>
           </GridItemWrapperInner>
-          <GridItemWrapperInner width={10} height={100}>
+          <GridItemWrapperInner width="10%" height="100%">
             <Title color={ConfigRepository.color.text} align="right">
               <FontAwesome
                 onPress={() => handleOpen(item.uuid, index)}
@@ -289,7 +267,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     textAlign: 'center',
   },
-  selectedEditor: {
+  addPriceUnit: {
     flex: 1,
     width: '100%',
     paddingTop: 6,

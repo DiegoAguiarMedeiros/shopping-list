@@ -70,28 +70,28 @@ export default function ListPriceGrid({
       height={40}
       noPadding
     >
-      <GridItemWrapperRow height={100}>
-        <GridItemWrapperInner width={20} height={100}>
+      <GridItemWrapperRow>
+        <GridItemWrapperInner width="20%">
           <Text color={ConfigRepository.color.itemListItemOpenTextSecondary} align="center">
             {ConfigRepository.currency}{" "}
             {Number(itemAmount.amount).toFixed(2).replace(".", ",")}
           </Text>
         </GridItemWrapperInner>
-        <GridItemWrapperInner width={30} height={100}>
+        <GridItemWrapperInner width="30%">
           <AddQtd
             listProductUuid={listProductUuid}
             amountItem={itemAmount}
             selectedValueSwitch={selectedValueSwitch}
           />
         </GridItemWrapperInner>
-        <GridItemWrapperInner width={30} height={100}>
+        <GridItemWrapperInner width="30%">
           <Switch
             value={selectedValueSwitch}
             onValueChange={editItemsAmount}
             label={{ on: "Kg", off: "Un" }}
           />
         </GridItemWrapperInner>
-        <GridItemWrapperInner width={20} height={100}>
+        <GridItemWrapperInner width="20%">
           <FontAwesome
             size={28}
             style={{ marginBottom: -3 }}
