@@ -25,7 +25,7 @@ export default function AveragePrice({
       <Text color={ConfigRepository.color.textSecondary} align="right">
         {I18n.t("averagePrice")}
       </Text>
-      <Text align="right" color={ConfigRepository.color.itemProductListAveragePrice}>
+      <Text align="right" color={ConfigRepository.color.text}>
         {ConfigRepository.currency}{" "}
         {calculateAveragePrice(price).toFixed(2).replace(".", ",")}
       </Text>

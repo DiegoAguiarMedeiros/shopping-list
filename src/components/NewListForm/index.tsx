@@ -113,6 +113,7 @@ const NewListForm = ({
         <ButtonWrapper>
           <Button
             text={I18n.t("cancel")}
+            radius
             border={ConfigRepository.color.bottomSheetButtonCancelBorder}
             background={ConfigRepository.color.bottomSheetButtonCancelBackground}
             textColor={ConfigRepository.color.bottomSheetButtonCancelText}
@@ -123,6 +124,7 @@ const NewListForm = ({
         <ButtonWrapper>
           <Button
             text={buttonTextArr[buttonText]}
+            radius
             textColor={ConfigRepository.color.bottomSheetButtonAddText}
             border={ConfigRepository.color.bottomSheetButtonAddBorder}
             background={ConfigRepository.color.bottomSheetButtonAddBackground}

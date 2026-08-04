@@ -31,7 +31,7 @@ const Product = ({
   const { ListRepository, ProductRepository, TagRepository } = useStores();
   useEffect(() => {
     ListRepository.setListActiveNull();
-    ProductRepository.load();
+    ProductRepository.setTagFilter(I18n.t("all"));
   }, []);
 
   const hasProducts = ProductRepository.products && ProductRepository.products.length > 0;

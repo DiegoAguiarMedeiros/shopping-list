@@ -226,7 +226,7 @@ const Navigation: React.FC = () => {
     }
     if (route === "product") {
       TagRepository.setTagAcitveNull();
-      ProductRepository.load();
+      ProductRepository.setTagFilter(I18n.t("all"));
       setSearch("");
       setActiveRouteHeader({
         left: null,

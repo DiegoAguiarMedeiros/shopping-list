@@ -23,7 +23,7 @@ const LastPrices = ({ lastPrices }: LastPricesProps) => {
         {lastPrices.map((price, index) => (
           <View key={index} style={styles.buttonContainer}>
             <View style={[styles.buttonText, { borderColor: ConfigRepository.color.itemProductListLastPriceButtonBorder }]}>
-              <Text color={ConfigRepository.color.itemProductListLastPriceButtonText}>
+              <Text color={ConfigRepository.color.text}>
                 {ConfigRepository.currency} {Number(price).toFixed(2).replace(".", ",")}
               </Text>
             </View>

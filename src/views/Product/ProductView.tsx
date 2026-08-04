@@ -135,7 +135,7 @@ export const ProductView = ({
                           marginRight: 8,
                         }}
                       >
-                        <Text color={ConfigRepository.color.primary}>
+                        <Text color={ConfigRepository.color.text}>
                           {categoryProducts.length} {I18n.t("products")}
                         </Text>
                       </View>
@@ -186,4 +186,3 @@ export const ProductView = ({
     </Container>
   );
 };
-

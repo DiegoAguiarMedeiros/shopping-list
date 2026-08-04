@@ -1,4 +1,5 @@
 import { DimensionValue, StyleSheet, TouchableHighlight, View } from "react-native";
+import { useStores } from "../../context/StoreContext";
 
 
 type justifyType =
@@ -33,6 +34,8 @@ interface GridItemInnerProps {
 }
 
 export const GridItemInner = ({ background, borderColor, underlayColor, children, height, row, noPadding, noMargin, onPress, elevation, justify, align }: GridItemInnerProps) => {
+    const { ConfigRepository } = useStores();
+
     return (<TouchableHighlight
         style={[styles.item,
         elevation ? { elevation: 3 } : { elevation: 0 },
@@ -45,6 +48,7 @@ export const GridItemInner = ({ background, borderColor, underlayColor, children
         justify ? { justifyContent: justify } : { justifyContent: "center" },
         align ? { alignItems: align } : { alignItems: "center" }
         ]}
+        underlayColor={underlayColor ?? ConfigRepository.color.itemListBackgroundUnderlay}
         onPress={onPress}
     >
         <View style={[row ? { flexDirection: "row" } : { flexDirection: "column" }]} >

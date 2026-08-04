@@ -135,6 +135,11 @@ export default function ListPriceGrid({
     <View style={styles.container}>
       {selectedValueSwitch ? (
         <InputText
+          style={{ backgroundColor: ConfigRepository.color.backgroundPrimary,
+            textAlign: "center",
+            width: "100%",
+            borderRadius: 10,
+           }}
           radius={true}
           keyboardType="decimal-pad"
           placeholder="0.000"
@@ -161,7 +166,10 @@ export default function ListPriceGrid({
               radius={false}
               placeholder="Valor"
               value={quantity}
-              style={{ fontSize: quantity.length > 3 ? 14 : 18 }}
+              style={{
+                textAlign: "center", 
+                fontSize: quantity.length > 3 ? 14 : 18, 
+                backgroundColor: ConfigRepository.color.backgroundPrimary }}
             />
           </View>
           <View style={styles.containerMinusPlus}>

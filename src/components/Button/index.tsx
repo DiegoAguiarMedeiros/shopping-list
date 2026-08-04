@@ -809,12 +809,14 @@ const Button: React.FC<ButtonProps> = ({
   onPress,
   radius,
   minWidth,
+  underlayColor,
   ...rest
 }) => {
   const { ConfigRepository } = useStores();
   return (
     <TouchableHighlight
       onPress={onPress}
+      underlayColor={underlayColor ?? ConfigRepository.color.secondary}
       style={[styles.button, {
         backgroundColor: background ?? ConfigRepository.color.primary,
         borderWidth: 1,
@@ -862,4 +864,3 @@ const styles = StyleSheet.create({
 });
 
 export default Button;
-

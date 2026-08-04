@@ -45,10 +45,7 @@ const FilterButtons = ({
             filter === tag.name
               ? ConfigRepository.color.filterButtonActiveText
               : ConfigRepository.color.filterButtonText
-          }
-          underlayColor={
-            ConfigRepository.color.filterButtonActiveBackground
-          }
+          }          underlayColor={ConfigRepository.color.backgroundTertiary}
           text={tag.name}
           style={{ height: 35 }}
         />

@@ -59,13 +59,13 @@ const RootLayoutInner = observer(() => {
     }
   }, [appIsReady]);
 
-  // NOTE: We render <Slot /> always (never return null) so expo-router's
-  // useLinking never tries to setState on an unmounted component tree.
-  // The splash screen hides the UI while loading.
+  // Expo Router must mount during the first render. The native splash screen
+  // remains visible until `appIsReady`, so the router can initialize without
+  // briefly exposing the app UI.
   return (
     <>
       <StatusBar backgroundColor={ConfigRepository.color.primary} />
-      {appIsReady && <Slot />}
+      <Slot />
     </>
   );
 });

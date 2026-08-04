@@ -135,7 +135,18 @@ class ProductRepository implements IProductRepository {
   }
 
   load(): void {
+    // Reloading product data must preserve the category selected in the list.
+    // Price changes also trigger a reload, so bypassing this would make every
+    // product visible again after adding or editing a price.
     this.products = this.getAllItems();
+
+    const selectedTag = this.tagRepository.tagFilter;
+    if (!this.langFilterAll.includes(selectedTag)) {
+      const tag = this.tagRepository.tags.find((item) => item.name === selectedTag);
+      if (tag) {
+        this.products = this.products.filter((product) => product.tag === tag.uuid);
+      }
+    }
   }
 
   addItemByUuid(item: IProduct): void {

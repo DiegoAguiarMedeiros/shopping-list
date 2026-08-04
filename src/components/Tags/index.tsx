@@ -62,6 +62,7 @@ const Tags = ({ tags, isVisible, addTag }: TagsProps) => {
                 style={[styles.tagsItem, {
                   backgroundColor: ConfigRepository.color.backgroundPrimary,
                 }]}
+                underlayColor={ConfigRepository.color.backgroundTertiary}
                 onPress={() => handleAddTag(tag?.name)}
                 key={`tagContainer-${tag.id}`}
               >
