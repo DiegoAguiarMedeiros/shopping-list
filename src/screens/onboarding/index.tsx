@@ -1,5 +1,6 @@
 import AppIntroSlider from "react-native-app-intro-slider";
 import { StyleSheet, View, Text as RNText, Image } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, Title } from "../../components/Text";
 import { useStores } from "../../context/StoreContext";
 
@@ -60,23 +61,25 @@ const OnboardingScreen = ({ closeOnboarding }: OnboadingProps) => {
     },
   ];
   return (
-    <AppIntroSlider
-      data={slides}
-      renderItem={renderItem}
-      renderSkipButton={() => <Title color={ConfigRepository.color.textSecondary}>Pular</Title>}
-      renderNextButton={() => (
-        <Title color={ConfigRepository.color.textSecondary}>Próximo</Title>
-      )}
-      renderDoneButton={() => <Title color={ConfigRepository.color.textSecondary}>Fechar</Title>}
-      renderPrevButton={() => <Title color={ConfigRepository.color.textSecondary}>Voltar</Title>}
-      showPrevButton
-      showSkipButton
-      dotStyle={{ backgroundColor: ConfigRepository.color.text }}
-      activeDotStyle={{
-        backgroundColor: ConfigRepository.color.info,
-      }}
-      onDone={closeOnboarding}
-    />
+    <SafeAreaView style={{ flex: 1, backgroundColor: ConfigRepository.color.backgroundPrimary }}>
+      <AppIntroSlider
+        data={slides}
+        renderItem={renderItem}
+        renderSkipButton={() => <Title color={ConfigRepository.color.textSecondary}>Pular</Title>}
+        renderNextButton={() => (
+          <Title color={ConfigRepository.color.textSecondary}>Próximo</Title>
+        )}
+        renderDoneButton={() => <Title color={ConfigRepository.color.textSecondary}>Fechar</Title>}
+        renderPrevButton={() => <Title color={ConfigRepository.color.textSecondary}>Voltar</Title>}
+        showPrevButton
+        showSkipButton
+        dotStyle={{ backgroundColor: ConfigRepository.color.text }}
+        activeDotStyle={{
+          backgroundColor: ConfigRepository.color.info,
+        }}
+        onDone={closeOnboarding}
+      />
+    </SafeAreaView>
   );
 };
 

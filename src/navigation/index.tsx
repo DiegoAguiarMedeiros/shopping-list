@@ -413,7 +413,15 @@ const Navigation: React.FC = () => {
       <BottomSheet {...bottomSheetProps} />
       <SafeAreaView
         edges={["bottom"]}
-        style={{ backgroundColor: ConfigRepository.color.backgroundBottomNavigation }}
+        style={{
+          backgroundColor: ConfigRepository.color.backgroundBottomNavigation,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: -3 },
+          shadowOpacity: 0.12,
+          shadowRadius: 6,
+          elevation: 8,
+          zIndex: 10,
+        }}
       >
         <BottomNavigation
           routes={routes}

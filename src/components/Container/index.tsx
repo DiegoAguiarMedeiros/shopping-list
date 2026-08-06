@@ -43,7 +43,7 @@ const Container: React.FC<ContainerProps> = ({
         height !== undefined ? { height } : { height: '100%' },
         justify !== undefined ? { justifyContent: justify } : { justifyContent: 'center' },
         align !== undefined ? { alignItems: align } : { alignItems: 'center' },
-        elevation && { elevation: 5, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84 },
+        elevation && { elevation: 8, shadowColor: '#000', shadowOffset: { width: 0, height: -3 }, shadowOpacity: 0.12, shadowRadius: 6 },
         rest.style,
       ]}
     >

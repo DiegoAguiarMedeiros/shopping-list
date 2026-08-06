@@ -1,4 +1,3 @@
-import Home from "../src/screens/home/Home";
 import { BottomSheetProps } from "../src/components/BottomSheet";
 import { colorTheme } from "../constants/Colors";
 import { useState, useImperativeHandle, useEffect } from "react";
