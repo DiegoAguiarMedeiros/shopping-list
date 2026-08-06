@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { TextInput, TextInputProps, StyleSheet } from "react-native";
+import { TextInput, TextInputProps, StyleSheet, Dimensions } from "react-native";
 
 import { useStores } from "../../context/StoreContext";
 
@@ -16,9 +16,12 @@ const HeaderInputTextSearch: React.FC<InputProps> = ({
   const { ConfigRepository } = useStores();
 
   useEffect(() => {
-    if (inputRef?.current) {
-      inputRef.current.focus();
-    }
+    const timer = setTimeout(() => {
+      if (inputRef?.current) {
+        inputRef.current.focus();
+      }
+    }, 100);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -29,12 +32,13 @@ const HeaderInputTextSearch: React.FC<InputProps> = ({
         {
           backgroundColor: ConfigRepository.color.secondary,
           borderColor: ConfigRepository.color.secondary,
-          color: ConfigRepository.color.white,
+          color: ConfigRepository.color.onPrimary,
+
         },
-        style,
+        style
       ]}
       placeholder={placeholder}
-      placeholderTextColor={ConfigRepository.color.white}
+      placeholderTextColor={ConfigRepository.color.onPrimary}
       {...rest}
     />
   );
@@ -42,6 +46,7 @@ const HeaderInputTextSearch: React.FC<InputProps> = ({
 
 const styles = StyleSheet.create({
   input: {
+    width: Dimensions.get("window").width - 110,
     height: 40,
     borderRadius: 8,
     borderWidth: 1,

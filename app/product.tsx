@@ -1,4 +1,4 @@
-import ProductsList from "../src/screens/productsList/index";
+
 import { BottomSheetProps } from "../src/components/BottomSheet";
 import { useEffect, useImperativeHandle, useState } from "react";
 import React from "react";
@@ -46,6 +46,7 @@ const Product = ({
             )
           : ProductRepository.products
       }
+      search={search}
       setBottomSheetProps={setBottomSheetProps}
       handleCloseBottomSheet={handleCloseBottomSheet}
     />

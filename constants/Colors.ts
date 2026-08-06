@@ -1,6 +1,6 @@
 export type colorTheme = {
   theme: string;
-  primary: string; secondary: string; tertiary: string; white: string; whiteLighter: string; black: string;
+  primary: string; primaryStrong: string; onPrimary: string; onPrimaryStrong: string; secondary: string; tertiary: string; white: string; whiteLighter: string; black: string;
   warning: string; alert: string; info: string; text: string; textSecondary: string; textTertiary: string;
   backgroundPrimary: string; backgroundSecondary: string; backgroundTertiary: string;
   menuButtonColor: string; menuButtonActiveColor: string; backgroundBottomSheet: string; backgroundBottomNavigation: string;
@@ -55,6 +55,21 @@ const getRelativeLuminance = ({ red, green, blue }: RgbColor) => {
   return linearize(red) * 0.2126 + linearize(green) * 0.7152 + linearize(blue) * 0.0722;
 };
 
+const toHex = (value: number) => Math.round(value).toString(16).padStart(2, "0");
+
+/** Creates a stronger shade that is always readable with a light icon. */
+const getStrongPrimary = (color: string): string => {
+  const parsed = parseHexColor(color);
+  if (!parsed) return color;
+
+  for (let factor = 1; factor >= 0; factor -= 0.02) {
+    const stronger = `#${toHex(parsed.red * factor)}${toHex(parsed.green * factor)}${toHex(parsed.blue * factor)}`;
+    if (getContrastRatio("#FFF", stronger) >= 4.5) return stronger.toUpperCase();
+  }
+
+  return "#000000";
+};
+
 /** Returns the WCAG contrast ratio between two hexadecimal colors. */
 export const getContrastRatio = (first: string, second: string): number => {
   const firstColor = parseHexColor(first);
@@ -95,14 +110,16 @@ const createTheme = (accent: string, theme: "light" | "dark"): colorTheme => {
   const base = dark ? "#1E1E1E" : "#FFF";
   const muted = dark ? "#FFFFFF88" : "#00000098";
   const buttonText = contrastText(accent);
+  const primaryStrong = getStrongPrimary(accent);
+  const bottomNavigation = dark ? "#2E2E2E" : "#EEE";
 
   return {
-    theme, primary: accent, secondary: alpha(accent, "50"), tertiary: dark ? "#5F5E5E" : "#F0F8FF",
+    theme, primary: accent, primaryStrong, onPrimary: buttonText, onPrimaryStrong: "#FFF", secondary: alpha(accent, "50"), tertiary: dark ? "#5F5E5E" : "#F0F8FF",
     white: "#FFF", whiteLighter: "#FFFFFF80", black: "#000", warning: "#B45309", alert: "#D85D63", info: "#2F6F9F",
     text: foreground, textSecondary: muted, textTertiary: dark ? "#FFFFFF68" : "#00000078",
     backgroundPrimary: base, backgroundSecondary: dark ? "#4F4E4E" : accent, backgroundTertiary: dark ? "#5F5E5E" : "#F0F8FF",
-    menuButtonColor: dark ? "#FFFFFF50" : "#00000050", menuButtonActiveColor: accent,
-    backgroundBottomSheet: dark ? "#2E2E2E" : "#EEE", backgroundBottomNavigation: dark ? "#2E2E2E" : "#EEE",
+    menuButtonColor: dark ? "#FFFFFF50" : "#00000050", menuButtonActiveColor: ensureContrast(accent, bottomNavigation),
+    backgroundBottomSheet: dark ? "#2E2E2E" : "#EEE", backgroundBottomNavigation: bottomNavigation,
     bottomSheetButtonAddBackground: accent, bottomSheetButtonCancelBackground: dark ? "#4F4E4E" : "#AAA",
     bottomSheetButtonAddBorder: accent, bottomSheetButtonCancelBorder: dark ? "#4F4E4E" : "#AAA",
     bottomSheetButtonAddText: buttonText, bottomSheetButtonCancelText: foreground,
@@ -114,7 +131,7 @@ const createTheme = (accent: string, theme: "light" | "dark"): colorTheme => {
     itemListItemOpenButtonBorder: accent, itemListItemOpenButtonBackGround: accent, itemListItemOpenIcon: dark ? "#1E1E1E" : "#00000050", itemListItemOpenIconFilled: accent,
     itemListItemOpenButtonText: buttonText, itemListItemOpenButtonSendBorder: accent, itemListItemOpenButtonSendBackGround: accent, itemListItemOpenButtonSendText: buttonText, itemListItemOpenTrashIcon: dark ? "#FFF" : accent,
     swipeIcon: dark ? "#9e9696" : "#00000050", swipeIconUnderlay: dark ? "#4F4E4E" : "#EEE",
-    circularItemBackground: surface, circularItemText: dark ? accent : "#00000050", circularItemFilled: accent, circularHeaderBackground: accent, circularHeaderText: dark ? "#FFFFFF88" : "#EEE", circularHeaderFilled: accent,
+    circularItemBackground: surface, circularItemText: dark ? accent : "#00000050", circularItemFilled: accent, circularHeaderBackground: accent, circularHeaderText: buttonText, circularHeaderFilled: buttonText,
     filterButtonBackground: dark ? "#1E1E1E" : "#EEE", filterButtonBorder: dark ? "#1E1E1E" : "#EEE", filterButtonText: dark ? "#FFF" : "#00000080", filterButtonActiveBackground: accent, filterButtonActiveBorder: accent, filterButtonActiveText: buttonText,
     itemProductListAveragePrice: accent, itemProductListLastPriceButtonBorder: accent, itemProductListLastPriceButtonText: dark ? foreground : accent,
     configItemBackground: base, switchTrackColorTrue: alpha(accent, "88"), switchTrackColorFalse: dark ? "#5F5E5E" : "#CCC", switchThumbColorTrue: accent, switchThumbColorFalse: accent,

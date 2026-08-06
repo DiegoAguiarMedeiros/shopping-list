@@ -835,13 +835,13 @@ const Button: React.FC<ButtonProps> = ({
             size={20}
             style={{ marginBottom: -3, marginRight: 10 }}
             name={icon}
-            color={textColor ?? ConfigRepository.color.white}
+            color={textColor ?? ConfigRepository.color.onPrimary}
           />
         )}
 
         {text !== undefined && (
           <Text
-            color={textColor ?? ConfigRepository.color.white}
+            color={textColor ?? ConfigRepository.color.onPrimary}
             align="center"
           >
             {text}

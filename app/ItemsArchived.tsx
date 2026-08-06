@@ -57,11 +57,11 @@ const ItemsArchived = observer(({
           style={{ marginLeft: 20, marginRight: 10 }}
           onPress={() => returnToHome()}
         >
-          <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.white} />
+          <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.onPrimary} />
         </TouchableHighlight>
       ),
       name: (
-        <Title color={ConfigRepository.color.white}>{ListRepository?.listActive?.name}</Title>
+        <Title color={ConfigRepository.color.onPrimary}>{ListRepository?.listActive?.name}</Title>
       ),
       right: (
         <ContainerCP>
@@ -90,7 +90,7 @@ const ItemsArchived = observer(({
     ListRepository?.listActive?.totalWithoutAmount,
     ListRepository?.listActive?.totalUn,
     ConfigRepository.color.primary,
-    ConfigRepository.color.white,
+    ConfigRepository.color.onPrimary,
     ConfigRepository.color.circularHeaderFilled,
     ConfigRepository.color.circularHeaderBackground,
   ]);

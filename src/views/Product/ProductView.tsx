@@ -20,12 +20,14 @@ interface ProductViewProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
   handleCloseBottomSheet: () => void;
   products: IProduct[];
+  search?: string;
 }
 
 export const ProductView = ({
   setBottomSheetProps,
   handleCloseBottomSheet,
   products,
+  search = "",
 }: ProductViewProps) => {
   const { TagRepository, ConfigRepository } = useStores();
   const colorScheme = useColorScheme();
@@ -83,8 +85,13 @@ export const ProductView = ({
       });
     }
 
+    // When searching, hide tag groups that have no matching products
+    if (search.trim() !== "") {
+      return result.filter((group) => group.products.length > 0);
+    }
+
     return result;
-  }, [products, TagRepository.tags]);
+  }, [products, TagRepository.tags, search]);
 
   return (
     <Container background={ConfigRepository.color.backgroundPrimary} style={{ paddingTop: 0 }}>
@@ -142,7 +149,7 @@ export const ProductView = ({
                       <FontAwesome
                         name={isExpanded ? "chevron-up" : "chevron-down"}
                         size={14}
-                        color={ConfigRepository.color.primary}
+                        color={ConfigRepository.color.text}
                       />
                     </View>
                   </TouchableOpacity>

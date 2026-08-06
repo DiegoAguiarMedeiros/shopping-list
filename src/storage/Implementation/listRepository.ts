@@ -191,6 +191,7 @@ class ListRepository implements IListRepository {
   }
 
   getItem(uuid: string): IList | undefined {
+    if(!uuid) return undefined;
     try {
       const jsonData = storageMMKV.get(uuid);
       return jsonData ? JSON.parse(jsonData) : undefined;

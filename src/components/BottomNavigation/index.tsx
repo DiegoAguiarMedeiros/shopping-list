@@ -31,17 +31,17 @@ const BottomNavigation: React.FC<RoutesType> = ({
                 <Pressable
                   style={[styles.itemAddButton,
                   {
-                    backgroundColor: ConfigRepository.color.primary,
+                    backgroundColor: ConfigRepository.color.primaryStrong,
                     borderWidth: 1,
                     borderStyle: 'solid',
-                    borderColor: ConfigRepository.color.primary,
+                    borderColor: ConfigRepository.color.primaryStrong,
                   }
                   ]}
                   key={`ItemAdd-${r.name}`}
                   onPress={() => r.func()}
                 >
-                  <Text color={ConfigRepository.color.white} align="center">
-                    <FontAwesome size={25} name={r.icon} color={ConfigRepository.color.white} />
+                  <Text color={ConfigRepository.color.onPrimaryStrong} align="center">
+                    <FontAwesome size={25} name={r.icon} color={ConfigRepository.color.onPrimaryStrong} />
                   </Text>
                 </Pressable>
               </GridItemWrapperInner>
@@ -56,7 +56,7 @@ const BottomNavigation: React.FC<RoutesType> = ({
                   {
                     borderTopWidth: r.name === active ? 2 : 0,
                     borderStyle: 'solid',
-                    borderColor: ConfigRepository.color.primary,
+                    borderColor: ConfigRepository.color.menuButtonActiveColor,
                   }
                   ]}
                 >

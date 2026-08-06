@@ -60,16 +60,16 @@ const Items = ({
             style={{ marginLeft: 20, marginRight: 10 }}
             onPress={() => returnToHome()}
           >
-            <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.white} />
+            <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.onPrimary} />
           </TouchableHighlight>
         ),
         name: (
-          <Title color={ConfigRepository.color.white}>{ListRepository?.listActive?.name}</Title>
+          <Title color={ConfigRepository.color.onPrimary}>{ListRepository?.listActive?.name}</Title>
         ),
         right: (
           <ContainerCP>
           <CircleProgress
-            activeStrokeColor={ConfigRepository.color.white}
+            activeStrokeColor={ConfigRepository.color.onPrimary}
             circleBackgroundColor={ConfigRepository.color.primary}
             progress={
                 ListRepository?.listActive?.totalWithoutAmount

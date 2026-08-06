@@ -24,6 +24,7 @@ export default function AddProductOptions({
         <View style={{ flex: 1 }}>
           <Button
             text={I18n.t("product")}
+            radius
             background={ConfigRepository.color.bottomSheetButtonAddBackground}
             border={ConfigRepository.color.bottomSheetButtonAddBorder}
             textColor={ConfigRepository.color.bottomSheetButtonAddText}
@@ -33,6 +34,7 @@ export default function AddProductOptions({
         <View style={{ flex: 1 }}>
           <Button
             text={I18n.t("category")}
+            radius
             background={ConfigRepository.color.bottomSheetButtonAddBackground}
             border={ConfigRepository.color.bottomSheetButtonAddBorder}
             textColor={ConfigRepository.color.bottomSheetButtonAddText}
@@ -42,6 +44,7 @@ export default function AddProductOptions({
       </View>
       <Button
         text={I18n.t("cancel")}
+        radius
         background={ConfigRepository.color.bottomSheetButtonCancelBackground}
         border={ConfigRepository.color.bottomSheetButtonCancelBorder}
         textColor={ConfigRepository.color.bottomSheetButtonCancelText}

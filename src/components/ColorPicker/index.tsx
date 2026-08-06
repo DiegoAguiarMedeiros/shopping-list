@@ -12,6 +12,7 @@ interface ColorPickerProps {
   onChange: (color: string) => void;
   background: string;
   primary: string;
+  onPrimary: string;
   buttonText: string;
   doneText: string;
 }
@@ -58,7 +59,7 @@ const hsvToHex = ({ h, s, v }: Hsv) => {
   return `#${toHex(red)}${toHex(green)}${toHex(blue)}`.toUpperCase();
 };
 
-export default function ColorPicker({ value, onChange, background, primary, buttonText, doneText }: ColorPickerProps) {
+export default function ColorPicker({ value, onChange, background, primary, onPrimary, buttonText, doneText }: ColorPickerProps) {
   const [visible, setVisible] = useState(false);
   const [hsv, setHsv] = useState(() => hexToHsv(value));
   const selectedColor = useMemo(() => hsvToHex(hsv), [hsv]);
@@ -139,7 +140,7 @@ export default function ColorPicker({ value, onChange, background, primary, butt
             <View style={styles.actions}>
               <View style={[styles.preview, { backgroundColor: selectedColor }]} />
               <TouchableOpacity onPress={() => { onChange(selectedColor); setVisible(false); }} style={[styles.doneButton, { backgroundColor: primary }]}>
-                <Text color="#FFF">{doneText}</Text>
+                <Text color={onPrimary}>{doneText}</Text>
               </TouchableOpacity>
             </View>
           </View>

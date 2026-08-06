@@ -43,7 +43,7 @@ const Navigation: React.FC = () => {
     right: React.ReactNode | null;
   }>({
     left: null,
-    name: <Title color={ConfigRepository.color.white}>Listas</Title>,
+    name: <Title color={ConfigRepository.color.onPrimary}>Listas</Title>,
     right: null,
   });
   const [search, setSearch] = useState("");
@@ -144,7 +144,6 @@ const Navigation: React.FC = () => {
       left: null,
       name: (
         <HeaderInputTextSearch
-          style={{ marginLeft: -16 }}
           placeholder={I18n.t("search")}
           onChangeText={(item) => setSearch(item)}
         />
@@ -155,7 +154,7 @@ const Navigation: React.FC = () => {
           style={{ marginRight: 20 }}
           onPress={() => clearHeaderProduct()}
         >
-          <FontAwesome name="times" size={25} color={ConfigRepository.color.white} />
+          <FontAwesome name="times" size={25} color={ConfigRepository.color.onPrimary} />
         </TouchableHighlight>
       ),
     });
@@ -165,14 +164,14 @@ const Navigation: React.FC = () => {
     setSearch("");
     setActiveRouteHeader({
       left: null,
-      name: <Title color={ConfigRepository.color.white}>Produtos</Title>,
+      name: <Title color={ConfigRepository.color.onPrimary}>Produtos</Title>,
       right: (
         <TouchableHighlight
           underlayColor={ConfigRepository.color.primary}
           style={{ marginLeft: 20, marginRight: 20 }}
           onPress={() => handleShowSearchInput()}
         >
-          <FontAwesome name="search" size={25} color={ConfigRepository.color.white} />
+          <FontAwesome name="search" size={25} color={ConfigRepository.color.onPrimary} />
         </TouchableHighlight>
       ),
     });
@@ -230,14 +229,14 @@ const Navigation: React.FC = () => {
       setSearch("");
       setActiveRouteHeader({
         left: null,
-        name: <Title color={ConfigRepository.color.white}>{I18n.t("products")}</Title>,
+        name: <Title color={ConfigRepository.color.onPrimary}>{I18n.t("products")}</Title>,
         right: (
           <TouchableHighlight
             underlayColor={ConfigRepository.color.primary}
             style={{ marginLeft: 20, marginRight: 20 }}
             onPress={() => handleShowSearchInput()}
           >
-            <FontAwesome name="search" size={25} color={ConfigRepository.color.white} />
+            <FontAwesome name="search" size={25} color={ConfigRepository.color.onPrimary} />
           </TouchableHighlight>
         ),
       });
@@ -307,7 +306,7 @@ const Navigation: React.FC = () => {
           headerStyle: {
             backgroundColor: ConfigRepository.color.primary,
           },
-          headerTintColor: ConfigRepository.color.primary,
+          headerTintColor: ConfigRepository.color.onPrimary,
         }}
       >
         <Stack.Screen
@@ -316,7 +315,7 @@ const Navigation: React.FC = () => {
             headerLeft: () => null,
             headerRight: () => null,
             headerTitle: (props) => (
-              <Title color={ConfigRepository.color.white}>{I18n.t("lists")}</Title>
+              <Title color={ConfigRepository.color.onPrimary}>{I18n.t("lists")}</Title>
             ),
           }}
         >
@@ -374,7 +373,7 @@ const Navigation: React.FC = () => {
           name="history"
           options={{
             headerTitle: (props) => (
-              <Title color={ConfigRepository.color.white}>{I18n.t("historic")}</Title>
+              <Title color={ConfigRepository.color.onPrimary}>{I18n.t("historic")}</Title>
             ),
             headerLeft: () => null,
           }}
@@ -388,7 +387,7 @@ const Navigation: React.FC = () => {
           name="config"
           options={{
             headerTitle: (props) => (
-              <Title color={ConfigRepository.color.white}>{I18n.t("settings")}</Title>
+              <Title color={ConfigRepository.color.onPrimary}>{I18n.t("settings")}</Title>
             ),
             headerLeft: () => (
               <TouchableHighlight
@@ -399,7 +398,7 @@ const Navigation: React.FC = () => {
                   stackRef.current?.navigate("home");
                 }}
               >
-                <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.white} />
+                <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.onPrimary} />
               </TouchableHighlight>
             ),
           }}

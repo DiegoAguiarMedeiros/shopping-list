@@ -117,6 +117,7 @@ export default function Config() {
               onChange={changeColors}
               background={ConfigRepository.color.backgroundBottomSheet}
               primary={ConfigRepository.color.primary}
+              onPrimary={ConfigRepository.color.onPrimary}
               buttonText={I18n.t("chooseColor")}
               doneText={I18n.t("done")}
             />

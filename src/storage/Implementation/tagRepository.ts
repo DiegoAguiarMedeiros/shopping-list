@@ -124,6 +124,8 @@ class TagRepository implements ITagRepository {
   }
 
   getItem(uuid: string): ITag | undefined {
+
+    if(!uuid) return undefined;
     try {
       const jsonData = storageMMKV.get(uuid);
       return jsonData ? JSON.parse(jsonData) : undefined;

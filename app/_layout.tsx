@@ -64,7 +64,10 @@ const RootLayoutInner = observer(() => {
   // briefly exposing the app UI.
   return (
     <>
-      <StatusBar backgroundColor={ConfigRepository.color.primary} />
+      <StatusBar
+        backgroundColor={ConfigRepository.color.primary}
+        barStyle={ConfigRepository.color.onPrimary === "#000" ? "dark-content" : "light-content"}
+      />
       <Slot />
     </>
   );

@@ -85,15 +85,15 @@ function ListGridItem({ item, listId }: Readonly<ListProps>) {
                     </Text>
                   </GridItemWrapperCol>
                   <GridItemWrapperCol width="50%">
-                    <Text color={ConfigRepository.color.text} align="right">
+                    <Text color={ConfigRepository.color.textSecondary} align="right">
                       {ConfigRepository.currency}{" "}
                       {Number(amount.amount).toFixed(2).replace(".", ",")}
                     </Text>
-                    <View style={styles.containerItemTextPriceTotalLine} />
+                    <View style={[styles.containerItemTextPriceTotalLine, { backgroundColor: ConfigRepository.color.text }]} />
                     <View style={styles.containerItemTextPriceTotal}>
                       <Text
-                        color={ConfigRepository.color.itemProductListAveragePrice}
-                        align="right"
+                        color={ConfigRepository.color.text}
+                        align="center"
                       >
                         {ConfigRepository.currency}{" "}
                         {(Number(amount.quantity) * Number(amount.amount))
@@ -113,14 +113,14 @@ function ListGridItem({ item, listId }: Readonly<ListProps>) {
 }
 
 const styles = StyleSheet.create({
-    containerItemTextPriceTotalLine: {
-        width: '100%',
-        height: 1,
-    },
-    containerItemTextPriceTotal: {
-        width: '100%',
-        height: '49%',
-    },
+  containerItemTextPriceTotalLine: {
+    width: '100%',
+    height: 1,
+  },
+  containerItemTextPriceTotal: {
+    width: '100%',
+    height: '49%',
+  },
 });
 
 export default React.memo(ListGridItem);

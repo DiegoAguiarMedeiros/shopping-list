@@ -205,6 +205,8 @@ class ProductRepository implements IProductRepository {
   }
 
   getItem(uuid: string): IProduct | undefined {
+
+    if(!uuid) return undefined;
     try {
       const jsonData = this.storageMMKV.get(uuid);
       return jsonData ? JSON.parse(jsonData) : undefined;
