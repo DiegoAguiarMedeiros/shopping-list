@@ -13,6 +13,8 @@ import FormContainer from "../FormContainer";
 import InputContainer from "../InputContainer";
 import ButtonsContainer from "../ButtonsContainer";
 import ButtonWrapper from "../ButtonWrapper";
+import UUIDGenerator from "react-native-uuid";
+import IAmount from "../../Model/IAmount";
 
 export type NewItemFormProps = {
   onClose: () => void;
@@ -32,8 +34,9 @@ const NewItemForm = ({
   }>({
     item: [],
   });
+  const [itemQuantities, setItemQuantities] = useState<Record<string, string>>({});
 
-  const { ListRepository, ProductRepository, ConfigRepository } = useStores();
+  const { ListRepository, ProductRepository, AmountRepository, ConfigRepository } = useStores();
 
   const [products, setProducts] = useState<ITagsProductsMultiSelect[]>(
     ProductRepository.getProductsToSelect()
@@ -46,6 +49,7 @@ const NewItemForm = ({
     setNewItem({
       item: [],
     });
+    setItemQuantities({});
   };
 
   const closeBottomSheet = () => {
@@ -57,6 +61,24 @@ const NewItemForm = ({
   const addListItem = (): void => {
     closeBottomSheet();
     ListRepository.addItemsTolist(newItem.item);
+
+    if (ListRepository?.listActive) {
+      newItem.item.forEach((productUuid) => {
+        const listProductUuid = `${ListRepository.listActive?.uuid}-${productUuid}`;
+        const qty = itemQuantities[productUuid] || "1";
+        const existingAmounts = AmountRepository.getAllItems(listProductUuid);
+        if (existingAmounts.length === 0) {
+          const initialAmount: IAmount = {
+            uuid: String(UUIDGenerator.v4()),
+            amount: "",
+            type: false,
+            quantity: qty,
+          };
+          AmountRepository.addItem(listProductUuid, initialAmount);
+        }
+      });
+    }
+
     ListRepository.updateTags(
       ProductRepository.getAllTagsByProductUuid(
         ListRepository?.listActive?.items ?? newItem.item
@@ -87,6 +109,7 @@ const NewItemForm = ({
           items={products || []}
           selectedItems={newItem.item}
           onValueChange={onValueChange}
+          onQuantitiesChange={(qts) => setItemQuantities(qts)}
         />
       </InputContainer>
       <ButtonsContainer>

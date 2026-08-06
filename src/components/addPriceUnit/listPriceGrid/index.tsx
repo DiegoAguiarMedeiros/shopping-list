@@ -17,15 +17,15 @@ export default function ListPriceGrid({
       nestedScrollEnabled
       keyboardShouldPersistTaps="handled"
     >
-      {item.map((itemAmount: IAmount) =>
-        itemAmount ? (
+      {item
+        .filter((itemAmount: IAmount) => itemAmount && itemAmount.amount && itemAmount.amount !== "")
+        .map((itemAmount: IAmount) => (
           <ListPriceItem
             listProductUuid={listProductUuid}
             itemAmount={itemAmount}
             key={itemAmount.uuid}
           />
-        ) : null
-      )}
+        ))}
     </ScrollView>
   );
 }

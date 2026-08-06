@@ -29,14 +29,36 @@ export default function AddPriceUnit({
   const { AmountRepository, ProductRepository, ConfigRepository } = useStores();
   const [newItem, setNewItem] = useState("");
 
+  const getLastQuantity = (): string => {
+    if (amounts && amounts.length > 0) {
+      const last = amounts[amounts.length - 1];
+      return last.quantity && last.quantity !== "" ? last.quantity : "1";
+    }
+    return "1";
+  };
+
+  const [quantity, setQuantity] = useState(getLastQuantity());
+
+  useEffect(() => {
+    setQuantity(getLastQuantity());
+  }, [amounts]);
+
   const addAmount = (): void => {
     if (newItem != "") {
+      const qtyToAdd = quantity && quantity.trim() !== "" ? quantity.trim() : "1";
       setNewItem("");
+
+      // Remove empty placeholder amount if present
+      const emptyPlaceholder = amounts.find(a => !a.amount || a.amount === "" || a.amount === "0");
+      if (emptyPlaceholder) {
+        AmountRepository.removeItem(listProductUuid, emptyPlaceholder.uuid);
+      }
+
       const newAmount: IAmount = {
         uuid: String(UUIDGenerator.v4()),
         amount: newItem,
         type: false,
-        quantity: "1",
+        quantity: qtyToAdd,
       };
       AmountRepository.addItem(listProductUuid, newAmount);
       ProductRepository.load();
@@ -47,8 +69,9 @@ export default function AddPriceUnit({
     }
   };
 
+  const validAmounts = amounts.filter((a) => a.amount && a.amount !== "");
   const heights = [3, 62, 124, 164, 214];
-  const amountCount = amounts.length;
+  const amountCount = validAmounts.length;
   const useScroll = amountCount > 4;
   return (
     <Container noPadding>
@@ -58,10 +81,10 @@ export default function AddPriceUnit({
             ? { maxHeight: 214 }
             : { height: heights[amountCount] })}
         >
-          {amounts.length > 0 ? (
+          {validAmounts.length > 0 ? (
             <ListPriceGrid
               listProductUuid={listProductUuid}
-              item={amounts}
+              item={validAmounts}
               key={"ListPriceGrid-" + listProductUuid}
             />
           ) : (
@@ -69,12 +92,32 @@ export default function AddPriceUnit({
           )}
         </GridItemWrapperRow>
         <GridItemWrapperRow maxHeight={40}>
-          <GridItemWrapperInner width="78%" height="100%">
+          <GridItemWrapperInner width="25%" height="100%">
             <InputText
               background={ConfigRepository.color.backgroundPrimary}
               color={ConfigRepository.color.textSecondary}
               placeholderTextColor={ConfigRepository.color.textSecondary}
               radius
+              placeholder="Qtd"
+              onChangeText={(qtd) => {
+                setQuantity(qtd.replace(/\D/g, ""));
+              }}
+              keyboardType="numeric"
+              value={quantity}
+              onSubmitEditing={addAmount}
+            />
+          </GridItemWrapperInner>
+          <GridItemWrapperInner width="53%" height="100%">
+            <InputText
+              background={ConfigRepository.color.backgroundPrimary}
+              color={ConfigRepository.color.textSecondary}
+              placeholderTextColor={ConfigRepository.color.textSecondary}
+              style={{
+                borderTopLeftRadius: 0,
+                borderBottomLeftRadius: 0,
+                borderTopRightRadius: 0,
+                borderBottomRightRadius: 0,
+              }}
               placeholder="Valor"
               onChangeText={(valor) => {
                 setNewItem(valor.replace(",", "."));
@@ -86,7 +129,11 @@ export default function AddPriceUnit({
           </GridItemWrapperInner>
           <GridItemWrapperInner width="22%" height="100%">
             <Button
-              style={{ width: "100%", borderTopRightRadius: 10, borderBottomRightRadius: 10 }}
+              style={{
+                width: "100%",
+                borderTopRightRadius: 10,
+                borderBottomRightRadius: 10,
+              }}
               minWidth={0}
               radius={false}
               icon="send"

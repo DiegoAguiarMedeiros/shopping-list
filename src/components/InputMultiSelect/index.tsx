@@ -1,16 +1,24 @@
-import {View} from "react-native";
-import {  ITagsProductsMultiSelect } from "../../Model/IProduct";
-import {  MaterialIcons } from "@expo/vector-icons";
-import SectionedMultiSelect, {
-  Styles,
-} from "react-native-sectioned-multi-select";
-
+import React, { useState, useEffect } from "react";
+import {
+  Modal,
+  StyleSheet,
+  View,
+  Text as RNText,
+  TouchableOpacity,
+  ScrollView,
+  TextInput,
+} from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import { ITagsProductsMultiSelect } from "../../Model/IProduct";
 import I18n from "i18n-js";
 import { useStores } from "../../context/StoreContext";
+import { Title, Title2, Text } from "../Text";
+
 type MultiSelectProps = {
   items: ITagsProductsMultiSelect[];
   selectedItems: string[];
   onValueChange: (itemValue: string[]) => void;
+  onQuantitiesChange?: (quantities: Record<string, string>) => void;
   onFocus?: () => void;
 };
 
@@ -18,142 +26,418 @@ const MultiSelect = ({
   items,
   selectedItems,
   onValueChange,
+  onQuantitiesChange,
   onFocus,
 }: MultiSelectProps) => {
-
   const { ConfigRepository } = useStores();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [tempSelected, setTempSelected] = useState<string[]>(selectedItems || []);
+  const [quantities, setQuantities] = useState<Record<string, string>>({});
+  const [collapsedCategories, setCollapsedCategories] = useState<Record<string, boolean>>({});
 
-  const colors = {
-    primary: ConfigRepository.color.primary,
-    success: ConfigRepository.color.primary,
-    cancel: ConfigRepository.color.alert,
-    text: ConfigRepository.color.text,
-    subText: ConfigRepository.color.textSecondary,
-    selectToggleTextColor: ConfigRepository.color.primary,
-    searchPlaceholderTextColor: ConfigRepository.color.textSecondary,
-    searchSelectionColor: ConfigRepository.color.text,
-    chipColor: ConfigRepository.color.primary,
-    itemBackground: ConfigRepository.color.itemListBackground,
-    subItemBackground: ConfigRepository.color.itemListBackground,
+  useEffect(() => {
+    setTempSelected(selectedItems || []);
+  }, [selectedItems]);
+
+  const handleOpenModal = () => {
+    if (onFocus) onFocus();
+    setTempSelected(selectedItems || []);
+    setModalVisible(true);
   };
 
-  const styles: Styles = {
-    container: {
-      marginHorizontal: 14,
-      marginVertical: 24,
-      borderRadius: 12,
-      flex: 1,
-      height: "100%",
-      backgroundColor: ConfigRepository.color.backgroundPrimary,
-    },
-    modalWrapper: {
-      flex: 1,
-      height: "100%",
-      width: "100%",
-      padding: 0,
-      margin: 0,
-    },
-    selectToggle: {
-      backgroundColor: ConfigRepository.color.itemListBackground,
-      height: 45,
-      alignContent: "center",
-      padding: 10,
-      borderRadius: 10,
-    },
-    selectToggleText: {
-      color: ConfigRepository.color.text,
-    },
-    item: {
-      backgroundColor: ConfigRepository.color.backgroundPrimary,
-    },
-    subItem: {
-      backgroundColor: ConfigRepository.color.backgroundPrimary,
-    },
-    itemText: {
-      color: ConfigRepository.color.text,
-    },
-    selectedItemText: {
-      color: ConfigRepository.color.textSecondary,
-    },
-    selectedSubItemText: {
-      color: ConfigRepository.color.filterButtonActiveText,
-    },
-    subItemText: {
-      color: ConfigRepository.color.textSecondary,
-    },
-    chipsWrapper: {},
-    chipContainer: {
-      backgroundColor: ConfigRepository.color.itemListBackground,
-      borderRadius: 10,
-    },
-    chipText: {
-      color: ConfigRepository.color.text,
-    },
-    chipIcon: {},
-    scrollView: {
-      backgroundColor: ConfigRepository.color.backgroundPrimary,
-    },
-    button: {
-      backgroundColor: ConfigRepository.color.primary,
-    },
-    cancelButton: {
-      backgroundColor: ConfigRepository.color.alert,
-    },
-    confirmText: {
-      color: ConfigRepository.color.filterButtonActiveText,
-    },
-    toggleIcon: {
-      backgroundColor: ConfigRepository.color.backgroundPrimary,
-    },
-    selectedItem: {
-      backgroundColor: ConfigRepository.color.backgroundPrimary,
-      padding: 5,
-    },
-    selectedSubItem: {
-      backgroundColor: ConfigRepository.color.primary,
-      padding: 5,
-    },
-    listContainer: {
-      backgroundColor: ConfigRepository.color.backgroundPrimary,
-    },
+  const toggleCategory = (catId: string) => {
+    setCollapsedCategories((prev) => ({
+      ...prev,
+      [catId]: !prev[catId],
+    }));
   };
 
-  const itemFontFamily = {
-    fontFamily: "InterBlack",
-    fontSize: 18,
+  const toggleSelectProduct = (productId: string) => {
+    setTempSelected((prev) => {
+      if (prev.includes(productId)) {
+        return prev.filter((id) => id !== productId);
+      } else {
+        if (!quantities[productId]) {
+          setQuantities((qPrev) => ({ ...qPrev, [productId]: "1" }));
+        }
+        return [...prev, productId];
+      }
+    });
   };
-  const subItemFontFamily = {
-    fontFamily: "Inter",
-    fontSize: 16,
+
+  const updateQuantity = (productId: string, delta: number) => {
+    const current = Number(quantities[productId] || "1");
+    const next = Math.max(1, current + delta);
+    setQuantities((prev) => ({
+      ...prev,
+      [productId]: String(next),
+    }));
+    if (!tempSelected.includes(productId)) {
+      setTempSelected((prev) => [...prev, productId]);
+    }
+  };
+
+  const setDirectQuantity = (productId: string, val: string) => {
+    const cleanVal = val.replace(/\D/g, "");
+    setQuantities((prev) => ({
+      ...prev,
+      [productId]: cleanVal === "" ? "1" : cleanVal,
+    }));
+    if (!tempSelected.includes(productId)) {
+      setTempSelected((prev) => [...prev, productId]);
+    }
+  };
+
+  const handleConfirm = () => {
+    onValueChange(tempSelected);
+    if (onQuantitiesChange) {
+      onQuantitiesChange(quantities);
+    }
+    setModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setModalVisible(false);
+  };
+
+  const getToggleText = () => {
+    if (!tempSelected || tempSelected.length === 0) {
+      return I18n.t("selectProduct") || "Selecione o produto";
+    }
+    return `${tempSelected.length} ${I18n.t("selectedProduct") || "produto(s) selecionado(s)"}`;
   };
 
   return (
-    <View style={{
-      flex: 1,
-      borderRadius: 10
-    }}>
-      <SectionedMultiSelect
-        colors={colors}
-        items={items}
-        IconRenderer={MaterialIcons as any}
-        uniqueKey="id"
-        subKey="children"
-        selectText={I18n.t("selectProduct")}
-        selectedText={I18n.t("selectedProduct")}
-        readOnlyHeadings={true}
-        onSelectedItemsChange={onValueChange}
-        selectedItems={selectedItems}
-        showCancelButton
-        animateDropDowns
-        expandDropDowns
-        hideSearch
-        styles={styles}
-        itemFontFamily={itemFontFamily}
-        subItemFontFamily={subItemFontFamily}
-        customChipsRenderer={() => { }}
-      />
+    <View style={styles.outerContainer}>
+      <TouchableOpacity
+        style={[
+          styles.selectToggle,
+          { backgroundColor: ConfigRepository.color.itemListBackground },
+        ]}
+        onPress={handleOpenModal}
+      >
+        <RNText
+          style={[
+            styles.selectToggleText,
+            { color: ConfigRepository.color.text },
+          ]}
+        >
+          {getToggleText()}
+        </RNText>
+        <FontAwesome
+          name="angle-down"
+          size={20}
+          color={ConfigRepository.color.text}
+        />
+      </TouchableOpacity>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={handleCancel}
+      >
+        <View style={styles.modalOverlay}>
+          <View
+            style={[
+              styles.modalCard,
+              { backgroundColor: ConfigRepository.color.backgroundPrimary },
+            ]}
+          >
+            <View style={styles.modalHeader}>
+              <Title2 color={ConfigRepository.color.text}>
+                {I18n.t("selectProduct") || "Selecione os produtos"}
+              </Title2>
+              <TouchableOpacity onPress={handleCancel}>
+                <FontAwesome
+                  name="times"
+                  size={24}
+                  color={ConfigRepository.color.textSecondary}
+                />
+              </TouchableOpacity>
+            </View>
+
+            <ScrollView
+              style={styles.modalBody}
+              contentContainerStyle={{ paddingBottom: 20 }}
+              keyboardShouldPersistTaps="handled"
+            >
+              {items && items.length > 0 ? (
+                items.map((category) => {
+                  const isCollapsed = collapsedCategories[category.id];
+                  return (
+                    <View key={category.id} style={styles.categoryContainer}>
+                      <TouchableOpacity
+                        style={styles.categoryHeader}
+                        onPress={() => toggleCategory(category.id)}
+                      >
+                        <Title color={ConfigRepository.color.text}>
+                          {category.name}
+                        </Title>
+                        <FontAwesome
+                          name={isCollapsed ? "angle-down" : "angle-up"}
+                          size={22}
+                          color={ConfigRepository.color.text}
+                        />
+                      </TouchableOpacity>
+
+                      {!isCollapsed &&
+                        category.children &&
+                        category.children.map((product) => {
+                          const isSelected = tempSelected.includes(product.id);
+                          const qty = quantities[product.id] || "1";
+                          return (
+                            <View
+                              key={product.id}
+                              style={[
+                                styles.productRow,
+                                {
+                                  borderColor:
+                                    ConfigRepository.color.itemListBackgroundBorder,
+                                },
+                              ]}
+                            >
+                              <TouchableOpacity
+                                style={styles.productCheckTouch}
+                                onPress={() => toggleSelectProduct(product.id)}
+                              >
+                                <FontAwesome
+                                  name={
+                                    isSelected ? "check-square" : "square-o"
+                                  }
+                                  size={22}
+                                  color={
+                                    isSelected
+                                      ? ConfigRepository.color.primary
+                                      : ConfigRepository.color.textSecondary
+                                  }
+                                />
+                                <RNText
+                                  style={[
+                                    styles.productName,
+                                    {
+                                      color: isSelected
+                                        ? ConfigRepository.color.text
+                                        : ConfigRepository.color.textSecondary,
+                                    },
+                                  ]}
+                                >
+                                  {product.name}
+                                </RNText>
+                              </TouchableOpacity>
+
+                              <View style={styles.qtdContainer}>
+                                <TouchableOpacity
+                                  style={[
+                                    styles.qtdBtn,
+                                    {
+                                      backgroundColor:
+                                        ConfigRepository.color.primary,
+                                    },
+                                  ]}
+                                  onPress={() => updateQuantity(product.id, -1)}
+                                >
+                                  <FontAwesome
+                                    name="minus"
+                                    size={12}
+                                    color={ConfigRepository.color.onPrimary}
+                                  />
+                                </TouchableOpacity>
+
+                                <TextInput
+                                  style={[
+                                    styles.qtdInput,
+                                    {
+                                      color: ConfigRepository.color.text,
+                                      backgroundColor:
+                                        ConfigRepository.color.itemListBackground,
+                                    },
+                                  ]}
+                                  keyboardType="numeric"
+                                  value={qty}
+                                  onChangeText={(val) =>
+                                    setDirectQuantity(product.id, val)
+                                  }
+                                />
+
+                                <TouchableOpacity
+                                  style={[
+                                    styles.qtdBtn,
+                                    {
+                                      backgroundColor:
+                                        ConfigRepository.color.primary,
+                                    },
+                                  ]}
+                                  onPress={() => updateQuantity(product.id, 1)}
+                                >
+                                  <FontAwesome
+                                    name="plus"
+                                    size={12}
+                                    color={ConfigRepository.color.onPrimary}
+                                  />
+                                </TouchableOpacity>
+                              </View>
+                            </View>
+                          );
+                        })}
+                    </View>
+                  );
+                })
+              ) : (
+                <Text color={ConfigRepository.color.textSecondary}>
+                  {I18n.t("noProducts") || "Nenhum produto disponível"}
+                </Text>
+              )}
+            </ScrollView>
+
+            <View style={styles.modalFooter}>
+              <TouchableOpacity
+                style={[
+                  styles.cancelBtn,
+                  { backgroundColor: ConfigRepository.color.alert },
+                ]}
+                onPress={handleCancel}
+              >
+                <FontAwesome name="times" size={18} color="#FFF" />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[
+                  styles.confirmBtn,
+                  { backgroundColor: ConfigRepository.color.primary },
+                ]}
+                onPress={handleConfirm}
+              >
+                <RNText style={styles.confirmBtnText}>
+                  {I18n.t("confirm") || "Confirmar"}
+                </RNText>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  outerContainer: {
+    width: "100%",
+  },
+  selectToggle: {
+    height: 48,
+    borderRadius: 10,
+    paddingHorizontal: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  selectToggleText: {
+    fontSize: 16,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.6)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalCard: {
+    width: "92%",
+    height: "90%",
+    borderRadius: 16,
+    padding: 16,
+    elevation: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+  },
+  modalHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(0,0,0,0.1)",
+  },
+  modalBody: {
+    flex: 1,
+    marginVertical: 12,
+  },
+  categoryContainer: {
+    marginBottom: 16,
+  },
+  categoryHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(0,0,0,0.08)",
+  },
+  productRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+    borderBottomWidth: 0.5,
+  },
+  productCheckTouch: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+  },
+  productName: {
+    fontSize: 16,
+    marginLeft: 12,
+  },
+  qtdContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  qtdBtn: {
+    width: 28,
+    height: 28,
+    borderRadius: 6,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  qtdInput: {
+    width: 42,
+    height: 28,
+    marginHorizontal: 6,
+    borderRadius: 6,
+    textAlign: "center",
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  modalFooter: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingTop: 12,
+  },
+  cancelBtn: {
+    width: 50,
+    height: 45,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  confirmBtn: {
+    flex: 1,
+    height: 45,
+    borderRadius: 10,
+    marginLeft: 12,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  confirmBtnText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+});
 
 export default MultiSelect;
