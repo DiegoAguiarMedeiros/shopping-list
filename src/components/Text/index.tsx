@@ -1,40 +1,41 @@
 import React from "react";
-import { Text as RNText, StyleSheet, TextStyle } from "react-native";
+import { Text as RNText, StyleProp, StyleSheet, TextStyle } from "react-native";
 
 interface TextProps {
   children: React.ReactNode;
   color: string;
   align?: "auto" | "left" | "right" | "center" | "justify";
+  style?: StyleProp<TextStyle>
 }
 
 
-const Title: React.FC<TextProps> = ({ children, color, align }) => {
+const Title: React.FC<TextProps> = ({ children, color, align, style }) => {
   return (
-    <RNText style={[styles.title, { color, textAlign: align }]}>
+    <RNText style={[styles.title, { color, textAlign: align }, style]}>
       {children}
     </RNText>
   );
 };
 
-const Title2: React.FC<TextProps> = ({ children, color, align }) => {
+const Title2: React.FC<TextProps> = ({ children, color, align, style }) => {
   return (
-    <RNText style={[styles.title2, { color, textAlign: align }]}>
+    <RNText style={[styles.title2, { color, textAlign: align }, style]}>
       {children}
     </RNText>
   );
 };
 
-const SubTitle: React.FC<TextProps> = ({ children, color, align }) => {
+const SubTitle: React.FC<TextProps> = ({ children, color, align, style }) => {
   return (
-    <RNText style={[styles.subTitle, { color, textAlign: align }]}>
+    <RNText style={[styles.subTitle, { color, textAlign: align }, style]}>
       {children}
     </RNText>
   );
 };
 
-const Text: React.FC<TextProps> = ({ children, color, align }) => {
+const Text: React.FC<TextProps> = ({ children, color, align, style }) => {
   return (
-    <RNText style={[styles.text, { color, textAlign: align }]}>
+    <RNText style={[styles.text, { color, textAlign: align }, style]}>
       {children}
     </RNText>
   );

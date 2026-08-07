@@ -3,7 +3,6 @@ import {
   Modal,
   StyleSheet,
   View,
-  Text as RNText,
   TouchableOpacity,
   ScrollView,
   TextInput,
@@ -12,7 +11,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { ITagsProductsMultiSelect } from "../../Model/IProduct";
 import I18n from "i18n-js";
 import { useStores } from "../../context/StoreContext";
-import { Title, Title2, Text } from "../Text";
+import { Title, Title2, Text, SubTitle } from "../Text";
 
 type MultiSelectProps = {
   items: ITagsProductsMultiSelect[];
@@ -116,14 +115,11 @@ const MultiSelect = ({
         ]}
         onPress={handleOpenModal}
       >
-        <RNText
-          style={[
-            styles.selectToggleText,
-            { color: ConfigRepository.color.text },
-          ]}
+        <Text
+          color={ConfigRepository.color.text}
         >
           {getToggleText()}
-        </RNText>
+        </Text>
         <FontAwesome
           name="angle-down"
           size={20}
@@ -148,13 +144,6 @@ const MultiSelect = ({
               <Title2 color={ConfigRepository.color.text}>
                 {I18n.t("selectProduct") || "Selecione os produtos"}
               </Title2>
-              <TouchableOpacity onPress={handleCancel}>
-                <FontAwesome
-                  name="times"
-                  size={24}
-                  color={ConfigRepository.color.textSecondary}
-                />
-              </TouchableOpacity>
             </View>
 
             <ScrollView
@@ -171,9 +160,9 @@ const MultiSelect = ({
                         style={styles.categoryHeader}
                         onPress={() => toggleCategory(category.id)}
                       >
-                        <Title color={ConfigRepository.color.text}>
+                        <SubTitle color={ConfigRepository.color.text} style={{ width: 'auto' }}>
                           {category.name}
-                        </Title>
+                        </SubTitle>
                         <FontAwesome
                           name={isCollapsed ? "angle-down" : "angle-up"}
                           size={22}
@@ -212,18 +201,13 @@ const MultiSelect = ({
                                       : ConfigRepository.color.textSecondary
                                   }
                                 />
-                                <RNText
-                                  style={[
-                                    styles.productName,
-                                    {
-                                      color: isSelected
-                                        ? ConfigRepository.color.text
-                                        : ConfigRepository.color.textSecondary,
-                                    },
-                                  ]}
+                                <Text
+                                  color={isSelected
+                                    ? ConfigRepository.color.text
+                                    : ConfigRepository.color.textSecondary}
                                 >
                                   {product.name}
-                                </RNText>
+                                </Text>
                               </TouchableOpacity>
 
                               <View style={styles.qtdContainer}>
@@ -308,9 +292,9 @@ const MultiSelect = ({
                 ]}
                 onPress={handleConfirm}
               >
-                <RNText style={styles.confirmBtnText}>
-                  {I18n.t("confirm") || "Confirmar"}
-                </RNText>
+                <Text color={ConfigRepository.color.onPrimary}>
+                  {I18n.t("add") || "Adicionar"}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -331,9 +315,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-  },
-  selectToggleText: {
-    fontSize: 16,
   },
   modalOverlay: {
     flex: 1,
@@ -368,10 +349,12 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   categoryHeader: {
-    flexDirection: "row",
+    flex: 1,
     justifyContent: "space-between",
     alignItems: "center",
+    flexDirection: "row",
     paddingVertical: 8,
+    paddingRight: 5,
     borderBottomWidth: 1,
     borderBottomColor: "rgba(0,0,0,0.08)",
   },
@@ -384,6 +367,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.5,
   },
   productCheckTouch: {
+    gap: 5,
     flexDirection: "row",
     alignItems: "center",
     flex: 1,
@@ -411,6 +395,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 14,
     fontWeight: "bold",
+    padding: 0,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#000'
   },
   modalFooter: {
     flexDirection: "row",
