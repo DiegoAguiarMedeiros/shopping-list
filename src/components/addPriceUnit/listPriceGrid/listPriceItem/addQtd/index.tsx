@@ -1,6 +1,5 @@
-import { StyleSheet, View } from 'react-native';
-import Button from "./Button";
-import InputText from "./InputText";
+import { StyleSheet, View, TextInput } from 'react-native';
+import QuantitySelector from "../../../../QuantitySelector";
 
 import IAmount from "../../../../../Model/IAmount";
 import {
@@ -134,48 +133,31 @@ export default function ListPriceGrid({
   return (
     <View style={styles.container}>
       {selectedValueSwitch ? (
-        <InputText
-          style={{ backgroundColor: ConfigRepository.color.backgroundPrimary,
+        <TextInput
+          style={{
+            backgroundColor: ConfigRepository.color.backgroundPrimary,
             textAlign: "center",
             width: "100%",
+            height: 28,
+            marginHorizontal: 6,
             borderRadius: 10,
-           }}
-          radius={true}
+            fontSize: 14,
+            padding: 0,
+          }}
           keyboardType="decimal-pad"
           placeholder="0.000"
           onKeyPress={(event) => handleDecimalInputChange(event)}
           value={quantity}
         />
       ) : (
-        <>
-          <View style={styles.containerMinusPlus}>
-            <Button
-              icon="minus"
-              invertSide={true}
-              onPress={minusAmount}
-            />
-          </View>
-          <View
-            style={[styles.containerQtd,
-            { backgroundColor: ConfigRepository.color.itemListItemOpenButtonBackGround }
-            ]}
-          >
-            <InputText
-              keyboardType="decimal-pad"
-              onChangeText={(value) => handleInputChange(value)}
-              radius={false}
-              placeholder="Valor"
-              value={quantity}
-              style={{
-                textAlign: "center", 
-                fontSize: quantity.length > 3 ? 14 : 18, 
-                backgroundColor: ConfigRepository.color.backgroundPrimary }}
-            />
-          </View>
-          <View style={styles.containerMinusPlus}>
-            <Button icon="plus" onPress={plusAmount} />
-          </View>
-        </>
+        <QuantitySelector
+          value={quantity}
+          onDecrement={minusAmount}
+          onIncrement={plusAmount}
+          onChangeText={(value) => handleInputChange(value)}
+          keyboardType="decimal-pad"
+          style={{ width: "100%", height: "100%" }}
+        />
       )}
     </View>
   );
@@ -184,19 +166,8 @@ export default function ListPriceGrid({
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  containerMinusPlus: {
-    flex: 2,
-    padding: 0,
-  },
-  containerQtd: {
-    height: '100%',
-    paddingRight: 1,
-    flex: 2,
-    overflow: 'hidden',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   }
 });

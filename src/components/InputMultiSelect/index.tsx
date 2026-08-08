@@ -5,13 +5,13 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  TextInput,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { ITagsProductsMultiSelect } from "../../Model/IProduct";
 import I18n from "i18n-js";
 import { useStores } from "../../context/StoreContext";
 import { Title, Title2, Text, SubTitle } from "../Text";
+import QuantitySelector from "../QuantitySelector";
 
 type MultiSelectProps = {
   items: ITagsProductsMultiSelect[];
@@ -210,57 +210,14 @@ const MultiSelect = ({
                                 </Text>
                               </TouchableOpacity>
 
-                              <View style={styles.qtdContainer}>
-                                <TouchableOpacity
-                                  style={[
-                                    styles.qtdBtn,
-                                    {
-                                      backgroundColor:
-                                        ConfigRepository.color.primary,
-                                    },
-                                  ]}
-                                  onPress={() => updateQuantity(product.id, -1)}
-                                >
-                                  <FontAwesome
-                                    name="minus"
-                                    size={12}
-                                    color={ConfigRepository.color.onPrimary}
-                                  />
-                                </TouchableOpacity>
-
-                                <TextInput
-                                  style={[
-                                    styles.qtdInput,
-                                    {
-                                      color: ConfigRepository.color.text,
-                                      backgroundColor:
-                                        ConfigRepository.color.itemListBackground,
-                                    },
-                                  ]}
-                                  keyboardType="numeric"
-                                  value={qty}
-                                  onChangeText={(val) =>
-                                    setDirectQuantity(product.id, val)
-                                  }
-                                />
-
-                                <TouchableOpacity
-                                  style={[
-                                    styles.qtdBtn,
-                                    {
-                                      backgroundColor:
-                                        ConfigRepository.color.primary,
-                                    },
-                                  ]}
-                                  onPress={() => updateQuantity(product.id, 1)}
-                                >
-                                  <FontAwesome
-                                    name="plus"
-                                    size={12}
-                                    color={ConfigRepository.color.onPrimary}
-                                  />
-                                </TouchableOpacity>
-                              </View>
+                              <QuantitySelector
+                                value={qty}
+                                onDecrement={() => updateQuantity(product.id, -1)}
+                                onIncrement={() => updateQuantity(product.id, 1)}
+                                onChangeText={(val) =>
+                                  setDirectQuantity(product.id, val)
+                                }
+                              />
                             </View>
                           );
                         })}
@@ -375,30 +332,6 @@ const styles = StyleSheet.create({
   productName: {
     fontSize: 16,
     marginLeft: 12,
-  },
-  qtdContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  qtdBtn: {
-    width: 28,
-    height: 28,
-    borderRadius: 6,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  qtdInput: {
-    width: 42,
-    height: 28,
-    marginHorizontal: 6,
-    borderRadius: 6,
-    textAlign: "center",
-    fontSize: 14,
-    fontWeight: "bold",
-    padding: 0,
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: '#000'
   },
   modalFooter: {
     flexDirection: "row",

@@ -254,11 +254,13 @@ class ProductRepository implements IProductRepository {
   }
   updateTotalUn(): void {
     let total: number = 0;
+    const itemsQTY = this.listRepository.listActive?.itemsQTY;
     this.products.forEach((product) => {
       if (product.amount.length > 0) {
         total = this.getTotalUn(product.amount) + total;
       } else {
-        total = 1 + total;
+        const qty = itemsQTY?.[product.uuid];
+        total = (qty ? Number(qty) : 1) + total;
       }
     });
     this.listRepository.updateTotalUn(total);
