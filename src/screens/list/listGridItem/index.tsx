@@ -23,18 +23,19 @@ import isEqual from "lodash.isequal";
 import { useStores } from "../../../context/StoreContext";
 import { SwipeableMethods } from "react-native-gesture-handler/lib/typescript/components/ReanimatedSwipeable";
 import { SharedValue } from "react-native-reanimated";
+import ListGridItem from "./listGridItem";
 
 interface ListProps {
   item: IProduct;
   listId: string;
   handleOpen: (uuid: string, index: number) => void;
-  handleClose: () => void;
+  handleClose: VoidFunction;
   active: boolean;
   index: number;
   tagRepository?: string;
 }
 
-function ListGridItem({
+function List({
   item,
   listId,
   handleOpen,
@@ -45,7 +46,7 @@ function ListGridItem({
 }: ListProps) {
   const colorScheme = useColorScheme();
   const listProductUuid = `${listId}-${item.uuid}`;
-  const { AmountRepository, ProductRepository, ConfigRepository } = useStores();
+  const { ListRepository, AmountRepository, ProductRepository, ConfigRepository } = useStores();
   const handleDelete = () => {
     ProductRepository.removeItemFromlist(item.uuid);
     AmountRepository.removeAllItems(listProductUuid);
@@ -88,157 +89,39 @@ function ListGridItem({
     );
   }
 
-  const showUnitFromAmount = (amounts: IAmount[]): string => {
-    let checkUnit: boolean = true;
-    let unit: string = "Un";
-    let quantity: number = 0;
-    amounts.forEach((amount) => {
-      if (checkUnit) unit = amount.type ? "Kg" : "Un";
-      if (!amount.type) checkUnit = false;
-      quantity = Number(quantity) + Number(amount.quantity);
-    });
-    if (unit === "Un") return `${unit}: ${quantity.toFixed(0)}`;
-    return `${unit}: ${quantity.toFixed(3)}`;
+
+
+  const getAmountLength = (item: IProduct): number => {
+    return item.amount.filter((a) => a.amount !== "").length;
   };
 
+  const itemsQTY = ListRepository.listActive?.itemsQTY && ListRepository.listActive?.itemsQTY[item.uuid] ? ListRepository.listActive?.itemsQTY[item.uuid] : "1"
   const itemHeights = [115, 180, 240, 280, 330];
-
-  return active ? (
+  return (
     <GridItemNoSwipeable>
       <GridItemInner
-        underlayColor={ConfigRepository.color.itemListItemOpenBackgroundUnderlay}
+        onPress={active ? () => handleClose() : () => handleOpen(item.uuid, index)}
+        underlayColor={ConfigRepository.color.itemListBackgroundUnderlay}
         borderColor={ConfigRepository.color.itemListItemOpenBackgroundBorder}
-        background={ConfigRepository.color.itemListItemOpenBackground}
-        height={itemHeights[item.amount.length > 4 ? 4 : item.amount.length]}
+        background={active ? ConfigRepository.color.itemListItemOpenBackground : ConfigRepository.color.itemListBackground}
+        height={active ? itemHeights[item.amount.length > 4 ? 4 : getAmountLength(item)] : 70}
         row
         elevation={colorScheme === "light"}
       >
         <GridItemWrapperCol width="100%">
-          <GridItemWrapperRow maxHeight={50}>
-            <GridItemWrapperInner width="10%" >
-              <Title color={ConfigRepository.color.itemListItemOpenIcon}>
-                <FontAwesome
-                  size={28}
-                  style={{ marginBottom: -3 }}
-                  color={
-                    item.amount.length > 0
-                      ? ConfigRepository.color.itemListItemOpenIconFilled
-                      : ConfigRepository.color.itemListItemOpenIcon
-                  }
-                  name={item.amount.length > 0 ? "check-circle-o" : "circle-o"}
-                />
-              </Title>
-            </GridItemWrapperInner>
-            <GridItemWrapperInner width="80%" >
-              <GridItemWrapperCol width="100%">
-                <GridItemWrapperInner width="100%" height="50%">
-                  <Title2 color={ConfigRepository.color.text}>{item.name}</Title2>
-                </GridItemWrapperInner>
-                <GridItemWrapperRow height="50%" justify="space-between" align="flex-start">
-                  <GridItemWrapperInner
-                    width="50%"
-                    justify="flex-start"
-                    align="flex-start"
-                  >
-                    <Text color={ConfigRepository.color.textSecondary}>
-                      {I18n.t("total")}: {ConfigRepository.currency} {item.total}
-                    </Text>
-                  </GridItemWrapperInner>
-                  <GridItemWrapperInner width="50%" justify="flex-start" align="flex-start">
-                    <Text color={ConfigRepository.color.textSecondary}>
-                      {showUnitFromAmount(item.amount)}
-                    </Text>
-                  </GridItemWrapperInner>
-                </GridItemWrapperRow>
-              </GridItemWrapperCol>
-            </GridItemWrapperInner>
-            <GridItemWrapperInner width="10%" >
-              <Title color={ConfigRepository.color.text} align="right">
-                <FontAwesome
-                  onPress={() => handleClose()}
-                  size={28}
-                  style={{ marginBottom: -3 }}
-                  name="angle-up"
-                />
-              </Title>
-            </GridItemWrapperInner>
-          </GridItemWrapperRow>
-          <View style={styles.addPriceUnit}>
+          <ListGridItem item={item} handleClose={handleClose} active={active} />
+
+          {active && <View style={styles.addPriceUnit}>
             <AddPriceUnit
               amounts={item.amount}
+              itemsQTY={itemsQTY}
               listProductUuid={listProductUuid}
             />
-          </View>
+          </View>}
         </GridItemWrapperCol>
       </GridItemInner>
     </GridItemNoSwipeable>
-  ) : (
-    <GridItem
-      renderRightActions={RightSwipe}
-      leftThreshold={undefined}
-      rightThreshold={100}
-    >
-      <GridItemInner
-        onPress={() => handleOpen(item.uuid, index)}
-        underlayColor={ConfigRepository.color.itemListBackgroundUnderlay}
-        borderColor={ConfigRepository.color.itemListBackgroundBorder}
-        background={ConfigRepository.color.itemListBackground}
-        height={70}
-        row
-        elevation={colorScheme === "light"}
-      >
-        <GridItemWrapperRow maxHeight={60}>
-          <GridItemWrapperInner width="10%" height="100%">
-            <Title color={ConfigRepository.color.text}>
-              <FontAwesome
-                size={28}
-                style={{ marginBottom: -3 }}
-                color={
-                  item.amount.length > 0
-                    ? ConfigRepository.color.itemListIconFilled
-                    : ConfigRepository.color.itemListIcon
-                }
-                name={item.amount.length > 0 ? "check-circle-o" : "circle-o"}
-              />
-            </Title>
-          </GridItemWrapperInner>
-          <GridItemWrapperInner width="80%" height="100%">
-            <GridItemWrapperCol width="100%">
-              <GridItemWrapperInner width="100%" height="50%">
-                <Title2 color={ConfigRepository.color.text}>{item.name}</Title2>
-              </GridItemWrapperInner>
-              <GridItemWrapperRow height="50%" justify="space-between" align="flex-start">
-                <GridItemWrapperInner
-                  width="50%"
-                  justify="flex-start"
-                  align="flex-start"
-                >
-                  <Text color={ConfigRepository.color.textSecondary}>
-                    {I18n.t("total")}: {ConfigRepository.currency} {item.total}
-                  </Text>
-                </GridItemWrapperInner>
-                <GridItemWrapperInner width="50%" justify="flex-start" align="flex-start">
-                  <Text color={ConfigRepository.color.textSecondary}>
-                    {showUnitFromAmount(item.amount)}
-                  </Text>
-                </GridItemWrapperInner>
-              </GridItemWrapperRow>
-            </GridItemWrapperCol>
-          </GridItemWrapperInner>
-          <GridItemWrapperInner width="10%" height="100%">
-            <Title color={ConfigRepository.color.text} align="right">
-              <FontAwesome
-                onPress={() => handleOpen(item.uuid, index)}
-                size={28}
-                style={{ marginBottom: -3 }}
-                name="angle-down"
-              />
-            </Title>
-          </GridItemWrapperInner>
-        </GridItemWrapperRow>
-      </GridItemInner>
-    </GridItem>
-  );
+  )
 }
 
 
@@ -274,7 +157,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(ListGridItem, (prevProps, nextProps) => {
+export default React.memo(List, (prevProps, nextProps) => {
   return (
     isEqual(prevProps.active, nextProps.active) &&
     isEqual(prevProps.item.amount, nextProps.item.amount) &&

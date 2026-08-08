@@ -3,6 +3,7 @@ export interface IList {
   name: string;
   tags: string[];
   items: string[];
+  itemsQTY?: Record<string, string>;
   createAt: number;
   total?: number;
   totalUn?: number;

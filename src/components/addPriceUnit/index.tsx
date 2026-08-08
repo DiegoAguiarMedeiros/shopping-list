@@ -19,33 +19,21 @@ import { Text } from "../Text";
 
 interface AddPriceUnitProps {
   amounts: IAmount[];
+  itemsQTY: string;
   listProductUuid: string;
 }
 
 export default function AddPriceUnit({
   listProductUuid,
   amounts,
+  itemsQTY
 }: Readonly<AddPriceUnitProps>) {
   const { AmountRepository, ProductRepository, ConfigRepository } = useStores();
   const [newItem, setNewItem] = useState("");
 
-  const getLastQuantity = (): string => {
-    if (amounts && amounts.length > 0) {
-      const last = amounts[amounts.length - 1];
-      return last.quantity && last.quantity !== "" ? last.quantity : "1";
-    }
-    return "1";
-  };
-
-  const [quantity, setQuantity] = useState(getLastQuantity());
-
-  useEffect(() => {
-    setQuantity(getLastQuantity());
-  }, [amounts]);
 
   const addAmount = (): void => {
     if (newItem != "") {
-      const qtyToAdd = quantity && quantity.trim() !== "" ? quantity.trim() : "1";
       setNewItem("");
 
       // Remove empty placeholder amount if present
@@ -58,7 +46,7 @@ export default function AddPriceUnit({
         uuid: String(UUIDGenerator.v4()),
         amount: newItem,
         type: false,
-        quantity: qtyToAdd,
+        quantity:itemsQTY,
       };
       AmountRepository.addItem(listProductUuid, newAmount);
       ProductRepository.load();
@@ -92,32 +80,12 @@ export default function AddPriceUnit({
           )}
         </GridItemWrapperRow>
         <GridItemWrapperRow maxHeight={40}>
-          <GridItemWrapperInner width="25%" height="100%">
+          <GridItemWrapperInner width="78%" height="100%">
             <InputText
               background={ConfigRepository.color.backgroundPrimary}
               color={ConfigRepository.color.textSecondary}
               placeholderTextColor={ConfigRepository.color.textSecondary}
               radius
-              placeholder="Qtd"
-              onChangeText={(qtd) => {
-                setQuantity(qtd.replace(/\D/g, ""));
-              }}
-              keyboardType="numeric"
-              value={quantity}
-              onSubmitEditing={addAmount}
-            />
-          </GridItemWrapperInner>
-          <GridItemWrapperInner width="53%" height="100%">
-            <InputText
-              background={ConfigRepository.color.backgroundPrimary}
-              color={ConfigRepository.color.textSecondary}
-              placeholderTextColor={ConfigRepository.color.textSecondary}
-              style={{
-                borderTopLeftRadius: 0,
-                borderBottomLeftRadius: 0,
-                borderTopRightRadius: 0,
-                borderBottomRightRadius: 0,
-              }}
               placeholder="Valor"
               onChangeText={(valor) => {
                 setNewItem(valor.replace(",", "."));

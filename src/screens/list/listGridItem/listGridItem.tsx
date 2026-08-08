@@ -1,0 +1,109 @@
+import { FontAwesome } from "@expo/vector-icons";
+import { GridItemWrapperCol, GridItemWrapperRow, GridItemWrapperInner } from "../../../components/GridItemInner";
+import { Title, Title2, Text } from "../../../components/Text";
+import { useStores } from "../../../context/StoreContext";
+import { IProduct } from "../../../Model/IProduct";
+import I18n from "i18n-js";
+import IAmount from "../../../Model/IAmount";
+
+type ListGridItemProps = {
+    item: IProduct;
+    handleClose: VoidFunction;
+    active: boolean
+}
+
+type FontAwesomeIconName = React.ComponentProps<typeof FontAwesome>["name"];
+export default function ListGridItem({ item, handleClose, active }: ListGridItemProps) {
+
+    const { ListRepository, AmountRepository, ProductRepository, ConfigRepository } = useStores();
+    const itemsQTY = ListRepository.listActive?.itemsQTY && ListRepository.listActive?.itemsQTY[item.uuid] ? ListRepository.listActive?.itemsQTY[item.uuid] : "1"
+    const showUnitFromAmount = (amounts: IAmount[]): string => {
+        let checkUnit: boolean = true;
+        let unit: string = "Un";
+        let quantity: number = 0;
+        amounts.forEach((amount) => {
+            if (checkUnit) unit = amount.type ? "Kg" : "Un";
+            if (!amount.type) checkUnit = false;
+            quantity = Number(quantity) + Number(amount.quantity);
+        });
+        if (unit === "Un") return `${unit}: ${quantity.toFixed(0)}`;
+        return `${unit}: ${quantity.toFixed(3)}`;
+    };
+
+    const getItemIconName = (item: IProduct, itemsQTY: string): FontAwesomeIconName => {
+        const hasAmount = item.amount.length > 0 && item.amount[0].amount !== "";
+        if (item.amount.length > 0 && Number(item.amount[0].quantity) < Number(itemsQTY)) return "exclamation-circle" as FontAwesomeIconName;
+        return hasAmount ? "check-circle-o" : "circle-o";
+    }
+    const getItemIconColor = (item: IProduct, itemsQTY: string): string => {
+        const hasAmount = item.amount.length > 0 && item.amount[0].amount !== "";
+        if (item.amount.length > 0 && Number(item.amount[0].quantity) < Number(itemsQTY)) return ConfigRepository.color.warning;
+        return hasAmount ? ConfigRepository.color.itemListItemOpenIconFilled : ConfigRepository.color.itemListItemOpenIcon;
+    }
+
+    return (
+        <GridItemWrapperRow maxHeight={50}>
+            <GridItemWrapperCol width="15%" >
+                <GridItemWrapperRow maxHeight={50}>
+                    <GridItemWrapperInner
+                        width="50%"
+                        justify="center"
+                        align="center"
+                    >
+
+                        <Title color={ConfigRepository.color.itemListItemOpenIcon}>
+                            <FontAwesome
+                                size={28}
+                                style={{ marginBottom: -3 }}
+                                color={getItemIconColor(item, itemsQTY)}
+                                name={getItemIconName(item, itemsQTY)}
+                            />
+                        </Title>
+                    </GridItemWrapperInner>
+                    <GridItemWrapperInner
+                        width="50%"
+                        justify="flex-start"
+                        align="flex-end"
+                    >
+                        <Title color={ConfigRepository.color.text} style={{ textAlign: 'center' }}>
+                            {itemsQTY}
+                        </Title>
+                    </GridItemWrapperInner>
+                </GridItemWrapperRow>
+            </GridItemWrapperCol>
+            <GridItemWrapperInner width="75%" >
+                <GridItemWrapperCol width="100%">
+                    <GridItemWrapperInner width="100%" height="50%">
+                        <Title2 color={ConfigRepository.color.text}>{item.name}</Title2>
+                    </GridItemWrapperInner>
+                    <GridItemWrapperRow height="50%" justify="space-between" align="flex-start">
+                        <GridItemWrapperInner
+                            width="50%"
+                            justify="flex-start"
+                            align="flex-start"
+                        >
+                            <Text color={ConfigRepository.color.textSecondary}>
+                                {I18n.t("total")}: {ConfigRepository.currency} {item.total}
+                            </Text>
+                        </GridItemWrapperInner>
+                        <GridItemWrapperInner width="50%" justify="flex-start" align="flex-start">
+                            <Text color={ConfigRepository.color.textSecondary}>
+                                {showUnitFromAmount(item.amount)}
+                            </Text>
+                        </GridItemWrapperInner>
+                    </GridItemWrapperRow>
+                </GridItemWrapperCol>
+            </GridItemWrapperInner>
+            <GridItemWrapperInner width="10%" >
+                <Title color={ConfigRepository.color.text} align="right">
+                    <FontAwesome
+                        onPress={() => handleClose()}
+                        size={28}
+                        style={{ marginBottom: -3 }}
+                        name={active ? "angle-up" : "angle-down"}
+                    />
+                </Title>
+            </GridItemWrapperInner>
+        </GridItemWrapperRow>
+    )
+}

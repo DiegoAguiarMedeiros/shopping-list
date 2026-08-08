@@ -79,10 +79,14 @@ class ListRepository implements IListRepository {
     }
   }
 
-  addItemsTolist(items: string[]): void {
+  addItemsTolist(items: string[], itemsQTY?: Record<string, string>): void {
     const list = this.getItem(this.listActive?.uuid!);
     if (list) {
       list.items = [...list.items, ...items];
+      list.itemsQTY = {
+        ...(list.itemsQTY ?? {}),
+        ...itemsQTY,
+      };
       this.listActive = list;
       storageMMKV.set(list.uuid, JSON.stringify(list));
       this.toast.showToast("productAddedSuccessfully");
@@ -191,7 +195,7 @@ class ListRepository implements IListRepository {
   }
 
   getItem(uuid: string): IList | undefined {
-    if(!uuid) return undefined;
+    if (!uuid) return undefined;
     try {
       const jsonData = storageMMKV.get(uuid);
       return jsonData ? JSON.parse(jsonData) : undefined;

@@ -10,7 +10,7 @@ import {
   Button,
 } from "react-native";
 import { IList } from "../../Model/IList";
-import ListGridItem from "../../screens/list/listGridItem";
+import List from "../../screens/list/listGridItem";
 import { colorTheme } from "../../../constants/Colors";
 import { BottomSheetProps } from "../../components/BottomSheet";
 import Container from "../../components/Container";
@@ -49,7 +49,7 @@ const CustomFlatList = React.memo(
 
 
     const renderItem: ListRenderItem<IProduct> = ({ item, index }) => (
-      <ListGridItem
+      <List
         item={item}
         listId={ListRepository.listActive ? ListRepository.listActive.uuid : ""}
         handleOpen={handleOpen}

@@ -115,7 +115,7 @@ const createTheme = (accent: string, theme: "light" | "dark"): colorTheme => {
 
   return {
     theme, primary: accent, primaryStrong, onPrimary: buttonText, onPrimaryStrong: "#FFF", secondary: alpha(accent, "50"), tertiary: dark ? "#5F5E5E" : "#F0F8FF",
-    white: "#FFF", whiteLighter: "#FFFFFF80", black: "#000", warning: "#B45309", alert: "#D85D63", info: "#2F6F9F",
+    white: "#FFF", whiteLighter: "#FFFFFF80", black: "#000", warning: "#ffcc00", alert: "#D85D63", info: "#2F6F9F",
     text: foreground, textSecondary: muted, textTertiary: dark ? "#FFFFFF68" : "#00000078",
     backgroundPrimary: base, backgroundSecondary: dark ? "#4F4E4E" : accent, backgroundTertiary: dark ? "#5F5E5E" : "#F0F8FF",
     menuButtonColor: dark ? "#FFFFFF50" : "#00000050", menuButtonActiveColor: ensureContrast(accent, bottomNavigation),

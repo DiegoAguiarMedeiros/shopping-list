@@ -60,24 +60,7 @@ const NewItemForm = ({
 
   const addListItem = (): void => {
     closeBottomSheet();
-    ListRepository.addItemsTolist(newItem.item);
-
-    if (ListRepository?.listActive) {
-      newItem.item.forEach((productUuid) => {
-        const listProductUuid = `${ListRepository.listActive?.uuid}-${productUuid}`;
-        const qty = itemQuantities[productUuid] || "1";
-        const existingAmounts = AmountRepository.getAllItems(listProductUuid);
-        if (existingAmounts.length === 0) {
-          const initialAmount: IAmount = {
-            uuid: String(UUIDGenerator.v4()),
-            amount: "",
-            type: false,
-            quantity: qty,
-          };
-          AmountRepository.addItem(listProductUuid, initialAmount);
-        }
-      });
-    }
+    ListRepository.addItemsTolist(newItem.item, itemQuantities);
 
     ListRepository.updateTags(
       ProductRepository.getAllTagsByProductUuid(
