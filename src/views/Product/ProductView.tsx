@@ -15,6 +15,11 @@ import { useStores } from "../../context/StoreContext";
 import { FontAwesome } from "@expo/vector-icons";
 import { SubTitle, Text, Title2 } from "../../components/Text";
 import I18n from "i18n-js";
+import { observer } from "mobx-react-lite";
+import Button from "../../components/Button";
+import ButtonsContainer from "../../components/ButtonsContainer";
+import ButtonWrapper from "../../components/ButtonWrapper";
+import NewTagForm from "../../components/NewTagForm";
 
 interface ProductViewProps {
   setBottomSheetProps: React.Dispatch<React.SetStateAction<BottomSheetProps>>;
@@ -23,17 +28,40 @@ interface ProductViewProps {
   search?: string;
 }
 
-export const ProductView = ({
+export const ProductView = observer(({
   setBottomSheetProps,
   handleCloseBottomSheet,
   products,
   search = "",
 }: ProductViewProps) => {
   const { TagRepository, ConfigRepository } = useStores();
-  const colorScheme = useColorScheme();
   const [collapsedCategories, setCollapsedCategories] = useState<
     Record<string, boolean>
   >({});
+
+  const handleEditCategory = (tag: ITag) => {
+    setBottomSheetProps({
+      height: "addCategory",
+      children: (
+        <NewTagForm
+          action="editTag"
+          buttonText="edit"
+          tag={tag}
+          onClose={() => {
+            setBottomSheetProps((prev) => ({
+              ...prev,
+              isVisible: false,
+            }));
+          }}
+        />
+      ),
+      isVisible: true,
+    });
+  };
+
+  const handleDeleteCategory = (uuid: string) => {
+    TagRepository.removeItem(uuid);
+  };
 
   const toggleCategory = (tagUuid: string) => {
     setCollapsedCategories((prev) => ({
@@ -110,7 +138,7 @@ export const ProductView = ({
             }}
           >
             {categoryGroups.map(({ tag, products: categoryProducts }, index) => {
-              const isExpanded = !collapsedCategories[tag.uuid];
+              const isExpanded = collapsedCategories[tag.uuid];
               const isLast = index === categoryGroups.length - 1;
 
               return (
@@ -159,17 +187,52 @@ export const ProductView = ({
                       style={{
                         width: "100%",
                         paddingHorizontal: 16,
-                        paddingBottom: categoryProducts.length > 0 ? 8 : 0,
+                        paddingBottom: categoryProducts.length > 0 ? 8 : 16,
                       }}
                     >
-                      {categoryProducts.map((item) => (
-                        <ListGridItem
-                          key={"ListGridItem-" + item.uuid}
-                          handleCloseBottomSheet={handleCloseBottomSheet}
-                          setBottomSheetProps={setBottomSheetProps}
-                          item={item}
-                        />
-                      ))}
+                      {categoryProducts.length > 0 ? (
+                        categoryProducts.map((item) => (
+                          <ListGridItem
+                            key={"ListGridItem-" + item.uuid}
+                            handleCloseBottomSheet={handleCloseBottomSheet}
+                            setBottomSheetProps={setBottomSheetProps}
+                            item={item}
+                          />
+                        ))
+                      ) : (
+                        <View style={{ width: "100%", alignItems: "center", paddingTop: 8 }}>
+                          <Text
+                            color={ConfigRepository.color.textSecondary}
+                            style={{ marginBottom: 12, textAlign: "center" }}
+                          >
+                            {I18n.t("noProductsInThisCategory")}
+                          </Text>
+                          <ButtonsContainer>
+                            <ButtonWrapper>
+                              <Button
+                                text={I18n.t("edit")}
+                                icon="edit"
+                                radius
+                                textColor={ConfigRepository.color.bottomSheetButtonAddText}
+                                border={ConfigRepository.color.bottomSheetButtonAddBorder}
+                                background={ConfigRepository.color.bottomSheetButtonAddBackground}
+                                onPress={() => handleEditCategory(tag)}
+                              />
+                            </ButtonWrapper>
+                            <ButtonWrapper>
+                              <Button
+                                text={I18n.t("delete")}
+                                icon="trash"
+                                radius
+                                textColor={ConfigRepository.color.white}
+                                border={ConfigRepository.color.alert}
+                                background={ConfigRepository.color.alert}
+                                onPress={() => handleDeleteCategory(tag.uuid)}
+                              />
+                            </ButtonWrapper>
+                          </ButtonsContainer>
+                        </View>
+                      )}
                     </View>
                   )}
 
@@ -192,4 +255,6 @@ export const ProductView = ({
       </ContainerInner>
     </Container>
   );
-};
+});
+
+export default ProductView;
