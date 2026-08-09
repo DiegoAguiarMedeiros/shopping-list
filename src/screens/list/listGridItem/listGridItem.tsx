@@ -5,6 +5,7 @@ import { useStores } from "../../../context/StoreContext";
 import { IProduct } from "../../../Model/IProduct";
 import I18n from "i18n-js";
 import IAmount from "../../../Model/IAmount";
+import { formatValue } from "../../../utils/functions";
 
 type ListGridItemProps = {
     item: IProduct;
@@ -43,10 +44,9 @@ export default function ListGridItem({ item, handleClose, active }: ListGridItem
 
     return (
         <GridItemWrapperRow maxHeight={50}>
-            <GridItemWrapperCol width="15%" >
+            <GridItemWrapperCol width="10%" >
                 <GridItemWrapperRow maxHeight={50}>
                     <GridItemWrapperInner
-                        width="50%"
                         justify="center"
                         align="center"
                     >
@@ -60,21 +60,12 @@ export default function ListGridItem({ item, handleClose, active }: ListGridItem
                             />
                         </Title>
                     </GridItemWrapperInner>
-                    <GridItemWrapperInner
-                        width="50%"
-                        justify="flex-start"
-                        align="flex-end"
-                    >
-                        <Title color={ConfigRepository.color.text} style={{ textAlign: 'center' }}>
-                            {itemsQTY}
-                        </Title>
-                    </GridItemWrapperInner>
                 </GridItemWrapperRow>
             </GridItemWrapperCol>
-            <GridItemWrapperInner width="75%" >
+            <GridItemWrapperInner width="80%" >
                 <GridItemWrapperCol width="100%">
                     <GridItemWrapperInner width="100%" height="50%">
-                        <Title2 color={ConfigRepository.color.text}>{item.name}</Title2>
+                        <Title2 color={ConfigRepository.color.text}>{itemsQTY.includes(".") ? `${item.name} ${formatValue(itemsQTY)}` : `${formatValue(itemsQTY)} ${item.name}`}</Title2>
                     </GridItemWrapperInner>
                     <GridItemWrapperRow height="50%" justify="space-between" align="flex-start">
                         <GridItemWrapperInner

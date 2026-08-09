@@ -75,7 +75,6 @@ function List({
               <RNText style={[styles.buttonTextIcon, { color: ConfigRepository.color.swipeIcon }]}>
                 <FontAwesome
                   size={18}
-                  style={{ marginBottom: -3 }}
                   name="trash"
                 />
               </RNText>
@@ -97,30 +96,43 @@ function List({
 
   const itemsQTY = ListRepository.listActive?.itemsQTY && ListRepository.listActive?.itemsQTY[item.uuid] ? ListRepository.listActive?.itemsQTY[item.uuid] : "1"
   const itemHeights = [115, 180, 240, 280, 330];
+
+  const ItemInner = () => (
+    <GridItemInner
+      onPress={active ? () => handleClose() : () => handleOpen(item.uuid, index)}
+      underlayColor={ConfigRepository.color.itemListBackgroundUnderlay}
+      borderColor={ConfigRepository.color.itemListItemOpenBackgroundBorder}
+      background={active ? ConfigRepository.color.itemListItemOpenBackground : ConfigRepository.color.itemListBackground}
+      height={active ? itemHeights[item.amount.length > 4 ? 4 : getAmountLength(item)] : 70}
+      row
+      elevation={colorScheme === "light"}
+    >
+      <GridItemWrapperCol width="100%">
+        <ListGridItem item={item} handleClose={handleClose} active={active} />
+
+        {active && <View style={styles.addPriceUnit}>
+          <AddPriceUnit
+            amounts={item.amount}
+            itemsQTY={itemsQTY}
+            listProductUuid={listProductUuid}
+          />
+        </View>}
+      </GridItemWrapperCol>
+    </GridItemInner>)
+
   return (
     <GridItemNoSwipeable>
-      <GridItemInner
-        onPress={active ? () => handleClose() : () => handleOpen(item.uuid, index)}
-        underlayColor={ConfigRepository.color.itemListBackgroundUnderlay}
-        borderColor={ConfigRepository.color.itemListItemOpenBackgroundBorder}
-        background={active ? ConfigRepository.color.itemListItemOpenBackground : ConfigRepository.color.itemListBackground}
-        height={active ? itemHeights[item.amount.length > 4 ? 4 : getAmountLength(item)] : 70}
-        row
-        elevation={colorScheme === "light"}
-      >
-        <GridItemWrapperCol width="100%">
-          <ListGridItem item={item} handleClose={handleClose} active={active} />
+      {active ? <ItemInner /> :
+        <GridItem
+          renderRightActions={RightSwipe}
+          leftThreshold={undefined}
+          rightThreshold={100}
+        >
+          <ItemInner />
+        </GridItem>}
 
-          {active && <View style={styles.addPriceUnit}>
-            <AddPriceUnit
-              amounts={item.amount}
-              itemsQTY={itemsQTY}
-              listProductUuid={listProductUuid}
-            />
-          </View>}
-        </GridItemWrapperCol>
-      </GridItemInner>
-    </GridItemNoSwipeable>
+
+    </GridItemNoSwipeable >
   )
 }
 
@@ -129,26 +141,32 @@ const styles = StyleSheet.create({
   buttonView: {
     display: 'flex',
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     width: '100%',
     height: '100%',
   },
   buttonInner: {
+    width: '50%',
+    height: '80%',
     borderRadius: 15,
-    width: '100%',
-    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonContent: {
-    flex: 1
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonTextIcon: {
-    flex: 1
+    textAlign: 'center',
   },
   buttonText: {
-    flex: 10,
-    paddingTop: 15,
-    paddingBottom: 0,
-    paddingHorizontal: 10,
+    fontSize: 10,
     textAlign: 'center',
+    marginTop: 4,
   },
   addPriceUnit: {
     flex: 1,

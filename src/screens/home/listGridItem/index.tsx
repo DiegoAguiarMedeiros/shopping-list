@@ -31,7 +31,7 @@ interface ItemProps {
   handleCloseBottomSheet: () => void;
 }
 
-const SWIPE_WIDTH = Dimensions.get('window').width * 0.75;
+const SWIPE_WIDTH = Dimensions.get('window').width * 0.60;
 
 const ListGridItem = React.memo(
   ({
@@ -271,31 +271,34 @@ const ListGridItem = React.memo(
 
 const styles = StyleSheet.create({
   buttonView: {
+    display: 'flex',
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     width: '100%',
     height: '100%',
   },
   buttonInner: {
     width: '25%',
-    height: '100%',
+    height: '80%',
     borderRadius: 15,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonContent: {
-    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonTextIcon: {
-    flex: 10,
-    paddingTop: 15,
-    paddingBottom: 0,
-    paddingHorizontal: 10,
     textAlign: 'center',
   },
   buttonText: {
-    flex: 10,
     fontSize: 10,
-    paddingVertical: 0,
-    paddingHorizontal: 10,
     textAlign: 'center',
+    marginTop: 4,
   }
 });
 

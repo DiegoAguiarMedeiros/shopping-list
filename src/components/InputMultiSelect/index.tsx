@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  TextInputKeyPressEvent,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { ITagsProductsMultiSelect } from "../../Model/IProduct";
@@ -12,6 +13,7 @@ import I18n from "i18n-js";
 import { useStores } from "../../context/StoreContext";
 import { Title, Title2, Text, SubTitle } from "../Text";
 import QuantitySelector from "../QuantitySelector";
+import { formatInput } from "../../utils/functions";
 
 type MultiSelectProps = {
   items: ITagsProductsMultiSelect[];
@@ -73,6 +75,24 @@ const MultiSelect = ({
     }));
     if (!tempSelected.includes(productId)) {
       setTempSelected((prev) => [...prev, productId]);
+    }
+  };
+  const handleDecimalInputChange = (event: TextInputKeyPressEvent, productId: string) => {
+    const { key } = event.nativeEvent;
+    const number = quantities[productId] ? quantities[productId] : '1'
+    if (/^[\d.]$/.test(key) || key === "Backspace") {
+      const formatedNumber =
+        key === "Backspace"
+          ? formatInput(number.slice(0, -1))
+          : formatInput(number + key);
+
+      setQuantities((prev) => ({
+        ...prev,
+        [productId]: formatedNumber,
+      }));
+      if (!tempSelected.includes(productId)) {
+        setTempSelected((prev) => [...prev, productId]);
+      }
     }
   };
 
@@ -217,6 +237,9 @@ const MultiSelect = ({
                                 onChangeText={(val) =>
                                   setDirectQuantity(product.id, val)
                                 }
+                                type={false}
+                                handleDecimalInputChange={(event) => handleDecimalInputChange(event, product.id)}
+                                TextInputBackgoundColor={ConfigRepository.color.itemListItemOpenBackground}
                               />
                             </View>
                           );

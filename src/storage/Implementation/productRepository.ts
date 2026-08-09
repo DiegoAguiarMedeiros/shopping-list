@@ -206,7 +206,7 @@ class ProductRepository implements IProductRepository {
 
   getItem(uuid: string): IProduct | undefined {
 
-    if(!uuid) return undefined;
+    if (!uuid) return undefined;
     try {
       const jsonData = this.storageMMKV.get(uuid);
       return jsonData ? JSON.parse(jsonData) : undefined;
@@ -260,7 +260,8 @@ class ProductRepository implements IProductRepository {
         total = this.getTotalUn(product.amount) + total;
       } else {
         const qty = itemsQTY?.[product.uuid];
-        total = (qty ? Number(qty) : 1) + total;
+        const qtyNumber = qty && qty.includes(".") ? 1 : qty;
+        total = (qtyNumber ? Number(qtyNumber) : 1) + total;
       }
     });
     this.listRepository.updateTotalUn(total);

@@ -1,4 +1,4 @@
-import { DimensionValue, StyleSheet, TouchableHighlight, View } from "react-native";
+import { DimensionValue, StyleProp, StyleSheet, TextStyle, TouchableHighlight, View } from "react-native";
 import { useStores } from "../../context/StoreContext";
 
 
@@ -31,9 +31,10 @@ interface GridItemInnerProps {
     elevation?: boolean;
     justify?: justifyType;
     align?: alignType;
+    style?: StyleProp<TextStyle>
 }
 
-export const GridItemInner = ({ background, borderColor, underlayColor, children, height, row, noPadding, noMargin, onPress, elevation, justify, align }: GridItemInnerProps) => {
+export const GridItemInner = ({ background, borderColor, underlayColor, children, height, row, noPadding, noMargin, onPress, elevation, justify, align, style }: GridItemInnerProps) => {
     const { ConfigRepository } = useStores();
 
     return (<TouchableHighlight
@@ -46,7 +47,8 @@ export const GridItemInner = ({ background, borderColor, underlayColor, children
         noPadding ? { padding: 0 } : { padding: 10 },
         noMargin ? { margin: 0 } : { margin: 5 },
         justify ? { justifyContent: justify } : { justifyContent: "center" },
-        align ? { alignItems: align } : { alignItems: "center" }
+        align ? { alignItems: align } : { alignItems: "center" },
+            style
         ]}
         underlayColor={underlayColor ?? ConfigRepository.color.itemListBackgroundUnderlay}
         onPress={onPress}
@@ -62,6 +64,7 @@ interface GridItemWrapperRowProps {
     maxHeight?: DimensionValue;
     justify?: justifyType;
     align?: alignType;
+    style?: StyleProp<TextStyle>
 }
 interface GridItemWrapperColProps {
     children: React.ReactNode;
@@ -69,29 +72,32 @@ interface GridItemWrapperColProps {
     height?: DimensionValue;
     justify?: justifyType;
     align?: alignType;
+    style?: StyleProp<TextStyle>
 }
 
-export const GridItemWrapperRow = ({ children, height, maxHeight, justify, align }: GridItemWrapperRowProps) => {
+export const GridItemWrapperRow = ({ children, height, maxHeight, justify, align, style }: GridItemWrapperRowProps) => {
     return (<View style={[styles.wrapperRow,
     height !== undefined
         ? { height, flexGrow: 0, flexShrink: 0, flexBasis: "auto" }
         : { flex: 1 },
     maxHeight ? { maxHeight: maxHeight } : { maxHeight: "100%" },
     justify ? { justifyContent: justify } : { justifyContent: "center" },
-    align ? { alignItems: align } : { alignItems: "center" }
+    align ? { alignItems: align } : { alignItems: "center" },
+        style
     ]}>
         {children}
     </View>)
 }
 
 
-export const GridItemWrapperCol = ({ children, width, height, justify, align }: GridItemWrapperColProps) => {
+export const GridItemWrapperCol = ({ children, width, height, justify, align, style }: GridItemWrapperColProps) => {
     return (<View
         style={[styles.wrapperCol,
         width ? { width } : { width: "100%" },
         height ? { height } : { height: "100%" },
         justify ? { justifyContent: justify } : { justifyContent: "center" },
-        align ? { alignItems: align } : { alignItems: "center" }
+        align ? { alignItems: align } : { alignItems: "center" },
+            style
         ]}
     >
         {children}
@@ -104,16 +110,18 @@ interface GridItemWrapperInnerProps {
     height?: DimensionValue;
     justify?: justifyType;
     align?: alignType;
+    style?: StyleProp<TextStyle>
 }
 
 
-export const GridItemWrapperInner = ({ children, width, height, justify, align }: GridItemWrapperInnerProps) => {
+export const GridItemWrapperInner = ({ children, width, height, justify, align, style }: GridItemWrapperInnerProps) => {
     return (
         <View style={[
             width ? { width: width } : { width: "100%" },
             height ? { height } : { height: "100%" },
             justify ? { justifyContent: justify } : { justifyContent: "center" },
-            align ? { alignItems: align } : { alignItems: "center" }
+            align ? { alignItems: align } : { alignItems: "center" },
+            style
         ]}>
             {children}
         </View >)

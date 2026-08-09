@@ -1,4 +1,4 @@
-import { useColorScheme, Animated, StyleSheet, TouchableHighlight, View, Text as RNText } from "react-native";
+import { useColorScheme, Animated, StyleSheet, TouchableHighlight, View, Text as RNText, Pressable } from "react-native";
 
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -59,7 +59,7 @@ const ListGridItem = React.memo(
       TagRepository.decreaseProductQTD(item.tag);
     };
 
-    const LeftSwipe = (progress: SharedValue<number>, translation: SharedValue<number>, swipeableMethods?: SwipeableMethods) => {
+    const RightSwipe = (progress: SharedValue<number>, translation: SharedValue<number>, swipeableMethods?: SwipeableMethods) => {
       return (
         <Animated.View
           style={{
@@ -67,84 +67,50 @@ const ListGridItem = React.memo(
             overflow: "hidden",
           }}
         >
-          <GridItemInner row>
-            <>
-              <GridItemWrapperCol width="50%">
-                <TouchableHighlight
-                  style={styles.buttonInner}
-                  underlayColor={ConfigRepository.color.swipeIconUnderlay}
-                  onPress={handleEdit}
-                >
-                  <View style={styles.buttonContent}>
-                    <GridItemWrapperInner height={lastPrice.length > 0 ? 50 : 60}>
-                      <RNText style={[styles.buttonTextIcon, { color: ConfigRepository.color.swipeIcon }]}>
-                        <FontAwesome
-                          size={lastPrice.length > 0 ? 26 : 18}
-                          style={{ marginBottom: -3 }}
-                          name="pencil"
-                        />
-                      </RNText>
-                    </GridItemWrapperInner>
+          <View style={styles.buttonView}>
+            <Pressable
+              style={styles.buttonInner}
+              android_ripple={{ color: ConfigRepository.color.swipeIconUnderlay }}
+              onPress={handleEdit}
+            >
+              <View style={styles.buttonContent}>
+                <RNText style={[styles.buttonTextIcon, { color: ConfigRepository.color.swipeIcon }]}>
+                  <FontAwesome
+                    size={18}
+                    name="pencil"
+                  />
+                </RNText>
+                <RNText style={[styles.buttonText, { color: ConfigRepository.color.swipeIcon }]}>
+                  {I18n.t("edit")}
+                </RNText>
+              </View>
+            </Pressable>
 
-                    <GridItemWrapperInner
-                      height={lastPrice.length > 0 ? 50 : 40}
-                      justify={lastPrice.length > 0 ? "flex-start" : "flex-end"}
-                    >
-                      {lastPrice.length > 0 ? (
-                        <SubTitle color={ConfigRepository.color.swipeIcon} align="center">
-                          {I18n.t("edit")}
-                        </SubTitle>
-                      ) : (
-                        <Text color={ConfigRepository.color.swipeIcon} align="center">
-                          {I18n.t("edit")}
-                        </Text>
-                      )}
-                    </GridItemWrapperInner>
-                  </View>
-                </TouchableHighlight>
-              </GridItemWrapperCol>
-
-              <GridItemWrapperCol width="50%">
-                <TouchableHighlight
-                  style={styles.buttonInner}
-                  underlayColor={ConfigRepository.color.swipeIconUnderlay}
-                  onPress={handleDelete}
-                >
-                  <View style={styles.buttonContent}>
-                    <GridItemWrapperInner height={lastPrice.length > 0 ? 50 : 60}>
-                      <RNText style={[styles.buttonTextIcon, { color: ConfigRepository.color.swipeIcon }]}>
-                        <FontAwesome
-                          size={lastPrice.length > 0 ? 26 : 18}
-                          style={{ marginBottom: -3 }}
-                          name="trash"
-                        />
-                      </RNText>
-                    </GridItemWrapperInner>
-                    <GridItemWrapperInner
-                      height={lastPrice.length > 0 ? 50 : 40}
-                      justify={lastPrice.length > 0 ? "flex-start" : "flex-end"}
-                    >
-                      {lastPrice.length > 0 ? (
-                        <SubTitle color={ConfigRepository.color.swipeIcon} align="center">
-                          {I18n.t("delete")}
-                        </SubTitle>
-                      ) : (
-                        <Text color={ConfigRepository.color.swipeIcon} align="center">
-                          {I18n.t("delete")}
-                        </Text>
-                      )}
-                    </GridItemWrapperInner>
-                  </View>
-                </TouchableHighlight>
-              </GridItemWrapperCol>
-            </>
-          </GridItemInner>
+            <Pressable
+              style={styles.buttonInner}
+              android_ripple={{ color: ConfigRepository.color.swipeIconUnderlay }}
+              onPress={handleDelete}
+            >
+              <View style={styles.buttonContent}>
+                <RNText style={[styles.buttonTextIcon, { color: ConfigRepository.color.swipeIcon }]}>
+                  <FontAwesome
+                    size={18}
+                    style={{ marginBottom: -3 }}
+                    name="trash"
+                  />
+                </RNText>
+                <RNText style={[styles.buttonText, { color: ConfigRepository.color.swipeIcon }]}>
+                  {I18n.t("delete")}
+                </RNText>
+              </View>
+            </Pressable>
+          </View>
         </Animated.View>
       );
     };
     return (
       <GridItem
-        renderRightActions={LeftSwipe}
+        renderRightActions={RightSwipe}
         leftThreshold={100}
         rightThreshold={undefined}
       >
@@ -152,7 +118,7 @@ const ListGridItem = React.memo(
           underlayColor={ConfigRepository.color.itemListBackgroundUnderlay}
           borderColor={ConfigRepository.color.itemListBackgroundBorder}
           background={ConfigRepository.color.itemListBackground}
-          height={lastPrice.length > 0 ? 120 : 60}
+          height={lastPrice.length > 0 ? 90 : 60}
           row={false}
           elevation={colorScheme === "light"}
         >
@@ -161,11 +127,10 @@ const ListGridItem = React.memo(
               <SubTitle color={ConfigRepository.color.text}>{item.name}</SubTitle>
             </GridItemWrapperInner>
           </GridItemWrapperRow>
-          <GridItemWrapperRow height={lastPrice.length > 0 ? 65 : 0}>
+          <GridItemWrapperRow height={lastPrice.length > 0 ? 55 : 0}>
             {lastPrice.length > 0 ? (
               <GridItemWrapperInner
                 width="70%"
-                height="50%"
                 justify="flex-start"
               >
                 <LastPrices lastPrices={lastPrice} />
@@ -176,7 +141,6 @@ const ListGridItem = React.memo(
             {lastPrice.length > 0 ? (
               <GridItemWrapperInner
                 width="30%"
-                height="50%"
                 justify="flex-start"
               >
                 <AveragePrice price={lastPrice} />
@@ -195,18 +159,36 @@ const ListGridItem = React.memo(
 );
 
 const styles = StyleSheet.create({
-  buttonInner: {
+  buttonView: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
     height: '100%',
+  },
+  buttonInner: {
+    width: '50%',
+    height: '80%',
     borderRadius: 15,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonContent: {
+    display: 'flex',
     flexDirection: 'column',
-    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonTextIcon: {
-    width: '100%',
     textAlign: 'center',
   },
+  buttonText: {
+    fontSize: 10,
+    textAlign: 'center',
+    marginTop: 4,
+  }
 });
 
 export default ListGridItem;

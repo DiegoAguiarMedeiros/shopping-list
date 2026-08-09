@@ -134,7 +134,7 @@ const createTheme = (accent: string, theme: "light" | "dark"): colorTheme => {
     circularItemBackground: surface, circularItemText: dark ? accent : "#00000050", circularItemFilled: accent, circularHeaderBackground: accent, circularHeaderText: buttonText, circularHeaderFilled: buttonText,
     filterButtonBackground: dark ? "#1E1E1E" : "#EEE", filterButtonBorder: dark ? "#1E1E1E" : "#EEE", filterButtonText: dark ? "#FFF" : "#00000080", filterButtonActiveBackground: accent, filterButtonActiveBorder: accent, filterButtonActiveText: buttonText,
     itemProductListAveragePrice: accent, itemProductListLastPriceButtonBorder: accent, itemProductListLastPriceButtonText: dark ? foreground : accent,
-    configItemBackground: base, switchTrackColorTrue: alpha(accent, "88"), switchTrackColorFalse: dark ? "#5F5E5E" : "#CCC", switchThumbColorTrue: accent, switchThumbColorFalse: accent,
+    configItemBackground: base, switchTrackColorTrue: alpha(buttonText, "88"), switchTrackColorFalse: dark ? "#5F5E5E" : "#CCC", switchThumbColorTrue: accent, switchThumbColorFalse: accent,
     selectCurrency: dark ? "#4F4E4E" : "#EEE", selectProduct: base, selectCategory: base,
   };
 };

@@ -1,4 +1,4 @@
-import { Keyboard, useColorScheme } from "react-native";
+import { Keyboard, NativeSyntheticEvent, TextInputKeyPressEvent, TextInputKeyPressEventData, useColorScheme } from "react-native";
 import { useEffect, useState } from "react";
 import {
   ItemAmountInterface,
@@ -8,10 +8,7 @@ import {
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import { Text } from "../../../../components/Text";
-import Switch from "../../../../components/Switch";
-import AddQtd from "./addQtd";
 import IAmount from "../../../../Model/IAmount";
-import Container from "../../../../components/Container";
 import {
   GridItemInner,
   GridItemWrapperCol,
@@ -20,6 +17,9 @@ import {
 } from "../../../../components/GridItemInner";
 import { colorTheme } from "../../../../../constants/Colors";
 import { useStores } from "../../../../context/StoreContext";
+import QuantitySelector from "../../../QuantitySelector";
+import product from "../../../../../app/product";
+import { formatInput } from "../../../../utils/functions";
 
 interface ListProps {
   itemAmount: IAmount;
@@ -49,8 +49,6 @@ export default function ListPriceGrid({
     ProductRepository.updateTotalWithoutAmount();
   };
 
-  const handleUpdateListArrItems = (amount: IAmount): void => { };
-
   const deleteAmountInList = (): void => {
     AmountRepository.removeItem(listProductUuid, itemAmount.uuid);
     ProductRepository.load();
@@ -58,6 +56,79 @@ export default function ListPriceGrid({
     ProductRepository.updateTotalUn();
     ProductRepository.updateTotalWithAmount();
     ProductRepository.updateTotalWithoutAmount();
+  };
+
+  const onDecrement = (): void => {
+    if (Number(itemAmount.quantity) > 1) {
+      AmountRepository.changeAmountQuantity(
+        String(Number(itemAmount.quantity) - 1),
+        listProductUuid,
+        itemAmount.uuid
+      );
+      ProductRepository.load();
+      ProductRepository.updateTotal();
+      ProductRepository.updateTotalUn();
+      ProductRepository.updateTotalWithAmount();
+      ProductRepository.updateTotalWithoutAmount();
+    }
+  };
+  const onIncrement = (): void => {
+    if (Number(itemAmount.quantity) < 99) {
+      AmountRepository.changeAmountQuantity(
+        String(Number(itemAmount.quantity) + 1),
+        listProductUuid,
+        itemAmount.uuid
+      );
+      ProductRepository.load();
+      ProductRepository.updateTotal();
+      ProductRepository.updateTotalUn();
+      ProductRepository.updateTotalWithAmount();
+      ProductRepository.updateTotalWithoutAmount();
+    }
+  };
+
+  const handleDecimalInputChange = (
+    event: TextInputKeyPressEvent
+  ) => {
+    const { key } = event.nativeEvent;
+    if (/^[\d.]$/.test(key) || key === "Backspace") {
+      const formatedNumber =
+        key === "Backspace"
+          ? formatInput(itemAmount.quantity.slice(0, -1))
+          : formatInput(itemAmount.quantity + key);
+
+      if (Number(formatedNumber) < 100) {
+        AmountRepository.changeAmountQuantity(
+          formatedNumber,
+          listProductUuid,
+          itemAmount.uuid
+        );
+      }
+
+      if (Number(formatedNumber) < 100) {
+        ProductRepository.load();
+        ProductRepository.updateTotal();
+        ProductRepository.updateTotalUn();
+        ProductRepository.updateTotalWithAmount();
+        ProductRepository.updateTotalWithoutAmount();
+      }
+    }
+
+  };
+
+    const handleInputChange = (value: string) => {
+    if (Number(value) < 100) {
+      AmountRepository.changeAmountQuantity(
+        value.replace(/\D/g, ""),
+        listProductUuid,
+        itemAmount.uuid
+      );
+      ProductRepository.load();
+      ProductRepository.updateTotal();
+      ProductRepository.updateTotalUn();
+      ProductRepository.updateTotalWithAmount();
+      ProductRepository.updateTotalWithoutAmount();
+    }
   };
 
   useEffect(() => {
@@ -77,18 +148,16 @@ export default function ListPriceGrid({
             {Number(itemAmount.amount).toFixed(2).replace(".", ",")}
           </Text>
         </GridItemWrapperInner>
-        <GridItemWrapperInner width="30%">
-          <AddQtd
-            listProductUuid={listProductUuid}
-            amountItem={itemAmount}
-            selectedValueSwitch={selectedValueSwitch}
-          />
-        </GridItemWrapperInner>
-        <GridItemWrapperInner width="30%">
-          <Switch
-            value={selectedValueSwitch}
-            onValueChange={editItemsAmount}
-            label={{ on: "Kg", off: "Un" }}
+        <GridItemWrapperInner width="60%">
+          <QuantitySelector
+            value={itemAmount.quantity}
+            onDecrement={onDecrement}
+            onIncrement={onIncrement}
+            onChangeText={handleInputChange}
+            type={itemAmount.type}
+            handleDecimalInputChange={handleDecimalInputChange}
+            editItemsAmount={editItemsAmount}
+            TextInputBackgoundColor={ConfigRepository.color.backgroundPrimary}
           />
         </GridItemWrapperInner>
         <GridItemWrapperInner width="20%">

@@ -84,17 +84,15 @@ export default function Config() {
   return (
     <Container background={ConfigRepository.color.backgroundPrimary}>
       <ContainerInner background={ConfigRepository.color.backgroundPrimary}>
-        <GridItemWrapperRow height={60}>
-          <GridItemWrapperInner width="100%" >
+        <GridItemWrapperRow height={40} style={styles.sectionFirst}>
+          <GridItemWrapperInner width="100%">
             <Title2 color={ConfigRepository.color.text}>{I18n.t("theme")}</Title2>
           </GridItemWrapperInner>
         </GridItemWrapperRow>
-        <GridItemWrapperRow height={60}>
+        <GridItemWrapperRow height={50}>
           <GridItemWrapperInner width="50%">
             <SubTitle color={ConfigRepository.color.text}>
-              {ConfigRepository.theme === "dark"
-                ? I18n.t("darkTheme")
-                : I18n.t("lightTheme")}
+              {ConfigRepository.theme === "dark" ? I18n.t("darkTheme") : I18n.t("lightTheme")}
             </SubTitle>
           </GridItemWrapperInner>
           <GridItemWrapperInner width="50%">
@@ -105,7 +103,8 @@ export default function Config() {
             />
           </GridItemWrapperInner>
         </GridItemWrapperRow>
-        <GridItemWrapperRow height={60}>
+
+        <GridItemWrapperRow height={40} style={styles.section}>
           <GridItemWrapperInner width="100%">
             <Title2 color={ConfigRepository.color.text}>{I18n.t("colors")}</Title2>
           </GridItemWrapperInner>
@@ -121,7 +120,7 @@ export default function Config() {
               buttonText={I18n.t("chooseColor")}
               doneText={I18n.t("done")}
             />
-          </GridItemWrapperInner>         
+          </GridItemWrapperInner>
         </GridItemWrapperRow>
         <GridItemWrapperRow height={60}>
           <GridItemWrapperInner width="100%">
@@ -157,7 +156,7 @@ export default function Config() {
         <GridItemWrapperRow height={60}>
           <Select
             background={ConfigRepository.color.selectCurrency}
-            dropdownIconColor={ConfigRepository.color.primary}
+            dropdownIconColor={ConfigRepository.color.textSecondary}
             textColor={ConfigRepository.color.textSecondary}
             items={currencyArr.map((currency) => {
               return {
@@ -175,6 +174,12 @@ export default function Config() {
 }
 
 const styles = StyleSheet.create({
+  section: {
+    marginTop: 24,
+  },
+  sectionFirst: {
+    marginTop: 8,
+  },
   applyColorButton: {
     width: '90%',
     height: 38,
