@@ -29,6 +29,8 @@ const AppScreen = observer(() => {
   ConfigRepository.currency;
   ConfigRepository.lang;
 
+  
+
   const closeOnboarding = () => {
     setActive(true);
     setOnboarding(true);

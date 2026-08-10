@@ -33,7 +33,6 @@ const QuantitySelector = ({
 }: QuantitySelectorProps) => {
     const { ConfigRepository } = useStores();
     const [selectedValueSwitch, setSelectedValueSwitch] = useState(type);
-
     const onPress = () => {
         setSelectedValueSwitch(prev => !prev)
         editItemsAmount && editItemsAmount()

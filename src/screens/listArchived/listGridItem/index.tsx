@@ -80,7 +80,7 @@ function ListGridItem({ item, listId }: Readonly<ListProps>) {
                 <GridItemWrapperRow>
                   <GridItemWrapperCol width="50%" >
                     <Text color={ConfigRepository.color.text}>
-                      {`${amount.quantity}`} {amount.type ? `Kg` : `Un`}
+                      {`${amount.quantity}`} {amount.quantity.includes('.') ? `Kg` : `Un`}
                       {" x"}
                     </Text>
                   </GridItemWrapperCol>

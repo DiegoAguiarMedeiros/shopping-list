@@ -116,7 +116,7 @@ export default function ListPriceGrid({
 
   };
 
-    const handleInputChange = (value: string) => {
+  const handleInputChange = (value: string) => {
     if (Number(value) < 100) {
       AmountRepository.changeAmountQuantity(
         value.replace(/\D/g, ""),
@@ -154,7 +154,7 @@ export default function ListPriceGrid({
             onDecrement={onDecrement}
             onIncrement={onIncrement}
             onChangeText={handleInputChange}
-            type={itemAmount.type}
+            type={!itemAmount.amount.includes('.')}
             handleDecimalInputChange={handleDecimalInputChange}
             editItemsAmount={editItemsAmount}
             TextInputBackgoundColor={ConfigRepository.color.backgroundPrimary}

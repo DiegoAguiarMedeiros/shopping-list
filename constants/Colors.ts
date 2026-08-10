@@ -1,5 +1,5 @@
 export type colorTheme = {
-  theme: string;
+  theme: "auto" | "inverted" | "light" | "dark";
   primary: string; primaryStrong: string; onPrimary: string; onPrimaryStrong: string; secondary: string; tertiary: string; white: string; whiteLighter: string; black: string;
   warning: string; alert: string; info: string; text: string; textSecondary: string; textTertiary: string;
   backgroundPrimary: string; backgroundSecondary: string; backgroundTertiary: string;

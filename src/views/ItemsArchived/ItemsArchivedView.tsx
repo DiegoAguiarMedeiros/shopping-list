@@ -38,7 +38,7 @@ const CustomFlatList = React.memo(
 
     return (
       <Container background={ConfigRepository.color.backgroundPrimary}>
-        <ContainerInner height="95%" background={ConfigRepository.color.backgroundPrimary}>
+        <ContainerInner height="97%" background={ConfigRepository.color.backgroundPrimary}>
           <FlashList
             style={{ flex: 1, width: "100%" }}
             contentContainerStyle={{
@@ -50,7 +50,7 @@ const CustomFlatList = React.memo(
             ListFooterComponent={<View style={{ height: 250 }} />}
           />
           <Total
-            height="5%"
+            height="3%"
             total={
               ListRepository?.listActive?.total
                 ? ListRepository.listActive.total

@@ -239,7 +239,7 @@ class ProductRepository implements IProductRepository {
   getTotalUn(amounts: IAmount[]): number {
     let total: number = 0;
     amounts.forEach((amount) => {
-      const quantity: number = amount?.type ? 1 : Number(amount?.quantity);
+      const quantity: number = !amount?.amount.includes('.') ? 1 : Number(amount?.quantity);
       total = total + quantity;
     });
     return total;

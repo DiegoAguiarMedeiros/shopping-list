@@ -45,7 +45,7 @@ export default function AddPriceUnit({
       const newAmount: IAmount = {
         uuid: String(UUIDGenerator.v4()),
         amount: newItem,
-        type: false,
+        type: !itemsQTY.includes('.'),
         quantity:itemsQTY,
       };
       AmountRepository.addItem(listProductUuid, newAmount);

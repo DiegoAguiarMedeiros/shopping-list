@@ -4,8 +4,8 @@ import {
   createStackNavigator,
 } from "expo-router/build/react-navigation/stack";
 import I18n from "i18n-js";
-import { useState, useRef, SetStateAction } from "react";
-import { TouchableHighlight, useColorScheme, View } from "react-native";
+import { useState, useRef } from "react";
+import { TouchableHighlight, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Items from "../../app/Items";
 import ItemsArchived from "../../app/ItemsArchived";
@@ -20,15 +20,11 @@ import NewListForm from "../components/NewListForm";
 import NewProductForm from "../components/NewProductForm";
 import NewTagForm from "../components/NewTagForm";
 import AddProductOptions from "../components/AddProductOptions";
-
 import { Title } from "../components/Text";
 import History from "../../app/history";
-import { IList } from "../Model/IList";
-import { IProduct } from "../Model/IProduct";
-import ITag from "../Model/ITag";
 import { useStores } from "../context/StoreContext";
-import getColorController from "../UseCases/Config/GetColor";
-import getThemeController from "../UseCases/Config/GetTheme";
+import { NavigationBar } from 'expo-navigation-bar';
+
 
 const Stack = createStackNavigator();
 
@@ -299,115 +295,116 @@ const Navigation: React.FC = () => {
 
   return (
     <View style={{ flex: 1 }}>
+    <NavigationBar style={ConfigRepository.color.theme === "light" ? 'dark' : 'light'} />
       <View style={{ flex: 1 }}>
         <Stack.Navigator
-        screenOptions={{
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          headerStyle: {
-            backgroundColor: ConfigRepository.color.primary,
-          },
-          headerTintColor: ConfigRepository.color.onPrimary,
-        }}
-      >
-        <Stack.Screen
-          name={"home"}
-          options={{
-            headerLeft: () => null,
-            headerRight: () => null,
-            headerTitle: (props) => (
-              <Title color={ConfigRepository.color.onPrimary}>{I18n.t("lists")}</Title>
-            ),
+          screenOptions={{
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            headerStyle: {
+              backgroundColor: ConfigRepository.color.primary,
+            },
+            headerTintColor: ConfigRepository.color.onPrimary,
           }}
         >
-          {({ navigation }) => {
-            stackRef.current = navigation;
-            return <Home setBottomSheetProps={setBottomSheetProps} handleCloseBottomSheet={handleCloseBottomSheetList} />;
-          }}
-        </Stack.Screen>
-        <Stack.Screen
-          name={"product"}
-          options={{
-            headerLeft: () => activeRouteHeader.left,
-            headerRight: () => activeRouteHeader.right,
-            headerTitle: () => activeRouteHeader.name,
-          }}
-        >
-          {({ navigation }) => {
-            stackRef.current = navigation;
-            return <ProductTab search={search} setBottomSheetProps={setBottomSheetProps} handleCloseBottomSheet={handleCloseBottomSheetProduct} />;
-          }}
-        </Stack.Screen>
-                <Stack.Screen
-          name="Items"
-          options={{
-            headerLeft: () => activeRouteHeader.left,
-            headerTitle: () => activeRouteHeader.name,
-            headerRight: () => activeRouteHeader.right,
-          }}
-        >
-          {({ navigation }) => {
-            stackRef.current = navigation;
-            return <Items
-              route={activeRoute}
-              setActiveRouteHeader={setActiveRouteHeader}
-              handleCloseBottomSheetList={handleCloseBottomSheetList}
-            />;
-          }}
-        </Stack.Screen>
-        <Stack.Screen
-          name="ItemsArchived"
-          options={{
-            headerLeft: () => activeRouteHeader.left,
-            headerTitle: () => activeRouteHeader.name,
-            headerRight: () => activeRouteHeader.right,
-          }}
-        >
-          {({ navigation }) => {
-            stackRef.current = navigation;
-            return <ItemsArchived
-              setActiveRouteHeader={setActiveRouteHeader}
-              handleCloseBottomSheetList={handleCloseBottomSheetList} />;
-          }}
-        </Stack.Screen>
-        <Stack.Screen
-          name="history"
-          options={{
-            headerTitle: (props) => (
-              <Title color={ConfigRepository.color.onPrimary}>{I18n.t("historic")}</Title>
-            ),
-            headerLeft: () => null,
-          }}
-        >
-          {({ navigation }) => {
-            stackRef.current = navigation;
-            return <History />;
-          }}
-        </Stack.Screen>
-        <Stack.Screen
-          name="config"
-          options={{
-            headerTitle: (props) => (
-              <Title color={ConfigRepository.color.onPrimary}>{I18n.t("settings")}</Title>
-            ),
-            headerLeft: () => (
-              <TouchableHighlight
-                underlayColor={ConfigRepository.color.primary}
-                style={{ marginLeft: 20, marginRight: 10 }}
-                onPress={() => {
-                  setActiveRoute("home");
-                  stackRef.current?.navigate("home");
-                }}
-              >
-                <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.onPrimary} />
-              </TouchableHighlight>
-            ),
-          }}
-        >
-          {({ navigation }) => {
-            stackRef.current = navigation;
-            return <ConfigScreen />;
-          }}
-        </Stack.Screen>
+          <Stack.Screen
+            name={"home"}
+            options={{
+              headerLeft: () => null,
+              headerRight: () => null,
+              headerTitle: (props) => (
+                <Title color={ConfigRepository.color.onPrimary}>{I18n.t("lists")}</Title>
+              ),
+            }}
+          >
+            {({ navigation }) => {
+              stackRef.current = navigation;
+              return <Home setBottomSheetProps={setBottomSheetProps} handleCloseBottomSheet={handleCloseBottomSheetList} />;
+            }}
+          </Stack.Screen>
+          <Stack.Screen
+            name={"product"}
+            options={{
+              headerLeft: () => activeRouteHeader.left,
+              headerRight: () => activeRouteHeader.right,
+              headerTitle: () => activeRouteHeader.name,
+            }}
+          >
+            {({ navigation }) => {
+              stackRef.current = navigation;
+              return <ProductTab search={search} setBottomSheetProps={setBottomSheetProps} handleCloseBottomSheet={handleCloseBottomSheetProduct} />;
+            }}
+          </Stack.Screen>
+          <Stack.Screen
+            name="Items"
+            options={{
+              headerLeft: () => activeRouteHeader.left,
+              headerTitle: () => activeRouteHeader.name,
+              headerRight: () => activeRouteHeader.right,
+            }}
+          >
+            {({ navigation }) => {
+              stackRef.current = navigation;
+              return <Items
+                route={activeRoute}
+                setActiveRouteHeader={setActiveRouteHeader}
+                handleCloseBottomSheetList={handleCloseBottomSheetList}
+              />;
+            }}
+          </Stack.Screen>
+          <Stack.Screen
+            name="ItemsArchived"
+            options={{
+              headerLeft: () => activeRouteHeader.left,
+              headerTitle: () => activeRouteHeader.name,
+              headerRight: () => activeRouteHeader.right,
+            }}
+          >
+            {({ navigation }) => {
+              stackRef.current = navigation;
+              return <ItemsArchived
+                setActiveRouteHeader={setActiveRouteHeader}
+                handleCloseBottomSheetList={handleCloseBottomSheetList} />;
+            }}
+          </Stack.Screen>
+          <Stack.Screen
+            name="history"
+            options={{
+              headerTitle: (props) => (
+                <Title color={ConfigRepository.color.onPrimary}>{I18n.t("historic")}</Title>
+              ),
+              headerLeft: () => null,
+            }}
+          >
+            {({ navigation }) => {
+              stackRef.current = navigation;
+              return <History />;
+            }}
+          </Stack.Screen>
+          <Stack.Screen
+            name="config"
+            options={{
+              headerTitle: (props) => (
+                <Title color={ConfigRepository.color.onPrimary}>{I18n.t("settings")}</Title>
+              ),
+              headerLeft: () => (
+                <TouchableHighlight
+                  underlayColor={ConfigRepository.color.primary}
+                  style={{ marginLeft: 20, marginRight: 10 }}
+                  onPress={() => {
+                    setActiveRoute("home");
+                    stackRef.current?.navigate("home");
+                  }}
+                >
+                  <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.onPrimary} />
+                </TouchableHighlight>
+              ),
+            }}
+          >
+            {({ navigation }) => {
+              stackRef.current = navigation;
+              return <ConfigScreen />;
+            }}
+          </Stack.Screen>
         </Stack.Navigator>
       </View>
       <BottomSheet {...bottomSheetProps} />
@@ -415,11 +412,6 @@ const Navigation: React.FC = () => {
         edges={["bottom"]}
         style={{
           backgroundColor: ConfigRepository.color.backgroundBottomNavigation,
-          shadowColor: "#000",
-          shadowOffset: { width: 0, height: -3 },
-          shadowOpacity: 0.12,
-          shadowRadius: 6,
-          elevation: 8,
           zIndex: 10,
         }}
       >
