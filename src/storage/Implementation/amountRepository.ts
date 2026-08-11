@@ -30,7 +30,7 @@ class AmountRepository implements IAmountRepository {
       const amounts = this.getAllItems(uuid);
       const amountMapped = amounts.map((amount) => {
         if (amount.uuid == uuidAmount) {
-          amount.quantity = "1";
+          amount.quantity = type ? "1" : "1.000";
           amount.type = type;
         }
         return amount;

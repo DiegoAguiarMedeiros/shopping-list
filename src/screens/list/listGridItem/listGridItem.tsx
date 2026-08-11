@@ -23,12 +23,14 @@ export default function ListGridItem({ item, handleClose, active }: ListGridItem
         let unit: string = "Un";
         let quantity: number = 0;
         amounts.forEach((amount) => {
-            if (checkUnit) unit = amount.type ? "Kg" : "Un";
+            if (checkUnit) unit = !amount.type ? "Kg" : "Un";
             if (!amount.type) checkUnit = false;
             quantity = Number(quantity) + Number(amount.quantity);
         });
-        if (unit === "Un") return `${unit}: ${quantity.toFixed(0)}`;
-        return `${unit}: ${quantity.toFixed(3)}`;
+        if (unit === "Un") {
+            return `Un: ${formatValue(quantity.toFixed(0))}`;
+        }
+        return String(formatValue(quantity.toFixed(3)));
     };
 
     const getItemIconName = (item: IProduct, itemsQTY: string): FontAwesomeIconName => {

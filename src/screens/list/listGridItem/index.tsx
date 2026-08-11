@@ -96,8 +96,7 @@ function List({
 
   const itemsQTY = ListRepository.listActive?.itemsQTY && ListRepository.listActive?.itemsQTY[item.uuid] ? ListRepository.listActive?.itemsQTY[item.uuid] : "1"
   const itemHeights = [115, 180, 240, 280, 330];
-
-  const ItemInner = () => (
+  const renderItemInner = () => (
     <GridItemInner
       onPress={active ? () => handleClose() : () => handleOpen(item.uuid, index)}
       underlayColor={ConfigRepository.color.itemListBackgroundUnderlay}
@@ -118,20 +117,18 @@ function List({
           />
         </View>}
       </GridItemWrapperCol>
-    </GridItemInner>)
+    </GridItemInner>);
 
   return (
     <GridItemNoSwipeable>
-      {active ? <ItemInner /> :
+      {active ? renderItemInner() :
         <GridItem
           renderRightActions={RightSwipe}
           leftThreshold={undefined}
           rightThreshold={100}
         >
-          <ItemInner />
+          {renderItemInner()}
         </GridItem>}
-
-
     </GridItemNoSwipeable >
   )
 }

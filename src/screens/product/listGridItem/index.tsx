@@ -122,12 +122,12 @@ const ListGridItem = React.memo(
           row={false}
           elevation={colorScheme === "light"}
         >
-          <GridItemWrapperRow height={lastPrice.length > 0 ? 35 : 40}>
-            <GridItemWrapperInner height={lastPrice.length > 0 ? 35 : 40}>
+          <GridItemWrapperRow height={lastPrice.length > 0 ? 30 : 40}>
+            <GridItemWrapperInner height={lastPrice.length > 0 ? 30 : 40}>
               <SubTitle color={ConfigRepository.color.text}>{item.name}</SubTitle>
             </GridItemWrapperInner>
           </GridItemWrapperRow>
-          <GridItemWrapperRow height={lastPrice.length > 0 ? 55 : 0}>
+          <GridItemWrapperRow height={lastPrice.length > 0 ? 60 : 0}>
             {lastPrice.length > 0 ? (
               <GridItemWrapperInner
                 width="70%"

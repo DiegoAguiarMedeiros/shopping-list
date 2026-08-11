@@ -31,10 +31,10 @@ const BottomNavigation: React.FC<RoutesType> = ({
                 <Pressable
                   style={[styles.itemAddButton,
                   {
-                    backgroundColor: ConfigRepository.color.primaryStrong,
+                    backgroundColor: ConfigRepository.color.primary,
                     borderWidth: 1,
                     borderStyle: 'solid',
-                    borderColor: ConfigRepository.color.primaryStrong,
+                    borderColor: ConfigRepository.color.primary,
                   }
                   ]}
                   key={`ItemAdd-${r.name}`}
@@ -56,7 +56,7 @@ const BottomNavigation: React.FC<RoutesType> = ({
                   {
                     borderTopWidth: r.name === active ? 2 : 0,
                     borderStyle: 'solid',
-                    borderColor: ConfigRepository.color.menuButtonActiveColor,
+                    borderColor: ConfigRepository.color.primary,
                   }
                   ]}
                 >
@@ -66,7 +66,7 @@ const BottomNavigation: React.FC<RoutesType> = ({
                       name={r.icon}
                       color={
                         r.name === active
-                          ? ConfigRepository.color.menuButtonActiveColor
+                          ? ConfigRepository.color.primary
                           : ConfigRepository.color.menuButtonColor
                       }
                     />

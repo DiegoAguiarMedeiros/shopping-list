@@ -46,7 +46,7 @@ export default function AddPriceUnit({
         uuid: String(UUIDGenerator.v4()),
         amount: newItem,
         type: !itemsQTY.includes('.'),
-        quantity:itemsQTY,
+        quantity: itemsQTY,
       };
       AmountRepository.addItem(listProductUuid, newAmount);
       ProductRepository.load();

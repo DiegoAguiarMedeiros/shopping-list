@@ -78,7 +78,7 @@ function formatValue(value: string): string | number {
 
   // It's a decimal
   if (number >= 1) {
-    return `${number.toFixed(2)} Kg`;
+    return `${number.toFixed(2)} kg`;
   } else {
     return `${number * 1000} g`;
   }

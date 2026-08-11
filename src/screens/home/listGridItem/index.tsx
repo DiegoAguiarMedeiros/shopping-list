@@ -250,6 +250,7 @@ const ListGridItem = React.memo(
           <GridItemWrapperCol width="15%">
             <GridItemWrapperInner>
               <CircleProgress
+                textColor={ConfigRepository.color.text}
                 activeStrokeColor={ConfigRepository.color.circularItemFilled}
                 circleBackgroundColor={ConfigRepository.color.circularItemBackground}
                 progress={

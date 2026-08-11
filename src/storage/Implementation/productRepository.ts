@@ -399,6 +399,19 @@ class ProductRepository implements IProductRepository {
   removeItemFromlist(uuid: string): void {
     this.listRepository.removeItemFromlist(uuid);
     this.load();
+    // Recalculate tags based on remaining items so FilterButtons stays in sync
+    const remainingItems = this.listRepository.listActive?.items ?? [];
+    const updatedTags = this.getAllTagsByProductUuid(remainingItems);
+    this.listRepository.updateTags(updatedTags);
+    // If the currently active filter no longer exists in the list, reset to "All"
+    const currentFilter = this.tagRepository.tagFilter;
+    const allLabel = I18n.t("all");
+    if (currentFilter !== allLabel && !updatedTags.some(tagUuid => {
+      const tag = this.tagRepository.getItem(tagUuid);
+      return tag?.name === currentFilter;
+    })) {
+      this.setTagFilter(allLabel);
+    }
     this.toast.showToast("productDeletedSuccessfully");
   }
 

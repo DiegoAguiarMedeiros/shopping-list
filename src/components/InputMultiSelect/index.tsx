@@ -35,7 +35,6 @@ const MultiSelect = ({
   const [tempSelected, setTempSelected] = useState<string[]>(selectedItems || []);
   const [quantities, setQuantities] = useState<Record<string, string>>({});
   const [collapsedCategories, setCollapsedCategories] = useState<Record<string, boolean>>({});
-
   useEffect(() => {
     setTempSelected(selectedItems || []);
   }, [selectedItems]);
@@ -97,10 +96,9 @@ const MultiSelect = ({
   };
 
   const setDirectQuantity = (productId: string, val: string) => {
-    const cleanVal = val.replace(/\D/g, "");
     setQuantities((prev) => ({
       ...prev,
-      [productId]: cleanVal === "" ? "1" : cleanVal,
+      [productId]: val === "" ? "1" : val,
     }));
     if (!tempSelected.includes(productId)) {
       setTempSelected((prev) => [...prev, productId]);

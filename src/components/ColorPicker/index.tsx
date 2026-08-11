@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { GestureResponderEvent, Modal, StyleSheet, TouchableOpacity, View } from "react-native";
 import Svg, { Defs, LinearGradient, Rect, Stop } from "react-native-svg";
 import { Text } from "../Text";
+import { useStores } from "../../context/StoreContext";
 
 const PICKER_SIZE = 260;
 
@@ -63,6 +64,7 @@ export default function ColorPicker({ value, onChange, background, primary, onPr
   const [visible, setVisible] = useState(false);
   const [hsv, setHsv] = useState(() => hexToHsv(value));
   const selectedColor = useMemo(() => hsvToHex(hsv), [hsv]);
+  const { ConfigRepository } = useStores();
 
   useEffect(() => {
     if (!visible) setHsv(hexToHsv(value));
@@ -88,7 +90,7 @@ export default function ColorPicker({ value, onChange, background, primary, onPr
         onPress={() => setVisible(true)}
         style={[styles.trigger, { backgroundColor: value }]}
       >
-        <Text color={getContrastText(value)}>{buttonText}</Text>
+        <Text color={ConfigRepository.color.white}>{buttonText}</Text>
       </TouchableOpacity>
       <Modal transparent animationType="fade" visible={visible} onRequestClose={() => setVisible(false)}>
         <View style={styles.overlay}>

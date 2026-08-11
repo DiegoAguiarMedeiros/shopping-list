@@ -9,6 +9,7 @@ type CircleProgressProps = {
   size: number;
   activeStrokeColor: string;
   circleBackgroundColor: string;
+  textColor: string;
 };
 
 const CircleProgress = ({
@@ -17,6 +18,7 @@ const CircleProgress = ({
   size,
   circleBackgroundColor,
   activeStrokeColor,
+  textColor
 }: CircleProgressProps) => {
   const safeProgress = Number.isFinite(progress) ? progress : 0;
   const safeTotal = Number.isFinite(total) && total > 0 ? total : 0;
@@ -25,7 +27,6 @@ const CircleProgress = ({
   const strokeWidth = 5;
   const radius = safeSize - strokeWidth / 2;
   const circumference = 2 * Math.PI * radius;
-  const resolvedStrokeColor = ensureContrast(activeStrokeColor, circleBackgroundColor);
   const resolvedTitleColor = getContrastColor(circleBackgroundColor);
 
   const getTitleFontSize = (): number => {
@@ -56,7 +57,7 @@ const CircleProgress = ({
           cy={safeSize}
           r={radius}
           fill="none"
-          stroke={resolvedStrokeColor}
+          stroke={activeStrokeColor}
           strokeOpacity={0.25}
           strokeWidth={strokeWidth}
         />
@@ -65,7 +66,7 @@ const CircleProgress = ({
           cy={safeSize}
           r={radius}
           fill="none"
-          stroke={resolvedStrokeColor}
+          stroke={activeStrokeColor}
           strokeWidth={strokeWidth}
           strokeLinecap="round"
           strokeDasharray={`${circumference} ${circumference}`}
@@ -75,7 +76,7 @@ const CircleProgress = ({
       </Svg>
       <Text
         numberOfLines={1}
-        style={{ color: resolvedTitleColor, fontSize: getTitleFontSize(), fontWeight: "800" }}
+        style={{ color: textColor, fontSize: getTitleFontSize(), fontWeight: "800" }}
       >
         {`${safeProgress}/${safeTotal}`}
       </Text>

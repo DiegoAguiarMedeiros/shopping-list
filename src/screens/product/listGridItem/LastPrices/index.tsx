@@ -13,7 +13,7 @@ const LastPrices = ({ lastPrices }: LastPricesProps) => {
 
   return (
     <View style={styles.container}>
-      <Text color={ConfigRepository.color.textSecondary}>{I18n.t("latestPrices")}</Text>
+      <Text color={ConfigRepository.color.textSecondary} style={{fontSize:12}}>{I18n.t("latestPrices")}</Text>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -23,7 +23,7 @@ const LastPrices = ({ lastPrices }: LastPricesProps) => {
         {lastPrices.map((price, index) => (
           <View key={index} style={styles.buttonContainer}>
             <View style={[styles.buttonText, { borderColor: ConfigRepository.color.itemProductListLastPriceButtonBorder }]}>
-              <Text color={ConfigRepository.color.text}>
+              <Text color={ConfigRepository.color.text} style={{fontSize:12}}>
                 {ConfigRepository.currency} {Number(price).toFixed(2).replace(".", ",")}
               </Text>
             </View>

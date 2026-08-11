@@ -163,7 +163,7 @@ export const ProductView = observer(({
                     <View style={{ flexDirection: "row", alignItems: "center" }}>
                       <View
                         style={{
-                          backgroundColor: ConfigRepository.color.primary + "20",
+                          backgroundColor: ConfigRepository.color.primary,
                           paddingHorizontal: 10,
                           paddingVertical: 4,
                           borderRadius: 12,

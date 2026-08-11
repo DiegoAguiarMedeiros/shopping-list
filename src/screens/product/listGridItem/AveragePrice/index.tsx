@@ -22,10 +22,10 @@ export default function AveragePrice({
 
   return (
     <>
-      <Text color={ConfigRepository.color.textSecondary} align="right">
+      <Text color={ConfigRepository.color.textSecondary} align="right"  style={{fontSize:12}}>
         {I18n.t("averagePrice")}
       </Text>
-      <Text align="right" color={ConfigRepository.color.text}>
+      <Text align="right" color={ConfigRepository.color.text}  style={{fontSize:12}}>
         {ConfigRepository.currency}{" "}
         {calculateAveragePrice(price).toFixed(2).replace(".", ",")}
       </Text>

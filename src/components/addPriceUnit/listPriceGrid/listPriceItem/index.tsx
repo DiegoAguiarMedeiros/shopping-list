@@ -32,13 +32,10 @@ export default function ListPriceGrid({
 }: Readonly<ListProps>) {
 
   const { AmountRepository, ProductRepository, ConfigRepository } = useStores();
-  const [selectedValueSwitch, setSelectedValueSwitch] = useState(
-    itemAmount.type
-  );
-  const [newItemAmount, setNewItemAmount] = useState<IAmount>(itemAmount);
-  const editItemsAmount = (): void => {
+  const [quantity, setQuantity] = useState(itemAmount.quantity)
+  const editItemsAmount = (selectedValueSwitch: boolean): void => {
     AmountRepository.changeAmountType(
-      !selectedValueSwitch,
+      selectedValueSwitch,
       listProductUuid,
       itemAmount.uuid
     );
@@ -98,6 +95,7 @@ export default function ListPriceGrid({
           : formatInput(itemAmount.quantity + key);
 
       if (Number(formatedNumber) < 100) {
+        setQuantity(formatedNumber);
         AmountRepository.changeAmountQuantity(
           formatedNumber,
           listProductUuid,
@@ -118,8 +116,9 @@ export default function ListPriceGrid({
 
   const handleInputChange = (value: string) => {
     if (Number(value) < 100) {
+      setQuantity(value);
       AmountRepository.changeAmountQuantity(
-        value.replace(/\D/g, ""),
+        value,
         listProductUuid,
         itemAmount.uuid
       );
@@ -132,8 +131,9 @@ export default function ListPriceGrid({
   };
 
   useEffect(() => {
-    setSelectedValueSwitch(itemAmount.type);
-  }, [itemAmount.type]);
+    setQuantity(itemAmount.quantity);
+  }, [itemAmount.quantity]);
+
 
   return (
     <GridItemInner
@@ -150,11 +150,11 @@ export default function ListPriceGrid({
         </GridItemWrapperInner>
         <GridItemWrapperInner width="60%">
           <QuantitySelector
-            value={itemAmount.quantity}
+            value={quantity}
             onDecrement={onDecrement}
             onIncrement={onIncrement}
             onChangeText={handleInputChange}
-            type={!itemAmount.amount.includes('.')}
+            type={!itemAmount.type}
             handleDecimalInputChange={handleDecimalInputChange}
             editItemsAmount={editItemsAmount}
             TextInputBackgoundColor={ConfigRepository.color.backgroundPrimary}

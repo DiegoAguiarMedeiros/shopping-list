@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { KeyboardTypeOptions, StyleSheet, StyleProp, TextInput, TextInputKeyPressEvent, TouchableOpacity, ViewStyle, View } from "react-native";
 import IAmount from "../../Model/IAmount";
 import { useStores } from "../../context/StoreContext";
@@ -14,7 +14,7 @@ type QuantitySelectorProps = {
     placeholder?: string;
     type: boolean;
     handleDecimalInputChange: (event: TextInputKeyPressEvent) => void;
-    editItemsAmount?: VoidFunction;
+    editItemsAmount?: (selectedValueSwitch: boolean) => void
     TextInputBackgoundColor: string;
 }
 
@@ -28,14 +28,16 @@ const QuantitySelector = ({
     type,
     handleDecimalInputChange,
     editItemsAmount,
-    TextInputBackgoundColor
+    TextInputBackgoundColor,
 
 }: QuantitySelectorProps) => {
     const { ConfigRepository } = useStores();
     const [selectedValueSwitch, setSelectedValueSwitch] = useState(type);
+    
     const onPress = () => {
+        onChangeText(type ? "1" : "1.000")
         setSelectedValueSwitch(prev => !prev)
-        editItemsAmount && editItemsAmount()
+        editItemsAmount && editItemsAmount(type)
     }
     return (
         <View style={[styles.qtdContainer]}>

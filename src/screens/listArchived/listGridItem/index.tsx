@@ -92,7 +92,7 @@ function ListGridItem({ item, listId }: Readonly<ListProps>) {
                     <View style={[styles.containerItemTextPriceTotalLine, { backgroundColor: ConfigRepository.color.text }]} />
                     <View style={styles.containerItemTextPriceTotal}>
                       <Text
-                        color={ConfigRepository.color.text}
+                        color={ConfigRepository.color.primary}
                         align="center"
                       >
                         {ConfigRepository.currency}{" "}

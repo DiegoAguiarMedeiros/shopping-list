@@ -109,7 +109,7 @@ const createTheme = (accent: string, theme: "light" | "dark"): colorTheme => {
   const surface = dark ? "#4F4E4E" : "#FFF";
   const base = dark ? "#1E1E1E" : "#FFF";
   const muted = dark ? "#FFFFFF88" : "#00000098";
-  const buttonText = contrastText(accent);
+  const buttonText = '#FFF';
   const primaryStrong = getStrongPrimary(accent);
   const bottomNavigation = dark ? "#2E2E2E" : "#EEE";
 

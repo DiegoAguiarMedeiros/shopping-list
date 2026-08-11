@@ -57,16 +57,16 @@ const ItemsArchived = observer(({
           style={{ marginLeft: 20, marginRight: 10 }}
           onPress={() => returnToHome()}
         >
-          <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.onPrimary} />
+          <FontAwesome name="angle-left" size={35} color={ConfigRepository.color.white} />
         </TouchableHighlight>
       ),
       name: (
-        <Title color={ConfigRepository.color.onPrimary}>{ListRepository?.listActive?.name}</Title>
+        <Title color={ConfigRepository.color.white}>{ListRepository?.listActive?.name}</Title>
       ),
       right: (
         <ContainerCP>
           <CircleProgress
-            activeStrokeColor={ConfigRepository.color.circularHeaderFilled}
+            activeStrokeColor={ConfigRepository.color.primary}
             circleBackgroundColor={ConfigRepository.color.circularHeaderBackground}
             progress={
               ListRepository?.listActive?.totalWithoutAmount
