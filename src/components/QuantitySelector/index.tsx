@@ -33,11 +33,11 @@ const QuantitySelector = ({
 }: QuantitySelectorProps) => {
     const { ConfigRepository } = useStores();
     const [selectedValueSwitch, setSelectedValueSwitch] = useState(type);
-    
+
     const onPress = () => {
-        onChangeText(type ? "1" : "1.000")
+        onChangeText(selectedValueSwitch ? "1" : "1.000")
         setSelectedValueSwitch(prev => !prev)
-        editItemsAmount && editItemsAmount(type)
+        editItemsAmount && editItemsAmount(selectedValueSwitch)
     }
     return (
         <View style={[styles.qtdContainer]}>

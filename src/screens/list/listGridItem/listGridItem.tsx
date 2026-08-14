@@ -67,7 +67,7 @@ export default function ListGridItem({ item, handleClose, active }: ListGridItem
             <GridItemWrapperInner width="80%" >
                 <GridItemWrapperCol width="100%">
                     <GridItemWrapperInner width="100%" height="50%">
-                        <Title2 color={ConfigRepository.color.text}>{itemsQTY.includes(".") ? `${item.name} ${formatValue(itemsQTY)}` : `${formatValue(itemsQTY)} ${item.name}`}</Title2>
+                        <Title2 color={ConfigRepository.color.text}>{itemsQTY.includes(".") || Number(itemsQTY) > 100 ? `${item.name} ${formatValue(itemsQTY)}` : `${formatValue(itemsQTY)} ${item.name}`}</Title2>
                     </GridItemWrapperInner>
                     <GridItemWrapperRow height="50%" justify="space-between" align="flex-start">
                         <GridItemWrapperInner

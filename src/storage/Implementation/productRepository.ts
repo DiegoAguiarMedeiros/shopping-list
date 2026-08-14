@@ -260,7 +260,7 @@ class ProductRepository implements IProductRepository {
         total = this.getTotalUn(product.amount) + total;
       } else {
         const qty = itemsQTY?.[product.uuid];
-        const qtyNumber = qty && qty.includes(".") ? 1 : qty;
+        const qtyNumber = qty && (qty.includes(".") || Number(qty) > 100) ? 1 : qty;
         total = (qtyNumber ? Number(qtyNumber) : 1) + total;
       }
     });

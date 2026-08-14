@@ -170,7 +170,7 @@ export const ProductView = observer(({
                           marginRight: 8,
                         }}
                       >
-                        <Text color={ConfigRepository.color.text}>
+                        <Text color={ConfigRepository.color.white}>
                           {categoryProducts.length} {I18n.t("products")}
                         </Text>
                       </View>
