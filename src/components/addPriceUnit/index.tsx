@@ -93,6 +93,7 @@ export default function AddPriceUnit({
               keyboardType="numeric"
               value={newItem}
               onSubmitEditing={addAmount}
+              blurOnSubmit={false}
             />
           </GridItemWrapperInner>
           <GridItemWrapperInner width="22%" height="100%">

@@ -95,6 +95,7 @@ const Items = ({
   ]);
 
   const validateFilterButtons = (products: number): React.ReactNode => {
+
     if (products > 0) {
       return <FilterButtons
         filter={TagRepository.tagFilter}
@@ -118,10 +119,10 @@ const Items = ({
 
   return validateProducts(ProductRepository.products.length, TagRepository.tagFilter) ? (
     <>
-      <Header
+      {Array.isArray(ListRepository.listActive?.tags) && ListRepository.listActive?.tags.length > 1 && <Header
         background={ConfigRepository.color.backgroundPrimary}
         bottom={validateFilterButtons(ProductRepository.products.length)}
-      />
+      />}
       <ItemsView lists={ProductRepository.products} tagRepository={TagRepository.tagFilter} />
     </>
   ) : (

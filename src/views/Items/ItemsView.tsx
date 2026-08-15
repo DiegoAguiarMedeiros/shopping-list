@@ -29,6 +29,7 @@ interface ItemsViewProps {
 const CustomFlatList = React.memo(
   ({ lists, tagRepository }: ItemsViewProps) => {
     const { ListRepository, ConfigRepository } = useStores();
+    const height = Array.isArray(ListRepository.listActive?.tags) && ListRepository.listActive?.tags.length > 1 ? '95%' : '103.1%';
     const flatListRef = useRef<FlashListRef<IProduct> | null>(null);
     const [active, setActive] = useState("");
     const handleOpen = (uuid: string, index: number) => {
@@ -62,7 +63,7 @@ const CustomFlatList = React.memo(
 
 
     return (
-      <Container background={ConfigRepository.color.backgroundPrimary}  height="95%" style={{paddingTop: 0}}>
+      <Container background={ConfigRepository.color.backgroundPrimary} height={height} style={{ paddingTop: height ? 0 : undefined }}>
         <ContainerInner height="95%" background={ConfigRepository.color.backgroundPrimary}>
           <FlashList
             style={{ flex: 1, width: "100%" }}
@@ -72,6 +73,7 @@ const CustomFlatList = React.memo(
             ref={flatListRef}
             data={lists}
             renderItem={renderItem}
+            keyboardShouldPersistTaps="handled"
             keyExtractor={(item) => "ListGridItem-" + item.uuid}
             ListFooterComponent={
               <View

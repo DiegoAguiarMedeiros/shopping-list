@@ -52,6 +52,7 @@ export const GridItemInner = ({ background, borderColor, underlayColor, children
         ]}
         underlayColor={underlayColor ?? ConfigRepository.color.itemListBackgroundUnderlay}
         onPress={onPress}
+        disabled={!onPress}
     >
         <View style={[row ? { flexDirection: "row" } : { flexDirection: "column" }]} >
             {children}
