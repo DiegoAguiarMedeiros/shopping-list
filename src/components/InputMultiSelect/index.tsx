@@ -31,13 +31,10 @@ type CategoryRowProps = {
   category: ITagsProductsMultiSelect;
   isCollapsed: boolean;
   color: string;
-  colorProducts: string;
-  backgroundColor: string;
-  products: number;
   onToggle: (categoryId: string) => void;
 };
 
-const CategoryRow = React.memo(({ category, isCollapsed, color, backgroundColor, products, colorProducts, onToggle }: CategoryRowProps) => (
+const CategoryRow = React.memo(({ category, isCollapsed, color,  onToggle }: CategoryRowProps) => (
   <TouchableOpacity
     style={styles.categoryHeader}
     onPress={() => onToggle(category.id)}
@@ -46,25 +43,12 @@ const CategoryRow = React.memo(({ category, isCollapsed, color, backgroundColor,
       {category.name}
     </SubTitle>
     <View style={{ flexDirection: "row", alignItems: "center" }}>
-      <View
-        style={{
-          backgroundColor: backgroundColor,
-          paddingHorizontal: 10,
-          paddingVertical: 4,
-          borderRadius: 12,
-          marginRight: 8,
-        }}
-      >
-        <Text color={colorProducts}>
-          {products} {I18n.t("products")}
-        </Text>
       </View>
       <FontAwesome
         name={isCollapsed ? "angle-down" : "angle-up"}
         size={22}
         color={color}
       />
-    </View>
   </TouchableOpacity >
 ));
 
@@ -244,9 +228,6 @@ const MultiSelect = ({
     if (item.type === "category") {
       return (
         <CategoryRow
-          colorProducts={ConfigRepository.color.white}
-          backgroundColor={ConfigRepository.color.primary}
-          products={item.category.children.length}
           category={item.category}
           isCollapsed={Boolean(collapsedCategories[item.category.id])}
           color={ConfigRepository.color.text}
