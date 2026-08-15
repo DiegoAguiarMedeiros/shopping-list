@@ -89,7 +89,7 @@ function ListGridItem({ item, listId }: Readonly<ListProps>) {
                       {ConfigRepository.currency}{" "}
                       {Number(amount.amount).toFixed(2).replace(".", ",")}
                     </Text>
-                    <View style={[styles.containerItemTextPriceTotalLine, { backgroundColor: ConfigRepository.color.text }]} />
+                    <View style={[styles.containerItemTextPriceTotalLine, { backgroundColor: ConfigRepository.color.primary }]} />
                     <View style={styles.containerItemTextPriceTotal}>
                       <Text
                         color={ConfigRepository.color.primary}
@@ -115,7 +115,7 @@ function ListGridItem({ item, listId }: Readonly<ListProps>) {
 const styles = StyleSheet.create({
   containerItemTextPriceTotalLine: {
     width: '100%',
-    height: 1,
+    height: 2,
   },
   containerItemTextPriceTotal: {
     width: '100%',

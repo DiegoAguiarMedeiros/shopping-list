@@ -68,11 +68,11 @@ const Items = ({
         ),
         right: (
           <ContainerCP>
-          <CircleProgress
-            textColor={ConfigRepository.color.white}
-            activeStrokeColor={ConfigRepository.color.white}
-            circleBackgroundColor={ConfigRepository.color.primary}
-            progress={
+            <CircleProgress
+              textColor={ConfigRepository.color.white}
+              activeStrokeColor={ConfigRepository.color.white}
+              circleBackgroundColor={ConfigRepository.color.primary}
+              progress={
                 ListRepository?.listActive?.totalWithoutAmount
                   ? ListRepository?.listActive?.totalWithoutAmount
                   : 0

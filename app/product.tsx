@@ -31,7 +31,15 @@ const Product = ({
   const { ListRepository, ProductRepository, TagRepository } = useStores();
   useEffect(() => {
     ListRepository.setListActiveNull();
-    ProductRepository.setTagFilter(I18n.t("all"));
+    TagRepository.setTagAcitveNull();
+    TagRepository.setTagFilter(I18n.t("all"));
+
+    // Products are normally already in memory. Avoid synchronously reading and
+    // parsing every product again when entering this tab from the home screen.
+    // A reload is only required after coming from a filtered/active list.
+    if (ProductRepository.products.length !== ProductRepository.getAllItemsMap().length) {
+      ProductRepository.load();
+    }
   }, []);
 
   const hasProducts = ProductRepository.products && ProductRepository.products.length > 0;

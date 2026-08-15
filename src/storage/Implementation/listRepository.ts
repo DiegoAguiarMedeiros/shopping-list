@@ -144,6 +144,8 @@ class ListRepository implements IListRepository {
         newList.uuid = String(UUIDGenerator.v4());
         newList.name = name;
         newList.totalWithoutAmount = 0;
+        newList.total = 0;
+        newList.totalWithAmount = 0;
         newList.createAt = new Date().getTime();
         this.addItem(newList);
         this.load();

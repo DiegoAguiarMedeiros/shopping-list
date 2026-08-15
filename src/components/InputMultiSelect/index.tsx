@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Modal,
   StyleSheet,
   View,
   TouchableOpacity,
-  ScrollView,
   TextInputKeyPressEvent,
 } from "react-native";
+import { FlashList, ListRenderItem } from "@shopify/flash-list";
 import { FontAwesome } from "@expo/vector-icons";
-import { ITagsProductsMultiSelect } from "../../Model/IProduct";
+import { IProductTiny, ITagsProductsMultiSelect } from "../../Model/IProduct";
 import I18n from "i18n-js";
 import { useStores } from "../../context/StoreContext";
 import { Title, Title2, Text, SubTitle } from "../Text";
@@ -23,6 +23,107 @@ type MultiSelectProps = {
   onFocus?: () => void;
 };
 
+type SelectListItem =
+  | { type: "category"; category: ITagsProductsMultiSelect }
+  | { type: "product"; product: IProductTiny };
+
+type CategoryRowProps = {
+  category: ITagsProductsMultiSelect;
+  isCollapsed: boolean;
+  color: string;
+  colorProducts: string;
+  backgroundColor: string;
+  products: number;
+  onToggle: (categoryId: string) => void;
+};
+
+const CategoryRow = React.memo(({ category, isCollapsed, color, backgroundColor, products, colorProducts, onToggle }: CategoryRowProps) => (
+  <TouchableOpacity
+    style={styles.categoryHeader}
+    onPress={() => onToggle(category.id)}
+  >
+    <SubTitle color={color} style={{ width: "auto" }}>
+      {category.name}
+    </SubTitle>
+    <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <View
+        style={{
+          backgroundColor: backgroundColor,
+          paddingHorizontal: 10,
+          paddingVertical: 4,
+          borderRadius: 12,
+          marginRight: 8,
+        }}
+      >
+        <Text color={colorProducts}>
+          {products} {I18n.t("products")}
+        </Text>
+      </View>
+      <FontAwesome
+        name={isCollapsed ? "angle-down" : "angle-up"}
+        size={22}
+        color={color}
+      />
+    </View>
+  </TouchableOpacity >
+));
+
+type ProductRowProps = {
+  product: IProductTiny;
+  isSelected: boolean;
+  quantity: string;
+  colors: {
+    border: string;
+    primary: string;
+    text: string;
+    textSecondary: string;
+    quantityBackground: string;
+  };
+  onToggle: (productId: string) => void;
+  onQuantityDelta: (productId: string, delta: number) => void;
+  onQuantityChange: (productId: string, value: string) => void;
+  onDecimalInputChange: (event: TextInputKeyPressEvent, productId: string) => void;
+};
+
+const ProductRow = React.memo(({
+  product,
+  isSelected,
+  quantity,
+  colors,
+  onToggle,
+  onQuantityDelta,
+  onQuantityChange,
+  onDecimalInputChange,
+}: ProductRowProps) => (
+  <View style={[styles.productRow, { borderColor: colors.border }]}>
+    <TouchableOpacity
+      style={styles.productCheckTouch}
+      onPress={() => onToggle(product.id)}
+    >
+      <FontAwesome
+        name={isSelected ? "check-square" : "square-o"}
+        size={22}
+        color={isSelected ? colors.primary : colors.textSecondary}
+      />
+      <Text color={isSelected ? colors.text : colors.textSecondary}>
+        {product.name}
+      </Text>
+    </TouchableOpacity>
+
+    {isSelected ? (
+      <QuantitySelector
+        value={quantity}
+        onDecrement={() => onQuantityDelta(product.id, -1)}
+        onIncrement={() => onQuantityDelta(product.id, 1)}
+        onChangeText={(value) => onQuantityChange(product.id, value)}
+        type={false}
+        handleDecimalInputChange={(event) => onDecimalInputChange(event, product.id)}
+        TextInputBackgoundColor={colors.quantityBackground}
+      />
+    ) : null}
+  </View>
+));
+
 const MultiSelect = ({
   items,
   selectedItems,
@@ -32,81 +133,144 @@ const MultiSelect = ({
 }: MultiSelectProps) => {
   const { ConfigRepository } = useStores();
   const [modalVisible, setModalVisible] = useState(false);
-  const [tempSelected, setTempSelected] = useState<string[]>(selectedItems || []);
+  const [tempSelected, setTempSelected] = useState<Set<string>>(
+    () => new Set(selectedItems || [])
+  );
   const [quantities, setQuantities] = useState<Record<string, string>>({});
   const [collapsedCategories, setCollapsedCategories] = useState<Record<string, boolean>>({});
   useEffect(() => {
-    setTempSelected(selectedItems || []);
+    setTempSelected(new Set(selectedItems || []));
   }, [selectedItems]);
 
   const handleOpenModal = () => {
     if (onFocus) onFocus();
-    setTempSelected(selectedItems || []);
+    setTempSelected(new Set(selectedItems || []));
+    setCollapsedCategories(
+      items.reduce<Record<string, boolean>>((categories, category) => {
+        categories[category.id] = true;
+        return categories;
+      }, {})
+    );
     setModalVisible(true);
   };
 
-  const toggleCategory = (catId: string) => {
+  const toggleCategory = useCallback((catId: string) => {
     setCollapsedCategories((prev) => ({
       ...prev,
       [catId]: !prev[catId],
     }));
-  };
+  }, []);
 
-  const toggleSelectProduct = (productId: string) => {
+  const toggleSelectProduct = useCallback((productId: string) => {
+    setQuantities((prev) =>
+      prev[productId] ? prev : { ...prev, [productId]: "1" }
+    );
     setTempSelected((prev) => {
-      if (prev.includes(productId)) {
-        return prev.filter((id) => id !== productId);
-      } else {
-        if (!quantities[productId]) {
-          setQuantities((qPrev) => ({ ...qPrev, [productId]: "1" }));
-        }
-        return [...prev, productId];
-      }
+      const next = new Set(prev);
+      if (next.has(productId)) next.delete(productId);
+      else next.add(productId);
+      return next;
     });
-  };
+  }, []);
 
-  const updateQuantity = (productId: string, delta: number) => {
-    const current = Number(quantities[productId] || "1");
-    const next = Math.max(1, current + delta);
-    setQuantities((prev) => ({
-      ...prev,
-      [productId]: String(next),
-    }));
-    if (!tempSelected.includes(productId)) {
-      setTempSelected((prev) => [...prev, productId]);
-    }
-  };
-  const handleDecimalInputChange = (event: TextInputKeyPressEvent, productId: string) => {
-    const { key } = event.nativeEvent;
-    const number = quantities[productId] ? quantities[productId] : '1'
-    if (/^[\d.]$/.test(key) || key === "Backspace") {
-      const formatedNumber =
-        key === "Backspace"
-          ? formatInput(number.slice(0, -1))
-          : formatInput(number + key);
+  const selectProduct = useCallback((productId: string) => {
+    setTempSelected((prev) => {
+      if (prev.has(productId)) return prev;
+      const next = new Set(prev);
+      next.add(productId);
+      return next;
+    });
+  }, []);
 
-      setQuantities((prev) => ({
-        ...prev,
-        [productId]: formatedNumber,
-      }));
-      if (!tempSelected.includes(productId)) {
-        setTempSelected((prev) => [...prev, productId]);
-      }
-    }
-  };
+  const updateQuantity = useCallback((productId: string, delta: number) => {
+    setQuantities((prev) => {
+      const current = Number(prev[productId] || "1");
+      const next = Math.max(1, current + delta);
+      return { ...prev, [productId]: String(next) };
+    });
+    selectProduct(productId);
+  }, [selectProduct]);
 
-  const setDirectQuantity = (productId: string, val: string) => {
+  const handleDecimalInputChange = useCallback(
+    (event: TextInputKeyPressEvent, productId: string) => {
+      const { key } = event.nativeEvent;
+      const isValidKey = /^[\d.]$/.test(key) || key === "Backspace";
+      if (!isValidKey) return;
+
+      setQuantities((prev) => {
+        const number = prev[productId] || "1";
+        const formatedNumber =
+          key === "Backspace"
+            ? formatInput(number.slice(0, -1))
+            : formatInput(number + key);
+        return { ...prev, [productId]: formatedNumber };
+      });
+
+      selectProduct(productId);
+    },
+    [selectProduct]
+  );
+
+  const setDirectQuantity = useCallback((productId: string, val: string) => {
     setQuantities((prev) => ({
       ...prev,
       [productId]: val === "" ? "1" : val,
     }));
-    if (!tempSelected.includes(productId)) {
-      setTempSelected((prev) => [...prev, productId]);
+    selectProduct(productId);
+  }, [selectProduct]);
+
+  const listItems = useMemo<SelectListItem[]>(() => {
+    const result: SelectListItem[] = [];
+    items.forEach((category) => {
+      result.push({ type: "category", category });
+      if (!collapsedCategories[category.id]) {
+        category.children.forEach((product) => {
+          result.push({ type: "product", product });
+        });
+      }
+    });
+    return result;
+  }, [items, collapsedCategories]);
+
+  const quantityColors = useMemo(() => ({
+    border: ConfigRepository.color.itemListBackgroundBorder,
+    primary: ConfigRepository.color.primary,
+    text: ConfigRepository.color.text,
+    textSecondary: ConfigRepository.color.textSecondary,
+    quantityBackground: ConfigRepository.color.itemListItemOpenBackground,
+  }), [ConfigRepository.color]);
+
+  const renderItem = useCallback<ListRenderItem<SelectListItem>>(({ item }) => {
+    if (item.type === "category") {
+      return (
+        <CategoryRow
+          colorProducts={ConfigRepository.color.white}
+          backgroundColor={ConfigRepository.color.primary}
+          products={item.category.children.length}
+          category={item.category}
+          isCollapsed={Boolean(collapsedCategories[item.category.id])}
+          color={ConfigRepository.color.text}
+          onToggle={toggleCategory}
+        />
+      );
     }
-  };
+
+    return (
+      <ProductRow
+        product={item.product}
+        isSelected={tempSelected.has(item.product.id)}
+        quantity={quantities[item.product.id] || "1"}
+        colors={quantityColors}
+        onToggle={toggleSelectProduct}
+        onQuantityDelta={updateQuantity}
+        onQuantityChange={setDirectQuantity}
+        onDecimalInputChange={handleDecimalInputChange}
+      />
+    );
+  }, [ConfigRepository.color.text, collapsedCategories, handleDecimalInputChange, quantityColors, quantities, setDirectQuantity, tempSelected, toggleCategory, toggleSelectProduct, updateQuantity]);
 
   const handleConfirm = () => {
-    onValueChange(tempSelected);
+    onValueChange(Array.from(tempSelected));
     if (onQuantitiesChange) {
       onQuantitiesChange(quantities);
     }
@@ -118,10 +282,10 @@ const MultiSelect = ({
   };
 
   const getToggleText = () => {
-    if (!tempSelected || tempSelected.length === 0) {
+    if (tempSelected.size === 0) {
       return I18n.t("selectProduct") || "Selecione o produto";
     }
-    return `${tempSelected.length} ${I18n.t("selectedProduct") || "produto(s) selecionado(s)"}`;
+    return `${tempSelected.size} ${I18n.t("selectedProduct") || "produto(s) selecionado(s)"}`;
   };
 
   return (
@@ -164,93 +328,20 @@ const MultiSelect = ({
               </Title2>
             </View>
 
-            <ScrollView
+            <FlashList
               style={styles.modalBody}
               contentContainerStyle={{ paddingBottom: 20 }}
               keyboardShouldPersistTaps="handled"
-            >
-              {items && items.length > 0 ? (
-                items.map((category) => {
-                  const isCollapsed = collapsedCategories[category.id];
-                  return (
-                    <View key={category.id} style={styles.categoryContainer}>
-                      <TouchableOpacity
-                        style={styles.categoryHeader}
-                        onPress={() => toggleCategory(category.id)}
-                      >
-                        <SubTitle color={ConfigRepository.color.text} style={{ width: 'auto' }}>
-                          {category.name}
-                        </SubTitle>
-                        <FontAwesome
-                          name={isCollapsed ? "angle-down" : "angle-up"}
-                          size={22}
-                          color={ConfigRepository.color.text}
-                        />
-                      </TouchableOpacity>
-
-                      {!isCollapsed &&
-                        category.children &&
-                        category.children.map((product) => {
-                          const isSelected = tempSelected.includes(product.id);
-                          const qty = quantities[product.id] || "1";
-                          return (
-                            <View
-                              key={product.id}
-                              style={[
-                                styles.productRow,
-                                {
-                                  borderColor:
-                                    ConfigRepository.color.itemListBackgroundBorder,
-                                },
-                              ]}
-                            >
-                              <TouchableOpacity
-                                style={styles.productCheckTouch}
-                                onPress={() => toggleSelectProduct(product.id)}
-                              >
-                                <FontAwesome
-                                  name={
-                                    isSelected ? "check-square" : "square-o"
-                                  }
-                                  size={22}
-                                  color={
-                                    isSelected
-                                      ? ConfigRepository.color.primary
-                                      : ConfigRepository.color.textSecondary
-                                  }
-                                />
-                                <Text
-                                  color={isSelected
-                                    ? ConfigRepository.color.text
-                                    : ConfigRepository.color.textSecondary}
-                                >
-                                  {product.name}
-                                </Text>
-                              </TouchableOpacity>
-
-                              <QuantitySelector
-                                value={qty}
-                                onDecrement={() => updateQuantity(product.id, -1)}
-                                onIncrement={() => updateQuantity(product.id, 1)}
-                                onChangeText={(val) =>
-                                  setDirectQuantity(product.id, val)
-                                }
-                                type={false}
-                                handleDecimalInputChange={(event) => handleDecimalInputChange(event, product.id)}
-                                TextInputBackgoundColor={ConfigRepository.color.itemListItemOpenBackground}
-                              />
-                            </View>
-                          );
-                        })}
-                    </View>
-                  );
-                })
-              ) : (
+              data={listItems}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.type === "category" ? `category-${item.category.id}` : item.product.id}
+              getItemType={(item) => item.type}
+              ListEmptyComponent={
                 <Text color={ConfigRepository.color.textSecondary}>
                   {I18n.t("noProducts") || "Nenhum produto disponível"}
                 </Text>
-              )}
-            </ScrollView>
+              }
+            />
 
             <View style={styles.modalFooter}>
               <TouchableOpacity

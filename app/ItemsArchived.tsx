@@ -66,8 +66,9 @@ const ItemsArchived = observer(({
       right: (
         <ContainerCP>
           <CircleProgress
-            activeStrokeColor={ConfigRepository.color.primary}
-            circleBackgroundColor={ConfigRepository.color.circularHeaderBackground}
+            textColor={ConfigRepository.color.white}
+            activeStrokeColor={ConfigRepository.color.white}
+            circleBackgroundColor={ConfigRepository.color.primary}
             progress={
               ListRepository?.listActive?.totalWithoutAmount
                 ? ListRepository?.listActive?.totalWithoutAmount

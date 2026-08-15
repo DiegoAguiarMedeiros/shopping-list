@@ -84,34 +84,31 @@ export default function ListPriceGrid({
     }
   };
 
-  const handleDecimalInputChange = (
-    event: TextInputKeyPressEvent
-  ) => {
+  const handleDecimalInputChange = (event: TextInputKeyPressEvent) => {
     const { key } = event.nativeEvent;
-    if (/^[\d.]$/.test(key) || key === "Backspace") {
-      const formatedNumber =
-        key === "Backspace"
-          ? formatInput(itemAmount.quantity.slice(0, -1))
-          : formatInput(itemAmount.quantity + key);
 
-      if (Number(formatedNumber) < 100) {
-        setQuantity(formatedNumber);
-        AmountRepository.changeAmountQuantity(
-          formatedNumber,
-          listProductUuid,
-          itemAmount.uuid
-        );
-      }
+    const isValidKey = /^[\d.]$/.test(key) || key === "Backspace";
+    if (!isValidKey) return;
 
-      if (Number(formatedNumber) < 100) {
-        ProductRepository.load();
-        ProductRepository.updateTotal();
-        ProductRepository.updateTotalUn();
-        ProductRepository.updateTotalWithAmount();
-        ProductRepository.updateTotalWithoutAmount();
-      }
-    }
+    const formatedNumber =
+      key === "Backspace"
+        ? formatInput(itemAmount.quantity.slice(0, -1))
+        : formatInput(itemAmount.quantity + key);
 
+    if (Number(formatedNumber) >= 100) return;
+
+    setQuantity(formatedNumber);
+    AmountRepository.changeAmountQuantity(
+      formatedNumber,
+      listProductUuid,
+      itemAmount.uuid
+    );
+
+    ProductRepository.load();
+    ProductRepository.updateTotal();
+    ProductRepository.updateTotalUn();
+    ProductRepository.updateTotalWithAmount();
+    ProductRepository.updateTotalWithoutAmount();
   };
 
   const handleInputChange = (value: string) => {

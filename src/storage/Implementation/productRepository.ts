@@ -61,24 +61,22 @@ class ProductRepository implements IProductRepository {
   }
 
   generateLastPrices(uuid: string): void {
+    this.listRepository.setListActive(uuid)
     this.products.map(product => {
       const lastprice = this.calculateAverageAmount(product.amount);
       if (Number(lastprice) > 0) this.setLastPrice(product.uuid, lastprice)
     })
+    this.listRepository.setListActiveNull()
   }
 
   setLastPrice(uuid: string, price: string): void {
     const product = this.getItem(uuid);
-    if (product) {
-      if (product.lastPrices) {
-        product.lastPrices?.unshift(price);
-      } else {
-        product.lastPrices = [];
-        product.lastPrices.unshift(price);
+    if (!product) return;
 
-      }
-      this.storageMMKV.set(product.uuid, JSON.stringify(product));
-    }
+    product.lastPrices ??= [];
+    product.lastPrices.unshift(price);
+
+    this.storageMMKV.set(product.uuid, JSON.stringify(product));
   }
 
   calculateAverageAmount(items: IAmount[]): string {
@@ -115,23 +113,34 @@ class ProductRepository implements IProductRepository {
     return result;
   }
   getProductsToSelect(): ITagsProductsMultiSelect[] {
-    const data: ITagsProductsMultiSelect[] = [];
-    tagRepository.tags.forEach((tag) => {
-      this.tagRepository.setTagAcitve(tag.uuid);
-      const product = this.getAllItemsProductTiny();
-      const filteredProduct: IProductTiny[] = product.filter(
-        (product) => !listRepository.listActive?.items.includes(product.id)
-      );
-      if (filteredProduct.length > 0) {
-        data.push({
-          id: tag.uuid,
-          name: tag.name,
-          children: product,
-        });
-      }
-      this.tagRepository.setTagAcitveNull();
+    const categoriesById = new Map<string, ITagsProductsMultiSelect>();
+    this.tagRepository.tags.forEach((tag) => {
+      categoriesById.set(tag.uuid, {
+        id: tag.uuid,
+        name: tag.name,
+        children: [],
+      });
     });
-    return this.sortArrayOfObjects(data, "name");
+
+    // A single pass avoids scanning every product once for each category.
+    // Set also keeps the active-list lookup constant-time for large lists.
+    const activeProductIds = new Set(this.listRepository.listActive?.items ?? []);
+    this.getAllItemsMap().forEach((uuid) => {
+      const product = this.getItem(uuid);
+      const category = product ? categoriesById.get(product.tag) : undefined;
+      if (product && category && !activeProductIds.has(product.uuid)) {
+        category.children.push({ id: product.uuid, name: product.name });
+      }
+    });
+
+    const categories = Array.from(categoriesById.values())
+      .filter((category) => category.children.length > 0)
+      .map((category) => ({
+        ...category,
+        children: this.sortArrayOfObjects(category.children, "name"),
+      }));
+
+    return this.sortArrayOfObjects(categories, "name");
   }
 
   load(): void {

@@ -100,13 +100,14 @@ export default function ListGridItem({
               <Title2 color={ConfigRepository.color.itemListText}>{list.name}</Title2>
               <Text color={ConfigRepository.color.itemListTextSecondary}>
                 {I18n.t("total")}: {ConfigRepository.currency}{" "}
-                {total}
+                {total.toFixed(2)}
               </Text>
             </GridItemWrapperInner>
           </GridItemWrapperCol>
           <GridItemWrapperCol width="15%" >
             <GridItemWrapperInner align="flex-end">
               <CircleProgress
+                textColor={ConfigRepository.color.text}
                 activeStrokeColor={ConfigRepository.color.circularItemFilled}
                 circleBackgroundColor={ConfigRepository.color.circularItemBackground}
                 progress={totalUn && totalWithoutAmount ? totalWithoutAmount : 0}

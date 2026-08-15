@@ -33,16 +33,23 @@ export default function ListGridItem({ item, handleClose, active }: ListGridItem
         return String(formatValue(quantity.toFixed(3)));
     };
 
+    const getTotalQuantity = (item: IProduct): number =>
+        item.amount.reduce((sum, a) => sum + Number(a.quantity || 0), 0);
+
+    const getHasAmount = (item: IProduct): boolean =>
+        item.amount.some((a) => a.amount !== "");
+
     const getItemIconName = (item: IProduct, itemsQTY: string): FontAwesomeIconName => {
-        const hasAmount = item.amount.length > 0 && item.amount[0].amount !== "";
-        if (item.amount.length > 0 && Number(item.amount[0].quantity) < Number(itemsQTY)) return "exclamation-circle" as FontAwesomeIconName;
+        const hasAmount = getHasAmount(item);
+        if (item.amount.length > 0 && getTotalQuantity(item) < Number(itemsQTY)) return "exclamation-circle" as FontAwesomeIconName;
         return hasAmount ? "check-circle-o" : "circle-o";
-    }
+    };
+
     const getItemIconColor = (item: IProduct, itemsQTY: string): string => {
-        const hasAmount = item.amount.length > 0 && item.amount[0].amount !== "";
-        if (item.amount.length > 0 && Number(item.amount[0].quantity) < Number(itemsQTY)) return ConfigRepository.color.warning;
+        const hasAmount = getHasAmount(item);
+        if (item.amount.length > 0 && getTotalQuantity(item) < Number(itemsQTY)) return ConfigRepository.color.warning;
         return hasAmount ? ConfigRepository.color.itemListItemOpenIconFilled : ConfigRepository.color.itemListItemOpenIcon;
-    }
+    };
 
     return (
         <GridItemWrapperRow maxHeight={50}>

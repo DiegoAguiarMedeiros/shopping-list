@@ -50,6 +50,7 @@ const OnboardingScreen = ({ closeOnboarding }: OnboadingProps) => {
     } finally {
       await new Promise((resolve) => setTimeout(resolve, 1500));
       setSeeding(false);
+      closeOnboarding();
     }
   };
   const renderItem = ({ item }: { item: Slide }) => (
@@ -70,13 +71,13 @@ const OnboardingScreen = ({ closeOnboarding }: OnboadingProps) => {
           {item.key === "slide4" && (
             <TouchableOpacity
               onPress={handleAddDefaultData}
-              style={[styles.addButton, { backgroundColor: ConfigRepository.color.info }]}
+              style={[styles.addButton, { backgroundColor: ConfigRepository.color.primary }]}
               disabled={seeding}
             >
               {seeding ? (
                 <ActivityIndicator color={ConfigRepository.color.textSecondary} />
               ) : (
-                <Title color={ConfigRepository.color.textSecondary}>Adicionar itens padrão</Title>
+                <Title color={ConfigRepository.color.white}>Adicionar itens padrão</Title>
               )}
             </TouchableOpacity>
           )}
