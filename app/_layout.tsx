@@ -12,6 +12,7 @@ import en from "../i18n/en";
 import pt from "../i18n/pt-br";
 import es from "../i18n/es";
 import getLanguageController from "../src/UseCases/Config/GetCurrency";
+import Toast from "react-native-toast-message";
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -69,6 +70,7 @@ const RootLayoutInner = observer(() => {
         barStyle={ConfigRepository.color.onPrimary === "#000" ? "dark-content" : "light-content"}
       />
       <Slot />
+      <Toast />
     </>
   );
 });

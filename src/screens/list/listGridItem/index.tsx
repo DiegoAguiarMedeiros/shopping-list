@@ -98,7 +98,7 @@ function List({
   const itemHeights = [115, 180, 240, 280, 330];
   const renderItemInner = () => (
     <GridItemInner
-      onPress={active ? undefined : () => handleOpen(item.uuid, index)}
+      onPress={active ? handleClose : () => handleOpen(item.uuid, index)}
       underlayColor={ConfigRepository.color.itemListBackgroundUnderlay}
       borderColor={ConfigRepository.color.itemListItemOpenBackgroundBorder}
       background={active ? ConfigRepository.color.itemListItemOpenBackground : ConfigRepository.color.itemListBackground}
@@ -107,7 +107,7 @@ function List({
       elevation={colorScheme === "light"}
     >
       <GridItemWrapperCol width="100%">
-        <ListGridItem item={item} handleClose={handleClose} active={active} />
+        <ListGridItem item={item} handlePress={active ? handleClose : () => handleOpen(item.uuid, index)} active={active} />
 
         {active && <View style={styles.addPriceUnit}>
           <AddPriceUnit

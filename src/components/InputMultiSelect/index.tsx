@@ -4,9 +4,9 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
+  ScrollView,
   TextInputKeyPressEvent,
 } from "react-native";
-import { FlashList, ListRenderItem } from "@shopify/flash-list";
 import { FontAwesome } from "@expo/vector-icons";
 import { IProductTiny, ITagsProductsMultiSelect } from "../../Model/IProduct";
 import I18n from "i18n-js";
@@ -23,10 +23,6 @@ type MultiSelectProps = {
   onFocus?: () => void;
 };
 
-type SelectListItem =
-  | { type: "category"; category: ITagsProductsMultiSelect }
-  | { type: "product"; product: IProductTiny };
-
 type CategoryRowProps = {
   category: ITagsProductsMultiSelect;
   isCollapsed: boolean;
@@ -34,22 +30,21 @@ type CategoryRowProps = {
   onToggle: (categoryId: string) => void;
 };
 
-const CategoryRow = React.memo(({ category, isCollapsed, color,  onToggle }: CategoryRowProps) => (
+const CategoryRow = React.memo(({ category, isCollapsed, color, onToggle }: CategoryRowProps) => (
   <TouchableOpacity
+    activeOpacity={0.8}
     style={styles.categoryHeader}
     onPress={() => onToggle(category.id)}
   >
-    <SubTitle color={color} style={{ width: "auto" }}>
+    <SubTitle color={color} style={{ flex: 1 }}>
       {category.name}
     </SubTitle>
-    <View style={{ flexDirection: "row", alignItems: "center" }}>
-      </View>
-      <FontAwesome
-        name={isCollapsed ? "angle-down" : "angle-up"}
-        size={22}
-        color={color}
-      />
-  </TouchableOpacity >
+    <FontAwesome
+      name={isCollapsed ? "angle-down" : "angle-up"}
+      size={22}
+      color={color}
+    />
+  </TouchableOpacity>
 ));
 
 type ProductRowProps = {
@@ -100,7 +95,7 @@ const ProductRow = React.memo(({
         onDecrement={() => onQuantityDelta(product.id, -1)}
         onIncrement={() => onQuantityDelta(product.id, 1)}
         onChangeText={(value) => onQuantityChange(product.id, value)}
-        type={false}
+        type={quantity.includes('.')}
         handleDecimalInputChange={(event) => onDecimalInputChange(event, product.id)}
         TextInputBackgoundColor={colors.quantityBackground}
       />
@@ -203,19 +198,6 @@ const MultiSelect = ({
     selectProduct(productId);
   }, [selectProduct]);
 
-  const listItems = useMemo<SelectListItem[]>(() => {
-    const result: SelectListItem[] = [];
-    items.forEach((category) => {
-      result.push({ type: "category", category });
-      if (!collapsedCategories[category.id]) {
-        category.children.forEach((product) => {
-          result.push({ type: "product", product });
-        });
-      }
-    });
-    return result;
-  }, [items, collapsedCategories]);
-
   const quantityColors = useMemo(() => ({
     border: ConfigRepository.color.itemListBackgroundBorder,
     primary: ConfigRepository.color.primary,
@@ -224,29 +206,36 @@ const MultiSelect = ({
     quantityBackground: ConfigRepository.color.itemListItemOpenBackground,
   }), [ConfigRepository.color]);
 
-  const renderItem = useCallback<ListRenderItem<SelectListItem>>(({ item }) => {
-    if (item.type === "category") {
-      return (
+  const renderCategory = useCallback((category: ITagsProductsMultiSelect) => {
+    const isCollapsed = Boolean(collapsedCategories[category.id]);
+
+    return (
+      <View key={category.id} style={styles.categoryWrapper}>
         <CategoryRow
-          category={item.category}
-          isCollapsed={Boolean(collapsedCategories[item.category.id])}
+          category={category}
+          isCollapsed={isCollapsed}
           color={ConfigRepository.color.text}
           onToggle={toggleCategory}
         />
-      );
-    }
 
-    return (
-      <ProductRow
-        product={item.product}
-        isSelected={tempSelected.has(item.product.id)}
-        quantity={quantities[item.product.id] || "1"}
-        colors={quantityColors}
-        onToggle={toggleSelectProduct}
-        onQuantityDelta={updateQuantity}
-        onQuantityChange={setDirectQuantity}
-        onDecimalInputChange={handleDecimalInputChange}
-      />
+        {!isCollapsed && (
+          <View style={styles.productListContainer}>
+            {category.children.map((product) => (
+              <ProductRow
+                key={product.id}
+                product={product}
+                isSelected={tempSelected.has(product.id)}
+                quantity={quantities[product.id] || "1"}
+                colors={quantityColors}
+                onToggle={toggleSelectProduct}
+                onQuantityDelta={updateQuantity}
+                onQuantityChange={setDirectQuantity}
+                onDecimalInputChange={handleDecimalInputChange}
+              />
+            ))}
+          </View>
+        )}
+      </View>
     );
   }, [ConfigRepository.color.text, collapsedCategories, handleDecimalInputChange, quantityColors, quantities, setDirectQuantity, tempSelected, toggleCategory, toggleSelectProduct, updateQuantity]);
 
@@ -309,20 +298,19 @@ const MultiSelect = ({
               </Title2>
             </View>
 
-            <FlashList
+            <ScrollView
               style={styles.modalBody}
               contentContainerStyle={{ paddingBottom: 20 }}
               keyboardShouldPersistTaps="handled"
-              data={listItems}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.type === "category" ? `category-${item.category.id}` : item.product.id}
-              getItemType={(item) => item.type}
-              ListEmptyComponent={
+            >
+              {items.length > 0 ? (
+                items.map((category) => renderCategory(category))
+              ) : (
                 <Text color={ConfigRepository.color.textSecondary}>
                   {I18n.t("noProducts") || "Nenhum produto disponível"}
                 </Text>
-              }
-            />
+              )}
+            </ScrollView>
 
             <View style={styles.modalFooter}>
               <TouchableOpacity
@@ -398,15 +386,23 @@ const styles = StyleSheet.create({
   categoryContainer: {
     marginBottom: 16,
   },
+  categoryWrapper: {
+    width: "100%",
+    overflow: "visible",
+  },
   categoryHeader: {
-    flex: 1,
+    width: "100%",
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
-    paddingVertical: 8,
+    paddingVertical: 12,
     paddingRight: 5,
     borderBottomWidth: 1,
     borderBottomColor: "rgba(0,0,0,0.08)",
+  },
+  productListContainer: {
+    width: "100%",
+    overflow: "visible",
   },
   productRow: {
     flexDirection: "row",

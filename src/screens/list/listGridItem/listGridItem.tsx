@@ -9,12 +9,12 @@ import { formatValue } from "../../../utils/functions";
 
 type ListGridItemProps = {
     item: IProduct;
-    handleClose: VoidFunction;
+    handlePress: VoidFunction;
     active: boolean
 }
 
 type FontAwesomeIconName = React.ComponentProps<typeof FontAwesome>["name"];
-export default function ListGridItem({ item, handleClose, active }: ListGridItemProps) {
+export default function ListGridItem({ item, handlePress, active }: ListGridItemProps) {
 
     const { ListRepository, AmountRepository, ProductRepository, ConfigRepository } = useStores();
     const itemsQTY = ListRepository.listActive?.itemsQTY && ListRepository.listActive?.itemsQTY[item.uuid] ? ListRepository.listActive?.itemsQTY[item.uuid] : "1"
@@ -97,7 +97,7 @@ export default function ListGridItem({ item, handleClose, active }: ListGridItem
             <GridItemWrapperInner width="10%" >
                 <Title color={ConfigRepository.color.text} align="right">
                     <FontAwesome
-                        onPress={() => handleClose()}
+                        onPress={() => handlePress()}
                         size={28}
                         style={{ marginBottom: -3 }}
                         name={active ? "angle-up" : "angle-down"}
